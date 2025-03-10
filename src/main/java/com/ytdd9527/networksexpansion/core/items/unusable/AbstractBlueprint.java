@@ -35,16 +35,16 @@ public abstract class AbstractBlueprint extends UnusableSlimefunItem implements 
 
         for (ItemStack item : recipe) {
             if (item == null) {
-                lore.add(Networks.getLocalizationService().getString("messages.blueprint.empty"));
+                lore.add(Theme.PASSIVE + "- " + Networks.getLocalizationService().getString("messages.blueprint.empty"));
                 continue;
             }
-            lore.add(Theme.PASSIVE + ChatColor.stripColor(ItemStackHelper.getDisplayName(item)));
+            lore.add(Theme.PASSIVE + "- " +  ChatColor.stripColor(ItemStackHelper.getDisplayName(item)));
         }
 
         lore.add("");
         lore.add(Networks.getLocalizationService().getString("messages.blueprint.output"));
 
-        lore.add(Theme.PASSIVE + ChatColor.stripColor(ItemStackHelper.getDisplayName(output)));
+        lore.add(Theme.PASSIVE + "- " + ChatColor.stripColor(ItemStackHelper.getDisplayName(output)));
 
         itemMeta.setLore(lore);
 
