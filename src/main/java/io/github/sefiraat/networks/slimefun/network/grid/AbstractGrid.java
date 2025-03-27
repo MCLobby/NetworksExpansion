@@ -260,6 +260,7 @@ public abstract class AbstractGrid extends NetworkObject {
                     return;
                 }
                 gridCache.setFilter(s.toLowerCase(Locale.ROOT));
+                getCacheMap().put(blockMenu.getLocation(), gridCache);
                 player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.grid.filter_set"));
 
                 SlimefunBlockData data = StorageCacheUtils.getBlock(blockMenu.getLocation());

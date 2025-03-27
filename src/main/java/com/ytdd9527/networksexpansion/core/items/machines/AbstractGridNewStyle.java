@@ -321,6 +321,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
                 }
                 s = s.toLowerCase(Locale.ROOT);
                 gridCache.setFilter(s);
+                getCacheMap().put(blockMenu.getLocation(), gridCache);
                 player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.grid.filter_set"));
 
                 SlimefunBlockData data = StorageCacheUtils.getBlock(blockMenu.getLocation());
