@@ -301,9 +301,13 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
 
                     final ItemStack itemStack = entry.getKey();
                     String name = ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
-                    final String pinyinName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
-                    final String pinyinFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
-                    return name.contains(cache.getFilter()) || pinyinName.contains(cache.getFilter()) || pinyinFirstLetter.contains(cache.getFilter());
+                    if (cache.getFilter().matches("^[a-zA-Z]+$")) {
+                        final String pinyinName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
+                        final String pinyinFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
+                        return name.contains(cache.getFilter()) || pinyinName.contains(cache.getFilter()) || pinyinFirstLetter.contains(cache.getFilter());
+                    } else {
+                        return name.contains(cache.getFilter());
+                    }
                 })
                 .sorted(SORT_MAP.get(cache.getSortOrder()))
                 .toList();
@@ -321,6 +325,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
                 }
                 s = s.toLowerCase(Locale.ROOT);
                 gridCache.setFilter(s);
+                getCacheMap().put(blockMenu.getLocation(), gridCache);
                 player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.grid.filter_set"));
 
                 SlimefunBlockData data = StorageCacheUtils.getBlock(blockMenu.getLocation());
@@ -331,6 +336,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
                 if (blockMenu.getPreset().getID().equals(data.getSfId())) {
                     BlockMenu actualMenu = data.getBlockMenu();
                     if (actualMenu != null) {
+                        updateDisplay(actualMenu);
                         actualMenu.open(player);
                     }
                 }

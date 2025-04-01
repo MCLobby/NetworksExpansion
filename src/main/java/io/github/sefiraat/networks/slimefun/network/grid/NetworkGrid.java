@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -55,6 +56,7 @@ public class NetworkGrid extends AbstractGrid {
             @Override
             public void init() {
                 drawBackground(getBackgroundSlots());
+                drawBackground(getDisplaySlots());
                 setSize(54);
             }
 
@@ -78,6 +80,7 @@ public class NetworkGrid extends AbstractGrid {
                     GridCache gridCache = getCacheMap().get(menu.getLocation());
                     gridCache.setPage(gridCache.getPage() <= 0 ? 0 : gridCache.getPage() - 1);
                     getCacheMap().put(menu.getLocation(), gridCache);
+                    updateDisplay(menu);
                     return false;
                 });
 
@@ -86,6 +89,7 @@ public class NetworkGrid extends AbstractGrid {
                     GridCache gridCache = getCacheMap().get(menu.getLocation());
                     gridCache.setPage(gridCache.getPage() >= gridCache.getMaxPages() ? gridCache.getMaxPages() : gridCache.getPage() + 1);
                     getCacheMap().put(menu.getLocation(), gridCache);
+                    updateDisplay(menu);
                     return false;
                 });
 
@@ -98,6 +102,7 @@ public class NetworkGrid extends AbstractGrid {
                         gridCache.setSortOrder(GridCache.SortOrder.ALPHABETICAL);
                     }
                     getCacheMap().put(menu.getLocation(), gridCache);
+                    updateDisplay(menu);
                     return false;
                 });
 
@@ -105,11 +110,12 @@ public class NetworkGrid extends AbstractGrid {
                 menu.addMenuClickHandler(getFilterSlot(), (p, slot, item, action) -> {
                     GridCache gridCache = getCacheMap().get(menu.getLocation());
                     setFilter(p, menu, gridCache, action);
+                    getCacheMap().put(menu.getLocation(), gridCache);
                     return false;
                 });
 
                 for (int displaySlot : getDisplaySlots()) {
-                    menu.replaceExistingItem(displaySlot, null);
+                    menu.replaceExistingItem(displaySlot, ChestMenuUtils.getBackground());
                     menu.addMenuClickHandler(displaySlot, (p, slot, item, action) -> false);
                 }
             }

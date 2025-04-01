@@ -1,6 +1,7 @@
 package com.ytdd9527.networksexpansion.implementation.machines.networks.advanced;
 
 import com.balugaq.netex.api.helpers.Icon;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import com.balugaq.netex.api.helpers.SupportedCraftingTableRecipes;
 import com.balugaq.netex.utils.BlockMenuUtil;
@@ -78,6 +79,7 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
             @Override
             public void init() {
                 drawBackground(getBackgroundSlots());
+                drawBackground(getDisplaySlots());
                 setSize(54);
             }
 
@@ -101,6 +103,7 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
                     GridCache gridCache = getCacheMap().get(menu.getLocation());
                     gridCache.setPage(gridCache.getPage() <= 0 ? 0 : gridCache.getPage() - 1);
                     getCacheMap().put(menu.getLocation(), gridCache);
+                    updateDisplay(menu);
                     return false;
                 });
 
@@ -109,6 +112,7 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
                     GridCache gridCache = getCacheMap().get(menu.getLocation());
                     gridCache.setPage(gridCache.getPage() >= gridCache.getMaxPages() ? gridCache.getMaxPages() : gridCache.getPage() + 1);
                     getCacheMap().put(menu.getLocation(), gridCache);
+                    updateDisplay(menu);
                     return false;
                 });
 
@@ -123,6 +127,7 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
                         gridCache.setSortOrder(GridCache.SortOrder.ALPHABETICAL);
                     }
                     getCacheMap().put(menu.getLocation(), gridCache);
+                    updateDisplay(menu);
                     return false;
                 });
 
@@ -139,6 +144,7 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
                         GridCache gridCache = getCacheMap().get(menu.getLocation());
                         gridCache.toggleDisplayMode();
                         menu.replaceExistingItem(getToggleModeSlot(), getModeStack(gridCache));
+                        updateDisplay(menu);
                     }
                     return false;
                 });
@@ -150,7 +156,7 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
                 });
 
                 for (int displaySlot : getDisplaySlots()) {
-                    menu.replaceExistingItem(displaySlot, null);
+                    menu.replaceExistingItem(displaySlot, ChestMenuUtils.getBackground());
                     menu.addMenuClickHandler(displaySlot, (p, slot, item, action) -> false);
                 }
             }
