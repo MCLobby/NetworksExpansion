@@ -132,7 +132,6 @@ public class NetworkCraftingGrid extends AbstractGrid {
                 menu.addMenuClickHandler(getFilterSlot(), (p, slot, item, action) -> {
                     GridCache gridCache = getCacheMap().get(menu.getLocation());
                     setFilter(p, menu, gridCache, action);
-                    updateDisplay(menu);
                     return false;
                 });
 

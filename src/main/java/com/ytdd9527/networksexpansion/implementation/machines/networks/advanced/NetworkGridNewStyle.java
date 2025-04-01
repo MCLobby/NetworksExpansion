@@ -112,7 +112,6 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
                 menu.addMenuClickHandler(getFilterSlot(), (p, slot, item, action) -> {
                     GridCache gridCache = getCacheMap().get(menu.getLocation());
                     setFilter(p, menu, gridCache, action);
-                    updateDisplay(menu);
                     return false;
                 });
 
