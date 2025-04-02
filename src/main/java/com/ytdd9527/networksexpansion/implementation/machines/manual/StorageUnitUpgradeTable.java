@@ -114,6 +114,10 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements Admi
                 int id = NetworksDrawer.getBoundId(menu.getItemInSlot(inputSlots[4]));
                 ItemStack out = each.getValue().clone();
                 if (id != -1) {
+                    if (itemInSlot != null && itemInSlot.getType() != Material.AIR) {
+                        // Shouldn't output or upgrade any drawer when something taking the place
+                        return;
+                    }
                     if (DataStorage.isContainerLoaded(id)) {
                         if (DataStorage.getCachedStorageData(id).isPresent()) {
                             StorageUnitData data = DataStorage.getCachedStorageData(id).get();

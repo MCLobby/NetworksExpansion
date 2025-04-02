@@ -2,7 +2,6 @@ package com.balugaq.netex.api.events;
 
 import com.balugaq.netex.api.enums.StorageType;
 import io.github.sefiraat.networks.network.NetworkRoot;
-import io.github.sefiraat.networks.network.barrel.BarrelType;
 import lombok.Getter;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -15,6 +14,7 @@ public class NetworkRootLocateStorageEvent extends Event {
     private final StorageType storageType;
     private final boolean inputAble;
     private final boolean outputAble;
+
     public NetworkRootLocateStorageEvent(NetworkRoot root, StorageType storageType, boolean inputAble, boolean outputAble, boolean isSync) {
         super(!isSync);
         this.root = root;
@@ -22,13 +22,14 @@ public class NetworkRootLocateStorageEvent extends Event {
         this.inputAble = inputAble;
         this.outputAble = outputAble;
     }
-    @NotNull
-    @Override
-    public HandlerList getHandlers() {
+
+    public static HandlerList getHandlerList() {
         return handlers;
     }
 
-    public static HandlerList getHandlerList() {
+    @NotNull
+    @Override
+    public HandlerList getHandlers() {
         return handlers;
     }
 }
