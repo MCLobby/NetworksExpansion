@@ -100,7 +100,13 @@ public class StorageUnitData {
         for (ItemContainer each : storedItems.values()) {
             if (each.isSimilar(item)) {
                 // Found existing one, add amount
-                add = Math.min(amount, sizeType.getEachMaxSize() - each.getAmount());
+                int raw = sizeType.getEachMaxSize() - each.getAmount();
+                if (raw < 0) {
+                    // If super-full, no more add and roll back to normal amount
+                    each.setAmount(sizeType.getEachMaxSize());
+                    return 0;
+                }
+                add = Math.max(0, Math.min(amount, raw));
                 if (isVoidExcess) {
                     if (add > 0) {
                         each.addAmount(add);
@@ -257,7 +263,9 @@ public class StorageUnitData {
             return;
         }
         int actualAdded = addStoredItem(itemsToDeposit, itemsToDeposit.getAmount(), contentLocked, force);
-        itemsToDeposit.setAmount(itemsToDeposit.getAmount() - actualAdded);
+        if (actualAdded > 0) {
+            itemsToDeposit.setAmount(itemsToDeposit.getAmount() - actualAdded);
+        }
     }
 
     public void depositItemStack(ItemStack item, boolean contentLocked) {
