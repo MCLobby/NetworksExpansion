@@ -16,7 +16,6 @@ public class NetworksBlockBreakEvent extends Event implements Cancellable {
     private boolean cancelled = false;
 
     public NetworksBlockBreakEvent(@NotNull Block theBlock, @NotNull Player player) {
-        super(true);
         this.block = theBlock;
         this.player = player;
     }
