@@ -101,7 +101,7 @@ public class DataSource {
                     }
                 }
 
-                re = new StorageUnitData(result.getInt("ContainerID"), result.getString("PlayerUUID"), StorageUnitType.values()[result.getInt("SizeType")], result.getBoolean("IsPlaced"), l, getStoredItem(id));
+                re = new StorageUnitData(result.getInt("ContainerID"), result.getString("PlayerUUID"), StorageUnitType.values()[result.getInt("SizeType") % 13], result.getBoolean("IsPlaced"), l, getStoredItem(id));
             }
         } catch (SQLException e) {
             logger.warning(Networks.getLocalizationService().getString("messages.data-saving.error-occurred-when-loading-data"));
