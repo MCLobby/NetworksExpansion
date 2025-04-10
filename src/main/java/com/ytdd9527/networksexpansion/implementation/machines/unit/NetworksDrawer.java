@@ -717,8 +717,8 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         if (!(p.hasPermission("slimefun.inventory.bypass") || (canUse(p, false) && Slimefun.getProtectionManager().hasPermission(p, e.getBlock(), Interaction.PLACE_BLOCK)))) {
             return;
         }
-        boolean a;
-        boolean b;
+        boolean a = false;
+        boolean b = false;
         int id = getBoundId(itemInHand);
         if (id != -1) {
             StorageUnitData data = DataStorage.getCachedStorageData(id).orElse(null);
