@@ -134,7 +134,7 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements Admi
                             return true;
                         });
                     }
-                    out = NetworksDrawer.bindId(out, id);
+                    out = NetworksDrawer.bindIdNew(out, id, NetworksDrawer.isLocked(id), NetworksDrawer.isVoidExcess(id));
                 }
                 SlimefunItemStack sfis = (SlimefunItemStack) out;
                 SlimefunItem sfi = SlimefunItem.getById(sfis.getItemId());
