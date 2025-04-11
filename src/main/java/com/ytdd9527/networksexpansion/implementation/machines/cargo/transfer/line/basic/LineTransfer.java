@@ -248,7 +248,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
                 blockMenu.getLocation(),
                 direction,
                 maxDistance,
-                true,
+                false,
                 true,
                 (targetMenu) -> {
                     LineOperationUtil.grabItem(root, targetMenu, TransportMode.FIRST_STOP, 64);
