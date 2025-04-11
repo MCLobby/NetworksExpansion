@@ -231,7 +231,7 @@ public class Transfer extends NetworkDirectional implements RecipeDisplayItem, C
             return;
         }
 
-        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, 1, true, false, (targetMenu) -> {
+        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, 1, false, false, (targetMenu) -> {
             LineOperationUtil.grabItem(root, targetMenu, TransportMode.FIRST_STOP, 64);
         });
 

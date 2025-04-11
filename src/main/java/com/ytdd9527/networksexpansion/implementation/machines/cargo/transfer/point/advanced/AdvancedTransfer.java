@@ -253,7 +253,7 @@ public class AdvancedTransfer extends AdvancedDirectional implements RecipeDispl
         final int limitQuantity = getLimitQuantity(blockMenu.getLocation());
         final TransportMode mode = getCurrentTransportMode(blockMenu.getLocation());
 
-        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, 1, true, false, (targetMenu) -> {
+        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, 1, false, false, (targetMenu) -> {
             LineOperationUtil.grabItem(root, targetMenu, mode, limitQuantity);
         });
 

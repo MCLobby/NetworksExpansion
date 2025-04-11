@@ -74,7 +74,9 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
     private static final String KEY_UUID = "display-uuid";
     private static final int[] DISPLAY_SLOTS = {10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43, 46, 47, 48, 49, 50, 51, 52};
     private static final int STORAGE_INFO_SLOT = 4;
-    private static final NamespacedKey idKey = new NamespacedKey(Networks.getInstance(), "CONTAINER_ID");
+    private static final NamespacedKey idKey = Keys.newKey("CONTAINER_ID");
+    private static final NamespacedKey lockKey = Keys.newKey("CONTAINER_LOCK");
+    private static final NamespacedKey voidExcessKey = Keys.newKey("CONTAINER_VOID_EXCESS");
     private static final int QUANTUM_SLOT = 9;
     private static final int QUICK_TRANSFER_SLOT = 18;
     private static final int ITEM_CHOOSE_SLOT = 27;
@@ -240,6 +242,34 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         return id;
     }
 
+    public static boolean getLock(@Nonnull ItemStack item) {
+        // Get meta
+        final ItemMeta meta = item.getItemMeta();
+        Boolean lock = null;
+        // Check if meta has lock
+        if (meta != null && meta.getPersistentDataContainer().has(lockKey, PersistentDataType.BOOLEAN)) {
+            lock = meta.getPersistentDataContainer().get(lockKey, PersistentDataType.BOOLEAN);
+        }
+        if (lock == null) {
+            lock = false;
+        }
+        return lock;
+    }
+
+    public static boolean getVoidExcess(@Nonnull ItemStack item) {
+        // Get meta
+        final ItemMeta meta = item.getItemMeta();
+        Boolean voidExcess = null;
+        // Check if meta has void excess
+        if (meta != null && meta.getPersistentDataContainer().has(voidExcessKey, PersistentDataType.BOOLEAN)) {
+            voidExcess = meta.getPersistentDataContainer().get(voidExcessKey, PersistentDataType.BOOLEAN);
+        }
+        if (voidExcess == null) {
+            voidExcess = false;
+        }
+        return voidExcess;
+    }
+
     public static ItemStack bindId(@Nonnull ItemStack itemSample, int id) {
         final ItemStack item = itemSample.clone();
         final ItemMeta meta = item.getItemMeta();
@@ -252,6 +282,25 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
             lore.add(String.format(Networks.getLocalizationService().getString("messages.completed-operation.drawer.bound_id"), id));
             meta.setLore(lore);
             meta.getPersistentDataContainer().set(idKey, PersistentDataType.INTEGER, id);
+        }
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    public static ItemStack bindIdNew(@Nonnull ItemStack itemSample, int id, boolean lock, boolean voidExcess) {
+        final ItemStack item = itemSample.clone();
+        final ItemMeta meta = item.getItemMeta();
+        List<String> lore;
+        if (meta != null) {
+            lore = meta.getLore();
+            if (lore == null) {
+                lore = new ArrayList<>();
+            }
+            lore.add(String.format(Networks.getLocalizationService().getString("messages.completed-operation.drawer.bound_id"), id));
+            meta.setLore(lore);
+            meta.getPersistentDataContainer().set(idKey, PersistentDataType.INTEGER, id);
+            meta.getPersistentDataContainer().set(lockKey, PersistentDataType.BOOLEAN, lock);
+            meta.getPersistentDataContainer().set(voidExcessKey, PersistentDataType.BOOLEAN, voidExcess);
         }
         item.setItemMeta(meta);
         return item;
@@ -280,6 +329,15 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
 
     public static boolean isVoidExcess(Location l) {
         return voidExcesses.contains(l);
+    }
+
+    public static boolean isVoidExcess(int containerId) {
+        for (Location l : voidExcesses) {
+            if (getContainerId(l) == containerId) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static ItemStack getDisplayItem(ItemStack item, int amount, int max) {
@@ -681,7 +739,13 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
             if (data != null) {
                 lastLoc = data.getLastLocation();
                 a = locked.contains(lastLoc);
+                if (!a) {
+                    a = getLock(itemInHand);
+                }
                 b = voidExcesses.contains(lastLoc);
+                if (!b) {
+                    b = getVoidExcess(itemInHand);
+                }
                 if (a) {
                     locked.remove(lastLoc);
                 }
@@ -736,13 +800,14 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         // Drop custom item if data exists
         if (data != null) {
             data.setPlaced(false);
-            b.getWorld().dropItemNaturally(l, bindId(getItem(), data.getId()));
+            int id = data.getId();
+            b.getWorld().dropItemNaturally(l, bindIdNew(getItem(), id, isLocked(id), isVoidExcess(id)));
         } else {
             // Data not loaded, just drop with the stored one.
             int id = getContainerId(l);
             if (id != -1) {
                 DataStorage.setContainerStatus(id, false);
-                b.getWorld().dropItemNaturally(l, bindId(getItem(), id));
+                b.getWorld().dropItemNaturally(l, bindIdNew(getItem(), id, isLocked(id), isVoidExcess(id)));
             }
         }
         Slimefun.getDatabaseManager().getBlockDataController().removeBlock(l);
