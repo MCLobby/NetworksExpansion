@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -219,8 +220,25 @@ public class StorageUnitData {
         return re;
     }
 
+    @Deprecated
     public List<ItemContainer> getStoredItems() {
+        return copyStoredItems();
+    }
+
+    public List<ItemContainer> copyStoredItems() {
         return new ArrayList<>(storedItems.values());
+    }
+
+    public Collection<ItemContainer> getStoredItemsDirectly() {
+        return storedItems.values();
+    }
+
+    public Map<Integer, ItemContainer> copyStoredItemsMap() {
+        return new HashMap<>(storedItems);
+    }
+
+    public Map<Integer, ItemContainer> getStoredItemsMap() {
+        return storedItems;
     }
 
     public OfflinePlayer getOwner() {
@@ -250,6 +268,37 @@ public class StorageUnitData {
             }
         }
         return null;
+    }
+
+    public void depositItemStacks(@Nonnull Map<ItemStack, Long> itemsToDeposit, boolean contentLocked) {
+        for (Map.Entry<ItemStack, Long> entry : itemsToDeposit.entrySet()) {
+            if (entry.getValue() > Integer.MAX_VALUE) {
+                // rollback to MAX_VALUE
+                long before = entry.getValue();
+                ItemStack item = StackUtils.getAsQuantity(entry.getKey(), Integer.MAX_VALUE);
+                depositItemStack(item, contentLocked);
+                long leftover = item.getAmount();
+                entry.setValue(before - Integer.MAX_VALUE + leftover);
+            } else {
+                ItemStack item = StackUtils.getAsQuantity(entry.getKey(), Math.toIntExact(entry.getValue()));
+                depositItemStack(item, contentLocked);
+                long rest = item.getAmount();
+                entry.setValue(rest);
+            }
+        }
+    }
+
+    public void depositItemStack(@Nonnull Map.Entry<ItemStack, Integer> entry, boolean contentLocked) {
+        ItemStack item = StackUtils.getAsQuantity(entry.getKey(), entry.getValue());
+        depositItemStack(item, contentLocked);
+        int leftover = item.getAmount();
+        entry.setValue(leftover);
+    }
+
+    public void depositItemStack(@Nonnull Map<ItemStack, Integer> itemsToDeposit, boolean contentLocked) {
+        for (Map.Entry<ItemStack, Integer> entry : itemsToDeposit.entrySet()) {
+            depositItemStack(entry, contentLocked);
+        }
     }
 
     public void depositItemStack(@Nonnull ItemStack[] itemsToDeposit, boolean contentLocked) {
