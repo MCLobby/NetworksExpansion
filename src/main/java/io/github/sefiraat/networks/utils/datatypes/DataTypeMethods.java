@@ -33,7 +33,7 @@ public class DataTypeMethods {
      * @param holder The {@link PersistentDataHolder} to retrieve the data from
      * @param key    The key of the data to retrieve
      * @return An {@link Optional} describing the result
-     * @see PersistentDataAPI#getCustom(PersistentDataHolder, NamespacedKey, PersistentDataType)
+     * @see PersistentDataAPI#get(PersistentDataHolder, NamespacedKey, PersistentDataType)
      */
     @Nonnull
     public static <T, Z> Optional<Z> getOptionalCustom(@Nonnull PersistentDataHolder holder, @Nonnull NamespacedKey key, @Nonnull PersistentDataType<T, Z> type) {
