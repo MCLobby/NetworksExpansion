@@ -37,7 +37,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SuppressWarnings("deprecation")
 public class NetworkQuantumWorkbench extends SpecialSlimefunItem {
 
     private static final int[] BACKGROUND_SLOTS = {

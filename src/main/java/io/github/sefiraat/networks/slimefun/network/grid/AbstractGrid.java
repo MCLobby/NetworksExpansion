@@ -221,6 +221,9 @@ public abstract class AbstractGrid extends NetworkObject {
                 });
             }
         }
+        blockMenu.replaceExistingItem(getPagePrevious(), Icon.getPageStack(getPagePreviousStack(), gridCache.getPage(), gridCache.getMaxPages()));
+        blockMenu.replaceExistingItem(getPageNext(), Icon.getPageStack(getPageNextStack(), gridCache.getPage(), gridCache.getMaxPages()));
+
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
 

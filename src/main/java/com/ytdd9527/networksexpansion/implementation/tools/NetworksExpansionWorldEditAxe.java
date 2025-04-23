@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Optional;
 
+@Deprecated
 public class NetworksExpansionWorldEditAxe extends SpecialSlimefunItem {
 
     public NetworksExpansionWorldEditAxe(ItemGroup itemGroup, SlimefunItemStack item) {

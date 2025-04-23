@@ -10,6 +10,7 @@ import com.ytdd9527.networksexpansion.implementation.ExpansionItemStacks;
 import com.ytdd9527.networksexpansion.implementation.machines.unit.NetworksDrawer;
 import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.events.NetworkCraftEvent;
 import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.StackUtils;
@@ -27,6 +28,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -141,6 +143,24 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements Admi
                 if (sfi != null && sfi.isDisabled()) {
                     return;
                 }
+
+                // fire craft event
+                ItemStack[] inputs = new ItemStack[inputSlots.length];
+                for (int i = 0; i < inputSlots.length; i++) {
+                    var itemStack = menu.getItemInSlot(inputSlots[i]);
+                    if (itemStack == null) {
+                        inputs[i] = null;
+                    } else {
+                        inputs[i] = itemStack.clone();
+                    }
+                }
+                NetworkCraftEvent event = new NetworkCraftEvent(p, this, inputs, out);
+                Bukkit.getPluginManager().callEvent(event);
+                if (event.isCancelled()) {
+                    return;
+                }
+                out = event.getOutput();
+
                 if (itemInSlot == null || itemInSlot.getType() == Material.AIR) {
                     menu.replaceExistingItem(outputSlot, out);
                 } else if (StackUtils.itemsMatch(itemInSlot, out)) {

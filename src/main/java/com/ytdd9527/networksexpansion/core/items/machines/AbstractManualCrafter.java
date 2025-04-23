@@ -5,6 +5,7 @@ import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.utils.BlockMenuUtil;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
+import io.github.sefiraat.networks.events.NetworkCraftEvent;
 import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -23,6 +24,7 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -172,6 +174,14 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
                         continue;
                     }
                 }
+                // fire craft event
+                NetworkCraftEvent event = new NetworkCraftEvent(player, this, recipe.getInput(), item);
+                Bukkit.getPluginManager().callEvent(event);
+                if (event.isCancelled()) {
+                    return false;
+                }
+                item = event.getOutput();
+
                 ItemStack left = BlockMenuUtil.pushItem(blockMenu, ItemStackUtil.getCleanItem(item), getOutputSlots());
                 if (left != null && left.getType() != Material.AIR) {
                     player.sendMessage(ChatColor.RED + "No enough space in output slots.");
