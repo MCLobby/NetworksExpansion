@@ -6,8 +6,13 @@ import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.Optional;
 
 
 /**
@@ -238,4 +243,17 @@ public class Icon {
             Material.CRAFTING_TABLE
     );
 
+    // pages are 1-based
+    @Nonnull
+    public static ItemStack getPageStack(@Nonnull ItemStack origin, int currentPage, int maxPage) {
+        var clone = origin.clone();
+        var meta = clone.getItemMeta();
+        if (meta != null) {
+            var lore = Optional.ofNullable(meta.getLore()).orElse(new ArrayList<>());
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&7页 &a" + currentPage + " / " + maxPage));
+            meta.setLore(lore);
+            clone.setItemMeta(meta);
+        }
+        return clone;
+    }
 }

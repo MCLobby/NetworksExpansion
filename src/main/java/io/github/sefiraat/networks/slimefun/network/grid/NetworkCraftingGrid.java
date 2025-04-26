@@ -2,8 +2,10 @@ package io.github.sefiraat.networks.slimefun.network.grid;
 
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.api.helpers.SupportedCraftingTableRecipes;
+import com.balugaq.netex.utils.BlockMenuUtil;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.events.NetworkCraftEvent;
 import io.github.sefiraat.networks.network.GridItemRequest;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
@@ -194,7 +196,6 @@ public class NetworkCraftingGrid extends AbstractGrid {
         return FILTER;
     }
 
-    @SuppressWarnings("deprecation")
     private void tryCraft(@Nonnull BlockMenu menu, @Nonnull Player player) {
         // Get node and, if it doesn't exist - escape
         final NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
@@ -239,8 +240,17 @@ public class NetworkCraftingGrid extends AbstractGrid {
             return;
         }
 
+        // fire craft event
+        NetworkCraftEvent event = new NetworkCraftEvent(player, this, inputs, crafted);
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled()) {
+            return;
+        }
+        crafted = event.getOutput();
+
+
         // Push item
-        menu.pushItem(crafted, CRAFT_OUTPUT_SLOT);
+        BlockMenuUtil.pushItem(menu, crafted, CRAFT_OUTPUT_SLOT);
 
         NetworkRoot root = definition.getNode().getRoot();
         root.refreshRootItems();
@@ -253,7 +263,7 @@ public class NetworkCraftingGrid extends AbstractGrid {
                 final ItemStack itemInSlotClone = itemInSlot.clone();
                 itemInSlotClone.setAmount(1);
                 ItemUtils.consumeItem(menu.getItemInSlot(recipeSlot), 1, true);
-                // We have consumed a slot item and now the slot it empty - try to refill
+                // We have consumed a slot item and now the slot is empty - try to refill
                 if (menu.getItemInSlot(recipeSlot) == null) {
                     // Process item request
                     final GridItemRequest request = new GridItemRequest(itemInSlotClone, 1, player);

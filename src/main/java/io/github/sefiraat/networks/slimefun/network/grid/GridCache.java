@@ -61,7 +61,7 @@ public class GridCache {
         this.filter = filter;
     }
 
-    @Nullable
+    @Nonnull
     public List<ItemStack> getPullItemHistory() {
         return this.pullItemHistory;
     }

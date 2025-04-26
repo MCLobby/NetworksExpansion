@@ -184,7 +184,10 @@ public abstract class AbstractGrid extends NetworkObject {
             gridCache.setPage(0);
         }
 
-        final int start = gridCache.getPage() * getDisplaySlots().length;
+        int start = gridCache.getPage() * getDisplaySlots().length;
+        if (start < 0) {
+            start = 0;
+        }
         final int end = Math.min(start + getDisplaySlots().length, entries.size());
         final List<Map.Entry<ItemStack, Long>> validEntries = entries.subList(start, end);
 
@@ -221,6 +224,9 @@ public abstract class AbstractGrid extends NetworkObject {
                 });
             }
         }
+        blockMenu.replaceExistingItem(getPagePrevious(), Icon.getPageStack(getPagePreviousStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
+        blockMenu.replaceExistingItem(getPageNext(), Icon.getPageStack(getPageNextStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
+
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
 

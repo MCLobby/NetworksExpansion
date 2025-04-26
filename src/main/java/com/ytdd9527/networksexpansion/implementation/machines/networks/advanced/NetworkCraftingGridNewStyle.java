@@ -1,6 +1,7 @@
 package com.ytdd9527.networksexpansion.implementation.machines.networks.advanced;
 
 import com.balugaq.netex.api.helpers.Icon;
+import io.github.sefiraat.networks.events.NetworkCraftEvent;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import com.balugaq.netex.api.helpers.SupportedCraftingTableRecipes;
@@ -332,7 +333,17 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
 
         // push items
         int outputAmount = crafted.getAmount() * maxAmount;
-        BlockMenuUtil.pushItem(menu, StackUtils.getAsQuantity(crafted, outputAmount), OUTPUT_SLOT);
+        crafted = StackUtils.getAsQuantity(crafted, outputAmount);
+
+        // fire craft event
+        NetworkCraftEvent event = new NetworkCraftEvent(player, this, inputs, crafted);
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled()) {
+            return;
+        }
+        crafted = event.getOutput();
+
+        BlockMenuUtil.pushItem(menu, crafted, OUTPUT_SLOT);
         menu.replaceExistingItem(CRAFT_BUTTON_SLOT, ItemStackUtil.getCleanItem(new CustomItemStack(Icon.CRAFT_BUTTON_NEW_STYLE, String.format(Networks.getLocalizationService().getString("messages.normal-operation.grid_new_style.crafted"), ItemStackHelper.getDisplayName(crafted), outputAmount))));
     }
 }

@@ -54,7 +54,9 @@ public class NetworkStorage {
             ALL_NETWORK_OBJECTS.put(location, nodeDefinition);
             ChunkPosition unionKey = new ChunkPosition(location);
             Set<Location> locations = ALL_NETWORK_OBJECTS_BY_CHUNK.getOrDefault(unionKey, new HashSet<>());
-            locations.add(location);
+            synchronized (locations) {
+                locations.add(location);
+            }
             ALL_NETWORK_OBJECTS_BY_CHUNK.put(unionKey, locations);
         }
     }
@@ -65,7 +67,11 @@ public class NetworkStorage {
         if (locations == null) {
             return;
         }
-        for (Location location : locations) {
+        Set<Location> clone;
+        synchronized (locations) {
+            clone = new HashSet<>(locations);
+        }
+        for (Location location : clone) {
             removeNode(location);
         }
         synchronized (ALL_NETWORK_OBJECTS_BY_CHUNK) {
