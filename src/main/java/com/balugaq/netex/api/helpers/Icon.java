@@ -250,7 +250,7 @@ public class Icon {
         var meta = clone.getItemMeta();
         if (meta != null) {
             var lore = Optional.ofNullable(meta.getLore()).orElse(new ArrayList<>());
-            lore.add(ChatColor.translateAlternateColorCodes('&', "&7当前 " + currentPage + "/" + maxPage));
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&7页 &a" + currentPage + " / " + maxPage));
             meta.setLore(lore);
             clone.setItemMeta(meta);
         }
