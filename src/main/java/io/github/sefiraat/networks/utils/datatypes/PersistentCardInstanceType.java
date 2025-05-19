@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
  * @author Sfiguz7
  * @author Walshy
  */
-
+@Deprecated
 public class PersistentCardInstanceType implements PersistentDataType<PersistentDataContainer, CardInstance> {
 
     public static final PersistentDataType<PersistentDataContainer, CardInstance> TYPE = new PersistentCardInstanceType();

@@ -12,6 +12,9 @@ debug: false
 
 drawer-auto-save-period: 300
 
+rpg-fix:
+  force-check-lore: false
+
 # max-distance means the maximum distance that the item can be pushed or grabbed.
 # 1 SF Tick = 0.5 seconds
 # pushitem-tick means the time it takes to push.

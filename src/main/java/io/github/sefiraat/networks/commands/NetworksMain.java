@@ -47,6 +47,7 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.StringUtil;
@@ -478,7 +479,8 @@ public class NetworksMain implements TabExecutor {
                                 toBlock.getRelative(BlockFace.SOUTH),
                                 itemInHand,
                                 player,
-                                true
+                                true,
+                                EquipmentSlot.HAND
                         )
                 ));
 
@@ -612,7 +614,8 @@ public class NetworksMain implements TabExecutor {
                             targetBlock.getRelative(BlockFace.DOWN),
                             itemStack,
                             player,
-                            true
+                            true,
+                            EquipmentSlot.HAND
                     )
             ));
             if (overrideData) {
