@@ -24,9 +24,6 @@ public class PersistentCraftingBlueprintType implements PersistentDataType<Persi
 
     public static final PersistentDataType<PersistentDataContainer, BlueprintInstance> TYPE = new PersistentCraftingBlueprintType();
 
-    public static final NamespacedKey RECIPE = Keys.newKey("recipe");
-    public static final NamespacedKey OUTPUT = Keys.newKey("output");
-
     @Override
     @Nonnull
     public Class<PersistentDataContainer> getPrimitiveType() {
@@ -44,28 +41,27 @@ public class PersistentCraftingBlueprintType implements PersistentDataType<Persi
     public PersistentDataContainer toPrimitive(@Nonnull BlueprintInstance complex, @Nonnull PersistentDataAdapterContext context) {
         final PersistentDataContainer container = context.newPersistentDataContainer();
 
-        container.set(RECIPE, DataType.ITEM_STACK_ARRAY, complex.getRecipeItems());
-        container.set(OUTPUT, DataType.ITEM_STACK, complex.getItemStack());
+        container.set(Keys.RECIPE, DataType.ITEM_STACK_ARRAY, complex.getRecipeItems());
+        container.set(Keys.OUTPUT, DataType.ITEM_STACK, complex.getItemStack());
         return container;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     @Nonnull
     public BlueprintInstance fromPrimitive(@Nonnull PersistentDataContainer primitive, @Nonnull PersistentDataAdapterContext context) {
-        ItemStack[] recipe = primitive.get(RECIPE, DataType.ITEM_STACK_ARRAY);
+        ItemStack[] recipe = primitive.get(Keys.RECIPE, DataType.ITEM_STACK_ARRAY);
         if (recipe == null) {
-            recipe = primitive.get(new NamespacedKey("networks", "recipe"), DataType.ITEM_STACK_ARRAY);
+            recipe = primitive.get(Keys.RECIPE2, DataType.ITEM_STACK_ARRAY);
         }
         if (recipe == null) {
-            recipe = primitive.get(new NamespacedKey("networks-changed", "recipe"), DataType.ITEM_STACK_ARRAY);
+            recipe = primitive.get(Keys.RECIPE3, DataType.ITEM_STACK_ARRAY);
         }
-        ItemStack output = primitive.get(OUTPUT, DataType.ITEM_STACK);
+        ItemStack output = primitive.get(Keys.OUTPUT, DataType.ITEM_STACK);
         if (output == null) {
-            output = primitive.get(new NamespacedKey("networks", "output"), DataType.ITEM_STACK);
+            output = primitive.get(Keys.OUTPUT2, DataType.ITEM_STACK);
         }
         if (output == null) {
-            output = primitive.get(new NamespacedKey("networks-changed", "output"), DataType.ITEM_STACK);
+            output = primitive.get(Keys.OUTPUT3, DataType.ITEM_STACK);
         }
 
         return new BlueprintInstance(recipe, output);

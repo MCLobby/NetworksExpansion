@@ -69,6 +69,10 @@ public class ConfigManager {
         return Networks.getInstance().getConfig().getString("language");
     }
 
+    public boolean isForceCheckLore() {
+        return Networks.getInstance().getConfig().getBoolean("rpg-fix.force-check-lore");
+    }
+
     public void saveAll() {
         Networks.getInstance().getLogger().info(Networks.getLocalizationService().getString("messages.save-all"));
     }

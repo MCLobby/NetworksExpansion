@@ -46,6 +46,7 @@ import java.util.Optional;
 @UtilityClass
 @SuppressWarnings("deprecation")
 public class StackUtils {
+    private static final boolean FORCE_CHECK_LORE = Networks.getConfigManager().isForceCheckLore();
     private static final MinecraftVersion MC_VERSION = Networks.getInstance().getMCVersion();
     private static final boolean IS_1_20_5 = MC_VERSION.isAtLeast(MinecraftVersion.MC1_20_5);
     private static final boolean IS_1_21 = MC_VERSION.isAtLeast(MinecraftVersion.MC1_21);
@@ -261,6 +262,8 @@ public class StackUtils {
 
         // Check the lore
         if (checkLore
+                || FORCE_CHECK_LORE
+                || itemStack.getMaxStackSize() == 1 // Fix RPG weapons
                 || itemStack.getType() == Material.PLAYER_HEAD // Fix Soul jars in SoulJars & Number Components in MomoTech
                 || itemStack.getType() == Material.SPAWNER // Fix Reinforced Spawner in Slimefun4
                 || itemStack.getType() == Material.SUGAR // Fix Symbols in MomoTech

@@ -24,12 +24,6 @@ public class PersistentQuantumStorageType implements PersistentDataType<Persiste
 
     public static final PersistentDataType<PersistentDataContainer, QuantumCache> TYPE = new PersistentQuantumStorageType();
 
-    public static final NamespacedKey ITEM = Keys.newKey("item");
-    public static final NamespacedKey AMOUNT = Keys.newKey("amount");
-    public static final NamespacedKey MAX_AMOUNT = Keys.newKey("max_amount");
-    public static final NamespacedKey VOID = Keys.newKey("void");
-    public static final NamespacedKey SUPPORTS_CUSTOM_MAX_AMOUNT = Keys.newKey("supports_custom_max_amount");
-
     @Override
     @Nonnull
     public Class<PersistentDataContainer> getPrimitiveType() {
@@ -47,28 +41,63 @@ public class PersistentQuantumStorageType implements PersistentDataType<Persiste
     public PersistentDataContainer toPrimitive(@Nonnull QuantumCache complex, @Nonnull PersistentDataAdapterContext context) {
         final PersistentDataContainer container = context.newPersistentDataContainer();
 
-        container.set(ITEM, DataType.ITEM_STACK, complex.getItemStack());
-        container.set(AMOUNT, DataType.LONG, complex.getAmount());
-        container.set(MAX_AMOUNT, DataType.INTEGER, complex.getLimit());
-        container.set(VOID, DataType.BOOLEAN, complex.isVoidExcess());
-        container.set(SUPPORTS_CUSTOM_MAX_AMOUNT, DataType.BOOLEAN, complex.supportsCustomMaxAmount());
+        container.set(Keys.ITEM, DataType.ITEM_STACK, complex.getItemStack());
+        container.set(Keys.AMOUNT, DataType.LONG, complex.getAmount());
+        container.set(Keys.MAX_AMOUNT, DataType.INTEGER, complex.getLimit());
+        container.set(Keys.VOID, DataType.BOOLEAN, complex.isVoidExcess());
+        container.set(Keys.SUPPORTS_CUSTOM_MAX_AMOUNT, DataType.BOOLEAN, complex.supportsCustomMaxAmount());
         return container;
     }
 
     @Override
     @Nonnull
     public QuantumCache fromPrimitive(@Nonnull PersistentDataContainer primitive, @Nonnull PersistentDataAdapterContext context) {
-        final ItemStack item = primitive.get(ITEM, DataType.ITEM_STACK);
-        final long amount;
-        Long amountL = primitive.get(AMOUNT, DataType.LONG);
-        if (amountL != null) {
-            amount = amountL;
-        } else {
-            amount = primitive.get(AMOUNT, DataType.INTEGER);
+        ItemStack item = primitive.get(Keys.ITEM, DataType.ITEM_STACK);
+        if (item == null) {
+            item = primitive.get(Keys.ITEM2, DataType.ITEM_STACK);
         }
-        final int limit = primitive.get(MAX_AMOUNT, DataType.INTEGER);
-        final boolean voidExcess = primitive.get(VOID, DataType.BOOLEAN);
-        final boolean supportsCustomMaxAmount = primitive.get(SUPPORTS_CUSTOM_MAX_AMOUNT, DataType.BOOLEAN);
+        if (item == null) {
+            item = primitive.get(Keys.ITEM3, DataType.ITEM_STACK);
+        }
+
+        Long amount = 0L;
+        try {
+            amount = primitive.get(Keys.AMOUNT, DataType.LONG);
+            if (amount == null) {
+                amount = primitive.get(Keys.AMOUNT2, DataType.LONG);
+            }
+            if (amount == null) {
+                amount = primitive.getOrDefault(Keys.AMOUNT3, DataType.LONG, 0L);
+            }
+        } catch (Throwable ignored) {
+            Integer amountI = 0;
+            amountI = primitive.get(Keys.AMOUNT, DataType.INTEGER);
+            if (amountI == null) {
+                amountI = primitive.get(Keys.AMOUNT2, DataType.INTEGER);
+            }
+            if (amountI == null) {
+                amountI = primitive.getOrDefault(Keys.AMOUNT3, DataType.INTEGER, 0);
+            }
+            amount = amountI.longValue();
+        }
+
+        Integer limit = primitive.get(Keys.MAX_AMOUNT, DataType.INTEGER);
+        if (limit == null) {
+            limit = primitive.get(Keys.MAX_AMOUNT2, DataType.INTEGER);
+        }
+        if (limit == null) {
+            limit = primitive.getOrDefault(Keys.MAX_AMOUNT3, DataType.INTEGER, 64);
+        }
+
+        Boolean voidExcess = primitive.get(Keys.VOID, DataType.BOOLEAN);
+        if (voidExcess == null) {
+            voidExcess = primitive.get(Keys.VOID2, DataType.BOOLEAN);
+        }
+        if (voidExcess == null) {
+            voidExcess = primitive.getOrDefault(Keys.VOID3, DataType.BOOLEAN, false);
+        }
+
+        boolean supportsCustomMaxAmount = primitive.getOrDefault(Keys.SUPPORTS_CUSTOM_MAX_AMOUNT, DataType.BOOLEAN, false);
 
         return new QuantumCache(item, amount, limit, voidExcess, supportsCustomMaxAmount);
     }

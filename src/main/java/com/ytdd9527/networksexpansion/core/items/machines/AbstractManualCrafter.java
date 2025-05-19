@@ -169,7 +169,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
                 SlimefunItem sfi = SlimefunItem.getByItem(item);
                 if (sfi != null) {
                     if (sfi.isDisabled() || sfi.isDisabledIn(world)) {
-                        player.sendMessage(ChatColor.RED + "This item is disabled in this world.");
+                        player.sendMessage(ChatColor.RED + "输出物已被禁用"); // todo: add to lang
                         sendFeedback(blockMenu.getLocation(), FeedbackType.DISABLED_OUTPUT);
                         continue;
                     }
@@ -184,7 +184,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
 
                 ItemStack left = BlockMenuUtil.pushItem(blockMenu, ItemStackUtil.getCleanItem(item), getOutputSlots());
                 if (left != null && left.getType() != Material.AIR) {
-                    player.sendMessage(ChatColor.RED + "No enough space in output slots.");
+                    player.sendMessage(ChatColor.RED + "输出槽已满"); // todo: add to lang
                     sendFeedback(blockMenu.getLocation(), FeedbackType.NO_ENOUGH_SPACE);
                     world.dropItem(blockMenu.getLocation(), left);
                 }
@@ -194,7 +194,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
         if (recipe.getConsumeEnergy() > 0) {
             removeCharge(blockMenu.getLocation(), recipe.getConsumeEnergy());
         }
-        player.sendMessage(ChatColor.GREEN + "Successfully crafted.");
+        player.sendMessage(ChatColor.GREEN + "合成成功"); // todo: add to lang
         sendFeedback(blockMenu.getLocation(), FeedbackType.SUCCESS);
         return true;
     }
@@ -274,14 +274,14 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
                 SlimefunItem sfi = SlimefunItem.getByItem(item);
                 if (sfi != null) {
                     if (sfi.isDisabled() || sfi.isDisabledIn(world)) {
-                        player.sendMessage(ChatColor.RED + "This item is disabled in this world.");
+                        player.sendMessage(ChatColor.RED + "输出物已被禁用"); // todo: add to lang
                         sendFeedback(blockMenu.getLocation(), FeedbackType.DISABLED_OUTPUT);
                         continue;
                     }
                 }
                 ItemStack left = BlockMenuUtil.pushItem(blockMenu, item, getOutputSlots());
                 if (left != null && left.getType() != Material.AIR) {
-                    player.sendMessage(ChatColor.RED + "Not enough space in output slots.");
+                    player.sendMessage(ChatColor.RED + "输出槽已满"); // todo: add to lang
                     sendFeedback(blockMenu.getLocation(), FeedbackType.NO_ENOUGH_SPACE);
                     world.dropItem(blockMenu.getLocation(), left);
                 }
@@ -291,7 +291,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
         if (recipe.getConsumeEnergy() > 0) {
             removeCharge(blockMenu.getLocation(), recipe.getConsumeEnergy());
         }
-        player.sendMessage(ChatColor.GREEN + "Successfully crafted.");
+        player.sendMessage(ChatColor.GREEN + "合成成功"); // todo: add to lang
         sendFeedback(blockMenu.getLocation(), FeedbackType.SUCCESS);
         return true;
     }
