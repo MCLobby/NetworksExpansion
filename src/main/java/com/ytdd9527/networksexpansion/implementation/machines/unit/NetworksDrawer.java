@@ -741,7 +741,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         boolean a = false;
         boolean b = false;
         var suuid = getServerUUID(itemInHand);
-        if (!p.isOp() && !suuid.equals(UUIDUtil.getServerUUID())) {
+        if (suuid != null && !p.isOp() && !suuid.equals(UUIDUtil.getServerUUID())) {
             p.sendMessage(String.format(Networks.getLocalizationService().getString("messages.unsupported-operation.drawer.wrong_server"), suuid, UUIDUtil.getServerUUID()));
             e.setCancelled(true);
             return;
