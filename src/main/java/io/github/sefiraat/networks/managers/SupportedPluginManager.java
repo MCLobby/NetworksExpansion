@@ -25,6 +25,7 @@ public class SupportedPluginManager {
     // region First Tick Only Registrations
     private @Getter boolean mcMMO;
     private @Getter boolean wildChests;
+    private @Getter boolean guguSlimefunLib;
 
     // endregion
 
@@ -42,6 +43,7 @@ public class SupportedPluginManager {
         }
 
         this.wildStacker = Bukkit.getPluginManager().isPluginEnabled("WildStacker");
+        this.guguSlimefunLib = Bukkit.getPluginManager().isPluginEnabled("GuguSlimefunLib");
         Networks.getInstance()
                 .getServer()
                 .getScheduler()

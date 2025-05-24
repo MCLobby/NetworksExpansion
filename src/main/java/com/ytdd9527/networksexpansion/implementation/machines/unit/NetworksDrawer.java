@@ -5,8 +5,8 @@ import com.balugaq.netex.api.data.StorageUnitData;
 import com.balugaq.netex.api.enums.QuickTransferMode;
 import com.balugaq.netex.api.enums.StorageUnitType;
 import com.balugaq.netex.api.helpers.Icon;
-import com.balugaq.netex.utils.UUIDUtil;
 import com.jeff_media.morepersistentdatatypes.DataType;
+import me.ddggdd135.guguslimefunlib.GuguSlimefunLib;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import com.balugaq.netex.api.interfaces.Configurable;
 import com.balugaq.netex.api.interfaces.ModelledItem;
@@ -284,10 +284,14 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
                 lore = new ArrayList<>();
             }
             lore.add(String.format(Networks.getLocalizationService().getString("messages.completed-operation.drawer.bound_id"), id));
-            lore.add(String.format(Networks.getLocalizationService().getString("messages.completed-operation.drawer.server-uuid"), UUIDUtil.getServerUUID()));
+            if (Networks.getSupportedPluginManager().isGuguSlimefunLib()) {
+                lore.add(String.format(Networks.getLocalizationService().getString("messages.completed-operation.drawer.server-uuid"), GuguSlimefunLib.getServerUUID()));
+            }
             meta.setLore(lore);
             meta.getPersistentDataContainer().set(idKey, PersistentDataType.INTEGER, id);
-            meta.getPersistentDataContainer().set(serverKey, DataType.UUID, UUIDUtil.getServerUUID());
+            if (Networks.getInstance().getSupportedPluginManager().isGuguSlimefunLib()) {
+                meta.getPersistentDataContainer().set(serverKey, DataType.UUID, GuguSlimefunLib.getServerUUID());
+            }
         }
         item.setItemMeta(meta);
         return item;
@@ -303,12 +307,16 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
                 lore = new ArrayList<>();
             }
             lore.add(String.format(Networks.getLocalizationService().getString("messages.completed-operation.drawer.bound_id"), id));
-            lore.add(String.format(Networks.getLocalizationService().getString("messages.completed-operation.drawer.server-uuid"), UUIDUtil.getServerUUID()));
+            if (Networks.getSupportedPluginManager().isGuguSlimefunLib()) {
+                lore.add(String.format(Networks.getLocalizationService().getString("messages.completed-operation.drawer.server-uuid"), GuguSlimefunLib.getServerUUID()));
+            }
             meta.setLore(lore);
             meta.getPersistentDataContainer().set(idKey, PersistentDataType.INTEGER, id);
             meta.getPersistentDataContainer().set(lockKey, PersistentDataType.BOOLEAN, lock);
             meta.getPersistentDataContainer().set(voidExcessKey, PersistentDataType.BOOLEAN, voidExcess);
-            meta.getPersistentDataContainer().set(serverKey, DataType.UUID, UUIDUtil.getServerUUID());
+            if (Networks.getSupportedPluginManager().isGuguSlimefunLib()) {
+                meta.getPersistentDataContainer().set(serverKey, DataType.UUID, GuguSlimefunLib.getServerUUID());
+            }
         }
         item.setItemMeta(meta);
         return item;
@@ -741,10 +749,16 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         boolean a = false;
         boolean b = false;
         var suuid = getServerUUID(itemInHand);
-        if (suuid != null && !p.isOp() && !suuid.equals(UUIDUtil.getServerUUID())) {
-            p.sendMessage(String.format(Networks.getLocalizationService().getString("messages.unsupported-operation.drawer.wrong_server"), suuid, UUIDUtil.getServerUUID()));
-            e.setCancelled(true);
-            return;
+        if (Networks.getSupportedPluginManager().isGuguSlimefunLib()) {
+            if (suuid != null && !p.isOp() && !suuid.equals(GuguSlimefunLib.getServerUUID())) {
+                p.sendMessage(String.format(Networks.getLocalizationService().getString("messages.unsupported-operation.drawer.wrong_server"), suuid, GuguSlimefunLib.getServerUUID()));
+                e.setCancelled(true);
+                if (useSpecialModel) {
+                    removeDisplay(l);
+                }
+                Slimefun.getDatabaseManager().getBlockDataController().removeBlock(l);
+                return;
+            }
         }
 
         int id = getBoundId(itemInHand);
