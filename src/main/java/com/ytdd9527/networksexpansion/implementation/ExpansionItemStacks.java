@@ -804,6 +804,10 @@ public class ExpansionItemStacks {
             Networks.getLocalizationService().getItem("NTW_EXPANSION_STATUS_VIEWER", Material.COMPASS),
             Theme.TOOL
     );
+    public static final SlimefunItemStack DRAWER_TIPS = Theme.themedSlimefunItemStack(
+            Networks.getLocalizationService().getItem("NTW_EXPANSION_DRAWER_TIPS", Material.BOOK),
+            Theme.GUIDE
+    );
 
     public static ItemStack Enchanted(Material material) {
         return ItemStackUtil.getPreEnchantedItemStack(material);

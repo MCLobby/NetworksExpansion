@@ -39,6 +39,7 @@ public class SetupUtil {
                 ExpansionItems.ADVANCED_QUANTUM_STORAGE.registerThis()
         );
         ExpansionItemsMenus.SUB_MENU_NETWORKS_DRAWERS.addTo(
+                ExpansionItems.DRAWER_TIPS.registerThis(),
                 ExpansionItems.CARGO_STORAGE_UNIT_1.registerThis(),
                 ExpansionItems.CARGO_STORAGE_UNIT_2.registerThis(),
                 ExpansionItems.CARGO_STORAGE_UNIT_3.registerThis(),

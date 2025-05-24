@@ -5,6 +5,8 @@ import com.balugaq.netex.api.data.StorageUnitData;
 import com.balugaq.netex.api.enums.QuickTransferMode;
 import com.balugaq.netex.api.enums.StorageUnitType;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.utils.UUIDUtil;
+import com.jeff_media.morepersistentdatatypes.DataType;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import com.balugaq.netex.api.interfaces.Configurable;
 import com.balugaq.netex.api.interfaces.ModelledItem;
@@ -52,6 +54,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.Contract;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -77,6 +80,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
     private static final NamespacedKey idKey = Keys.newKey("CONTAINER_ID");
     private static final NamespacedKey lockKey = Keys.newKey("CONTAINER_LOCK");
     private static final NamespacedKey voidExcessKey = Keys.newKey("CONTAINER_VOID_EXCESS");
+    private static final NamespacedKey serverKey = Keys.newKey("CONTAINER_SERVER");
     private static final int QUANTUM_SLOT = 9;
     private static final int QUICK_TRANSFER_SLOT = 18;
     private static final int ITEM_CHOOSE_SLOT = 27;
@@ -280,8 +284,10 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
                 lore = new ArrayList<>();
             }
             lore.add(String.format(Networks.getLocalizationService().getString("messages.completed-operation.drawer.bound_id"), id));
+            lore.add(String.format(Networks.getLocalizationService().getString("messages.completed-operation.drawer.server-uuid"), UUIDUtil.getServerUUID()));
             meta.setLore(lore);
             meta.getPersistentDataContainer().set(idKey, PersistentDataType.INTEGER, id);
+            meta.getPersistentDataContainer().set(serverKey, DataType.UUID, UUIDUtil.getServerUUID());
         }
         item.setItemMeta(meta);
         return item;
@@ -297,10 +303,12 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
                 lore = new ArrayList<>();
             }
             lore.add(String.format(Networks.getLocalizationService().getString("messages.completed-operation.drawer.bound_id"), id));
+            lore.add(String.format(Networks.getLocalizationService().getString("messages.completed-operation.drawer.server-uuid"), UUIDUtil.getServerUUID()));
             meta.setLore(lore);
             meta.getPersistentDataContainer().set(idKey, PersistentDataType.INTEGER, id);
             meta.getPersistentDataContainer().set(lockKey, PersistentDataType.BOOLEAN, lock);
             meta.getPersistentDataContainer().set(voidExcessKey, PersistentDataType.BOOLEAN, voidExcess);
+            meta.getPersistentDataContainer().set(serverKey, DataType.UUID, UUIDUtil.getServerUUID());
         }
         item.setItemMeta(meta);
         return item;
@@ -709,6 +717,19 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
 
     }
 
+    @Contract("null -> null")
+    public static UUID getServerUUID(@Nullable ItemStack itemStack) {
+        if (itemStack == null) {
+            return null;
+        }
+
+        var meta = itemStack.getItemMeta();
+        if (meta == null) {
+            return null;
+        }
+
+        return meta.getPersistentDataContainer().get(serverKey, DataType.UUID);
+    }
 
     public void onPlace(@Nonnull BlockPlaceEvent e) {
         Location l = e.getBlock().getLocation();
@@ -719,6 +740,13 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         }
         boolean a = false;
         boolean b = false;
+        var suuid = getServerUUID(itemInHand);
+        if (!p.isOp() && !suuid.equals(UUIDUtil.getServerUUID())) {
+            p.sendMessage(String.format(Networks.getLocalizationService().getString("messages.unsupported-operation.drawer.wrong_server"), suuid, UUIDUtil.getServerUUID()));
+            e.setCancelled(true);
+            return;
+        }
+
         int id = getBoundId(itemInHand);
         if (id != -1) {
             StorageUnitData data = DataStorage.getCachedStorageData(id).orElse(null);
