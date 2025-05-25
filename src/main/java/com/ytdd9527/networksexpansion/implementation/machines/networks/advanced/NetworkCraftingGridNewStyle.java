@@ -215,7 +215,7 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
         if (!action.isRightClicked() && action.isShiftClicked()) {
             ItemStack output = menu.getItemInSlot(OUTPUT_SLOT);
             if (output != null && output.getType() != Material.AIR) {
-                root.addItemStack(output);
+                root.addItemStack0(menu.getLocation(), output);
             }
             return;
         }
@@ -265,7 +265,7 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
 
         ItemStack output = menu.getItemInSlot(OUTPUT_SLOT);
         if (output != null && output.getType() != Material.AIR) {
-            root.addItemStack(output);
+            root.addItemStack0(menu.getLocation(), output);
         }
 
         if (!BlockMenuUtil.fits(menu, crafted, OUTPUT_SLOT)) {
@@ -315,17 +315,17 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
         for (Map.Entry<ItemStack, Integer> entry : need.entrySet()) {
             ItemStack itemStack = entry.getKey();
             GridItemRequest request = new GridItemRequest(itemStack, entry.getValue(), player);
-            root.getItemStack(request);
+            root.getItemStack0(menu.getLocation(), request);
             if (StackUtils.itemsMatch(itemStack, new ItemStack(itemStack.getType()))) {
                 switch (itemStack.getType()) {
                     case WATER_BUCKET, LAVA_BUCKET, MILK_BUCKET, COD_BUCKET, SALMON_BUCKET, PUFFERFISH_BUCKET, TROPICAL_FISH_BUCKET, AXOLOTL_BUCKET, POWDER_SNOW_BUCKET, TADPOLE_BUCKET -> {
-                        root.addItemStack(new ItemStack(Material.BUCKET, entry.getValue()));
+                        root.addItemStack0(menu.getLocation(), new ItemStack(Material.BUCKET, entry.getValue()));
                     }
                     case POTION, SPLASH_POTION, LINGERING_POTION, HONEY_BOTTLE, DRAGON_BREATH -> {
-                        root.addItemStack(new ItemStack(Material.GLASS_BOTTLE, entry.getValue()));
+                        root.addItemStack0(menu.getLocation(), new ItemStack(Material.GLASS_BOTTLE, entry.getValue()));
                     }
                     case MUSHROOM_STEW, BEETROOT_SOUP, RABBIT_STEW, SUSPICIOUS_STEW -> {
-                        root.addItemStack(new ItemStack(Material.BOWL, entry.getValue()));
+                        root.addItemStack0(menu.getLocation(), new ItemStack(Material.BOWL, entry.getValue()));
                     }
                 }
             }

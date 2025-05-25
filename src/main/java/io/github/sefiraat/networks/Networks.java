@@ -15,6 +15,7 @@ import io.github.sefiraat.networks.integrations.NetheoPlants;
 import io.github.sefiraat.networks.managers.ListenerManager;
 import io.github.sefiraat.networks.managers.SupportedPluginManager;
 import io.github.sefiraat.networks.slimefun.NetworksSlimefunItemStacks;
+import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
 import io.github.sefiraat.networks.slimefun.network.NetworkController;
 import io.github.sefiraat.networks.utils.NetworkUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -199,6 +200,7 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
                         Slimefun.getTickerTask().getTickRate());
 
 
+        AdminDebuggable.load();
         getLogger().info(getLocalizationService().getString("messages.startup.enabled-successfully"));
     }
 

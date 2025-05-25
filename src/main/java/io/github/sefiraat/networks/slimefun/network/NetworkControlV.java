@@ -135,7 +135,7 @@ public class NetworkControlV extends NetworkDirectional {
         }
 
         final ItemRequest request = new ItemRequest(templateStack.clone(), 1);
-        final ItemStack fetchedStack = definition.getNode().getRoot().getItemStack(request);
+        final ItemStack fetchedStack = definition.getNode().getRoot().getItemStack0(blockMenu.getLocation(), request);
 
         if (fetchedStack == null || fetchedStack.getAmount() < 1) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NOT_ENOUGH_RESOURCES);

@@ -179,7 +179,7 @@ public class AdvancedLineTransferBestPusher extends AdvancedDirectional implemen
                 false,
                 false,
                 (targetMenu) -> {
-                    LineOperationUtil.pushItem(root, targetMenu, templates, currentTransportMode, limitQuantity);
+                    LineOperationUtil.pushItem(blockMenu.getLocation(), root, targetMenu, templates, currentTransportMode, limitQuantity);
                 });
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }

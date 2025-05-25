@@ -6,6 +6,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import io.github.sefiraat.networks.NetworkStorage;
+import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.utils.Theme;
@@ -102,7 +103,8 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
     }
 
     protected void preBreak(@Nonnull BlockBreakEvent event) {
-
+        NetworkRoot.removePersistentAccessHistory(event.getBlock().getLocation());
+        NetworkRoot.removeCountObservingAccessHistory(event.getBlock().getLocation());
     }
 
     protected void onBreak(@Nonnull BlockBreakEvent event) {

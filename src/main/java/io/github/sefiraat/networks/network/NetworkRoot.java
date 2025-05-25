@@ -18,6 +18,7 @@ import io.github.sefiraat.networks.network.barrel.NetworkStorage;
 import io.github.sefiraat.networks.network.stackcaches.BarrelIdentity;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
+import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
 import io.github.sefiraat.networks.slimefun.network.NetworkCell;
 import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
 import io.github.sefiraat.networks.slimefun.network.NetworkGreedyBlock;
@@ -49,6 +50,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @SuppressWarnings("unused")
 public class NetworkRoot extends NetworkNode {
+    public static final int persistentThreshold = Networks.getConfigManager().getPersistentThreshold();
+    public static final int cacheMissThreshold = Networks.getConfigManager().getCacheMissThreshold();
+    public static final Map<Location, Map<Location, Integer /* Access times */>> observingAccessHistory = new HashMap<>();
+    public static final Map<Location, Map<Location, Integer /* Cache miss times */>> persistentAccessHistory = new HashMap<>();
     @Getter
     private final long CREATED_TIME = System.currentTimeMillis();
     @Getter
@@ -133,7 +138,6 @@ public class NetworkRoot extends NetworkNode {
     private Set<BarrelIdentity> inputAbleBarrels = null;
     @Getter
     private Set<BarrelIdentity> outputAbleBarrels = null;
-
     @Deprecated
     @Getter
     private Map<StorageUnitData, Location> cargoStorageUnitDatas = null;
@@ -141,19 +145,87 @@ public class NetworkRoot extends NetworkNode {
     private Map<StorageUnitData, Location> inputAbleCargoStorageUnitDatas = null;
     @Getter
     private Map<StorageUnitData, Location> outputAbleCargoStorageUnitDatas = null;
-
+    @Getter
+    private Map<Location, BarrelIdentity> mapInputAbleBarrels = null;
+    @Getter
+    private Map<Location, BarrelIdentity> mapOutputAbleBarrels = null;
+    @Getter
+    private Map<Location, StorageUnitData> mapInputAbleCargoStorageUnits = null;
+    @Getter
+    private Map<Location, StorageUnitData> mapOutputAbleCargoStorageUnits = null;
     @Getter
     private long rootPower = 0;
-
     @Getter
     private boolean displayParticles = false;
-
     public NetworkRoot(@Nonnull Location location, @Nonnull NodeType type, int maxNodes) {
         super(location, type);
         this.maxNodes = maxNodes;
         this.root = this;
 
         registerNode(location, type);
+    }
+
+    public static void addPersistentAccessHistory(Location location, Location accessLocation) {
+        Map<Location, Integer> locations = persistentAccessHistory.getOrDefault(location, new HashMap<>());
+        locations.put(accessLocation, 0);
+        persistentAccessHistory.put(location, locations);
+    }
+
+    public static void addCacheMiss(Location location, Location accessLocation) {
+        Map<Location, Integer> locations = persistentAccessHistory.getOrDefault(location, new HashMap<>());
+        int value = locations.getOrDefault(accessLocation, 0) + 1;
+        if (value > cacheMissThreshold) {
+            removePersistentAccessHistory(location, accessLocation);
+            return;
+        }
+        locations.put(accessLocation, value);
+        persistentAccessHistory.put(location, locations);
+    }
+
+    public static void minusCacheMiss(Location location, Location accessLocation) {
+        Map<Location, Integer> locations = persistentAccessHistory.getOrDefault(location, new HashMap<>());
+        int value = Math.max(locations.getOrDefault(accessLocation, 0) - 1, 0);
+        locations.put(accessLocation, value);
+    }
+
+    public static Map<Location, Integer> getPersistentAccessHistory(Location location) {
+        return persistentAccessHistory.getOrDefault(location, new HashMap<>());
+    }
+
+    public static void removePersistentAccessHistory(Location location) {
+        persistentAccessHistory.remove(location);
+    }
+
+    public static void removePersistentAccessHistory(Location location, Location accessLocation) {
+        Map<Location, Integer> locations = persistentAccessHistory.getOrDefault(location, new HashMap<>());
+        locations.remove(accessLocation);
+        persistentAccessHistory.put(location, locations);
+    }
+
+    public static void addCountObservingAccessHistory(Location location, Location accessLocation) {
+        Map<Location, Integer> locations = observingAccessHistory.getOrDefault(location, new HashMap<>());
+        Integer count = locations.getOrDefault(accessLocation, 0);
+        if (count >= persistentThreshold) {
+            removeCountObservingAccessHistory(location, accessLocation);
+            addPersistentAccessHistory(location, accessLocation);
+            return;
+        }
+        locations.put(accessLocation, count + 1);
+        observingAccessHistory.put(location, locations);
+    }
+
+    public static Map<Location, Integer> getCountObservingAccessHistory(Location location) {
+        return observingAccessHistory.getOrDefault(location, new HashMap<>());
+    }
+
+    public static void removeCountObservingAccessHistory(Location location) {
+        observingAccessHistory.remove(location);
+    }
+
+    public static void removeCountObservingAccessHistory(Location location, Location accessLocation) {
+        Map<Location, Integer> locations = observingAccessHistory.getOrDefault(location, new HashMap<>());
+        locations.remove(accessLocation);
+        observingAccessHistory.put(location, locations);
     }
 
     public void registerNode(@Nonnull Location location, @Nonnull NodeType type) {
@@ -796,6 +868,7 @@ public class NetworkRoot extends NetworkNode {
         return menus;
     }
 
+    @Deprecated
     @Nullable
     public ItemStack getItemStack(@Nonnull ItemRequest request) {
         ItemStack stackToReturn = null;
@@ -1340,6 +1413,7 @@ public class NetworkRoot extends NetworkNode {
         this.displayParticles = displayParticles;
     }
 
+    @Deprecated
     @Nonnull
     public List<ItemStack> getItemStacks(@Nonnull List<ItemRequest> itemRequests) {
         List<ItemStack> retrievedItems = new ArrayList<>();
@@ -1418,6 +1492,10 @@ public class NetworkRoot extends NetworkNode {
         }
 
         this.inputAbleBarrels = barrelSet;
+        this.mapInputAbleBarrels = new HashMap<>();
+        for (BarrelIdentity storage : barrelSet) {
+            this.mapInputAbleBarrels.put(storage.getLocation(), storage);
+        }
         NetworkRootLocateStorageEvent event = new NetworkRootLocateStorageEvent(this, StorageType.BARREL, true, false, Bukkit.isPrimaryThread());
         Bukkit.getPluginManager().callEvent(event);
         return barrelSet;
@@ -1488,6 +1566,10 @@ public class NetworkRoot extends NetworkNode {
         }
 
         this.outputAbleBarrels = barrelSet;
+        this.mapOutputAbleBarrels = new HashMap<>();
+        for (BarrelIdentity storage : barrelSet) {
+            this.mapOutputAbleBarrels.put(storage.getLocation(), storage);
+        }
         NetworkRootLocateStorageEvent event = new NetworkRootLocateStorageEvent(this, StorageType.BARREL, false, true, Bukkit.isPrimaryThread());
         Bukkit.getPluginManager().callEvent(event);
         return barrelSet;
@@ -1531,6 +1613,10 @@ public class NetworkRoot extends NetworkNode {
         }
 
         this.inputAbleCargoStorageUnitDatas = dataSet;
+        this.mapInputAbleCargoStorageUnits = new HashMap<>();
+        for (Map.Entry<StorageUnitData, Location> entry : dataSet.entrySet()) {
+            mapInputAbleCargoStorageUnits.put(entry.getValue(), entry.getKey());
+        }
         NetworkRootLocateStorageEvent event = new NetworkRootLocateStorageEvent(this, StorageType.DRAWER, true, false, Bukkit.isPrimaryThread());
         Bukkit.getPluginManager().callEvent(event);
         return dataSet;
@@ -1574,6 +1660,10 @@ public class NetworkRoot extends NetworkNode {
         }
 
         this.outputAbleCargoStorageUnitDatas = dataSet;
+        this.mapOutputAbleCargoStorageUnits = new HashMap<>();
+        for (Map.Entry<StorageUnitData, Location> entry : dataSet.entrySet()) {
+            mapOutputAbleCargoStorageUnits.put(entry.getValue(), entry.getKey());
+        }
         NetworkRootLocateStorageEvent event = new NetworkRootLocateStorageEvent(this, StorageType.DRAWER, false, true, Bukkit.isPrimaryThread());
         Bukkit.getPluginManager().callEvent(event);
         return dataSet;
@@ -1594,5 +1684,504 @@ public class NetworkRoot extends NetworkNode {
         getInputAbleCargoStorageUnitDatas();
         getOutputAbleCargoStorageUnitDatas();
         return true;
+    }
+
+    @Nullable
+    public BarrelIdentity accessInputAbleBarrel(Location barrelLocation) {
+        return getMapInputAbleBarrels().get(barrelLocation);
+    }
+
+    @Nullable
+    public BarrelIdentity accessOutputAbleBarrel(Location barrelLocation) {
+        return getMapOutputAbleBarrels().get(barrelLocation);
+    }
+
+    @Nullable
+    public StorageUnitData accessInputAbleDrawerData(Location drawerLocation) {
+        return accessInputAbleCargoStorageUnitData(drawerLocation);
+    }
+
+    @Nullable
+    public StorageUnitData accessOutputAbleDrawerData(Location drawerLocation) {
+        return accessOutputAbleCargoStorageUnitData(drawerLocation);
+    }
+
+    @Nullable
+    public StorageUnitData accessInputAbleCargoStorageUnitData(Location storageUnitLocation) {
+        return getMapInputAbleCargoStorageUnits().get(storageUnitLocation);
+    }
+
+    @Nullable
+    public StorageUnitData accessOutputAbleCargoStorageUnitData(Location storageUnitLocation) {
+        return getMapOutputAbleCargoStorageUnits().get(storageUnitLocation);
+    }
+
+    @Nullable
+    public ItemStack requestItem(@Nonnull Location accessor, @Nonnull ItemRequest request) {
+        return getItemStack0(accessor, request);
+    }
+
+    @Nullable
+    public ItemStack requestItem(@Nonnull Location accessor, @Nonnull ItemStack itemStack) {
+        return requestItem(accessor, new ItemRequest(itemStack, itemStack.getAmount()));
+    }
+
+    @Nullable
+    public ItemStack getItemStack0(@Nonnull Location accessor, @Nonnull ItemRequest request) {
+        ItemStack stackToReturn = null;
+
+        if (request.getAmount() <= 0) {
+            return null;
+        }
+
+        var m = getPersistentAccessHistory(accessor);
+        if (m != null) {
+            for (var entry : m.entrySet()) {
+                // try cache first
+                BarrelIdentity barrelIdentity = accessOutputAbleBarrel(entry.getKey());
+                if (barrelIdentity != null) {
+                    //<editor-fold desc="do barrel">
+                    final ItemStack itemStack = barrelIdentity.getItemStack();
+
+                    if (itemStack == null || !StackUtils.itemsMatch(request, itemStack)) {
+                        // Patch - Cache start
+                        addCacheMiss(accessor, entry.getKey());
+                        // Patch - Cache end
+                        continue;
+                    }
+
+                    // Patch - Cache start
+                    minusCacheMiss(accessor, entry.getKey());
+                    // Patch - Cache end
+
+                    boolean infinity = barrelIdentity instanceof InfinityBarrel;
+                    final ItemStack fetched = barrelIdentity.requestItem(request);
+                    if (fetched == null || fetched.getType() == Material.AIR || (infinity && fetched.getAmount() == 1)) {
+                        continue;
+                    }
+
+                    // Stack is null, so we can fill it here
+                    if (stackToReturn == null) {
+                        stackToReturn = fetched.clone();
+                        stackToReturn.setAmount(0);
+                    }
+
+                    final int preserveAmount = infinity ? fetched.getAmount() - 1 : fetched.getAmount();
+
+                    if (request.getAmount() <= preserveAmount) {
+                        stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
+                        fetched.setAmount(fetched.getAmount() - request.getAmount());
+                        return stackToReturn;
+                    } else {
+                        stackToReturn.setAmount(stackToReturn.getAmount() + preserveAmount);
+                        request.receiveAmount(preserveAmount);
+                        fetched.setAmount(fetched.getAmount() - preserveAmount);
+                    }
+                    //</editor-fold>
+                } else {
+                    StorageUnitData data = accessOutputAbleCargoStorageUnitData(entry.getKey());
+                    if (data != null) {
+                        //<editor-fold desc="do drawer">
+                        ItemStack take = data.requestItem(request);
+                        if (take != null) {
+                            // Patch - Cache start
+                            minusCacheMiss(accessor, entry.getKey());
+                            // Patch - Cache end
+
+                            if (stackToReturn == null) {
+                                stackToReturn = take.clone();
+                            } else {
+                                stackToReturn.setAmount(stackToReturn.getAmount() + take.getAmount());
+                            }
+                            request.receiveAmount(take.getAmount());
+
+                            if (request.getAmount() <= 0) {
+                                return stackToReturn;
+                            }
+                        } else {
+                            // Patch - Cache start
+                            addCacheMiss(accessor, entry.getKey());
+                            // Patch - Cache end
+                        }
+                        //</editor-fold>
+                    } else {
+                        // Patch - Cache start
+                        addCacheMiss(accessor, entry.getKey());
+                        // Patch - Cache end
+                    }
+                }
+            }
+        }
+
+        // Barrels first
+        for (BarrelIdentity barrelIdentity : getOutputAbleBarrels()) {
+            //<editor-fold desc="do barrel">
+            final ItemStack itemStack = barrelIdentity.getItemStack();
+
+            if (itemStack == null || !StackUtils.itemsMatch(request, itemStack)) {
+                continue;
+            }
+
+            // Patch - Cache start
+            addCountObservingAccessHistory(accessor, barrelIdentity.getLocation());
+            // Patch - Cache end
+
+            boolean infinity = barrelIdentity instanceof InfinityBarrel;
+            final ItemStack fetched = barrelIdentity.requestItem(request);
+            if (fetched == null || fetched.getType() == Material.AIR || (infinity && fetched.getAmount() == 1)) {
+                continue;
+            }
+
+            // Stack is null, so we can fill it here
+            if (stackToReturn == null) {
+                stackToReturn = fetched.clone();
+                stackToReturn.setAmount(0);
+            }
+
+            final int preserveAmount = infinity ? fetched.getAmount() - 1 : fetched.getAmount();
+
+            if (request.getAmount() <= preserveAmount) {
+                stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
+                fetched.setAmount(fetched.getAmount() - request.getAmount());
+                return stackToReturn;
+            } else {
+                stackToReturn.setAmount(stackToReturn.getAmount() + preserveAmount);
+                request.receiveAmount(preserveAmount);
+                fetched.setAmount(fetched.getAmount() - preserveAmount);
+            }
+            //</editor-fold>
+        }
+
+        // Units
+        for (StorageUnitData cache : getOutputAbleCargoStorageUnitDatas().keySet()) {
+            //<editor-fold desc="do drawer">
+            ItemStack take = cache.requestItem(request);
+            if (take != null) {
+                // Patch - Cache start
+                addCountObservingAccessHistory(accessor, cache.getLastLocation());
+                // Patch - Cache end
+                if (stackToReturn == null) {
+                    stackToReturn = take.clone();
+                } else {
+                    stackToReturn.setAmount(stackToReturn.getAmount() + take.getAmount());
+                }
+                request.receiveAmount(take.getAmount());
+
+                if (request.getAmount() <= 0) {
+                    return stackToReturn;
+                }
+            }
+            //</editor-fold>
+        }
+
+        // Cells
+        for (BlockMenu blockMenu : getCellMenus()) {
+            int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
+            for (int slot : slots) {
+                final ItemStack itemStack = blockMenu.getItemInSlot(slot);
+                if (itemStack == null
+                        || itemStack.getType() == Material.AIR
+                        || !StackUtils.itemsMatch(request, itemStack)
+                ) {
+                    continue;
+                }
+
+                // Mark the Cell as dirty otherwise the changes will not save on shutdown
+                blockMenu.markDirty();
+
+                // If the return stack is null, we need to set it up
+                if (stackToReturn == null) {
+                    stackToReturn = itemStack.clone();
+                    stackToReturn.setAmount(0);
+                }
+
+                if (request.getAmount() <= itemStack.getAmount()) {
+                    // We can't take more than this stack. Level to request amount, remove items and then return
+                    stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
+                    itemStack.setAmount(itemStack.getAmount() - request.getAmount());
+                    return stackToReturn;
+                } else {
+                    // We can take more than what is here, consume before trying to take more
+                    stackToReturn.setAmount(stackToReturn.getAmount() + itemStack.getAmount());
+                    request.receiveAmount(itemStack.getAmount());
+                    itemStack.setAmount(0);
+                }
+            }
+        }
+
+        // Crafters
+        for (BlockMenu blockMenu : getCrafterOutputs()) {
+            int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
+            for (int slot : slots) {
+                final ItemStack itemStack = blockMenu.getItemInSlot(slot);
+                if (itemStack == null || itemStack.getType() == Material.AIR || !StackUtils.itemsMatch(
+                        request,
+                        itemStack
+                )) {
+                    continue;
+                }
+
+                // Stack is null, so we can fill it here
+                if (stackToReturn == null) {
+                    stackToReturn = itemStack.clone();
+                    stackToReturn.setAmount(0);
+                }
+
+                if (request.getAmount() <= itemStack.getAmount()) {
+                    stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
+                    itemStack.setAmount(itemStack.getAmount() - request.getAmount());
+                    return stackToReturn;
+                } else {
+                    stackToReturn.setAmount(stackToReturn.getAmount() + itemStack.getAmount());
+                    request.receiveAmount(itemStack.getAmount());
+                    itemStack.setAmount(0);
+                }
+            }
+        }
+
+        for (BlockMenu blockMenu : getAdvancedGreedyBlockMenus()) {
+            int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
+            for (int slot : slots) {
+                final ItemStack itemStack = blockMenu.getItemInSlot(slot);
+                if (itemStack == null || itemStack.getType() == Material.AIR || !StackUtils.itemsMatch(
+                        request,
+                        itemStack
+                )) {
+                    continue;
+                }
+
+                // Stack is null, so we can fill it here
+                if (stackToReturn == null) {
+                    stackToReturn = itemStack.clone();
+                    stackToReturn.setAmount(0);
+                }
+
+                if (request.getAmount() <= itemStack.getAmount()) {
+                    stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
+                    itemStack.setAmount(itemStack.getAmount() - request.getAmount());
+                    return stackToReturn;
+                } else {
+                    stackToReturn.setAmount(stackToReturn.getAmount() + itemStack.getAmount());
+                    request.receiveAmount(itemStack.getAmount());
+                    itemStack.setAmount(0);
+                }
+            }
+        }
+
+        // Greedy Blocks
+        for (BlockMenu blockMenu : getGreedyBlockMenus()) {
+            int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
+            final ItemStack itemStack = blockMenu.getItemInSlot(slots[0]);
+            if (itemStack == null
+                    || itemStack.getType() == Material.AIR
+                    || !StackUtils.itemsMatch(request, itemStack)
+            ) {
+                continue;
+            }
+
+            // Mark the Cell as dirty otherwise the changes will not save on shutdown
+            blockMenu.markDirty();
+
+            // If the return stack is null, we need to set it up
+            if (stackToReturn == null) {
+                stackToReturn = itemStack.clone();
+                stackToReturn.setAmount(0);
+            }
+
+            if (request.getAmount() <= itemStack.getAmount()) {
+                // We can't take more than this stack. Level to request amount, remove items and then return
+                stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
+                itemStack.setAmount(itemStack.getAmount() - request.getAmount());
+                return stackToReturn;
+            } else {
+                // We can take more than what is here, consume before trying to take more
+                stackToReturn.setAmount(stackToReturn.getAmount() + itemStack.getAmount());
+                request.receiveAmount(itemStack.getAmount());
+                itemStack.setAmount(0);
+            }
+        }
+
+        if (stackToReturn == null || stackToReturn.getAmount() == 0) {
+            return null;
+        }
+
+        return stackToReturn;
+    }
+
+    public void addItem(@Nonnull Location accessor, @Nonnull ItemStack incoming) {
+        addItemStack0(accessor, incoming);
+    }
+
+    public void addItemStack0(@Nonnull Location accessor, @Nonnull ItemStack incoming) {
+        var m = getPersistentAccessHistory(accessor);
+        if (m != null) {
+            for (var entry : m.entrySet()) {
+                BarrelIdentity barrelIdentity = accessInputAbleBarrel(entry.getKey());
+                if (barrelIdentity != null) {
+                    //<editor-fold desc="do barrel">
+                    if (StackUtils.itemsMatch(barrelIdentity, incoming)) {
+                        // Patch - Cache start
+                        minusCacheMiss(accessor, entry.getKey());
+                        // Patch - Cache end
+
+                        barrelIdentity.depositItemStack(incoming);
+
+                        // All distributed, can escape
+                        if (incoming.getAmount() == 0) {
+                            return;
+                        }
+                    } else {
+                        // Patch - Cache start
+                        addCacheMiss(accessor, barrelIdentity.getLocation());
+                        // Patch - Cache end
+                    }
+                    //</editor-fold>
+                } else {
+                    StorageUnitData data = accessInputAbleCargoStorageUnitData(entry.getKey());
+                    if (data != null) {
+                        // Patch - Cache start
+                        int before = incoming.getAmount();
+                        // Patch - Cache end
+                        data.depositItemStack(incoming, true);
+
+                        // Patch - Cache start
+                        if (incoming.getAmount() == before) {
+                            addCacheMiss(accessor, entry.getKey());
+                        } else {
+                            minusCacheMiss(accessor, entry.getKey());
+                        }
+                        // Patch - Cache end
+
+                        if (incoming.getAmount() == 0) {
+                            return;
+                        }
+                    } else {
+                        // Patch - Cache start
+                        addCacheMiss(accessor, entry.getKey());
+                        // Patch - Cache end
+                    }
+                }
+            }
+        }
+
+        for (BlockMenu blockMenu : getAdvancedGreedyBlockMenus()) {
+            final ItemStack template = blockMenu.getItemInSlot(AdvancedGreedyBlock.TEMPLATE_SLOT);
+
+            if (template == null || template.getType() == Material.AIR || !StackUtils.itemsMatch(incoming, template)) {
+                continue;
+            }
+
+            blockMenu.markDirty();
+            BlockMenuUtil.pushItem(blockMenu, incoming, ADVANCED_GREEDY_BLOCK_AVAILABLE_SLOTS);
+            // Given we have found a match, it doesn't matter if the item moved or not, we will not bring it in
+            return;
+        }
+
+        // Run for matching greedy blocks
+        for (BlockMenu blockMenu : getGreedyBlockMenus()) {
+            final ItemStack template = blockMenu.getItemInSlot(NetworkGreedyBlock.TEMPLATE_SLOT);
+
+            if (template == null || template.getType() == Material.AIR || !StackUtils.itemsMatch(incoming, template)) {
+                continue;
+            }
+
+            blockMenu.markDirty();
+            BlockMenuUtil.pushItem(blockMenu, incoming, GREEDY_BLOCK_AVAILABLE_SLOTS[0]);
+            // Given we have found a match, it doesn't matter if the item moved or not, we will not bring it in
+            return;
+        }
+
+
+        // Run for matching barrels
+        for (BarrelIdentity barrelIdentity : getInputAbleBarrels()) {
+            //<editor-fold desc="do barrel">
+            if (StackUtils.itemsMatch(barrelIdentity, incoming)) {
+                // Patch - Cache start
+                addCountObservingAccessHistory(accessor, barrelIdentity.getLocation());
+                // Patch - Cache end
+
+                barrelIdentity.depositItemStack(incoming);
+
+                // All distributed, can escape
+                if (incoming.getAmount() == 0) {
+                    return;
+                }
+            }
+            //</editor-fold>
+        }
+
+        for (StorageUnitData cache : getInputAbleCargoStorageUnitDatas().keySet()) {
+            // Patch - Cache start
+            int before = incoming.getAmount();
+            // Patch - Cache end
+
+            cache.depositItemStack(incoming, true);
+
+            // Patch - Cache start
+            if (incoming.getAmount() != before) {
+                addCountObservingAccessHistory(accessor, cache.getLastLocation());
+            }
+            // Patch - Cache end
+
+            if (incoming.getAmount() == 0) {
+                return;
+            }
+        }
+
+        for (BlockMenu blockMenu : getCellMenus()) {
+            blockMenu.markDirty();
+            BlockMenuUtil.pushItem(blockMenu, incoming, CELL_AVAILABLE_SLOTS);
+            if (incoming.getAmount() == 0) {
+                return;
+            }
+        }
+    }
+
+    public Map<Location, BarrelIdentity> getMapInputAbleBarrels() {
+        if (this.mapInputAbleBarrels != null) {
+            return this.mapInputAbleBarrels;
+        }
+
+        this.mapInputAbleBarrels = new HashMap<>();
+        for (var barrel : getInputAbleBarrels()) {
+            this.mapInputAbleBarrels.put(barrel.getLocation(), barrel);
+        }
+        return this.mapInputAbleBarrels;
+    }
+
+    public Map<Location, BarrelIdentity> getMapOutputAbleBarrels() {
+        if (this.mapOutputAbleBarrels != null) {
+            return this.mapOutputAbleBarrels;
+        }
+
+        this.mapOutputAbleBarrels = new HashMap<>();
+        for (var barrel : getOutputAbleBarrels()) {
+            this.mapOutputAbleBarrels.put(barrel.getLocation(), barrel);
+        }
+        return this.mapOutputAbleBarrels;
+    }
+
+    public Map<Location, StorageUnitData> getMapInputAbleCargoStorageUnits() {
+        if (this.mapInputAbleCargoStorageUnits != null) {
+            return this.mapInputAbleCargoStorageUnits;
+        }
+
+        for (var entry : getInputAbleCargoStorageUnitDatas().entrySet()) {
+            this.mapInputAbleCargoStorageUnits.put(entry.getValue(), entry.getKey());
+        }
+
+        return this.mapInputAbleCargoStorageUnits;
+    }
+
+    public Map<Location, StorageUnitData> getMapOutputAbleCargoStorageUnits() {
+        if (this.mapOutputAbleCargoStorageUnits != null) {
+            return this.mapOutputAbleCargoStorageUnits;
+        }
+
+        for (var entry : getOutputAbleCargoStorageUnitDatas().entrySet()) {
+            this.mapOutputAbleCargoStorageUnits.put(entry.getValue(), entry.getKey());
+        }
+
+        return this.mapOutputAbleCargoStorageUnits;
     }
 }

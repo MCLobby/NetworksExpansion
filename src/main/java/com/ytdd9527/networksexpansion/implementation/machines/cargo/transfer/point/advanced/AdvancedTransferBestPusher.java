@@ -169,7 +169,7 @@ public class AdvancedTransferBestPusher extends AdvancedDirectional implements R
         }
 
         LineOperationUtil.doOperation(blockMenu.getLocation(), direction, 1, false, false, (targetMenu) -> {
-            LineOperationUtil.pushItem(root, targetMenu, templates, currentTransportMode, limitQuantity);
+            LineOperationUtil.pushItem(blockMenu.getLocation(), root, targetMenu, templates, currentTransportMode, limitQuantity);
         });
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }

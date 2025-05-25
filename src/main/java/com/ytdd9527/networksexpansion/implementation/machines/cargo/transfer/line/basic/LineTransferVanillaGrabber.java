@@ -199,7 +199,7 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
 
     private boolean grabItem(@Nonnull NetworkRoot root, @Nonnull BlockMenu blockMenu, @Nullable ItemStack stack) {
         if (stack != null && stack.getType() != Material.AIR) {
-            root.addItemStack(stack);
+            root.addItemStack0(blockMenu.getLocation(), stack);
             return true;
         } else {
             return false;
