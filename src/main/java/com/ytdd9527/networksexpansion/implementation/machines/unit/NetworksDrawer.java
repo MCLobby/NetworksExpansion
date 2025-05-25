@@ -215,7 +215,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
             for (int i = 0; i < DISPLAY_SLOTS.length; i++) {
                 if (i < itemStored.size()) {
                     ItemContainer each = itemStored.get(i);
-                    menu.replaceExistingItem(DISPLAY_SLOTS[i], getDisplayItem(each.getSample(), each.getAmount(), maxEach));
+                    menu.replaceExistingItem(DISPLAY_SLOTS[i], getDisplayItem(each.getSampleDirectly(), each.getAmount(), maxEach));
                 } else {
                     menu.replaceExistingItem(DISPLAY_SLOTS[i], Icon.ERROR_BORDER);
                 }
@@ -225,7 +225,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
 
     public static boolean contains(Location l, ItemStack itemStack) {
         for (ItemContainer each : storages.get(l).getStoredItems()) {
-            if (StackUtils.itemsMatch(each.getSample(), itemStack)) {
+            if (StackUtils.itemsMatch(each.getSampleDirectly(), itemStack)) {
                 return true;
             }
         }
@@ -396,7 +396,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
                         a.add(i);
                     }
                     int index = a.indexOf(slot);
-                    final ItemStack take = storages.get(l).getStoredItems().get(index).getSample();
+                    final ItemStack take = storages.get(l).getStoredItems().get(index).getSampleDirectly();
 
                     final ItemRequest itemRequest = new ItemRequest(take, 1);
 
@@ -498,7 +498,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
 
         if (isQuantum) {
             for (ItemContainer each : thisStorage.getStoredItems()) {
-                final ItemStack sample = each.getSample();
+                final ItemStack sample = each.getSampleDirectly();
                 if (StackUtils.itemsMatch(sample, toTransfer)) {
                     final ItemMeta meta = itemStack.getItemMeta();
                     QuantumCache quantumCache = DataTypeMethods.getCustom(
@@ -632,7 +632,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
             }
 
             for (ItemContainer each : thisStorage.getStoredItems()) {
-                final ItemStack sample = each.getSample();
+                final ItemStack sample = each.getSampleDirectly();
                 if (StackUtils.itemsMatch(sample, toTransfer)) {
                     switch (mode) {
                         case FROM_QUANTUM -> {

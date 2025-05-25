@@ -1113,7 +1113,7 @@ public class NetworkRoot extends NetworkNode {
         for (StorageUnitData cache : cacheMap.keySet()) {
             final List<ItemContainer> storedItems = cache.getStoredItems();
             for (ItemContainer itemContainer : storedItems) {
-                final ItemStack itemStack = itemContainer.getSample();
+                final ItemStack itemStack = itemContainer.getSampleDirectly();
                 if (itemStack == null
                         || itemStack.getType() == Material.AIR
                         || !StackUtils.itemsMatch(request, itemStack)
@@ -1227,7 +1227,7 @@ public class NetworkRoot extends NetworkNode {
         for (StorageUnitData cache : cacheMap.keySet()) {
             final List<ItemContainer> storedItems = cache.getStoredItems();
             for (ItemContainer itemContainer : storedItems) {
-                if (StackUtils.itemsMatch(itemContainer.getSample(), itemStack)) {
+                if (StackUtils.itemsMatch(itemContainer.getSampleDirectly(), itemStack)) {
                     totalAmount += itemContainer.getAmount();
                 }
             }

@@ -852,7 +852,7 @@ public class NetworksMain implements TabExecutor {
         if (slot >= stored.size()) {
             player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.commands.invalid-slot"), stored.size() - 1));
         } else {
-            final ItemStack stack = stored.get(slot).getSample();
+            final ItemStack stack = stored.get(slot).getSampleDirectly();
             if (stack == null || stack.getType() == Material.AIR) {
                 player.sendMessage(Networks.getLocalizationService().getString("messages.commands.empty-slot"));
                 return;

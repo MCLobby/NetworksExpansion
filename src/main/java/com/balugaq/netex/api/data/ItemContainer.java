@@ -27,6 +27,10 @@ public class ItemContainer {
         return sample.clone();
     }
 
+    public ItemStack getSampleDirectly() {
+        return sample;
+    }
+
     public boolean isSimilar(ItemStack other) {
         return StackUtils.itemsMatch(wrapper, other);
     }

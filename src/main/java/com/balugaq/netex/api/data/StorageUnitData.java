@@ -255,7 +255,7 @@ public class StorageUnitData {
         int amount = itemRequest.getAmount();
         for (ItemContainer itemContainer : getStoredItems()) {
             int containerAmount = itemContainer.getAmount();
-            if (StackUtils.itemsMatch(itemContainer.getSample(), item)) {
+            if (StackUtils.itemsMatch(itemContainer.getSampleDirectly(), item)) {
                 int take = Math.min(amount, containerAmount);
                 if (take <= 0) {
                     break;
