@@ -403,10 +403,12 @@ public class StorageUnitData {
         var m = getPersistentAccessHistory(accessor);
         if (m != null) {
             for (var i : m.keySet()) {
-                if (stored.size() < i) {
+                // Patch - Cache start
+                if (i >= stored.size()) {
                     removePersistentAccessHistory(accessor, i);
                     continue;
                 }
+                // Patch - Cache end
 
                 var itemContainer = stored.get(i);
                 int containerAmount = itemContainer.getAmount();
@@ -419,10 +421,14 @@ public class StorageUnitData {
                     DataStorage.setStoredAmount(id, itemContainer.getId(), itemContainer.getAmount());
                     ItemStack clone = item.clone();
                     clone.setAmount(take);
+                    // Patch - Cache start
                     minusCacheMiss(accessor, i);
+                    // Patch - Cache end
                     return clone;
                 } else {
+                    // Patch - Cache start
                     addCacheMiss(accessor, i);
+                    // Patch - Cache end
                 }
             }
         }
@@ -437,7 +443,9 @@ public class StorageUnitData {
                     break;
                 }
 
+                // Patch - Cache start
                 addCountObservingAccessHistory(accessor, i);
+                // Patch - Cache end
                 itemContainer.removeAmount(take);
                 DataStorage.setStoredAmount(id, itemContainer.getId(), itemContainer.getAmount());
                 ItemStack clone = item.clone();
@@ -515,10 +523,12 @@ public class StorageUnitData {
         var m = getPersistentAccessHistory(accessor);
         if (m != null) {
             for (var i : m.keySet()) {
+                // Patch - Cache start
                 if (i >= stored.size()) {
                     removePersistentAccessHistory(accessor, i);
                     continue;
                 }
+                // Patch - Cache end
 
                 var each = stored.get(i);
                 if (each.isSimilar(item)) {
@@ -542,10 +552,14 @@ public class StorageUnitData {
                         DataStorage.setStoredAmount(id, each.getId(), each.getAmount());
                     }
 
+                    // Patch - Cache start
                     minusCacheMiss(accessor, i);
+                    // Patch - Cache end
                     return add;
                 } else {
+                    // Patch - Cache start
                     addCacheMiss(accessor, i);
+                    // Patch - Cache end
                 }
             }
         }
@@ -573,7 +587,9 @@ public class StorageUnitData {
                     DataStorage.setStoredAmount(id, each.getId(), each.getAmount());
                 }
 
+                // Patch - Cache start
                 addCountObservingAccessHistory(accessor, i);
+                // Patch - Cache end
                 return add;
             }
         }
