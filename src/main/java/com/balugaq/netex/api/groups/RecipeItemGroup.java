@@ -16,6 +16,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -32,7 +33,7 @@ public class RecipeItemGroup extends FlexItemGroup {
     private static final Map<String, RecipeItemGroup> ID_MAP = new HashMap<>();
     private static final int SMALL_LIMIT = 9;
     private static final int BIG_LIMIT = 36;
-    private final String id;
+    private final @NotNull String id;
     private final int page;
 
     public RecipeItemGroup(@Nonnull NamespacedKey key, @Nonnull SlimefunItem slimefunItem) {

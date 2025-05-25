@@ -20,12 +20,11 @@ public class SupportedPluginManager {
     private final @Getter boolean slimeHud;
     private final @Getter boolean roseStacker;
     private final @Getter boolean wildStacker;
-
+    private final @Getter boolean guguSlimefunLib;
     private @Getter RoseStackerAPI roseStackerAPI;
     // region First Tick Only Registrations
     private @Getter boolean mcMMO;
     private @Getter boolean wildChests;
-    private @Getter boolean guguSlimefunLib;
 
     // endregion
 

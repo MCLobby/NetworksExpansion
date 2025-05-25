@@ -215,9 +215,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
                 maxDistance,
                 false,
                 false,
-                (targetMenu) -> {
-                    LineOperationUtil.pushItem(blockMenu.getLocation(), root, targetMenu, templates, TransportMode.FIRST_STOP, 64);
-                });
+                (targetMenu) -> LineOperationUtil.pushItem(blockMenu.getLocation(), root, targetMenu, templates, TransportMode.FIRST_STOP, 64));
 
         root.removeRootPower(requiredPower);
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
@@ -250,9 +248,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
                 maxDistance,
                 false,
                 true,
-                (targetMenu) -> {
-                    LineOperationUtil.grabItem(blockMenu.getLocation(), root, targetMenu, TransportMode.FIRST_STOP, 64);
-                });
+                (targetMenu) -> LineOperationUtil.grabItem(blockMenu.getLocation(), root, targetMenu, TransportMode.FIRST_STOP, 64));
 
         root.removeRootPower(requiredPower);
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);

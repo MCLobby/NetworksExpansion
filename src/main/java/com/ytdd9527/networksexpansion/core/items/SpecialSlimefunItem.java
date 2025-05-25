@@ -32,6 +32,7 @@ import java.util.UUID;
  */
 public abstract class SpecialSlimefunItem extends SlimefunItem {
     protected static final Map<UUID, Set<Location>> subscribedLocations = new HashMap<>();
+
     public SpecialSlimefunItem(@Nonnull ItemGroup itemGroup, @Nonnull SlimefunItemStack item, @Nonnull RecipeType recipeType, @Nonnull ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
@@ -42,29 +43,6 @@ public abstract class SpecialSlimefunItem extends SlimefunItem {
 
     protected SpecialSlimefunItem(@Nonnull ItemGroup itemGroup, @Nonnull ItemStack item, @Nonnull String id, @Nonnull RecipeType recipeType, @Nonnull ItemStack[] recipe) {
         super(itemGroup, item, id, recipeType, recipe);
-    }
-
-    @Override
-    public void register(@Nonnull SlimefunAddon addon) {
-        super.register(addon);
-        if (this instanceof RecipeItem recipeItem) {
-            int delay = recipeItem.getRegisterRecipeDelay();
-            if (delay > 0) {
-                this.getAddon().getJavaPlugin().getServer().getScheduler().runTaskLater((Plugin) addon, () -> {
-                    (recipeItem).registerDefaultRecipes();
-                    MachineRecipeFactory.getInstance().initAdvancedRecipeMap(this.getId());
-                }, delay);
-            } else {
-                (recipeItem).registerDefaultRecipes();
-                MachineRecipeFactory.getInstance().initAdvancedRecipeMap(this.getId());
-            }
-        }
-    }
-
-    @Nonnull
-    public SpecialSlimefunItem registerThis() {
-        this.register(Networks.getInstance());
-        return this;
     }
 
     public static void subscribe(Player player, Location location) {
@@ -88,6 +66,29 @@ public abstract class SpecialSlimefunItem extends SlimefunItem {
             return subscribedLocations.get(key).contains(location);
         }
         return false;
+    }
+
+    @Override
+    public void register(@Nonnull SlimefunAddon addon) {
+        super.register(addon);
+        if (this instanceof RecipeItem recipeItem) {
+            int delay = recipeItem.getRegisterRecipeDelay();
+            if (delay > 0) {
+                this.getAddon().getJavaPlugin().getServer().getScheduler().runTaskLater((Plugin) addon, () -> {
+                    (recipeItem).registerDefaultRecipes();
+                    MachineRecipeFactory.getInstance().initAdvancedRecipeMap(this.getId());
+                }, delay);
+            } else {
+                (recipeItem).registerDefaultRecipes();
+                MachineRecipeFactory.getInstance().initAdvancedRecipeMap(this.getId());
+            }
+        }
+    }
+
+    @Nonnull
+    public SpecialSlimefunItem registerThis() {
+        this.register(Networks.getInstance());
+        return this;
     }
 
     public void sendFeedback(Location location, FeedbackType type) {

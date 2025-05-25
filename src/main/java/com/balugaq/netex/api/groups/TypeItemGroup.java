@@ -24,6 +24,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -52,11 +53,11 @@ public class TypeItemGroup extends FlexItemGroup {
     private static final Map<RecipeType, TypeItemGroup> RECIPE_TYPE_MAP = new LinkedHashMap<>();
 
     private final int page;
-    private final RecipeType recipeType;
-    private final List<SlimefunItem> slimefunItemList;
+    private final @NotNull RecipeType recipeType;
+    private final @NotNull List<SlimefunItem> slimefunItemList;
     private Map<Integer, TypeItemGroup> pageMap = new LinkedHashMap<>();
 
-    protected TypeItemGroup(NamespacedKey key, RecipeType recipeType) {
+    protected TypeItemGroup(@NotNull NamespacedKey key, @NotNull RecipeType recipeType) {
         super(key, ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(recipeType.toItem() == null ? Icon.ERROR_ICON : recipeType.toItem())));
         this.page = 1;
         this.recipeType = recipeType;
@@ -73,7 +74,7 @@ public class TypeItemGroup extends FlexItemGroup {
         RECIPE_TYPE_MAP.put(recipeType, this);
     }
 
-    protected TypeItemGroup(NamespacedKey key, RecipeType recipeType, int page) {
+    protected TypeItemGroup(@NotNull NamespacedKey key, @NotNull RecipeType recipeType, int page) {
         super(key, ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(recipeType.toItem() == null ? Icon.ERROR_ICON : recipeType.toItem())));
         this.page = page;
         this.recipeType = recipeType;
@@ -98,7 +99,7 @@ public class TypeItemGroup extends FlexItemGroup {
     }
 
     @Override
-    public void open(Player player, PlayerProfile playerProfile, SlimefunGuideMode slimefunGuideMode) {
+    public void open(@NotNull Player player, @NotNull PlayerProfile playerProfile, @NotNull SlimefunGuideMode slimefunGuideMode) {
         playerProfile.getGuideHistory().add(this, this.page);
         this.generateMenu(player, playerProfile, slimefunGuideMode).open(player);
     }

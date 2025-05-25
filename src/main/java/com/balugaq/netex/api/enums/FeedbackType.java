@@ -55,14 +55,15 @@ public enum FeedbackType implements Keyed {
     SUCCESS,
     WORKING;
 
-    private final NamespacedKey key;
-    private final String message;
+    private final @NotNull NamespacedKey key;
+    private final @NotNull String message;
+
     FeedbackType() {
         this.key = Keys.newKey(name().toLowerCase());
         this.message = Networks.getLocalizationService().getString("messages.feedback." + this.key.getKey());
     }
 
-    FeedbackType(String key) {
+    FeedbackType(@NotNull String key) {
         this.key = Keys.newKey(key);
         this.message = Networks.getLocalizationService().getString("messages.feedback." + this.key.getKey());
     }

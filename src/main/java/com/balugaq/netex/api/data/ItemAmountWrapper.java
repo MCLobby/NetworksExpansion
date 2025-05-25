@@ -3,6 +3,8 @@ package com.balugaq.netex.api.data;
 
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.utils.StackUtils;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -14,6 +16,8 @@ import java.util.List;
  * @author Final_ROOT
  * @since 2.0
  */
+@Setter
+@Getter
 public class ItemAmountWrapper extends ItemWrapper {
     private int amount;
 
@@ -70,14 +74,6 @@ public class ItemAmountWrapper extends ItemWrapper {
             }
         }
         list.add(new ItemAmountWrapper(item.getItemStack(), item.getItemMeta(), item.amount * mul));
-    }
-
-    public int getAmount() {
-        return this.amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
     }
 
     public void addAmount(int amount) {

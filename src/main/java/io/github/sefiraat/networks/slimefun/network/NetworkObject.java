@@ -1,7 +1,5 @@
 package io.github.sefiraat.networks.slimefun.network;
 
-import com.balugaq.netex.api.enums.FeedbackType;
-import com.balugaq.netex.utils.LocationUtil;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
@@ -20,11 +18,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import lombok.Getter;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
@@ -32,12 +28,8 @@ import org.bukkit.inventory.ItemStack;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 @Getter
 public abstract class NetworkObject extends SpecialSlimefunItem implements AdminDebuggable {

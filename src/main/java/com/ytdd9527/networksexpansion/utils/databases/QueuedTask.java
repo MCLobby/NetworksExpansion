@@ -5,7 +5,7 @@ public interface QueuedTask {
     /**
      * The code will be invoked
      *
-     * @return true if do callback, else false.
+     * @return true if it does callback, else false.
      */
     boolean execute();
 

@@ -16,6 +16,8 @@ import java.util.logging.Level;
 
 public interface AdminDebuggable {
     Queue<Pair<Location, String>> DEBUG_QUEUE = new ConcurrentLinkedQueue<>();
+    Set<Player> VIEWERS = new HashSet<>();
+    String DEBUG_KEY = "network_debugging";
 
     static void load() {
         Bukkit.getScheduler().runTaskTimerAsynchronously(Networks.getInstance(), () -> {
@@ -26,34 +28,6 @@ public interface AdminDebuggable {
                 }
             }
         }, 1L, 10L);
-    }
-
-    Set<Player> VIEWERS = new HashSet<>();
-    String DEBUG_KEY = "network_debugging";
-
-    default boolean isDebug(@Nonnull Location location) {
-        String debug = StorageCacheUtils.getData(location, DEBUG_KEY);
-        return Boolean.parseBoolean(debug);
-    }
-
-    default void setDebug(@Nonnull Location location, boolean value) {
-        StorageCacheUtils.setData(location, DEBUG_KEY, String.valueOf(value));
-    }
-
-    default void toggle(@Nonnull Location location, @Nonnull Player player) {
-        final boolean isDebug = isDebug(location);
-        final boolean nextState = !isDebug;
-        setDebug(location, nextState);
-        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.debug.toggle-debug"), nextState));
-        if (nextState) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.debug.enabled-debug"));
-        }
-    }
-
-    default void sendDebugMessage(@Nonnull Location location, @Nonnull String string) {
-        if (isDebug(location)) {
-            DEBUG_QUEUE.add(new Pair<>(location, string));
-        }
     }
 
     static boolean isDebug0(@Nonnull Location location) {
@@ -82,11 +56,44 @@ public interface AdminDebuggable {
         }
     }
 
-    default void addViewer(@Nonnull Player player) {
+    static void addViewer0(@Nonnull Player player) {
         VIEWERS.add(player);
     }
 
-    static void addViewer0(@Nonnull Player player) {
+    static void removeViewer0(@Nonnull Player player) {
+        VIEWERS.remove(player);
+    }
+
+    static boolean hasViewer0(@Nonnull Player player) {
+        return VIEWERS.contains(player);
+    }
+
+    default boolean isDebug(@Nonnull Location location) {
+        String debug = StorageCacheUtils.getData(location, DEBUG_KEY);
+        return Boolean.parseBoolean(debug);
+    }
+
+    default void setDebug(@Nonnull Location location, boolean value) {
+        StorageCacheUtils.setData(location, DEBUG_KEY, String.valueOf(value));
+    }
+
+    default void toggle(@Nonnull Location location, @Nonnull Player player) {
+        final boolean isDebug = isDebug(location);
+        final boolean nextState = !isDebug;
+        setDebug(location, nextState);
+        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.debug.toggle-debug"), nextState));
+        if (nextState) {
+            player.sendMessage(Networks.getLocalizationService().getString("messages.debug.enabled-debug"));
+        }
+    }
+
+    default void sendDebugMessage(@Nonnull Location location, @Nonnull String string) {
+        if (isDebug(location)) {
+            DEBUG_QUEUE.add(new Pair<>(location, string));
+        }
+    }
+
+    default void addViewer(@Nonnull Player player) {
         VIEWERS.add(player);
     }
 
@@ -94,15 +101,7 @@ public interface AdminDebuggable {
         VIEWERS.remove(player);
     }
 
-    static void removeViewer0(@Nonnull Player player) {
-        VIEWERS.remove(player);
-    }
-
     default boolean hasViewer(@Nonnull Player player) {
-        return VIEWERS.contains(player);
-    }
-
-    static boolean hasViewer0(@Nonnull Player player) {
         return VIEWERS.contains(player);
     }
 }

@@ -10,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import lombok.Getter;
+import lombok.Setter;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -60,13 +61,17 @@ public class LocalizationService {
     private final File langFolder;
     private final List<String> languages;
     private final Map<String, Language> langMap;
+    private final String colorTagRegex = "<[a-zA-Z0-9_]+>";
+    private final Pattern pattern = Pattern.compile(this.colorTagRegex);
+    @Setter
     @Getter
     private String idPrefix = "";
+    @Setter
     private String itemGroupKey = "categories";
+    @Setter
     private String itemsKey = "items";
+    @Setter
     private String recipesKey = "recipes";
-    private String colorTagRegex = "<[a-zA-Z0-9_]+>";
-    private Pattern pattern = Pattern.compile(this.colorTagRegex);
 
     public LocalizationService(Networks plugin) {
         this(plugin.getJavaPlugin());
@@ -289,34 +294,17 @@ public class LocalizationService {
         return new RecipeType(new NamespacedKey(this.getPlugin(), id), this.getItemBy(this.recipesKey, id, itemStack, extraLore));
     }
 
-    public void setIdPrefix(String idPrefix) {
-        this.idPrefix = idPrefix;
-    }
-
-    public void setItemGroupKey(String itemGroupKey) {
-        this.itemGroupKey = itemGroupKey;
-    }
-
-    public void setItemsKey(String itemsKey) {
-        this.itemsKey = itemsKey;
-    }
-
-    public void setRecipesKey(String recipesKey) {
-        this.recipesKey = recipesKey;
-    }
-
     private <T extends ItemStack> T appendLore(@Nonnull T itemStack, @Nullable String... extraLore) {
         Preconditions.checkArgument(itemStack != null, MSG_ITEMSTACK_NULL);
         if (extraLore != null && extraLore.length != 0) {
             ItemMeta meta = itemStack.getItemMeta();
-            List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList();
+            List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
             lore.addAll(color(Arrays.asList(extraLore)));
             meta.setLore(lore);
             itemStack.setItemMeta(meta);
-            return itemStack;
-        } else {
-            return itemStack;
         }
+
+        return itemStack;
     }
 
     @Nonnull

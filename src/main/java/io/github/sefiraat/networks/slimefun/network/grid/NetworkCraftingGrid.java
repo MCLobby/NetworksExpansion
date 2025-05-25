@@ -94,7 +94,6 @@ public class NetworkCraftingGrid extends AbstractGrid {
                 return new int[0];
             }
 
-            @SuppressWarnings("deprecation")
             @Override
             public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
                 CACHE_MAP.put(menu.getLocation(), new GridCache(0, 0, GridCache.SortOrder.ALPHABETICAL));

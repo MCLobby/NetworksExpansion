@@ -4,7 +4,6 @@ import com.jeff_media.morepersistentdatatypes.DataType;
 import io.github.sefiraat.networks.network.stackcaches.BlueprintInstance;
 import io.github.sefiraat.networks.network.stackcaches.CardInstance;
 import io.github.sefiraat.networks.utils.Keys;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;

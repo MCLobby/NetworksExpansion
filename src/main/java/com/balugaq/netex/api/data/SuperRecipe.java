@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.ToString;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 @Data
 @Getter
@@ -14,7 +15,7 @@ public class SuperRecipe {
     private final ItemStack[] input;
     private final ItemStack[] output;
     private final int consumeEnergy;
-    private final SuperRecipeHandler handler;
+    private final @Nullable SuperRecipeHandler handler;
     private final boolean isShaped;
 
     public SuperRecipe(boolean isShaped, ItemStack[] input, ItemStack[] output, int consumeEnergy) {
@@ -49,7 +50,7 @@ public class SuperRecipe {
         this.handler = null;
     }
 
-    public SuperRecipe(boolean isShaped, ItemStack[] input, ItemStack[] output, int consumeEnergy, SuperRecipeHandler handler) {
+    public SuperRecipe(boolean isShaped, ItemStack[] input, ItemStack[] output, int consumeEnergy, @Nullable SuperRecipeHandler handler) {
         this.isShaped = isShaped;
         this.input = input;
         this.output = output;
@@ -57,7 +58,7 @@ public class SuperRecipe {
         this.handler = handler;
     }
 
-    public SuperRecipe(boolean isShaped, ItemStack[] input, ItemStack[] output, SuperRecipeHandler handler) {
+    public SuperRecipe(boolean isShaped, ItemStack[] input, ItemStack[] output, @Nullable SuperRecipeHandler handler) {
         this.isShaped = isShaped;
         this.input = input;
         this.output = output;
@@ -65,7 +66,7 @@ public class SuperRecipe {
         this.handler = handler;
     }
 
-    public SuperRecipe(boolean isShaped, ItemStack[] input, ItemStack output, int consumeEnergy, SuperRecipeHandler handler) {
+    public SuperRecipe(boolean isShaped, ItemStack[] input, ItemStack output, int consumeEnergy, @Nullable SuperRecipeHandler handler) {
         this.isShaped = isShaped;
         this.input = input;
         this.output = new ItemStack[]{output};
@@ -73,7 +74,7 @@ public class SuperRecipe {
         this.handler = handler;
     }
 
-    public SuperRecipe(boolean isShaped, ItemStack[] input, ItemStack output, SuperRecipeHandler handler) {
+    public SuperRecipe(boolean isShaped, ItemStack[] input, ItemStack output, @Nullable SuperRecipeHandler handler) {
         this.isShaped = isShaped;
         this.input = input;
         this.output = new ItemStack[]{output};
@@ -81,7 +82,7 @@ public class SuperRecipe {
         this.handler = handler;
     }
 
-    public SuperRecipe(boolean isShaped, ItemStack input, ItemStack[] output, int consumeEnergy, SuperRecipeHandler handler) {
+    public SuperRecipe(boolean isShaped, ItemStack input, ItemStack[] output, int consumeEnergy, @Nullable SuperRecipeHandler handler) {
         this.isShaped = isShaped;
         this.input = new ItemStack[]{input};
         this.output = output;
@@ -89,7 +90,7 @@ public class SuperRecipe {
         this.handler = handler;
     }
 
-    public SuperRecipe(boolean isShaped, ItemStack input, ItemStack[] output, SuperRecipeHandler handler) {
+    public SuperRecipe(boolean isShaped, ItemStack input, ItemStack[] output, @Nullable SuperRecipeHandler handler) {
         this.isShaped = isShaped;
         this.input = new ItemStack[]{input};
         this.output = output;
@@ -97,7 +98,7 @@ public class SuperRecipe {
         this.handler = handler;
     }
 
-    public SuperRecipe(boolean isShaped, ItemStack input, ItemStack output, int consumeEnergy, SuperRecipeHandler handler) {
+    public SuperRecipe(boolean isShaped, ItemStack input, ItemStack output, int consumeEnergy, @Nullable SuperRecipeHandler handler) {
         this.isShaped = isShaped;
         this.input = new ItemStack[]{input};
         this.output = new ItemStack[]{output};
@@ -105,7 +106,7 @@ public class SuperRecipe {
         this.handler = handler;
     }
 
-    public SuperRecipe(boolean isShaped, ItemStack input, ItemStack output, SuperRecipeHandler handler) {
+    public SuperRecipe(boolean isShaped, ItemStack input, ItemStack output, @Nullable SuperRecipeHandler handler) {
         this.isShaped = isShaped;
         this.input = new ItemStack[]{input};
         this.output = new ItemStack[]{output};

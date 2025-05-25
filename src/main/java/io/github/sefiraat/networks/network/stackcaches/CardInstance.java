@@ -1,9 +1,10 @@
 package io.github.sefiraat.networks.network.stackcaches;
 
-import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.utils.Theme;
 import lombok.Getter;
+import lombok.Setter;
+import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -16,16 +17,13 @@ import java.util.List;
 public class CardInstance extends ItemStackCache {
 
     private final int limit;
+    @Setter
     private int amount;
 
     public CardInstance(@Nullable ItemStack itemStack, int amount, int limit) {
         super(itemStack);
         this.amount = amount;
         this.limit = limit;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
     }
 
     @Nullable

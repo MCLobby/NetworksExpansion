@@ -3,7 +3,6 @@ package io.github.sefiraat.networks.commands;
 import com.balugaq.netex.api.data.ItemContainer;
 import com.balugaq.netex.api.data.StorageUnitData;
 import com.balugaq.netex.api.enums.ErrorType;
-import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.unusable.AbstractBlueprint;
@@ -33,6 +32,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.blocks.ChunkPosition;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.Location;
@@ -56,7 +56,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -79,9 +78,7 @@ public class NetworksMain implements TabExecutor {
 
     public NetworksMain() {
         javaPlugin.getServer().getScheduler().runTaskTimerAsynchronously(javaPlugin, () -> {
-            Iterator<UUID> iterator = requesters.iterator();
-            while (iterator.hasNext()) {
-                UUID uuid = iterator.next();
+            for (UUID uuid : requesters) {
                 Player player = Bukkit.getPlayer(uuid);
                 if (player == null) {
                     continue;
@@ -940,7 +937,8 @@ public class NetworksMain implements TabExecutor {
             return true;
         }
         switch (args[0]) {
-            case "fillquantum", "fixblueprint", "addstorageitem", "reducestorageitem", "setquantum", "setcontainerid" -> {
+            case "fillquantum", "fixblueprint", "addstorageitem", "reducestorageitem", "setquantum",
+                 "setcontainerid" -> {
                 if (!(sender instanceof Player)) {
                     sender.sendMessage(getErrorMessage(ErrorType.MUST_BE_PLAYER));
                     return false;
@@ -1102,12 +1100,8 @@ public class NetworksMain implements TabExecutor {
                     }
 
                     switch (args[1].toLowerCase(Locale.ROOT)) {
-                        case "pos1" -> {
-                            worldeditPos1(player);
-                        }
-                        case "pos2" -> {
-                            worldeditPos2(player);
-                        }
+                        case "pos1" -> worldeditPos1(player);
+                        case "pos2" -> worldeditPos2(player);
 
                         case "clear" -> {
                             switch (args.length) {
@@ -1128,9 +1122,7 @@ public class NetworksMain implements TabExecutor {
                                         player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "callHandler"));
                                     }
                                 }
-                                default -> {
-                                    worldeditClear(player, true, true);
-                                }
+                                default -> worldeditClear(player, true, true);
                             }
                         }
 
@@ -1186,9 +1178,8 @@ public class NetworksMain implements TabExecutor {
                                     }
                                 }
 
-                                default -> {
-                                    player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "subCommand"));
-                                }
+                                default ->
+                                        player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "subCommand"));
                             }
                         }
 
@@ -1201,12 +1192,10 @@ public class NetworksMain implements TabExecutor {
                             switch (args[2].toLowerCase(Locale.ROOT)) {
                                 case "add", "set" -> {
                                     switch (args.length) {
-                                        case 3 -> {
-                                            player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "key"));
-                                        }
-                                        case 4 -> {
-                                            player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "value"));
-                                        }
+                                        case 3 ->
+                                                player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "key"));
+                                        case 4 ->
+                                                player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "value"));
                                         case 5 -> {
                                             String key = args[3];
                                             String value = args[4];
@@ -1224,9 +1213,8 @@ public class NetworksMain implements TabExecutor {
                                     worldeditBlockInfoRemove(player, value);
                                 }
 
-                                default -> {
-                                    player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "subCommand"));
-                                }
+                                default ->
+                                        player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "subCommand"));
                             }
                         }
                         case "clearpos" -> {
@@ -1290,9 +1278,7 @@ public class NetworksMain implements TabExecutor {
                     return true;
                 }
 
-                default -> {
-                    help(player, null);
-                }
+                default -> help(player, null);
             }
         }
         // We always return true, even if the command was not executed, so that the help message is not shown.

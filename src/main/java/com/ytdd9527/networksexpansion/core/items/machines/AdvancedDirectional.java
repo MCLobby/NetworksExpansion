@@ -74,10 +74,10 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     private static final Map<Location, BlockFace> SELECTED_DIRECTION_MAP = new HashMap<>();
     private static final Map<Location, Integer> NETWORK_LIMIT_QUANTITY_MAP = new HashMap<>();
     private static final Map<Location, TransportMode> NETWORK_TRANSPORT_MODE_MAP = new HashMap<>();
+    final NetworkDirectional instance = this;
     private final ItemStack showIconClone;
     private final ItemStack transportModeIconClone;
     public TransportMode transportMode = TransportMode.FIRST_STOP;
-    NetworkDirectional instance = this;
 
     protected AdvancedDirectional(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, NodeType type) {
         super(itemGroup, item, recipeType, recipe, type);
@@ -217,6 +217,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
 
     @OverridingMethodsMustInvokeSuper
     protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
+        super.onTick(blockMenu, block);
         addToRegistry(block);
         updateGui(blockMenu);
     }
@@ -394,12 +395,12 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
 
     @Nullable
     protected int[] getOtherBackgroundSlots() {
-        return null;
+        return super.getOtherBackgroundSlots();
     }
 
     @Nullable
     protected ItemStack getOtherBackgroundStack() {
-        return null;
+        return super.getOtherBackgroundStack();
     }
 
     public int getNorthSlot() {
@@ -431,11 +432,11 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     }
 
     public int[] getInputSlots() {
-        return new int[0];
+        return super.getInputSlots();
     }
 
     public int[] getOutputSlots() {
-        return new int[0];
+        return super.getOutputSlots();
     }
 
     protected Particle.DustOptions getDustOptions() {

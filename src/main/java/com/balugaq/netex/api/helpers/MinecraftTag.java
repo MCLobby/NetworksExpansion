@@ -2,6 +2,7 @@ package com.balugaq.netex.api.helpers;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public enum MinecraftTag {
     HELMET {
@@ -85,12 +86,12 @@ public enum MinecraftTag {
         }
     };
 
-    private MinecraftTag() {
+    MinecraftTag() {
     }
 
     public abstract boolean isTagged(Material var1);
 
-    public boolean isTagged(ItemStack itemStack) {
+    public boolean isTagged(@NotNull ItemStack itemStack) {
         return this.isTagged(itemStack.getType());
     }
 }

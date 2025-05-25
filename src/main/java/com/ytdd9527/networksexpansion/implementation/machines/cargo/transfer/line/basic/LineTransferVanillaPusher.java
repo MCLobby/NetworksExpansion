@@ -38,6 +38,7 @@ import org.bukkit.inventory.FurnaceInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -191,7 +192,6 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
                 } else if (inventory instanceof BrewerInventory brewer) {
                     handleBrewingStand(root, template, brewer, blockMenu);
                 } else if (wildChests && isChest) {
-                    continue;
                 } else if (InvUtils.fits(holder.getInventory(), template)) {
                     for (ItemStack targetItem : inventory.getContents()) {
                         if (targetItem == null || targetItem.getType() == Material.AIR) {
@@ -335,7 +335,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
         return new Particle.DustOptions(Color.MAROON, 1);
     }
 
-    public List<ItemStack> getDisplayRecipes() {
+    public @NotNull List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
                 Networks.getLocalizationService().getString("icons.mechanism.transfers.data_title"),

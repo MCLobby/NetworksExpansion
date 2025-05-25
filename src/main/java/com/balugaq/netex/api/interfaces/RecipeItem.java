@@ -142,7 +142,7 @@ public interface RecipeItem extends RecipeDisplayItem {
     /**
      * Register a {@link MachineRecipe} that will only be used to show info to player.
      *
-     * @param item
+     * @param item The item to consume
      */
     default void registerDescriptiveRecipe(@Nonnull ItemStack item) {
         this.registerRecipe(new MachineRecipe(0, new ItemStack[]{item}, new ItemStack[]{ItemStackUtil.AIR}));

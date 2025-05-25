@@ -3,6 +3,7 @@ package com.balugaq.netex.api.data;
 
 import com.ytdd9527.networksexpansion.utils.itemstacks.CompareUtil;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
+import lombok.Getter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -111,8 +112,9 @@ public class RandomMachineRecipe extends MachineRecipe {
      */
     public static class RandomOutput {
         @Nonnull
-        private ItemStack[] outputItem;
-        private int weight;
+        private final ItemStack[] outputItem;
+        @Getter
+        private final int weight;
 
         public RandomOutput(@Nonnull List<ItemStack> outputItem, int weight) {
             this.outputItem = outputItem.toArray(new ItemStack[0]);
@@ -139,8 +141,5 @@ public class RandomMachineRecipe extends MachineRecipe {
             return outputItem;
         }
 
-        public int getWeight() {
-            return weight;
-        }
     }
 }

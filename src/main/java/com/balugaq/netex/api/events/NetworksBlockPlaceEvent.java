@@ -11,8 +11,8 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 public class NetworksBlockPlaceEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private final Block block;
-    private final Player player;
+    private final @NotNull Block block;
+    private final @NotNull Player player;
     private boolean cancelled = false;
 
     public NetworksBlockPlaceEvent(@NotNull Block theBlock, @NotNull Player player) {
@@ -20,7 +20,7 @@ public class NetworksBlockPlaceEvent extends Event implements Cancellable {
         this.player = player;
     }
 
-    public static HandlerList getHandlerList() {
+    public static @NotNull HandlerList getHandlerList() {
         return handlers;
     }
 

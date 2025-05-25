@@ -12,7 +12,6 @@ import org.bukkit.inventory.ItemStack;
 
 /**
  * @author ytdd9527
- * @noinspection SpellCheckingInspection
  * @since 2.0
  */
 public class ExpansionItemStacks {

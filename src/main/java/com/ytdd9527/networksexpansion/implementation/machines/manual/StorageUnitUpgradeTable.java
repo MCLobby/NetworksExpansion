@@ -36,6 +36,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -216,7 +217,7 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements Admi
     private BlockBreakHandler getBlockBreakHandler() {
         return new BlockBreakHandler(false, false) {
             @Override
-            public void onPlayerBreak(BlockBreakEvent event, ItemStack itemStack, List<ItemStack> drops) {
+            public void onPlayerBreak(@NotNull BlockBreakEvent event, @NotNull ItemStack itemStack, @NotNull List<ItemStack> drops) {
                 Location l = event.getBlock().getLocation();
                 BlockMenu menu = StorageCacheUtils.getMenu(l);
                 menu.dropItems(menu.getLocation(), inputSlots);

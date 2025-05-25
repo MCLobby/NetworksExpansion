@@ -4,6 +4,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerHead;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerSkin;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -56,17 +57,17 @@ public enum Skins {
     NE_MODEL_CAPACITOR_5("ecb316f7a227a8c59d58ae0dd6768fe4fa546d55b9cfdd56cfe40b6586d81c24");
 
     @Getter
-    protected static final Skins[] cachedValues = values();
+    public static final Skins[] cachedValues = values();
 
     @Getter
-    private final String hash;
+    private final @NotNull String hash;
 
     @ParametersAreNonnullByDefault
     Skins(String hash) {
         this.hash = hash;
     }
 
-    public ItemStack getPlayerHead() {
+    public @NotNull ItemStack getPlayerHead() {
         return PlayerHead.getItemStack(PlayerSkin.fromHashCode(hash));
     }
 

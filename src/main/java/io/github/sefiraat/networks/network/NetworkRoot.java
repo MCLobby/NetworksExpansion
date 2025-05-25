@@ -18,7 +18,6 @@ import io.github.sefiraat.networks.network.barrel.NetworkStorage;
 import io.github.sefiraat.networks.network.stackcaches.BarrelIdentity;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
-import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
 import io.github.sefiraat.networks.slimefun.network.NetworkCell;
 import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
 import io.github.sefiraat.networks.slimefun.network.NetworkGreedyBlock;
@@ -28,6 +27,7 @@ import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.ncbpfluffybear.fluffymachines.items.Barrel;
 import lombok.Getter;
+import lombok.Setter;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Bukkit;
@@ -52,8 +52,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class NetworkRoot extends NetworkNode {
     public static final int persistentThreshold = Networks.getConfigManager().getPersistentThreshold();
     public static final int cacheMissThreshold = Networks.getConfigManager().getCacheMissThreshold();
-    public static final Map<Location, Map<Location, Integer /* Access times */>> observingAccessHistory = new HashMap<>();
-    public static final Map<Location, Map<Location, Integer /* Cache miss times */>> persistentAccessHistory = new HashMap<>();
+    public static final Map<Location, Map<Location, Integer /* Access times */>> observingAccessHistory = new ConcurrentHashMap<>();
+    public static final Map<Location, Map<Location, Integer /* Cache miss times */>> persistentAccessHistory = new ConcurrentHashMap<>();
     @Getter
     private final long CREATED_TIME = System.currentTimeMillis();
     @Getter
@@ -123,40 +123,33 @@ public class NetworkRoot extends NetworkNode {
     private final Set<Location> inputOnlyMonitors = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> outputOnlyMonitors = ConcurrentHashMap.newKeySet();
+    @Deprecated
+    private final boolean progressing = false;
+    @Getter
+    private final int maxNodes;
     @Getter
     private Location controller = null;
-    @Deprecated
-    private boolean progressing = false;
-    @Getter
-    private int maxNodes;
     @Getter
     private boolean isOverburdened = false;
     @Deprecated
-    @Getter
     private Set<BarrelIdentity> barrels = null;
-    @Getter
     private Set<BarrelIdentity> inputAbleBarrels = null;
-    @Getter
     private Set<BarrelIdentity> outputAbleBarrels = null;
     @Deprecated
-    @Getter
     private Map<StorageUnitData, Location> cargoStorageUnitDatas = null;
-    @Getter
     private Map<StorageUnitData, Location> inputAbleCargoStorageUnitDatas = null;
-    @Getter
     private Map<StorageUnitData, Location> outputAbleCargoStorageUnitDatas = null;
-    @Getter
     private Map<Location, BarrelIdentity> mapInputAbleBarrels = null;
-    @Getter
     private Map<Location, BarrelIdentity> mapOutputAbleBarrels = null;
-    @Getter
     private Map<Location, StorageUnitData> mapInputAbleCargoStorageUnits = null;
-    @Getter
     private Map<Location, StorageUnitData> mapOutputAbleCargoStorageUnits = null;
+    @Setter
     @Getter
     private long rootPower = 0;
+    @Setter
     @Getter
     private boolean displayParticles = false;
+
     public NetworkRoot(@Nonnull Location location, @Nonnull NodeType type, int maxNodes) {
         super(location, type);
         this.maxNodes = maxNodes;
@@ -166,13 +159,13 @@ public class NetworkRoot extends NetworkNode {
     }
 
     public static void addPersistentAccessHistory(Location location, Location accessLocation) {
-        Map<Location, Integer> locations = persistentAccessHistory.getOrDefault(location, new HashMap<>());
+        Map<Location, Integer> locations = persistentAccessHistory.getOrDefault(location, new ConcurrentHashMap<>());
         locations.put(accessLocation, 0);
         persistentAccessHistory.put(location, locations);
     }
 
     public static void addCacheMiss(Location location, Location accessLocation) {
-        Map<Location, Integer> locations = persistentAccessHistory.getOrDefault(location, new HashMap<>());
+        Map<Location, Integer> locations = persistentAccessHistory.getOrDefault(location, new ConcurrentHashMap<>());
         int value = locations.getOrDefault(accessLocation, 0) + 1;
         if (value > cacheMissThreshold) {
             removePersistentAccessHistory(location, accessLocation);
@@ -183,13 +176,13 @@ public class NetworkRoot extends NetworkNode {
     }
 
     public static void minusCacheMiss(Location location, Location accessLocation) {
-        Map<Location, Integer> locations = persistentAccessHistory.getOrDefault(location, new HashMap<>());
+        Map<Location, Integer> locations = persistentAccessHistory.getOrDefault(location, new ConcurrentHashMap<>());
         int value = Math.max(locations.getOrDefault(accessLocation, 0) - 1, 0);
         locations.put(accessLocation, value);
     }
 
     public static Map<Location, Integer> getPersistentAccessHistory(Location location) {
-        return persistentAccessHistory.getOrDefault(location, new HashMap<>());
+        return persistentAccessHistory.getOrDefault(location, new ConcurrentHashMap<>());
     }
 
     public static void removePersistentAccessHistory(Location location) {
@@ -197,13 +190,13 @@ public class NetworkRoot extends NetworkNode {
     }
 
     public static void removePersistentAccessHistory(Location location, Location accessLocation) {
-        Map<Location, Integer> locations = persistentAccessHistory.getOrDefault(location, new HashMap<>());
+        Map<Location, Integer> locations = persistentAccessHistory.getOrDefault(location, new ConcurrentHashMap<>());
         locations.remove(accessLocation);
         persistentAccessHistory.put(location, locations);
     }
 
     public static void addCountObservingAccessHistory(Location location, Location accessLocation) {
-        Map<Location, Integer> locations = observingAccessHistory.getOrDefault(location, new HashMap<>());
+        Map<Location, Integer> locations = observingAccessHistory.getOrDefault(location, new ConcurrentHashMap<>());
         Integer count = locations.getOrDefault(accessLocation, 0);
         if (count >= persistentThreshold) {
             removeCountObservingAccessHistory(location, accessLocation);
@@ -215,7 +208,7 @@ public class NetworkRoot extends NetworkNode {
     }
 
     public static Map<Location, Integer> getCountObservingAccessHistory(Location location) {
-        return observingAccessHistory.getOrDefault(location, new HashMap<>());
+        return observingAccessHistory.getOrDefault(location, new ConcurrentHashMap<>());
     }
 
     public static void removeCountObservingAccessHistory(Location location) {
@@ -223,7 +216,7 @@ public class NetworkRoot extends NetworkNode {
     }
 
     public static void removeCountObservingAccessHistory(Location location, Location accessLocation) {
-        Map<Location, Integer> locations = observingAccessHistory.getOrDefault(location, new HashMap<>());
+        Map<Location, Integer> locations = observingAccessHistory.getOrDefault(location, new ConcurrentHashMap<>());
         locations.remove(accessLocation);
         observingAccessHistory.put(location, locations);
     }
@@ -302,10 +295,6 @@ public class NetworkRoot extends NetworkNode {
 
     public int getNodeCount() {
         return this.nodeLocations.size();
-    }
-
-    public boolean isOverburdened() {
-        return isOverburdened;
     }
 
     public void setOverburdened(boolean overburdened) {
@@ -640,7 +629,6 @@ public class NetworkRoot extends NetworkNode {
                 if (infinityBarrel != null) {
                     barrelSet.add(infinityBarrel);
                 }
-                continue;
             } else if (Networks.getSupportedPluginManager().isFluffyMachines() && slimefunItem instanceof Barrel barrel) {
                 final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
                 if (menu == null) {
@@ -650,7 +638,6 @@ public class NetworkRoot extends NetworkNode {
                 if (fluffyBarrel != null) {
                     barrelSet.add(fluffyBarrel);
                 }
-                continue;
             } else if (slimefunItem instanceof NetworkQuantumStorage) {
                 final BlockMenu menu = StorageCacheUtils.getMenu(testLocation);
                 if (menu == null) {
@@ -1318,6 +1305,7 @@ public class NetworkRoot extends NetworkNode {
         return totalAmounts;
     }
 
+    @Deprecated
     public void addItemStack(@Nonnull ItemStack incoming) {
         for (BlockMenu blockMenu : getAdvancedGreedyBlockMenus()) {
             final ItemStack template = blockMenu.getItemInSlot(AdvancedGreedyBlock.TEMPLATE_SLOT);
@@ -1381,10 +1369,6 @@ public class NetworkRoot extends NetworkNode {
         return 0;
     }
 
-    public void setRootPower(long power) {
-        this.rootPower = power;
-    }
-
     public void addRootPower(long power) {
         this.rootPower += power;
     }
@@ -1407,10 +1391,6 @@ public class NetworkRoot extends NetworkNode {
                 return;
             }
         }
-    }
-
-    public void setDisplayParticles(boolean displayParticles) {
-        this.displayParticles = displayParticles;
     }
 
     @Deprecated
@@ -1782,7 +1762,7 @@ public class NetworkRoot extends NetworkNode {
                     StorageUnitData data = accessOutputAbleCargoStorageUnitData(entry.getKey());
                     if (data != null) {
                         //<editor-fold desc="do drawer">
-                        ItemStack take = data.requestItem(request);
+                        ItemStack take = data.requestItem0(accessor, request);
                         if (take != null) {
                             // Patch - Cache start
                             minusCacheMiss(accessor, entry.getKey());
@@ -1855,7 +1835,7 @@ public class NetworkRoot extends NetworkNode {
         // Units
         for (StorageUnitData cache : getOutputAbleCargoStorageUnitDatas().keySet()) {
             //<editor-fold desc="do drawer">
-            ItemStack take = cache.requestItem(request);
+            ItemStack take = cache.requestItem0(accessor, request);
             if (take != null) {
                 // Patch - Cache start
                 addCountObservingAccessHistory(accessor, cache.getLastLocation());
@@ -2042,7 +2022,7 @@ public class NetworkRoot extends NetworkNode {
                         // Patch - Cache start
                         int before = incoming.getAmount();
                         // Patch - Cache end
-                        data.depositItemStack(incoming, true);
+                        data.depositItemStack0(accessor, incoming, true);
 
                         // Patch - Cache start
                         if (incoming.getAmount() == before) {
@@ -2115,7 +2095,7 @@ public class NetworkRoot extends NetworkNode {
             int before = incoming.getAmount();
             // Patch - Cache end
 
-            cache.depositItemStack(incoming, true);
+            cache.depositItemStack0(accessor, incoming, true);
 
             // Patch - Cache start
             if (incoming.getAmount() != before) {

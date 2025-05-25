@@ -7,7 +7,6 @@ import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.slimefun.network.NetworkWirelessReceiver;
 import io.github.sefiraat.networks.slimefun.network.NetworkWirelessTransmitter;
 import io.github.sefiraat.networks.utils.Keys;
-import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -18,7 +17,6 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.Persis
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -36,30 +34,27 @@ public class NetworkWirelessConfigurator extends SpecialSlimefunItem {
     ) {
         super(itemGroup, item, recipeType, recipe);
         addItemHandler(
-                new ItemUseHandler() {
-                    @Override
-                    public void onRightClick(PlayerRightClickEvent e) {
-                        final Player player = e.getPlayer();
-                        final Optional<Block> optional = e.getClickedBlock();
-                        if (optional.isPresent()) {
-                            final Block block = optional.get();
-                            final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(block.getLocation());
-                            if (Slimefun.getProtectionManager().hasPermission(player, block, Interaction.INTERACT_BLOCK)) {
-                                final ItemStack heldItem = player.getInventory().getItemInMainHand();
-                                final BlockMenu blockMenu = StorageCacheUtils.getMenu(block.getLocation());
-                                if (slimefunItem instanceof NetworkWirelessTransmitter transmitter && player.isSneaking()) {
-                                    setTransmitter(transmitter, heldItem, blockMenu, player);
-                                } else if (slimefunItem instanceof NetworkWirelessReceiver && !player.isSneaking()) {
-                                    setReceiver(heldItem, blockMenu, player);
-                                } else {
-                                    player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.wireless_configurator.not_network_wireless_block"));
-                                }
+                (ItemUseHandler) e -> {
+                    final Player player = e.getPlayer();
+                    final Optional<Block> optional = e.getClickedBlock();
+                    if (optional.isPresent()) {
+                        final Block block = optional.get();
+                        final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(block.getLocation());
+                        if (Slimefun.getProtectionManager().hasPermission(player, block, Interaction.INTERACT_BLOCK)) {
+                            final ItemStack heldItem = player.getInventory().getItemInMainHand();
+                            final BlockMenu blockMenu = StorageCacheUtils.getMenu(block.getLocation());
+                            if (slimefunItem instanceof NetworkWirelessTransmitter transmitter && player.isSneaking()) {
+                                setTransmitter(transmitter, heldItem, blockMenu, player);
+                            } else if (slimefunItem instanceof NetworkWirelessReceiver && !player.isSneaking()) {
+                                setReceiver(heldItem, blockMenu, player);
                             } else {
-                                player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.comprehensive.no-permission"));
+                                player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.wireless_configurator.not_network_wireless_block"));
                             }
+                        } else {
+                            player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.comprehensive.no-permission"));
                         }
-                        e.cancel();
                     }
+                    e.cancel();
                 }
         );
     }

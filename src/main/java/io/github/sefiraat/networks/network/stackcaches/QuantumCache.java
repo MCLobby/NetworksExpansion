@@ -1,8 +1,9 @@
 package io.github.sefiraat.networks.network.stackcaches;
 
-import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import io.github.sefiraat.networks.Networks;
 import lombok.Getter;
+import lombok.Setter;
+import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -15,10 +16,12 @@ public class QuantumCache extends ItemStackCache {
     @Nullable
     private final ItemMeta storedItemMeta;
     private final boolean supportsCustomMaxAmount;
+    @Setter
     @Getter
     private int limit;
     @Getter
     private long amount;
+    @Setter
     @Getter
     private boolean voidExcess;
 
@@ -60,14 +63,6 @@ public class QuantumCache extends ItemStackCache {
 
     public void reduceAmount(int amount) {
         this.amount = this.amount - amount;
-    }
-
-    public void setLimit(int limit) {
-        this.limit = limit;
-    }
-
-    public void setVoidExcess(boolean voidExcess) {
-        this.voidExcess = voidExcess;
     }
 
 

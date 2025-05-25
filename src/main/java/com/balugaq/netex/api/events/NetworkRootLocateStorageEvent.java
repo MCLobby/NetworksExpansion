@@ -23,7 +23,7 @@ public class NetworkRootLocateStorageEvent extends Event {
         this.outputAble = outputAble;
     }
 
-    public static HandlerList getHandlerList() {
+    public static @NotNull HandlerList getHandlerList() {
         return handlers;
     }
 

@@ -161,9 +161,7 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
                 maxDistance,
                 false,
                 false,
-                (targetMenu) -> {
-                    LineOperationUtil.pushItem(blockMenu.getLocation(), root, targetMenu, templates, TransportMode.FIRST_STOP, 64);
-                });
+                (targetMenu) -> LineOperationUtil.pushItem(blockMenu.getLocation(), root, targetMenu, templates, TransportMode.FIRST_STOP, 64));
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
 

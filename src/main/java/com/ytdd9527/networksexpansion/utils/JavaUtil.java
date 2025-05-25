@@ -106,8 +106,8 @@ public class JavaUtil {
      * Generate random int[] contains 0 1 2 ...... length-1
      * for example, while the input length = 3, the output may be [0, 1, 2] or [0, 2, 1] or [1, 0, 2] or [1, 2, 0] or [2, 0, 1] or [2, 1, 0]
      *
-     * @param length
-     * @return
+     * @param length the length of the array
+     * @return int[]
      */
     public static int[] generateRandomInts(int length) {
         int[] result = new int[length];
@@ -135,10 +135,10 @@ public class JavaUtil {
      * output:
      * list: [c, b, a, e, f, d]
      *
-     * @param list
-     * @param ints
-     * @param <T>
-     * @return
+     * @param list the list to shuffle
+     * @param ints the int[]
+     * @param <T>  the type of the list
+     * @return the shuffled list
      */
     public static <T> List<T> shuffleByInts(List<T> list, int[] ints) {
         List<T> result = new ArrayList<>(list.size());
@@ -155,6 +155,7 @@ public class JavaUtil {
         return result;
     }
 
+    @SafeVarargs
     public static <T> boolean matchOnce(T source, T... targets) {
         for (T object : targets) {
             if (object.equals(source)) {
@@ -173,6 +174,7 @@ public class JavaUtil {
     /**
      * @return In most case, it will not return null. (￣▽￣)"
      */
+    @SafeVarargs
     public static <T> T getFirstNotNull(T... objects) {
         for (T object : objects) {
             if (object != null) {

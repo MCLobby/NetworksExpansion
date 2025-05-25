@@ -21,6 +21,7 @@ import io.github.sefiraat.networks.utils.NetworkUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
+import lombok.Getter;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.AdvancedPie;
@@ -45,8 +46,11 @@ import java.util.logging.Level;
 public class Networks extends JavaPlugin implements SlimefunAddon {
     private static final String DEFAULT_LANGUAGE = "zh-CN";
     private static Networks instance;
+    @Getter
     private static DataSource dataSource;
+    @Getter
     private static QueryQueue queryQueue;
+    @Getter
     private static BukkitRunnable autoSaveThread;
     private static MinecraftVersion minecraftVersion = MinecraftVersion.UNKNOWN;
     private final String username;
@@ -67,18 +71,6 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
 
     public static ConfigManager getConfigManager() {
         return Networks.getInstance().configManager;
-    }
-
-    public static QueryQueue getQueryQueue() {
-        return queryQueue;
-    }
-
-    public static DataSource getDataSource() {
-        return dataSource;
-    }
-
-    public static BukkitRunnable getAutoSaveThread() {
-        return autoSaveThread;
     }
 
     public static Networks getInstance() {

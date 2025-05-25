@@ -168,9 +168,7 @@ public class AdvancedTransferPusher extends AdvancedDirectional implements Recip
             }
         }
 
-        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, 1, false, false, (targetMenu) -> {
-            LineOperationUtil.pushItem(blockMenu.getLocation(), root, targetMenu, templates, currentTransportMode, limitQuantity);
-        });
+        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, 1, false, false, (targetMenu) -> LineOperationUtil.pushItem(blockMenu.getLocation(), root, targetMenu, templates, currentTransportMode, limitQuantity));
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
 

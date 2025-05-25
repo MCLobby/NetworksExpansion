@@ -25,6 +25,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import lombok.Setter;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -36,7 +37,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -57,6 +58,7 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
     };
     private static final int[] TEST_ITEM_BACKDROP = {8, 17, 26, 35, 44, 53};
     private final ItemSetting<Integer> tickRate;
+    @Setter
     private boolean useSpecialModel = false;
 
     public AdvancedPurger(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -96,7 +98,7 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
                 },
                 new BlockBreakHandler(true, true) {
                     @Override
-                    public void onPlayerBreak(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
+                    public void onPlayerBreak(@NotNull BlockBreakEvent e, @NotNull ItemStack item, @NotNull List<ItemStack> drops) {
                         BlockMenu blockMenu = StorageCacheUtils.getMenu(e.getBlock().getLocation());
                         blockMenu.dropItems(blockMenu.getLocation(), TEST_ITEM_SLOT);
                     }
@@ -173,16 +175,12 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
 
         addItemHandler(new BlockBreakHandler(false, false) {
             @Override
-            public void onPlayerBreak(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
+            public void onPlayerBreak(@NotNull BlockBreakEvent e, @NotNull ItemStack item, @NotNull List<ItemStack> drops) {
                 Location location = e.getBlock().getLocation();
                 removeDisplay(location);
                 e.getBlock().setType(Material.AIR);
             }
         });
-    }
-
-    public void setUseSpecialModel(boolean useSpecialModel) {
-        this.useSpecialModel = useSpecialModel;
     }
 
     private void setupDisplay(@Nonnull Location location) {

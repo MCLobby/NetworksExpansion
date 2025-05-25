@@ -63,13 +63,12 @@ public class DueMachineConfigurator extends SpecialSlimefunItem {
         final ItemMeta itemMeta = itemStack.getItemMeta();
         final ItemStack[] templateStacks = DataTypeMethods.getCustom(itemMeta, Keys.ITEM, DataType.ITEM_STACK_ARRAY);
 
-        if (dueMachine.getItemSlots().length > 0) {
-            for (int slot : dueMachine.getItemSlots()) {
-                final ItemStack stackToDrop = blockMenu.getItemInSlot(slot);
-                if (stackToDrop != null && stackToDrop.getType() != Material.AIR) {
-                    blockMenu.getLocation().getWorld().dropItem(blockMenu.getLocation(), stackToDrop.clone());
-                    stackToDrop.setAmount(0);
-                }
+        dueMachine.getItemSlots();
+        for (int slot : dueMachine.getItemSlots()) {
+            final ItemStack stackToDrop = blockMenu.getItemInSlot(slot);
+            if (stackToDrop != null && stackToDrop.getType() != Material.AIR) {
+                blockMenu.getLocation().getWorld().dropItem(blockMenu.getLocation(), stackToDrop.clone());
+                stackToDrop.setAmount(0);
             }
         }
 
