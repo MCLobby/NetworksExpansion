@@ -104,7 +104,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
         if (!this.withholding) {
             final ItemStack stored = blockMenu.getItemInSlot(OUTPUT_SLOT);
             if (stored != null && stored.getType() != Material.AIR) {
-                root.addItemStack(stored);
+                root.addItemStack0(blockMenu.getLocation(), stored);
             }
         }
 
@@ -198,7 +198,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
         for (int i = 0; i < 9; i++) {
             final ItemStack requested = instance.getRecipeItems()[i];
             if (requested != null) {
-                final ItemStack fetched = root.getItemStack(new ItemRequest(requested, requested.getAmount()));
+                final ItemStack fetched = root.getItemStack0(blockMenu.getLocation(), new ItemRequest(requested, requested.getAmount()));
                 inputs[i] = fetched;
             } else {
                 inputs[i] = null;
@@ -220,7 +220,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
             // If no slimefun recipe found, try a vanilla one
             instance.generateVanillaRecipe(blockMenu.getLocation().getWorld());
             if (instance.getRecipe() == null) {
-                returnItems(root, inputs);
+                returnItems(root, inputs, blockMenu);
                 sendDebugMessage(blockMenu.getLocation(), "No vanilla recipe found");
                 sendFeedback(blockMenu.getLocation(), FeedbackType.NO_VANILLA_RECIPE_FOUND);
                 return false;
@@ -235,7 +235,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
             sendDebugMessage(blockMenu.getLocation(), "No valid recipe found");
             sendDebugMessage(blockMenu.getLocation(), "inputs: " + Arrays.toString(inputs));
             sendFeedback(blockMenu.getLocation(), FeedbackType.NO_VALID_RECIPE_FOUND);
-            returnItems(root, inputs);
+            returnItems(root, inputs, blockMenu);
             return false;
         }
 
@@ -249,10 +249,10 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
         return true;
     }
 
-    private void returnItems(@Nonnull NetworkRoot root, @Nonnull ItemStack[] inputs) {
+    private void returnItems(@Nonnull NetworkRoot root, @Nonnull ItemStack[] inputs, @Nonnull BlockMenu blockMenu) {
         for (ItemStack input : inputs) {
             if (input != null) {
-                root.addItemStack(input);
+                root.addItemStack0(blockMenu.getLocation(), input);
             }
         }
     }

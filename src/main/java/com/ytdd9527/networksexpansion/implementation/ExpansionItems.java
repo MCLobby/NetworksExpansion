@@ -1559,4 +1559,11 @@ public class ExpansionItems {
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.STATUS_VIEWER
     );
+
+    public static final UnusableSlimefunItem DRAWER_TIPS = new UnusableSlimefunItem(
+            ExpansionItemsMenus.MENU_ITEMS,
+            ExpansionItemStacks.DRAWER_TIPS,
+            RecipeType.NULL,
+            ExpansionRecipes.NULL
+    );
 }

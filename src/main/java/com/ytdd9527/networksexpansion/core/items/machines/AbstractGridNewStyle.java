@@ -405,7 +405,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
 
         final ItemStack cursor = player.getItemOnCursor();
         if (cursor.getType() != Material.AIR && !StackUtils.itemsMatch(clone, StackUtils.getAsQuantity(player.getItemOnCursor(), 1))) {
-            definition.getNode().getRoot().addItemStack(player.getItemOnCursor());
+            definition.getNode().getRoot().addItemStack0(blockMenu.getLocation(), player.getItemOnCursor());
             return;
         }
 
@@ -418,9 +418,9 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         final GridItemRequest request = new GridItemRequest(clone, amount, player);
 
         if (action.isShiftClicked()) {
-            addToInventory(player, definition, request, action);
+            addToInventory(player, definition, request, action, blockMenu);
         } else {
-            addToCursor(player, definition, request, action);
+            addToCursor(player, definition, request, action, blockMenu);
         }
         GridCache gridCache = getCacheMap().get(blockMenu.getLocation());
         if (gridCache.getDisplayMode() == DisplayMode.DISPLAY) {
@@ -430,8 +430,8 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
     }
 
     @ParametersAreNonnullByDefault
-    private void addToInventory(Player player, NodeDefinition definition, GridItemRequest request, ClickAction action) {
-        ItemStack requestingStack = definition.getNode().getRoot().getItemStack(request);
+    private void addToInventory(Player player, NodeDefinition definition, GridItemRequest request, ClickAction action, BlockMenu menu) {
+        ItemStack requestingStack = definition.getNode().getRoot().getItemStack0(menu.getLocation(), request);
 
         if (requestingStack == null) {
             return;
@@ -440,12 +440,12 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         HashMap<Integer, ItemStack> remnant = player.getInventory().addItem(requestingStack);
         requestingStack = remnant.values().stream().findFirst().orElse(null);
         if (requestingStack != null) {
-            definition.getNode().getRoot().addItemStack(requestingStack);
+            definition.getNode().getRoot().addItemStack0(menu.getLocation(), requestingStack);
         }
     }
 
     @ParametersAreNonnullByDefault
-    private void addToCursor(Player player, NodeDefinition definition, GridItemRequest request, ClickAction action) {
+    private void addToCursor(Player player, NodeDefinition definition, GridItemRequest request, ClickAction action, BlockMenu blockMenu) {
         final ItemStack cursor = player.getItemOnCursor();
 
         // Quickly check if the cursor has an item and if we can add more to it
@@ -453,7 +453,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
             return;
         }
 
-        ItemStack requestingStack = definition.getNode().getRoot().getItemStack(request);
+        ItemStack requestingStack = definition.getNode().getRoot().getItemStack0(blockMenu.getLocation(), request);
         setCursor(player, cursor, requestingStack);
     }
 
@@ -544,7 +544,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
 
         ItemStack cursor = player.getItemOnCursor();
         if (cursor != null && cursor.getType() != Material.AIR) {
-            definition.getNode().getRoot().addItemStack(cursor);
+            definition.getNode().getRoot().addItemStack0(blockMenu.getLocation(), cursor);
         }
     }
 }

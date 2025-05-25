@@ -141,7 +141,7 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
                 false,
                 true,
                 (targetMenu) -> {
-                    LineOperationUtil.grabItem(root, targetMenu, TransportMode.FIRST_STOP, 64);
+                    LineOperationUtil.grabItem(blockMenu.getLocation(), root, targetMenu, TransportMode.FIRST_STOP, 64);
                 });
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }

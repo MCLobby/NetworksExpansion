@@ -216,7 +216,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
                 false,
                 false,
                 (targetMenu) -> {
-                    LineOperationUtil.pushItem(root, targetMenu, templates, TransportMode.FIRST_STOP, 64);
+                    LineOperationUtil.pushItem(blockMenu.getLocation(), root, targetMenu, templates, TransportMode.FIRST_STOP, 64);
                 });
 
         root.removeRootPower(requiredPower);
@@ -251,7 +251,7 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
                 false,
                 true,
                 (targetMenu) -> {
-                    LineOperationUtil.grabItem(root, targetMenu, TransportMode.FIRST_STOP, 64);
+                    LineOperationUtil.grabItem(blockMenu.getLocation(), root, targetMenu, TransportMode.FIRST_STOP, 64);
                 });
 
         root.removeRootPower(requiredPower);

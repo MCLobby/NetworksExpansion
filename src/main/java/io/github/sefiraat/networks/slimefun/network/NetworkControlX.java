@@ -139,7 +139,7 @@ public class NetworkControlX extends NetworkDirectional {
 
             final ItemStack resultStack = new ItemStack(material, 1);
 
-            definition.getNode().getRoot().addItemStack(resultStack);
+            definition.getNode().getRoot().addItemStack0(blockMenu.getLocation(), resultStack);
 
             if (resultStack.getAmount() == 0) {
                 this.blockCache.add(targetPosition);

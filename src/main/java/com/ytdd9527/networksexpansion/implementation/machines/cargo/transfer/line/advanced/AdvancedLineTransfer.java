@@ -234,7 +234,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                 false,
                 false,
                 (targetMenu) -> {
-                    LineOperationUtil.pushItem(root, targetMenu, templates, currentTransportMode, limitQuantity);
+                    LineOperationUtil.pushItem(blockMenu.getLocation(), root, targetMenu, templates, currentTransportMode, limitQuantity);
                 });
 
         root.removeRootPower(requiredPower);
@@ -269,7 +269,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeD
                 false,
                 false,
                 (targetMenu) -> {
-                    LineOperationUtil.grabItem(root, targetMenu, mode, limitQuantity);
+                    LineOperationUtil.grabItem(blockMenu.getLocation(), root, targetMenu, mode, limitQuantity);
                 });
 
         root.removeRootPower(requiredPower);

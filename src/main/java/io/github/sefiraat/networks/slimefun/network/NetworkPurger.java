@@ -100,7 +100,7 @@ public class NetworkPurger extends NetworkObject {
         ItemStack clone = StackUtils.getAsQuantity(testItem, 1);
 
         ItemRequest itemRequest = new ItemRequest(clone, clone.getMaxStackSize());
-        ItemStack retrieved = definition.getNode().getRoot().getItemStack(itemRequest);
+        ItemStack retrieved = definition.getNode().getRoot().getItemStack0(blockMenu.getLocation(), itemRequest);
         if (retrieved != null) {
             retrieved.setAmount(0);
             sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);

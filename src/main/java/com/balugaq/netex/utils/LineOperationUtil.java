@@ -18,6 +18,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -91,7 +92,18 @@ public class LineOperationUtil {
         }
     }
 
+    @Deprecated
     public static void grabItem(
+            @Nonnull NetworkRoot root,
+            @Nonnull BlockMenu blockMenu,
+            @Nonnull TransportMode transportMode,
+            int limitQuantity
+    ) {
+        grabItem(null, root, blockMenu, transportMode, limitQuantity);
+    }
+
+    public static void grabItem(
+            @Nonnull Location accessor,
             @Nonnull NetworkRoot root,
             @Nonnull BlockMenu blockMenu,
             @Nonnull TransportMode transportMode,
@@ -110,7 +122,7 @@ public class LineOperationUtil {
                     if (item != null && item.getType() != Material.AIR) {
                         final int exceptedReceive = Math.min(item.getAmount(), limit);
                         final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
-                        root.addItemStack(clone);
+                        root.addItemStack0(accessor, clone);
                         item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
                         limit -= exceptedReceive - clone.getAmount();
                         if (limit <= 0) {
@@ -133,7 +145,7 @@ public class LineOperationUtil {
                     if (item != null && item.getType() != Material.AIR) {
                         final int exceptedReceive = Math.min(item.getAmount(), limit);
                         final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
-                        root.addItemStack(clone);
+                        root.addItemStack0(accessor, clone);
                         item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
                         limit -= exceptedReceive - clone.getAmount();
                         if (limit <= 0) {
@@ -151,7 +163,7 @@ public class LineOperationUtil {
                     if (item != null && item.getType() != Material.AIR) {
                         final int exceptedReceive = Math.min(item.getAmount(), limit);
                         final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
-                        root.addItemStack(clone);
+                        root.addItemStack0(accessor, clone);
                         item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
                         limit -= exceptedReceive - clone.getAmount();
                         if (limit <= 0) {
@@ -169,7 +181,7 @@ public class LineOperationUtil {
                     if (item != null && item.getType() != Material.AIR) {
                         final int exceptedReceive = Math.min(item.getAmount(), limit);
                         final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
-                        root.addItemStack(clone);
+                        root.addItemStack0(accessor, clone);
                         item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
                         limit -= exceptedReceive - clone.getAmount();
                         break;
@@ -188,7 +200,7 @@ public class LineOperationUtil {
                             if (item != null && item.getType() != Material.AIR) {
                                 final int exceptedReceive = Math.min(item.getAmount(), limit);
                                 final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
-                                root.addItemStack(clone);
+                                root.addItemStack0(accessor, clone);
                                 item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
                                 limit -= exceptedReceive - clone.getAmount();
                                 if (limit <= 0) {
@@ -203,6 +215,7 @@ public class LineOperationUtil {
         return;
     }
 
+    @Deprecated
     public static void pushItem(
             @Nonnull NetworkRoot root,
             @Nonnull BlockMenu blockMenu,
@@ -210,12 +223,35 @@ public class LineOperationUtil {
             @Nonnull TransportMode transportMode,
             int limitQuantity
     ) {
-        for (ItemStack clone : clones) {
-            pushItem(root, blockMenu, clone, transportMode, limitQuantity);
-        }
+        pushItem(null, root, blockMenu, clones, transportMode, limitQuantity);
     }
 
     public static void pushItem(
+            @Nonnull Location accessor,
+            @Nonnull NetworkRoot root,
+            @Nonnull BlockMenu blockMenu,
+            @Nonnull List<ItemStack> clones,
+            @Nonnull TransportMode transportMode,
+            int limitQuantity
+    ) {
+        for (ItemStack clone : clones) {
+            pushItem(accessor, root, blockMenu, clone, transportMode, limitQuantity);
+        }
+    }
+
+    @Deprecated
+    public static void pushItem(
+            @Nonnull NetworkRoot root,
+            @Nonnull BlockMenu blockMenu,
+            @Nonnull ItemStack clone,
+            @Nonnull TransportMode transportMode,
+            int limitQuantity
+    ) {
+        pushItem(null, root, blockMenu, clone, transportMode, limitQuantity);
+    }
+
+    public static void pushItem(
+            @Nonnull Location accessor,
             @Nonnull NetworkRoot root,
             @Nonnull BlockMenu blockMenu,
             @Nonnull ItemStack clone,
@@ -249,7 +285,7 @@ public class LineOperationUtil {
                 }
                 itemRequest.setAmount(Math.min(freeSpace, limitQuantity));
 
-                final ItemStack retrieved = root.getItemStack(itemRequest);
+                final ItemStack retrieved = root.getItemStack0(accessor, itemRequest);
                 if (retrieved != null && retrieved.getType() != Material.AIR) {
                     BlockMenuUtil.pushItem(blockMenu, retrieved, slots);
                 }
@@ -266,7 +302,7 @@ public class LineOperationUtil {
                     }
                     itemRequest.setAmount(Math.min(itemRequest.getAmount(), free));
 
-                    final ItemStack retrieved = root.getItemStack(itemRequest);
+                    final ItemStack retrieved = root.getItemStack0(accessor, itemRequest);
                     if (retrieved != null && retrieved.getType() != Material.AIR) {
                         free -= retrieved.getAmount();
                         blockMenu.pushItem(retrieved, slot);
@@ -299,7 +335,7 @@ public class LineOperationUtil {
                     }
                     itemRequest.setAmount(Math.min(itemRequest.getAmount(), free));
 
-                    final ItemStack retrieved = root.getItemStack(itemRequest);
+                    final ItemStack retrieved = root.getItemStack0(accessor, itemRequest);
                     if (retrieved != null && retrieved.getType() != Material.AIR) {
                         free -= retrieved.getAmount();
                         blockMenu.pushItem(retrieved, slot);
@@ -335,7 +371,7 @@ public class LineOperationUtil {
                 }
                 itemRequest.setAmount(Math.min(itemRequest.getAmount(), free));
 
-                final ItemStack retrieved = root.getItemStack(itemRequest);
+                final ItemStack retrieved = root.getItemStack0(accessor, itemRequest);
                 if (retrieved != null && retrieved.getType() != Material.AIR) {
                     free -= retrieved.getAmount();
                     blockMenu.pushItem(retrieved, slot);
@@ -370,7 +406,7 @@ public class LineOperationUtil {
                 }
                 itemRequest.setAmount(Math.min(itemRequest.getAmount(), free));
 
-                final ItemStack retrieved = root.getItemStack(itemRequest);
+                final ItemStack retrieved = root.getItemStack0(accessor, itemRequest);
                 if (retrieved != null && retrieved.getType() != Material.AIR) {
                     free -= retrieved.getAmount();
                     blockMenu.pushItem(retrieved, slot);
@@ -404,7 +440,7 @@ public class LineOperationUtil {
                 }
                 itemRequest.setAmount(Math.min(freeSpace, limitQuantity));
 
-                final ItemStack retrieved = root.getItemStack(itemRequest);
+                final ItemStack retrieved = root.getItemStack0(accessor, itemRequest);
                 if (retrieved != null && retrieved.getType() != Material.AIR) {
                     BlockMenuUtil.pushItem(blockMenu, retrieved, slots);
                 }
@@ -435,7 +471,7 @@ public class LineOperationUtil {
                         }
                         itemRequest.setAmount(Math.min(freeSpace, limitQuantity));
 
-                        final ItemStack retrieved = root.getItemStack(itemRequest);
+                        final ItemStack retrieved = root.getItemStack0(accessor, itemRequest);
                         if (retrieved != null && retrieved.getType() != Material.AIR) {
                             BlockMenuUtil.pushItem(blockMenu, retrieved, slots);
                         }

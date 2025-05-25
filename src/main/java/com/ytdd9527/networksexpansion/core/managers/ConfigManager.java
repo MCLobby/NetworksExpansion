@@ -58,19 +58,27 @@ public class ConfigManager {
     }
 
     public boolean isAutoUpdate() {
-        return Networks.getInstance().getConfig().getBoolean("auto-update");
+        return Networks.getInstance().getConfig().getBoolean("auto-update", false);
     }
 
     public boolean isDebug() {
-        return Networks.getInstance().getConfig().getBoolean("debug");
+        return Networks.getInstance().getConfig().getBoolean("debug", false);
     }
 
     public String getLanguage() {
-        return Networks.getInstance().getConfig().getString("language");
+        return Networks.getInstance().getConfig().getString("language", "zh-CN");
     }
 
     public boolean isForceCheckLore() {
-        return Networks.getInstance().getConfig().getBoolean("rpg-fix.force-check-lore");
+        return Networks.getInstance().getConfig().getBoolean("rpg-fix.force-check-lore", false);
+    }
+
+    public int getPersistentThreshold() {
+        return Networks.getInstance().getConfig().getInt("speed-up.persistent-threshold", 15);
+    }
+
+    public int getCacheMissThreshold() {
+        return Networks.getInstance().getConfig().getInt("speed-up.cache-miss-threshold", 15);
     }
 
     public void saveAll() {

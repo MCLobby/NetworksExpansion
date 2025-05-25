@@ -267,7 +267,7 @@ public class NetworkCraftingGrid extends AbstractGrid {
                 if (menu.getItemInSlot(recipeSlot) == null) {
                     // Process item request
                     final GridItemRequest request = new GridItemRequest(itemInSlotClone, 1, player);
-                    final ItemStack requestingStack = root.getItemStack(request);
+                    final ItemStack requestingStack = root.getItemStack0(menu.getLocation(), request);
                     if (requestingStack != null) {
                         menu.replaceExistingItem(recipeSlot, requestingStack);
                     }
@@ -290,7 +290,7 @@ public class NetworkCraftingGrid extends AbstractGrid {
             if (stack == null || stack.getType() == Material.AIR) {
                 continue;
             }
-            definition.getNode().getRoot().addItemStack(stack);
+            definition.getNode().getRoot().addItemStack0(menu.getLocation(), stack);
         }
     }
 }

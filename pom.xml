@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ytdd9527.networksexpansion</groupId>
     <artifactId>NetworksExpansion</artifactId>
-    <version>Special-Version-12</version>
+    <version>Special-Version-16</version>
 
     <distributionManagement>
         <repository>
@@ -160,6 +160,15 @@
             <id>sonatype-oss-snapshots1</id>
             <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
+        <repository>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.org/repository/maven-public/</url>
+            <layout>default</layout>
+        </repository>
+        <repository>
+            <id>sonatype</id>
+            <url>https://oss.sonatype.org/content/groups/public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -293,6 +302,13 @@
             <version>035fe56381</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/FluffyMachines.jar</systemPath>
+        </dependency>
+        <!--  -->
+        <dependency>
+            <groupId>com.github.TimetownDev</groupId>
+            <artifactId>GuguSlimefunLib</artifactId>
+            <version>45627c6f8e</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

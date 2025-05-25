@@ -103,7 +103,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
         if (!this.withholding) {
             final ItemStack stored = blockMenu.getItemInSlot(OUTPUT_SLOT);
             if (stored != null && stored.getType() != Material.AIR) {
-                root.addItemStack(stored);
+                root.addItemStack0(blockMenu.getLocation(), stored);
             }
         }
 
@@ -201,14 +201,14 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
         for (int i = 0; i < 9; i++) {
             final ItemStack requested = instance.getRecipeItems()[i];
             if (requested != null) {
-                final ItemStack fetched = root.getItemStack(new ItemRequest(requested, requested.getAmount() * blueprintAmount));
+                final ItemStack fetched = root.getItemStack0(blockMenu.getLocation(), new ItemRequest(requested, requested.getAmount() * blueprintAmount));
                 if (fetched != null) {
                     acutalInputs[i] = fetched;
                     ItemStack fetchedClone = fetched.clone();
                     fetchedClone.setAmount((int) (fetched.getAmount() / blueprintAmount));
                     inputs[i] = fetchedClone;
                     if (fetchedClone.getAmount() != requested.getAmount()) {
-                        returnItems(root, acutalInputs);
+                        returnItems(root, acutalInputs, blockMenu);
                     }
                 } else {
                     acutalInputs[i] = null;
@@ -233,7 +233,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
             // If no slimefun recipe found, try a vanilla one
             instance.generateVanillaRecipe(blockMenu.getLocation().getWorld());
             if (instance.getRecipe() == null) {
-                returnItems(root, inputs);
+                returnItems(root, inputs, blockMenu);
                 sendDebugMessage(blockMenu.getLocation(), "No vanilla recipe found");
                 sendFeedback(blockMenu.getLocation(), FeedbackType.NO_VANILLA_RECIPE_FOUND);
                 return false;
@@ -247,7 +247,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
         if (crafted == null || crafted.getType() == Material.AIR) {
             sendDebugMessage(blockMenu.getLocation(), "No valid recipe found");
             sendDebugMessage(blockMenu.getLocation(), "inputs: " + Arrays.toString(inputs));
-            returnItems(root, acutalInputs);
+            returnItems(root, acutalInputs, blockMenu);
             sendFeedback(blockMenu.getLocation(), FeedbackType.NO_VALID_RECIPE_FOUND);
             return false;
         }
@@ -261,7 +261,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
         crafted.setAmount(crafted.getAmount() * blueprintAmount);
 
         if (crafted.getAmount() > crafted.getMaxStackSize()) {
-            returnItems(root, acutalInputs);
+            returnItems(root, acutalInputs, blockMenu);
             sendDebugMessage(blockMenu.getLocation(), "Result is too large");
             sendFeedback(blockMenu.getLocation(), FeedbackType.RESULT_IS_TOO_LARGE);
             return false;
@@ -272,10 +272,10 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
         return true;
     }
 
-    private void returnItems(@Nonnull NetworkRoot root, @Nonnull ItemStack[] inputs) {
+    private void returnItems(@Nonnull NetworkRoot root, @Nonnull ItemStack[] inputs, BlockMenu blockMenu) {
         for (ItemStack input : inputs) {
             if (input != null) {
-                root.addItemStack(input);
+                root.addItemStack0(blockMenu.getLocation(), input);
             }
         }
     }

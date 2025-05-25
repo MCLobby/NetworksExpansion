@@ -87,7 +87,7 @@ public class BetterGrabber extends NetworkDirectional {
                 for (ItemStack template : templates) {
                     if (StackUtils.itemsMatch(template, itemInSlot)) {
                         int before = itemInSlot.getAmount();
-                        definition.getNode().getRoot().addItemStack(itemInSlot);
+                        definition.getNode().getRoot().addItemStack0(blockMenu.getLocation(), itemInSlot);
                         if (definition.getNode().getRoot().isDisplayParticles() && itemInSlot.getAmount() < before) {
                             showParticle(blockMenu.getLocation(), direction);
                         }

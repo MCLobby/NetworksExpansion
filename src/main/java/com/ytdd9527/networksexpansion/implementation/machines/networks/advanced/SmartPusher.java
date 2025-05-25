@@ -198,7 +198,7 @@ public class SmartPusher extends SpecialSlimefunItem implements AdminDebuggable 
                             }
                             itemRequest.setAmount(Math.min(freeSpace, limitQuantity));
 
-                            final ItemStack retrieved = root.getItemStack(itemRequest);
+                            final ItemStack retrieved = root.getItemStack0(blockMenu.getLocation(), itemRequest);
                             if (retrieved != null && retrieved.getType() != Material.AIR) {
                                 BlockMenuUtil.pushItem(targetMenu, retrieved, slots);
                             }

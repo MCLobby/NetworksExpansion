@@ -59,7 +59,7 @@ public class NetworkGrabber extends NetworkDirectional {
 
             if (itemStack != null && itemStack.getType() != Material.AIR) {
                 int before = itemStack.getAmount();
-                definition.getNode().getRoot().addItemStack(itemStack);
+                definition.getNode().getRoot().addItemStack0(blockMenu.getLocation(), itemStack);
                 sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
                 if (definition.getNode().getRoot().isDisplayParticles() && itemStack.getAmount() < before) {
                     showParticle(blockMenu.getLocation(), direction);
