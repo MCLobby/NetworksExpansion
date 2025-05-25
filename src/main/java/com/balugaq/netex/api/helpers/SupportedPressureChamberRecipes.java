@@ -2,7 +2,6 @@ package com.balugaq.netex.api.helpers;
 
 import com.balugaq.netex.api.interfaces.CanTestRecipe;
 import com.balugaq.netex.api.interfaces.HasRecipes;
-import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -12,6 +11,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import lombok.experimental.UtilityClass;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -25,10 +25,10 @@ public final class SupportedPressureChamberRecipes implements HasRecipes, CanTes
     static {
         String id = SlimefunItems.PRESSURE_CHAMBER.getItemId();
         SlimefunItem recipeTypeItem = SlimefunItem.getById(id);
-        if (recipeTypeItem != null && recipeTypeItem instanceof MultiBlockMachine mb) {
+        if (recipeTypeItem instanceof MultiBlockMachine mb) {
             boolean isInput = true;
             ItemStack[] input = null;
-            ItemStack[] output = null;
+            ItemStack[] output;
             for (ItemStack[] recipe : mb.getRecipes()) {
                 if (isInput) {
                     input = recipe;
@@ -70,7 +70,7 @@ public final class SupportedPressureChamberRecipes implements HasRecipes, CanTes
         }
     }
 
-    public static Map<ItemStack[], ItemStack> getRecipes() {
+    public static @NotNull Map<ItemStack[], ItemStack> getRecipes() {
         return RECIPES;
     }
 

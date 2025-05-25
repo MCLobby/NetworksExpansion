@@ -10,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import lombok.Setter;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
@@ -19,6 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Setter
 public class NetworkCell extends NetworkObject {
 
     public static final List<Integer> SLOTS = new ArrayList<>();
@@ -69,7 +72,7 @@ public class NetworkCell extends NetworkObject {
     }
 
     @Override
-    public void onPlace(BlockPlaceEvent e) {
+    public void onPlace(@NotNull BlockPlaceEvent e) {
         super.onPlace(e);
         if (useSpecialModel) {
             e.getBlock().setType(Material.BARRIER);
@@ -78,15 +81,11 @@ public class NetworkCell extends NetworkObject {
     }
 
     @Override
-    public void postBreak(BlockBreakEvent e) {
+    public void postBreak(@NotNull BlockBreakEvent e) {
         super.postBreak(e);
         Location location = e.getBlock().getLocation();
         removeDisplay(location);
         e.getBlock().setType(Material.AIR);
-    }
-
-    public void setUseSpecialModel(boolean useSpecialModel) {
-        this.useSpecialModel = useSpecialModel;
     }
 
     private void setupDisplay(@Nonnull Location location) {

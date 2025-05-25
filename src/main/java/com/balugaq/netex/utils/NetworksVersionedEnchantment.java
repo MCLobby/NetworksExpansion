@@ -11,8 +11,8 @@ import java.lang.reflect.Field;
 
 @UtilityClass
 public class NetworksVersionedEnchantment {
-    public static final Enchantment GLOW;
-    public static final Enchantment LUCK_OF_THE_SEA;
+    public static final @org.jetbrains.annotations.Nullable Enchantment GLOW;
+    public static final @org.jetbrains.annotations.Nullable Enchantment LUCK_OF_THE_SEA;
 
     static {
         MinecraftVersion version = Networks.getInstance().getMCVersion();
@@ -24,7 +24,7 @@ public class NetworksVersionedEnchantment {
     private static Enchantment getKey(@Nonnull String key) {
         try {
             Field field = Enchantment.class.getDeclaredField(key);
-            return (Enchantment) field.get((Object) null);
+            return (Enchantment) field.get(null);
         } catch (Exception ignored) {
             return null;
         }

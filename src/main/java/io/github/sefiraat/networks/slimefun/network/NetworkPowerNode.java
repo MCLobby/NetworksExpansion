@@ -11,12 +11,14 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -29,8 +31,9 @@ public class NetworkPowerNode extends NetworkObject implements EnergyNetComponen
 
     private static final String KEY_UUID = "display-uuid";
     private final int capacity;
+    private final Map<Block, Block> placedBlocks = new HashMap<>();
+    @Setter
     private boolean useSpecialModel = false;
-    private Map<Block, Block> placedBlocks = new HashMap<>();
 
     public NetworkPowerNode(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int capacity) {
         super(itemGroup, item, recipeType, recipe, NodeType.POWER_NODE);
@@ -70,7 +73,7 @@ public class NetworkPowerNode extends NetworkObject implements EnergyNetComponen
 
         addItemHandler(new BlockBreakHandler(false, false) {
             @Override
-            public void onPlayerBreak(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
+            public void onPlayerBreak(@NotNull BlockBreakEvent e, @NotNull ItemStack item, @NotNull List<ItemStack> drops) {
                 Block brokenBlock = e.getBlock();
                 Block pairedBlock = placedBlocks.get(brokenBlock);
 
@@ -86,10 +89,6 @@ public class NetworkPowerNode extends NetworkObject implements EnergyNetComponen
                 }
             }
         });
-    }
-
-    public void setUseSpecialModel(boolean useSpecialModel) {
-        this.useSpecialModel = useSpecialModel;
     }
 
     private void setupDisplay(@Nonnull Location location) {

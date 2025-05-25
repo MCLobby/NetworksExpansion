@@ -1,6 +1,5 @@
 package com.ytdd9527.networksexpansion.implementation.tools;
 
-import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
@@ -16,6 +15,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -56,7 +56,7 @@ public class CargoNodeQuickTool extends SpecialSlimefunItem {
             ItemStack tool = e.getItem();
             Player p = e.getPlayer();
             if (!isTool(tool)) {
-                // Not holding the a valid tool, return
+                // Not holding a valid tool, return
                 p.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.cargo_node_quick_tool.invalid_tool"));
                 return;
             }
@@ -118,7 +118,7 @@ public class CargoNodeQuickTool extends SpecialSlimefunItem {
                             ex.printStackTrace();
                             return;
                         }
-                        if (itemConfig.getKeys(false).size() > 0) {
+                        if (!itemConfig.getKeys(false).isEmpty()) {
                             Map<ItemStack, Boolean> itemList = new HashMap<>();
                             Map<ItemStack, Integer> consumeSlots = new HashMap<>();
                             //init item check list

@@ -171,7 +171,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
         }
     }
 
-    private boolean tryCraft(@Nonnull BlockMenu blockMenu, @Nonnull BlueprintInstance instance, @Nonnull NetworkRoot root, @Nonnull int blueprintAmount) {
+    private boolean tryCraft(@Nonnull BlockMenu blockMenu, @Nonnull BlueprintInstance instance, @Nonnull NetworkRoot root, int blueprintAmount) {
         // Get the recipe input
         final ItemStack[] inputs = new ItemStack[9];
         final ItemStack[] acutalInputs = new ItemStack[9];

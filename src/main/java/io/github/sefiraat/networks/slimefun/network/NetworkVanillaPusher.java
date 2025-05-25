@@ -34,7 +34,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-@SuppressWarnings("deprecation")
 public class NetworkVanillaPusher extends NetworkDirectional {
 
     private static final int[] BACKGROUND_SLOTS = new int[]{
@@ -130,7 +129,6 @@ public class NetworkVanillaPusher extends NetworkDirectional {
             handleBrewingStand(blockMenu, stack, brewer);
         } else if (wildChests && isChest) {
             sendDebugMessage(block.getLocation(), Networks.getLocalizationService().getString("messages.debug.wildchests_test_failed"));
-            return;
         } else if (InvUtils.fits(holder.getInventory(), stack)) {
             sendDebugMessage(block.getLocation(), Networks.getLocalizationService().getString("messages.debug.wildchests_test_success"));
             holder.getInventory().addItem(stack);

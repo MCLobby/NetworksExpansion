@@ -13,7 +13,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -30,9 +29,9 @@ import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.FaceAttachable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -196,7 +195,7 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
     public void preRegister() {
         addItemHandler(new BlockBreakHandler(false, false) {
             @Override
-            public void onPlayerBreak(BlockBreakEvent blockBreakEvent, ItemStack itemStack, List<ItemStack> list) {
+            public void onPlayerBreak(@NotNull BlockBreakEvent blockBreakEvent, @NotNull ItemStack itemStack, @NotNull List<ItemStack> list) {
                 Location location = blockBreakEvent.getBlock().getLocation();
                 facingMap.remove(location);
                 offsetMap.remove(location);
@@ -264,26 +263,14 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
 
                 Location location = block.getLocation();
                 switch (attachedFace) {
-                    case FLOOR -> {
-                        facingMap.put(location, TransportFacing.DOWN_TO_UP);
-                    }
-                    case CEILING -> {
-                        facingMap.put(location, TransportFacing.UP_TO_DOWN);
-                    }
+                    case FLOOR -> facingMap.put(location, TransportFacing.DOWN_TO_UP);
+                    case CEILING -> facingMap.put(location, TransportFacing.UP_TO_DOWN);
                     case WALL -> {
                         switch (blockFace) {
-                            case WEST -> {
-                                facingMap.put(location, TransportFacing.EAST_TO_WEST);
-                            }
-                            case EAST -> {
-                                facingMap.put(location, TransportFacing.WEST_TO_EAST);
-                            }
-                            case NORTH -> {
-                                facingMap.put(location, TransportFacing.SOUTH_TO_NORTH);
-                            }
-                            case SOUTH -> {
-                                facingMap.put(location, TransportFacing.NORTH_TO_SOUTH);
-                            }
+                            case WEST -> facingMap.put(location, TransportFacing.EAST_TO_WEST);
+                            case EAST -> facingMap.put(location, TransportFacing.WEST_TO_EAST);
+                            case NORTH -> facingMap.put(location, TransportFacing.SOUTH_TO_NORTH);
+                            case SOUTH -> facingMap.put(location, TransportFacing.NORTH_TO_SOUTH);
                         }
                     }
                 }

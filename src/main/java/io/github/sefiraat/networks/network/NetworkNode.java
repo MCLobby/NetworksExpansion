@@ -33,13 +33,13 @@ public class NetworkNode {
 
     @Getter
     protected final Set<NetworkNode> childrenNodes = new HashSet<>();
+    protected final Location nodePosition;
+    protected final NodeType nodeType;
+    @Getter
+    protected final long power;
     @Getter
     protected NetworkNode parent = null;
     protected NetworkRoot root = null;
-    protected Location nodePosition;
-    protected NodeType nodeType;
-    @Getter
-    protected long power;
 
     public NetworkNode(Location location, NodeType type) {
         this.nodePosition = location;

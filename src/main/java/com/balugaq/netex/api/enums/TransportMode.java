@@ -2,6 +2,7 @@ package com.balugaq.netex.api.enums;
 
 import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.sefiraat.networks.Networks;
+import org.jetbrains.annotations.NotNull;
 
 public enum TransportMode {
     NONE,
@@ -12,11 +13,11 @@ public enum TransportMode {
     FIRST_STOP,
     LAZY;
 
-    public String getName() {
+    public @NotNull String getName() {
         return TextUtil.colorRandomString(getRawName());
     }
 
-    public String getRawName() {
+    public @NotNull String getRawName() {
         return switch (this) {
             case NONE -> Networks.getLocalizationService().getString("icons.transport_mode.none");
             case NULL_ONLY -> Networks.getLocalizationService().getString("icons.transport_mode.null_only");

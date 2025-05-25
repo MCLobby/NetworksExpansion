@@ -11,6 +11,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.entity.Player;
@@ -19,6 +20,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nonnull;
 
+@Getter
 @Deprecated
 public class NetworkCard extends SlimefunItem implements DistinctiveItem {
 
@@ -104,10 +106,6 @@ public class NetworkCard extends SlimefunItem implements DistinctiveItem {
                 || itemStack.getType().getMaxDurability() < 0
                 || Tag.SHULKER_BOXES.isTagged(itemStack.getType())
                 || itemStack.getType() == Material.BUNDLE;
-    }
-
-    public int getSize() {
-        return this.size;
     }
 
     @Override

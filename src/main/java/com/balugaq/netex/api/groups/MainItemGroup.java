@@ -18,6 +18,8 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -43,20 +45,20 @@ public class MainItemGroup extends FlexItemGroup {
             new int[]{28, 29, 30, 31, 32, 33, 34, 35},
             new int[]{37, 38, 39, 40, 41, 42, 43, 44},
             new int[]{46, 47, 48, 49, 50, 51, 52, 53}};
-    private final ItemStack item;
+    private final @Nullable ItemStack item;
     private final int page;
     private List<ItemGroup> fatherItemGroupList = new ArrayList<>();
     private List<List<ItemGroup>> sonItemGroupList = new ArrayList<>();
     private Map<Integer, MainItemGroup> pageMap = new LinkedHashMap<>();
 
-    public MainItemGroup(NamespacedKey key, ItemStack item, int tier) {
+    public MainItemGroup(@NotNull NamespacedKey key, @Nullable ItemStack item, int tier) {
         super(key, ItemStackUtil.getCleanItem(item), tier);
         this.page = 1;
         this.item = item;
         this.pageMap.put(1, this);
     }
 
-    private MainItemGroup(NamespacedKey key, ItemStack item, int tier, int page) {
+    private MainItemGroup(@NotNull NamespacedKey key, @Nullable ItemStack item, int tier, int page) {
         super(key, ItemStackUtil.getCleanItem(item), tier);
         this.page = page;
         this.item = item;

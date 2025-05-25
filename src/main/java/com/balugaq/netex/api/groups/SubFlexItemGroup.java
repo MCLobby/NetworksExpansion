@@ -23,6 +23,8 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -49,7 +51,7 @@ public class SubFlexItemGroup extends FlexItemGroup {
             new int[]{45, 46, 47, 48, 49, 50, 51, 52, 53}};
 
     private static final JavaPlugin JAVA_PLUGIN = Networks.getInstance();
-    private final ItemStack item;
+    private final @Nullable ItemStack item;
     private final int page;
     /**
      * One SlimefunItem List should only contain 9 SlimefunItems at most.
@@ -57,14 +59,14 @@ public class SubFlexItemGroup extends FlexItemGroup {
     private List<List<SlimefunItem>> slimefunItemList = new ArrayList<>();
     private Map<Integer, SubFlexItemGroup> pageMap = new LinkedHashMap<>();
 
-    public SubFlexItemGroup(NamespacedKey key, ItemStack item, int tier) {
+    public SubFlexItemGroup(@NotNull NamespacedKey key, @Nullable ItemStack item, int tier) {
         super(key, ItemStackUtil.getCleanItem(item), tier);
         this.item = item;
         this.page = 1;
         this.pageMap.put(1, this);
     }
 
-    public SubFlexItemGroup(NamespacedKey key, ItemStack item, int tier, int page) {
+    public SubFlexItemGroup(@NotNull NamespacedKey key, @Nullable ItemStack item, int tier, int page) {
         super(key, ItemStackUtil.getCleanItem(item), tier);
         this.item = item;
         this.page = page;
@@ -153,7 +155,7 @@ public class SubFlexItemGroup extends FlexItemGroup {
         }
     }
 
-    public List<SlimefunItem> getSlimefunItems() {
+    public @NotNull List<SlimefunItem> getSlimefunItems() {
         List<SlimefunItem> result = new ArrayList<>();
         for (List<SlimefunItem> list : this.slimefunItemList) {
             result.addAll(list);

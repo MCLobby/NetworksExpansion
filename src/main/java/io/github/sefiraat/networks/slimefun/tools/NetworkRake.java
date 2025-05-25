@@ -59,8 +59,7 @@ public class NetworkRake extends LimitedUseItem {
             final Block block = optional.get();
             final Player player = e.getPlayer();
             final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(block.getLocation());
-            if (slimefunItem != null
-                    && (slimefunItem instanceof NetworkObject || slimefunItem instanceof ModelledItem)
+            if ((slimefunItem instanceof NetworkObject || slimefunItem instanceof ModelledItem)
                     && Slimefun.getProtectionManager().hasPermission(player, block, Interaction.BREAK_BLOCK)
             ) {
                 final BlockBreakEvent event = new BlockBreakEvent(block, player);

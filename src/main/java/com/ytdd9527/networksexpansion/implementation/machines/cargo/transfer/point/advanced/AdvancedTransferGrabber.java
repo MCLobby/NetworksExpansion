@@ -149,9 +149,7 @@ public class AdvancedTransferGrabber extends AdvancedDirectional implements Reci
         final int limitQuantity = getLimitQuantity(blockMenu.getLocation());
         final TransportMode mode = getCurrentTransportMode(blockMenu.getLocation());
 
-        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, 1, false, false, (targetMenu) -> {
-            LineOperationUtil.grabItem(blockMenu.getLocation(), root, targetMenu, mode, limitQuantity);
-        });
+        LineOperationUtil.doOperation(blockMenu.getLocation(), direction, 1, false, false, (targetMenu) -> LineOperationUtil.grabItem(blockMenu.getLocation(), root, targetMenu, mode, limitQuantity));
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
 

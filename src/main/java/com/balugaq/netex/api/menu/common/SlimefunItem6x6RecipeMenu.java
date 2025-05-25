@@ -21,6 +21,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -46,11 +47,11 @@ public class SlimefunItem6x6RecipeMenu extends ChestMenu {
     private final int[] WORK_BORDER = new int[]{2, 3, 4, 5, 6, 8};
     private final int[] WORK_CONTENT = new int[]{9, 18, 10, 19, 11, 20, 12, 21, 13, 22, 14, 23, 15, 24, 16, 25, 17, 26};
 
-    private final Player player;
-    private final PlayerProfile playerProfile;
-    private final SlimefunGuideMode slimefunGuideMode;
-    private final SlimefunItem slimefunItem;
-    private final ItemGroup itemGroup;
+    private final @NotNull Player player;
+    private final @NotNull PlayerProfile playerProfile;
+    private final @NotNull SlimefunGuideMode slimefunGuideMode;
+    private final @NotNull SlimefunItem slimefunItem;
+    private final @NotNull ItemGroup itemGroup;
 
     public SlimefunItem6x6RecipeMenu(@Nonnull Player player, @Nonnull PlayerProfile playerProfile, @Nonnull SlimefunGuideMode slimefunGuideMode, @Nonnull SlimefunItem slimefunItem, @Nonnull ItemGroup itemGroup) {
         this(player, playerProfile, slimefunGuideMode, slimefunItem, itemGroup, 1);
@@ -128,7 +129,7 @@ public class SlimefunItem6x6RecipeMenu extends ChestMenu {
             this.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
         }
 
-        if (slimefunItem instanceof RecipeDisplayItem recipeDisplayItem && recipeDisplayItem.getDisplayRecipes().size() > 0) {
+        if (slimefunItem instanceof RecipeDisplayItem recipeDisplayItem && !recipeDisplayItem.getDisplayRecipes().isEmpty()) {
             this.addItem(this.WORK_BUTTON, ItemStackUtil.getCleanItem(Icon.RECIPE_ICON));
             this.addMenuClickHandler(this.WORK_BUTTON, (p, slot, item, action) -> {
                 ChestMenu chestMenu = this.setupWorkContent(page);

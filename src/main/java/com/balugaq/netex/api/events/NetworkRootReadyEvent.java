@@ -16,7 +16,7 @@ public class NetworkRootReadyEvent extends Event {
         this.root = root;
     }
 
-    public static HandlerList getHandlerList() {
+    public static @NotNull HandlerList getHandlerList() {
         return handlers;
     }
 

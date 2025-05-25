@@ -30,11 +30,11 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-@SuppressWarnings("deprecation")
 public class NetworkPurger extends NetworkObject {
 
     private static final int[] BACKGROUND_SLOTS = {0, 1, 2, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
@@ -75,7 +75,7 @@ public class NetworkPurger extends NetworkObject {
                 },
                 new BlockBreakHandler(true, true) {
                     @Override
-                    public void onPlayerBreak(BlockBreakEvent e, ItemStack item, List<ItemStack> drops) {
+                    public void onPlayerBreak(@NotNull BlockBreakEvent e, @NotNull ItemStack item, @NotNull List<ItemStack> drops) {
                         BlockMenu blockMenu = StorageCacheUtils.getMenu(e.getBlock().getLocation());
                         blockMenu.dropItems(blockMenu.getLocation(), TEST_ITEM_SLOT);
                     }

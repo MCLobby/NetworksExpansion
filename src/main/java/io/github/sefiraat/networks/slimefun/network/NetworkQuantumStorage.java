@@ -26,6 +26,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import lombok.Getter;
+import lombok.Setter;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -92,6 +93,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
 
     @Getter
     private final int maxAmount;
+    @Setter
     private boolean supportsCustomMaxAmount = false;
 
     public NetworkQuantumStorage(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int maxAmount) {
@@ -347,10 +349,6 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
         player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.completed-operation.changed_custom_max_amount"), newMaxAmount));
     }
 
-    public void setSupportsCustomMaxAmount(boolean supportsCustomMaxAmount) {
-        this.supportsCustomMaxAmount = supportsCustomMaxAmount;
-    }
-
     @Override
     public void postRegister() {
         addWikiPage(WIKI_PAGE);
@@ -556,14 +554,14 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             final ItemMeta itemMeta = clone.getItemMeta();
             final List<String> lore = itemMeta.getLore();
             for (int i = 0; i < 3; i++) {
-                if (lore.size() == 0) {
+                if (lore.isEmpty()) {
                     break;
                 }
                 lore.remove(lore.size() - 1);
             }
 
             if (supportsCustomMaxAmount) {
-                if (lore.size() != 0) {
+                if (!lore.isEmpty()) {
                     lore.remove(lore.size() - 1);
                 }
             }
@@ -628,10 +626,6 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
 
     public boolean supportsCustomMaxAmount() {
         return this.supportsCustomMaxAmount;
-    }
-
-    public int getMaxAmount() {
-        return maxAmount;
     }
 
     @Override

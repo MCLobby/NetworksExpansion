@@ -4,7 +4,6 @@ import com.jeff_media.morepersistentdatatypes.DataType;
 import io.github.sefiraat.networks.network.stackcaches.CardInstance;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.sefiraat.networks.utils.Keys;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -60,7 +59,7 @@ public class PersistentQuantumStorageType implements PersistentDataType<Persiste
             item = primitive.get(Keys.ITEM3, DataType.ITEM_STACK);
         }
 
-        Long amount = 0L;
+        Long amount;
         try {
             amount = primitive.get(Keys.AMOUNT, DataType.LONG);
             if (amount == null) {
@@ -70,7 +69,7 @@ public class PersistentQuantumStorageType implements PersistentDataType<Persiste
                 amount = primitive.getOrDefault(Keys.AMOUNT3, DataType.LONG, 0L);
             }
         } catch (Throwable ignored) {
-            Integer amountI = 0;
+            Integer amountI;
             amountI = primitive.get(Keys.AMOUNT, DataType.INTEGER);
             if (amountI == null) {
                 amountI = primitive.get(Keys.AMOUNT2, DataType.INTEGER);

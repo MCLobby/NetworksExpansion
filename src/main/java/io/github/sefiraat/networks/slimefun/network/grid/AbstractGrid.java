@@ -2,7 +2,6 @@ package io.github.sefiraat.networks.slimefun.network.grid;
 
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
-import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import com.github.houbb.pinyin.constant.enums.PinyinStyleEnum;
 import com.github.houbb.pinyin.util.PinyinHelper;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
@@ -27,6 +26,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -218,7 +218,7 @@ public abstract class AbstractGrid extends NetworkObject {
                 });
             } else {
                 blockMenu.replaceExistingItem(getDisplaySlots()[i], Icon.BLANK_SLOT_STACK);
-                blockMenu.addMenuClickHandler(getDisplaySlots()[i], (p, slot, item, action) ->{
+                blockMenu.addMenuClickHandler(getDisplaySlots()[i], (p, slot, item, action) -> {
                     receiveItem(p, action, blockMenu);
                     return false;
                 });
@@ -436,6 +436,7 @@ public abstract class AbstractGrid extends NetworkObject {
     protected ItemStack getFilterStack() {
         return Icon.FILTER_STACK;
     }
+
     public void receiveItem(Player player, ClickAction action, BlockMenu blockMenu) {
         NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
         if (definition == null || definition.getNode() == null) {

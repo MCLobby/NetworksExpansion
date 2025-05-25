@@ -35,6 +35,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionType;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -43,7 +44,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-@SuppressWarnings("deprecation")
 public class LineTransferVanillaGrabber extends NetworkDirectional implements RecipeDisplayItem, Configurable {
     private static final int DEFAULT_MAX_DISTANCE = 32;
     private static final int DEFAULT_GRAB_ITEM_TICK = 1;
@@ -252,7 +252,7 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
         return new Particle.DustOptions(Color.MAROON, 1);
     }
 
-    public List<ItemStack> getDisplayRecipes() {
+    public @NotNull List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
                 Networks.getLocalizationService().getString("icons.mechanism.transfers.data_title"),

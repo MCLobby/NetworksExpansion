@@ -29,7 +29,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import javax.annotation.Nonnull;
 import java.util.Optional;
 
-@SuppressWarnings("deprecation")
 public class NetworkConfigurator extends SpecialSlimefunItem {
 
     public NetworkConfigurator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

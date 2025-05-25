@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
 
 @UtilityClass
 public class NetworksVersionedItemFlag {
-    public static final ItemFlag HIDE_ADDITIONAL_TOOLTIP;
+    public static final @org.jetbrains.annotations.Nullable ItemFlag HIDE_ADDITIONAL_TOOLTIP;
 
     static {
         MinecraftVersion version = Networks.getInstance().getMCVersion();
@@ -23,7 +23,7 @@ public class NetworksVersionedItemFlag {
     private static ItemFlag getKey(@Nonnull String key) {
         try {
             Field field = ItemFlag.class.getDeclaredField(key);
-            return (ItemFlag) field.get((Object) null);
+            return (ItemFlag) field.get(null);
         } catch (Exception ignored) {
             return null;
         }

@@ -31,7 +31,6 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
-@SuppressWarnings("deprecation")
 public class NetworkWirelessTransmitter extends NetworkObject {
 
     public static final int TEMPLATE_SLOT = 13;

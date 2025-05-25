@@ -16,23 +16,23 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
 
 @UtilityClass
 public class LineOperationUtil {
-    public static void doOperation(Location startLocation, BlockFace direction, int limit, Consumer<BlockMenu> consumer) {
+    public static void doOperation(@NotNull Location startLocation, @NotNull BlockFace direction, int limit, @NotNull Consumer<BlockMenu> consumer) {
         doOperation(startLocation, direction, limit, false, true, consumer);
     }
 
-    public static void doOperation(Location startLocation, BlockFace direction, int limit, boolean skipNoMenu, Consumer<BlockMenu> consumer) {
+    public static void doOperation(@NotNull Location startLocation, @NotNull BlockFace direction, int limit, boolean skipNoMenu, @NotNull Consumer<BlockMenu> consumer) {
         doOperation(startLocation, direction, limit, skipNoMenu, true, consumer);
     }
 
-    public static void doOperation(Location startLocation, BlockFace direction, int limit, boolean skipNoMenu, boolean optimizeExperience, Consumer<BlockMenu> consumer) {
+    public static void doOperation(@NotNull Location startLocation, @NotNull BlockFace direction, int limit, boolean skipNoMenu, boolean optimizeExperience, @NotNull Consumer<BlockMenu> consumer) {
         Location location = startLocation.clone();
         int finalLimit = limit;
         if (optimizeExperience) {
@@ -59,15 +59,15 @@ public class LineOperationUtil {
         }
     }
 
-    public static void doEnergyOperation(Location startLocation, BlockFace direction, int limit, Consumer<Location> consumer) {
+    public static void doEnergyOperation(@NotNull Location startLocation, @NotNull BlockFace direction, int limit, @NotNull Consumer<Location> consumer) {
         doEnergyOperation(startLocation, direction, limit, true, true, consumer);
     }
 
-    public static void doEnergyOperation(Location startLocation, BlockFace direction, int limit, boolean allowNoMenu, Consumer<Location> consumer) {
+    public static void doEnergyOperation(@NotNull Location startLocation, @NotNull BlockFace direction, int limit, boolean allowNoMenu, @NotNull Consumer<Location> consumer) {
         doEnergyOperation(startLocation, direction, limit, allowNoMenu, true, consumer);
     }
 
-    public static void doEnergyOperation(Location startLocation, BlockFace direction, int limit, boolean allowNoMenu, boolean optimizeExperience, Consumer<Location> consumer) {
+    public static void doEnergyOperation(@NotNull Location startLocation, @NotNull BlockFace direction, int limit, boolean allowNoMenu, boolean optimizeExperience, @NotNull Consumer<Location> consumer) {
         Location location = startLocation.clone();
         int finalLimit = limit;
         if (optimizeExperience) {
@@ -149,7 +149,6 @@ public class LineOperationUtil {
                         item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
                         limit -= exceptedReceive - clone.getAmount();
                         if (limit <= 0) {
-                            break;
                         }
                     }
                 }
@@ -167,7 +166,6 @@ public class LineOperationUtil {
                         item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
                         limit -= exceptedReceive - clone.getAmount();
                         if (limit <= 0) {
-                            break;
                         }
                     }
                 }
@@ -183,7 +181,7 @@ public class LineOperationUtil {
                         final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
                         root.addItemStack0(accessor, clone);
                         item.setAmount(item.getAmount() - (exceptedReceive - clone.getAmount()));
-                        limit -= exceptedReceive - clone.getAmount();
+                        clone.getAmount();
                         break;
                     }
                 }
@@ -212,7 +210,6 @@ public class LineOperationUtil {
                 }
             }
         }
-        return;
     }
 
     @Deprecated
@@ -376,7 +373,6 @@ public class LineOperationUtil {
                     free -= retrieved.getAmount();
                     blockMenu.pushItem(retrieved, slot);
                     if (free <= 0) {
-                        break;
                     }
                 }
             }
@@ -411,7 +407,6 @@ public class LineOperationUtil {
                     free -= retrieved.getAmount();
                     blockMenu.pushItem(retrieved, slot);
                     if (free <= 0) {
-                        break;
                     }
                 }
             }
