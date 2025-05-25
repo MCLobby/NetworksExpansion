@@ -52,8 +52,14 @@ import java.util.concurrent.ConcurrentHashMap;
 public class NetworkRoot extends NetworkNode {
     public static final int persistentThreshold = Networks.getConfigManager().getPersistentThreshold();
     public static final int cacheMissThreshold = Networks.getConfigManager().getCacheMissThreshold();
+    public static final int reduceMs = Networks.getConfigManager().getReduceMs();
+    public static final int transportMissThreshold = Networks.getConfigManager().getTransportMissThreshold();
     public static final Map<Location, Map<Location, Integer /* Access times */>> observingAccessHistory = new ConcurrentHashMap<>();
     public static final Map<Location, Map<Location, Integer /* Cache miss times */>> persistentAccessHistory = new ConcurrentHashMap<>();
+    public static final Map<Location, Integer /* Transport miss times */> transportMissInputHistory = new ConcurrentHashMap<>();
+    public static final Map<Location, Integer /* Transport miss times */> transportMissOutputHistory = new ConcurrentHashMap<>();
+    public static final Map<Location, Long> reducedAccessInputHistory = new ConcurrentHashMap<>();
+    public static final Map<Location, Long> reducedAccessOutputHistory = new ConcurrentHashMap<>();
     @Getter
     private final long CREATED_TIME = System.currentTimeMillis();
     @Getter
@@ -1714,6 +1720,10 @@ public class NetworkRoot extends NetworkNode {
             return null;
         }
 
+        if (!allowAccessOutput(accessor)) {
+            return null;
+        }
+
         var m = getPersistentAccessHistory(accessor);
         if (m != null) {
             for (var entry : m.entrySet()) {
@@ -1749,6 +1759,9 @@ public class NetworkRoot extends NetworkNode {
                     final int preserveAmount = infinity ? fetched.getAmount() - 1 : fetched.getAmount();
 
                     if (request.getAmount() <= preserveAmount) {
+                        // Patch - Reduce start
+                        unreduceAccessOutput(accessor);
+                        // Patch - Reduce end
                         stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
                         fetched.setAmount(fetched.getAmount() - request.getAmount());
                         return stackToReturn;
@@ -1776,6 +1789,9 @@ public class NetworkRoot extends NetworkNode {
                             request.receiveAmount(take.getAmount());
 
                             if (request.getAmount() <= 0) {
+                                // Patch - Reduce start
+                                unreduceAccessOutput(accessor);
+                                // Patch - Reduce end
                                 return stackToReturn;
                             }
                         } else {
@@ -1821,6 +1837,9 @@ public class NetworkRoot extends NetworkNode {
             final int preserveAmount = infinity ? fetched.getAmount() - 1 : fetched.getAmount();
 
             if (request.getAmount() <= preserveAmount) {
+                // Patch - Reduce start
+                unreduceAccessOutput(accessor);
+                // Patch - Reduce end
                 stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
                 fetched.setAmount(fetched.getAmount() - request.getAmount());
                 return stackToReturn;
@@ -1848,6 +1867,9 @@ public class NetworkRoot extends NetworkNode {
                 request.receiveAmount(take.getAmount());
 
                 if (request.getAmount() <= 0) {
+                    // Patch - Reduce start
+                    unreduceAccessOutput(accessor);
+                    // Patch - Reduce end
                     return stackToReturn;
                 }
             }
@@ -1876,6 +1898,9 @@ public class NetworkRoot extends NetworkNode {
                 }
 
                 if (request.getAmount() <= itemStack.getAmount()) {
+                    // Patch - Reduce start
+                    unreduceAccessOutput(accessor);
+                    // Patch - Reduce end
                     // We can't take more than this stack. Level to request amount, remove items and then return
                     stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
                     itemStack.setAmount(itemStack.getAmount() - request.getAmount());
@@ -1908,6 +1933,9 @@ public class NetworkRoot extends NetworkNode {
                 }
 
                 if (request.getAmount() <= itemStack.getAmount()) {
+                    // Patch - Reduce start
+                    unreduceAccessOutput(accessor);
+                    // Patch - Reduce end
                     stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
                     itemStack.setAmount(itemStack.getAmount() - request.getAmount());
                     return stackToReturn;
@@ -1937,6 +1965,9 @@ public class NetworkRoot extends NetworkNode {
                 }
 
                 if (request.getAmount() <= itemStack.getAmount()) {
+                    // Patch - Reduce start
+                    unreduceAccessOutput(accessor);
+                    // Patch - Reduce end
                     stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
                     itemStack.setAmount(itemStack.getAmount() - request.getAmount());
                     return stackToReturn;
@@ -1969,6 +2000,9 @@ public class NetworkRoot extends NetworkNode {
             }
 
             if (request.getAmount() <= itemStack.getAmount()) {
+                // Patch - Reduce start
+                unreduceAccessOutput(accessor);
+                // Patch - Reduce end
                 // We can't take more than this stack. Level to request amount, remove items and then return
                 stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
                 itemStack.setAmount(itemStack.getAmount() - request.getAmount());
@@ -1982,7 +2016,12 @@ public class NetworkRoot extends NetworkNode {
         }
 
         if (stackToReturn == null || stackToReturn.getAmount() == 0) {
+            addTransportOutputMiss(accessor);
             return null;
+        } else {
+            // Patch - Reduce start
+            unreduceAccessOutput(accessor);
+            // Patch - Reduce end
         }
 
         return stackToReturn;
@@ -1993,6 +2032,12 @@ public class NetworkRoot extends NetworkNode {
     }
 
     public void addItemStack0(@Nonnull Location accessor, @Nonnull ItemStack incoming) {
+        if (!allowAccessInput(accessor)) {
+            return;
+        }
+
+        int before = incoming.getAmount();
+
         var m = getPersistentAccessHistory(accessor);
         if (m != null) {
             for (var entry : m.entrySet()) {
@@ -2008,6 +2053,9 @@ public class NetworkRoot extends NetworkNode {
 
                         // All distributed, can escape
                         if (incoming.getAmount() == 0) {
+                            // Patch - Reduce start
+                            unreduceAccessInput(accessor);
+                            // Patch - Reduce end
                             return;
                         }
                     } else {
@@ -2020,12 +2068,12 @@ public class NetworkRoot extends NetworkNode {
                     StorageUnitData data = accessInputAbleCargoStorageUnitData(entry.getKey());
                     if (data != null) {
                         // Patch - Cache start
-                        int before = incoming.getAmount();
+                        int before2 = incoming.getAmount();
                         // Patch - Cache end
                         data.depositItemStack0(accessor, incoming, true);
 
                         // Patch - Cache start
-                        if (incoming.getAmount() == before) {
+                        if (incoming.getAmount() == before2) {
                             addCacheMiss(accessor, entry.getKey());
                         } else {
                             minusCacheMiss(accessor, entry.getKey());
@@ -2033,6 +2081,9 @@ public class NetworkRoot extends NetworkNode {
                         // Patch - Cache end
 
                         if (incoming.getAmount() == 0) {
+                            // Patch - Reduce start
+                            unreduceAccessInput(accessor);
+                            // Patch - Reduce end
                             return;
                         }
                     } else {
@@ -2053,6 +2104,9 @@ public class NetworkRoot extends NetworkNode {
 
             blockMenu.markDirty();
             BlockMenuUtil.pushItem(blockMenu, incoming, ADVANCED_GREEDY_BLOCK_AVAILABLE_SLOTS);
+            // Patch - Reduce start
+            unreduceAccessInput(accessor);
+            // Patch - Reduce end
             // Given we have found a match, it doesn't matter if the item moved or not, we will not bring it in
             return;
         }
@@ -2067,6 +2121,9 @@ public class NetworkRoot extends NetworkNode {
 
             blockMenu.markDirty();
             BlockMenuUtil.pushItem(blockMenu, incoming, GREEDY_BLOCK_AVAILABLE_SLOTS[0]);
+            // Patch - Reduce start
+            unreduceAccessInput(accessor);
+            // Patch - Reduce end
             // Given we have found a match, it doesn't matter if the item moved or not, we will not bring it in
             return;
         }
@@ -2084,6 +2141,9 @@ public class NetworkRoot extends NetworkNode {
 
                 // All distributed, can escape
                 if (incoming.getAmount() == 0) {
+                    // Patch - Reduce start
+                    unreduceAccessInput(accessor);
+                    // Patch - Reduce end
                     return;
                 }
             }
@@ -2092,18 +2152,24 @@ public class NetworkRoot extends NetworkNode {
 
         for (StorageUnitData cache : getInputAbleCargoStorageUnitDatas().keySet()) {
             // Patch - Cache start
-            int before = incoming.getAmount();
+            int before2 = incoming.getAmount();
             // Patch - Cache end
 
             cache.depositItemStack0(accessor, incoming, true);
 
             // Patch - Cache start
-            if (incoming.getAmount() != before) {
+            if (incoming.getAmount() != before2) {
+                // Patch - Reduce start
+                unreduceAccessInput(accessor);
+                // Patch - Reduce end
                 addCountObservingAccessHistory(accessor, cache.getLastLocation());
             }
             // Patch - Cache end
 
             if (incoming.getAmount() == 0) {
+                // Patch - Reduce start
+                unreduceAccessInput(accessor);
+                // Patch - Reduce end
                 return;
             }
         }
@@ -2112,9 +2178,21 @@ public class NetworkRoot extends NetworkNode {
             blockMenu.markDirty();
             BlockMenuUtil.pushItem(blockMenu, incoming, CELL_AVAILABLE_SLOTS);
             if (incoming.getAmount() == 0) {
+                // Patch - Reduce start
+                unreduceAccessInput(accessor);
+                // Patch - Reduce end
                 return;
             }
         }
+
+        // Patch - Reduce start
+        if (before == incoming.getAmount()) {
+            // No item moved, limit the accessor
+            addTransportInputMiss(accessor);
+        } else {
+            unreduceAccessInput(accessor);
+        }
+        // Patch - Reduce end
     }
 
     public Map<Location, BarrelIdentity> getMapInputAbleBarrels() {
@@ -2163,5 +2241,61 @@ public class NetworkRoot extends NetworkNode {
         }
 
         return this.mapOutputAbleCargoStorageUnits;
+    }
+
+    public boolean allowAccessInput(@Nonnull Location accessor) {
+        var lastTime = reducedAccessOutputHistory.get(accessor);
+        if (lastTime == null) {
+            return true;
+        } else {
+            return System.currentTimeMillis() - lastTime > reduceMs;
+        }
+    }
+
+    public boolean allowAccessOutput(@Nonnull Location accessor) {
+        var lastTime = reducedAccessInputHistory.get(accessor);
+        if (lastTime == null) {
+            return true;
+        } else {
+            return System.currentTimeMillis() - lastTime > reduceMs;
+        }
+    }
+
+    public void addTransportInputMiss(@Nonnull Location location) {
+        transportMissInputHistory.merge(location, 1, (a, b) -> {
+            if (a + b > transportMissThreshold) {
+                reduceAccessInput(location);
+                return null;
+            } else{
+                return a + b;
+            }
+        });
+    }
+
+    public void addTransportOutputMiss(@Nonnull Location location) {
+        transportMissOutputHistory.merge(location, 1, (a, b) -> {
+            if (a + b > transportMissThreshold) {
+                reduceAccessOutput(location);
+                return null;
+            } else{
+                return a + b;
+            }
+        });
+    }
+
+    public void reduceAccessInput(@Nonnull Location accessor) {
+        reducedAccessInputHistory.put(accessor, System.currentTimeMillis());
+    }
+
+    public void reduceAccessOutput(@Nonnull Location accessor) {
+        reducedAccessOutputHistory.put(accessor, System.currentTimeMillis());
+    }
+
+    public void unreduceAccessInput(@Nonnull Location accessor) {
+        reducedAccessInputHistory.remove(accessor);
+    }
+
+    public void unreduceAccessOutput(@Nonnull Location accessor) {
+        reducedAccessOutputHistory.remove(accessor);
     }
 }

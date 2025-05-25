@@ -81,6 +81,14 @@ public class ConfigManager {
         return Networks.getInstance().getConfig().getInt("speed-up.cache-miss-threshold", 15);
     }
 
+    public int getReduceMs() {
+        return Networks.getInstance().getConfig().getInt("speed-down.reduce-ms", 8000);
+    }
+
+    public int getTransportMissThreshold() {
+        return Networks.getInstance().getConfig().getInt("speed-down.transport-miss-threshold", 120);
+    }
+
     public void saveAll() {
         Networks.getInstance().getLogger().info(Networks.getLocalizationService().getString("messages.save-all"));
     }
