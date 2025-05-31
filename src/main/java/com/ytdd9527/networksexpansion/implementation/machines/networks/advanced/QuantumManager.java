@@ -1,10 +1,8 @@
 package com.ytdd9527.networksexpansion.implementation.machines.networks.advanced;
 
-import com.ytdd9527.networksexpansion.core.items.machines.AbstractGridNewStyle;
+import com.ytdd9527.networksexpansion.core.items.machines.AbstractManager;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache;
-import io.github.sefiraat.networks.slimefun.network.grid.GridCache.DisplayMode;
-import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -15,7 +13,6 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -24,10 +21,10 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NetworkGridNewStyle extends AbstractGridNewStyle {
+public class QuantumManager extends AbstractManager {
 
     private static final int[] BACKGROUND_SLOTS = new int[] {
-            8
+            8, 17
     };
 
     private static final int[] DISPLAY_SLOTS = {
@@ -39,17 +36,14 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
             45, 46, 47, 48, 49, 50, 51, 52,
     };
 
-    @Deprecated
-    private static final int AUTO_FILTER_SLOT = 8;
     private static final int CHANGE_SORT = 35;
     private static final int FILTER = 26;
     private static final int PAGE_PREVIOUS = 44;
     private static final int PAGE_NEXT = 53;
-    private static final int TOGGLE_MODE_SLOT = 17;
 
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
 
-    public NetworkGridNewStyle(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public QuantumManager(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -60,7 +54,7 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
 
             @Override
             public void init() {
-                // drawBackground(getBackgroundSlots());
+                drawBackground(getBackgroundSlots());
                 drawBackground(getDisplaySlots());
                 setSize(54);
             }
@@ -105,8 +99,6 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
                         gridCache.setSortOrder(GridCache.SortOrder.NUMBER);
                     } else if (gridCache.getSortOrder() == GridCache.SortOrder.NUMBER) {
                         gridCache.setSortOrder(GridCache.SortOrder.NUMBER_REVERSE);
-                    } else if (gridCache.getSortOrder() == GridCache.SortOrder.NUMBER_REVERSE) {
-                        gridCache.setSortOrder(GridCache.SortOrder.ADDON);
                     } else {
                         gridCache.setSortOrder(GridCache.SortOrder.ALPHABETICAL);
                     }
@@ -122,42 +114,10 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
                     return false;
                 });
 
-                menu.replaceExistingItem(getToggleModeSlot(), getModeStack(DisplayMode.DISPLAY));
-                menu.addMenuClickHandler(getToggleModeSlot(), (p, slot, item, action) -> {
-                    if (!action.isRightClicked()) {
-                        GridCache gridCache = getCacheMap().get(menu.getLocation());
-                        gridCache.toggleDisplayMode();
-                        menu.replaceExistingItem(getToggleModeSlot(), getModeStack(gridCache));
-                        updateDisplay(menu);
-                    }
-                    return false;
-                });
-
                 for (int displaySlot : getDisplaySlots()) {
                     menu.replaceExistingItem(displaySlot, ChestMenuUtils.getBackground());
                     menu.addMenuClickHandler(displaySlot, (p, slot, item, action) -> false);
                 }
-
-                ItemStack exist = menu.getItemInSlot(getAutoFilterSlot());
-                if (exist != null && exist.getType() != Material.AIR && !StackUtils.itemsMatch(exist, ChestMenuUtils.getBackground())) {
-                    // drop item
-                    menu.getLocation().getWorld().dropItemNaturally(menu.getLocation(), exist);
-                }
-
-                for (int backgroundSlot : getBackgroundSlots()) {
-                     menu.replaceExistingItem(backgroundSlot, ChestMenuUtils.getBackground());
-                     menu.addMenuClickHandler(backgroundSlot, (p, slot, item, action) -> false);
-                }
-
-                menu.addPlayerInventoryClickHandler((p, s, i ,a) -> {
-                    if (!a.isShiftClicked() || a.isRightClicked()) {
-                        return true;
-                    }
-
-                    // Shift+Left-click
-                    receiveItem(p, i, a, menu);
-                    return false;
-                });
             }
         };
     }
@@ -185,15 +145,6 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
 
     public int getPageNext() {
         return PAGE_NEXT;
-    }
-
-    @Deprecated
-    public int getAutoFilterSlot() {
-        return AUTO_FILTER_SLOT;
-    }
-
-    public int getToggleModeSlot() {
-        return TOGGLE_MODE_SLOT;
     }
 
     @Override

@@ -5,7 +5,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.ToString;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 @Data
 @Getter

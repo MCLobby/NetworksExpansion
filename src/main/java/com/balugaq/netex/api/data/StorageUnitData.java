@@ -14,7 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -41,11 +41,11 @@ public class StorageUnitData {
     @Getter
     private Location lastLocation;
 
-    public StorageUnitData(int id, @NotNull String ownerUUID, StorageUnitType sizeType, boolean isPlaced, Location lastLocation) {
+    public StorageUnitData(int id, @Nonnull String ownerUUID, StorageUnitType sizeType, boolean isPlaced, Location lastLocation) {
         this(id, Bukkit.getOfflinePlayer(UUID.fromString(ownerUUID)), sizeType, isPlaced, lastLocation, new HashMap<>());
     }
 
-    public StorageUnitData(int id, @NotNull String ownerUUID, StorageUnitType sizeType, boolean isPlaced, Location lastLocation, Map<Integer, ItemContainer> storedItems) {
+    public StorageUnitData(int id, @Nonnull String ownerUUID, StorageUnitType sizeType, boolean isPlaced, Location lastLocation, Map<Integer, ItemContainer> storedItems) {
         this(id, Bukkit.getOfflinePlayer(UUID.fromString(ownerUUID)), sizeType, isPlaced, lastLocation, storedItems);
     }
 
@@ -149,17 +149,17 @@ public class StorageUnitData {
      * @return the amount actual added
      */
     @Deprecated
-    public int addStoredItem(@NotNull ItemStack item, boolean contentLocked) {
+    public int addStoredItem(@Nonnull ItemStack item, boolean contentLocked) {
         return addStoredItem(item, item.getAmount(), contentLocked, false);
     }
 
     @Deprecated
-    public int addStoredItem(@NotNull ItemStack item, boolean contentLocked, boolean force) {
+    public int addStoredItem(@Nonnull ItemStack item, boolean contentLocked, boolean force) {
         return addStoredItem(item, item.getAmount(), contentLocked, force);
     }
 
     @Deprecated
-    public int addStoredItem(@NotNull ItemStack item, int amount, boolean contentLocked) {
+    public int addStoredItem(@Nonnull ItemStack item, int amount, boolean contentLocked) {
         return addStoredItem(item, amount, contentLocked, false);
     }
 
@@ -171,7 +171,7 @@ public class StorageUnitData {
      * @return the amount actual added
      */
     @Deprecated
-    public int addStoredItem(@NotNull ItemStack item, int amount, boolean contentLocked, boolean force) {
+    public int addStoredItem(@Nonnull ItemStack item, int amount, boolean contentLocked, boolean force) {
         int add = 0;
         boolean isVoidExcess = NetworksDrawer.isVoidExcess(getLastLocation());
         for (ItemContainer each : storedItems.values()) {
@@ -289,15 +289,15 @@ public class StorageUnitData {
         return copyStoredItems();
     }
 
-    public @NotNull List<ItemContainer> copyStoredItems() {
+    public @Nonnull List<ItemContainer> copyStoredItems() {
         return new ArrayList<>(storedItems.values());
     }
 
-    public @NotNull Collection<ItemContainer> getStoredItemsDirectly() {
+    public @Nonnull Collection<ItemContainer> getStoredItemsDirectly() {
         return storedItems.values();
     }
 
-    public @NotNull Map<Integer, ItemContainer> copyStoredItemsMap() {
+    public @Nonnull Map<Integer, ItemContainer> copyStoredItemsMap() {
         return new HashMap<>(storedItems);
     }
 
@@ -373,7 +373,7 @@ public class StorageUnitData {
     }
 
     @Deprecated
-    public void depositItemStack(@org.jetbrains.annotations.Nullable ItemStack itemsToDeposit, boolean contentLocked, boolean force) {
+    public void depositItemStack(@javax.annotation.Nullable ItemStack itemsToDeposit, boolean contentLocked, boolean force) {
         if (itemsToDeposit == null || isBlacklisted(itemsToDeposit)) {
             return;
         }
@@ -493,7 +493,7 @@ public class StorageUnitData {
         }
     }
 
-    public void depositItemStack0(@Nonnull Location accessor, @org.jetbrains.annotations.Nullable ItemStack itemsToDeposit, boolean contentLocked, boolean force) {
+    public void depositItemStack0(@Nonnull Location accessor, @javax.annotation.Nullable ItemStack itemsToDeposit, boolean contentLocked, boolean force) {
         if (itemsToDeposit == null || isBlacklisted(itemsToDeposit)) {
             return;
         }
@@ -515,7 +515,7 @@ public class StorageUnitData {
      * @param amount:   amount will be added
      * @return the amount actual added
      */
-    public int addStoredItem0(Location accessor, @NotNull ItemStack item, int amount, boolean contentLocked, boolean force) {
+    public int addStoredItem0(Location accessor, @Nonnull ItemStack item, int amount, boolean contentLocked, boolean force) {
         int add = 0;
         boolean isVoidExcess = NetworksDrawer.isVoidExcess(getLastLocation());
         var stored = getStoredItems();
@@ -617,15 +617,15 @@ public class StorageUnitData {
      * @param item:     item will be added
      * @return the amount actual added
      */
-    public int addStoredItem0(Location accessor, @NotNull ItemStack item, boolean contentLocked) {
+    public int addStoredItem0(Location accessor, @Nonnull ItemStack item, boolean contentLocked) {
         return addStoredItem0(accessor, item, item.getAmount(), contentLocked, false);
     }
 
-    public int addStoredItem0(Location accessor, @NotNull ItemStack item, boolean contentLocked, boolean force) {
+    public int addStoredItem0(Location accessor, @Nonnull ItemStack item, boolean contentLocked, boolean force) {
         return addStoredItem0(accessor, item, item.getAmount(), contentLocked, force);
     }
 
-    public int addStoredItem0(Location accessor, @NotNull ItemStack item, int amount, boolean contentLocked) {
+    public int addStoredItem0(Location accessor, @Nonnull ItemStack item, int amount, boolean contentLocked) {
         return addStoredItem0(accessor, item, amount, contentLocked, false);
     }
 }

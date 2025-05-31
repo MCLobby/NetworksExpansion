@@ -3,7 +3,7 @@ package com.balugaq.netex.api.data;
 
 import com.ytdd9527.networksexpansion.utils.itemstacks.CompareUtil;
 import lombok.Getter;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.annotation.Nonnull;
 
@@ -16,7 +16,7 @@ public class AdvancedMachineRecipe {
     private final ItemAmountWrapper[] inputs;
     @Nonnull
     private final AdvancedRandomOutput[] randomOutputs;
-    private final int @NotNull [] weightBeginValues;
+    private final int @Nonnull [] weightBeginValues;
     @Getter
     private int weightSum = 0;
 

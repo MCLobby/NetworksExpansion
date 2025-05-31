@@ -109,7 +109,8 @@ public class SetupUtil {
                 ExpansionItems.ADVANCED_TRANSFER_GRABBER.registerThis(),
                 ExpansionItems.ADVANCED_TRANSFER_PUSHER.registerThis(),
                 ExpansionItems.ADVANCED_TRANSFER_MORE_PUSHER.registerThis(),
-                ExpansionItems.ADVANCED_TRANSFER_BEST_PUSHER.registerThis()
+                ExpansionItems.ADVANCED_TRANSFER_BEST_PUSHER.registerThis(),
+                ExpansionItems.QUANTUM_MANAGER.registerThis()
         );
 
         ExpansionItemsMenus.SUB_MENU_CARGO.addTo(

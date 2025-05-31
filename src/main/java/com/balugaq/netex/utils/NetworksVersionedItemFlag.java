@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
 
 @UtilityClass
 public class NetworksVersionedItemFlag {
-    public static final @org.jetbrains.annotations.Nullable ItemFlag HIDE_ADDITIONAL_TOOLTIP;
+    public static final @javax.annotation.Nullable ItemFlag HIDE_ADDITIONAL_TOOLTIP;
 
     static {
         MinecraftVersion version = Networks.getInstance().getMCVersion();

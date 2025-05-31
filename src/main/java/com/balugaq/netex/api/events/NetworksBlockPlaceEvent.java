@@ -6,26 +6,26 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 @Getter
 public class NetworksBlockPlaceEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private final @NotNull Block block;
-    private final @NotNull Player player;
+    private final @Nonnull Block block;
+    private final @Nonnull Player player;
     private boolean cancelled = false;
 
-    public NetworksBlockPlaceEvent(@NotNull Block theBlock, @NotNull Player player) {
+    public NetworksBlockPlaceEvent(@Nonnull Block theBlock, @Nonnull Player player) {
         this.block = theBlock;
         this.player = player;
     }
 
-    public static @NotNull HandlerList getHandlerList() {
+    public static @Nonnull HandlerList getHandlerList() {
         return handlers;
     }
 
     @Override
-    public @NotNull HandlerList getHandlers() {
+    public @Nonnull HandlerList getHandlers() {
         return handlers;
     }
 

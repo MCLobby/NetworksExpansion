@@ -175,7 +175,7 @@ public class JavaUtil {
      * @return In most case, it will not return null. (￣▽￣)"
      */
     @SafeVarargs
-    public static <T> T getFirstNotNull(T... objects) {
+    public static <T> T getFirstNonnull(T... objects) {
         for (T object : objects) {
             if (object != null) {
                 return object;

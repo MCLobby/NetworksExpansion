@@ -3,7 +3,7 @@ package io.github.sefiraat.networks.slimefun.network.grid;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -65,7 +65,7 @@ public class GridCache {
         }
     }
 
-    public @NotNull DisplayMode getDisplayMode() {
+    public @Nonnull DisplayMode getDisplayMode() {
         return this.displayMode;
     }
 
@@ -80,6 +80,7 @@ public class GridCache {
     public enum SortOrder {
         ALPHABETICAL,
         NUMBER,
+        NUMBER_REVERSE,
         ADDON
     }
 

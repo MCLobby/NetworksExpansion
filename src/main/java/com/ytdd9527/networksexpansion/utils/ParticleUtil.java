@@ -1,8 +1,10 @@
 package com.ytdd9527.networksexpansion.utils;
 
+import io.github.sefiraat.networks.Networks;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.plugin.Plugin;
 
 import javax.annotation.Nonnull;
@@ -180,5 +182,51 @@ public class ParticleUtil {
         drawLineByDistance(plugin, particle, interval, 0.25, corners[5], corners[6]);
 
         drawLineByDistance(plugin, particle, interval, 0.25, corners[6], corners[7]);
+    }
+
+    public static void drawCubeByBlock(@Nonnull final Plugin plugin, @Nonnull final Particle particle, final long interval, @Nonnull final Block... blocks) {
+        int time = 0;
+        for (final Block block : blocks) {
+            final Location location = block.getLocation();
+            final World world = location.getWorld();
+            if (world == null) {
+                continue;
+            }
+            final int x = location.getBlockX();
+            final int y = location.getBlockY();
+            final int z = location.getBlockZ();
+            if (time < 50) {
+                for (int i = 0; i < BLOCK_CUBE_OFFSET_X.length; i++) {
+                    world.spawnParticle(particle, x + BLOCK_CUBE_OFFSET_X[i], y + BLOCK_CUBE_OFFSET_Y[i], z + BLOCK_CUBE_OFFSET_Z[i], 1, 0, 0, 0, 0);
+                }
+            } else {
+                plugin.getServer().getScheduler().runTaskLaterAsynchronously(plugin, () -> {
+                    for (int i = 0; i < BLOCK_CUBE_OFFSET_X.length; i++) {
+                        world.spawnParticle(particle, x + BLOCK_CUBE_OFFSET_X[i], y + BLOCK_CUBE_OFFSET_Y[i], z + BLOCK_CUBE_OFFSET_Z[i], 1, 0, 0, 0, 0);
+                    }
+                }, time / 50);
+            }
+            time += interval;
+        }
+    }
+
+    public static void drawCubeByBlock(@Nonnull final Plugin plugin, @Nonnull final Particle particle, final long interval, final List<Block> blockList) {
+        Block[] blocks = new Block[blockList.size()];
+        for (int i = 0; i < blockList.size(); i++) {
+            blocks[i] = blockList.get(i);
+        }
+        drawCubeByBlock(plugin, particle, interval, blocks);
+    }
+
+    public static void drawLineFrom(final Location location1, final Location location2) {
+        drawLineByTotalAmount(Particle.WAX_OFF, (int) location1.distance(location2) * 4, location1, location2);
+    }
+
+    public static void highlightBlock(final Location location) {
+        highlightBlock(location.getBlock());
+    }
+
+    public static void highlightBlock(final Block block) {
+        drawCubeByBlock(Networks.getInstance(), Particle.WAX_ON, 1, block);
     }
 }

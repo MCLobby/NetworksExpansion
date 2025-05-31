@@ -18,8 +18,8 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -51,14 +51,14 @@ public class MainItemGroup extends FlexItemGroup {
     private List<List<ItemGroup>> sonItemGroupList = new ArrayList<>();
     private Map<Integer, MainItemGroup> pageMap = new LinkedHashMap<>();
 
-    public MainItemGroup(@NotNull NamespacedKey key, @Nullable ItemStack item, int tier) {
+    public MainItemGroup(@Nonnull NamespacedKey key, @Nullable ItemStack item, int tier) {
         super(key, ItemStackUtil.getCleanItem(item), tier);
         this.page = 1;
         this.item = item;
         this.pageMap.put(1, this);
     }
 
-    private MainItemGroup(@NotNull NamespacedKey key, @Nullable ItemStack item, int tier, int page) {
+    private MainItemGroup(@Nonnull NamespacedKey key, @Nullable ItemStack item, int tier, int page) {
         super(key, ItemStackUtil.getCleanItem(item), tier);
         this.page = page;
         this.item = item;

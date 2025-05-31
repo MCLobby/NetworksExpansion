@@ -11,9 +11,9 @@ import java.lang.reflect.Field;
 
 @UtilityClass
 public class NetworksVersionedParticle {
-    public static final @org.jetbrains.annotations.Nullable Particle DUST;
-    public static final @org.jetbrains.annotations.Nullable Particle EXPLOSION;
-    public static final @org.jetbrains.annotations.Nullable Particle SMOKE;
+    public static final @javax.annotation.Nullable Particle DUST;
+    public static final @javax.annotation.Nullable Particle EXPLOSION;
+    public static final @javax.annotation.Nullable Particle SMOKE;
 
     static {
         MinecraftVersion version = Networks.getInstance().getMCVersion();

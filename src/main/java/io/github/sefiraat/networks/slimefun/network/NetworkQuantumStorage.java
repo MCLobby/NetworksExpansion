@@ -125,6 +125,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
         if (cache.getItemStack() == null) {
             return;
         }
+
         for (ItemStack itemStack : input) {
             if (isBlacklisted(itemStack)) {
                 continue;
@@ -194,7 +195,16 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             menu.replaceExistingItem(ITEM_SLOT, Icon.QUANTUM_STORAGE_NO_ITEM);
         } else {
             final ItemStack itemStack = cache.getItemStack().clone();
+            if (itemStack.getType() == Material.AIR) {
+                menu.replaceExistingItem(ITEM_SLOT, Icon.QUANTUM_STORAGE_NO_ITEM);
+                return;
+            }
             final ItemMeta itemMeta = itemStack.getItemMeta();
+            if (itemMeta == null) {
+                menu.replaceExistingItem(ITEM_SLOT, Icon.QUANTUM_STORAGE_NO_ITEM);
+                return;
+            }
+
             final List<String> lore = itemMeta.hasLore() ? itemMeta.getLore() : new ArrayList<>();
 
             lore.add("");
@@ -315,7 +325,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
         CACHES.put(blockMenu.getLocation(), cache);
     }
 
-    private void setItem(@Nonnull BlockMenu blockMenu, @Nonnull Player player) {
+    public static void setItem(@Nonnull BlockMenu blockMenu, @Nonnull Player player) {
         final ItemStack itemStack = player.getItemOnCursor().clone();
 
         if (isBlacklisted(itemStack)) {
