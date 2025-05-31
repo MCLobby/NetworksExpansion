@@ -175,7 +175,7 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
                     menu.addMenuClickHandler(backgroundSlot, (p, slot, item, action) -> false);
                 }
 
-                menu.addPlayerInventoryClickHandler((p, s, i ,a) -> {
+                menu.addPlayerInventoryClickHandler((p, s, i, a) -> {
                     if (!a.isShiftClicked() || a.isRightClicked()) {
                         return true;
                     }

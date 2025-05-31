@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class QuantumManager extends AbstractManager {
 
-    private static final int[] BACKGROUND_SLOTS = new int[] {
+    private static final int[] BACKGROUND_SLOTS = new int[]{
             8, 17
     };
 

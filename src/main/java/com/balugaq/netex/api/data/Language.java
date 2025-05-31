@@ -3,7 +3,6 @@ package com.balugaq.netex.api.data;
 import com.google.common.base.Preconditions;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import javax.annotation.Nonnull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;

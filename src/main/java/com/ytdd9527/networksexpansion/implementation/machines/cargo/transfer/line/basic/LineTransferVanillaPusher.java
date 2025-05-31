@@ -38,7 +38,6 @@ import org.bukkit.inventory.FurnaceInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-import javax.annotation.Nonnull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

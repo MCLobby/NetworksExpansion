@@ -36,7 +36,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
-import javax.annotation.Nonnull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -227,6 +226,173 @@ public class NetworkRoot extends NetworkNode {
         Map<Location, Integer> locations = observingAccessHistory.getOrDefault(location, new ConcurrentHashMap<>());
         locations.remove(accessLocation);
         observingAccessHistory.put(location, locations);
+    }
+
+    @Nullable
+    public static InfinityBarrel getInfinityBarrel(@Nonnull BlockMenu blockMenu, @Nonnull StorageUnit storageUnit) {
+        return getInfinityBarrel(blockMenu, storageUnit, false);
+    }
+
+    @Nullable
+    public static InfinityBarrel getInfinityBarrel(@Nonnull BlockMenu blockMenu, @Nonnull StorageUnit storageUnit, boolean includeEmpty) {
+        final ItemStack itemStack = blockMenu.getItemInSlot(16);
+        final var data = StorageCacheUtils.getBlock(blockMenu.getLocation());
+        if (data == null) {
+            return null;
+        }
+        final String storedString = data.getData("stored");
+
+        if (storedString == null) {
+            return null;
+        }
+
+        final int storedInt = Integer.parseInt(storedString);
+
+        if (!includeEmpty && (itemStack == null || itemStack.getType() == Material.AIR)) {
+            return null;
+        }
+
+
+        final StorageCache cache = storageUnit.getCache(blockMenu.getLocation());
+
+        if (cache == null) {
+            return null;
+        }
+
+        final ItemStack clone;
+        if (itemStack == null) {
+            clone = null;
+        } else {
+            clone = itemStack.clone();
+            clone.setAmount(1);
+        }
+
+        return new InfinityBarrel(
+                blockMenu.getLocation(),
+                clone,
+                storedInt + itemStack.getAmount(),
+                cache
+        );
+    }
+
+    @Nullable
+
+    public static FluffyBarrel getFluffyBarrel(@Nonnull BlockMenu blockMenu, @Nonnull Barrel barrel) {
+        return getFluffyBarrel(blockMenu, barrel, false);
+    }
+
+    @Nullable
+    public static FluffyBarrel getFluffyBarrel(@Nonnull BlockMenu blockMenu, @Nonnull Barrel barrel, boolean includeEmpty) {
+        Block block = blockMenu.getBlock();
+        ItemStack itemStack;
+        try {
+            itemStack = barrel.getStoredItem(block);
+        } catch (NullPointerException ignored) {
+            return null;
+        }
+
+        if (!includeEmpty && (itemStack == null || itemStack.getType() == Material.AIR)) {
+            return null;
+        }
+
+        final ItemStack clone;
+        if (itemStack == null) {
+            clone = null;
+        } else {
+            clone = itemStack.clone();
+            clone.setAmount(1);
+        }
+
+        int stored = barrel.getStored(block);
+
+        if (stored <= 0) {
+            return null;
+        }
+        int limit = barrel.getCapacity(block);
+        boolean voidExcess = Boolean.parseBoolean(StorageCacheUtils.getData(blockMenu.getLocation(), "trash"));
+
+        return new FluffyBarrel(
+                blockMenu.getLocation(),
+                clone,
+                stored,
+                limit,
+                voidExcess
+        );
+    }
+
+    @Nullable
+    public static NetworkStorage getNetworkStorage(@Nonnull BlockMenu blockMenu) {
+        return getNetworkStorage(blockMenu, false);
+    }
+
+    @Nullable
+    public static NetworkStorage getNetworkStorage(@Nonnull BlockMenu blockMenu, boolean includeEmpty) {
+
+        final QuantumCache cache = NetworkQuantumStorage.getCaches().get(blockMenu.getLocation());
+
+        if (cache == null) {
+            return null;
+        }
+
+        final ItemStack itemStack = cache.getItemStack();
+        if ((itemStack == null || itemStack.getType() == Material.AIR) && !includeEmpty) {
+            return null;
+        }
+
+        final ItemStack output = blockMenu.getItemInSlot(NetworkQuantumStorage.OUTPUT_SLOT);
+        long storedInt = cache.getAmount();
+        if (output != null && output.getType() != Material.AIR && StackUtils.itemsMatch(cache, output)) {
+            storedInt = storedInt + output.getAmount();
+        }
+
+        final ItemStack clone;
+
+        if (itemStack != null) {
+            clone = itemStack.clone();
+            clone.setAmount(1);
+        } else {
+            clone = null;
+        }
+
+        return new NetworkStorage(
+                blockMenu.getLocation(),
+                clone,
+                storedInt
+        );
+    }
+
+    @Nullable
+    public static BarrelIdentity getBarrel(@Nonnull Location barrelLocation) {
+        return getBarrel(barrelLocation, false);
+    }
+
+    @Nullable
+    public static BarrelIdentity getBarrel(@Nonnull Location barrelLocation, boolean includeEmpty) {
+        SlimefunItem item = StorageCacheUtils.getSfItem(barrelLocation);
+        BlockMenu menu = StorageCacheUtils.getMenu(barrelLocation);
+        if (menu == null) {
+            return null;
+        }
+
+        if (item instanceof NetworkQuantumStorage) {
+            return getNetworkStorage(menu, includeEmpty);
+        } else if (item instanceof Barrel barrel) {
+            return getFluffyBarrel(menu, barrel, includeEmpty);
+        } else if (item instanceof StorageUnit storageUnit) {
+            return getInfinityBarrel(menu, storageUnit, includeEmpty);
+        } else {
+            return null;
+        }
+    }
+
+    @Nullable
+    public static StorageUnitData getCargoStorageUnitData(@Nonnull BlockMenu blockMenu) {
+        return NetworksDrawer.getStorageData(blockMenu.getLocation());
+    }
+
+    @Nullable
+    public static StorageUnitData getCargoStorageUnitData(@Nonnull Location location) {
+        return NetworksDrawer.getStorageData(location);
     }
 
     public void registerNode(@Nonnull Location location, @Nonnull NodeType type) {
@@ -703,173 +869,6 @@ public class NetworkRoot extends NetworkNode {
         NetworkRootLocateStorageEvent event = new NetworkRootLocateStorageEvent(this, StorageType.DRAWER, true, true, Bukkit.isPrimaryThread());
         Bukkit.getPluginManager().callEvent(event);
         return dataSet;
-    }
-
-    @Nullable
-    public static InfinityBarrel getInfinityBarrel(@Nonnull BlockMenu blockMenu, @Nonnull StorageUnit storageUnit) {
-        return getInfinityBarrel(blockMenu, storageUnit, false);
-    }
-
-    @Nullable
-    public static InfinityBarrel getInfinityBarrel(@Nonnull BlockMenu blockMenu, @Nonnull StorageUnit storageUnit, boolean includeEmpty) {
-        final ItemStack itemStack = blockMenu.getItemInSlot(16);
-        final var data = StorageCacheUtils.getBlock(blockMenu.getLocation());
-        if (data == null) {
-            return null;
-        }
-        final String storedString = data.getData("stored");
-
-        if (storedString == null) {
-            return null;
-        }
-
-        final int storedInt = Integer.parseInt(storedString);
-
-        if (!includeEmpty && (itemStack == null || itemStack.getType() == Material.AIR)) {
-            return null;
-        }
-
-
-        final StorageCache cache = storageUnit.getCache(blockMenu.getLocation());
-
-        if (cache == null) {
-            return null;
-        }
-
-        final ItemStack clone;
-        if (itemStack == null) {
-            clone = null;
-        } else {
-            clone = itemStack.clone();
-            clone.setAmount(1);
-        }
-
-        return new InfinityBarrel(
-                blockMenu.getLocation(),
-                clone,
-                storedInt + itemStack.getAmount(),
-                cache
-        );
-    }
-
-    @Nullable
-
-    public static FluffyBarrel getFluffyBarrel(@Nonnull BlockMenu blockMenu, @Nonnull Barrel barrel) {
-        return getFluffyBarrel(blockMenu, barrel, false);
-    }
-
-    @Nullable
-    public static FluffyBarrel getFluffyBarrel(@Nonnull BlockMenu blockMenu, @Nonnull Barrel barrel, boolean includeEmpty) {
-        Block block = blockMenu.getBlock();
-        ItemStack itemStack;
-        try {
-            itemStack = barrel.getStoredItem(block);
-        } catch (NullPointerException ignored) {
-            return null;
-        }
-
-        if (!includeEmpty && (itemStack == null || itemStack.getType() == Material.AIR)) {
-            return null;
-        }
-
-        final ItemStack clone;
-        if (itemStack == null) {
-            clone = null;
-        } else {
-            clone = itemStack.clone();
-            clone.setAmount(1);
-        }
-
-        int stored = barrel.getStored(block);
-
-        if (stored <= 0) {
-            return null;
-        }
-        int limit = barrel.getCapacity(block);
-        boolean voidExcess = Boolean.parseBoolean(StorageCacheUtils.getData(blockMenu.getLocation(), "trash"));
-
-        return new FluffyBarrel(
-                blockMenu.getLocation(),
-                clone,
-                stored,
-                limit,
-                voidExcess
-        );
-    }
-
-    @Nullable
-    public static NetworkStorage getNetworkStorage(@Nonnull BlockMenu blockMenu) {
-        return getNetworkStorage(blockMenu, false);
-    }
-
-    @Nullable
-    public static NetworkStorage getNetworkStorage(@Nonnull BlockMenu blockMenu, boolean includeEmpty) {
-
-        final QuantumCache cache = NetworkQuantumStorage.getCaches().get(blockMenu.getLocation());
-
-        if (cache == null) {
-            return null;
-        }
-
-        final ItemStack itemStack = cache.getItemStack();
-        if ((itemStack == null || itemStack.getType() == Material.AIR) && !includeEmpty) {
-            return null;
-        }
-
-        final ItemStack output = blockMenu.getItemInSlot(NetworkQuantumStorage.OUTPUT_SLOT);
-        long storedInt = cache.getAmount();
-        if (output != null && output.getType() != Material.AIR && StackUtils.itemsMatch(cache, output)) {
-            storedInt = storedInt + output.getAmount();
-        }
-
-        final ItemStack clone;
-
-        if (itemStack != null) {
-            clone = itemStack.clone();
-            clone.setAmount(1);
-        } else {
-            clone = null;
-        }
-
-        return new NetworkStorage(
-                blockMenu.getLocation(),
-                clone,
-                storedInt
-        );
-    }
-
-    @Nullable
-    public static BarrelIdentity getBarrel(@Nonnull Location barrelLocation) {
-        return getBarrel(barrelLocation, false);
-    }
-
-    @Nullable
-    public static BarrelIdentity getBarrel(@Nonnull Location barrelLocation, boolean includeEmpty) {
-        SlimefunItem item = StorageCacheUtils.getSfItem(barrelLocation);
-        BlockMenu menu = StorageCacheUtils.getMenu(barrelLocation);
-        if (menu == null) {
-            return null;
-        }
-
-        if (item instanceof NetworkQuantumStorage) {
-            return getNetworkStorage(menu, includeEmpty);
-        } else if (item instanceof Barrel barrel) {
-            return getFluffyBarrel(menu, barrel, includeEmpty);
-        } else if (item instanceof StorageUnit storageUnit) {
-            return getInfinityBarrel(menu, storageUnit, includeEmpty);
-        } else {
-            return null;
-        }
-    }
-
-    @Nullable
-    public static StorageUnitData getCargoStorageUnitData(@Nonnull BlockMenu blockMenu) {
-        return NetworksDrawer.getStorageData(blockMenu.getLocation());
-    }
-
-    @Nullable
-    public static StorageUnitData getCargoStorageUnitData(@Nonnull Location location) {
-        return NetworksDrawer.getStorageData(location);
     }
 
     @Nonnull
@@ -2395,7 +2394,7 @@ public class NetworkRoot extends NetworkNode {
             if (a + b > transportMissThreshold) {
                 reduceAccessInput(location);
                 return null;
-            } else{
+            } else {
                 return a + b;
             }
         });
@@ -2406,7 +2405,7 @@ public class NetworkRoot extends NetworkNode {
             if (a + b > transportMissThreshold) {
                 reduceAccessOutput(location);
                 return null;
-            } else{
+            } else {
                 return a + b;
             }
         });

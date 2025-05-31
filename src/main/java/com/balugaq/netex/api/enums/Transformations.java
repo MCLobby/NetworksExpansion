@@ -5,7 +5,6 @@ import dev.sefiraat.sefilib.misc.RotationFace;
 import dev.sefiraat.sefilib.misc.TransformationBuilder;
 import io.github.sefiraat.networks.Networks;
 import org.bukkit.util.Transformation;
-import javax.annotation.Nonnull;
 import org.joml.Quaternionf;
 
 import javax.annotation.Nonnull;

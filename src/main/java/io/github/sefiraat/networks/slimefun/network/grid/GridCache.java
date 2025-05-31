@@ -3,7 +3,6 @@ package io.github.sefiraat.networks.slimefun.network.grid;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
-import javax.annotation.Nonnull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

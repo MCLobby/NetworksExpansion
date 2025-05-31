@@ -26,7 +26,7 @@ import java.util.Map;
 
 public class NetworkGridNewStyle extends AbstractGridNewStyle {
 
-    private static final int[] BACKGROUND_SLOTS = new int[] {
+    private static final int[] BACKGROUND_SLOTS = new int[]{
             8
     };
 
@@ -145,11 +145,11 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
                 }
 
                 for (int backgroundSlot : getBackgroundSlots()) {
-                     menu.replaceExistingItem(backgroundSlot, ChestMenuUtils.getBackground());
-                     menu.addMenuClickHandler(backgroundSlot, (p, slot, item, action) -> false);
+                    menu.replaceExistingItem(backgroundSlot, ChestMenuUtils.getBackground());
+                    menu.addMenuClickHandler(backgroundSlot, (p, slot, item, action) -> false);
                 }
 
-                menu.addPlayerInventoryClickHandler((p, s, i ,a) -> {
+                menu.addPlayerInventoryClickHandler((p, s, i, a) -> {
                     if (!a.isShiftClicked() || a.isRightClicked()) {
                         return true;
                     }

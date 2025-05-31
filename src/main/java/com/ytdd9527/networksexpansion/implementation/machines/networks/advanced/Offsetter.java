@@ -31,7 +31,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import javax.annotation.Nonnull;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;

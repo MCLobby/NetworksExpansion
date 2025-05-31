@@ -22,7 +22,6 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import javax.annotation.Nonnull;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;

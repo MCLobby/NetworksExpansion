@@ -11,7 +11,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import lombok.experimental.UtilityClass;
 import org.bukkit.inventory.ItemStack;
-import javax.annotation.Nonnull;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
