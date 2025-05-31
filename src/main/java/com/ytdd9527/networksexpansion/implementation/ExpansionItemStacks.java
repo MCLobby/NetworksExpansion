@@ -807,6 +807,10 @@ public class ExpansionItemStacks {
             Networks.getLocalizationService().getItem("NTW_EXPANSION_DRAWER_TIPS", Material.BOOK),
             Theme.GUIDE
     );
+    public static final SlimefunItemStack QUANTUM_MANAGER = Theme.themedSlimefunItemStack(
+            Networks.getLocalizationService().getItem("NTW_EXPANSION_QUANTUM_MANAGER", Material.GLOWSTONE),
+            Theme.MACHINE
+    );
 
     public static ItemStack Enchanted(Material material) {
         return ItemStackUtil.getPreEnchantedItemStack(material);

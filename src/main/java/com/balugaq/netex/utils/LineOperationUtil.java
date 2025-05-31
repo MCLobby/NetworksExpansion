@@ -16,7 +16,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -24,15 +24,15 @@ import java.util.function.Consumer;
 
 @UtilityClass
 public class LineOperationUtil {
-    public static void doOperation(@NotNull Location startLocation, @NotNull BlockFace direction, int limit, @NotNull Consumer<BlockMenu> consumer) {
+    public static void doOperation(@Nonnull Location startLocation, @Nonnull BlockFace direction, int limit, @Nonnull Consumer<BlockMenu> consumer) {
         doOperation(startLocation, direction, limit, false, true, consumer);
     }
 
-    public static void doOperation(@NotNull Location startLocation, @NotNull BlockFace direction, int limit, boolean skipNoMenu, @NotNull Consumer<BlockMenu> consumer) {
+    public static void doOperation(@Nonnull Location startLocation, @Nonnull BlockFace direction, int limit, boolean skipNoMenu, @Nonnull Consumer<BlockMenu> consumer) {
         doOperation(startLocation, direction, limit, skipNoMenu, true, consumer);
     }
 
-    public static void doOperation(@NotNull Location startLocation, @NotNull BlockFace direction, int limit, boolean skipNoMenu, boolean optimizeExperience, @NotNull Consumer<BlockMenu> consumer) {
+    public static void doOperation(@Nonnull Location startLocation, @Nonnull BlockFace direction, int limit, boolean skipNoMenu, boolean optimizeExperience, @Nonnull Consumer<BlockMenu> consumer) {
         Location location = startLocation.clone();
         int finalLimit = limit;
         if (optimizeExperience) {
@@ -59,15 +59,15 @@ public class LineOperationUtil {
         }
     }
 
-    public static void doEnergyOperation(@NotNull Location startLocation, @NotNull BlockFace direction, int limit, @NotNull Consumer<Location> consumer) {
+    public static void doEnergyOperation(@Nonnull Location startLocation, @Nonnull BlockFace direction, int limit, @Nonnull Consumer<Location> consumer) {
         doEnergyOperation(startLocation, direction, limit, true, true, consumer);
     }
 
-    public static void doEnergyOperation(@NotNull Location startLocation, @NotNull BlockFace direction, int limit, boolean allowNoMenu, @NotNull Consumer<Location> consumer) {
+    public static void doEnergyOperation(@Nonnull Location startLocation, @Nonnull BlockFace direction, int limit, boolean allowNoMenu, @Nonnull Consumer<Location> consumer) {
         doEnergyOperation(startLocation, direction, limit, allowNoMenu, true, consumer);
     }
 
-    public static void doEnergyOperation(@NotNull Location startLocation, @NotNull BlockFace direction, int limit, boolean allowNoMenu, boolean optimizeExperience, @NotNull Consumer<Location> consumer) {
+    public static void doEnergyOperation(@Nonnull Location startLocation, @Nonnull BlockFace direction, int limit, boolean allowNoMenu, boolean optimizeExperience, @Nonnull Consumer<Location> consumer) {
         Location location = startLocation.clone();
         int finalLimit = limit;
         if (optimizeExperience) {

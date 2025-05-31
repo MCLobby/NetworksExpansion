@@ -5,7 +5,7 @@ import dev.sefiraat.sefilib.misc.RotationFace;
 import dev.sefiraat.sefilib.misc.TransformationBuilder;
 import io.github.sefiraat.networks.Networks;
 import org.bukkit.util.Transformation;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 import org.joml.Quaternionf;
 
 import javax.annotation.Nonnull;
@@ -48,7 +48,7 @@ public enum Transformations {
     ;
 
 
-    private final @NotNull Transformation transformation;
+    private final @Nonnull Transformation transformation;
 
     Transformations(@Nonnull Transformation transformation) {
         this.transformation = transformation;
@@ -58,7 +58,7 @@ public enum Transformations {
         return getTransformation(true);
     }
 
-    public @NotNull Transformation getTransformation(boolean itemDisplay) {
+    public @Nonnull Transformation getTransformation(boolean itemDisplay) {
         // In 1.20+ the y-axis of item displays are rotated by 180°
         // This corrects the visuals by rotating again
         if (itemDisplay && Networks.getInstance().getMCVersion().isAtLeast(MinecraftVersion.MC1_20)) {

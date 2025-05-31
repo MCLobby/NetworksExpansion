@@ -87,6 +87,7 @@ import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.NetworkInputOnlyMonitor;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.NetworkOutputOnlyMonitor;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.Offsetter;
+import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.QuantumManager;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.SmartGrabber;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.SmartPusher;
 import com.ytdd9527.networksexpansion.implementation.machines.unit.NetworksDrawer;
@@ -1563,5 +1564,12 @@ public class ExpansionItems {
             ExpansionItemStacks.DRAWER_TIPS,
             RecipeType.NULL,
             ExpansionRecipes.NULL
+    );
+
+    public static final QuantumManager QUANTUM_MANAGER = new QuantumManager(
+            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemStacks.QUANTUM_MANAGER,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.QUANTUM_MANAGER
     );
 }

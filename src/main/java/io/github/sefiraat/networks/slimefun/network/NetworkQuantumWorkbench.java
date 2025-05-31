@@ -27,7 +27,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -190,7 +190,7 @@ public class NetworkQuantumWorkbench extends SpecialSlimefunItem {
     private BlockBreakHandler getBlockBreakHandler() {
         return new BlockBreakHandler(false, false) {
             @Override
-            public void onPlayerBreak(@NotNull BlockBreakEvent event, @NotNull ItemStack itemStack, @NotNull List<ItemStack> drops) {
+            public void onPlayerBreak(@Nonnull BlockBreakEvent event, @Nonnull ItemStack itemStack, @Nonnull List<ItemStack> drops) {
                 BlockMenu menu = StorageCacheUtils.getMenu(event.getBlock().getLocation());
                 menu.dropItems(menu.getLocation(), RECIPE_SLOTS);
                 menu.dropItems(menu.getLocation(), OUTPUT_SLOT);

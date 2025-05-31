@@ -6,7 +6,7 @@ import lombok.experimental.UtilityClass;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -18,7 +18,7 @@ import java.util.Map;
 @UtilityClass
 public class BlockMenuUtil {
     @Nullable
-    public static ItemStack pushItem(@Nonnull BlockMenu blockMenu, @Nonnull ItemStack item, int @NotNull ... slots) {
+    public static ItemStack pushItem(@Nonnull BlockMenu blockMenu, @Nonnull ItemStack item, int @Nonnull ... slots) {
         if (item == null || item.getType() == Material.AIR) {
             throw new IllegalArgumentException("Cannot push null or AIR");
         }
@@ -96,7 +96,7 @@ public class BlockMenuUtil {
         return itemMap;
     }
 
-    public static boolean fits(@Nonnull BlockMenu blockMenu, @Nonnull ItemStack item, int @NotNull ... slots) {
+    public static boolean fits(@Nonnull BlockMenu blockMenu, @Nonnull ItemStack item, int @Nonnull ... slots) {
         if (item == null || item.getType() == Material.AIR) {
             return true;
         }
@@ -134,7 +134,7 @@ public class BlockMenuUtil {
         return fits(blockMenu, listItems, slots);
     }
 
-    public static boolean fits(@Nonnull BlockMenu blockMenu, @Nonnull List<ItemStack> items, int @NotNull ... slots) {
+    public static boolean fits(@Nonnull BlockMenu blockMenu, @Nonnull List<ItemStack> items, int @Nonnull ... slots) {
         if (items == null || items.isEmpty()) {
             return false;
         }

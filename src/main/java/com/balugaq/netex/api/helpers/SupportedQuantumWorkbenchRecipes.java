@@ -10,7 +10,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import lombok.experimental.UtilityClass;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -42,7 +42,7 @@ public final class SupportedQuantumWorkbenchRecipes implements HasRecipes, CanTe
         }
     }
 
-    public static @NotNull Map<ItemStack[], ItemStack> getRecipes() {
+    public static @Nonnull Map<ItemStack[], ItemStack> getRecipes() {
         return RECIPES;
     }
 

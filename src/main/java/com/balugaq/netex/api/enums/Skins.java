@@ -4,7 +4,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerHead;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerSkin;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -60,14 +60,14 @@ public enum Skins {
     public static final Skins[] cachedValues = values();
 
     @Getter
-    private final @NotNull String hash;
+    private final @Nonnull String hash;
 
     @ParametersAreNonnullByDefault
     Skins(String hash) {
         this.hash = hash;
     }
 
-    public @NotNull ItemStack getPlayerHead() {
+    public @Nonnull ItemStack getPlayerHead() {
         return PlayerHead.getItemStack(PlayerSkin.fromHashCode(hash));
     }
 

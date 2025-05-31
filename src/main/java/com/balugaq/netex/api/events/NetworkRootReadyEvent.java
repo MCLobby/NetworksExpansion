@@ -4,7 +4,7 @@ import io.github.sefiraat.networks.network.NetworkRoot;
 import lombok.Getter;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 @Getter
 public class NetworkRootReadyEvent extends Event {
@@ -16,11 +16,11 @@ public class NetworkRootReadyEvent extends Event {
         this.root = root;
     }
 
-    public static @NotNull HandlerList getHandlerList() {
+    public static @Nonnull HandlerList getHandlerList() {
         return handlers;
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public HandlerList getHandlers() {
         return handlers;

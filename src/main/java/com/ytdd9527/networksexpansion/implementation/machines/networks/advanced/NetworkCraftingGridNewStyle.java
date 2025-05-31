@@ -43,7 +43,7 @@ import java.util.Map;
 public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
 
     private static final int[] BACKGROUND_SLOTS = {
-            5, 14, 23, 32, 41, 50, 51
+            5, 14, 23, 32, 41, 43, 50, 51
     };
 
     private static final int[] DISPLAY_SLOTS = {
@@ -55,6 +55,7 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
             45, 46, 47, 48, 49
     };
 
+    @Deprecated
     private static final int AUTO_FILTER_SLOT = 43;
     private static final int CHANGE_SORT = 35;
     private static final int FILTER = 42;
@@ -79,7 +80,7 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
 
             @Override
             public void init() {
-                drawBackground(getBackgroundSlots());
+                // drawBackground(getBackgroundSlots());
                 drawBackground(getDisplaySlots());
                 setSize(54);
             }
@@ -123,6 +124,8 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
                     if (gridCache.getSortOrder() == GridCache.SortOrder.ALPHABETICAL) {
                         gridCache.setSortOrder(GridCache.SortOrder.NUMBER);
                     } else if (gridCache.getSortOrder() == GridCache.SortOrder.NUMBER) {
+                        gridCache.setSortOrder(GridCache.SortOrder.NUMBER_REVERSE);
+                    } else if (gridCache.getSortOrder() == GridCache.SortOrder.NUMBER_REVERSE) {
                         gridCache.setSortOrder(GridCache.SortOrder.ADDON);
                     } else {
                         gridCache.setSortOrder(GridCache.SortOrder.ALPHABETICAL);
@@ -141,7 +144,7 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
 
                 menu.replaceExistingItem(getToggleModeSlot(), getModeStack(DisplayMode.DISPLAY));
                 menu.addMenuClickHandler(getToggleModeSlot(), (p, slot, item, action) -> {
-                    if (action.isShiftClicked()) {
+                    if (!action.isRightClicked()) {
                         GridCache gridCache = getCacheMap().get(menu.getLocation());
                         gridCache.toggleDisplayMode();
                         menu.replaceExistingItem(getToggleModeSlot(), getModeStack(gridCache));
@@ -160,6 +163,27 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
                     menu.replaceExistingItem(displaySlot, ChestMenuUtils.getBackground());
                     menu.addMenuClickHandler(displaySlot, (p, slot, item, action) -> false);
                 }
+
+                ItemStack exist = menu.getItemInSlot(getAutoFilterSlot());
+                if (exist != null && exist.getType() != Material.AIR && !StackUtils.itemsMatch(exist, ChestMenuUtils.getBackground())) {
+                    // drop item
+                    menu.getLocation().getWorld().dropItemNaturally(menu.getLocation(), exist);
+                }
+
+                for (int backgroundSlot : getBackgroundSlots()) {
+                    menu.replaceExistingItem(backgroundSlot, ChestMenuUtils.getBackground());
+                    menu.addMenuClickHandler(backgroundSlot, (p, slot, item, action) -> false);
+                }
+
+                menu.addPlayerInventoryClickHandler((p, s, i ,a) -> {
+                    if (!a.isShiftClicked() || a.isRightClicked()) {
+                        return true;
+                    }
+
+                    // Shift+Left-click
+                    receiveItem(p, i, a, menu);
+                    return false;
+                });
             }
         };
     }
@@ -189,6 +213,7 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
         return PAGE_NEXT;
     }
 
+    @Deprecated
     public int getAutoFilterSlot() {
         return AUTO_FILTER_SLOT;
     }

@@ -28,19 +28,19 @@ public class Icon {
             Material.LAPIS_BLOCK,
             Theme.MACHINE,
             Networks.getLocalizationService().getString("icons.recipe-types.expansion_workbench_6x6.name"),
-            Networks.getLocalizationService().getString("icons.recipe-types.expansion_workbench_6x6.lore")
+            Networks.getLocalizationService().getStringArray("icons.recipe-types.expansion_workbench_6x6.lore")
     );
     public static final ItemStack RECIPE_TYPE_ITEMSTACK_EXPANSION_WORKBENCH_3x3 = Theme.themedItemStack(
             Material.BAMBOO_BLOCK,
             Theme.MACHINE,
             Networks.getLocalizationService().getString("icons.recipe-types.expansion_workbench_3x3.name"),
-            Networks.getLocalizationService().getString("icons.recipe-types.expansion_workbench_3x3.lore")
+            Networks.getLocalizationService().getStringArray("icons.recipe-types.expansion_workbench_3x3.lore")
     );
     public static final ItemStack RECIPE_TYPE_ITEMSTACK_QUANTUM_WORKBENCH = Theme.themedItemStack(
             Material.BRAIN_CORAL_BLOCK,
             Theme.MACHINE,
             Networks.getLocalizationService().getString("icons.recipe-types.quantum_workbench.name"),
-            Networks.getLocalizationService().getString("icons.recipe-types.quantum_workbench.lore")
+            Networks.getLocalizationService().getStringArray("icons.recipe-types.quantum_workbench.lore")
     );
     public static final ItemStack OUTPUT_BACKGROUND_STACK = Networks.getLocalizationService().getIcon(
             "output-background-stack",

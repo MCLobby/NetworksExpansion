@@ -22,7 +22,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -51,11 +51,11 @@ public class CraftItemGroup extends FlexItemGroup {
     private static final Map<SlimefunItem, CraftItemGroup> ITEM_MAP = new LinkedHashMap<>();
 
     private final int page;
-    private final @NotNull SlimefunItem slimefunItem;
-    private final @NotNull List<SlimefunItem> slimefunItemList;
+    private final @Nonnull SlimefunItem slimefunItem;
+    private final @Nonnull List<SlimefunItem> slimefunItemList;
     private Map<Integer, CraftItemGroup> pageMap = new LinkedHashMap<>();
 
-    protected CraftItemGroup(@NotNull NamespacedKey key, @NotNull SlimefunItem slimefunItem) {
+    protected CraftItemGroup(@Nonnull NamespacedKey key, @Nonnull SlimefunItem slimefunItem) {
         super(key, ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(slimefunItem.getItem())));
         this.page = 1;
         this.slimefunItem = slimefunItem;
@@ -72,7 +72,7 @@ public class CraftItemGroup extends FlexItemGroup {
         ITEM_MAP.put(slimefunItem, this);
     }
 
-    protected CraftItemGroup(@NotNull NamespacedKey key, @NotNull SlimefunItem slimefunItem, int page) {
+    protected CraftItemGroup(@Nonnull NamespacedKey key, @Nonnull SlimefunItem slimefunItem, int page) {
         super(key, ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(slimefunItem.getItem())));
         this.page = page;
         this.slimefunItem = slimefunItem;
@@ -97,7 +97,7 @@ public class CraftItemGroup extends FlexItemGroup {
     }
 
     @Override
-    public void open(@NotNull Player player, @NotNull PlayerProfile playerProfile, @NotNull SlimefunGuideMode slimefunGuideMode) {
+    public void open(@Nonnull Player player, @Nonnull PlayerProfile playerProfile, @Nonnull SlimefunGuideMode slimefunGuideMode) {
         playerProfile.getGuideHistory().add(this, this.page);
         this.generateMenu(player, playerProfile, slimefunGuideMode).open(player);
     }

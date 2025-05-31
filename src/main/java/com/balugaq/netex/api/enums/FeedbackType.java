@@ -5,7 +5,7 @@ import io.github.sefiraat.networks.utils.Keys;
 import lombok.Getter;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
 
 @Getter
 public enum FeedbackType implements Keyed {
@@ -55,20 +55,20 @@ public enum FeedbackType implements Keyed {
     SUCCESS,
     WORKING;
 
-    private final @NotNull NamespacedKey key;
-    private final @NotNull String message;
+    private final @Nonnull NamespacedKey key;
+    private final @Nonnull String message;
 
     FeedbackType() {
         this.key = Keys.newKey(name().toLowerCase());
         this.message = Networks.getLocalizationService().getString("messages.feedback." + this.key.getKey());
     }
 
-    FeedbackType(@NotNull String key) {
+    FeedbackType(@Nonnull String key) {
         this.key = Keys.newKey(key);
         this.message = Networks.getLocalizationService().getString("messages.feedback." + this.key.getKey());
     }
 
-    @NotNull
+    @Nonnull
     @Override
     public NamespacedKey getKey() {
         return this.key;
