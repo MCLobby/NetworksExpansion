@@ -2,6 +2,7 @@ package com.balugaq.netex.api.enums;
 
 import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.sefiraat.networks.Networks;
+
 import javax.annotation.Nonnull;
 
 public enum TransportMode {

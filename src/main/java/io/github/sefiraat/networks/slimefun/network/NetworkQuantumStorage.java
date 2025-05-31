@@ -239,6 +239,25 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
         return SIZES;
     }
 
+    public static void setItem(@Nonnull BlockMenu blockMenu, @Nonnull Player player) {
+        final ItemStack itemStack = player.getItemOnCursor().clone();
+
+        if (isBlacklisted(itemStack)) {
+            return;
+        }
+
+        final QuantumCache cache = CACHES.get(blockMenu.getLocation());
+        if (cache == null || cache.getAmount() > 0) {
+            player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.quantum_storage.quantum_storage_not_empty"));
+            return;
+        }
+        itemStack.setAmount(1);
+        cache.setItemStack(itemStack);
+        updateDisplayItem(blockMenu, cache);
+        syncBlock(blockMenu.getLocation(), cache);
+        CACHES.put(blockMenu.getLocation(), cache);
+    }
+
     @Override
     public void preRegister() {
         addItemHandler(
@@ -320,25 +339,6 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
     private void toggleVoid(@Nonnull BlockMenu blockMenu) {
         final QuantumCache cache = CACHES.get(blockMenu.getLocation());
         cache.setVoidExcess(!cache.isVoidExcess());
-        updateDisplayItem(blockMenu, cache);
-        syncBlock(blockMenu.getLocation(), cache);
-        CACHES.put(blockMenu.getLocation(), cache);
-    }
-
-    public static void setItem(@Nonnull BlockMenu blockMenu, @Nonnull Player player) {
-        final ItemStack itemStack = player.getItemOnCursor().clone();
-
-        if (isBlacklisted(itemStack)) {
-            return;
-        }
-
-        final QuantumCache cache = CACHES.get(blockMenu.getLocation());
-        if (cache == null || cache.getAmount() > 0) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.quantum_storage.quantum_storage_not_empty"));
-            return;
-        }
-        itemStack.setAmount(1);
-        cache.setItemStack(itemStack);
         updateDisplayItem(blockMenu, cache);
         syncBlock(blockMenu.getLocation(), cache);
         CACHES.put(blockMenu.getLocation(), cache);

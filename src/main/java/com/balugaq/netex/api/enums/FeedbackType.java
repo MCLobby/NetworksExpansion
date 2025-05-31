@@ -5,6 +5,7 @@ import io.github.sefiraat.networks.utils.Keys;
 import lombok.Getter;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
+
 import javax.annotation.Nonnull;
 
 @Getter

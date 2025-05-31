@@ -3,7 +3,6 @@ package com.balugaq.netex.api.data;
 
 import com.ytdd9527.networksexpansion.utils.itemstacks.CompareUtil;
 import lombok.Getter;
-import javax.annotation.Nonnull;
 
 import javax.annotation.Nonnull;
 

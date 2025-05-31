@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import javax.annotation.Nonnull;
 
 import javax.annotation.Nonnull;
 
@@ -57,6 +56,7 @@ public class NetworkRootLocateStorageEvent extends Event {
 
         @Nonnull
         String getTag();
+
         @Nonnull
         Strategy setTag(String tag);
 
@@ -65,6 +65,12 @@ public class NetworkRootLocateStorageEvent extends Event {
 
             public StrategyImpl() {
                 this.tag = DEFAULT_TAG;
+            }
+
+            @SneakyThrows
+            @Nonnull
+            public static Strategy custom(String tag) {
+                return new StrategyImpl().setTag(tag);
             }
 
             @Nonnull
@@ -78,12 +84,6 @@ public class NetworkRootLocateStorageEvent extends Event {
             public Strategy setTag(String tag) {
                 this.tag = tag;
                 return this;
-            }
-
-            @SneakyThrows
-            @Nonnull
-            public static Strategy custom(String tag) {
-                return new StrategyImpl().setTag(tag);
             }
 
             @Override
