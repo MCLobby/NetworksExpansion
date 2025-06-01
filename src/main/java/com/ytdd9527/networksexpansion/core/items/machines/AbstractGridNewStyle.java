@@ -166,6 +166,16 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
 
         final GridCache gridCache = getCacheMap().get(blockMenu.getLocation().clone());
 
+        SlimefunBlockData data = StorageCacheUtils.getBlock(blockMenu.getLocation());
+        if (data == null) {
+            return;
+        }
+
+        String filter = data.getData(BS_FILTER_KEY);
+        if (filter != null) {
+            gridCache.setFilter(filter);
+        }
+
         // Deprecated feature
         // autoSetFilter(blockMenu, gridCache);
 
@@ -322,9 +332,17 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
                 .toList();
     }
 
+    public static final String BS_FILTER_KEY = "filter";
+
     protected void setFilter(@Nonnull Player player, @Nonnull BlockMenu blockMenu, @Nonnull GridCache gridCache, @Nonnull ClickAction action) {
         if (action.isRightClicked()) {
             gridCache.setFilter(null);
+            SlimefunBlockData data = StorageCacheUtils.getBlock(blockMenu.getLocation());
+            if (data == null) {
+                return;
+            }
+
+            data.removeData(BS_FILTER_KEY);
         } else {
             player.closeInventory();
             player.sendMessage(Networks.getLocalizationService().getString("messages.normal-operation.grid.waiting_for_filter"));
@@ -343,6 +361,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
                 }
 
                 if (blockMenu.getPreset().getID().equals(data.getSfId())) {
+                    data.setData(BS_FILTER_KEY, s);
                     BlockMenu actualMenu = data.getBlockMenu();
                     if (actualMenu != null) {
                         updateDisplay(actualMenu);
