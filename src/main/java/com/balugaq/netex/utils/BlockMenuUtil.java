@@ -17,7 +17,7 @@ import java.util.Map;
 @UtilityClass
 public class BlockMenuUtil {
     @Nullable
-    public static ItemStack pushItem(@Nonnull BlockMenu blockMenu, @Nonnull ItemStack item, int @Nonnull ... slots) {
+    public static ItemStack pushItem(@Nonnull BlockMenu blockMenu, @Nonnull ItemStack item, int... slots) {
         if (item == null || item.getType() == Material.AIR) {
             throw new IllegalArgumentException("Cannot push null or AIR");
         }
@@ -95,7 +95,7 @@ public class BlockMenuUtil {
         return itemMap;
     }
 
-    public static boolean fits(@Nonnull BlockMenu blockMenu, @Nonnull ItemStack item, int @Nonnull ... slots) {
+    public static boolean fits(@Nonnull BlockMenu blockMenu, @Nonnull ItemStack item, int ... slots) {
         if (item == null || item.getType() == Material.AIR) {
             return true;
         }
@@ -133,7 +133,7 @@ public class BlockMenuUtil {
         return fits(blockMenu, listItems, slots);
     }
 
-    public static boolean fits(@Nonnull BlockMenu blockMenu, @Nonnull List<ItemStack> items, int @Nonnull ... slots) {
+    public static boolean fits(@Nonnull BlockMenu blockMenu, @Nonnull List<ItemStack> items, int... slots) {
         if (items == null || items.isEmpty()) {
             return false;
         }

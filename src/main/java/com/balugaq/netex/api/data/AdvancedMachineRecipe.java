@@ -15,7 +15,7 @@ public class AdvancedMachineRecipe {
     private final ItemAmountWrapper[] inputs;
     @Nonnull
     private final AdvancedRandomOutput[] randomOutputs;
-    private final int @Nonnull [] weightBeginValues;
+    private final int[] weightBeginValues;
     @Getter
     private int weightSum = 0;
 
