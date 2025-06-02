@@ -387,9 +387,13 @@ public class StorageUnitData {
         depositItemStack(item, contentLocked, false);
     }
 
-
     @Nullable
     public ItemStack requestItem0(@Nonnull Location accessor, @Nonnull ItemRequest itemRequest) {
+        return requestItem0(accessor, itemRequest, true);
+    }
+
+    @Nullable
+    public ItemStack requestItem0(@Nonnull Location accessor, @Nonnull ItemRequest itemRequest, boolean contentLocked) {
         ItemStack item = itemRequest.getItemStack();
         if (item == null) {
             return null;
@@ -417,12 +421,17 @@ public class StorageUnitData {
                         break;
                     }
                     itemContainer.removeAmount(take);
-                    DataStorage.setStoredAmount(id, itemContainer.getId(), itemContainer.getAmount());
+                    if (!contentLocked && itemContainer.getAmount() <= 0) {
+                        removeItem(itemContainer.getId());
+                        removePersistentAccessHistory(accessor, i);
+                    } else {
+                        DataStorage.setStoredAmount(id, itemContainer.getId(), itemContainer.getAmount());
+                        // Patch - Cache start
+                        minusCacheMiss(accessor, i);
+                        // Patch - Cache end
+                    }
                     ItemStack clone = item.clone();
                     clone.setAmount(take);
-                    // Patch - Cache start
-                    minusCacheMiss(accessor, i);
-                    // Patch - Cache end
                     return clone;
                 } else {
                     // Patch - Cache start
@@ -442,11 +451,16 @@ public class StorageUnitData {
                     break;
                 }
 
-                // Patch - Cache start
-                addCountObservingAccessHistory(accessor, i);
-                // Patch - Cache end
+
                 itemContainer.removeAmount(take);
-                DataStorage.setStoredAmount(id, itemContainer.getId(), itemContainer.getAmount());
+                if (!contentLocked && itemContainer.getAmount() <= 0) {
+                    removeItem(itemContainer.getId());
+                } else {
+                    // Patch - Cache start
+                    addCountObservingAccessHistory(accessor, i);
+                    // Patch - Cache end
+                    DataStorage.setStoredAmount(id, itemContainer.getId(), itemContainer.getAmount());
+                }
                 ItemStack clone = item.clone();
                 clone.setAmount(take);
                 return clone;
