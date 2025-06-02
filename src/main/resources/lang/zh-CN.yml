@@ -297,6 +297,8 @@ messages:
       top_storage_on: "<success>已置顶存储"
       set_icon: "<success>已设置图标"
       set_name: "<success>已设置名称"
+    manual_crafter:
+      success: "&a合成成功"
   unsupported-operation:
     comprehensive:
       no-permission: "&c你没有权限使用此物品!"
@@ -381,6 +383,9 @@ messages:
     manager:
       support_quantum_only: "&c仅支持对网络量子存储操作"
       quantum_storage_not_empty: "<warning>网络量子存储必须为空才能更换物品"
+    manual_crafter:
+      disabled-output: "&c输出物已被禁用"
+      full-output: "&c输出槽已满"
   super-head:
     - "#########################################################################"
     - "███╗   ██╗███████╗████████╗██╗    ██╗ ██████╗ ██████╗ ██╗  ██╗           "

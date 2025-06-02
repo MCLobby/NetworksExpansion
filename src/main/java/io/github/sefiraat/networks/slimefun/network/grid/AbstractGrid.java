@@ -447,8 +447,24 @@ public abstract class AbstractGrid extends NetworkObject {
         }
 
         ItemStack cursor = player.getItemOnCursor();
-        if (cursor != null && cursor.getType() != Material.AIR) {
-            definition.getNode().getRoot().addItemStack0(blockMenu.getLocation(), cursor);
+        receiveItem(definition.getNode().getRoot(), player, cursor, action, blockMenu);
+    }
+
+    public void receiveItem(Player player, ItemStack itemStack, ClickAction action, BlockMenu blockMenu) {
+        NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
+        if (definition == null || definition.getNode() == null) {
+            clearDisplay(blockMenu);
+            blockMenu.close();
+            Networks.getInstance().getLogger().warning(String.format(Networks.getLocalizationService().getString("messages.unsupported-operation.grid.may_duping"), player.getName(), blockMenu.getLocation()));
+            return;
+        }
+
+        receiveItem(definition.getNode().getRoot(), player, itemStack, action, blockMenu);
+    }
+
+    public void receiveItem(NetworkRoot root, Player player, ItemStack itemStack, ClickAction action, BlockMenu blockMenu) {
+        if (itemStack != null && itemStack.getType() != Material.AIR) {
+            root.addItemStack0(blockMenu.getLocation(), itemStack);
         }
     }
 }

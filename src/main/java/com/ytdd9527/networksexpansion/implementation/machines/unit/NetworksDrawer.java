@@ -407,7 +407,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
                             itemRequest.setAmount(take.getMaxStackSize() * 36);
                         }
 
-                        final ItemStack requestedItemStack = data.requestItem0(l, itemRequest);
+                        final ItemStack requestedItemStack = data.requestItem0(l, itemRequest, false);
                         if (requestedItemStack != null) {
                             do {
                                 int max = Math.min(requestedItemStack.getAmount(), requestedItemStack.getMaxStackSize());
@@ -574,7 +574,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
                                 }
                                 final ItemStack clone = sample.clone();
 
-                                thisStorage.requestItem0(location, new ItemRequest(clone, canAdd));
+                                thisStorage.requestItem0(location, new ItemRequest(clone, canAdd), false);
                                 storages.put(location, thisStorage);
 
                                 quantumCache = new QuantumCache(clone, canAdd, quantumLimit, false, false);
@@ -650,7 +650,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
                         case TO_QUANTUM -> {
                             ItemRequest itemRequest = new ItemRequest(sample, each.getAmount());
                             int before = each.getAmount();
-                            ItemStack fetched = thisStorage.requestItem0(location, itemRequest);
+                            ItemStack fetched = thisStorage.requestItem0(location, itemRequest, false);
                             if (fetched != null) {
                                 String name = ItemStackHelper.getDisplayName(fetched);
                                 ItemMover.depositItem(itemStack, fetched);

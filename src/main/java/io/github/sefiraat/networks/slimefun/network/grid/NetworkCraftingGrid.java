@@ -150,6 +150,16 @@ public class NetworkCraftingGrid extends AbstractGrid {
                     }
                     return false;
                 });
+
+                menu.addPlayerInventoryClickHandler((p, s, i, a) -> {
+                    if (!a.isShiftClicked() || a.isRightClicked()) {
+                        return true;
+                    }
+
+                    // Shift+Left-click
+                    receiveItem(p, i, a, menu);
+                    return false;
+                });
             }
         };
     }
