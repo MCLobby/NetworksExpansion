@@ -95,6 +95,9 @@ public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
             final int lineTransferVanillaGrabbers = root.getLineTransferVanillaGrabbers().size();
             final int inputOnlyMonitor = root.getInputOnlyMonitors().size();
             final int outputOnlyMonitor = root.getOutputOnlyMonitors().size();
+            final int linePowerOutlets = root.getLinePowerOutlets().size();
+            final int decoders = root.getDecoders().size();
+            final int quantumManagers = root.getQuantumManagers().size();
 
             final Map<ItemStack, Long> allNetworkItems = root.getAllNetworkItemsLongType();
             final int distinctItems = allNetworkItems.size();
@@ -148,6 +151,9 @@ public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
             player.sendMessage(formatter(ExpansionItemStacks.LINE_TRANSFER_VANILLA_GRABBER.getDisplayName(), lineTransferVanillaGrabbers));
             player.sendMessage(formatter(ExpansionItemStacks.NETWORK_INPUT_ONLY_MONITOR.getDisplayName(), inputOnlyMonitor));
             player.sendMessage(formatter(ExpansionItemStacks.NETWORK_OUTPUT_ONLY_MONITOR.getDisplayName(), outputOnlyMonitor));
+            player.sendMessage(formatter(ExpansionItemStacks.LINE_POWER_OUTLET_1.getDisplayName().substring(0, 6), linePowerOutlets));
+            player.sendMessage(formatter(ExpansionItemStacks.NETWORK_BLUEPRINT_DECODER.getDisplayName(), decoders));
+            player.sendMessage(formatter(ExpansionItemStacks.QUANTUM_MANAGER.getDisplayName(), quantumManagers));
             player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.probe.split"));
             player.sendMessage(formatter(Networks.getLocalizationService().getString("messages.completed-operation.probe.distinct_items"), distinctItems));
             player.sendMessage(formatter(Networks.getLocalizationService().getString("messages.completed-operation.probe.total_items"), totalItems));
