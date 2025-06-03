@@ -37,5 +37,5 @@ public enum NodeType {
     OUTPUT_ONLY_MONITOR,
     DECODER,
     LINE_POWER_OUTLET,
-    MANAGER
+    QUANTUM_MANAGER
 }

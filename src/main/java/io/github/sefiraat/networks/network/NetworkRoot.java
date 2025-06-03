@@ -130,6 +130,12 @@ public class NetworkRoot extends NetworkNode {
     private final Set<Location> inputOnlyMonitors = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> outputOnlyMonitors = ConcurrentHashMap.newKeySet();
+    @Getter
+    private final Set<Location> linePowerOutlets = ConcurrentHashMap.newKeySet();
+    @Getter
+    private final Set<Location> decoders = ConcurrentHashMap.newKeySet();
+    @Getter
+    private final Set<Location> quantumManagers = ConcurrentHashMap.newKeySet();
     @Deprecated
     private final boolean progressing = false;
     @Getter
@@ -464,6 +470,9 @@ public class NetworkRoot extends NetworkNode {
             case LINE_TRANSFER_VANILLA_PUSHER -> lineTransferVanillaPushers.add(location);
             case INPUT_ONLY_MONITOR -> inputOnlyMonitors.add(location);
             case OUTPUT_ONLY_MONITOR -> outputOnlyMonitors.add(location);
+            case LINE_POWER_OUTLET -> linePowerOutlets.add(location);
+            case DECODER -> decoders.add(location);
+            case QUANTUM_MANAGER -> quantumManagers.add(location);
         }
     }
 

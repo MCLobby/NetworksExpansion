@@ -116,7 +116,7 @@ public class QuantumManager extends NetworkObject {
     private final IntRangeSetting tickRate;
 
     public QuantumManager(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe, NodeType.MANAGER);
+        super(itemGroup, item, recipeType, recipe, NodeType.QUANTUM_MANAGER);
 
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
         addItemSetting(this.tickRate);
