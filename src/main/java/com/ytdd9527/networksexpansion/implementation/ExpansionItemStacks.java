@@ -811,6 +811,14 @@ public class ExpansionItemStacks {
             Networks.getLocalizationService().getItem("NTW_EXPANSION_QUANTUM_MANAGER", Material.GLOWSTONE),
             Theme.MACHINE
     );
+    public static final SlimefunItemStack DRAWER_MANAGER = Theme.themedSlimefunItemStack(
+            Networks.getLocalizationService().getItem("NTW_EXPANSION_DRAWER_MANAGER", Material.WARPED_WART_BLOCK),
+            Theme.MACHINE
+    );
+    public static final SlimefunItemStack ITEM_FLOW_VIEWER = Theme.themedSlimefunItemStack(
+            Networks.getLocalizationService().getItem("NTW_EXPANSION_ITEM_FLOW_VIEWER", Material.NETHER_WART_BLOCK),
+            Theme.MACHINE
+    );
 
     public static ItemStack Enchanted(Material material) {
         return ItemStackUtil.getPreEnchantedItemStack(material);

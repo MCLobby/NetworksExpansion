@@ -1,6 +1,7 @@
 package io.github.sefiraat.networks.network;
 
 import com.balugaq.netex.api.data.ItemContainer;
+import com.balugaq.netex.api.data.ItemFlowRecord;
 import com.balugaq.netex.api.data.StorageUnitData;
 import com.balugaq.netex.api.enums.StorageType;
 import com.balugaq.netex.api.events.NetworkRootLocateStorageEvent;
@@ -33,6 +34,7 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Warning;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
@@ -162,11 +164,21 @@ public class NetworkRoot extends NetworkNode {
     @Setter
     @Getter
     private boolean displayParticles = false;
+    @Getter
+    private final boolean recordFlow;
+    @Getter
+    private final @Nullable ItemFlowRecord itemFlowRecord;
 
     public NetworkRoot(@Nonnull Location location, @Nonnull NodeType type, int maxNodes) {
+        this(location, type, maxNodes, false, null);
+    }
+
+    public NetworkRoot(@Nonnull Location location, @Nonnull NodeType type, int maxNodes, boolean recordFlow, @Nullable ItemFlowRecord itemFlowRecord) {
         super(location, type);
         this.maxNodes = maxNodes;
         this.root = this;
+        this.recordFlow = recordFlow;
+        this.itemFlowRecord = itemFlowRecord;
 
         registerNode(location, type);
     }
@@ -928,7 +940,8 @@ public class NetworkRoot extends NetworkNode {
         return menus;
     }
 
-    @Deprecated
+    @Warning(reason = "This method is deprecated and will be removed in the future. Use getItemStack0(Location, ItemRequest) instead.")
+    @Deprecated(forRemoval = true)
     @Nullable
     public ItemStack getItemStack(@Nonnull ItemRequest request) {
         ItemStack stackToReturn = null;
@@ -1378,7 +1391,8 @@ public class NetworkRoot extends NetworkNode {
         return totalAmounts;
     }
 
-    @Deprecated
+    @Warning(reason = "This method is deprecated and will be removed in the future. Use addItemStack0(Location, ItemStack) instead.")
+    @Deprecated(forRemoval = true)
     public void addItemStack(@Nonnull ItemStack incoming) {
         for (BlockMenu blockMenu : getAdvancedGreedyBlockMenus()) {
             final ItemStack template = blockMenu.getItemInSlot(AdvancedGreedyBlock.TEMPLATE_SLOT);
@@ -1466,13 +1480,26 @@ public class NetworkRoot extends NetworkNode {
         }
     }
 
-    @Deprecated
+    @Warning(reason = "This method is deprecated and will be removed in the future. Use getItemStacks0(Location, List<ItemRequest>) instead.")
+    @Deprecated(forRemoval = true)
     @Nonnull
     public List<ItemStack> getItemStacks(@Nonnull List<ItemRequest> itemRequests) {
         List<ItemStack> retrievedItems = new ArrayList<>();
 
         for (ItemRequest request : itemRequests) {
             ItemStack retrieved = getItemStack(request);
+            if (retrieved != null) {
+                retrievedItems.add(retrieved);
+            }
+        }
+        return retrievedItems;
+    }
+
+    @Nonnull
+    public List<ItemStack> getItemStacks0(@Nonnull Location location, @Nonnull List<ItemRequest> itemRequests) {
+        List<ItemStack> retrievedItems = new ArrayList<>();
+        for (ItemRequest request : itemRequests) {
+            ItemStack retrieved = getItemStack0(location, request);
             if (retrieved != null) {
                 retrievedItems.add(retrieved);
             }
@@ -1549,6 +1576,45 @@ public class NetworkRoot extends NetworkNode {
         NetworkRootLocateStorageEvent event = new NetworkRootLocateStorageEvent(this, StorageType.BARREL, strategy, Bukkit.isPrimaryThread());
         Bukkit.getPluginManager().callEvent(event);
         return barrelSet;
+    }
+
+    @Nonnull
+    public Map<StorageUnitData, Location> getCargoStorageUnitDatas(NetworkRootLocateStorageEvent.Strategy strategy, boolean includeEmpty) {
+        final Set<Location> addedLocations = ConcurrentHashMap.newKeySet();
+        final Map<StorageUnitData, Location> dataSet = new HashMap<>();
+
+        final Set<Location> monitor = new HashSet<>();
+        monitor.addAll(this.inputOnlyMonitors);
+        monitor.addAll(this.outputOnlyMonitors);
+        monitor.addAll(this.monitors);
+        for (Location cellLocation : monitor) {
+            final BlockFace face = NetworkDirectional.getSelectedFace(cellLocation);
+
+            if (face == null) {
+                continue;
+            }
+
+            final Location testLocation = cellLocation.clone().add(face.getDirection());
+
+            if (addedLocations.contains(testLocation)) {
+                continue;
+            } else {
+                addedLocations.add(testLocation);
+            }
+
+            final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(testLocation);
+
+            if (slimefunItem instanceof NetworksDrawer) {
+                final StorageUnitData data = getCargoStorageUnitData(testLocation);
+                if (data != null) {
+                    dataSet.put(data, testLocation);
+                }
+            }
+        }
+
+        NetworkRootLocateStorageEvent event = new NetworkRootLocateStorageEvent(this, StorageType.DRAWER, strategy, Bukkit.isPrimaryThread());
+        Bukkit.getPluginManager().callEvent(event);
+        return dataSet;
     }
 
     @Nonnull
@@ -1861,6 +1927,10 @@ public class NetworkRoot extends NetworkNode {
             return null;
         }
 
+        if (recordFlow && itemFlowRecord != null) {
+            itemFlowRecord.addAction(accessor, request);
+        }
+
         var m = getPersistentAccessHistory(accessor);
         if (m != null) {
             for (var entry : m.entrySet()) {
@@ -2171,6 +2241,10 @@ public class NetworkRoot extends NetworkNode {
     public void addItemStack0(@Nonnull Location accessor, @Nonnull ItemStack incoming) {
         if (!allowAccessInput(accessor)) {
             return;
+        }
+
+        if (recordFlow && itemFlowRecord != null) {
+            itemFlowRecord.addAction(accessor, incoming);
         }
 
         int before = incoming.getAmount();

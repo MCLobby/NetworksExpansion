@@ -2,7 +2,8 @@ package com.ytdd9527.networksexpansion.implementation;
 
 import com.balugaq.netex.api.enums.StorageUnitType;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
-import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.QuantumManager;
+import com.ytdd9527.networksexpansion.implementation.machines.managers.DrawerManager;
+import com.ytdd9527.networksexpansion.implementation.machines.managers.QuantumManager;
 import com.ytdd9527.networksexpansion.core.items.unusable.AuthorHead;
 import com.ytdd9527.networksexpansion.core.items.unusable.UnusableSlimefunItem;
 import com.ytdd9527.networksexpansion.implementation.blueprints.AncientAltarBlueprint;
@@ -91,6 +92,7 @@ import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.SmartGrabber;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.SmartPusher;
 import com.ytdd9527.networksexpansion.implementation.machines.unit.NetworksDrawer;
+import com.ytdd9527.networksexpansion.implementation.machines.viewer.ItemFlowViewer;
 import com.ytdd9527.networksexpansion.implementation.tools.CargoNodeQuickTool;
 import com.ytdd9527.networksexpansion.implementation.tools.DueMachineConfigurator;
 import com.ytdd9527.networksexpansion.implementation.tools.ItemMover;
@@ -1571,5 +1573,19 @@ public class ExpansionItems {
             ExpansionItemStacks.QUANTUM_MANAGER,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.QUANTUM_MANAGER
+    );
+
+    public static final DrawerManager DRAWER_MANAGER = new DrawerManager(
+            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemStacks.DRAWER_MANAGER,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.DRAWER_MANAGER
+    );
+
+    public static final ItemFlowViewer ITEM_FLOW_VIEWER = new ItemFlowViewer(
+            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemStacks.ITEM_FLOW_VIEWER,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.ITEM_FLOW_VIEWER
     );
 }

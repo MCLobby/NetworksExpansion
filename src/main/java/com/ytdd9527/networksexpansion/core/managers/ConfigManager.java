@@ -89,6 +89,14 @@ public class ConfigManager {
         return Networks.getInstance().getConfig().getInt("speed-down.transport-miss-threshold", 120);
     }
 
+    public long getRecordGCThreshold() {
+        return Networks.getInstance().getConfig().getLong("record-gc.threshold", 131072);
+    }
+
+    public long getRecordGCDeadline() {
+        return Networks.getInstance().getConfig().getLong("record-gc.deadline", 120000);
+    }
+
     public void saveAll() {
         Networks.getInstance().getLogger().info(Networks.getLocalizationService().getString("messages.save-all"));
     }

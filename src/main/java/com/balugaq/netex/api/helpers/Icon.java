@@ -243,6 +243,11 @@ public class Icon {
             Material.CRAFTING_TABLE
     );
 
+    public static final ItemStack UNKNOWN_ITEM = Networks.getLocalizationService().getIcon(
+            "unknown-item",
+            Material.BARRIER
+    );
+
     // pages are 1-based
     @Nonnull
     public static ItemStack getPageStack(@Nonnull ItemStack origin, int currentPage, int maxPage) {

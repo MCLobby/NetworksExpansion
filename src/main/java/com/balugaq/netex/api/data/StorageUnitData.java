@@ -283,6 +283,14 @@ public class StorageUnitData {
         return re;
     }
 
+    public long getTotalAmountLong() {
+        long re = 0;
+        for (ItemContainer each : storedItems.values()) {
+            re += each.getAmount();
+        }
+        return re;
+    }
+
     @Deprecated
     public List<ItemContainer> getStoredItems() {
         return copyStoredItems();

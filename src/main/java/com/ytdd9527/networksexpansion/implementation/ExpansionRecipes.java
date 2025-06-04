@@ -1057,4 +1057,16 @@ public class ExpansionRecipes {
             NETWORK_BRIDGE.getItem(), NETWORK_QUANTUM_STORAGE_0.getItem(), NETWORK_BRIDGE.getItem(),
             NETWORK_BRIDGE.getItem(), NETWORK_QUANTUM_STORAGE_0.getItem(), NETWORK_BRIDGE.getItem()
     };
+
+    public static final ItemStack[] DRAWER_MANAGER = new ItemStack[]{
+            NETWORK_BRIDGE.getItem(), ExpansionItemStacks.CARGO_STORAGE_UNIT_1, NETWORK_BRIDGE.getItem(),
+            NETWORK_BRIDGE.getItem(), ExpansionItemStacks.CARGO_STORAGE_UNIT_1, NETWORK_BRIDGE.getItem(),
+            NETWORK_BRIDGE.getItem(), ExpansionItemStacks.CARGO_STORAGE_UNIT_1, NETWORK_BRIDGE.getItem()
+    };
+
+    public static final ItemStack[] ITEM_FLOW_VIEWER = new ItemStack[]{
+            NETWORK_BRIDGE.getItem(), NETWORK_GRID.getItem(), NETWORK_BRIDGE.getItem(),
+            NETWORK_BRIDGE.getItem(), NETWORK_GRID.getItem(), NETWORK_BRIDGE.getItem(),
+            NETWORK_BRIDGE.getItem(), NETWORK_GRID.getItem(), NETWORK_BRIDGE.getItem()
+    };
 }

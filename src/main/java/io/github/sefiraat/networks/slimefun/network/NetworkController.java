@@ -1,5 +1,6 @@
 package io.github.sefiraat.networks.slimefun.network;
 
+import com.balugaq.netex.api.data.ItemFlowRecord;
 import com.balugaq.netex.api.events.NetworkRootReadyEvent;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -15,6 +16,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import lombok.Getter;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -28,12 +30,17 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+@Getter
 public class NetworkController extends NetworkObject {
-
+    @Getter
+    private static final Map<Location, ItemFlowRecord> records = new HashMap<>();
+    @Getter
+    private static final Map<Location, Boolean> recordFlow = new HashMap<>();
     private static final String CRAYON = "crayon";
     private static final Map<Location, NetworkRoot> NETWORKS = new HashMap<>();
     private static final Set<Location> CRAYONS = new HashSet<>();
     protected final Map<Location, Boolean> firstTickMap = new HashMap<>();
+    @Getter
     private final ItemSetting<Integer> maxNodes;
 
     public NetworkController(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -57,7 +64,7 @@ public class NetworkController extends NetworkObject {
                         }
 
                         addToRegistry(block);
-                        NetworkRoot networkRoot = new NetworkRoot(block.getLocation(), NodeType.CONTROLLER, maxNodes.getValue());
+                        NetworkRoot networkRoot = new NetworkRoot(block.getLocation(), NodeType.CONTROLLER, maxNodes.getValue(), recordFlow.getOrDefault(block.getLocation(), false), records.get(block.getLocation()));
                         networkRoot.addAllChildren();
 
                         boolean crayon = CRAYONS.contains(block.getLocation());
@@ -76,6 +83,19 @@ public class NetworkController extends NetworkObject {
                     }
                 }
         );
+    }
+
+    public static void enableRecord(Location root) {
+        recordFlow.put(root, true);
+        records.putIfAbsent(root, new ItemFlowRecord());
+    }
+
+    public static void disableRecord(Location root) {
+        recordFlow.put(root, false);
+        ItemFlowRecord record = records.get(root);
+        if (record != null) {
+            record.gc();
+        }
     }
 
     public static Map<Location, NetworkRoot> getNetworks() {
