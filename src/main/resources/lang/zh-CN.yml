@@ -232,6 +232,7 @@ messages:
       set_facing: "<success>已设置朝向此容器!"
     manager:
       set_name: "<passive>输入名称: "
+      id: "<passive>ID: %s"
       location: "<click_info>%s:%s:%s"
       quantum-manager-click-behavior:
         - "<click_info>左键点击: <passive>打开存储"
@@ -240,6 +241,20 @@ messages:
         - "<click_info>Shift+左键点击: <passive>置顶/取消置顶存储"
         - "<click_info>Shift+右键点击: <passive>设置存储的名字"
         - "<click_info>手持物品Shift+右键点击: <passive>设置存储在此管理器中显示的图标"
+      drawer-manager-click-behavior:
+        - "<click_info>左键点击: <passive>打开存储"
+        - "<click_info>右键点击: <passive>高亮存储"
+        - "<click_info>Shift+左键点击: <passive>置顶/取消置顶存储"
+        - "<click_info>Shift+右键点击: <passive>设置存储的名字"
+        - "<click_info>手持物品Shift+右键点击: <passive>设置存储在此管理器中显示的图标"
+    viewer:
+      location: "&7%s:%s:%s"
+      when: "&7时间: %s"
+      change: "%s"
+      item-flow-viewer-click-behavior:
+        - "<click_info>左键点击: <passive>打开详情界面"
+      item-flow-viewer-sub-click-behavior:
+        - "<click_info>左键点击: <passive>高亮机器"
   completed-operation:
     status_viewer:
       subscribed: "<success>已关注机器 ( %s )"
@@ -470,6 +485,18 @@ messages:
           - "收获时将获得人造绿宝石碎片."
   save-all: "正在保存网络拓展数据."
 icons:
+  item-flow-viewer-force-clean:
+    name: "&6清除缓存"
+    lore:
+      - "&7点击清除缓存"
+  item-flow-viewer-back-to-main:
+    name: "&7返回"
+    lore:
+      - "&7点击返回主界面"
+  unknown-item:
+    name: "&7未知物品"
+    lore:
+      - "&7未知物品"
   craft-button-stack-6x6:
     name: "<click_info>合成"
     lore:
@@ -937,9 +964,9 @@ items:
       - "<warning> 网络拓展开发版不接受 GitHub Issues"
       - "<warning> 网络拓展开发版不接受 GitHub PR"
       - "<passive> 版本信息:"
-      - "<passive> 网络拓展版本: Special-Version-18"
+      - "<passive> 网络拓展版本: Special-Version-19"
       - "<passive> 版本状态: 稳定版"
-      - "<passive> 版本更新时间: 2025-5-31 14:19:47"
+      - "<passive> 版本更新时间: 2025-6-5 21:44:09"
       - "<passive> 开发状态: 更新中"
       - "<passive> 开发者（们）: ytdd9527, balugaq"
       - "<passive> 开发者 GitHub 页面: <click_info>https://github.com/ytdd9527"
@@ -3466,6 +3493,16 @@ items:
     name: "量子存储管理器"
     lore:
         - "用于更快管理量子存储设备"
+
+  NTW_EXPANSION_DRAWER_MANAGER:
+    name: "抽屉管理器"
+    lore:
+      - "用于更快管理抽屉"
+
+  NTW_EXPANSION_ITEM_FLOW_VIEWER:
+    name: "物品流量查看器"
+    lore:
+      - "用于更快查看物品去向"
 
 displays:
   quantum_storage:

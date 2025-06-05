@@ -1,5 +1,6 @@
 package io.github.sefiraat.networks;
 
+import com.balugaq.netex.api.data.ItemFlowRecord;
 import com.balugaq.netex.api.enums.MinecraftVersion;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -163,33 +164,40 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
 
         setupMetrics();
 
-        Bukkit.getScheduler()
-                .runTaskTimer(
-                        this,
-                        () -> slimefunTickCount++,
-                        1,
-                        Slimefun.getTickerTask().getTickRate());
+        Bukkit.getScheduler().runTaskTimer(
+                this,
+                () -> slimefunTickCount++,
+                1,
+                Slimefun.getTickerTask().getTickRate()
+        );
 
         // Fix dupe bug which break the network controller data without player interaction
-        Bukkit.getScheduler()
-                .runTaskTimer(
-                        this,
-                        () -> {
-                            Set<Location> wrongs = new HashSet<>();
-                            Set<Location> controllers = NetworkController.getNetworks().keySet();
-                            for (Location controller : controllers) {
-                                SlimefunBlockData data = StorageCacheUtils.getBlock(controller);
-                                if (data == null || !NetworksSlimefunItemStacks.NETWORK_CONTROLLER.getItemId().equals(data.getSfId())) {
-                                    wrongs.add(controller);
-                                }
-                            }
+        Bukkit.getScheduler().runTaskTimer(
+                this,
+                () -> {
+                    Set<Location> wrongs = new HashSet<>();
+                    Set<Location> controllers = NetworkController.getNetworks().keySet();
+                    for (Location controller : controllers) {
+                        SlimefunBlockData data = StorageCacheUtils.getBlock(controller);
+                        if (data == null || !NetworksSlimefunItemStacks.NETWORK_CONTROLLER.getItemId().equals(data.getSfId())) {
+                            wrongs.add(controller);
+                        }
+                    }
 
-                            for (Location wrong : wrongs) {
-                                NetworkUtils.clearNetwork(wrong);
-                            }
-                        },
-                        1,
-                        Slimefun.getTickerTask().getTickRate());
+                    for (Location wrong : wrongs) {
+                        NetworkUtils.clearNetwork(wrong);
+                    }
+                },
+                1,
+                Slimefun.getTickerTask().getTickRate()
+        );
+
+        Bukkit.getScheduler().runTaskTimer(
+                this,
+                () -> NetworkController.getRecords().values().forEach(ItemFlowRecord::gc),
+                1,
+                Slimefun.getTickerTask().getTickRate()
+        );
 
 
         AdminDebuggable.load();

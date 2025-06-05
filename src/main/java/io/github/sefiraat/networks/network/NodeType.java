@@ -37,5 +37,9 @@ public enum NodeType {
     OUTPUT_ONLY_MONITOR,
     DECODER,
     LINE_POWER_OUTLET,
-    QUANTUM_MANAGER
+    QUANTUM_MANAGER,
+    DRAWER_MANAGER,
+    CRAFTER_MANAGER,     // todo: not finish yet
+    FLOW_VIEWER,
+    ADVANCED_VACUUM     // todo: not finish yet
 }

@@ -23,6 +23,10 @@ speed-down:
   transport-miss-threshold: 120
   reduce-ms: 8000
 
+record-gc:
+  threshold: 131072
+  deadline: 120000 # milliseconds
+
 # max-distance means the maximum distance that the item can be pushed or grabbed.
 # 1 SF Tick = 0.5 seconds
 # pushitem-tick means the time it takes to push.

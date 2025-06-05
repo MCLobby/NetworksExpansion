@@ -243,6 +243,21 @@ public class Icon {
             Material.CRAFTING_TABLE
     );
 
+    public static final ItemStack UNKNOWN_ITEM = Networks.getLocalizationService().getIcon(
+            "unknown-item",
+            Material.BARRIER
+    );
+
+    public static final ItemStack ITEM_FLOW_VIEWER_BACK_TO_MAIN = Networks.getLocalizationService().getIcon(
+            "item-flow-viewer-back-to-main",
+            Material.RED_STAINED_GLASS_PANE
+    );
+
+    public static final ItemStack ITEM_FLOW_VIEWER_FORCE_CLEAN = Networks.getLocalizationService().getIcon(
+            "item-flow-viewer-force-clean",
+            Material.YELLOW_STAINED_GLASS_PANE
+    );
+
     // pages are 1-based
     @Nonnull
     public static ItemStack getPageStack(@Nonnull ItemStack origin, int currentPage, int maxPage) {

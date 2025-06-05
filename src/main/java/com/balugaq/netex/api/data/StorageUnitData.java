@@ -283,6 +283,14 @@ public class StorageUnitData {
         return re;
     }
 
+    public long getTotalAmountLong() {
+        long re = 0;
+        for (ItemContainer each : storedItems.values()) {
+            re += each.getAmount();
+        }
+        return re;
+    }
+
     @Deprecated
     public List<ItemContainer> getStoredItems() {
         return copyStoredItems();
@@ -406,12 +414,12 @@ public class StorageUnitData {
         var m = getPersistentAccessHistory(accessor);
         if (m != null) {
             for (var i : m.keySet()) {
-                // Patch - Cache start
+                // Netex - Cache start
                 if (i >= stored.size()) {
                     removePersistentAccessHistory(accessor, i);
                     continue;
                 }
-                // Patch - Cache end
+                // Netex - Cache end
 
                 var itemContainer = stored.get(i);
                 int containerAmount = itemContainer.getAmount();
@@ -426,17 +434,17 @@ public class StorageUnitData {
                         removePersistentAccessHistory(accessor, i);
                     } else {
                         DataStorage.setStoredAmount(id, itemContainer.getId(), itemContainer.getAmount());
-                        // Patch - Cache start
+                        // Netex - Cache start
                         minusCacheMiss(accessor, i);
-                        // Patch - Cache end
+                        // Netex - Cache end
                     }
                     ItemStack clone = item.clone();
                     clone.setAmount(take);
                     return clone;
                 } else {
-                    // Patch - Cache start
+                    // Netex - Cache start
                     addCacheMiss(accessor, i);
-                    // Patch - Cache end
+                    // Netex - Cache end
                 }
             }
         }
@@ -456,9 +464,9 @@ public class StorageUnitData {
                 if (!contentLocked && itemContainer.getAmount() <= 0) {
                     removeItem(itemContainer.getId());
                 } else {
-                    // Patch - Cache start
+                    // Netex - Cache start
                     addCountObservingAccessHistory(accessor, i);
-                    // Patch - Cache end
+                    // Netex - Cache end
                     DataStorage.setStoredAmount(id, itemContainer.getId(), itemContainer.getAmount());
                 }
                 ItemStack clone = item.clone();
@@ -536,12 +544,12 @@ public class StorageUnitData {
         var m = getPersistentAccessHistory(accessor);
         if (m != null) {
             for (var i : m.keySet()) {
-                // Patch - Cache start
+                // Netex - Cache start
                 if (i >= stored.size()) {
                     removePersistentAccessHistory(accessor, i);
                     continue;
                 }
-                // Patch - Cache end
+                // Netex - Cache end
 
                 var each = stored.get(i);
                 if (each.isSimilar(item)) {
@@ -565,14 +573,14 @@ public class StorageUnitData {
                         DataStorage.setStoredAmount(id, each.getId(), each.getAmount());
                     }
 
-                    // Patch - Cache start
+                    // Netex - Cache start
                     minusCacheMiss(accessor, i);
-                    // Patch - Cache end
+                    // Netex - Cache end
                     return add;
                 } else {
-                    // Patch - Cache start
+                    // Netex - Cache start
                     addCacheMiss(accessor, i);
-                    // Patch - Cache end
+                    // Netex - Cache end
                 }
             }
         }
@@ -600,9 +608,9 @@ public class StorageUnitData {
                     DataStorage.setStoredAmount(id, each.getId(), each.getAmount());
                 }
 
-                // Patch - Cache start
+                // Netex - Cache start
                 addCountObservingAccessHistory(accessor, i);
-                // Patch - Cache end
+                // Netex - Cache end
                 return add;
             }
         }
