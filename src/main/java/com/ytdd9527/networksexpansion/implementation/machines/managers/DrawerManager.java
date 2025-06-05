@@ -422,6 +422,7 @@ public class DrawerManager extends NetworkObject {
         var loc = data.getLastLocation();
         List<String> list = new ArrayList<>();
         list.add("");
+        list.add(String.format(Networks.getLocalizationService().getString("messages.normal-operation.manager.id"), data.getId()));
         list.add(String.format(Networks.getLocalizationService().getString("messages.normal-operation.manager.location"), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
         list.add(getAmountLore(data.getTotalAmountLong()));
         list.add("");

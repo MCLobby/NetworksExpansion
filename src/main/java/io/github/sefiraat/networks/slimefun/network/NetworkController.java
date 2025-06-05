@@ -94,7 +94,7 @@ public class NetworkController extends NetworkObject {
         recordFlow.put(root, false);
         ItemFlowRecord record = records.get(root);
         if (record != null) {
-            record.gc();
+            record.forceGC();
         }
     }
 

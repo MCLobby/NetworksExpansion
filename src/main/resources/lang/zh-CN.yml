@@ -232,6 +232,7 @@ messages:
       set_facing: "<success>已设置朝向此容器!"
     manager:
       set_name: "<passive>输入名称: "
+      id: "<passive>ID: %s"
       location: "<click_info>%s:%s:%s"
       quantum-manager-click-behavior:
         - "<click_info>左键点击: <passive>打开存储"
@@ -963,9 +964,9 @@ items:
       - "<warning> 网络拓展开发版不接受 GitHub Issues"
       - "<warning> 网络拓展开发版不接受 GitHub PR"
       - "<passive> 版本信息:"
-      - "<passive> 网络拓展版本: Special-Version-18"
+      - "<passive> 网络拓展版本: Special-Version-19"
       - "<passive> 版本状态: 稳定版"
-      - "<passive> 版本更新时间: 2025-5-31 14:19:47"
+      - "<passive> 版本更新时间: 2025-6-5 21:44:09"
       - "<passive> 开发状态: 更新中"
       - "<passive> 开发者（们）: ytdd9527, balugaq"
       - "<passive> 开发者 GitHub 页面: <click_info>https://github.com/ytdd9527"
