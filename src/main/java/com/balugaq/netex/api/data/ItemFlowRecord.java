@@ -26,26 +26,34 @@ public class ItemFlowRecord {
         }
     }
 
-    public void addAction(Location accessor, ItemStack item) {
+    public void forceGC() {
+        actions.clear();
+    }
+
+    public void addAction(Location accessor, ItemStack before, int after) {
         lastChangeTime = System.currentTimeMillis();
         actionsCount++;
 
-        var key = StackUtils.getAsQuantity(item, 1);
+        var key = StackUtils.getAsQuantity(before, 1);
 
         var list = actions.computeIfAbsent(key, k -> new ArrayList<>());
 
-        var action = new TransportAction(accessor, item.getAmount(), System.currentTimeMillis());
+        var action = new TransportAction(accessor, before.getAmount() - after, System.currentTimeMillis());
         list.add(action);
     }
 
     public void addAction(Location accessor, ItemRequest request) {
+        if (request.getReceivedAmount() == 0) {
+            return;
+        }
+
         lastChangeTime = System.currentTimeMillis();
         actionsCount++;
 
         var key = StackUtils.getAsQuantity(request.getItemStack(), 1);
         var list = actions.computeIfAbsent(key, k -> new ArrayList<>());
 
-        var action = new TransportAction(accessor, -request.getAmount(), System.currentTimeMillis());
+        var action = new TransportAction(accessor, -request.getReceivedAmount(), System.currentTimeMillis());
         list.add(action);
     }
 
@@ -53,6 +61,6 @@ public class ItemFlowRecord {
     public static class TransportAction {
         public final Location accessor;
         public final long amount;
-        public final long nanoTime;
+        public final long milliSecond;
     }
 }

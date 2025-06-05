@@ -38,9 +38,8 @@ public enum NodeType {
     DECODER,
     LINE_POWER_OUTLET,
     QUANTUM_MANAGER,
-    // todo: not finish yet
     DRAWER_MANAGER,
-    CRAFTER_MANAGER,
+    CRAFTER_MANAGER,     // todo: not finish yet
     FLOW_VIEWER,
-    ADVANCED_VACUUM
+    ADVANCED_VACUUM     // todo: not finish yet
 }

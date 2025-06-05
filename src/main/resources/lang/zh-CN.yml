@@ -242,18 +242,18 @@ messages:
         - "<click_info>手持物品Shift+右键点击: <passive>设置存储在此管理器中显示的图标"
       drawer-manager-click-behavior:
         - "<click_info>左键点击: <passive>打开存储"
-        - "<click_info>手持物品左键点击: <passive>将点击的存储所存储的物品设置为手持物品"
         - "<click_info>右键点击: <passive>高亮存储"
         - "<click_info>Shift+左键点击: <passive>置顶/取消置顶存储"
         - "<click_info>Shift+右键点击: <passive>设置存储的名字"
         - "<click_info>手持物品Shift+右键点击: <passive>设置存储在此管理器中显示的图标"
     viewer:
       location: "&7%s:%s:%s"
+      when: "&7时间: %s"
       change: "%s"
       item-flow-viewer-click-behavior:
         - "<click_info>左键点击: <passive>打开详情界面"
       item-flow-viewer-sub-click-behavior:
-        - "<click_info>左键点击: <passive>高亮存储"
+        - "<click_info>左键点击: <passive>高亮机器"
   completed-operation:
     status_viewer:
       subscribed: "<success>已关注机器 ( %s )"

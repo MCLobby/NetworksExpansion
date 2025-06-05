@@ -44,7 +44,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -77,7 +79,7 @@ public class ItemFlowViewer extends NetworkObject {
     private final IntRangeSetting tickRate;
 
     public ItemFlowViewer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe, NodeType.QUANTUM_MANAGER);
+        super(itemGroup, item, recipeType, recipe, NodeType.FLOW_VIEWER);
 
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
         addItemSetting(this.tickRate);
@@ -185,7 +187,28 @@ public class ItemFlowViewer extends NetworkObject {
             return new ArrayList<>();
         }
 
-        return root.getItemFlowRecord().getActions().getOrDefault(itemStack, new ArrayList<>());
+        return root.getItemFlowRecord().getActions().getOrDefault(itemStack, new ArrayList<>())
+                .stream()
+                .filter(action -> {
+                    if (cache.getFilter() == null) {
+                        return true;
+                    }
+
+                    var item = getIcon(action);
+                    if (itemStack == null) {
+                        return false;
+                    }
+
+                    String name = ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
+                    if (cache.getFilter().matches("^[a-zA-Z]+$")) {
+                        final String pinyinName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
+                        final String pinyinFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
+                        return name.contains(cache.getFilter()) || pinyinName.contains(cache.getFilter()) || pinyinFirstLetter.contains(cache.getFilter());
+                    } else {
+                        return name.contains(cache.getFilter());
+                    }
+                })
+                .toList();
     }
 
     public void setSubMenu(BlockMenu menu, ItemStack itemStack) {
@@ -381,7 +404,7 @@ public class ItemFlowViewer extends NetworkObject {
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
 
-    public List<String> getLoreAddition(DisplayEntry entry) {
+    public static List<String> getLoreAddition(DisplayEntry entry) {
         long change = entry.getActions().stream().map(ItemFlowRecord.TransportAction::getAmount).mapToLong(i -> i).sum();
 
         List<String> list = new ArrayList<>();
@@ -393,17 +416,27 @@ public class ItemFlowViewer extends NetworkObject {
         return list;
     }
 
-    public List<String> getLoreAddition(ItemFlowRecord.TransportAction entry) {
+    public static List<String> getLoreAddition(ItemFlowRecord.TransportAction entry) {
         var loc = entry.getAccessor();
         long change = entry.getAmount();
         List<String> list = new ArrayList<>();
         list.add("");
         list.add(String.format(Networks.getLocalizationService().getString("messages.normal-operation.viewer.location"), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
+        list.add(String.format(Networks.getLocalizationService().getString("messages.normal-operation.viewer.when"), humanizeTime(entry.getMilliSecond())));
         list.add((change > 0 ? ChatColor.GREEN : change < 0 ? ChatColor.RED : ChatColor.GRAY) + String.format(Networks.getLocalizationService().getString("messages.normal-operation.viewer.change"), change > 0 ? "+" + change : change));
         list.add("");
         list.addAll(Networks.getLocalizationService().getStringList("messages.normal-operation.viewer.item-flow-viewer-sub-click-behavior"));
 
         return list;
+    }
+
+    public static DateFormat DATE_FORMAT = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM);
+
+    public static String humanizeTime(long milliSecond) {
+        // milliSecond is System.currentTimeMillis()
+        // we should transform it to the Date
+        Date date = new Date(milliSecond);
+        return DATE_FORMAT.format(date);
     }
 
     @Override
@@ -572,8 +605,18 @@ public class ItemFlowViewer extends NetworkObject {
         }
     }
 
+    // todo:
+    public void forceCleanHistory(NetworkRoot root) {
+        var r = NetworkController.getRecords().get(root.getController());
+        if (r == null) {
+            return;
+        }
+
+        r.forceGC();
+    }
+
     @Nonnull
-    public ItemStack getIcon(ItemFlowRecord.TransportAction action) {
+    public static ItemStack getIcon(ItemFlowRecord.TransportAction action) {
         var sf = StorageCacheUtils.getSfItem(action.getAccessor());
         if (sf == null) {
             return Icon.UNKNOWN_ITEM.clone();

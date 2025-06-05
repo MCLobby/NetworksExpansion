@@ -1915,6 +1915,12 @@ public class NetworkRoot extends NetworkNode {
         return requestItem(accessor, new ItemRequest(itemStack, itemStack.getAmount()));
     }
 
+    public void tryRecord(@Nonnull Location accessor, @Nonnull ItemRequest request) {
+        if (recordFlow && itemFlowRecord != null) {
+            itemFlowRecord.addAction(accessor, request);
+        }
+    }
+
     @Nullable
     public ItemStack getItemStack0(@Nonnull Location accessor, @Nonnull ItemRequest request) {
         ItemStack stackToReturn = null;
@@ -1927,10 +1933,6 @@ public class NetworkRoot extends NetworkNode {
             return null;
         }
 
-        if (recordFlow && itemFlowRecord != null) {
-            itemFlowRecord.addAction(accessor, request);
-        }
-
         var m = getPersistentAccessHistory(accessor);
         if (m != null) {
             for (var entry : m.entrySet()) {
@@ -1941,15 +1943,15 @@ public class NetworkRoot extends NetworkNode {
                     final ItemStack itemStack = barrelIdentity.getItemStack();
 
                     if (itemStack == null || !StackUtils.itemsMatch(request, itemStack)) {
-                        // Patch - Cache start
+                        // Netex - Cache start
                         addCacheMiss(accessor, entry.getKey());
-                        // Patch - Cache end
+                        // Netex - Cache end
                         continue;
                     }
 
-                    // Patch - Cache start
+                    // Netex - Cache start
                     minusCacheMiss(accessor, entry.getKey());
-                    // Patch - Cache end
+                    // Netex - Cache end
 
                     boolean infinity = barrelIdentity instanceof InfinityBarrel;
                     final ItemStack fetched = barrelIdentity.requestItem(request);
@@ -1966,11 +1968,14 @@ public class NetworkRoot extends NetworkNode {
                     final int preserveAmount = infinity ? fetched.getAmount() - 1 : fetched.getAmount();
 
                     if (request.getAmount() <= preserveAmount) {
-                        // Patch - Reduce start
+                        // Netex - Reduce start
                         unreduceAccessOutput(accessor);
-                        // Patch - Reduce end
+                        // Netex - Reduce end
                         stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
                         fetched.setAmount(fetched.getAmount() - request.getAmount());
+                        // Netex - Record start
+                        tryRecord(accessor, request);
+                        // Netex - Record end
                         return stackToReturn;
                     } else {
                         stackToReturn.setAmount(stackToReturn.getAmount() + preserveAmount);
@@ -1984,9 +1989,9 @@ public class NetworkRoot extends NetworkNode {
                         //<editor-fold desc="do drawer">
                         ItemStack take = data.requestItem0(accessor, request);
                         if (take != null) {
-                            // Patch - Cache start
+                            // Netex - Cache start
                             minusCacheMiss(accessor, entry.getKey());
-                            // Patch - Cache end
+                            // Netex - Cache end
 
                             if (stackToReturn == null) {
                                 stackToReturn = take.clone();
@@ -1996,21 +2001,24 @@ public class NetworkRoot extends NetworkNode {
                             request.receiveAmount(take.getAmount());
 
                             if (request.getAmount() <= 0) {
-                                // Patch - Reduce start
+                                // Netex - Reduce start
                                 unreduceAccessOutput(accessor);
-                                // Patch - Reduce end
+                                // Netex - Reduce end
+                                // Netex - Record start
+                                tryRecord(accessor, request);
+                                // Netex - Record end
                                 return stackToReturn;
                             }
                         } else {
-                            // Patch - Cache start
+                            // Netex - Cache start
                             addCacheMiss(accessor, entry.getKey());
-                            // Patch - Cache end
+                            // Netex - Cache end
                         }
                         //</editor-fold>
                     } else {
-                        // Patch - Cache start
+                        // Netex - Cache start
                         addCacheMiss(accessor, entry.getKey());
-                        // Patch - Cache end
+                        // Netex - Cache end
                     }
                 }
             }
@@ -2025,9 +2033,9 @@ public class NetworkRoot extends NetworkNode {
                 continue;
             }
 
-            // Patch - Cache start
+            // Netex - Cache start
             addCountObservingAccessHistory(accessor, barrelIdentity.getLocation());
-            // Patch - Cache end
+            // Netex - Cache end
 
             boolean infinity = barrelIdentity instanceof InfinityBarrel;
             final ItemStack fetched = barrelIdentity.requestItem(request);
@@ -2044,11 +2052,14 @@ public class NetworkRoot extends NetworkNode {
             final int preserveAmount = infinity ? fetched.getAmount() - 1 : fetched.getAmount();
 
             if (request.getAmount() <= preserveAmount) {
-                // Patch - Reduce start
+                // Netex - Reduce start
                 unreduceAccessOutput(accessor);
-                // Patch - Reduce end
+                // Netex - Reduce end
                 stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
                 fetched.setAmount(fetched.getAmount() - request.getAmount());
+                // Netex - Record start
+                tryRecord(accessor, request);
+                // Netex - Record end
                 return stackToReturn;
             } else {
                 stackToReturn.setAmount(stackToReturn.getAmount() + preserveAmount);
@@ -2063,9 +2074,9 @@ public class NetworkRoot extends NetworkNode {
             //<editor-fold desc="do drawer">
             ItemStack take = cache.requestItem0(accessor, request);
             if (take != null) {
-                // Patch - Cache start
+                // Netex - Cache start
                 addCountObservingAccessHistory(accessor, cache.getLastLocation());
-                // Patch - Cache end
+                // Netex - Cache end
                 if (stackToReturn == null) {
                     stackToReturn = take.clone();
                 } else {
@@ -2074,9 +2085,12 @@ public class NetworkRoot extends NetworkNode {
                 request.receiveAmount(take.getAmount());
 
                 if (request.getAmount() <= 0) {
-                    // Patch - Reduce start
+                    // Netex - Reduce start
                     unreduceAccessOutput(accessor);
-                    // Patch - Reduce end
+                    // Netex - Reduce end
+                    // Netex - Record start
+                    tryRecord(accessor, request);
+                    // Netex - Record end
                     return stackToReturn;
                 }
             }
@@ -2105,12 +2119,15 @@ public class NetworkRoot extends NetworkNode {
                 }
 
                 if (request.getAmount() <= itemStack.getAmount()) {
-                    // Patch - Reduce start
+                    // Netex - Reduce start
                     unreduceAccessOutput(accessor);
-                    // Patch - Reduce end
+                    // Netex - Reduce end
                     // We can't take more than this stack. Level to request amount, remove items and then return
                     stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
                     itemStack.setAmount(itemStack.getAmount() - request.getAmount());
+                    // Netex - Record start
+                    tryRecord(accessor, request);
+                    // Netex - Record end
                     return stackToReturn;
                 } else {
                     // We can take more than what is here, consume before trying to take more
@@ -2140,11 +2157,14 @@ public class NetworkRoot extends NetworkNode {
                 }
 
                 if (request.getAmount() <= itemStack.getAmount()) {
-                    // Patch - Reduce start
+                    // Netex - Reduce start
                     unreduceAccessOutput(accessor);
-                    // Patch - Reduce end
+                    // Netex - Reduce end
                     stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
                     itemStack.setAmount(itemStack.getAmount() - request.getAmount());
+                    // Netex - Record start
+                    tryRecord(accessor, request);
+                    // Netex - Record end
                     return stackToReturn;
                 } else {
                     stackToReturn.setAmount(stackToReturn.getAmount() + itemStack.getAmount());
@@ -2172,11 +2192,14 @@ public class NetworkRoot extends NetworkNode {
                 }
 
                 if (request.getAmount() <= itemStack.getAmount()) {
-                    // Patch - Reduce start
+                    // Netex - Reduce start
                     unreduceAccessOutput(accessor);
-                    // Patch - Reduce end
+                    // Netex - Reduce end
                     stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
                     itemStack.setAmount(itemStack.getAmount() - request.getAmount());
+                    // Netex - Record start
+                    tryRecord(accessor, request);
+                    // Netex - Record end
                     return stackToReturn;
                 } else {
                     stackToReturn.setAmount(stackToReturn.getAmount() + itemStack.getAmount());
@@ -2207,12 +2230,15 @@ public class NetworkRoot extends NetworkNode {
             }
 
             if (request.getAmount() <= itemStack.getAmount()) {
-                // Patch - Reduce start
+                // Netex - Reduce start
                 unreduceAccessOutput(accessor);
-                // Patch - Reduce end
+                // Netex - Reduce end
                 // We can't take more than this stack. Level to request amount, remove items and then return
                 stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
                 itemStack.setAmount(itemStack.getAmount() - request.getAmount());
+                // Netex - Record start
+                tryRecord(accessor, request);
+                // Netex - Record end
                 return stackToReturn;
             } else {
                 // We can take more than what is here, consume before trying to take more
@@ -2225,11 +2251,14 @@ public class NetworkRoot extends NetworkNode {
         if (stackToReturn == null || stackToReturn.getAmount() == 0) {
             addTransportOutputMiss(accessor);
             return null;
-        } else {
-            // Patch - Reduce start
-            unreduceAccessOutput(accessor);
-            // Patch - Reduce end
         }
+
+        // Netex - Reduce start
+        unreduceAccessOutput(accessor);
+        // Netex - Reduce end
+        // Netex - Record start
+        tryRecord(accessor, request);
+        // Netex - Record end
 
         return stackToReturn;
     }
@@ -2238,13 +2267,19 @@ public class NetworkRoot extends NetworkNode {
         addItemStack0(accessor, incoming);
     }
 
+    public void tryRecord(@Nonnull Location accessor, @Nullable ItemStack before, int after) {
+        if (recordFlow && itemFlowRecord != null && before != null) {
+            itemFlowRecord.addAction(accessor, before, after);
+        }
+    }
     public void addItemStack0(@Nonnull Location accessor, @Nonnull ItemStack incoming) {
         if (!allowAccessInput(accessor)) {
             return;
         }
 
+        ItemStack beforeItemStack = null;
         if (recordFlow && itemFlowRecord != null) {
-            itemFlowRecord.addAction(accessor, incoming);
+            beforeItemStack = incoming.clone();
         }
 
         int before = incoming.getAmount();
@@ -2256,51 +2291,57 @@ public class NetworkRoot extends NetworkNode {
                 if (barrelIdentity != null) {
                     //<editor-fold desc="do barrel">
                     if (StackUtils.itemsMatch(barrelIdentity, incoming)) {
-                        // Patch - Cache start
+                        // Netex - Cache start
                         minusCacheMiss(accessor, entry.getKey());
-                        // Patch - Cache end
+                        // Netex - Cache end
 
                         barrelIdentity.depositItemStack(incoming);
 
                         // All distributed, can escape
                         if (incoming.getAmount() == 0) {
-                            // Patch - Reduce start
+                            // Netex - Reduce start
                             unreduceAccessInput(accessor);
-                            // Patch - Reduce end
+                            // Netex - Reduce end
+                            // Netex - Record start
+                            tryRecord(accessor, beforeItemStack, 0);
+                            // Netex - Record end
                             return;
                         }
                     } else {
-                        // Patch - Cache start
+                        // Netex - Cache start
                         addCacheMiss(accessor, barrelIdentity.getLocation());
-                        // Patch - Cache end
+                        // Netex - Cache end
                     }
                     //</editor-fold>
                 } else {
                     StorageUnitData data = accessInputAbleCargoStorageUnitData(entry.getKey());
                     if (data != null) {
-                        // Patch - Cache start
+                        // Netex - Cache start
                         int before2 = incoming.getAmount();
-                        // Patch - Cache end
+                        // Netex - Cache end
                         data.depositItemStack0(accessor, incoming, true);
 
-                        // Patch - Cache start
+                        // Netex - Cache start
                         if (incoming.getAmount() == before2) {
                             addCacheMiss(accessor, entry.getKey());
                         } else {
                             minusCacheMiss(accessor, entry.getKey());
                         }
-                        // Patch - Cache end
+                        // Netex - Cache end
 
                         if (incoming.getAmount() == 0) {
-                            // Patch - Reduce start
+                            // Netex - Reduce start
                             unreduceAccessInput(accessor);
-                            // Patch - Reduce end
+                            // Netex - Reduce end
+                            // Netex - Record start
+                            tryRecord(accessor, beforeItemStack, 0);
+                            // Netex - Record end
                             return;
                         }
                     } else {
-                        // Patch - Cache start
+                        // Netex - Cache start
                         addCacheMiss(accessor, entry.getKey());
-                        // Patch - Cache end
+                        // Netex - Cache end
                     }
                 }
             }
@@ -2315,9 +2356,12 @@ public class NetworkRoot extends NetworkNode {
 
             blockMenu.markDirty();
             BlockMenuUtil.pushItem(blockMenu, incoming, ADVANCED_GREEDY_BLOCK_AVAILABLE_SLOTS);
-            // Patch - Reduce start
+            // Netex - Reduce start
             unreduceAccessInput(accessor);
-            // Patch - Reduce end
+            // Netex - Reduce end
+            // Netex - Record start
+            tryRecord(accessor, beforeItemStack, incoming.getAmount());
+            // Netex - Record end
             // Given we have found a match, it doesn't matter if the item moved or not, we will not bring it in
             return;
         }
@@ -2332,9 +2376,12 @@ public class NetworkRoot extends NetworkNode {
 
             blockMenu.markDirty();
             BlockMenuUtil.pushItem(blockMenu, incoming, GREEDY_BLOCK_AVAILABLE_SLOTS[0]);
-            // Patch - Reduce start
+            // Netex - Reduce start
             unreduceAccessInput(accessor);
-            // Patch - Reduce end
+            // Netex - Reduce end
+            // Netex - Record start
+            tryRecord(accessor, beforeItemStack, incoming.getAmount());
+            // Netex - Record end
             // Given we have found a match, it doesn't matter if the item moved or not, we will not bring it in
             return;
         }
@@ -2344,17 +2391,20 @@ public class NetworkRoot extends NetworkNode {
         for (BarrelIdentity barrelIdentity : getInputAbleBarrels()) {
             //<editor-fold desc="do barrel">
             if (StackUtils.itemsMatch(barrelIdentity, incoming)) {
-                // Patch - Cache start
+                // Netex - Cache start
                 addCountObservingAccessHistory(accessor, barrelIdentity.getLocation());
-                // Patch - Cache end
+                // Netex - Cache end
 
                 barrelIdentity.depositItemStack(incoming);
 
                 // All distributed, can escape
                 if (incoming.getAmount() == 0) {
-                    // Patch - Reduce start
+                    // Netex - Reduce start
                     unreduceAccessInput(accessor);
-                    // Patch - Reduce end
+                    // Netex - Reduce end
+                    // Netex - Record start
+                    tryRecord(accessor, beforeItemStack, 0);
+                    // Netex - Record end
                     return;
                 }
             }
@@ -2362,25 +2412,28 @@ public class NetworkRoot extends NetworkNode {
         }
 
         for (StorageUnitData cache : getInputAbleCargoStorageUnitDatas().keySet()) {
-            // Patch - Cache start
+            // Netex - Cache start
             int before2 = incoming.getAmount();
-            // Patch - Cache end
+            // Netex - Cache end
 
             cache.depositItemStack0(accessor, incoming, true);
 
-            // Patch - Cache start
+            // Netex - Cache start
             if (incoming.getAmount() != before2) {
-                // Patch - Reduce start
+                // Netex - Reduce start
                 unreduceAccessInput(accessor);
-                // Patch - Reduce end
+                // Netex - Reduce end
                 addCountObservingAccessHistory(accessor, cache.getLastLocation());
             }
-            // Patch - Cache end
+            // Netex - Cache end
 
             if (incoming.getAmount() == 0) {
-                // Patch - Reduce start
+                // Netex - Reduce start
                 unreduceAccessInput(accessor);
-                // Patch - Reduce end
+                // Netex - Reduce end
+                // Netex - Record start
+                tryRecord(accessor, beforeItemStack, 0);
+                // Netex - Record end
                 return;
             }
         }
@@ -2389,21 +2442,27 @@ public class NetworkRoot extends NetworkNode {
             blockMenu.markDirty();
             BlockMenuUtil.pushItem(blockMenu, incoming, CELL_AVAILABLE_SLOTS);
             if (incoming.getAmount() == 0) {
-                // Patch - Reduce start
+                // Netex - Reduce start
                 unreduceAccessInput(accessor);
-                // Patch - Reduce end
+                // Netex - Reduce end
+                // Netex - Record start
+                tryRecord(accessor, beforeItemStack, 0);
+                // Netex - Record end
                 return;
             }
         }
 
-        // Patch - Reduce start
+        // Netex - Reduce start
         if (before == incoming.getAmount()) {
             // No item moved, limit the accessor
             addTransportInputMiss(accessor);
         } else {
             unreduceAccessInput(accessor);
         }
-        // Patch - Reduce end
+        // Netex - Reduce end
+        // Netex - Record start
+        tryRecord(accessor, beforeItemStack, incoming.getAmount());
+        // Netex - Record end
     }
 
     public Map<Location, BarrelIdentity> getMapInputAbleBarrels() {
