@@ -31,6 +31,11 @@ public class ItemFlowRecord {
     }
 
     public void addAction(Location accessor, ItemStack before, int after) {
+        int change = before.getAmount() - after;
+        if (change == 0) {
+            return;
+        }
+
         lastChangeTime = System.currentTimeMillis();
         actionsCount++;
 
@@ -38,7 +43,7 @@ public class ItemFlowRecord {
 
         var list = actions.computeIfAbsent(key, k -> new ArrayList<>());
 
-        var action = new TransportAction(accessor, before.getAmount() - after, System.currentTimeMillis());
+        var action = new TransportAction(accessor, change, System.currentTimeMillis());
         list.add(action);
     }
 

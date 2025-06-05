@@ -808,7 +808,7 @@ public class ExpansionItemStacks {
             Theme.GUIDE
     );
     public static final SlimefunItemStack QUANTUM_MANAGER = Theme.themedSlimefunItemStack(
-            Networks.getLocalizationService().getItem("NTW_EXPANSION_QUANTUM_MANAGER", Material.GLOWSTONE),
+            Networks.getLocalizationService().getItem("NTW_EXPANSION_QUANTUM_MANAGER", Material.NETHER_WART_BLOCK),
             Theme.MACHINE
     );
     public static final SlimefunItemStack DRAWER_MANAGER = Theme.themedSlimefunItemStack(
@@ -816,7 +816,7 @@ public class ExpansionItemStacks {
             Theme.MACHINE
     );
     public static final SlimefunItemStack ITEM_FLOW_VIEWER = Theme.themedSlimefunItemStack(
-            Networks.getLocalizationService().getItem("NTW_EXPANSION_ITEM_FLOW_VIEWER", Material.NETHER_WART_BLOCK),
+            Networks.getLocalizationService().getItem("NTW_EXPANSION_ITEM_FLOW_VIEWER", Material.GLOWSTONE),
             Theme.MACHINE
     );
 

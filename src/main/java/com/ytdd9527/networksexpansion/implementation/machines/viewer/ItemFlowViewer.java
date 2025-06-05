@@ -22,6 +22,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
@@ -37,13 +38,16 @@ import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Warning;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -56,6 +60,10 @@ import java.util.Map;
 public class ItemFlowViewer extends NetworkObject {
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
 
+    private static final int BACK_SLOT = 8;
+    private static final int FORCE_CLEAN_SLOT = 17;
+
+    //! DO NOT REMOVE THIS
     private static final int[] BACKGROUND_SLOTS = new int[]{
             8, 17
     };
@@ -112,6 +120,17 @@ public class ItemFlowViewer extends NetworkObject {
                     }
                 }
         );
+
+        addItemHandler(new BlockBreakHandler(false, false) {
+            @Override
+            @ParametersAreNonnullByDefault
+            public void onPlayerBreak(BlockBreakEvent blockBreakEvent, ItemStack itemStack, List<ItemStack> list) {
+                NodeDefinition definition = NetworkStorage.getNode(blockBreakEvent.getBlock().getLocation());
+                if (definition != null && definition.getNode() != null) {
+                    NetworkController.disableRecord(definition.getNode().getRoot().getController());
+                }
+            }
+        });
     }
 
     public static String serializeIcon(@Nonnull ItemStack itemStack) {
@@ -211,13 +230,19 @@ public class ItemFlowViewer extends NetworkObject {
                 .toList();
     }
 
-    public void setSubMenu(BlockMenu menu, ItemStack itemStack) {
+    public void setSubMenu(BlockMenu menu, GridCache cache, @Nullable ItemStack itemStack) {
         var data = StorageCacheUtils.getBlock(menu.getLocation());
         if (data == null) {
             return;
         }
 
-        data.setData(BS_SUB_MENU, serializeIcon(itemStack));
+        cache.setFilter(null);
+        if (itemStack != null) {
+            data.setData(BS_SUB_MENU, serializeIcon(itemStack));
+        } else {
+            data.removeData(BS_SUB_MENU);
+        }
+
     }
 
     public String getSubMenu(BlockMenu menu) {
@@ -253,11 +278,6 @@ public class ItemFlowViewer extends NetworkObject {
             }
 
             sendFeedback(blockMenu.getLocation(), FeedbackType.AFK);
-            return;
-        }
-
-        if (!root.isRecordFlow()) {
-            NetworkController.enableRecord(root.getController());
             return;
         }
 
@@ -389,7 +409,7 @@ public class ItemFlowViewer extends NetworkObject {
                 displayStack.setItemMeta(itemMeta);
                 blockMenu.replaceExistingItem(getDisplaySlots()[i], displayStack);
                 blockMenu.addMenuClickHandler(getDisplaySlots()[i], (player, slot, item, action) -> {
-                    setSubMenu(blockMenu, displayItemStack);
+                    setSubMenu(blockMenu, gridCache, displayItemStack);
                     return false;
                 });
             } else {
@@ -514,6 +534,37 @@ public class ItemFlowViewer extends NetworkObject {
                     menu.replaceExistingItem(displaySlot, ChestMenuUtils.getBackground());
                     menu.addMenuClickHandler(displaySlot, (p, slot, item, action) -> false);
                 }
+
+                menu.addItem(BACK_SLOT, Icon.ITEM_FLOW_VIEWER_BACK_TO_MAIN);
+                menu.addMenuClickHandler(BACK_SLOT, (p, slot, item, action) -> {
+                    GridCache gridCache = getCacheMap().get(menu.getLocation());
+                    setSubMenu(menu, gridCache, null);
+                    return false;
+                });
+
+                menu.addItem(FORCE_CLEAN_SLOT, Icon.ITEM_FLOW_VIEWER_FORCE_CLEAN);
+                menu.addMenuClickHandler(FORCE_CLEAN_SLOT, (p, slot, item, action) -> {
+                    NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
+                    if (definition != null && definition.getNode() != null) {
+                        forceCleanHistory(definition.getNode().getRoot());
+                    }
+
+                    return false;
+                });
+
+                menu.addMenuCloseHandler(p -> {
+                    NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
+                    if (definition != null && definition.getNode() != null) {
+                        NetworkController.disableRecord(definition.getNode().getRoot().getController());
+                    }
+                });
+
+                menu.addMenuOpeningHandler(p -> {
+                    NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
+                    if (definition != null && definition.getNode() != null) {
+                        NetworkController.enableRecord(definition.getNode().getRoot().getController());
+                    }
+                });
             }
         };
     }
@@ -605,7 +656,6 @@ public class ItemFlowViewer extends NetworkObject {
         }
     }
 
-    // todo:
     public void forceCleanHistory(NetworkRoot root) {
         var r = NetworkController.getRecords().get(root.getController());
         if (r == null) {

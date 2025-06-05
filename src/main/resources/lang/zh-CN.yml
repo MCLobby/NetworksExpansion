@@ -484,8 +484,16 @@ messages:
           - "收获时将获得人造绿宝石碎片."
   save-all: "正在保存网络拓展数据."
 icons:
+  item-flow-viewer-force-clean:
+    name: "&6清除缓存"
+    lore:
+      - "&7点击清除缓存"
+  item-flow-viewer-back-to-main:
+    name: "&7返回"
+    lore:
+      - "&7点击返回主界面"
   unknown-item:
-    name: "未知物品"
+    name: "&7未知物品"
     lore:
       - "&7未知物品"
   craft-button-stack-6x6:
@@ -3484,6 +3492,16 @@ items:
     name: "量子存储管理器"
     lore:
         - "用于更快管理量子存储设备"
+
+  NTW_EXPANSION_DRAWER_MANAGER:
+    name: "抽屉管理器"
+    lore:
+      - "用于更快管理抽屉"
+
+  NTW_EXPANSION_ITEM_FLOW_VIEWER:
+    name: "物品流量查看器"
+    lore:
+      - "用于更快查看物品去向"
 
 displays:
   quantum_storage:
