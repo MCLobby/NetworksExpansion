@@ -43,15 +43,7 @@ public class Sorters {
             },
             Collator.getInstance(Locale.CHINA)::compare
     );
-    public static final Comparator<Map.Entry<ItemStack, Long>> ITEMSTACK_SIMILAR_SORT = LevenshteinSorter.sortByDistance(entry -> {
-        ItemStack itemStack = entry.getKey();
-        SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
-        if (slimefunItem != null) {
-            return ChatColor.stripColor(slimefunItem.getItemName());
-        } else {
-            return ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack));
-        }
-    });
+
     public static final Comparator<? super BarrelIdentity> BARREL_ALPHABETICAL_SORT = Comparator.comparing(
             barrel -> {
                 ItemStack itemStack = barrel.getItemStack();

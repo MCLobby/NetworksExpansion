@@ -56,7 +56,6 @@ public abstract class AbstractGrid extends NetworkObject {
         SORT_MAP.put(GridCache.SortOrder.NUMBER, Sorters.ITEMSTACK_NUMERICAL_SORT.reversed());
         SORT_MAP.put(GridCache.SortOrder.NUMBER_REVERSE, Sorters.ITEMSTACK_NUMERICAL_SORT);
         SORT_MAP.put(GridCache.SortOrder.ADDON, Sorters.ITEMSTACK_ADDON_SORT);
-        SORT_MAP.put(GridCache.SortOrder.SIMILAR, Sorters.ITEMSTACK_SIMILAR_SORT);
     }
 
     private final ItemSetting<Integer> tickRate;
