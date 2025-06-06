@@ -65,7 +65,7 @@ public class ItemFlowViewer extends NetworkObject {
 
     //! DO NOT REMOVE THIS
     private static final int[] BACKGROUND_SLOTS = new int[]{
-            8, 17
+            8, 17, 35
     };
 
     private static final int[] DISPLAY_SLOTS = {
@@ -77,7 +77,6 @@ public class ItemFlowViewer extends NetworkObject {
             45, 46, 47, 48, 49, 50, 51, 52,
     };
 
-    private static final int CHANGE_SORT = 35;
     private static final int FILTER = 26;
     private static final int PAGE_PREVIOUS = 44;
     private static final int PAGE_NEXT = 53;
@@ -508,21 +507,6 @@ public class ItemFlowViewer extends NetworkObject {
                     return false;
                 });
 
-                menu.replaceExistingItem(getChangeSort(), getChangeSortStack());
-                menu.addMenuClickHandler(getChangeSort(), (p, slot, item, action) -> {
-                    GridCache gridCache = getCacheMap().get(menu.getLocation());
-                    if (gridCache.getSortOrder() == GridCache.SortOrder.ALPHABETICAL) {
-                        gridCache.setSortOrder(GridCache.SortOrder.NUMBER);
-                    } else if (gridCache.getSortOrder() == GridCache.SortOrder.NUMBER) {
-                        gridCache.setSortOrder(GridCache.SortOrder.NUMBER_REVERSE);
-                    } else {
-                        gridCache.setSortOrder(GridCache.SortOrder.ALPHABETICAL);
-                    }
-                    getCacheMap().put(menu.getLocation(), gridCache);
-                    updateDisplay(menu);
-                    return false;
-                });
-
                 menu.replaceExistingItem(getFilterSlot(), getFilterStack());
                 menu.addMenuClickHandler(getFilterSlot(), (p, slot, item, action) -> {
                     GridCache gridCache = getCacheMap().get(menu.getLocation());
@@ -582,10 +566,6 @@ public class ItemFlowViewer extends NetworkObject {
         return DISPLAY_SLOTS;
     }
 
-    public int getChangeSort() {
-        return CHANGE_SORT;
-    }
-
     public int getPagePrevious() {
         return PAGE_PREVIOUS;
     }
@@ -639,10 +619,6 @@ public class ItemFlowViewer extends NetworkObject {
 
     protected ItemStack getPageNextStack() {
         return Icon.PAGE_NEXT_STACK;
-    }
-
-    protected ItemStack getChangeSortStack() {
-        return Icon.CHANGE_SORT_STACK;
     }
 
     protected ItemStack getFilterStack() {

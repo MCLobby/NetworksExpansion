@@ -101,15 +101,7 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
                 menu.replaceExistingItem(getChangeSort(), getChangeSortStack());
                 menu.addMenuClickHandler(getChangeSort(), (p, slot, item, action) -> {
                     GridCache gridCache = getCacheMap().get(menu.getLocation());
-                    if (gridCache.getSortOrder() == GridCache.SortOrder.ALPHABETICAL) {
-                        gridCache.setSortOrder(GridCache.SortOrder.NUMBER);
-                    } else if (gridCache.getSortOrder() == GridCache.SortOrder.NUMBER) {
-                        gridCache.setSortOrder(GridCache.SortOrder.NUMBER_REVERSE);
-                    } else if (gridCache.getSortOrder() == GridCache.SortOrder.NUMBER_REVERSE) {
-                        gridCache.setSortOrder(GridCache.SortOrder.ADDON);
-                    } else {
-                        gridCache.setSortOrder(GridCache.SortOrder.ALPHABETICAL);
-                    }
+                    gridCache.setSortOrder(gridCache.getSortOrder().next());
                     getCacheMap().put(menu.getLocation(), gridCache);
                     updateDisplay(menu);
                     return false;

@@ -1,5 +1,6 @@
 package com.ytdd9527.networksexpansion.implementation.machines.managers;
 
+import com.balugaq.netex.api.algorithm.Sorters;
 import com.balugaq.netex.api.data.StorageUnitData;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.events.NetworkRootLocateStorageEvent;
@@ -45,7 +46,6 @@ import org.jetbrains.annotations.Range;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.text.Collator;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -76,26 +76,8 @@ public class DrawerManager extends NetworkObject {
     private static final int FILTER = 26;
     private static final int PAGE_PREVIOUS = 44;
     private static final int PAGE_NEXT = 53;
-    public static final String NO_ITEM = ItemStackHelper.getDisplayName(Icon.QUANTUM_STORAGE_NO_ITEM);
     public static final String MANAGER_TAG = "drawer_manager";
     public static final NetworkRootLocateStorageEvent.Strategy MANAGER_STRATEGY = NetworkRootLocateStorageEvent.Strategy.custom(MANAGER_TAG);
-    private static final Comparator<? super StorageUnitData> ALPHABETICAL_SORT = Comparator.comparing(
-            data -> {
-                ItemStack itemStack = getItemStack(data);
-                if (itemStack == null) {
-                    return NO_ITEM;
-                }
-                SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
-                if (slimefunItem != null) {
-                    return ChatColor.stripColor(slimefunItem.getItemName());
-                } else {
-                    return ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack));
-                }
-            },
-            Collator.getInstance(Locale.CHINA)::compare
-    );
-    private static final Comparator<StorageUnitData> NUMERICAL_SORT = Comparator.comparingLong(StorageUnitData::getTotalAmountLong);
-    private static final Comparator<StorageUnitData> NUMERICAL_SORT_REVERSE = (a, b) -> -Long.compare(b.getTotalAmountLong(), a.getTotalAmountLong());
     private static final Map<GridCache.SortOrder, Comparator<? super StorageUnitData>> SORT_MAP = new HashMap<>();
     private static final String BS_TOP = "netex-top";
     private static final String BS_NAME = "netex-name";
@@ -106,9 +88,9 @@ public class DrawerManager extends NetworkObject {
     private static final String NAMESPACE_MC = "mc";
 
     static {
-        SORT_MAP.put(GridCache.SortOrder.ALPHABETICAL, ALPHABETICAL_SORT);
-        SORT_MAP.put(GridCache.SortOrder.NUMBER, NUMERICAL_SORT);
-        SORT_MAP.put(GridCache.SortOrder.NUMBER_REVERSE, NUMERICAL_SORT_REVERSE);
+        SORT_MAP.put(GridCache.SortOrder.ALPHABETICAL, Sorters.DRAWER_ALPHABETICAL_SORT);
+        SORT_MAP.put(GridCache.SortOrder.NUMBER, Sorters.DRAWER_NUMERICAL_SORT);
+        SORT_MAP.put(GridCache.SortOrder.NUMBER_REVERSE, Sorters.DRAWER_NUMERICAL_SORT.reversed());
     }
 
     private final IntRangeSetting tickRate;
@@ -389,7 +371,7 @@ public class DrawerManager extends NetworkObject {
                 } else if (!isEmpty) {
                     displayStack = new CustomItemStack(displayStack, ChatColor.GRAY + ItemStackHelper.getDisplayName(dataItemStack));
                 } else {
-                    displayStack = new CustomItemStack(displayStack, NO_ITEM);
+                    displayStack = new CustomItemStack(displayStack, Sorters.NO_ITEM);
                 }
 
                 final ItemMeta itemMeta = displayStack.getItemMeta();
