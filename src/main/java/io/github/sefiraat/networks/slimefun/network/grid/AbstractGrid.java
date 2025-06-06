@@ -1,5 +1,6 @@
 package io.github.sefiraat.networks.slimefun.network.grid;
 
+import com.balugaq.netex.api.algorithm.Sorters;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
 import com.github.houbb.pinyin.constant.enums.PinyinStyleEnum;
@@ -38,7 +39,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.text.Collator;
 import java.text.MessageFormat;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -49,37 +49,14 @@ import java.util.Map;
 @SuppressWarnings("deprecation")
 public abstract class AbstractGrid extends NetworkObject {
 
-    public static final Comparator<Map.Entry<ItemStack, Long>> ALPHABETICAL_SORT = Comparator.comparing(
-            itemStackIntegerEntry -> {
-                ItemStack itemStack = itemStackIntegerEntry.getKey();
-                SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
-                if (slimefunItem != null) {
-                    return ChatColor.stripColor(slimefunItem.getItemName());
-                } else {
-                    return ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack));
-                }
-            },
-            Collator.getInstance(Locale.CHINA)::compare
-    );
-    private static final Comparator<Map.Entry<ItemStack, Long>> NUMERICAL_SORT = Map.Entry.comparingByValue();
-    private static final Comparator<Map.Entry<ItemStack, Long>> ADDON_SORT = Comparator.comparing(
-            itemStackIntegerEntry -> {
-                ItemStack itemStack = itemStackIntegerEntry.getKey();
-                SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
-                if (slimefunItem != null) {
-                    return ChatColor.stripColor(slimefunItem.getAddon().getName());
-                } else {
-                    return "Minecraft";
-                }
-            },
-            Collator.getInstance(Locale.CHINA)::compare
-    );
     private static final Map<GridCache.SortOrder, Comparator<? super Map.Entry<ItemStack, Long>>> SORT_MAP = new HashMap<>();
 
     static {
-        SORT_MAP.put(GridCache.SortOrder.ALPHABETICAL, ALPHABETICAL_SORT);
-        SORT_MAP.put(GridCache.SortOrder.NUMBER, NUMERICAL_SORT.reversed());
-        SORT_MAP.put(GridCache.SortOrder.ADDON, ADDON_SORT);
+        SORT_MAP.put(GridCache.SortOrder.ALPHABETICAL, Sorters.ITEMSTACK_ALPHABETICAL_SORT);
+        SORT_MAP.put(GridCache.SortOrder.NUMBER, Sorters.ITEMSTACK_NUMERICAL_SORT.reversed());
+        SORT_MAP.put(GridCache.SortOrder.NUMBER_REVERSE, Sorters.ITEMSTACK_NUMERICAL_SORT);
+        SORT_MAP.put(GridCache.SortOrder.ADDON, Sorters.ITEMSTACK_ADDON_SORT);
+        SORT_MAP.put(GridCache.SortOrder.SIMILAR, Sorters.ITEMSTACK_SIMILAR_SORT);
     }
 
     private final ItemSetting<Integer> tickRate;

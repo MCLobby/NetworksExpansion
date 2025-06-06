@@ -80,7 +80,30 @@ public class GridCache {
         ALPHABETICAL,
         NUMBER,
         NUMBER_REVERSE,
-        ADDON
+        ADDON,
+        SIMILAR;
+
+        public SortOrder next() {
+            return switch (this) {
+                case ALPHABETICAL -> NUMBER;
+                case NUMBER -> NUMBER_REVERSE;
+                case NUMBER_REVERSE -> ADDON;
+                case ADDON -> SIMILAR;
+                case SIMILAR -> ALPHABETICAL;
+                default -> ALPHABETICAL;
+            };
+        }
+
+        public SortOrder previous() {
+            return switch (this) {
+                case ALPHABETICAL -> SIMILAR;
+                case NUMBER -> ALPHABETICAL;
+                case NUMBER_REVERSE -> NUMBER;
+                case ADDON -> NUMBER_REVERSE;
+                case SIMILAR -> ADDON;
+                default -> ALPHABETICAL;
+            };
+        }
     }
 
     public enum DisplayMode {
