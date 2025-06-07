@@ -6,6 +6,7 @@ import dev.rosewood.rosestacker.api.RoseStackerAPI;
 import dev.rosewood.rosestacker.stack.StackedItem;
 import io.github.sefiraat.networks.Networks;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Item;
 
@@ -25,6 +26,7 @@ public class SupportedPluginManager {
     // region First Tick Only Registrations
     private @Getter boolean mcMMO;
     private @Getter boolean wildChests;
+    @Setter
     private @Getter boolean justEnoughGuide;
 
     // endregion

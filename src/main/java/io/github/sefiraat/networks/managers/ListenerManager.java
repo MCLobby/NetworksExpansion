@@ -12,7 +12,11 @@ public class ListenerManager {
         addListener(new ExplosiveToolListener());
         addListener(new SyncListener());
         if (Networks.getSupportedPluginManager().isJustEnoughGuide()) {
-            addListener(new JEGCompatibleListener());
+            try {
+                addListener(new JEGCompatibleListener());
+            } catch (Throwable ignored) {
+                Networks.getSupportedPluginManager().setJustEnoughGuide(false);
+            }
         }
     }
 

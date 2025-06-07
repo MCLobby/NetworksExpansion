@@ -4,6 +4,8 @@ import com.balugaq.jeg.api.objects.events.GuideEvents;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.core.listeners.JEGCompatibleListener;
 import com.balugaq.netex.utils.BlockMenuUtil;
+import com.balugaq.netex.utils.GuideUtil;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
@@ -11,6 +13,7 @@ import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -38,14 +41,22 @@ public interface RecipeCompletableWithGuide {
             });
         }
     }
+
     default void openGuide(@Nonnull BlockMenu blockMenu, @Nonnull Player player) {
+        NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
+        if (definition == null || definition.getNode() == null) {
+            return;
+        }
+
+        player.closeInventory();
+        GuideUtil.openMainMenuAsync(player, SlimefunGuideMode.SURVIVAL_MODE, 1);
         JEGCompatibleListener.addCallback(player.getUniqueId(), ((event, profile) -> {
-            NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
-            if (definition == null || definition.getNode() == null) {
+            BlockMenu actualMenu = StorageCacheUtils.getMenu(blockMenu.getLocation());
+            if (actualMenu == null) {
                 return;
             }
 
-            completeRecipeWithGuide(blockMenu, definition.getNode().getRoot(), event);
+            completeRecipeWithGuide(actualMenu, definition.getNode().getRoot(), event);
         }));
     }
 
@@ -78,8 +89,14 @@ public interface RecipeCompletableWithGuide {
             }
 
             ItemStack existing = blockMenu.getItemInSlot(getIngredientSlots()[i]);
-            if (!choice.test(existing)) {
-                continue;
+            if (existing != null && existing.getType() != Material.AIR) {
+                if (existing.getAmount() >= existing.getMaxStackSize()) {
+                    continue;
+                }
+
+                if (!choice.test(existing)) {
+                    continue;
+                }
             }
 
             if (choice instanceof RecipeChoice.MaterialChoice materialChoice) {
@@ -99,6 +116,8 @@ public interface RecipeCompletableWithGuide {
                 }
             }
         }
+
+        event.setCancelled(true);
     }
 
     int[] getIngredientSlots();
@@ -107,7 +126,7 @@ public interface RecipeCompletableWithGuide {
     default List<RecipeChoice> getRecipe(@Nonnull ItemStack itemStack) {
         SlimefunItem sf = SlimefunItem.getByItem(itemStack);
         if (sf != null) {
-            List<RecipeChoice> raw = new ArrayList<>(Arrays.stream(sf.getRecipe()).map(item -> (RecipeChoice) new RecipeChoice.ExactChoice(item)).toList());
+            List<RecipeChoice> raw = new ArrayList<>(Arrays.stream(sf.getRecipe()).map(item -> item == null ? null : (RecipeChoice) new RecipeChoice.ExactChoice(item)).toList());
             if (raw.size() < 9) {
                 for (int i = raw.size(); i < 9; i++) {
                     raw.add(null);
@@ -169,7 +188,7 @@ public interface RecipeCompletableWithGuide {
             if (itemStack1 != null && itemStack1.getType() != Material.AIR) {
                 if (StackUtils.itemsMatch(itemStack1, itemStack, true, false)) {
                     itemStack1.setAmount(itemStack1.getAmount() - 1);
-                    return itemStack1;
+                    return itemStack1.clone();
                 }
             }
         }

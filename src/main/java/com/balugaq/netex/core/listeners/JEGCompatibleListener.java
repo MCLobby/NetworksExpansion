@@ -51,6 +51,7 @@ public class JEGCompatibleListener implements Listener {
         var profile = getPlayerProfile(player);
         rollbackGuideHistory(profile);
         PROFILE_CALLBACKS.get(player.getUniqueId()).accept(event, profile);
+        PROFILE_CALLBACKS.remove(player.getUniqueId());
     }
 
     private void saveOriginGuideHistory(PlayerProfile profile) {
