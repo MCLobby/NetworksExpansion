@@ -37,6 +37,7 @@ public class JEGCompatibleListener implements Listener {
 
         var profile = getPlayerProfile(player);
         saveOriginGuideHistory(profile);
+        clearGuideHistory(profile);
     }
 
     @EventHandler
@@ -46,6 +47,7 @@ public class JEGCompatibleListener implements Listener {
             return;
         }
 
+        player.closeInventory();
         var profile = getPlayerProfile(player);
         rollbackGuideHistory(profile);
         PROFILE_CALLBACKS.get(player.getUniqueId()).accept(event, profile);
@@ -63,6 +65,10 @@ public class JEGCompatibleListener implements Listener {
         }
 
         ReflectionUtil.setValue(profile, "guideHistory", originHistory);
+    }
+
+    private void clearGuideHistory(PlayerProfile profile) {
+        ReflectionUtil.setValue(profile, "guideHistory", new GuideHistory(profile));
     }
 
     @SneakyThrows

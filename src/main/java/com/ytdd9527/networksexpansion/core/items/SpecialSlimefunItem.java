@@ -28,6 +28,7 @@ import java.util.UUID;
  * We may add something soon
  *
  * @author Final_ROOT
+ * @author baluagq
  * @since 2.0
  */
 public abstract class SpecialSlimefunItem extends SlimefunItem {

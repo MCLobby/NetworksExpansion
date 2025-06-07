@@ -6,7 +6,8 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
-public interface HasRecipes {
+public interface RecipesHolder {
+    @Deprecated
     static @Nonnull Map<ItemStack[], ItemStack> getRecipes() {
         return new HashMap<>();
     }

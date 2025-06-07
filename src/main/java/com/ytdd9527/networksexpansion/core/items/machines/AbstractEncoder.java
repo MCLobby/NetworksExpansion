@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.core.items.machines;
 
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.api.interfaces.RecipeCompletableWithGuide;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
@@ -29,8 +30,7 @@ import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class AbstractEncoder extends NetworkObject {
-
+public abstract class AbstractEncoder extends NetworkObject implements RecipeCompletableWithGuide {
     private static final int[] BACKGROUND = new int[]{
             0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 17, 18, 20, 24, 25, 26, 27, 28, 29, 33, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44
     };
@@ -43,6 +43,7 @@ public abstract class AbstractEncoder extends NetworkObject {
     private static final int BLANK_BLUEPRINT_SLOT = 19;
     private static final int ENCODE_SLOT = 16;
     private static final int OUTPUT_SLOT = 34;
+    private static final int JEG_SLOT = 4;
     private static final int CHARGE_COST = 2000;
 
     public AbstractEncoder(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -73,6 +74,7 @@ public abstract class AbstractEncoder extends NetworkObject {
                     tryEncode(player, menu);
                     return false;
                 });
+                addJEGButton(menu, JEG_SLOT);
             }
 
             @Override
@@ -210,5 +212,10 @@ public abstract class AbstractEncoder extends NetworkObject {
 
     public boolean canTestVanillaRecipe(ItemStack[] inputs) {
         return false;
+    }
+
+    @Override
+    public int[] getIngredientSlots() {
+        return RECIPE_SLOTS;
     }
 }

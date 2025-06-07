@@ -485,6 +485,10 @@ messages:
           - "收获时将获得人造绿宝石碎片."
   save-all: "正在保存网络拓展数据."
 icons:
+  jeg-button:
+    name: "&6配方补全"
+    lore:
+      - "&7点击打开配方补全界面"
   item-flow-viewer-force-clean:
     name: "&6清除缓存"
     lore:
