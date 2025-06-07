@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.implementation.machines.networks.advanced
 
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.api.helpers.SupportedCraftingTableRecipes;
+import com.balugaq.netex.api.interfaces.RecipeCompletableWithGuide;
 import com.balugaq.netex.utils.BlockMenuUtil;
 import com.ytdd9527.networksexpansion.core.items.machines.AbstractGridNewStyle;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
@@ -40,7 +41,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
+public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle implements RecipeCompletableWithGuide {
 
     private static final int[] BACKGROUND_SLOTS = {
             5, 14, 23, 32, 41, 43, 50, 51
@@ -62,6 +63,7 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
     private static final int PAGE_PREVIOUS = 44;
     private static final int PAGE_NEXT = 53;
     private static final int TOGGLE_MODE_SLOT = 52;
+    private static final int JEG_SLOT = 32;
     private static final int CRAFT_BUTTON_SLOT = 33;
     private static final int OUTPUT_SLOT = 34;
     private static final int[] INTEGRATION_SLOTS = {
@@ -184,6 +186,8 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
                     receiveItem(p, i, a, menu);
                     return false;
                 });
+
+                addJEGButton(menu, JEG_SLOT);
             }
         };
     }
@@ -368,5 +372,10 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle {
 
         BlockMenuUtil.pushItem(menu, crafted, OUTPUT_SLOT);
         menu.replaceExistingItem(CRAFT_BUTTON_SLOT, ItemStackUtil.getCleanItem(new CustomItemStack(Icon.CRAFT_BUTTON_NEW_STYLE, String.format(Networks.getLocalizationService().getString("messages.normal-operation.grid_new_style.crafted"), ItemStackHelper.getDisplayName(crafted), outputAmount))));
+    }
+
+    @Override
+    public int[] getIngredientSlots() {
+        return INTEGRATION_SLOTS;
     }
 }
