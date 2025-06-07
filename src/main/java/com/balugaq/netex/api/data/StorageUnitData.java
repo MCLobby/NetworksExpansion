@@ -426,18 +426,19 @@ public class StorageUnitData {
                 if (StackUtils.itemsMatch(itemContainer.getSampleDirectly(), item)) {
                     int take = Math.min(amount, containerAmount);
                     if (take <= 0) {
+                        if (!contentLocked) {
+                            removeItem(itemContainer.getId());
+                            removePersistentAccessHistory(accessor, i);
+                        }
                         break;
                     }
                     itemContainer.removeAmount(take);
-                    if (!contentLocked && itemContainer.getAmount() <= 0) {
-                        removeItem(itemContainer.getId());
-                        removePersistentAccessHistory(accessor, i);
-                    } else {
-                        DataStorage.setStoredAmount(id, itemContainer.getId(), itemContainer.getAmount());
-                        // Netex - Cache start
-                        minusCacheMiss(accessor, i);
-                        // Netex - Cache end
-                    }
+
+                    DataStorage.setStoredAmount(id, itemContainer.getId(), itemContainer.getAmount());
+                    // Netex - Cache start
+                    minusCacheMiss(accessor, i);
+                    // Netex - Cache end
+
                     ItemStack clone = item.clone();
                     clone.setAmount(take);
                     return clone;
@@ -456,19 +457,20 @@ public class StorageUnitData {
             if (StackUtils.itemsMatch(itemContainer.getSampleDirectly(), item)) {
                 int take = Math.min(amount, containerAmount);
                 if (take <= 0) {
+                    if (!contentLocked) {
+                        removeItem(itemContainer.getId());
+                    }
                     break;
                 }
 
 
                 itemContainer.removeAmount(take);
-                if (!contentLocked && itemContainer.getAmount() <= 0) {
-                    removeItem(itemContainer.getId());
-                } else {
-                    // Netex - Cache start
-                    addCountObservingAccessHistory(accessor, i);
-                    // Netex - Cache end
-                    DataStorage.setStoredAmount(id, itemContainer.getId(), itemContainer.getAmount());
-                }
+
+                // Netex - Cache start
+                addCountObservingAccessHistory(accessor, i);
+                // Netex - Cache end
+                DataStorage.setStoredAmount(id, itemContainer.getId(), itemContainer.getAmount());
+
                 ItemStack clone = item.clone();
                 clone.setAmount(take);
                 return clone;
