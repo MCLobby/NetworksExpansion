@@ -33,7 +33,7 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NetworkCraftingGrid extends AbstractGrid implements RecipeCompletableWithGuide {
+public class NetworkCraftingGrid extends AbstractGrid {
 
     private static final int[] BACKGROUND_SLOTS = {
             0, 1, 3, 4, 5, 14, 23, 32, 33, 35, 41, 42, 44, 45, 47, 49, 50, 51, 52, 53
@@ -53,7 +53,6 @@ public class NetworkCraftingGrid extends AbstractGrid implements RecipeCompletab
     private static final int CHANGE_SORT = 47;
     private static final int PAGE_NEXT = 48;
 
-    private static final int JEG_SLOT = 33;
     private static final int CRAFT_BUTTON_SLOT = 34;
     private static final int CRAFT_OUTPUT_SLOT = 43;
 
@@ -162,8 +161,6 @@ public class NetworkCraftingGrid extends AbstractGrid implements RecipeCompletab
                     receiveItem(p, i, a, menu);
                     return false;
                 });
-
-                addJEGButton(menu, JEG_SLOT);
             }
         };
     }
@@ -305,10 +302,5 @@ public class NetworkCraftingGrid extends AbstractGrid implements RecipeCompletab
             }
             definition.getNode().getRoot().addItemStack0(menu.getLocation(), stack);
         }
-    }
-
-    @Override
-    public int[] getIngredientSlots() {
-        return CRAFT_ITEMS;
     }
 }
