@@ -819,6 +819,14 @@ public class ExpansionItemStacks {
             Networks.getLocalizationService().getItem("NTW_EXPANSION_ITEM_FLOW_VIEWER", Material.GLOWSTONE),
             Theme.MACHINE
     );
+    public static final SlimefunItemStack CRAFTER_MANAGER = Theme.themedSlimefunItemStack(
+            Networks.getLocalizationService().getItem("NTW_EXPANSION_CRAFTER_MANAGER", Material.CRAFTING_TABLE),
+            Theme.MACHINE
+    );
+    public static final SlimefunItemStack ADVANCED_VACUUM = Theme.themedSlimefunItemStack(
+            Networks.getLocalizationService().getItem("NTW_EXPANSION_ADVANCED_VACUUM", Material.ENCHANTED_BOOK),
+            Theme.MACHINE
+    );
 
     public static ItemStack Enchanted(Material material) {
         return ItemStackUtil.getPreEnchantedItemStack(material);

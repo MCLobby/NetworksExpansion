@@ -256,6 +256,13 @@ messages:
       item-flow-viewer-sub-click-behavior:
         - "<click_info>左键点击: <passive>高亮机器"
   completed-operation:
+    comprehensive:
+      toggled_filter_mode: "<success>已切换过滤模式为: %s"
+      filter_mode_black_list: "黑名单"
+      filter_mode_white_list: "白名单"
+      toggled_match_mode: "<success>已切换匹配模式为: %s"
+      match_mode_all_match: "全匹配"
+      match_mode_material_match: "仅匹配材质"
     status_viewer:
       subscribed: "<success>已关注机器 ( %s )"
       unsubscribed: "<success>不再关注机器 ( %s )"
@@ -485,6 +492,26 @@ messages:
           - "收获时将获得人造绿宝石碎片."
   save-all: "正在保存网络拓展数据."
 icons:
+  filter-mode-black-list:
+    name: "&6黑名单模式"
+    lore:
+      - "&7点击切换为白名单模式"
+  filter-mode-white-list:
+    name: "&6白名单模式"
+    lore:
+      - "&7点击切换为黑名单模式"
+  match-mode-all-match:
+    name: "&6全匹配模式"
+    lore:
+      - "&7点击切换为仅匹配材料模式"
+  match-mode-material-match:
+    name: "&6仅匹配材料模式"
+    lore:
+      - "&7点击切换为全匹配模式"
+  advanced-vacuum-split-block:
+    name: ""
+    lore:
+      - ""
   jeg-button:
     name: "&6配方补全"
     lore:
@@ -3507,6 +3534,20 @@ items:
     name: "物品流量查看器"
     lore:
       - "用于更快查看物品去向"
+
+  NTW_EXPANSION_CRAFTER_MANAGER:
+    name: "合成机管理器"
+    lore:
+      - "用于更快管理合成机"
+
+  NTW_EXPANSION_ADVANCED_VACUUM:
+    name: "高级网络吸尘器"
+    lore:
+      - "高级网络吸尘器可以将周围"
+      - "4x4范围内的掉落物品吸收,"
+      - "然后尝试将这些物品送入网络中."
+      - ""
+      - "<click_info>网络电力消耗: <passive>100J/粘液刻"
 
 displays:
   quantum_storage:

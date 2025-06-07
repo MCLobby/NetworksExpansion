@@ -88,6 +88,7 @@ public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
             final int advancedExporters = root.getAdvancedExporters().size();
             final int advancedGreedyBlocks = root.getAdvancedGreedyBlocks().size();
             final int advancedPurgers = root.getAdvancedPurgers().size();
+            final int advancedVacuums = root.getAdvancedVacuums().size();
             final int transferPushers = root.getTransferPushers().size();
             final int transferGrabbers = root.getTransferGrabbers().size();
             final int transfers = root.getTransfers().size();
@@ -98,6 +99,9 @@ public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
             final int linePowerOutlets = root.getLinePowerOutlets().size();
             final int decoders = root.getDecoders().size();
             final int quantumManagers = root.getQuantumManagers().size();
+            final int drawerManagers = root.getDrawerManagers().size();
+            final int crafterManagers = root.getCrafterManagers().size();
+            final int itemFlowViewers = root.getItemFlowViewers().size();
 
             final Map<ItemStack, Long> allNetworkItems = root.getAllNetworkItemsLongType();
             final int distinctItems = allNetworkItems.size();
@@ -144,6 +148,7 @@ public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
             player.sendMessage(formatter(ExpansionItemStacks.ADVANCED_EXPORT.getDisplayName(), advancedExporters));
             player.sendMessage(formatter(ExpansionItemStacks.ADVANCED_GREEDY_BLOCK.getDisplayName(), advancedGreedyBlocks));
             player.sendMessage(formatter(ExpansionItemStacks.ADVANCED_PURGER.getDisplayName(), advancedPurgers));
+            player.sendMessage(formatter(ExpansionItemStacks.ADVANCED_VACUUM.getDisplayName(), advancedVacuums));
             player.sendMessage(formatter(ExpansionItemStacks.TRANSFER.getDisplayName(), transfers));
             player.sendMessage(formatter(ExpansionItemStacks.TRANSFER_GRABBER.getDisplayName(), transferGrabbers));
             player.sendMessage(formatter(ExpansionItemStacks.TRANSFER_PUSHER.getDisplayName(), transferPushers));
@@ -154,6 +159,9 @@ public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
             player.sendMessage(formatter(ExpansionItemStacks.LINE_POWER_OUTLET_1.getDisplayName().substring(0, 6), linePowerOutlets));
             player.sendMessage(formatter(ExpansionItemStacks.NETWORK_BLUEPRINT_DECODER.getDisplayName(), decoders));
             player.sendMessage(formatter(ExpansionItemStacks.QUANTUM_MANAGER.getDisplayName(), quantumManagers));
+            player.sendMessage(formatter(ExpansionItemStacks.DRAWER_MANAGER.getDisplayName(), drawerManagers));
+            player.sendMessage(formatter(ExpansionItemStacks.CRAFTER_MANAGER.getDisplayName(), crafterManagers));
+            player.sendMessage(formatter(ExpansionItemStacks.ITEM_FLOW_VIEWER.getDisplayName(), itemFlowViewers));
             player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.probe.split"));
             player.sendMessage(formatter(Networks.getLocalizationService().getString("messages.completed-operation.probe.distinct_items"), distinctItems));
             player.sendMessage(formatter(Networks.getLocalizationService().getString("messages.completed-operation.probe.total_items"), totalItems));

@@ -125,6 +125,8 @@ public class NetworkRoot extends NetworkNode {
     @Getter
     private final Set<Location> advancedPurgers = ConcurrentHashMap.newKeySet();
     @Getter
+    private final Set<Location> advancedVacuums = ConcurrentHashMap.newKeySet();
+    @Getter
     private final Set<Location> lineTransferVanillaPushers = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> lineTransferVanillaGrabbers = ConcurrentHashMap.newKeySet();
@@ -138,6 +140,12 @@ public class NetworkRoot extends NetworkNode {
     private final Set<Location> decoders = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> quantumManagers = ConcurrentHashMap.newKeySet();
+    @Getter
+    private final Set<Location> drawerManagers = ConcurrentHashMap.newKeySet();
+    @Getter
+    private final Set<Location> crafterManagers = ConcurrentHashMap.newKeySet();
+    @Getter
+    private final Set<Location> itemFlowViewers = ConcurrentHashMap.newKeySet();
     @Deprecated
     private final boolean progressing = false;
     @Getter
@@ -475,6 +483,7 @@ public class NetworkRoot extends NetworkNode {
                 }
             }
             case ADVANCED_PURGER -> advancedPurgers.add(location);
+            case ADVANCED_VACUUM -> advancedVacuums.add(location);
             case TRANSFER -> transfers.add(location);
             case TRANSFER_PUSHER -> transferPushers.add(location);
             case TRANSFER_GRABBER -> transferGrabbers.add(location);
@@ -485,6 +494,9 @@ public class NetworkRoot extends NetworkNode {
             case LINE_POWER_OUTLET -> linePowerOutlets.add(location);
             case DECODER -> decoders.add(location);
             case QUANTUM_MANAGER -> quantumManagers.add(location);
+            case DRAWER_MANAGER -> drawerManagers.add(location);
+            case CRAFTER_MANAGER -> crafterManagers.add(location);
+            case FLOW_VIEWER -> itemFlowViewers.add(location);
         }
     }
 
