@@ -56,6 +56,10 @@ public interface RecipeCompletableWithGuide {
                 return;
             }
 
+            if (!actualMenu.getPreset().getID().equals(blockMenu.getPreset().getID())) {
+                return;
+            }
+
             completeRecipeWithGuide(actualMenu, definition.getNode().getRoot(), event);
         }));
     }
