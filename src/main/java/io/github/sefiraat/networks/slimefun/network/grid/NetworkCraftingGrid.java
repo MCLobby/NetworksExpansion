@@ -2,6 +2,7 @@ package io.github.sefiraat.networks.slimefun.network.grid;
 
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.api.helpers.SupportedCraftingTableRecipes;
+import com.balugaq.netex.api.interfaces.RecipeCompletableWithGuide;
 import com.balugaq.netex.utils.BlockMenuUtil;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
@@ -32,7 +33,7 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NetworkCraftingGrid extends AbstractGrid {
+public class NetworkCraftingGrid extends AbstractGrid implements RecipeCompletableWithGuide {
 
     private static final int[] BACKGROUND_SLOTS = {
             0, 1, 3, 4, 5, 14, 23, 32, 33, 35, 41, 42, 44, 45, 47, 49, 50, 51, 52, 53
@@ -52,6 +53,7 @@ public class NetworkCraftingGrid extends AbstractGrid {
     private static final int CHANGE_SORT = 47;
     private static final int PAGE_NEXT = 48;
 
+    private static final int JEG_SLOT = 33;
     private static final int CRAFT_BUTTON_SLOT = 34;
     private static final int CRAFT_OUTPUT_SLOT = 43;
 
@@ -160,6 +162,8 @@ public class NetworkCraftingGrid extends AbstractGrid {
                     receiveItem(p, i, a, menu);
                     return false;
                 });
+
+                addJEGButton(menu, JEG_SLOT);
             }
         };
     }
@@ -301,5 +305,10 @@ public class NetworkCraftingGrid extends AbstractGrid {
             }
             definition.getNode().getRoot().addItemStack0(menu.getLocation(), stack);
         }
+    }
+
+    @Override
+    public int[] getIngredientSlots() {
+        return CRAFT_ITEMS;
     }
 }

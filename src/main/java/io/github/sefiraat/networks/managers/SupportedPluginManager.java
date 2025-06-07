@@ -6,6 +6,7 @@ import dev.rosewood.rosestacker.api.RoseStackerAPI;
 import dev.rosewood.rosestacker.stack.StackedItem;
 import io.github.sefiraat.networks.Networks;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Item;
 
@@ -25,6 +26,8 @@ public class SupportedPluginManager {
     // region First Tick Only Registrations
     private @Getter boolean mcMMO;
     private @Getter boolean wildChests;
+    @Setter
+    private @Getter boolean justEnoughGuide;
 
     // endregion
 
@@ -43,6 +46,15 @@ public class SupportedPluginManager {
 
         this.wildStacker = Bukkit.getPluginManager().isPluginEnabled("WildStacker");
         this.guguSlimefunLib = Bukkit.getPluginManager().isPluginEnabled("GuguSlimefunLib");
+        this.justEnoughGuide = Bukkit.getPluginManager().isPluginEnabled("JustEnoughGuide");
+        if (this.justEnoughGuide) {
+            try {
+                Class.forName("com.balugaq.jeg.api.objects.events.GuideEvents");
+            } catch (ClassNotFoundException ignored) {
+                this.justEnoughGuide = false;
+            }
+        }
+
         Networks.getInstance()
                 .getServer()
                 .getScheduler()

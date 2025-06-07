@@ -485,6 +485,10 @@ messages:
           - "收获时将获得人造绿宝石碎片."
   save-all: "正在保存网络拓展数据."
 icons:
+  jeg-button:
+    name: "&6配方补全"
+    lore:
+      - "&7点击打开配方补全界面"
   item-flow-viewer-force-clean:
     name: "&6清除缓存"
     lore:
@@ -964,9 +968,9 @@ items:
       - "<warning> 网络拓展开发版不接受 GitHub Issues"
       - "<warning> 网络拓展开发版不接受 GitHub PR"
       - "<passive> 版本信息:"
-      - "<passive> 网络拓展版本: Special-Version-19"
+      - "<passive> 网络拓展版本: Special-Version-20"
       - "<passive> 版本状态: 稳定版"
-      - "<passive> 版本更新时间: 2025-6-5 21:44:09"
+      - "<passive> 版本更新时间: 2025-6-7 16:01:24"
       - "<passive> 开发状态: 更新中"
       - "<passive> 开发者（们）: ytdd9527, balugaq"
       - "<passive> 开发者 GitHub 页面: <click_info>https://github.com/ytdd9527"

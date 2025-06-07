@@ -143,6 +143,10 @@ public class NetworkRoot extends NetworkNode {
     @Getter
     private final int maxNodes;
     @Getter
+    private final boolean recordFlow;
+    @Getter
+    private final @Nullable ItemFlowRecord itemFlowRecord;
+    @Getter
     private Location controller = null;
     @Getter
     private boolean isOverburdened = false;
@@ -164,10 +168,6 @@ public class NetworkRoot extends NetworkNode {
     @Setter
     @Getter
     private boolean displayParticles = false;
-    @Getter
-    private final boolean recordFlow;
-    @Getter
-    private final @Nullable ItemFlowRecord itemFlowRecord;
 
     public NetworkRoot(@Nonnull Location location, @Nonnull NodeType type, int maxNodes) {
         this(location, type, maxNodes, false, null);
@@ -1133,6 +1133,10 @@ public class NetworkRoot extends NetworkNode {
         }
 
         return stackToReturn;
+    }
+
+    public boolean contains(@Nonnull ItemStack itemStack) {
+        return contains(new ItemRequest(itemStack, 1));
     }
 
     public boolean contains(@Nonnull ItemRequest request) {
@@ -2272,6 +2276,7 @@ public class NetworkRoot extends NetworkNode {
             itemFlowRecord.addAction(accessor, before, after);
         }
     }
+
     public void addItemStack0(@Nonnull Location accessor, @Nonnull ItemStack incoming) {
         if (!allowAccessInput(accessor)) {
             return;

@@ -29,17 +29,18 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Getter
 public class NetworkController extends NetworkObject {
     @Getter
-    private static final Map<Location, ItemFlowRecord> records = new HashMap<>();
+    private static final Map<Location, ItemFlowRecord> records = new ConcurrentHashMap<>();
     @Getter
-    private static final Map<Location, Boolean> recordFlow = new HashMap<>();
+    private static final Map<Location, Boolean> recordFlow = new ConcurrentHashMap<>();
     private static final String CRAYON = "crayon";
-    private static final Map<Location, NetworkRoot> NETWORKS = new HashMap<>();
-    private static final Set<Location> CRAYONS = new HashSet<>();
-    protected final Map<Location, Boolean> firstTickMap = new HashMap<>();
+    private static final Map<Location, NetworkRoot> NETWORKS = new ConcurrentHashMap<>();
+    private static final Set<Location> CRAYONS = ConcurrentHashMap.newKeySet();
+    protected final Map<Location, Boolean> firstTickMap = new ConcurrentHashMap<>();
     @Getter
     private final ItemSetting<Integer> maxNodes;
 

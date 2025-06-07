@@ -176,7 +176,7 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
                 this,
                 () -> {
                     Set<Location> wrongs = new HashSet<>();
-                    Set<Location> controllers = NetworkController.getNetworks().keySet();
+                    Set<Location> controllers = new HashSet<>(NetworkController.getNetworks().keySet());
                     for (Location controller : controllers) {
                         SlimefunBlockData data = StorageCacheUtils.getBlock(controller);
                         if (data == null || !NetworksSlimefunItemStacks.NETWORK_CONTROLLER.getItemId().equals(data.getSfId())) {
