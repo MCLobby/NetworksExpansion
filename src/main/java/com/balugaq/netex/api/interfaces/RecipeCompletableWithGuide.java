@@ -1,6 +1,8 @@
 package com.balugaq.netex.api.interfaces;
 
 import com.balugaq.jeg.api.objects.events.GuideEvents;
+import com.balugaq.jeg.utils.Debug;
+import com.balugaq.netex.api.data.SimpleRecipeChoice;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.core.listeners.JEGCompatibleListener;
 import com.balugaq.netex.utils.BlockMenuUtil;
@@ -48,7 +50,6 @@ public interface RecipeCompletableWithGuide {
             return;
         }
 
-        player.closeInventory();
         GuideUtil.openMainMenuAsync(player, SlimefunGuideMode.SURVIVAL_MODE, 1);
         JEGCompatibleListener.addCallback(player.getUniqueId(), ((event, profile) -> {
             BlockMenu actualMenu = StorageCacheUtils.getMenu(blockMenu.getLocation());
@@ -60,7 +61,17 @@ public interface RecipeCompletableWithGuide {
                 return;
             }
 
-            completeRecipeWithGuide(actualMenu, definition.getNode().getRoot(), event);
+            int times = 1;
+            if (event.getClickAction().isRightClicked()) {
+                times = 64;
+            }
+
+            for (int i = 0; i < times; i++) {
+                completeRecipeWithGuide(actualMenu, definition.getNode().getRoot(), event);
+            }
+
+            player.updateInventory();
+            actualMenu.open(player);
         }));
     }
 
@@ -107,14 +118,14 @@ public interface RecipeCompletableWithGuide {
                 List<ItemStack> itemStacks = materialChoice.getChoices().stream().map(ItemStack::new).toList();
                 for (ItemStack itemStack : itemStacks) {
                     ItemStack received = getItemStack(root, player, itemStack);
-                    if (received != null) {
+                    if (received != null && received.getType() != Material.AIR) {
                         BlockMenuUtil.pushItem(blockMenu, received, getIngredientSlots()[i]);
                     }
                 }
             } else if (choice instanceof RecipeChoice.ExactChoice exactChoice) {
                 for (ItemStack itemStack : exactChoice.getChoices()) {
                     ItemStack received = getItemStack(root, player, itemStack);
-                    if (received != null) {
+                    if (received != null && received.getType() != Material.AIR) {
                         BlockMenuUtil.pushItem(blockMenu, received, getIngredientSlots()[i]);
                     }
                 }
@@ -130,7 +141,7 @@ public interface RecipeCompletableWithGuide {
     default List<RecipeChoice> getRecipe(@Nonnull ItemStack itemStack) {
         SlimefunItem sf = SlimefunItem.getByItem(itemStack);
         if (sf != null) {
-            List<RecipeChoice> raw = new ArrayList<>(Arrays.stream(sf.getRecipe()).map(item -> item == null ? null : (RecipeChoice) new RecipeChoice.ExactChoice(item)).toList());
+            List<RecipeChoice> raw = new ArrayList<>(Arrays.stream(sf.getRecipe()).map(item -> item == null ? null : new SimpleRecipeChoice(item)).toList());
             if (raw.size() < 9) {
                 for (int i = raw.size(); i < 9; i++) {
                     raw.add(null);
@@ -191,8 +202,15 @@ public interface RecipeCompletableWithGuide {
         for (ItemStack itemStack1 : player.getInventory().getContents()) {
             if (itemStack1 != null && itemStack1.getType() != Material.AIR) {
                 if (StackUtils.itemsMatch(itemStack1, itemStack, true, false)) {
-                    itemStack1.setAmount(itemStack1.getAmount() - 1);
-                    return itemStack1.clone();
+                    var clone = StackUtils.getAsQuantity(itemStack1, 1);
+                    int newAmount = itemStack1.getAmount() - 1;
+
+                    itemStack1.setAmount(newAmount);
+                    if (newAmount == 0) {
+                        itemStack1.setType(Material.AIR);
+                    }
+
+                    return clone;
                 }
             }
         }
