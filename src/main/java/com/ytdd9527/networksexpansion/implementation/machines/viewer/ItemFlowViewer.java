@@ -38,7 +38,6 @@ import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Warning;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -83,6 +82,7 @@ public class ItemFlowViewer extends NetworkObject {
     private static final String BS_SUB_MENU = "sub-menu";
     private static final String NAMESPACE_SF = "sf";
     private static final String NAMESPACE_MC = "mc";
+    public static DateFormat DATE_FORMAT = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM);
     private final IntRangeSetting tickRate;
 
     public ItemFlowViewer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -162,12 +162,6 @@ public class ItemFlowViewer extends NetworkObject {
         ParticleUtil.highlightBlock(barrelLocation);
     }
 
-    @Data
-    public static class DisplayEntry {
-        private final ItemStack itemStack;
-        private final List<ItemFlowRecord.TransportAction> actions;
-    }
-
     @Nonnull
     public static List<DisplayEntry> getRecords(NetworkRoot root, GridCache cache) {
         if (!root.isRecordFlow() || root.getItemFlowRecord() == null) {
@@ -227,6 +221,49 @@ public class ItemFlowViewer extends NetworkObject {
                     }
                 })
                 .toList();
+    }
+
+    public static List<String> getLoreAddition(DisplayEntry entry) {
+        long change = entry.getActions().stream().map(ItemFlowRecord.TransportAction::getAmount).mapToLong(i -> i).sum();
+
+        List<String> list = new ArrayList<>();
+        list.add("");
+        list.add((change > 0 ? ChatColor.GREEN : change < 0 ? ChatColor.RED : ChatColor.GRAY) + String.format(Networks.getLocalizationService().getString("messages.normal-operation.viewer.change"), change > 0 ? "+" + change : change));
+        list.add("");
+        list.addAll(Networks.getLocalizationService().getStringList("messages.normal-operation.viewer.item-flow-viewer-click-behavior"));
+
+        return list;
+    }
+
+    public static List<String> getLoreAddition(ItemFlowRecord.TransportAction entry) {
+        var loc = entry.getAccessor();
+        long change = entry.getAmount();
+        List<String> list = new ArrayList<>();
+        list.add("");
+        list.add(String.format(Networks.getLocalizationService().getString("messages.normal-operation.viewer.location"), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
+        list.add(String.format(Networks.getLocalizationService().getString("messages.normal-operation.viewer.when"), humanizeTime(entry.getMilliSecond())));
+        list.add((change > 0 ? ChatColor.GREEN : change < 0 ? ChatColor.RED : ChatColor.GRAY) + String.format(Networks.getLocalizationService().getString("messages.normal-operation.viewer.change"), change > 0 ? "+" + change : change));
+        list.add("");
+        list.addAll(Networks.getLocalizationService().getStringList("messages.normal-operation.viewer.item-flow-viewer-sub-click-behavior"));
+
+        return list;
+    }
+
+    public static String humanizeTime(long milliSecond) {
+        // milliSecond is System.currentTimeMillis()
+        // we should transform it to the Date
+        Date date = new Date(milliSecond);
+        return DATE_FORMAT.format(date);
+    }
+
+    @Nonnull
+    public static ItemStack getIcon(ItemFlowRecord.TransportAction action) {
+        var sf = StorageCacheUtils.getSfItem(action.getAccessor());
+        if (sf == null) {
+            return Icon.UNKNOWN_ITEM.clone();
+        } else {
+            return sf.getItem().clone();
+        }
     }
 
     public void setSubMenu(BlockMenu menu, GridCache cache, @Nullable ItemStack itemStack) {
@@ -423,41 +460,6 @@ public class ItemFlowViewer extends NetworkObject {
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
 
-    public static List<String> getLoreAddition(DisplayEntry entry) {
-        long change = entry.getActions().stream().map(ItemFlowRecord.TransportAction::getAmount).mapToLong(i -> i).sum();
-
-        List<String> list = new ArrayList<>();
-        list.add("");
-        list.add((change > 0 ? ChatColor.GREEN : change < 0 ? ChatColor.RED : ChatColor.GRAY) + String.format(Networks.getLocalizationService().getString("messages.normal-operation.viewer.change"), change > 0 ? "+" + change : change));
-        list.add("");
-        list.addAll(Networks.getLocalizationService().getStringList("messages.normal-operation.viewer.item-flow-viewer-click-behavior"));
-
-        return list;
-    }
-
-    public static List<String> getLoreAddition(ItemFlowRecord.TransportAction entry) {
-        var loc = entry.getAccessor();
-        long change = entry.getAmount();
-        List<String> list = new ArrayList<>();
-        list.add("");
-        list.add(String.format(Networks.getLocalizationService().getString("messages.normal-operation.viewer.location"), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
-        list.add(String.format(Networks.getLocalizationService().getString("messages.normal-operation.viewer.when"), humanizeTime(entry.getMilliSecond())));
-        list.add((change > 0 ? ChatColor.GREEN : change < 0 ? ChatColor.RED : ChatColor.GRAY) + String.format(Networks.getLocalizationService().getString("messages.normal-operation.viewer.change"), change > 0 ? "+" + change : change));
-        list.add("");
-        list.addAll(Networks.getLocalizationService().getStringList("messages.normal-operation.viewer.item-flow-viewer-sub-click-behavior"));
-
-        return list;
-    }
-
-    public static DateFormat DATE_FORMAT = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM);
-
-    public static String humanizeTime(long milliSecond) {
-        // milliSecond is System.currentTimeMillis()
-        // we should transform it to the Date
-        Date date = new Date(milliSecond);
-        return DATE_FORMAT.format(date);
-    }
-
     @Override
     public void postRegister() {
         getPreset();
@@ -641,13 +643,9 @@ public class ItemFlowViewer extends NetworkObject {
         r.forceGC();
     }
 
-    @Nonnull
-    public static ItemStack getIcon(ItemFlowRecord.TransportAction action) {
-        var sf = StorageCacheUtils.getSfItem(action.getAccessor());
-        if (sf == null) {
-            return Icon.UNKNOWN_ITEM.clone();
-        } else {
-            return sf.getItem().clone();
-        }
+    @Data
+    public static class DisplayEntry {
+        private final ItemStack itemStack;
+        private final List<ItemFlowRecord.TransportAction> actions;
     }
 }

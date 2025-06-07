@@ -1,7 +1,6 @@
 package com.balugaq.netex.api.interfaces;
 
 import com.balugaq.jeg.api.objects.events.GuideEvents;
-import com.balugaq.jeg.utils.Debug;
 import com.balugaq.netex.api.data.SimpleRecipeChoice;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.core.listeners.JEGCompatibleListener;

@@ -266,7 +266,7 @@ public class SubFlexItemGroup extends FlexItemGroup {
                 if (this.pageMap.containsKey(page)) {
                     return this.pageMap.get(page);
                 }
-                SubFlexItemGroup subFlexItemGroup = new SubFlexItemGroup(new NamespacedKey(JAVA_PLUGIN, this.getKey().getKey() + "_" + page), this.item, this.getTier(), page);
+                SubFlexItemGroup subFlexItemGroup = new SubFlexItemGroup(Keys.customNewKey(JAVA_PLUGIN, this.getKey().getKey() + "_" + page), this.item, this.getTier(), page);
                 subFlexItemGroup.slimefunItemList = this.slimefunItemList;
                 subFlexItemGroup.pageMap = this.pageMap;
                 this.pageMap.put(page, subFlexItemGroup);

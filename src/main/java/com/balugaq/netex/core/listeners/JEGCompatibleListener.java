@@ -28,6 +28,13 @@ public class JEGCompatibleListener implements Listener {
         PROFILE_CALLBACKS.remove(uuid);
     }
 
+    @SneakyThrows
+    @Nonnull
+    public static PlayerProfile getPlayerProfile(OfflinePlayer player) {
+        // Shouldn't be null;
+        return PlayerProfile.find(player).orElseThrow(() -> new RuntimeException("PlayerProfile not found"));
+    }
+
     @EventHandler
     public void onGuideOpen(SlimefunGuideOpenEvent event) {
         var player = event.getPlayer();
@@ -70,12 +77,5 @@ public class JEGCompatibleListener implements Listener {
 
     private void clearGuideHistory(PlayerProfile profile) {
         ReflectionUtil.setValue(profile, "guideHistory", new GuideHistory(profile));
-    }
-
-    @SneakyThrows
-    @Nonnull
-    public static PlayerProfile getPlayerProfile(OfflinePlayer player) {
-        // Shouldn't be null;
-        return PlayerProfile.find(player).orElseThrow(() -> new RuntimeException("PlayerProfile not found"));
     }
 }

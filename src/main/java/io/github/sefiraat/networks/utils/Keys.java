@@ -6,6 +6,7 @@ import io.github.sefiraat.networks.managers.SupportedPluginManager;
 import lombok.Data;
 import lombok.experimental.UtilityClass;
 import org.bukkit.NamespacedKey;
+import org.bukkit.plugin.Plugin;
 
 import javax.annotation.Nonnull;
 
@@ -91,5 +92,10 @@ public class Keys {
     @Nonnull
     public static NamespacedKey customNewKey(@Nonnull String namespace, @Nonnull String key) {
         return new NamespacedKey(namespace, key);
+    }
+
+    @Nonnull
+    public static NamespacedKey customNewKey(@Nonnull Plugin plugin, @Nonnull String key) {
+        return new NamespacedKey(plugin, key);
     }
 }

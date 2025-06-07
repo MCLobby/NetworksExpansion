@@ -2,8 +2,6 @@ package com.ytdd9527.networksexpansion.implementation;
 
 import com.balugaq.netex.api.enums.StorageUnitType;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
-import com.ytdd9527.networksexpansion.implementation.machines.managers.DrawerManager;
-import com.ytdd9527.networksexpansion.implementation.machines.managers.QuantumManager;
 import com.ytdd9527.networksexpansion.core.items.unusable.AuthorHead;
 import com.ytdd9527.networksexpansion.core.items.unusable.UnusableSlimefunItem;
 import com.ytdd9527.networksexpansion.implementation.blueprints.AncientAltarBlueprint;
@@ -74,6 +72,8 @@ import com.ytdd9527.networksexpansion.implementation.machines.encoders.OreCrushe
 import com.ytdd9527.networksexpansion.implementation.machines.encoders.PressureChamberEncoder;
 import com.ytdd9527.networksexpansion.implementation.machines.encoders.QuantumWorkbenchEncoder;
 import com.ytdd9527.networksexpansion.implementation.machines.encoders.SmelteryEncoder;
+import com.ytdd9527.networksexpansion.implementation.machines.managers.DrawerManager;
+import com.ytdd9527.networksexpansion.implementation.machines.managers.QuantumManager;
 import com.ytdd9527.networksexpansion.implementation.machines.manual.Expansion6x6Workbench;
 import com.ytdd9527.networksexpansion.implementation.machines.manual.ExpansionWorkbench;
 import com.ytdd9527.networksexpansion.implementation.machines.manual.StorageUnitUpgradeTable;
