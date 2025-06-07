@@ -6,6 +6,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -41,9 +42,9 @@ public class CargoNodeQuickTool extends SpecialSlimefunItem {
 
     public CargoNodeQuickTool(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
-        listKey = new NamespacedKey(Networks.getInstance(), "item_list");
-        configKey = new NamespacedKey(Networks.getInstance(), "config");
-        cargoKey = new NamespacedKey(Networks.getInstance(), "cargo_type");
+        listKey = Keys.newKey("item_list");
+        configKey = Keys.newKey("config");
+        cargoKey = Keys.newKey("cargo_type");
     }
 
     @Override
@@ -206,7 +207,7 @@ public class CargoNodeQuickTool extends SpecialSlimefunItem {
 
     private boolean isTool(ItemStack tool) {
         if (tool != null && tool.getItemMeta() != null) {
-            NamespacedKey idKey = new NamespacedKey(Slimefun.instance(), "slimefun_item");
+            NamespacedKey idKey = Keys.customNewKey(Slimefun.instance(), "slimefun_item");
             PersistentDataContainer container = tool.getItemMeta().getPersistentDataContainer();
             if (container.has(idKey, PersistentDataType.STRING))
                 return container.get(idKey, PersistentDataType.STRING).equalsIgnoreCase(getId()) && (tool.getAmount() == 1);

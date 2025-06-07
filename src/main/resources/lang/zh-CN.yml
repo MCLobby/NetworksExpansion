@@ -3496,7 +3496,7 @@ items:
   NTW_EXPANSION_QUANTUM_MANAGER:
     name: "量子存储管理器"
     lore:
-        - "用于更快管理量子存储设备"
+      - "用于更快管理量子存储设备"
 
   NTW_EXPANSION_DRAWER_MANAGER:
     name: "抽屉管理器"

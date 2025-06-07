@@ -1,9 +1,7 @@
 package com.balugaq.netex.api.algorithm;
 
 import java.util.Comparator;
-import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 /**
  * @author balugaq
@@ -23,8 +21,8 @@ public class LevenshteinSorter {
             for (int j = 1; j <= b.length(); j++) {
                 int cost = (a.charAt(i - 1) == b.charAt(j - 1)) ? 0 : 1;
                 curr[j] = Math.min(
-                    Math.min(prev[j] + 1, curr[j - 1] + 1),
-                    prev[j - 1] + cost
+                        Math.min(prev[j] + 1, curr[j - 1] + 1),
+                        prev[j - 1] + cost
                 );
             }
             prev = curr;

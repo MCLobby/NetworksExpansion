@@ -208,7 +208,7 @@ public class CraftItemGroup extends FlexItemGroup {
                 if (this.pageMap.containsKey(page)) {
                     return this.pageMap.get(page);
                 }
-                CraftItemGroup craftItemGroup = new CraftItemGroup(new NamespacedKey(JAVA_PLUGIN, this.getKey().getKey() + "_" + page), this.slimefunItem, page);
+                CraftItemGroup craftItemGroup = new CraftItemGroup(Keys.customNewKey(JAVA_PLUGIN, this.getKey().getKey() + "_" + page), this.slimefunItem, page);
                 craftItemGroup.pageMap = this.pageMap;
                 this.pageMap.put(page, craftItemGroup);
                 return craftItemGroup;

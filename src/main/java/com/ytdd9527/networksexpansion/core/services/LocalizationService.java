@@ -5,6 +5,7 @@ import com.google.common.base.Preconditions;
 import com.ytdd9527.networksexpansion.utils.TextUtil;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -16,7 +17,6 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -279,19 +279,19 @@ public class LocalizationService {
     @Nonnull
     @ParametersAreNonnullByDefault
     public RecipeType getRecipeType(String id, Material material, String... extraLore) {
-        return new RecipeType(new NamespacedKey(this.getPlugin(), id), this.getItemBy(this.recipesKey, id, material, extraLore));
+        return new RecipeType(Keys.customNewKey(this.getPlugin(), id), this.getItemBy(this.recipesKey, id, material, extraLore));
     }
 
     @Nonnull
     @ParametersAreNonnullByDefault
     public RecipeType getRecipeType(String id, String texture, String... extraLore) {
-        return new RecipeType(new NamespacedKey(this.getPlugin(), id), this.getItemBy(this.recipesKey, id, texture, extraLore));
+        return new RecipeType(Keys.customNewKey(this.getPlugin(), id), this.getItemBy(this.recipesKey, id, texture, extraLore));
     }
 
     @Nonnull
     @ParametersAreNonnullByDefault
     public RecipeType getRecipeType(String id, ItemStack itemStack, String... extraLore) {
-        return new RecipeType(new NamespacedKey(this.getPlugin(), id), this.getItemBy(this.recipesKey, id, itemStack, extraLore));
+        return new RecipeType(Keys.customNewKey(this.getPlugin(), id), this.getItemBy(this.recipesKey, id, itemStack, extraLore));
     }
 
     private <T extends ItemStack> T appendLore(@Nonnull T itemStack, @Nullable String... extraLore) {

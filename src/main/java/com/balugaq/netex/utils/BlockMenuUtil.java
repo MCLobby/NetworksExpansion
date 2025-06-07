@@ -95,7 +95,7 @@ public class BlockMenuUtil {
         return itemMap;
     }
 
-    public static boolean fits(@Nonnull BlockMenu blockMenu, @Nonnull ItemStack item, int ... slots) {
+    public static boolean fits(@Nonnull BlockMenu blockMenu, @Nonnull ItemStack item, int... slots) {
         if (item == null || item.getType() == Material.AIR) {
             return true;
         }

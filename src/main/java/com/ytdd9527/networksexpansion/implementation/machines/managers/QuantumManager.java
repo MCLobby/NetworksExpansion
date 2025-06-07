@@ -59,12 +59,12 @@ import java.util.Objects;
 
 @SuppressWarnings("deprecation")
 public class QuantumManager extends NetworkObject {
+    public static final String MANAGER_TAG = "quantum-manager";
+    public static final NetworkRootLocateStorageEvent.Strategy MANAGER_STRATEGY = NetworkRootLocateStorageEvent.Strategy.custom(MANAGER_TAG);
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
-
     private static final int[] BACKGROUND_SLOTS = new int[]{
             8, 17
     };
-
     private static final int[] DISPLAY_SLOTS = {
             0, 1, 2, 3, 4, 5, 6, 7,
             9, 10, 11, 12, 13, 14, 15, 16,
@@ -73,13 +73,10 @@ public class QuantumManager extends NetworkObject {
             36, 37, 38, 39, 40, 41, 42, 43,
             45, 46, 47, 48, 49, 50, 51, 52,
     };
-
     private static final int CHANGE_SORT = 35;
     private static final int FILTER = 26;
     private static final int PAGE_PREVIOUS = 44;
     private static final int PAGE_NEXT = 53;
-    public static final String MANAGER_TAG = "quantum-manager";
-    public static final NetworkRootLocateStorageEvent.Strategy MANAGER_STRATEGY = NetworkRootLocateStorageEvent.Strategy.custom(MANAGER_TAG);
     private static final Map<GridCache.SortOrder, Comparator<? super BarrelIdentity>> SORT_MAP = new HashMap<>();
     private static final String BS_TOP = "netex-top";
     private static final String BS_NAME = "netex-name";
