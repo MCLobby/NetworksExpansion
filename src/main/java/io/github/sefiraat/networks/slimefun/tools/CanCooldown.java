@@ -1,6 +1,6 @@
 package io.github.sefiraat.networks.slimefun.tools;
 
-import io.github.sefiraat.networks.Networks;
+import com.balugaq.netex.utils.Lang;
 import io.github.sefiraat.networks.utils.StackUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -26,7 +26,7 @@ public interface CanCooldown {
     default boolean canBeUsed(@Nullable Player player, ItemStack itemStack) {
         if (StackUtils.isOnCooldown(itemStack)) {
             if (player != null) {
-                player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.can_cooldown"));
+                player.sendMessage(Lang.getString("messages.unsupported-operation.can_cooldown"));
             }
             return false;
         } else {

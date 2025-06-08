@@ -3,6 +3,7 @@ package com.ytdd9527.networksexpansion.core.items;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.factories.MachineRecipeFactory;
 import com.balugaq.netex.api.interfaces.RecipeItem;
+import com.balugaq.netex.utils.Lang;
 import com.balugaq.netex.utils.LocationUtil;
 import io.github.sefiraat.networks.Networks;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -104,7 +105,7 @@ public abstract class SpecialSlimefunItem extends SlimefunItem {
     }
 
     public void sendFeedback(Player player, Location location, String message) {
-        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.debug.status_view"), LocationUtil.humanizeBlock(location), message));
+        player.sendMessage(String.format(Lang.getString("messages.debug.status_view"), LocationUtil.humanizeBlock(location), message));
     }
 
 }

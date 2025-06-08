@@ -1,6 +1,6 @@
 package io.github.sefiraat.networks.slimefun.tools;
 
-import io.github.sefiraat.networks.Networks;
+import com.balugaq.netex.utils.Lang;
 import io.github.sefiraat.networks.network.stackcaches.CardInstance;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.datatypes.DataTypeMethods;
@@ -49,12 +49,12 @@ public class NetworkCard extends SlimefunItem implements DistinctiveItem {
 
             e.cancel();
             if (card.getAmount() > 1) {
-                player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.memory_card.invalid_amount"));
+                player.sendMessage(Lang.getString("messages.unsupported-operation.memory_card.invalid_amount"));
                 return;
             }
 
             if (isBlacklisted(stackToSet)) {
-                player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.memory_card.blacklisted_item"));
+                player.sendMessage(Lang.getString("messages.unsupported-operation.memory_card.blacklisted_item"));
                 return;
             }
 
@@ -85,7 +85,7 @@ public class NetworkCard extends SlimefunItem implements DistinctiveItem {
                 }
 
                 if (cardInstance.getAmount() > 0) {
-                    e.getPlayer().sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.memory_card.not_empty"));
+                    e.getPlayer().sendMessage(Lang.getString("messages.unsupported-operation.memory_card.not_empty"));
                     return;
                 }
 

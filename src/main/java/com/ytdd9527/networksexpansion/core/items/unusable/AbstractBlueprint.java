@@ -1,6 +1,6 @@
 package com.ytdd9527.networksexpansion.core.items.unusable;
 
-import io.github.sefiraat.networks.Networks;
+import com.balugaq.netex.utils.Lang;
 import io.github.sefiraat.networks.network.stackcaches.BlueprintInstance;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.Theme;
@@ -31,18 +31,18 @@ public abstract class AbstractBlueprint extends UnusableSlimefunItem implements 
         DataTypeMethods.setCustom(itemMeta, Keys.BLUEPRINT_INSTANCE, PersistentCraftingBlueprintType.TYPE, new BlueprintInstance(recipe, output));
         List<String> lore = new ArrayList<>();
 
-        lore.add(Networks.getLocalizationService().getString("messages.blueprint.title"));
+        lore.add(Lang.getString("messages.blueprint.title"));
 
         for (ItemStack item : recipe) {
             if (item == null) {
-                lore.add(Theme.PASSIVE + "- " + Networks.getLocalizationService().getString("messages.blueprint.empty"));
+                lore.add(Theme.PASSIVE + "- " + Lang.getString("messages.blueprint.empty"));
                 continue;
             }
             lore.add(Theme.PASSIVE + "- " + ChatColor.stripColor(ItemStackHelper.getDisplayName(item)));
         }
 
         lore.add("");
-        lore.add(Networks.getLocalizationService().getString("messages.blueprint.output"));
+        lore.add(Lang.getString("messages.blueprint.output"));
 
         lore.add(Theme.PASSIVE + "- " + ChatColor.stripColor(ItemStackHelper.getDisplayName(output)));
 

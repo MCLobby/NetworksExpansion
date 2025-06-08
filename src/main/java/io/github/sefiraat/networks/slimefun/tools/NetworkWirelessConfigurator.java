@@ -1,9 +1,9 @@
 package io.github.sefiraat.networks.slimefun.tools;
 
+import com.balugaq.netex.utils.Lang;
 import com.jeff_media.morepersistentdatatypes.DataType;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.slimefun.network.NetworkWirelessReceiver;
 import io.github.sefiraat.networks.slimefun.network.NetworkWirelessTransmitter;
 import io.github.sefiraat.networks.utils.Keys;
@@ -48,10 +48,10 @@ public class NetworkWirelessConfigurator extends SpecialSlimefunItem {
                             } else if (slimefunItem instanceof NetworkWirelessReceiver && !player.isSneaking()) {
                                 setReceiver(heldItem, blockMenu, player);
                             } else {
-                                player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.wireless_configurator.not_network_wireless_block"));
+                                player.sendMessage(Lang.getString("messages.unsupported-operation.wireless_configurator.not_network_wireless_block"));
                             }
                         } else {
-                            player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.comprehensive.no-permission"));
+                            player.sendMessage(Lang.getString("messages.unsupported-operation.comprehensive.no-permission"));
                         }
                     }
                     e.cancel();
@@ -75,17 +75,17 @@ public class NetworkWirelessConfigurator extends SpecialSlimefunItem {
         }
 
         if (location == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.wireless_configurator.no_target_location"));
+            player.sendMessage(Lang.getString("messages.unsupported-operation.wireless_configurator.no_target_location"));
             return;
         }
 
         if (location.getWorld() != blockMenu.getLocation().getWorld()) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.wireless_configurator.not_same_world"));
+            player.sendMessage(Lang.getString("messages.unsupported-operation.wireless_configurator.not_same_world"));
             return;
         }
 
         transmitter.addLinkedLocation(blockMenu.getBlock(), location);
-        player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.wireless_configurator.transmitter_linked"));
+        player.sendMessage(Lang.getString("messages.completed-operation.wireless_configurator.transmitter_linked"));
     }
 
     private void setReceiver(@Nonnull ItemStack itemStack, @Nonnull BlockMenu blockMenu, @Nonnull Player player) {
@@ -93,6 +93,6 @@ public class NetworkWirelessConfigurator extends SpecialSlimefunItem {
         final ItemMeta itemMeta = itemStack.getItemMeta();
         PersistentDataAPI.set(itemMeta, Keys.TARGET_LOCATION, DataType.LOCATION, location);
         itemStack.setItemMeta(itemMeta);
-        player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.wireless_configurator.receiver_set"));
+        player.sendMessage(Lang.getString("messages.completed-operation.wireless_configurator.receiver_set"));
     }
 }

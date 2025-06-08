@@ -3,9 +3,9 @@ package com.ytdd9527.networksexpansion.core.items.machines;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.api.interfaces.RecipeCompletableWithGuide;
+import com.balugaq.netex.utils.Lang;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.NetworkStorage;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
@@ -102,7 +102,7 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
         final long networkCharge = root.getRootPower();
 
         if (networkCharge < CHARGE_COST) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.encoder.not_enough_power"));
+            player.sendMessage(Lang.getString("messages.unsupported-operation.encoder.not_enough_power"));
             sendFeedback(blockMenu.getLocation(), FeedbackType.NOT_ENOUGH_POWER);
             return;
         }
@@ -110,14 +110,14 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
         ItemStack blueprint = blockMenu.getItemInSlot(BLANK_BLUEPRINT_SLOT);
 
         if (!isValidBlueprint(blueprint)) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.encoder.invalid_blueprint"));
+            player.sendMessage(Lang.getString("messages.unsupported-operation.encoder.invalid_blueprint"));
             sendFeedback(blockMenu.getLocation(), FeedbackType.INVALID_BLUEPRINT);
             return;
         }
 
         SlimefunItem sfi = SlimefunItem.getByItem(blueprint);
         if (sfi != null && sfi.isDisabled()) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.encoder.disabled_blueprint"));
+            player.sendMessage(Lang.getString("messages.unsupported-operation.encoder.disabled_blueprint"));
             sendFeedback(blockMenu.getLocation(), FeedbackType.DISABLED_BLUEPRINT);
             return;
         }
@@ -157,7 +157,7 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
         if (crafted != null) {
             final SlimefunItem sfi2 = SlimefunItem.getByItem(crafted);
             if (sfi2 != null && sfi2.isDisabled()) {
-                player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.encoder.disabled_output"));
+                player.sendMessage(Lang.getString("messages.unsupported-operation.encoder.disabled_output"));
                 sendFeedback(blockMenu.getLocation(), FeedbackType.DISABLED_OUTPUT);
                 return;
             }
@@ -173,7 +173,7 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
         }
 
         if (crafted == null || crafted.getType() == Material.AIR) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.encoder.invalid_recipe"));
+            player.sendMessage(Lang.getString("messages.unsupported-operation.encoder.invalid_recipe"));
             sendFeedback(blockMenu.getLocation(), FeedbackType.INVALID_RECIPE);
             return;
         }
@@ -194,7 +194,7 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
             blockMenu.pushItem(blueprintClone, OUTPUT_SLOT);
             sendFeedback(blockMenu.getLocation(), FeedbackType.SUCCESS);
         } else {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.encoder.output_full"));
+            player.sendMessage(Lang.getString("messages.unsupported-operation.encoder.output_full"));
             sendFeedback(blockMenu.getLocation(), FeedbackType.OUTPUT_FULL);
             return;
         }

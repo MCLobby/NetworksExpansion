@@ -116,6 +116,7 @@ public class ExpansionItems {
             ExpansionRecipes.NETWORKS_EXPANSION_WORKBENCH
     );
 
+    @Deprecated
     public static final Expansion6x6Workbench NETWORKS_EXPANSION_6X6_WORKBENCH = new Expansion6x6Workbench(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH_6X6,

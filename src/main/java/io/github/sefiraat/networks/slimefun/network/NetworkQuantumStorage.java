@@ -2,11 +2,11 @@ package io.github.sefiraat.networks.slimefun.network;
 
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.stackcaches.ItemStackCache;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.sefiraat.networks.utils.Keys;
@@ -208,12 +208,12 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             final List<String> lore = itemMeta.hasLore() ? itemMeta.getLore() : new ArrayList<>();
 
             lore.add("");
-            lore.add(String.format(Networks.getLocalizationService().getString("displays.quantum_storage.void_excess"), (cache.isVoidExcess() ? Networks.getLocalizationService().getString("displays.quantum_storage.enabled_void_excess") : Networks.getLocalizationService().getString("displays.quantum_storage.disabled_void_excess"))));
-            lore.add(String.format(Networks.getLocalizationService().getString("displays.quantum_storage.stored_amount"), cache.getAmount()));
+            lore.add(String.format(Lang.getString("displays.quantum_storage.void_excess"), (cache.isVoidExcess() ? Lang.getString("displays.quantum_storage.enabled_void_excess") : Lang.getString("displays.quantum_storage.disabled_void_excess"))));
+            lore.add(String.format(Lang.getString("displays.quantum_storage.stored_amount"), cache.getAmount()));
             if (cache.supportsCustomMaxAmount()) {
                 // Cache limit is set at the potentially custom max amount set
                 // The player could set the custom maximum amount to be the actual maximum amount
-                lore.add(String.format(Networks.getLocalizationService().getString("displays.quantum_storage.custom_max_amount"), cache.getLimit()));
+                lore.add(String.format(Lang.getString("displays.quantum_storage.custom_max_amount"), cache.getLimit()));
             }
             itemMeta.setLore(lore);
             itemStack.setItemMeta(itemMeta);
@@ -248,7 +248,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
 
         final QuantumCache cache = CACHES.get(blockMenu.getLocation());
         if (cache == null || cache.getAmount() > 0) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.quantum_storage.quantum_storage_not_empty"));
+            player.sendMessage(Lang.getString("messages.unsupported-operation.quantum_storage.quantum_storage_not_empty"));
             return;
         }
         itemStack.setAmount(1);
@@ -347,7 +347,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
     private void setCustomMaxAmount(@Nonnull BlockMenu blockMenu, @Nonnull Player player, int newMaxAmount) {
         final QuantumCache cache = CACHES.get(blockMenu.getLocation());
         if (cache == null || !cache.supportsCustomMaxAmount()) {
-            ItemStackUtil.send(player, Networks.getLocalizationService().getString("messages.unsupported-operation.quantum_storage.custom_max_amount_not_supported"));
+            ItemStackUtil.send(player, Lang.getString("messages.unsupported-operation.quantum_storage.custom_max_amount_not_supported"));
 
             return;
         }
@@ -356,7 +356,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
         syncBlock(blockMenu.getLocation(), cache);
         CACHES.put(blockMenu.getLocation(), cache);
 
-        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.completed-operation.changed_custom_max_amount"), newMaxAmount));
+        player.sendMessage(String.format(Lang.getString("messages.completed-operation.changed_custom_max_amount"), newMaxAmount));
     }
 
     @Override
@@ -409,7 +409,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
                                     p.getItemOnCursor().getType() == Material.AIR
                     ) {
                         p.closeInventory();
-                        p.sendMessage(Networks.getLocalizationService().getString("messages.normal-operation.quantum_storage.waiting_for_input_custom_max_amount"));
+                        p.sendMessage(Lang.getString("messages.normal-operation.quantum_storage.waiting_for_input_custom_max_amount"));
                         ChatUtils.awaitInput(p, s -> {
                             // Catching the error is cleaner than directly validating the string
                             try {
@@ -419,7 +419,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
                                 int newMax = Math.max(1, Math.min(Integer.parseInt(s), maxAmount));
                                 setCustomMaxAmount(menu, p, newMax);
                             } catch (NumberFormatException e) {
-                                p.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.quantum_storage.invalid_custom_max_amount"));
+                                p.sendMessage(Lang.getString("messages.unsupported-operation.quantum_storage.invalid_custom_max_amount"));
                             }
                         });
                     } else {

@@ -5,6 +5,7 @@ import com.balugaq.netex.api.data.StorageUnitData;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.events.NetworkRootLocateStorageEvent;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.utils.Lang;
 import com.github.houbb.pinyin.constant.enums.PinyinStyleEnum;
 import com.github.houbb.pinyin.util.PinyinHelper;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
@@ -12,7 +13,6 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
 import com.ytdd9527.networksexpansion.utils.ParticleUtil;
 import io.github.sefiraat.networks.NetworkStorage;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
@@ -134,7 +134,7 @@ public class DrawerManager extends NetworkObject {
 
     public static void setStorageIcon(@Nonnull Player player, @Nonnull Location dataLocation, @Nonnull ItemStack cursor) {
         StorageCacheUtils.setData(dataLocation, BS_ICON, serializeIcon(cursor));
-        player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.manager.set_icon"));
+        player.sendMessage(Lang.getString("messages.completed-operation.manager.set_icon"));
     }
 
     public static ItemStack getStorageIcon(@Nonnull Location dataLocation) {
@@ -173,10 +173,10 @@ public class DrawerManager extends NetworkObject {
     public static void topOrUntopStorage(@Nonnull Player player, @Nonnull Location dataLocation) {
         if (Objects.equals(StorageCacheUtils.getData(dataLocation, BS_TOP), BS_TOP_1B)) {
             StorageCacheUtils.setData(dataLocation, BS_TOP, BS_TOP_0B);
-            player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.manager.top_storage_off"));
+            player.sendMessage(Lang.getString("messages.completed-operation.manager.top_storage_off"));
         } else {
             StorageCacheUtils.setData(dataLocation, BS_TOP, BS_TOP_1B);
-            player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.manager.top_storage_on"));
+            player.sendMessage(Lang.getString("messages.completed-operation.manager.top_storage_on"));
         }
     }
 
@@ -237,7 +237,7 @@ public class DrawerManager extends NetworkObject {
 
     @Nonnull
     private static String getAmountLore(Long long1) {
-        final MessageFormat format = new MessageFormat(Networks.getLocalizationService().getString("messages.normal-operation.grid.item_amount"), Locale.ROOT);
+        final MessageFormat format = new MessageFormat(Lang.getString("messages.normal-operation.grid.item_amount"), Locale.ROOT);
         return format.format(new Object[]{Theme.CLICK_INFO.getColor(), Theme.PASSIVE.getColor(), long1}, new StringBuffer(), null).toString();
     }
 
@@ -271,11 +271,11 @@ public class DrawerManager extends NetworkObject {
     }
 
     public void setStorageName(@Nonnull BlockMenu blockMenu, @Nonnull Player player, @Nonnull Location dataLocation) {
-        player.sendMessage(Networks.getLocalizationService().getString("messages.normal-operation.manager.set_name"));
+        player.sendMessage(Lang.getString("messages.normal-operation.manager.set_name"));
         player.closeInventory();
         ChatUtils.awaitInput(player, s -> {
             StorageCacheUtils.setData(dataLocation, BS_NAME, s);
-            player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.manager.set_name"));
+            player.sendMessage(Lang.getString("messages.completed-operation.manager.set_name"));
 
             SlimefunBlockData data = StorageCacheUtils.getBlock(blockMenu.getLocation());
             if (data == null) {
@@ -401,11 +401,11 @@ public class DrawerManager extends NetworkObject {
         var loc = data.getLastLocation();
         List<String> list = new ArrayList<>();
         list.add("");
-        list.add(String.format(Networks.getLocalizationService().getString("messages.normal-operation.manager.id"), data.getId()));
-        list.add(String.format(Networks.getLocalizationService().getString("messages.normal-operation.manager.location"), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
+        list.add(String.format(Lang.getString("messages.normal-operation.manager.id"), data.getId()));
+        list.add(String.format(Lang.getString("messages.normal-operation.manager.location"), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
         list.add(getAmountLore(data.getTotalAmountLong()));
         list.add("");
-        list.addAll(Networks.getLocalizationService().getStringList("messages.normal-operation.manager.drawer-manager-click-behavior"));
+        list.addAll(Lang.getStringList("messages.normal-operation.manager.drawer-manager-click-behavior"));
 
         return list;
     }
@@ -523,7 +523,7 @@ public class DrawerManager extends NetworkObject {
             gridCache.setFilter(null);
         } else {
             player.closeInventory();
-            player.sendMessage(Networks.getLocalizationService().getString("messages.normal-operation.grid.waiting_for_filter"));
+            player.sendMessage(Lang.getString("messages.normal-operation.grid.waiting_for_filter"));
             ChatUtils.awaitInput(player, s -> {
                 if (s.isBlank()) {
                     return;
@@ -531,7 +531,7 @@ public class DrawerManager extends NetworkObject {
                 s = s.toLowerCase(Locale.ROOT);
                 gridCache.setFilter(s);
                 getCacheMap().put(blockMenu.getLocation(), gridCache);
-                player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.grid.filter_set"));
+                player.sendMessage(Lang.getString("messages.completed-operation.grid.filter_set"));
 
                 SlimefunBlockData data = StorageCacheUtils.getBlock(blockMenu.getLocation());
                 if (data == null) {

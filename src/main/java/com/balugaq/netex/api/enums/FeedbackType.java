@@ -1,6 +1,6 @@
 package com.balugaq.netex.api.enums;
 
-import io.github.sefiraat.networks.Networks;
+import com.balugaq.netex.utils.Lang;
 import io.github.sefiraat.networks.utils.Keys;
 import lombok.Getter;
 import org.bukkit.Keyed;
@@ -62,12 +62,12 @@ public enum FeedbackType implements Keyed {
 
     FeedbackType() {
         this.key = Keys.newKey(name().toLowerCase());
-        this.message = Networks.getLocalizationService().getString("messages.feedback." + this.key.getKey());
+        this.message = Lang.getString("messages.feedback." + this.key.getKey());
     }
 
     FeedbackType(@Nonnull String key) {
         this.key = Keys.newKey(key);
-        this.message = Networks.getLocalizationService().getString("messages.feedback." + this.key.getKey());
+        this.message = Lang.getString("messages.feedback." + this.key.getKey());
     }
 
     @Nonnull

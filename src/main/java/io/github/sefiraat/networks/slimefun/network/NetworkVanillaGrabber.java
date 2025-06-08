@@ -2,6 +2,7 @@ package io.github.sefiraat.networks.slimefun.network;
 
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.enums.MinecraftVersion;
+import com.balugaq.netex.utils.Lang;
 import com.bgsoftware.wildchests.api.WildChestsAPI;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.NetworkStorage;
@@ -113,16 +114,16 @@ public class NetworkVanillaGrabber extends NetworkDirectional {
         boolean wildChests = Networks.getSupportedPluginManager().isWildChests();
         boolean isChest = wildChests && WildChestsAPI.getChest(targetBlock.getLocation()) != null;
 
-        sendDebugMessage(block.getLocation(), String.format(Networks.getLocalizationService().getString("messages.debug.wildchests"), wildChests));
-        sendDebugMessage(block.getLocation(), String.format(Networks.getLocalizationService().getString("messages.debug.ischest"), isChest));
+        sendDebugMessage(block.getLocation(), String.format(Lang.getString("messages.debug.wildchests"), wildChests));
+        sendDebugMessage(block.getLocation(), String.format(Lang.getString("messages.debug.ischest"), isChest));
 
         if (wildChests && isChest) {
-            sendDebugMessage(block.getLocation(), Networks.getLocalizationService().getString("messages.debug.wildchests_test_failed"));
+            sendDebugMessage(block.getLocation(), Lang.getString("messages.debug.wildchests_test_failed"));
             sendFeedback(block.getLocation(), FeedbackType.PROTECTED_BLOCK);
             return;
         }
 
-        sendDebugMessage(block.getLocation(), Networks.getLocalizationService().getString("messages.debug.wildchests_test_success"));
+        sendDebugMessage(block.getLocation(), Lang.getString("messages.debug.wildchests_test_success"));
         final Inventory inventory = holder.getInventory();
 
         if (inventory instanceof FurnaceInventory furnaceInventory) {

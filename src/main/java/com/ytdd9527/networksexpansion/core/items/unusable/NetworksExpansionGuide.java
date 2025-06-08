@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 
 import javax.annotation.Nonnull;
 
+@Deprecated
 public class NetworksExpansionGuide extends SpecialSlimefunItem {
 
     public NetworksExpansionGuide(@Nonnull ItemGroup itemGroup, @Nonnull SlimefunItemStack item) {

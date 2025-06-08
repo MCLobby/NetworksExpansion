@@ -1,7 +1,7 @@
 package com.ytdd9527.networksexpansion.implementation.tools;
 
+import com.balugaq.netex.utils.Lang;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.commands.NetworksMain;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -24,7 +24,7 @@ public class NetworksExpansionWorldEditAxe extends SpecialSlimefunItem {
                 (ItemUseHandler) e -> {
                     final Player player = e.getPlayer();
                     if (!player.isOp()) {
-                        player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.comprehensive.no-permission"));
+                        player.sendMessage(Lang.getString("messages.unsupported-operation.comprehensive.no-permission"));
                         return;
                     }
                     final Optional<Block> optional = e.getClickedBlock();
@@ -37,7 +37,7 @@ public class NetworksExpansionWorldEditAxe extends SpecialSlimefunItem {
                 (ToolUseHandler) (e, t, f, d) -> {
                     final Player player = e.getPlayer();
                     if (!player.isOp()) {
-                        player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.no_permission"));
+                        player.sendMessage(Lang.getString("messages.unsupported-operation.no_permission"));
                         return;
                     }
 

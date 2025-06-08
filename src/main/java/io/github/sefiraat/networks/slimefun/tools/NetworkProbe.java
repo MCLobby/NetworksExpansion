@@ -1,9 +1,9 @@
 package io.github.sefiraat.networks.slimefun.tools;
 
+import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItemStacks;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.slimefun.NetworksSlimefunItemStacks;
 import io.github.sefiraat.networks.slimefun.network.NetworkController;
@@ -116,9 +116,9 @@ public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
             final ChatColor c = Theme.CLICK_INFO.getColor();
             final ChatColor p = Theme.SUCCESS.getColor();
 
-            player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.probe.split"));
-            player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.probe.networks_title"));
-            player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.probe.split"));
+            player.sendMessage(Lang.getString("messages.completed-operation.probe.split"));
+            player.sendMessage(Lang.getString("messages.completed-operation.probe.networks_title"));
+            player.sendMessage(Lang.getString("messages.completed-operation.probe.split"));
 
             player.sendMessage(formatter(NetworksSlimefunItemStacks.NETWORK_BRIDGE.getDisplayName(), bridges));
             player.sendMessage(formatter(NetworksSlimefunItemStacks.NETWORK_MONITOR.getDisplayName(), monitors));
@@ -141,9 +141,9 @@ public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
             player.sendMessage(formatter(NetworksSlimefunItemStacks.NETWORK_POWER_OUTLET_1.getDisplayName().substring(0, 4), powerOutlets));
             player.sendMessage(formatter(NetworksSlimefunItemStacks.NETWORK_GREEDY_BLOCK.getDisplayName(), greedyBlocks));
 
-            player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.probe.split"));
-            player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.probe.expansion_title"));
-            player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.probe.split"));
+            player.sendMessage(Lang.getString("messages.completed-operation.probe.split"));
+            player.sendMessage(Lang.getString("messages.completed-operation.probe.expansion_title"));
+            player.sendMessage(Lang.getString("messages.completed-operation.probe.split"));
             player.sendMessage(formatter(ExpansionItemStacks.ADVANCED_IMPORT.getDisplayName(), advancedImporters));
             player.sendMessage(formatter(ExpansionItemStacks.ADVANCED_EXPORT.getDisplayName(), advancedExporters));
             player.sendMessage(formatter(ExpansionItemStacks.ADVANCED_GREEDY_BLOCK.getDisplayName(), advancedGreedyBlocks));
@@ -162,13 +162,13 @@ public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
             player.sendMessage(formatter(ExpansionItemStacks.DRAWER_MANAGER.getDisplayName(), drawerManagers));
             player.sendMessage(formatter(ExpansionItemStacks.CRAFTER_MANAGER.getDisplayName(), crafterManagers));
             player.sendMessage(formatter(ExpansionItemStacks.ITEM_FLOW_VIEWER.getDisplayName(), itemFlowViewers));
-            player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.probe.split"));
-            player.sendMessage(formatter(Networks.getLocalizationService().getString("messages.completed-operation.probe.distinct_items"), distinctItems));
-            player.sendMessage(formatter(Networks.getLocalizationService().getString("messages.completed-operation.probe.total_items"), totalItems));
-            player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.probe.split"));
-            player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.completed-operation.probe.total_nodes"), nodeCount, root.getMaxNodes()));
+            player.sendMessage(Lang.getString("messages.completed-operation.probe.split"));
+            player.sendMessage(formatter(Lang.getString("messages.completed-operation.probe.distinct_items"), distinctItems));
+            player.sendMessage(formatter(Lang.getString("messages.completed-operation.probe.total_items"), totalItems));
+            player.sendMessage(Lang.getString("messages.completed-operation.probe.split"));
+            player.sendMessage(String.format(Lang.getString("messages.completed-operation.probe.total_nodes"), nodeCount, root.getMaxNodes()));
             if (root.isOverburdened()) {
-                player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.probe.overburdened"));
+                player.sendMessage(Lang.getString("messages.completed-operation.probe.overburdened"));
             }
         }
     }

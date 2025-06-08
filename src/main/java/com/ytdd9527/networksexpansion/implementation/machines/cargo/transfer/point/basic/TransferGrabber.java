@@ -3,6 +3,7 @@ package com.ytdd9527.networksexpansion.implementation.machines.cargo.transfer.po
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.enums.TransportMode;
 import com.balugaq.netex.api.interfaces.Configurable;
+import com.balugaq.netex.utils.Lang;
 import com.balugaq.netex.utils.LineOperationUtil;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
@@ -72,7 +73,7 @@ public class TransferGrabber extends NetworkDirectional implements RecipeDisplay
             String generatorKey = config.getString("items." + configKey + ".use-special-model.type");
             this.displayGroupGenerator = generatorMap.get(generatorKey);
             if (this.displayGroupGenerator == null) {
-                Networks.getInstance().getLogger().warning(String.format(Networks.getLocalizationService().getString("messages.unsupported-operation.display.unknown_type"), generatorKey));
+                Networks.getInstance().getLogger().warning(String.format(Lang.getString("messages.unsupported-operation.display.unknown_type"), generatorKey));
                 this.useSpecialModel = false;
             }
         }
@@ -194,9 +195,9 @@ public class TransferGrabber extends NetworkDirectional implements RecipeDisplay
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                Networks.getLocalizationService().getString("icons.mechanism.transfers.data_title"),
+                Lang.getString("icons.mechanism.transfers.data_title"),
                 "",
-                String.format(Networks.getLocalizationService().getString("icons.mechanism.transfers.grab_item_tick"), grabItemTick)
+                String.format(Lang.getString("icons.mechanism.transfers.grab_item_tick"), grabItemTick)
         ));
         return displayRecipes;
     }

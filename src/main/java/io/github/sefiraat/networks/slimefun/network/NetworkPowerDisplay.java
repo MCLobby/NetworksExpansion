@@ -2,10 +2,10 @@ package io.github.sefiraat.networks.slimefun.network;
 
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.NetworkStorage;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
@@ -59,8 +59,8 @@ public class NetworkPowerDisplay extends NetworkObject {
     private static ItemStack getChargeStack(long charge) {
         return ItemStackUtil.getCleanItem(new CustomItemStack(
                 Material.GREEN_STAINED_GLASS_PANE,
-                Networks.getLocalizationService().getString("icons.power_display.status_title"),
-                String.format(Networks.getLocalizationService().getString("icons.power_display.charge"), charge)
+                Lang.getString("icons.power_display.status_title"),
+                String.format(Lang.getString("icons.power_display.charge"), charge)
         ));
     }
 

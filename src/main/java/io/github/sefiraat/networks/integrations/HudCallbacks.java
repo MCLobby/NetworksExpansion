@@ -1,11 +1,11 @@
 package io.github.sefiraat.networks.integrations;
 
+import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.AdvancedGreedyBlock;
 import io.github.schntgaispock.slimehud.SlimeHUD;
 import io.github.schntgaispock.slimehud.util.HudBuilder;
 import io.github.schntgaispock.slimehud.waila.HudController;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.sefiraat.networks.slimefun.network.NetworkGreedyBlock;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class HudCallbacks {
 
-    private static final String EMPTY = Networks.getLocalizationService().getString("messages.integrations.slimehud.empty_quantum_storage");
+    private static final String EMPTY = Lang.getString("messages.integrations.slimehud.empty_quantum_storage");
 
     public static void setup() {
         HudController controller = SlimeHUD.getHudController();

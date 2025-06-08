@@ -1,5 +1,6 @@
 package io.github.sefiraat.networks.slimefun.network;
 
+import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.Networks;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
@@ -46,10 +47,10 @@ public interface AdminDebuggable {
                 "X[" + location.getBlockX() + "] " +
                 "Y[" + location.getBlockY() + "] " +
                 "Z[" + location.getBlockZ() + "] ";
-        Networks.getInstance().getLogger().log(Level.INFO, String.format(Networks.getLocalizationService().getString("messages.debug.info"), locationString, string));
+        Networks.getInstance().getLogger().log(Level.INFO, String.format(Lang.getString("messages.debug.info"), locationString, string));
         for (Player player : VIEWERS) {
             if (player.isOnline()) {
-                player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.debug.viewer-info"), locationString, string));
+                player.sendMessage(String.format(Lang.getString("messages.debug.viewer-info"), locationString, string));
             } else {
                 removeViewer0(player);
             }
@@ -81,9 +82,9 @@ public interface AdminDebuggable {
         final boolean isDebug = isDebug(location);
         final boolean nextState = !isDebug;
         setDebug(location, nextState);
-        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.debug.toggleDebugMode-debug"), nextState));
+        player.sendMessage(String.format(Lang.getString("messages.debug.toggleDebugMode-debug"), nextState));
         if (nextState) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.debug.enabled-debug"));
+            player.sendMessage(Lang.getString("messages.debug.enabled-debug"));
         }
     }
 

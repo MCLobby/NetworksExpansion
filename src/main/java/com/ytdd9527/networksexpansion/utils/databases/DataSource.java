@@ -3,6 +3,7 @@ package com.ytdd9527.networksexpansion.utils.databases;
 import com.balugaq.netex.api.data.ItemContainer;
 import com.balugaq.netex.api.data.StorageUnitData;
 import com.balugaq.netex.api.enums.StorageUnitType;
+import com.balugaq.netex.utils.Lang;
 import com.ytdd9527.networksexpansion.implementation.machines.unit.NetworksDrawer;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.utils.StackUtils;
@@ -66,7 +67,7 @@ public class DataSource {
                 storageData.getSizeType().ordinal() + "," +
                 (storageData.isPlaced() ? 1 : 0) + ",'" +
                 DataStorage.formatLocation(storageData.getLastLocation()) + "');";
-        scheduleExecute(sql, Networks.getLocalizationService().getString("messages.data-saving.error-occurred-when-saving-new-data"));
+        scheduleExecute(sql, Lang.getString("messages.data-saving.error-occurred-when-saving-new-data"));
     }
 
     int getNextContainerId() {
@@ -77,7 +78,7 @@ public class DataSource {
             sql = "INSERT INTO " + DataTables.ENVIRONMENT + " VALUES ('" + CONTAINER_ID_KEY + "'," + nextContainerId + ");";
             environment.put(CONTAINER_ID_KEY, "" + nextContainerId);
         }
-        scheduleExecute(sql, Networks.getLocalizationService().getString("messages.data-saving.error-occurred-when-updating-environment-var"));
+        scheduleExecute(sql, Lang.getString("messages.data-saving.error-occurred-when-updating-environment-var"));
 
         return re;
     }
@@ -104,7 +105,7 @@ public class DataSource {
                 re = new StorageUnitData(result.getInt("ContainerID"), result.getString("PlayerUUID"), StorageUnitType.values()[result.getInt("SizeType") % 13], result.getBoolean("IsPlaced"), l, getStoredItem(id));
             }
         } catch (SQLException e) {
-            logger.warning(Networks.getLocalizationService().getString("messages.data-saving.error-occurred-when-loading-data"));
+            logger.warning(Lang.getString("messages.data-saving.error-occurred-when-loading-data"));
             e.printStackTrace();
         }
         return re;
@@ -136,7 +137,7 @@ public class DataSource {
                 stat.execute("INSERT INTO " + DataTables.ITEM_STACK + " VALUES (" + re + ",'" + getBase64String(clone) + "');");
                 return true;
             } catch (SQLException | IOException e) {
-                logger.warning(Networks.getLocalizationService().getString("messages.data-saving.error-occurred-when-saving-itemstack"));
+                logger.warning(Lang.getString("messages.data-saving.error-occurred-when-saving-itemstack"));
                 e.printStackTrace();
                 return false;
             }
@@ -147,13 +148,13 @@ public class DataSource {
 
     void updateContainer(int id, String key, String value) {
         String sql = "UPDATE " + DataTables.CONTAINER + " SET " + key + " = '" + value + "' WHERE ContainerID = " + id + ";";
-        scheduleExecute(sql, Networks.getLocalizationService().getString("messages.data-saving.error-occurred-when-updating-container-data"));
+        scheduleExecute(sql, Lang.getString("messages.data-saving.error-occurred-when-updating-container-data"));
     }
 
     void addStoredItem(int containerId, int itemId, int amount) {
         if (amount <= 0) return;
         String sql = "INSERT INTO " + DataTables.ITEM_STORED + " VALUES(" + containerId + "," + itemId + "," + amount + ");";
-        scheduleExecute(sql, Networks.getLocalizationService().getString("messages.data-saving.error-occurred-when-updating-storage"));
+        scheduleExecute(sql, Lang.getString("messages.data-saving.error-occurred-when-updating-storage"));
     }
 
     void updateItemAmount(int containerId, int itemId, int amount) {
@@ -167,12 +168,12 @@ public class DataSource {
             return;
         }
         String sql = "UPDATE " + DataTables.ITEM_STORED + " SET Amount = " + amount + " WHERE ContainerID = " + containerId + " AND ItemID = " + itemId + ";";
-        scheduleExecute(sql, Networks.getLocalizationService().getString("messages.data-saving.error-occurred-when-updating-storage"));
+        scheduleExecute(sql, Lang.getString("messages.data-saving.error-occurred-when-updating-storage"));
     }
 
     void deleteStoredItem(int containerId, int itemId) {
         String sql = "DELETE FROM " + DataTables.ITEM_STORED + " WHERE ContainerID = " + containerId + " AND ItemID = " + itemId + ";";
-        scheduleExecute(sql, Networks.getLocalizationService().getString("messages.data-saving.error-occurred-when-updating-storage"));
+        scheduleExecute(sql, Lang.getString("messages.data-saving.error-occurred-when-updating-storage"));
     }
 
     int getIdFromLocation(Location l) {
@@ -182,7 +183,7 @@ public class DataSource {
                 return resultSet.getInt(1);
             }
         } catch (SQLException e) {
-            logger.warning(Networks.getLocalizationService().getString("messages.data-saving.error-occurred-when-fixing-data"));
+            logger.warning(Lang.getString("messages.data-saving.error-occurred-when-fixing-data"));
             e.printStackTrace();
         }
         return -1;
@@ -192,7 +193,7 @@ public class DataSource {
         File dataFolder = Networks.getInstance().getDataFolder();
         if (!dataFolder.exists() || !dataFolder.isDirectory()) {
             if (!dataFolder.mkdir()) {
-                throw new IllegalStateException(Networks.getLocalizationService().getString("messages.data-saving.error-occurred-when-creating-data-folder"));
+                throw new IllegalStateException(Lang.getString("messages.data-saving.error-occurred-when-creating-data-folder"));
             }
         }
         Class.forName("org.sqlite.JDBC");
@@ -217,7 +218,7 @@ public class DataSource {
                     itemMap.put(result.getInt("ItemID"), getItemStack(result.getString("Item")));
                 }
             } catch (SQLException | IOException | ClassNotFoundException e) {
-                logger.warning(Networks.getLocalizationService().getString("messages.data-saving.error-occurred-when-loading-itemstack"));
+                logger.warning(Lang.getString("messages.data-saving.error-occurred-when-loading-itemstack"));
                 e.printStackTrace();
             }
         });
@@ -233,7 +234,7 @@ public class DataSource {
                     environment.put(result.getString(1), result.getString(2));
                 }
             } catch (SQLException e) {
-                logger.warning(Networks.getLocalizationService().getString("messages.data-saving.error-occurred-when-loading-environment-var"));
+                logger.warning(Lang.getString("messages.data-saving.error-occurred-when-loading-environment-var"));
                 e.printStackTrace();
             }
         });
@@ -273,7 +274,7 @@ public class DataSource {
                         }
                     } catch (SQLException e) {
                         success = false;
-                        logger.warning(Networks.getLocalizationService().getString("messages.data-saving.error-occurred-when-loading-storage"));
+                        logger.warning(Lang.getString("messages.data-saving.error-occurred-when-loading-storage"));
                         e.printStackTrace();
                     }
                 });
@@ -298,7 +299,7 @@ public class DataSource {
         ) {
             usage.accept(result);
         } catch (SQLException e) {
-            logger.warning(Networks.getLocalizationService().getString("messages.data-saving.error-occurred-when-executing-query"));
+            logger.warning(Lang.getString("messages.data-saving.error-occurred-when-executing-query"));
             e.printStackTrace();
         }
     }

@@ -1,5 +1,6 @@
 package io.github.sefiraat.networks.slimefun;
 
+import com.balugaq.netex.utils.Lang;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.slimefun.groups.DummyItemGroup;
 import io.github.sefiraat.networks.slimefun.groups.MainFlexGroup;
@@ -22,7 +23,7 @@ public final class NetworksItemGroups {
             Keys.newKey("main"),
             new CustomItemStack(
                     new ItemStack(Material.BLACK_STAINED_GLASS),
-                    Networks.getLocalizationService().getString("groups.main")
+                    Lang.getString("groups.main")
             ), 0
     );
 
@@ -30,7 +31,7 @@ public final class NetworksItemGroups {
             Keys.newKey("materials"),
             new CustomItemStack(
                     new ItemStack(Material.WHITE_STAINED_GLASS),
-                    Networks.getLocalizationService().getString("groups.materials")
+                    Lang.getString("groups.materials")
             ), 0
     );
 
@@ -38,7 +39,7 @@ public final class NetworksItemGroups {
             Keys.newKey("tools"),
             new CustomItemStack(
                     new ItemStack(Material.PAINTING),
-                    Networks.getLocalizationService().getString("groups.tools")
+                    Lang.getString("groups.tools")
             ), 0
     );
 
@@ -46,7 +47,7 @@ public final class NetworksItemGroups {
             Keys.newKey("network_items"),
             new CustomItemStack(
                     new ItemStack(Material.BLACK_STAINED_GLASS),
-                    Networks.getLocalizationService().getString("groups.network_items")
+                    Lang.getString("groups.network_items")
             ), 0
     );
 
@@ -54,7 +55,7 @@ public final class NetworksItemGroups {
             Keys.newKey("network_quantums"),
             new CustomItemStack(
                     new ItemStack(Material.WHITE_TERRACOTTA),
-                    Networks.getLocalizationService().getString("groups.network_quantums")
+                    Lang.getString("groups.network_quantums")
             ), 0
     );
 
@@ -62,7 +63,7 @@ public final class NetworksItemGroups {
             Keys.newKey("disabled_items"),
             new CustomItemStack(
                     new ItemStack(Material.BARRIER),
-                    Networks.getLocalizationService().getString("groups.disabled_items")
+                    Lang.getString("groups.disabled_items")
             )
     );
 

@@ -3,10 +3,10 @@ package com.ytdd9527.networksexpansion.implementation.machines.networks.advanced
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.utils.BlockMenuUtil;
+import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.unusable.AbstractBlueprint;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.network.stackcaches.BlueprintInstance;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
@@ -127,21 +127,21 @@ public class NetworkBlueprintDecoder extends NetworkObject {
     private void decode(Player player, BlockMenu menu) {
         ItemStack input = menu.getItemInSlot(getInputSlot());
         if (input == null || input.getType() == Material.AIR) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.decoder.no_input"));
+            player.sendMessage(Lang.getString("messages.unsupported-operation.decoder.no_input"));
             sendFeedback(menu.getLocation(), FeedbackType.NO_INPUT);
             return;
         }
 
         SlimefunItem item = SlimefunItem.getByItem(input);
         if (!(item instanceof AbstractBlueprint)) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.decoder.not_blueprint"));
+            player.sendMessage(Lang.getString("messages.unsupported-operation.decoder.not_blueprint"));
             sendFeedback(menu.getLocation(), FeedbackType.NOT_BLUEPRINT);
             return;
         }
 
         ItemMeta meta = input.getItemMeta();
         if (meta == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.decoder.invalid_blueprint"));
+            player.sendMessage(Lang.getString("messages.unsupported-operation.decoder.invalid_blueprint"));
             sendFeedback(menu.getLocation(), FeedbackType.INVALID_BLUEPRINT);
             return;
         }
@@ -154,7 +154,7 @@ public class NetworkBlueprintDecoder extends NetworkObject {
             blueprintInstance = DataTypeMethods.getCustom(meta, Keys.BLUEPRINT_INSTANCE3, PersistentCraftingBlueprintType.TYPE);
         }
         if (blueprintInstance == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.decoder.invalid_blueprint"));
+            player.sendMessage(Lang.getString("messages.unsupported-operation.decoder.invalid_blueprint"));
             sendFeedback(menu.getLocation(), FeedbackType.INVALID_BLUEPRINT);
             return;
         }
@@ -162,7 +162,7 @@ public class NetworkBlueprintDecoder extends NetworkObject {
         ItemStack[] inputs = blueprintInstance.getRecipeItems();
 
         if (!BlockMenuUtil.fits(menu, inputs, getOutputSlots())) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.decoder.output_full"));
+            player.sendMessage(Lang.getString("messages.unsupported-operation.decoder.output_full"));
             sendFeedback(menu.getLocation(), FeedbackType.OUTPUT_FULL);
             return;
         }
@@ -171,13 +171,13 @@ public class NetworkBlueprintDecoder extends NetworkObject {
         Map<ItemStack, Integer> left = BlockMenuUtil.pushItem(menu, inputs, getOutputSlots());
         if (left != null && !left.isEmpty()) {
             for (Map.Entry<ItemStack, Integer> entry : left.entrySet()) {
-                player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.decoder.output_full"));
+                player.sendMessage(Lang.getString("messages.unsupported-operation.decoder.output_full"));
                 sendFeedback(menu.getLocation(), FeedbackType.OUTPUT_FULL);
                 menu.getLocation().getWorld().dropItem(menu.getLocation(), entry.getKey());
             }
         }
 
-        player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.decoder.decode_blueprint_success"));
+        player.sendMessage(Lang.getString("messages.completed-operation.decoder.decode_blueprint_success"));
         sendFeedback(menu.getLocation(), FeedbackType.SUCCESS);
     }
 }

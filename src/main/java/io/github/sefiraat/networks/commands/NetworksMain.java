@@ -3,6 +3,7 @@ package io.github.sefiraat.networks.commands;
 import com.balugaq.netex.api.data.ItemContainer;
 import com.balugaq.netex.api.data.StorageUnitData;
 import com.balugaq.netex.api.enums.ErrorType;
+import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.unusable.AbstractBlueprint;
@@ -118,17 +119,17 @@ public class NetworksMain implements TabExecutor {
     @Deprecated
     public static void clearPos(Player p) {
         SELECTED_POS.remove(p.getUniqueId());
-        p.sendMessage(Networks.getLocalizationService().getString("messages.commands.clear-selected-pos"));
+        p.sendMessage(Lang.getString("messages.commands.clear-selected-pos"));
     }
 
     @Deprecated
     public static void toggleShowSelectedAreaOutline(Player p) {
         if (requesters.contains(p.getUniqueId())) {
             requesters.remove(p.getUniqueId());
-            p.sendMessage(Networks.getLocalizationService().getString("messages.commands.selected-area-outline-hide-request"));
+            p.sendMessage(Lang.getString("messages.commands.selected-area-outline-hide-request"));
         } else {
             requesters.add(p.getUniqueId());
-            p.sendMessage(Networks.getLocalizationService().getString("messages.commands.selected-area-outline-show-request"));
+            p.sendMessage(Lang.getString("messages.commands.selected-area-outline-show-request"));
         }
     }
 
@@ -146,10 +147,10 @@ public class NetworksMain implements TabExecutor {
     @Deprecated
     public static String locationToString(Location l) {
         if (l == null) {
-            return Networks.getLocalizationService().getString("icons.drawer.location_error.unknown");
+            return Lang.getString("icons.drawer.location_error.unknown");
         }
         if (l.getWorld() == null) {
-            return Networks.getLocalizationService().getString("icons.drawer.location_error.unknown");
+            return Lang.getString("icons.drawer.location_error.unknown");
         }
         return l.getWorld().getName() + "," + l.getBlockX() + "," + l.getBlockY() + "," + l.getBlockZ();
     }
@@ -192,65 +193,65 @@ public class NetworksMain implements TabExecutor {
     public static void viewLog(Player player) {
         final Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         if (targetBlock == null || targetBlock.getType() == Material.AIR) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-admin-debuggable"));
+            player.sendMessage(Lang.getString("messages.commands.must-admin-debuggable"));
             return;
         }
 
         final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(targetBlock.getLocation());
         if (slimefunItem == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-admin-debuggable"));
+            player.sendMessage(Lang.getString("messages.commands.must-admin-debuggable"));
             return;
         }
 
         if (!(slimefunItem instanceof AdminDebuggable debuggable)) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-admin-debuggable"));
+            player.sendMessage(Lang.getString("messages.commands.must-admin-debuggable"));
             return;
         }
 
         if (debuggable.hasViewer(player)) {
             debuggable.removeViewer(player);
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.viewer-removed"));
+            player.sendMessage(Lang.getString("messages.commands.viewer-removed"));
         } else {
             debuggable.addViewer(player);
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.viewer-added"));
+            player.sendMessage(Lang.getString("messages.commands.viewer-added"));
         }
     }
 
     public static void setQuantum(Player player, int amount) {
         final Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         if (targetBlock == null || targetBlock.getType() == Material.AIR) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-look-at-quantum-storage"));
+            player.sendMessage(Lang.getString("messages.commands.must-look-at-quantum-storage"));
             return;
         }
 
         final ItemStack itemInHand = player.getInventory().getItemInMainHand();
         if (itemInHand.getType() == Material.AIR) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-hand-item"));
+            player.sendMessage(Lang.getString("messages.commands.must-hand-item"));
             return;
         }
 
         final SlimefunBlockData blockData = StorageCacheUtils.getBlock(targetBlock.getLocation());
         if (blockData == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-look-at-quantum-storage"));
+            player.sendMessage(Lang.getString("messages.commands.must-look-at-quantum-storage"));
             return;
         }
 
         final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(targetBlock.getLocation());
         if (slimefunItem == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-look-at-quantum-storage"));
+            player.sendMessage(Lang.getString("messages.commands.must-look-at-quantum-storage"));
             return;
         }
 
         final Location targetLocation = targetBlock.getLocation();
         final ItemStack clone = itemInHand.clone();
         if (!(slimefunItem instanceof NetworkQuantumStorage)) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.invalid-quantum-storage"));
+            player.sendMessage(Lang.getString("messages.commands.invalid-quantum-storage"));
             return;
         }
 
         final BlockMenu blockMenu = StorageCacheUtils.getMenu(targetLocation);
         if (blockMenu == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.invalid-quantum-storage"));
+            player.sendMessage(Lang.getString("messages.commands.invalid-quantum-storage"));
             return;
         }
 
@@ -268,30 +269,30 @@ public class NetworksMain implements TabExecutor {
     private static void addStorageItem(Player player, int amount) {
         final Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         if (targetBlock == null || targetBlock.getType() == Material.AIR) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-look-at-drawer"));
+            player.sendMessage(Lang.getString("messages.commands.must-look-at-drawer"));
             return;
         }
 
         final ItemStack itemInHand = player.getInventory().getItemInMainHand();
         if (itemInHand.getType() == Material.AIR) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-hand-item"));
+            player.sendMessage(Lang.getString("messages.commands.must-hand-item"));
             return;
         }
 
         final SlimefunBlockData blockData = StorageCacheUtils.getBlock(targetBlock.getLocation());
         if (blockData == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-look-at-drawer"));
+            player.sendMessage(Lang.getString("messages.commands.must-look-at-drawer"));
             return;
         }
 
         final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(targetBlock.getLocation());
         if (slimefunItem == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-look-at-drawer"));
+            player.sendMessage(Lang.getString("messages.commands.must-look-at-drawer"));
             return;
         }
 
         if (!(slimefunItem instanceof NetworksDrawer)) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-look-at-drawer"));
+            player.sendMessage(Lang.getString("messages.commands.must-look-at-drawer"));
         }
 
         final Location targetLocation = targetBlock.getLocation();
@@ -299,43 +300,43 @@ public class NetworksMain implements TabExecutor {
         final StorageUnitData data = NetworksDrawer.getStorageData(targetLocation);
 
         if (data == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.invalid-drawer"));
+            player.sendMessage(Lang.getString("messages.commands.invalid-drawer"));
             return;
         }
 
         clone.setAmount(amount);
         data.depositItemStack(clone, false);
         NetworksDrawer.setStorageData(targetLocation, data);
-        player.sendMessage(Networks.getLocalizationService().getString("messages.commands.updated-drawer"));
+        player.sendMessage(Lang.getString("messages.commands.updated-drawer"));
     }
 
     private static void reduceStorageItem(Player player, int amount) {
         final Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         if (targetBlock == null || targetBlock.getType() == Material.AIR) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-look-at-drawer"));
+            player.sendMessage(Lang.getString("messages.commands.must-look-at-drawer"));
             return;
         }
 
         final ItemStack itemInHand = player.getInventory().getItemInMainHand();
         if (itemInHand.getType() == Material.AIR) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-hand-item"));
+            player.sendMessage(Lang.getString("messages.commands.must-hand-item"));
             return;
         }
 
         final SlimefunBlockData blockData = StorageCacheUtils.getBlock(targetBlock.getLocation());
         if (blockData == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-look-at-drawer"));
+            player.sendMessage(Lang.getString("messages.commands.must-look-at-drawer"));
             return;
         }
 
         final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(targetBlock.getLocation());
         if (slimefunItem == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-look-at-drawer"));
+            player.sendMessage(Lang.getString("messages.commands.must-look-at-drawer"));
             return;
         }
 
         if (!(slimefunItem instanceof NetworksDrawer)) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-look-at-drawer"));
+            player.sendMessage(Lang.getString("messages.commands.must-look-at-drawer"));
         }
 
         final Location targetLocation = targetBlock.getLocation();
@@ -343,39 +344,39 @@ public class NetworksMain implements TabExecutor {
         final StorageUnitData data = NetworksDrawer.getStorageData(targetLocation);
 
         if (data == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.invalid-drawer"));
+            player.sendMessage(Lang.getString("messages.commands.invalid-drawer"));
             return;
         }
 
         clone.setAmount(1);
         data.requestItem(new ItemRequest(clone, amount));
         NetworksDrawer.setStorageData(targetLocation, data);
-        player.sendMessage(Networks.getLocalizationService().getString("messages.commands.updated-drawer"));
+        player.sendMessage(Lang.getString("messages.commands.updated-drawer"));
     }
 
     public static void setContainerId(Player player, int containerId) {
         final Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         if (targetBlock == null || targetBlock.getType() == Material.AIR) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-look-at-drawer"));
+            player.sendMessage(Lang.getString("messages.commands.must-look-at-drawer"));
             return;
         }
 
         final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(targetBlock.getLocation());
         if (slimefunItem == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-look-at-drawer"));
+            player.sendMessage(Lang.getString("messages.commands.must-look-at-drawer"));
             return;
         }
 
         if (!(slimefunItem instanceof NetworksDrawer)) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-look-at-drawer"));
+            player.sendMessage(Lang.getString("messages.commands.must-look-at-drawer"));
             return;
         }
 
         final Location location = targetBlock.getLocation();
 
-        player.sendMessage(Networks.getLocalizationService().getString("messages.commands.wait-for-data"));
+        player.sendMessage(Lang.getString("messages.commands.wait-for-data"));
         NetworksDrawer.requestData(location, containerId);
-        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.commands.set-container-id"), locationToString(location), containerId));
+        player.sendMessage(String.format(Lang.getString("messages.commands.set-container-id"), locationToString(location), containerId));
     }
 
 
@@ -393,9 +394,9 @@ public class NetworksMain implements TabExecutor {
     public static void worldeditPos1(Player player, Location location) {
         setPos1(player, location);
         if (getPos2(player) == null) {
-            player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.commands.worldedit.set-pos1"), locationToString(getPos1(player))));
+            player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.set-pos1"), locationToString(getPos1(player))));
         } else {
-            player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.commands.worldedit.set-pos1-with-blocks"), locationToString(getPos1(player)), locationRange(getPos1(player), getPos2(player))));
+            player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.set-pos1-with-blocks"), locationToString(getPos1(player)), locationRange(getPos1(player), getPos2(player))));
         }
     }
 
@@ -413,9 +414,9 @@ public class NetworksMain implements TabExecutor {
     public static void worldeditPos2(Player player, Location location) {
         setPos2(player, location);
         if (getPos1(player) == null) {
-            player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.commands.worldedit.set-pos2"), locationToString(getPos2(player))));
+            player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.set-pos2"), locationToString(getPos2(player))));
         } else {
-            player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.commands.worldedit.set-pos2-with-blocks"), locationToString(getPos1(player)), locationRange(getPos1(player), getPos2(player))));
+            player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.set-pos2-with-blocks"), locationToString(getPos1(player)), locationRange(getPos1(player), getPos2(player))));
         }
     }
 
@@ -427,16 +428,16 @@ public class NetworksMain implements TabExecutor {
     @Deprecated
     public static void worldeditClone(Player player, boolean overrideData) {
         if (getPos1(player) == null || getPos2(player) == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.worldedit.must-select-range"));
+            player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
         }
 
         if (!Objects.equals(getPos1(player).getWorld().getUID(), getPos2(player).getWorld().getUID())) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.worldedit.must-select-same-world"));
+            player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-same-world"));
             return;
         }
 
-        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.commands.worldedit.pasting-block"), locationToString(getPos1(player)), locationToString(getPos2(player))));
+        player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.pasting-block"), locationToString(getPos1(player)), locationToString(getPos2(player))));
         final long currentMillSeconds = System.currentTimeMillis();
 
         final AtomicInteger count = new AtomicInteger();
@@ -532,7 +533,7 @@ public class NetworksMain implements TabExecutor {
                     Slimefun.getTickerTask().disableTicker(toLocation);
                 }
             }));
-            player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.commands.worldedit.paste-done"), count, System.currentTimeMillis() - currentMillSeconds));
+            player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.paste-done"), count, System.currentTimeMillis() - currentMillSeconds));
         });
     }
 
@@ -551,36 +552,36 @@ public class NetworksMain implements TabExecutor {
         final SlimefunItem sfItem = SlimefunItem.getById(sfid);
 
         if (getPos1(player) == null || getPos2(player) == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.worldedit.must-select-range"));
+            player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
         }
 
         if (!Objects.equals(getPos1(player).getWorld().getUID(), getPos2(player).getWorld().getUID())) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.worldedit.must-select-same-world"));
+            player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-same-world"));
             return;
         }
 
         if (sfItem == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.worldedit.invalid-slimefun-block-id"));
+            player.sendMessage(Lang.getString("messages.commands.worldedit.invalid-slimefun-block-id"));
             return;
         }
 
         if (!sfItem.getItem().getType().isBlock()) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.worldedit.invalid-slimefun-block-id"));
+            player.sendMessage(Lang.getString("messages.commands.worldedit.invalid-slimefun-block-id"));
             return;
         }
 
         if (sfItem.getItem().getType() == Material.AIR) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.worldedit.not-a-placeable-block"));
+            player.sendMessage(Lang.getString("messages.commands.worldedit.not-a-placeable-block"));
             return;
         }
 
         if (!force && sfItem instanceof NotPlaceable) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.worldedit.not-placeable-block"));
+            player.sendMessage(Lang.getString("messages.commands.worldedit.not-placeable-block"));
             return;
         }
 
-        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.commands.worldedit.pasting-block"), locationToString(getPos1(player)), locationToString(getPos2(player))));
+        player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.pasting-block"), locationToString(getPos1(player)), locationToString(getPos2(player))));
         final long currentMillSeconds = System.currentTimeMillis();
 
         final AtomicInteger count = new AtomicInteger();
@@ -628,22 +629,22 @@ public class NetworksMain implements TabExecutor {
             count.addAndGet(1);
         }));
 
-        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.commands.worldedit.paste-done"), count, System.currentTimeMillis() - currentMillSeconds));
+        player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.paste-done"), count, System.currentTimeMillis() - currentMillSeconds));
     }
 
     @Deprecated
     public static void worldeditClear(Player player, boolean callHandler, boolean skipVanilla) {
         if (getPos1(player) == null || getPos2(player) == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.worldedit.must-select-range"));
+            player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
         }
 
         if (!Objects.equals(getPos1(player).getWorld().getUID(), getPos2(player).getWorld().getUID())) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.worldedit.must-select-same-world"));
+            player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-same-world"));
             return;
         }
 
-        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.commands.worldedit.clearing-area"), locationToString(getPos1(player)), locationToString(getPos2(player))));
+        player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.clearing-area"), locationToString(getPos1(player)), locationToString(getPos2(player))));
         final long currentMillSeconds = System.currentTimeMillis();
 
         final AtomicInteger count = new AtomicInteger();
@@ -667,29 +668,29 @@ public class NetworksMain implements TabExecutor {
             count.addAndGet(1);
         }));
 
-        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.commands.worldedit.clear-done"), count, System.currentTimeMillis() - currentMillSeconds));
+        player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.clear-done"), count, System.currentTimeMillis() - currentMillSeconds));
     }
 
     @Deprecated
     public static void worldeditBlockMenuSetSlot(Player player, int slot) {
         if (getPos1(player) == null || getPos2(player) == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.worldedit.must-select-range"));
+            player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
         }
 
         if (!Objects.equals(getPos1(player).getWorld().getUID(), getPos2(player).getWorld().getUID())) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.worldedit.must-select-same-world"));
+            player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-same-world"));
             return;
         }
 
         if (!(0 <= slot && slot <= 53)) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.worldedit.invalid-slot"));
+            player.sendMessage(Lang.getString("messages.commands.worldedit.invalid-slot"));
             return;
         }
 
         final ItemStack hand = player.getInventory().getItemInMainHand();
 
-        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.commands.worldedit.set-slot"), slot, ItemStackHelper.getDisplayName(hand)));
+        player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.set-slot"), slot, ItemStackHelper.getDisplayName(hand)));
         final long currentMillSeconds = System.currentTimeMillis();
 
         final AtomicInteger count = new AtomicInteger();
@@ -702,22 +703,22 @@ public class NetworksMain implements TabExecutor {
         }));
 
         final String itemName = ItemStackHelper.getDisplayName(hand);
-        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.commands.worldedit.set-slot-done"), slot, itemName, System.currentTimeMillis() - currentMillSeconds));
+        player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.set-slot-done"), slot, itemName, System.currentTimeMillis() - currentMillSeconds));
     }
 
     @Deprecated
     public static void worldeditBlockInfoAdd(Player player, String key, String value) {
         if (getPos1(player) == null || getPos2(player) == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.worldedit.must-select-range"));
+            player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
         }
 
         if (!Objects.equals(getPos1(player).getWorld().getUID(), getPos2(player).getWorld().getUID())) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.worldedit.must-select-same-world"));
+            player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-same-world"));
             return;
         }
 
-        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.commands.worldedit.setting-info"), key, value));
+        player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.setting-info"), key, value));
         final long currentMillSeconds = System.currentTimeMillis();
 
         final AtomicInteger count = new AtomicInteger();
@@ -728,22 +729,22 @@ public class NetworksMain implements TabExecutor {
             }
         }));
 
-        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.commands.worldedit.set-info-done"), key, value, System.currentTimeMillis() - currentMillSeconds));
+        player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.set-info-done"), key, value, System.currentTimeMillis() - currentMillSeconds));
     }
 
     @Deprecated
     public static void worldeditBlockInfoRemove(Player player, String key) {
         if (getPos1(player) == null || getPos2(player) == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.worldedit.must-select-range"));
+            player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
         }
 
         if (!Objects.equals(getPos1(player).getWorld().getUID(), getPos2(player).getWorld().getUID())) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.worldedit.must-select-same-world"));
+            player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-same-world"));
             return;
         }
 
-        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.commands.worldedit.removing-info"), key));
+        player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.removing-info"), key));
         final long currentMillSeconds = System.currentTimeMillis();
 
         final AtomicInteger count = new AtomicInteger();
@@ -753,20 +754,20 @@ public class NetworksMain implements TabExecutor {
                 count.addAndGet(1);
             }
         }));
-        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.commands.worldedit.removing-info"), key, System.currentTimeMillis() - currentMillSeconds));
+        player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.removing-info"), key, System.currentTimeMillis() - currentMillSeconds));
     }
 
     private static void updateItem(Player player) {
         final ItemStack itemInHand = player.getInventory().getItemInMainHand();
         final SlimefunItem slimefunItem = SlimefunItem.getByItem(itemInHand);
         if (slimefunItem == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.not-a-slimefun-item"));
+            player.sendMessage(Lang.getString("messages.commands.not-a-slimefun-item"));
             return;
         }
 
         final String currentId = slimefunItem.getId();
         if (slimefunItem instanceof NetworksDrawer) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.cannot-update-cargo-storage-unit"));
+            player.sendMessage(Lang.getString("messages.commands.cannot-update-cargo-storage-unit"));
         } else if (slimefunItem instanceof NetworkQuantumStorage) {
             final ItemMeta meta = itemInHand.getItemMeta();
             QuantumCache quantumCache = DataTypeMethods.getCustom(
@@ -793,7 +794,7 @@ public class NetworksMain implements TabExecutor {
 
             if (quantumCache == null || quantumCache.getItemStack() == null) {
                 itemInHand.setItemMeta(SlimefunItem.getById(currentId).getItem().getItemMeta());
-                player.sendMessage(Networks.getLocalizationService().getString("messages.commands.updated-item"));
+                player.sendMessage(Lang.getString("messages.commands.updated-item"));
                 return;
             }
 
@@ -802,56 +803,56 @@ public class NetworksMain implements TabExecutor {
             if (sfi != null) {
                 final String quantumStoredId = sfi.getId();
                 stored.setItemMeta(SlimefunItem.getById(quantumStoredId).getItem().getItemMeta());
-                player.sendMessage(Networks.getLocalizationService().getString("messages.commands.updated-item-in-quantum-storage"));
+                player.sendMessage(Lang.getString("messages.commands.updated-item-in-quantum-storage"));
             }
             DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
             quantumCache.updateMetaLore(meta);
             itemInHand.setItemMeta(meta);
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.updated-item"));
+            player.sendMessage(Lang.getString("messages.commands.updated-item"));
         } else {
             itemInHand.setItemMeta(SlimefunItem.getById(currentId).getItem().getItemMeta());
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.updated-item"));
+            player.sendMessage(Lang.getString("messages.commands.updated-item"));
         }
     }
 
     public static void getStorageItem(Player player, int slot) {
         final Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         if (targetBlock == null || targetBlock.getType() == Material.AIR) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-look-at-drawer"));
+            player.sendMessage(Lang.getString("messages.commands.must-look-at-drawer"));
             return;
         }
 
         final SlimefunBlockData blockData = StorageCacheUtils.getBlock(targetBlock.getLocation());
         if (blockData == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-look-at-drawer"));
+            player.sendMessage(Lang.getString("messages.commands.must-look-at-drawer"));
             return;
         }
 
         final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(targetBlock.getLocation());
         if (slimefunItem == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-look-at-drawer"));
+            player.sendMessage(Lang.getString("messages.commands.must-look-at-drawer"));
             return;
         }
 
         if (!(slimefunItem instanceof NetworksDrawer)) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-look-at-drawer"));
+            player.sendMessage(Lang.getString("messages.commands.must-look-at-drawer"));
         }
 
         final Location targetLocation = targetBlock.getLocation();
         final StorageUnitData data = NetworksDrawer.getStorageData(targetLocation);
 
         if (data == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.invalid-drawer"));
+            player.sendMessage(Lang.getString("messages.commands.invalid-drawer"));
             return;
         }
 
         final List<ItemContainer> stored = data.getStoredItems();
         if (slot >= stored.size()) {
-            player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.commands.invalid-slot"), stored.size() - 1));
+            player.sendMessage(String.format(Lang.getString("messages.commands.invalid-slot"), stored.size() - 1));
         } else {
             final ItemStack stack = stored.get(slot).getSampleDirectly();
             if (stack == null || stack.getType() == Material.AIR) {
-                player.sendMessage(Networks.getLocalizationService().getString("messages.commands.empty-slot"));
+                player.sendMessage(Lang.getString("messages.commands.empty-slot"));
                 return;
             }
 
@@ -861,69 +862,69 @@ public class NetworksMain implements TabExecutor {
 
     public static void help(CommandSender sender, String mainCommand) {
         if (mainCommand == null) {
-            for (String message : Networks.getLocalizationService().getStringList("messages.commands.help")) {
+            for (String message : Lang.getStringList("messages.commands.help")) {
                 sender.sendMessage(message);
             }
             return;
         }
         switch (mainCommand.toLowerCase(Locale.ROOT)) {
             case "help" -> {
-                for (String message : Networks.getLocalizationService().getStringList("messages.commands.example.help")) {
+                for (String message : Lang.getStringList("messages.commands.example.help")) {
                     sender.sendMessage(message);
                 }
             }
             case "fillquantum" -> {
-                for (String message : Networks.getLocalizationService().getStringList("messages.commands.example.fillquantum")) {
+                for (String message : Lang.getStringList("messages.commands.example.fillquantum")) {
                     sender.sendMessage(message);
                 }
             }
             case "fixblueprint" -> {
-                for (String message : Networks.getLocalizationService().getStringList("messages.commands.example.fixblueprint")) {
+                for (String message : Lang.getStringList("messages.commands.example.fixblueprint")) {
                     sender.sendMessage(message);
                 }
             }
             case "addstorageitem" -> {
-                for (String message : Networks.getLocalizationService().getStringList("messages.commands.example.addstorageitem")) {
+                for (String message : Lang.getStringList("messages.commands.example.addstorageitem")) {
                     sender.sendMessage(message);
                 }
             }
             case "reducestorageitem" -> {
-                for (String message : Networks.getLocalizationService().getStringList("messages.commands.example.reducestorageitem")) {
+                for (String message : Lang.getStringList("messages.commands.example.reducestorageitem")) {
                     sender.sendMessage(message);
                 }
             }
             case "setquantum" -> {
-                for (String message : Networks.getLocalizationService().getStringList("messages.commands.example.setquantum")) {
+                for (String message : Lang.getStringList("messages.commands.example.setquantum")) {
                     sender.sendMessage(message);
                 }
             }
             case "setcontainerid" -> {
-                for (String message : Networks.getLocalizationService().getStringList("messages.commands.example.setcontainerid")) {
+                for (String message : Lang.getStringList("messages.commands.example.setcontainerid")) {
                     sender.sendMessage(message);
                 }
             }
             case "getstorageitem" -> {
-                for (String message : Networks.getLocalizationService().getStringList("messages.commands.example.getstorageitem")) {
+                for (String message : Lang.getStringList("messages.commands.example.getstorageitem")) {
                     sender.sendMessage(message);
                 }
             }
             case "worldedit" -> {
-                for (String message : Networks.getLocalizationService().getStringList("messages.commands.example.worldedit")) {
+                for (String message : Lang.getStringList("messages.commands.example.worldedit")) {
                     sender.sendMessage(message);
                 }
             }
             case "updateitem" -> {
-                for (String message : Networks.getLocalizationService().getStringList("messages.commands.example.updateitem")) {
+                for (String message : Lang.getStringList("messages.commands.example.updateitem")) {
                     sender.sendMessage(message);
                 }
             }
             case "viewlog" -> {
-                for (String message : Networks.getLocalizationService().getStringList("messages.commands.example.viewlog")) {
+                for (String message : Lang.getStringList("messages.commands.example.viewlog")) {
                     sender.sendMessage(message);
                 }
             }
             default -> {
-                for (String message : Networks.getLocalizationService().getStringList("messages.commands.example.unknown-command")) {
+                for (String message : Lang.getStringList("messages.commands.example.unknown-command")) {
                     sender.sendMessage(message);
                 }
             }
@@ -1288,14 +1289,14 @@ public class NetworksMain implements TabExecutor {
     public void fillQuantum(Player player, int amount) {
         final ItemStack itemStack = player.getInventory().getItemInMainHand();
         if (itemStack.getType() == Material.AIR) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.no-item-in-hand"));
+            player.sendMessage(Lang.getString("messages.commands.no-item-in-hand"));
             return;
         }
 
         SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
 
         if (!(slimefunItem instanceof NetworkQuantumStorage)) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-hand-quantum-storage"));
+            player.sendMessage(Lang.getString("messages.commands.must-hand-quantum-storage"));
             return;
         }
 
@@ -1307,7 +1308,7 @@ public class NetworksMain implements TabExecutor {
         );
 
         if (quantumCache == null || quantumCache.getItemStack() == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.no-set-item"));
+            player.sendMessage(Lang.getString("messages.commands.no-set-item"));
             return;
         }
 
@@ -1315,21 +1316,21 @@ public class NetworksMain implements TabExecutor {
         DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
         quantumCache.updateMetaLore(meta);
         itemStack.setItemMeta(meta);
-        player.sendMessage(Networks.getLocalizationService().getString("messages.commands.updated-quantum-storage"));
+        player.sendMessage(Lang.getString("messages.commands.updated-quantum-storage"));
     }
 
     // change "networks-changed:recipe" -> "networks:recipe"
     public void fixBlueprint(Player player, String before) {
         ItemStack blueprint = player.getInventory().getItemInMainHand();
         if (blueprint.getType() == Material.AIR) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-hand-blueprint"));
+            player.sendMessage(Lang.getString("messages.commands.must-hand-blueprint"));
             return;
         }
 
         final SlimefunItem item = SlimefunItem.getByItem(blueprint);
 
         if (!(item instanceof AbstractBlueprint)) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.must-hand-blueprint"));
+            player.sendMessage(Lang.getString("messages.commands.must-hand-blueprint"));
             return;
         }
 
@@ -1342,7 +1343,7 @@ public class NetworksMain implements TabExecutor {
         );
 
         if (optional.isEmpty()) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.commands.invalid-blueprint"));
+            player.sendMessage(Lang.getString("messages.commands.invalid-blueprint"));
             return;
         }
 
@@ -1353,7 +1354,7 @@ public class NetworksMain implements TabExecutor {
 
         blueprint.setItemMeta(fix.getItemMeta());
 
-        player.sendMessage(Networks.getLocalizationService().getString("messages.commands.fixed-blueprint"));
+        player.sendMessage(Lang.getString("messages.commands.fixed-blueprint"));
 
     }
 
@@ -1441,14 +1442,14 @@ public class NetworksMain implements TabExecutor {
 
     public String getErrorMessage(ErrorType errorType, String argument) {
         return switch (errorType) {
-            case NO_PERMISSION -> Networks.getLocalizationService().getString("messages.commands.no-permission");
-            case NO_ITEM_IN_HAND -> Networks.getLocalizationService().getString("messages.commands.no-item-in-hand");
+            case NO_PERMISSION -> Lang.getString("messages.commands.no-permission");
+            case NO_ITEM_IN_HAND -> Lang.getString("messages.commands.no-item-in-hand");
             case MISSING_REQUIRED_ARGUMENT ->
-                    String.format(Networks.getLocalizationService().getString("messages.commands.missing-required-argument"), argument);
+                    String.format(Lang.getString("messages.commands.missing-required-argument"), argument);
             case INVALID_REQUIRED_ARGUMENT ->
-                    String.format(Networks.getLocalizationService().getString("messages.commands.invalid-required-argument"), argument);
-            case MUST_BE_PLAYER -> Networks.getLocalizationService().getString("messages.commands.must-be-player");
-            default -> Networks.getLocalizationService().getString("messages.commands.unknown-error");
+                    String.format(Lang.getString("messages.commands.invalid-required-argument"), argument);
+            case MUST_BE_PLAYER -> Lang.getString("messages.commands.must-be-player");
+            default -> Lang.getString("messages.commands.unknown-error");
         };
     }
 }

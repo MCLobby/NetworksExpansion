@@ -5,8 +5,8 @@ import com.balugaq.netex.api.groups.RecipeItemGroup;
 import com.balugaq.netex.api.groups.TypeItemGroup;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.utils.GuideUtil;
+import com.balugaq.netex.utils.Lang;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
-import io.github.sefiraat.networks.Networks;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
@@ -105,9 +105,9 @@ public class SlimefunItem6x6RecipeMenu extends ChestMenu {
                             "§7" + research.getName(player),
                             "§4§l" + Slimefun.getLocalization().getMessage(player, "guide.locked"),
                             "",
-                            Networks.getLocalizationService().getString("messages.guide.click-to-research"),
+                            Lang.getString("messages.guide.click-to-research"),
                             "",
-                            Networks.getLocalizationService().getString("messages.guide.cost") + research.getCost() + Networks.getLocalizationService().getString("messages.guide.cost-level"));
+                            Lang.getString("messages.guide.cost") + research.getCost() + Lang.getString("messages.guide.cost-level"));
                 }
             }
             this.addItem(RECIPE_CONTENT[i], ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(icon)));
@@ -198,9 +198,9 @@ public class SlimefunItem6x6RecipeMenu extends ChestMenu {
                                     "§7" + research.getName(player),
                                     "§4§l" + Slimefun.getLocalization().getMessage(player, "guide.locked"),
                                     "",
-                                    Networks.getLocalizationService().getString("messages.guide.click-to-research"),
+                                    Lang.getString("messages.guide.click-to-research"),
                                     "",
-                                    Networks.getLocalizationService().getString("messages.guide.cost") + research.getCost() + Networks.getLocalizationService().getString("messages.guide.cost-level"));
+                                    Lang.getString("messages.guide.cost") + research.getCost() + Lang.getString("messages.guide.cost-level"));
                         }
                     }
                     chestMenu.addItem(WORK_CONTENT[i], ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(icon)));

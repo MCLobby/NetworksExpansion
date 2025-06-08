@@ -1,11 +1,11 @@
 package com.ytdd9527.networksexpansion.implementation.tools;
 
+import com.balugaq.netex.utils.Lang;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -58,14 +58,14 @@ public class CargoNodeQuickTool extends SpecialSlimefunItem {
             Player p = e.getPlayer();
             if (!isTool(tool)) {
                 // Not holding a valid tool, return
-                p.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.cargo_node_quick_tool.invalid_tool"));
+                p.sendMessage(Lang.getString("messages.unsupported-operation.cargo_node_quick_tool.invalid_tool"));
                 return;
             }
             Location bLoc = target.getLocation();
             // If not cargo node block, return.
             SlimefunBlockData blockData = StorageCacheUtils.getBlock(bLoc);
             if (blockData == null || !blockData.getSfId().startsWith("CARGO_NODE_")) {
-                p.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.cargo_node_quick_tool.invalid_node"));
+                p.sendMessage(Lang.getString("messages.unsupported-operation.cargo_node_quick_tool.invalid_node"));
                 return;
             }
             ItemMeta meta = tool.getItemMeta();
@@ -89,23 +89,23 @@ public class CargoNodeQuickTool extends SpecialSlimefunItem {
                         container.set(configKey, PersistentDataType.STRING, gson.toJson(blockData.getAllData()));
                         //update lore
                         List<String> lore = meta.getLore();
-                        lore.set(lore.size() - 1, String.format(Networks.getLocalizationService().getString("messages.completed-operation.cargo_node_quick_tool.node_set"), SlimefunItem.getById(blockData.getSfId()).getItemName()));
+                        lore.set(lore.size() - 1, String.format(Lang.getString("messages.completed-operation.cargo_node_quick_tool.node_set"), SlimefunItem.getById(blockData.getSfId()).getItemName()));
                         meta.setLore(lore);
                         tool.setItemMeta(meta);
-                        p.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.cargo_node_quick_tool.config_saved"));
+                        p.sendMessage(Lang.getString("messages.completed-operation.cargo_node_quick_tool.config_saved"));
                         return;
                     default:
-                        p.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.cargo_node_quick_tool.invalid_node"));
+                        p.sendMessage(Lang.getString("messages.unsupported-operation.cargo_node_quick_tool.invalid_node"));
                 }
             } else {
                 //process to set config to target
                 String storedId = container.get(cargoKey, PersistentDataType.STRING);
                 if (storedId == null) {
-                    p.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.cargo_node_quick_tool.no-config"));
+                    p.sendMessage(Lang.getString("messages.unsupported-operation.cargo_node_quick_tool.no-config"));
                     return;
                 }
                 if (!storedId.equalsIgnoreCase(blockData.getSfId())) {
-                    p.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.cargo_node_quick_tool.nod-type-not-same"));
+                    p.sendMessage(Lang.getString("messages.unsupported-operation.cargo_node_quick_tool.nod-type-not-same"));
                     return;
                 }
                 BlockMenu inv = blockData.getBlockMenu();
@@ -157,7 +157,7 @@ public class CargoNodeQuickTool extends SpecialSlimefunItem {
 
                                 }
                             } else {
-                                p.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.cargo_node_quick_tool.not_enough_items"));
+                                p.sendMessage(Lang.getString("messages.unsupported-operation.cargo_node_quick_tool.not_enough_items"));
                                 for (ItemStack item : itemList.keySet()) {
                                     if (!itemList.get(item)) {
                                         p.sendMessage("- " + ChatColor.YELLOW + ItemStackHelper.getDisplayName(item) + "x" + item.getAmount());
@@ -179,10 +179,10 @@ public class CargoNodeQuickTool extends SpecialSlimefunItem {
                         );
                         config.forEach(blockData::setData);
                         inv.getPreset().newInstance(inv, bLoc);
-                        p.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.cargo_node_quick_tool.pasted_config"));
+                        p.sendMessage(Lang.getString("messages.completed-operation.cargo_node_quick_tool.pasted_config"));
                         return;
                     default:
-                        p.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.cargo_node_quick_tool.invalid_node"));
+                        p.sendMessage(Lang.getString("messages.unsupported-operation.cargo_node_quick_tool.invalid_node"));
                 }
             }
         });

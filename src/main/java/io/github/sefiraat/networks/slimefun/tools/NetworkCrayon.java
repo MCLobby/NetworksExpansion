@@ -1,8 +1,8 @@
 package io.github.sefiraat.networks.slimefun.tools;
 
+import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.slimefun.network.NetworkController;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -39,10 +39,10 @@ public class NetworkCrayon extends SpecialSlimefunItem {
     public void toggleCrayon(@Nonnull Block block, @Nonnull Player player) {
         if (NetworkController.hasCrayon(block.getLocation())) {
             NetworkController.removeCrayon(block.getLocation());
-            player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.crayon.disabled"));
+            player.sendMessage(Lang.getString("messages.completed-operation.crayon.disabled"));
         } else {
             NetworkController.addCrayon(block.getLocation());
-            player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.crayon.enabled"));
+            player.sendMessage(Lang.getString("messages.completed-operation.crayon.enabled"));
         }
     }
 }

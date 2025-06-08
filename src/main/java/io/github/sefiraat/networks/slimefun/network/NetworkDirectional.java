@@ -1,12 +1,12 @@
 package io.github.sefiraat.networks.slimefun.network;
 
+import com.balugaq.netex.utils.Lang;
 import com.balugaq.netex.utils.NetworksVersionedEnchantment;
 import com.balugaq.netex.utils.NetworksVersionedParticle;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.NetworkStorage;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.utils.NetworkUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -118,13 +118,13 @@ public abstract class NetworkDirectional extends NetworkObject {
                         container.remove(key);
                     }
                 }),
-                String.format(Networks.getLocalizationService().getString("messages.normal-operation.directional.display_name"), blockFace.name(), ChatColor.stripColor(slimefunItem.getItemName()))
+                String.format(Lang.getString("messages.normal-operation.directional.display_name"), blockFace.name(), ChatColor.stripColor(slimefunItem.getItemName()))
         ));
         final ItemMeta itemMeta = displayStack.getItemMeta();
-        itemMeta.setLore(Networks.getLocalizationService().getStringList("messages.normal-operation.directional.display_lore"));
+        itemMeta.setLore(Lang.getStringList("messages.normal-operation.directional.display_lore"));
         if (active) {
             List<String> lore = itemMeta.getLore();
-            lore.add(Networks.getLocalizationService().getString("messages.normal-operation.directional.set_facing"));
+            lore.add(Lang.getString("messages.normal-operation.directional.set_facing"));
             itemMeta.setLore(lore);
             itemMeta.addEnchant(NetworksVersionedEnchantment.LUCK_OF_THE_SEA, 1, true);
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -138,13 +138,13 @@ public abstract class NetworkDirectional extends NetworkObject {
         if (blockMaterial.isItem() && blockMaterial != Material.AIR) {
             final ItemStack displayStack = new CustomItemStack(
                     blockMaterial,
-                    String.format(Networks.getLocalizationService().getString("messages.normal-operation.directional.display_name"), blockFace.name(), MaterialHelper.getName(blockMaterial))
+                    String.format(Lang.getString("messages.normal-operation.directional.display_name"), blockFace.name(), MaterialHelper.getName(blockMaterial))
             );
             final ItemMeta itemMeta = displayStack.getItemMeta();
-            itemMeta.setLore(Networks.getLocalizationService().getStringList("messages.normal-operation.directional.display_lore"));
+            itemMeta.setLore(Lang.getStringList("messages.normal-operation.directional.display_lore"));
             if (active) {
                 List<String> lore = itemMeta.getLore();
-                lore.add(Networks.getLocalizationService().getString("messages.normal-operation.directional.set_facing"));
+                lore.add(Lang.getString("messages.normal-operation.directional.set_facing"));
                 itemMeta.setLore(lore);
                 itemMeta.addEnchant(NetworksVersionedEnchantment.LUCK_OF_THE_SEA, 1, true);
                 itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -155,7 +155,7 @@ public abstract class NetworkDirectional extends NetworkObject {
             Material material = active ? Material.GREEN_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE;
             return ItemStackUtil.getCleanItem(new CustomItemStack(
                     material,
-                    String.format(Networks.getLocalizationService().getString("messages.normal-operation.directional.display_empty"), blockFace)
+                    String.format(Lang.getString("messages.normal-operation.directional.display_empty"), blockFace)
             ));
         }
     }
@@ -190,7 +190,7 @@ public abstract class NetworkDirectional extends NetworkObject {
                     case DOWN ->
                             blockMenu.replaceExistingItem(getDownSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
                     default ->
-                            throw new IllegalStateException(String.format(Networks.getLocalizationService().getString("messages.unsupported-operation.directional.unexcepted_value"), blockFace));
+                            throw new IllegalStateException(String.format(Lang.getString("messages.unsupported-operation.directional.unexcepted_value"), blockFace));
                 }
             } else {
                 final Material material = block.getType();
@@ -208,7 +208,7 @@ public abstract class NetworkDirectional extends NetworkObject {
                     case DOWN ->
                             blockMenu.replaceExistingItem(getDownSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
                     default ->
-                            throw new IllegalStateException(String.format(Networks.getLocalizationService().getString("messages.unsupported-operation.directional.unexcepted_value"), blockFace));
+                            throw new IllegalStateException(String.format(Lang.getString("messages.unsupported-operation.directional.unexcepted_value"), blockFace));
                 }
             }
         }

@@ -1,6 +1,7 @@
 package com.balugaq.netex.api.groups;
 
 import com.balugaq.netex.utils.GuideUtil;
+import com.balugaq.netex.utils.Lang;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import com.ytdd9527.networksexpansion.utils.registry.SlimefunCraftRegistry;
 import io.github.sefiraat.networks.Networks;
@@ -171,9 +172,9 @@ public class CraftItemGroup extends FlexItemGroup {
                             "§7" + research.getName(player),
                             "§4§l" + Slimefun.getLocalization().getMessage(player, "guide.locked"),
                             "",
-                            Networks.getLocalizationService().getString("messages.guide.click-to-research"),
+                            Lang.getString("messages.guide.click-to-research"),
                             "",
-                            Networks.getLocalizationService().getString("messages.guide.cost") + research.getCost() + Networks.getLocalizationService().getString("messages.guide.cost-level"));
+                            Lang.getString("messages.guide.cost") + research.getCost() + Lang.getString("messages.guide.cost-level"));
                     chestMenu.addItem(MAIN_CONTENT[i], ItemStackUtil.getCleanItem(icon));
                     chestMenu.addMenuClickHandler(MAIN_CONTENT[i], (p, slot, item, action) -> {
                         PlayerPreResearchEvent event = new PlayerPreResearchEvent(player, research, slimefunItem);

@@ -1,9 +1,9 @@
 package com.ytdd9527.networksexpansion.implementation.tools;
 
+import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import io.github.sefiraat.networks.NetworkStorage;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -27,7 +27,7 @@ public class NetworksInfoTool extends SpecialSlimefunItem {
                     e.cancel();
                     final Player player = e.getPlayer();
                     if (!player.isOp()) {
-                        player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.comprehensive.no-permission"));
+                        player.sendMessage(Lang.getString("messages.unsupported-operation.comprehensive.no-permission"));
                         return;
                     }
                     final Optional<Block> optional = e.getClickedBlock();

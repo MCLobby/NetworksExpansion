@@ -3,6 +3,7 @@ package io.github.sefiraat.networks.slimefun.network.grid;
 import com.balugaq.netex.api.algorithm.Sorters;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.utils.Lang;
 import com.github.houbb.pinyin.constant.enums.PinyinStyleEnum;
 import com.github.houbb.pinyin.util.PinyinHelper;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
@@ -101,7 +102,7 @@ public abstract class AbstractGrid extends NetworkObject {
 
     @Nonnull
     private static List<String> getLoreAddition(long amount) {
-        final MessageFormat format = new MessageFormat(Networks.getLocalizationService().getString("messages.normal-operation.grid.item_amount"), Locale.ROOT);
+        final MessageFormat format = new MessageFormat(Lang.getString("messages.normal-operation.grid.item_amount"), Locale.ROOT);
         return List.of(
                 "",
                 format.format(new Object[]{Theme.CLICK_INFO.getColor(), Theme.PASSIVE.getColor(), amount}, new StringBuffer(), null).toString()
@@ -240,14 +241,14 @@ public abstract class AbstractGrid extends NetworkObject {
             gridCache.setFilter(null);
         } else {
             player.closeInventory();
-            player.sendMessage(Networks.getLocalizationService().getString("messages.normal-operation.grid.waiting_for_filter"));
+            player.sendMessage(Lang.getString("messages.normal-operation.grid.waiting_for_filter"));
             ChatUtils.awaitInput(player, s -> {
                 if (s.isBlank()) {
                     return;
                 }
                 gridCache.setFilter(s.toLowerCase(Locale.ROOT));
                 getCacheMap().put(blockMenu.getLocation(), gridCache);
-                player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.grid.filter_set"));
+                player.sendMessage(Lang.getString("messages.completed-operation.grid.filter_set"));
 
                 SlimefunBlockData data = StorageCacheUtils.getBlock(blockMenu.getLocation());
                 if (data == null) {
@@ -271,7 +272,7 @@ public abstract class AbstractGrid extends NetworkObject {
         if (definition == null || definition.getNode() == null) {
             clearDisplay(blockMenu);
             blockMenu.close();
-            Networks.getInstance().getLogger().warning(String.format(Networks.getLocalizationService().getString("messages.unsupported-operation.grid.may_duping"), player.getName(), blockMenu.getLocation()));
+            Networks.getInstance().getLogger().warning(String.format(Lang.getString("messages.unsupported-operation.grid.may_duping"), player.getName(), blockMenu.getLocation()));
             return;
         }
 
@@ -418,7 +419,7 @@ public abstract class AbstractGrid extends NetworkObject {
         if (definition == null || definition.getNode() == null) {
             clearDisplay(blockMenu);
             blockMenu.close();
-            Networks.getInstance().getLogger().warning(String.format(Networks.getLocalizationService().getString("messages.unsupported-operation.grid.may_duping"), player.getName(), blockMenu.getLocation()));
+            Networks.getInstance().getLogger().warning(String.format(Lang.getString("messages.unsupported-operation.grid.may_duping"), player.getName(), blockMenu.getLocation()));
             return;
         }
 
@@ -431,7 +432,7 @@ public abstract class AbstractGrid extends NetworkObject {
         if (definition == null || definition.getNode() == null) {
             clearDisplay(blockMenu);
             blockMenu.close();
-            Networks.getInstance().getLogger().warning(String.format(Networks.getLocalizationService().getString("messages.unsupported-operation.grid.may_duping"), player.getName(), blockMenu.getLocation()));
+            Networks.getInstance().getLogger().warning(String.format(Lang.getString("messages.unsupported-operation.grid.may_duping"), player.getName(), blockMenu.getLocation()));
             return;
         }
 

@@ -3,10 +3,10 @@ package com.ytdd9527.networksexpansion.implementation.machines.networks.advanced
 import com.balugaq.netex.api.enums.TransportFacing;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.utils.BlockMenuUtil;
+import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -179,7 +179,7 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
             return;
         }
         List<String> newLore = new ArrayList<>();
-        newLore.add(String.format(Networks.getLocalizationService().getString("icons.offset-show-icon.lore"), offset));
+        newLore.add(String.format(Lang.getString("icons.offset-show-icon.lore"), offset));
         meta.setLore(newLore);
         newIcon.setItemMeta(meta);
 

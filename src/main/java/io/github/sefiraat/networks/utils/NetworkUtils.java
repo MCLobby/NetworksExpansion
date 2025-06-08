@@ -1,8 +1,8 @@
 package io.github.sefiraat.networks.utils;
 
+import com.balugaq.netex.utils.Lang;
 import com.jeff_media.morepersistentdatatypes.DataType;
 import io.github.sefiraat.networks.NetworkStorage;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkNode;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
@@ -55,12 +55,12 @@ public class NetworkUtils {
         }
 
         if (string == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.configurator.facing_not_found"));
+            player.sendMessage(Lang.getString("messages.unsupported-operation.configurator.facing_not_found"));
             return;
         }
 
         directional.setDirection(blockMenu, BlockFace.valueOf(string));
-        player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.configurator.pasted_facing", string));
+        player.sendMessage(Lang.getString("messages.completed-operation.configurator.pasted_facing", string));
 
 
         directional.getItemSlots();
@@ -82,21 +82,21 @@ public class NetworkUtils {
                             final ItemStack stackClone = StackUtils.getAsQuantity(stack, 1);
                             stack.setAmount(stack.getAmount() - 1);
                             blockMenu.replaceExistingItem(directional.getItemSlots()[i], stackClone);
-                            player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.completed-operation.configurator.pasted_item"), i));
+                            player.sendMessage(String.format(Lang.getString("messages.completed-operation.configurator.pasted_item"), i));
                             worked = true;
                             break;
                         }
                     }
                     if (!worked) {
-                        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.unsupported-operation.configurator.not_enough_items"), i));
+                        player.sendMessage(String.format(Lang.getString("messages.unsupported-operation.configurator.not_enough_items"), i));
                     }
                 } else if (directional instanceof NetworkPusher) {
-                    player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.unsupported-operation.configurator.no_item_configured_pusher"), i));
+                    player.sendMessage(String.format(Lang.getString("messages.unsupported-operation.configurator.no_item_configured_pusher"), i));
                 }
                 i++;
             }
         } else {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.configurator.no_item_configured"));
+            player.sendMessage(Lang.getString("messages.unsupported-operation.configurator.no_item_configured"));
         }
     }
 

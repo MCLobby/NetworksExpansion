@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.implementation.machines.cargo.transfer.li
 
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.interfaces.Configurable;
+import com.balugaq.netex.utils.Lang;
 import com.bgsoftware.wildchests.api.WildChestsAPI;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.NetworkStorage;
@@ -254,10 +255,10 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
     public @Nonnull List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);
         displayRecipes.add(new CustomItemStack(Material.BOOK,
-                Networks.getLocalizationService().getString("icons.mechanism.transfers.data_title"),
+                Lang.getString("icons.mechanism.transfers.data_title"),
                 "",
-                String.format(Networks.getLocalizationService().getString("icons.mechanism.transfers.max_distance"), maxDistance),
-                String.format(Networks.getLocalizationService().getString("icons.mechanism.transfers.grab_item_tick"), grabItemTick)
+                String.format(Lang.getString("icons.mechanism.transfers.max_distance"), maxDistance),
+                String.format(Lang.getString("icons.mechanism.transfers.grab_item_tick"), grabItemTick)
         ));
         return displayRecipes;
     }

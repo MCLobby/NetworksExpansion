@@ -33,7 +33,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,14 +40,14 @@ import java.util.Optional;
 import java.util.Set;
 
 public abstract class AbstractAutoCrafter extends NetworkObject {
+    public static final int BLUEPRINT_SLOT = 10;
+    public static final int OUTPUT_SLOT = 16;
+    public static final Map<Location, BlueprintInstance> INSTANCE_MAP = new HashMap<>();
     private static final int[] BACKGROUND_SLOTS = new int[]{
             3, 4, 5, 12, 13, 14, 21, 22, 23
     };
     private static final int[] BLUEPRINT_BACKGROUND = new int[]{0, 1, 2, 9, 11, 18, 19, 20};
     private static final int[] OUTPUT_BACKGROUND = new int[]{6, 7, 8, 15, 17, 24, 25, 26};
-    public static final int BLUEPRINT_SLOT = 10;
-    public static final int OUTPUT_SLOT = 16;
-    public static final Map<Location, BlueprintInstance> INSTANCE_MAP = new HashMap<>();
     private final int chargePerCraft;
     private final boolean withholding;
 
@@ -85,6 +84,10 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
                     }
                 }
         );
+    }
+
+    public static void updateCache(@Nonnull BlockMenu blockMenu) {
+        AbstractAutoCrafter.INSTANCE_MAP.remove(blockMenu.getLocation());
     }
 
     protected void craftPreFlight(@Nonnull BlockMenu blockMenu) {
@@ -269,7 +272,6 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
         }
     }
 
-
     @Override
     public void postRegister() {
         new BlockMenuPreset(this.getId(), this.getItemName()) {
@@ -313,9 +315,5 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
 
     public boolean canTestVanillaRecipe() {
         return false;
-    }
-
-    public static void updateCache(@Nonnull BlockMenu blockMenu) {
-        AbstractAutoCrafter.INSTANCE_MAP.remove(blockMenu.getLocation());
     }
 }

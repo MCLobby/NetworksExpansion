@@ -380,7 +380,7 @@ public class StorageUnitData {
     }
 
     @Deprecated
-    public void depositItemStack(@javax.annotation.Nullable ItemStack itemsToDeposit, boolean contentLocked, boolean force) {
+    public void depositItemStack(@Nullable ItemStack itemsToDeposit, boolean contentLocked, boolean force) {
         if (itemsToDeposit == null || isBlacklisted(itemsToDeposit)) {
             return;
         }
@@ -516,7 +516,7 @@ public class StorageUnitData {
         }
     }
 
-    public void depositItemStack0(@Nonnull Location accessor, @javax.annotation.Nullable ItemStack itemsToDeposit, boolean contentLocked, boolean force) {
+    public void depositItemStack0(@Nonnull Location accessor, @Nullable ItemStack itemsToDeposit, boolean contentLocked, boolean force) {
         if (itemsToDeposit == null || isBlacklisted(itemsToDeposit)) {
             return;
         }

@@ -1,11 +1,11 @@
 package io.github.sefiraat.networks.slimefun.tools;
 
 import com.balugaq.netex.api.enums.TransportMode;
+import com.balugaq.netex.utils.Lang;
 import com.jeff_media.morepersistentdatatypes.DataType;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.core.items.machines.AdvancedDirectional;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.NetworkUtils;
@@ -52,10 +52,10 @@ public class NetworkConfigurator extends SpecialSlimefunItem {
                                         ItemMeta itemMeta = e.getItem().getItemMeta();
                                         int amount = advancedDirectional.getLimitQuantity(blockMenu.getLocation());
                                         DataTypeMethods.setCustom(itemMeta, Keys.AMOUNT, DataType.INTEGER, amount);
-                                        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.completed-operation.configurator.copied_limit_quantity"), amount));
+                                        player.sendMessage(String.format(Lang.getString("messages.completed-operation.configurator.copied_limit_quantity"), amount));
                                         TransportMode transportMode = advancedDirectional.getCurrentTransportMode(blockMenu.getLocation());
                                         DataTypeMethods.setCustom(itemMeta, Keys.TRANSFER_MODE, DataType.STRING, String.valueOf(transportMode));
-                                        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.completed-operation.configurator.copied_transport_mode"), transportMode));
+                                        player.sendMessage(String.format(Lang.getString("messages.completed-operation.configurator.copied_transport_mode"), transportMode));
                                         e.getItem().setItemMeta(itemMeta);
                                     }
                                     setConfigurator(directional, e.getItem(), blockMenu, player);
@@ -65,12 +65,12 @@ public class NetworkConfigurator extends SpecialSlimefunItem {
                                         Integer amount = DataTypeMethods.getCustom(itemMeta, Keys.AMOUNT, DataType.INTEGER);
                                         if (amount != null) {
                                             advancedDirectional.setLimitQuantity(blockMenu.getLocation(), amount);
-                                            player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.configurator.pasted_limit_quantity"));
+                                            player.sendMessage(Lang.getString("messages.completed-operation.configurator.pasted_limit_quantity"));
                                         }
                                         String transportMode = DataTypeMethods.getCustom(itemMeta, Keys.TRANSFER_MODE, DataType.STRING);
                                         if (transportMode != null) {
                                             advancedDirectional.setTransportMode(blockMenu.getLocation(), TransportMode.valueOf(transportMode));
-                                            player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.configurator.pasted_transport_mode"));
+                                            player.sendMessage(Lang.getString("messages.completed-operation.configurator.pasted_transport_mode"));
                                         }
                                         advancedDirectional.updateShowIcon(blockMenu.getLocation());
                                         advancedDirectional.updateTransportModeIcon(blockMenu.getLocation());
@@ -78,7 +78,7 @@ public class NetworkConfigurator extends SpecialSlimefunItem {
                                     NetworkUtils.applyConfig(directional, e.getItem(), blockMenu, player);
                                 }
                             } else {
-                                player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.configurator.not_a_pasteable_block"));
+                                player.sendMessage(Lang.getString("messages.unsupported-operation.configurator.not_a_pasteable_block"));
                             }
                         }
                     }
@@ -93,7 +93,7 @@ public class NetworkConfigurator extends SpecialSlimefunItem {
             blockFace = AdvancedDirectional.getSelectedFace(blockMenu.getLocation());
         }
         if (blockFace == null) {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.configurator.not_a_copyable_block"));
+            player.sendMessage(Lang.getString("messages.unsupported-operation.configurator.not_a_copyable_block"));
             return;
         }
 
@@ -117,6 +117,6 @@ public class NetworkConfigurator extends SpecialSlimefunItem {
 
         DataTypeMethods.setCustom(itemMeta, Keys.FACE, DataType.STRING, blockFace.name());
         itemStack.setItemMeta(itemMeta);
-        player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.configurator.copied"));
+        player.sendMessage(Lang.getString("messages.completed-operation.configurator.copied"));
     }
 }

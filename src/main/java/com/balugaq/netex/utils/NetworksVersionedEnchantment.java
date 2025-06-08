@@ -11,8 +11,8 @@ import java.lang.reflect.Field;
 
 @UtilityClass
 public class NetworksVersionedEnchantment {
-    public static final @javax.annotation.Nullable Enchantment GLOW;
-    public static final @javax.annotation.Nullable Enchantment LUCK_OF_THE_SEA;
+    public static final @Nullable Enchantment GLOW;
+    public static final @Nullable Enchantment LUCK_OF_THE_SEA;
 
     static {
         MinecraftVersion version = Networks.getInstance().getMCVersion();

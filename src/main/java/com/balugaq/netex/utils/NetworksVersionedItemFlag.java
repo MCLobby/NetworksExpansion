@@ -11,12 +11,11 @@ import java.lang.reflect.Field;
 
 @UtilityClass
 public class NetworksVersionedItemFlag {
-    public static final @javax.annotation.Nullable ItemFlag HIDE_ADDITIONAL_TOOLTIP;
+    public static final @Nullable ItemFlag HIDE_ADDITIONAL_TOOLTIP;
 
     static {
         MinecraftVersion version = Networks.getInstance().getMCVersion();
         HIDE_ADDITIONAL_TOOLTIP = version.isAtLeast(MinecraftVersion.MC1_20_5) ? ItemFlag.HIDE_ADDITIONAL_TOOLTIP : getKey("HIDE_POTION_EFFECTS");
-
     }
 
     @Nullable

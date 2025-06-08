@@ -2,9 +2,9 @@ package io.github.sefiraat.networks.slimefun.network;
 
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.events.NetworkCraftEvent;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.sefiraat.networks.utils.Keys;
@@ -171,7 +171,7 @@ public class NetworkQuantumWorkbench extends SpecialSlimefunItem {
                 menu.pushItem(crafted, OUTPUT_SLOT);
                 sendFeedback(menu.getLocation(), FeedbackType.SUCCESS);
             } else {
-                player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.quantum_workbench.output_slot_full"));
+                player.sendMessage(Lang.getString("messages.unsupported-operation.quantum_workbench.output_slot_full"));
                 sendFeedback(menu.getLocation(), FeedbackType.OUTPUT_FULL);
             }
         }

@@ -1,8 +1,8 @@
 package io.github.sefiraat.networks.slimefun.tools;
 
+import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -40,7 +40,7 @@ public class NetworkAdminDebugger extends SpecialSlimefunItem {
             final Player player = e.getPlayer();
             final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(block.getLocation());
             if (!player.isOp()) {
-                player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.debugger.player_is_not_op"));
+                player.sendMessage(Lang.getString("messages.unsupported-operation.debugger.player_is_not_op"));
                 return;
             }
             if (slimefunItem instanceof AdminDebuggable debuggable) {

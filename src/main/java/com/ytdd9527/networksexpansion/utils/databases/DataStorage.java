@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.utils.databases;
 
 import com.balugaq.netex.api.data.StorageUnitData;
 import com.balugaq.netex.api.enums.StorageUnitType;
+import com.balugaq.netex.utils.Lang;
 import io.github.sefiraat.networks.Networks;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -107,7 +108,7 @@ public class DataStorage {
     }
 
     public static void saveAmountChange() {
-        Networks.getInstance().getLogger().info(Networks.getLocalizationService().getString("messages.data-saving.saving-drawer"));
+        Networks.getInstance().getLogger().info(Lang.getString("messages.data-saving.saving-drawer"));
         Map<Integer, Map<Integer, Integer>> lastChanges = changes;
         changes = new ConcurrentHashMap<>();
         for (Map.Entry<Integer, Map<Integer, Integer>> each : lastChanges.entrySet()) {
@@ -115,7 +116,7 @@ public class DataStorage {
                 dataSource.updateItemAmount(each.getKey(), eachItem.getKey(), eachItem.getValue());
             }
         }
-        Networks.getInstance().getLogger().info(Networks.getLocalizationService().getString("messages.data-saving.saved-drawer"));
+        Networks.getInstance().getLogger().info(Lang.getString("messages.data-saving.saved-drawer"));
         Networks.getInstance().debug("Task amount: " + Networks.getQueryQueue().getTaskAmount());
     }
 

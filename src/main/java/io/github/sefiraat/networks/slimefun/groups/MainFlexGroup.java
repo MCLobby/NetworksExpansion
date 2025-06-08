@@ -1,6 +1,6 @@
 package io.github.sefiraat.networks.slimefun.groups;
 
-import io.github.sefiraat.networks.Networks;
+import com.balugaq.netex.utils.Lang;
 import io.github.sefiraat.networks.slimefun.NetworksItemGroups;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -29,7 +29,7 @@ public class MainFlexGroup extends FlexItemGroup {
 
 
     private static final ItemStack DOCS_ITEM_STACK = Theme.themedItemStack(
-            Networks.getLocalizationService().getIcon("docs_icon", Material.BOOK),
+            Lang.getIcon("docs_icon", Material.BOOK),
             Theme.GUIDE
     );
 
@@ -102,7 +102,7 @@ public class MainFlexGroup extends FlexItemGroup {
         // Docs
         menu.replaceExistingItem(DOCS, DOCS_ITEM_STACK);
         menu.addMenuClickHandler(DOCS, (player1, i1, itemStack1, clickAction) -> {
-            final TextComponent link = new TextComponent(Networks.getLocalizationService().getString("icons.docs_icon.click_to_visit_wiki"));
+            final TextComponent link = new TextComponent(Lang.getString("icons.docs_icon.click_to_visit_wiki"));
             link.setColor(ChatColor.YELLOW);
             link.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://slimefun-addons-wiki.guizhanss.cn/networks/"));
             player.spigot().sendMessage(link);

@@ -3,6 +3,7 @@ package com.ytdd9527.networksexpansion.implementation.machines.viewer;
 import com.balugaq.netex.api.data.ItemFlowRecord;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.utils.Lang;
 import com.github.houbb.pinyin.constant.enums.PinyinStyleEnum;
 import com.github.houbb.pinyin.util.PinyinHelper;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
@@ -10,7 +11,6 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
 import com.ytdd9527.networksexpansion.utils.ParticleUtil;
 import io.github.sefiraat.networks.NetworkStorage;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
@@ -228,9 +228,9 @@ public class ItemFlowViewer extends NetworkObject {
 
         List<String> list = new ArrayList<>();
         list.add("");
-        list.add((change > 0 ? ChatColor.GREEN : change < 0 ? ChatColor.RED : ChatColor.GRAY) + String.format(Networks.getLocalizationService().getString("messages.normal-operation.viewer.change"), change > 0 ? "+" + change : change));
+        list.add((change > 0 ? ChatColor.GREEN : change < 0 ? ChatColor.RED : ChatColor.GRAY) + String.format(Lang.getString("messages.normal-operation.viewer.change"), change > 0 ? "+" + change : change));
         list.add("");
-        list.addAll(Networks.getLocalizationService().getStringList("messages.normal-operation.viewer.item-flow-viewer-click-behavior"));
+        list.addAll(Lang.getStringList("messages.normal-operation.viewer.item-flow-viewer-click-behavior"));
 
         return list;
     }
@@ -240,11 +240,11 @@ public class ItemFlowViewer extends NetworkObject {
         long change = entry.getAmount();
         List<String> list = new ArrayList<>();
         list.add("");
-        list.add(String.format(Networks.getLocalizationService().getString("messages.normal-operation.viewer.location"), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
-        list.add(String.format(Networks.getLocalizationService().getString("messages.normal-operation.viewer.when"), humanizeTime(entry.getMilliSecond())));
-        list.add((change > 0 ? ChatColor.GREEN : change < 0 ? ChatColor.RED : ChatColor.GRAY) + String.format(Networks.getLocalizationService().getString("messages.normal-operation.viewer.change"), change > 0 ? "+" + change : change));
+        list.add(String.format(Lang.getString("messages.normal-operation.viewer.location"), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
+        list.add(String.format(Lang.getString("messages.normal-operation.viewer.when"), humanizeTime(entry.getMilliSecond())));
+        list.add((change > 0 ? ChatColor.GREEN : change < 0 ? ChatColor.RED : ChatColor.GRAY) + String.format(Lang.getString("messages.normal-operation.viewer.change"), change > 0 ? "+" + change : change));
         list.add("");
-        list.addAll(Networks.getLocalizationService().getStringList("messages.normal-operation.viewer.item-flow-viewer-sub-click-behavior"));
+        list.addAll(Lang.getStringList("messages.normal-operation.viewer.item-flow-viewer-sub-click-behavior"));
 
         return list;
     }
@@ -585,7 +585,7 @@ public class ItemFlowViewer extends NetworkObject {
             gridCache.setFilter(null);
         } else {
             player.closeInventory();
-            player.sendMessage(Networks.getLocalizationService().getString("messages.normal-operation.grid.waiting_for_filter"));
+            player.sendMessage(Lang.getString("messages.normal-operation.grid.waiting_for_filter"));
             ChatUtils.awaitInput(player, s -> {
                 if (s.isBlank()) {
                     return;
@@ -593,7 +593,7 @@ public class ItemFlowViewer extends NetworkObject {
                 s = s.toLowerCase(Locale.ROOT);
                 gridCache.setFilter(s);
                 getCacheMap().put(blockMenu.getLocation(), gridCache);
-                player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.grid.filter_set"));
+                player.sendMessage(Lang.getString("messages.completed-operation.grid.filter_set"));
 
                 SlimefunBlockData data = StorageCacheUtils.getBlock(blockMenu.getLocation());
                 if (data == null) {

@@ -9,7 +9,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 
 import javax.annotation.Nonnull;
 import java.util.LinkedList;
@@ -47,6 +46,18 @@ public class JEGCompatibleListener implements Listener {
         clearGuideHistory(profile);
     }
 
+    private static void saveOriginGuideHistory(PlayerProfile profile) {
+        GuideHistory oldHistory = profile.getGuideHistory();
+        GuideHistory newHistory = new GuideHistory(profile);
+        ReflectionUtil.setValue(newHistory, "mainMenuPage", oldHistory.getMainMenuPage());
+        ReflectionUtil.setValue(newHistory, "queue", ReflectionUtil.getValue(oldHistory, "queue", LinkedList.class).clone());
+        GUIDE_HISTORY.put(profile.getUUID(), newHistory);
+    }
+
+    private static void clearGuideHistory(PlayerProfile profile) {
+        ReflectionUtil.setValue(profile, "guideHistory", new GuideHistory(profile));
+    }
+
     @EventHandler
     public void onJEGItemClick(GuideEvents.ItemButtonClickEvent event) {
         var player = event.getPlayer();
@@ -60,14 +71,6 @@ public class JEGCompatibleListener implements Listener {
         PROFILE_CALLBACKS.remove(player.getUniqueId());
     }
 
-    private static void saveOriginGuideHistory(PlayerProfile profile) {
-        GuideHistory oldHistory = profile.getGuideHistory();
-        GuideHistory newHistory = new GuideHistory(profile);
-        ReflectionUtil.setValue(newHistory, "mainMenuPage", oldHistory.getMainMenuPage());
-        ReflectionUtil.setValue(newHistory, "queue", ReflectionUtil.getValue(oldHistory, "queue", LinkedList.class).clone());
-        GUIDE_HISTORY.put(profile.getUUID(), newHistory);
-    }
-
     private void rollbackGuideHistory(PlayerProfile profile) {
         var originHistory = GUIDE_HISTORY.get(profile.getUUID());
         if (originHistory == null) {
@@ -75,9 +78,5 @@ public class JEGCompatibleListener implements Listener {
         }
 
         ReflectionUtil.setValue(profile, "guideHistory", originHistory);
-    }
-
-    private static void clearGuideHistory(PlayerProfile profile) {
-        ReflectionUtil.setValue(profile, "guideHistory", new GuideHistory(profile));
     }
 }

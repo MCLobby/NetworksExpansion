@@ -1,6 +1,6 @@
 package io.github.sefiraat.networks.network.stackcaches;
 
-import io.github.sefiraat.networks.Networks;
+import com.balugaq.netex.utils.Lang;
 import io.github.sefiraat.networks.utils.Theme;
 import lombok.Getter;
 import lombok.Setter;
@@ -66,7 +66,7 @@ public class CardInstance extends ItemStackCache {
 
     public String getLoreLine() {
         if (this.getItemStack() == null) {
-            return Networks.getLocalizationService().getString("messages.normal-operation.memory_card.empty");
+            return Lang.getString("messages.normal-operation.memory_card.empty");
         }
         String name = ChatColor.stripColor(ItemStackHelper.getDisplayName(getItemStack()));
         return Theme.CLICK_INFO + name + ": " + Theme.PASSIVE + this.amount;

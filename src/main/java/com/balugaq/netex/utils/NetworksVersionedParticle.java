@@ -6,14 +6,13 @@ import lombok.experimental.UtilityClass;
 import org.bukkit.Particle;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 
 @UtilityClass
 public class NetworksVersionedParticle {
-    public static final @javax.annotation.Nullable Particle DUST;
-    public static final @javax.annotation.Nullable Particle EXPLOSION;
-    public static final @javax.annotation.Nullable Particle SMOKE;
+    public static final @Nonnull Particle DUST;
+    public static final @Nonnull Particle EXPLOSION;
+    public static final @Nonnull Particle SMOKE;
 
     static {
         MinecraftVersion version = Networks.getInstance().getMCVersion();
@@ -22,7 +21,7 @@ public class NetworksVersionedParticle {
         SMOKE = version.isAtLeast(MinecraftVersion.MC1_20_5) ? Particle.SMOKE : getKey("SMOKE_NORMAL");
     }
 
-    @Nullable
+    @Nonnull
     private static Particle getKey(@Nonnull String key) {
         try {
             Field field = Particle.class.getDeclaredField(key);

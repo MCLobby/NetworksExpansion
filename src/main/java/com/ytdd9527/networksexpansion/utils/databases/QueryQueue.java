@@ -1,5 +1,6 @@
 package com.ytdd9527.networksexpansion.utils.databases;
 
+import com.balugaq.netex.utils.Lang;
 import io.github.sefiraat.networks.Networks;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -22,13 +23,13 @@ public class QueryQueue {
 
     public synchronized void scheduleUpdate(QueuedTask task) {
         if (!updateTasks.offer(task)) {
-            throw new IllegalStateException(Networks.getLocalizationService().getString("messages.unsupported-operation.comprehensive.invalid_queue"));
+            throw new IllegalStateException(Lang.getString("messages.unsupported-operation.comprehensive.invalid_queue"));
         }
     }
 
     public synchronized void scheduleQuery(QueuedTask task) {
         if (!queryTasks.offer(task)) {
-            throw new IllegalStateException(Networks.getLocalizationService().getString("messages.unsupported-operation.comprehensive.invalid_queue"));
+            throw new IllegalStateException(Lang.getString("messages.unsupported-operation.comprehensive.invalid_queue"));
         }
     }
 

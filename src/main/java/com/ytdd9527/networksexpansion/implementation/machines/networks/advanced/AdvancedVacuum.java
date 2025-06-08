@@ -4,6 +4,7 @@ import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.enums.FilterMode;
 import com.balugaq.netex.api.enums.MatchMode;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import dev.sefiraat.sefilib.misc.ParticleUtils;
@@ -297,9 +298,9 @@ public class AdvancedVacuum extends NetworkObject {
             }
         }
 
-        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.completed-operation.comprehensive.toggled_filter_mode"), currentMode == FilterMode.BLACK_LIST ?
-                Networks.getLocalizationService().getString("messages.completed-operation.comprehensive.filter_mode_black_list") :
-                Networks.getLocalizationService().getString("messages.completed-operation.comprehensive.filter_mode_white_list")
+        player.sendMessage(String.format(Lang.getString("messages.completed-operation.comprehensive.toggled_filter_mode"), currentMode == FilterMode.BLACK_LIST ?
+                Lang.getString("messages.completed-operation.comprehensive.filter_mode_black_list") :
+                Lang.getString("messages.completed-operation.comprehensive.filter_mode_white_list")
         ));
     }
 
@@ -316,9 +317,9 @@ public class AdvancedVacuum extends NetworkObject {
             }
         }
 
-        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.completed-operation.comprehensive.toggled_match_mode"), currentMode == MatchMode.ALL_MATCH ?
-                Networks.getLocalizationService().getString("messages.completed-operation.comprehensive.match_mode_all_match") :
-                Networks.getLocalizationService().getString("messages.completed-operation.comprehensive.match_mode_material_match")
+        player.sendMessage(String.format(Lang.getString("messages.completed-operation.comprehensive.toggled_match_mode"), currentMode == MatchMode.ALL_MATCH ?
+                Lang.getString("messages.completed-operation.comprehensive.match_mode_all_match") :
+                Lang.getString("messages.completed-operation.comprehensive.match_mode_material_match")
         ));
     }
 

@@ -2,13 +2,13 @@ package com.ytdd9527.networksexpansion.core.items.machines;
 
 import com.balugaq.netex.api.enums.TransportMode;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.utils.Lang;
 import com.balugaq.netex.utils.NetworksVersionedEnchantment;
 import com.balugaq.netex.utils.NetworksVersionedParticle;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.NetworkStorage;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
 import io.github.sefiraat.networks.utils.NetworkUtils;
@@ -108,13 +108,13 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     public static ItemStack getDirectionalSlotPane(@Nonnull BlockFace blockFace, @Nonnull SlimefunItem slimefunItem, boolean active) {
         final ItemStack displayStack = ItemStackUtil.getCleanItem(new CustomItemStack(
                 slimefunItem.getItem(),
-                String.format(Networks.getLocalizationService().getString("messages.normal-operation.directional.display_name"), blockFace.name(), ChatColor.stripColor(slimefunItem.getItemName()))
+                String.format(Lang.getString("messages.normal-operation.directional.display_name"), blockFace.name(), ChatColor.stripColor(slimefunItem.getItemName()))
         ));
         final ItemMeta itemMeta = displayStack.getItemMeta();
-        itemMeta.setLore(Networks.getLocalizationService().getStringList("messages.normal-operation.directional.display_lore"));
+        itemMeta.setLore(Lang.getStringList("messages.normal-operation.directional.display_lore"));
         if (active) {
             List<String> lore = itemMeta.getLore();
-            lore.add(Networks.getLocalizationService().getString("messages.normal-operation.directional.set_facing"));
+            lore.add(Lang.getString("messages.normal-operation.directional.set_facing"));
             itemMeta.setLore(lore);
             itemMeta.addEnchant(NetworksVersionedEnchantment.LUCK_OF_THE_SEA, 1, true);
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -128,13 +128,13 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         if (blockMaterial.isItem() && blockMaterial != Material.AIR) {
             final ItemStack displayStack = new CustomItemStack(
                     blockMaterial,
-                    String.format(Networks.getLocalizationService().getString("messages.normal-operation.directional.display_name"), blockFace.name(), MaterialHelper.getName(blockMaterial))
+                    String.format(Lang.getString("messages.normal-operation.directional.display_name"), blockFace.name(), MaterialHelper.getName(blockMaterial))
             );
             final ItemMeta itemMeta = displayStack.getItemMeta();
-            itemMeta.setLore(Networks.getLocalizationService().getStringList("messages.normal-operation.directional.display_lore"));
+            itemMeta.setLore(Lang.getStringList("messages.normal-operation.directional.display_lore"));
             if (active) {
                 List<String> lore = itemMeta.getLore();
-                lore.add(Networks.getLocalizationService().getString("messages.normal-operation.directional.set_facing"));
+                lore.add(Lang.getString("messages.normal-operation.directional.set_facing"));
                 itemMeta.setLore(lore);
                 itemMeta.addEnchant(NetworksVersionedEnchantment.LUCK_OF_THE_SEA, 1, true);
                 itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -145,7 +145,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
             Material material = active ? Material.GREEN_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE;
             return ItemStackUtil.getCleanItem(new CustomItemStack(
                     material,
-                    String.format(Networks.getLocalizationService().getString("messages.normal-operation.directional.display_empty"), blockFace)
+                    String.format(Lang.getString("messages.normal-operation.directional.display_empty"), blockFace)
             ));
         }
     }
@@ -180,7 +180,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
                     case DOWN ->
                             blockMenu.replaceExistingItem(getDownSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
                     default ->
-                            throw new IllegalStateException(String.format(Networks.getLocalizationService().getString("messages.unsupported-operation.directional.unexcepted_value"), blockFace));
+                            throw new IllegalStateException(String.format(Lang.getString("messages.unsupported-operation.directional.unexcepted_value"), blockFace));
                 }
             } else {
                 final Material material = block.getType();
@@ -198,7 +198,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
                     case DOWN ->
                             blockMenu.replaceExistingItem(getDownSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
                     default ->
-                            throw new IllegalStateException(String.format(Networks.getLocalizationService().getString("messages.unsupported-operation.directional.unexcepted_value"), blockFace));
+                            throw new IllegalStateException(String.format(Lang.getString("messages.unsupported-operation.directional.unexcepted_value"), blockFace));
                 }
             }
         }
@@ -533,7 +533,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     public void updateShowIcon(Location location) {
         ItemMeta itemMeta = this.showIconClone.getItemMeta();
         List<String> lore = new ArrayList<>(itemMeta.getLore());
-        lore.set(0, String.format(Networks.getLocalizationService().getString("messages.normal-operation.directional.limit_quantity"), getLimitQuantity(location)));
+        lore.set(0, String.format(Lang.getString("messages.normal-operation.directional.limit_quantity"), getLimitQuantity(location)));
         itemMeta.setLore(lore);
         this.showIconClone.setItemMeta(itemMeta);
 
@@ -546,7 +546,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     public void updateTransportModeIcon(Location location) {
         ItemMeta itemMeta = this.transportModeIconClone.getItemMeta();
         List<String> lore = new ArrayList<>(itemMeta.getLore());
-        lore.set(0, String.format(Networks.getLocalizationService().getString("messages.normal-operation.directional.transport_mode"), getCurrentTransportMode(location).getName()));
+        lore.set(0, String.format(Lang.getString("messages.normal-operation.directional.transport_mode"), getCurrentTransportMode(location).getName()));
         itemMeta.setLore(lore);
         this.transportModeIconClone.setItemMeta(itemMeta);
 

@@ -1,8 +1,8 @@
 package io.github.sefiraat.networks.utils;
 
+import com.balugaq.netex.utils.Lang;
 import com.ytdd9527.networksexpansion.utils.TextUtil;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
-import io.github.sefiraat.networks.Networks;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import lombok.Getter;
@@ -24,28 +24,28 @@ import java.util.concurrent.atomic.AtomicReference;
 @SuppressWarnings("unused")
 @Getter
 public enum Theme {
-    GOLD(ChatColor.GOLD, Networks.getLocalizationService().getString("theme.gold")),
-    WHITE(ChatColor.WHITE, Networks.getLocalizationService().getString("theme.white")),
-    AQUA(ChatColor.AQUA, Networks.getLocalizationService().getString("theme.aqua")),
-    WARNING(ChatColor.YELLOW, Networks.getLocalizationService().getString("theme.warning")),
-    ERROR(ChatColor.RED, Networks.getLocalizationService().getString("theme.error")),
-    NOTICE(ChatColor.WHITE, Networks.getLocalizationService().getString("theme.notice")),
-    PASSIVE(ChatColor.GRAY, Networks.getLocalizationService().getString("theme.passive")),
-    SUCCESS(ChatColor.GREEN, Networks.getLocalizationService().getString("theme.success")),
-    MAIN(ChatColor.of("#21588f"), Networks.getLocalizationService().getString("theme.main")),
-    CLICK_INFO(ChatColor.of("#e4ed32"), Networks.getLocalizationService().getString("theme.click_info")),
-    RESEARCH(ChatColor.of("#a60e03"), Networks.getLocalizationService().getString("theme.research")),
-    CRAFTING(ChatColor.of("#dbcea9"), Networks.getLocalizationService().getString("theme.crafting")),
-    MACHINE(ChatColor.of("#3295a8"), Networks.getLocalizationService().getString("theme.machine")),
+    GOLD(ChatColor.GOLD, Lang.getString("theme.gold")),
+    WHITE(ChatColor.WHITE, Lang.getString("theme.white")),
+    AQUA(ChatColor.AQUA, Lang.getString("theme.aqua")),
+    WARNING(ChatColor.YELLOW, Lang.getString("theme.warning")),
+    ERROR(ChatColor.RED, Lang.getString("theme.error")),
+    NOTICE(ChatColor.WHITE, Lang.getString("theme.notice")),
+    PASSIVE(ChatColor.GRAY, Lang.getString("theme.passive")),
+    SUCCESS(ChatColor.GREEN, Lang.getString("theme.success")),
+    MAIN(ChatColor.of("#21588f"), Lang.getString("theme.main")),
+    CLICK_INFO(ChatColor.of("#e4ed32"), Lang.getString("theme.click_info")),
+    RESEARCH(ChatColor.of("#a60e03"), Lang.getString("theme.research")),
+    CRAFTING(ChatColor.of("#dbcea9"), Lang.getString("theme.crafting")),
+    MACHINE(ChatColor.of("#3295a8"), Lang.getString("theme.machine")),
 
-    TOOL(ChatColor.of("#6b32a8"), Networks.getLocalizationService().getString("theme.tool")),
-    MECHANISM(ChatColor.of("#3295a8"), Networks.getLocalizationService().getString("theme.mechanism")),
-    FUEL(ChatColor.of("#112211"), Networks.getLocalizationService().getString("theme.fuel")),
-    MATERIAL_CLASS(ChatColor.of("#a4c2ba"), Networks.getLocalizationService().getString("theme.material_class")),
-    RECIPE_TYPE(ChatColor.of("#ffe89c"), Networks.getLocalizationService().getString("theme.recipe_type")),
+    TOOL(ChatColor.of("#6b32a8"), Lang.getString("theme.tool")),
+    MECHANISM(ChatColor.of("#3295a8"), Lang.getString("theme.mechanism")),
+    FUEL(ChatColor.of("#112211"), Lang.getString("theme.fuel")),
+    MATERIAL_CLASS(ChatColor.of("#a4c2ba"), Lang.getString("theme.material_class")),
+    RECIPE_TYPE(ChatColor.of("#ffe89c"), Lang.getString("theme.recipe_type")),
 
 
-    GUIDE(ChatColor.of("#444444"), Networks.getLocalizationService().getString("theme.guide"));
+    GUIDE(ChatColor.of("#444444"), Lang.getString("theme.guide"));
 
 
     private static final Theme[] cachedValues = values();
@@ -115,7 +115,7 @@ public enum Theme {
         String name = sfis.getDisplayName();
         ItemMeta meta = sfis.getItemMeta();
         List<String> lore = meta == null ? new ArrayList<>() : meta.getLore();
-        return themedSlimefunItemStack(id, itemStack, themeType, name == null ? Networks.getLocalizationService().getString("theme.name_not_found") : name, lore == null ? new String[]{Networks.getLocalizationService().getString("theme.lore_not_found")} : lore.toArray(new String[0]));
+        return themedSlimefunItemStack(id, itemStack, themeType, name == null ? Lang.getString("theme.name_not_found") : name, lore == null ? new String[]{Lang.getString("theme.lore_not_found")} : lore.toArray(new String[0]));
     }
 
     @Nonnull
@@ -165,7 +165,7 @@ public enum Theme {
         String name = sfis.getDisplayName();
         ItemMeta meta = sfis.getItemMeta();
         List<String> lore = meta == null ? new ArrayList<>() : meta.getLore();
-        return Random(id, itemStack, themeType, name == null ? Networks.getLocalizationService().getString("theme.name_not_found") : name, lore == null ? new String[]{Networks.getLocalizationService().getString("theme.lore_not_found")} : lore.toArray(new String[0]));
+        return Random(id, itemStack, themeType, name == null ? Lang.getString("theme.name_not_found") : name, lore == null ? new String[]{Lang.getString("theme.lore_not_found")} : lore.toArray(new String[0]));
     }
 
     @Nonnull
@@ -213,7 +213,7 @@ public enum Theme {
         return new SlimefunItemStack(
                 id,
                 itemStack,
-                coloredName + Networks.getLocalizationService().getString("theme.model"),
+                coloredName + Lang.getString("theme.model"),
                 finalLore.toArray(new String[0])
         );
     }
@@ -238,7 +238,7 @@ public enum Theme {
         return new SlimefunItemStack(
                 id,
                 texture,
-                coloredName + Networks.getLocalizationService().getString("theme.model"),
+                coloredName + Lang.getString("theme.model"),
                 finalLore.toArray(new String[finalLore.size() - 1])
         );
     }
@@ -253,7 +253,7 @@ public enum Theme {
         String name = sfis.getDisplayName();
         ItemMeta meta = sfis.getItemMeta();
         List<String> lore = meta == null ? new ArrayList<>() : meta.getLore();
-        return model(id, texture.get(), themeType, name == null ? Networks.getLocalizationService().getString("theme.name_not_found") : name, lore == null ? new String[]{Networks.getLocalizationService().getString("theme.lore_not_found")} : lore.toArray(new String[0]));
+        return model(id, texture.get(), themeType, name == null ? Lang.getString("theme.name_not_found") : name, lore == null ? new String[]{Lang.getString("theme.lore_not_found")} : lore.toArray(new String[0]));
     }
 
     /**

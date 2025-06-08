@@ -3,9 +3,9 @@ package com.ytdd9527.networksexpansion.core.items.machines;
 import com.balugaq.netex.api.data.SuperRecipe;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.utils.BlockMenuUtil;
+import com.balugaq.netex.utils.Lang;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.events.NetworkCraftEvent;
 import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
 import io.github.sefiraat.networks.utils.StackUtils;
@@ -169,7 +169,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
                 SlimefunItem sfi = SlimefunItem.getByItem(item);
                 if (sfi != null) {
                     if (sfi.isDisabled() || sfi.isDisabledIn(world)) {
-                        player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.manual_crafter.disabled-output"));
+                        player.sendMessage(Lang.getString("messages.unsupported-operation.manual_crafter.disabled-output"));
                         sendFeedback(blockMenu.getLocation(), FeedbackType.DISABLED_OUTPUT);
                         continue;
                     }
@@ -184,7 +184,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
 
                 ItemStack left = BlockMenuUtil.pushItem(blockMenu, ItemStackUtil.getCleanItem(item), getOutputSlots());
                 if (left != null && left.getType() != Material.AIR) {
-                    player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.manual_crafter.full-output"));
+                    player.sendMessage(Lang.getString("messages.unsupported-operation.manual_crafter.full-output"));
                     sendFeedback(blockMenu.getLocation(), FeedbackType.NO_ENOUGH_SPACE);
                     world.dropItem(blockMenu.getLocation(), left);
                 }
@@ -194,7 +194,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
         if (recipe.getConsumeEnergy() > 0) {
             removeCharge(blockMenu.getLocation(), recipe.getConsumeEnergy());
         }
-        player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.manual_crafter.success"));
+        player.sendMessage(Lang.getString("messages.completed-operation.manual_crafter.success"));
         sendFeedback(blockMenu.getLocation(), FeedbackType.SUCCESS);
         return true;
     }
@@ -274,14 +274,14 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
                 SlimefunItem sfi = SlimefunItem.getByItem(item);
                 if (sfi != null) {
                     if (sfi.isDisabled() || sfi.isDisabledIn(world)) {
-                        player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.manual_crafter.disabled-output"));
+                        player.sendMessage(Lang.getString("messages.unsupported-operation.manual_crafter.disabled-output"));
                         sendFeedback(blockMenu.getLocation(), FeedbackType.DISABLED_OUTPUT);
                         continue;
                     }
                 }
                 ItemStack left = BlockMenuUtil.pushItem(blockMenu, item, getOutputSlots());
                 if (left != null && left.getType() != Material.AIR) {
-                    player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.manual_crafter.full-output"));
+                    player.sendMessage(Lang.getString("messages.unsupported-operation.manual_crafter.full-output"));
                     sendFeedback(blockMenu.getLocation(), FeedbackType.NO_ENOUGH_SPACE);
                     world.dropItem(blockMenu.getLocation(), left);
                 }
@@ -291,7 +291,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
         if (recipe.getConsumeEnergy() > 0) {
             removeCharge(blockMenu.getLocation(), recipe.getConsumeEnergy());
         }
-        player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.manual_crafter.success"));
+        player.sendMessage(Lang.getString("messages.completed-operation.manual_crafter.success"));
         sendFeedback(blockMenu.getLocation(), FeedbackType.SUCCESS);
         return true;
     }

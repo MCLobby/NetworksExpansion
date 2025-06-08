@@ -1,11 +1,11 @@
 package io.github.sefiraat.networks.slimefun.tools;
 
+import com.balugaq.netex.utils.Lang;
 import com.jeff_media.morepersistentdatatypes.DataType;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.NetworkGridNewStyle;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.slimefun.network.grid.NetworkCraftingGrid;
 import io.github.sefiraat.networks.slimefun.network.grid.NetworkGrid;
 import io.github.sefiraat.networks.utils.Keys;
@@ -63,7 +63,7 @@ public class NetworkRemote extends SpecialSlimefunItem {
                             )) {
                                 setGrid(e.getItem(), block, player);
                             } else {
-                                player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.remote.must_connect_to_grid"));
+                                player.sendMessage(Lang.getString("messages.unsupported-operation.remote.must_connect_to_grid"));
                             }
                         }
                     } else {
@@ -81,7 +81,7 @@ public class NetworkRemote extends SpecialSlimefunItem {
         }
         DataTypeMethods.setCustom(itemMeta, KEY, DataType.LOCATION, block.getLocation());
         itemStack.setItemMeta(itemMeta);
-        player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.remote.bound_to_grid"));
+        player.sendMessage(Lang.getString("messages.completed-operation.remote.bound_to_grid"));
     }
 
     public static void tryOpenGrid(@Nonnull ItemStack itemStack, @Nonnull Player player, int range) {
@@ -94,7 +94,7 @@ public class NetworkRemote extends SpecialSlimefunItem {
         if (location != null) {
 
             if (!location.getWorld().isChunkLoaded(location.getBlockX() / 16, location.getBlockZ() / 16)) {
-                player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.remote.grid_not_loaded"));
+                player.sendMessage(Lang.getString("messages.unsupported-operation.remote.grid_not_loaded"));
                 return;
             }
 
@@ -106,10 +106,10 @@ public class NetworkRemote extends SpecialSlimefunItem {
             ) {
                 openGrid(location, player);
             } else {
-                player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.remote.grid_not_in_range"));
+                player.sendMessage(Lang.getString("messages.unsupported-operation.remote.grid_not_in_range"));
             }
         } else {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.remote.no_grid_bound"));
+            player.sendMessage(Lang.getString("messages.unsupported-operation.remote.no_grid_bound"));
         }
     }
 
@@ -129,7 +129,7 @@ public class NetworkRemote extends SpecialSlimefunItem {
                     blockMenu.open(player);
                 }
             } else {
-                player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.remote.not_a_grid_found"));
+                player.sendMessage(Lang.getString("messages.unsupported-operation.remote.not_a_grid_found"));
             }
         }, false);
     }

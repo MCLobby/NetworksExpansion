@@ -1,10 +1,10 @@
 package com.ytdd9527.networksexpansion.implementation.tools;
 
+import com.balugaq.netex.utils.Lang;
 import com.jeff_media.morepersistentdatatypes.DataType;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.DueMachine;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.datatypes.DataTypeMethods;
@@ -50,7 +50,7 @@ public class DueMachineConfigurator extends SpecialSlimefunItem {
                                     applyConfig(dueMachine, e.getItem(), blockMenu, player);
                                 }
                             } else {
-                                player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.configurator.not_a_pasteable_block"));
+                                player.sendMessage(Lang.getString("messages.unsupported-operation.configurator.not_a_pasteable_block"));
                             }
                         }
                     }
@@ -82,19 +82,19 @@ public class DueMachineConfigurator extends SpecialSlimefunItem {
                             final ItemStack stackClone = StackUtils.getAsQuantity(stack, 1);
                             stack.setAmount(stack.getAmount() - 1);
                             blockMenu.replaceExistingItem(dueMachine.getItemSlots()[i], stackClone);
-                            player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.completed-operation.configurator.pasted_item"), i));
+                            player.sendMessage(String.format(Lang.getString("messages.completed-operation.configurator.pasted_item"), i));
                             worked = true;
                             break;
                         }
                     }
                     if (!worked) {
-                        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.unsupported-operation.configurator.not_enough_items"), i));
+                        player.sendMessage(String.format(Lang.getString("messages.unsupported-operation.configurator.not_enough_items"), i));
                     }
                 }
                 i++;
             }
         } else {
-            player.sendMessage(Networks.getLocalizationService().getString("messages.unsupported-operation.configurator.no_item_configured"));
+            player.sendMessage(Lang.getString("messages.unsupported-operation.configurator.no_item_configured"));
         }
     }
 
@@ -118,6 +118,6 @@ public class DueMachineConfigurator extends SpecialSlimefunItem {
         }
 
         itemStack.setItemMeta(itemMeta);
-        player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.configurator.copied"));
+        player.sendMessage(Lang.getString("messages.completed-operation.configurator.copied"));
     }
 }

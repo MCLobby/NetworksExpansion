@@ -1,5 +1,6 @@
 package com.ytdd9527.networksexpansion.core.managers;
 
+import com.balugaq.netex.utils.Lang;
 import io.github.sefiraat.networks.Networks;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -98,6 +99,6 @@ public class ConfigManager {
     }
 
     public void saveAll() {
-        Networks.getInstance().getLogger().info(Networks.getLocalizationService().getString("messages.save-all"));
+        Networks.getInstance().getLogger().info(Lang.getString("messages.save-all"));
     }
 }
