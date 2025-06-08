@@ -47,6 +47,7 @@
     </pluginRepositories>
 
     <properties>
+        <FluffyMachines-systemPath>C:\Users\11877\Documents\GitHub\NetworksExpansion\lib\FluffyMachines.jar</FluffyMachines-systemPath>
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -176,7 +177,7 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.21.4-R0.1-SNAPSHOT</version>
+            <version>1.21.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
@@ -319,7 +320,7 @@
             <artifactId>FluffyMachines</artifactId>
             <version>035fe56381</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/FluffyMachines.jar</systemPath>
+            <systemPath>${FluffyMachines-systemPath}</systemPath>
         </dependency>
         <!-- Drawer compatibility with inter-server -->
         <dependency>
