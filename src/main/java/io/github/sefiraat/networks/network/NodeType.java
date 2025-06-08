@@ -41,5 +41,5 @@ public enum NodeType {
     DRAWER_MANAGER,
     CRAFTER_MANAGER,     // todo: not finish yet
     FLOW_VIEWER,
-    ADVANCED_VACUUM     // todo: not finish yet
+    ADVANCED_VACUUM
 }

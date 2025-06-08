@@ -130,6 +130,7 @@ public class SetupUtil {
                 ExpansionItems.ADVANCED_EXPORT.registerThis(),
                 ExpansionItems.ADVANCED_PURGER.registerThis(),
                 ExpansionItems.ADVANCED_GREEDY_BLOCK.registerThis(),
+                ExpansionItems.ADVANCED_VACUUM.registerThis(),
                 ExpansionItems.NETWORK_CAPACITOR_5.registerThis(),
                 ExpansionItems.NETWORK_CAPACITOR_6.registerThis(),
                 ExpansionItems.NETWORK_GRID_NEW_STYLE.registerThis(),

@@ -1069,4 +1069,10 @@ public class ExpansionRecipes {
             NETWORK_BRIDGE.getItem(), NETWORK_GRID.getItem(), NETWORK_BRIDGE.getItem(),
             NETWORK_BRIDGE.getItem(), NETWORK_GRID.getItem(), NETWORK_BRIDGE.getItem()
     };
+
+    public static final ItemStack[] ADVANCED_VACUUM = new ItemStack[]{
+            NETWORK_BRIDGE.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(), NETWORK_BRIDGE.getItem(),
+            NETWORK_BRIDGE.getItem(), NETWORK_VACUUM.getItem(), NETWORK_BRIDGE.getItem(),
+            NETWORK_BRIDGE.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(), NETWORK_BRIDGE.getItem()
+    };
 }

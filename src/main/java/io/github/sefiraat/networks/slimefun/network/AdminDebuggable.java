@@ -77,11 +77,11 @@ public interface AdminDebuggable {
         StorageCacheUtils.setData(location, DEBUG_KEY, String.valueOf(value));
     }
 
-    default void toggle(@Nonnull Location location, @Nonnull Player player) {
+    default void toggleDebugMode(@Nonnull Location location, @Nonnull Player player) {
         final boolean isDebug = isDebug(location);
         final boolean nextState = !isDebug;
         setDebug(location, nextState);
-        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.debug.toggle-debug"), nextState));
+        player.sendMessage(String.format(Networks.getLocalizationService().getString("messages.debug.toggleDebugMode-debug"), nextState));
         if (nextState) {
             player.sendMessage(Networks.getLocalizationService().getString("messages.debug.enabled-debug"));
         }

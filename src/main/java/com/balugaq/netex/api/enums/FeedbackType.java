@@ -54,7 +54,8 @@ public enum FeedbackType implements Keyed {
     PROTECTED_BLOCK,
     RESULT_IS_TOO_LARGE,
     SUCCESS,
-    WORKING;
+    WORKING,
+    NOT_ALLOWED_ITEM;
 
     private final @Nonnull NamespacedKey key;
     private final @Nonnull String message;

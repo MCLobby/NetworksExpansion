@@ -54,8 +54,8 @@ import java.util.Set;
 @SuppressWarnings("deprecation")
 public abstract class NetworkDirectional extends NetworkObject {
 
-    protected static final String DIRECTION = "direction";
-    protected static final String OWNER_KEY = "uuid";
+    public static final String DIRECTION = "direction";
+    public static final String OWNER_KEY = "uuid";
     private static final int NORTH_SLOT = 12;
     private static final int SOUTH_SLOT = 30;
     private static final int EAST_SLOT = 22;
@@ -229,6 +229,9 @@ public abstract class NetworkDirectional extends NetworkObject {
     public void onPlace(@Nonnull BlockPlaceEvent event) {
         NetworkStorage.removeNode(event.getBlock().getLocation());
         var blockData = StorageCacheUtils.getBlock(event.getBlock().getLocation());
+        if (blockData == null) {
+            return;
+        }
         blockData.setData(OWNER_KEY, event.getPlayer().getUniqueId().toString());
         blockData.setData(DIRECTION, BlockFace.SELF.name());
         NetworkUtils.applyConfig(NetworkDirectional.this, blockData.getBlockMenu(), event.getPlayer());

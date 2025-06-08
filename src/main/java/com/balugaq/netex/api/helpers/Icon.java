@@ -263,6 +263,31 @@ public class Icon {
             Material.KNOWLEDGE_BOOK
     );
 
+    public static final ItemStack FILTER_MODE_BLACK_LIST = Networks.getLocalizationService().getIcon(
+            "filter-mode-black-list",
+            Material.BLACK_WOOL
+    );
+
+    public static final ItemStack FILTER_MODE_WHITE_LIST = Networks.getLocalizationService().getIcon(
+            "filter-mode-white-list",
+            Material.WHITE_WOOL
+    );
+
+    public static final ItemStack MATCH_MODE_ALL_MATCH = Networks.getLocalizationService().getIcon(
+            "match-mode-all-match",
+            Material.FILLED_MAP
+    );
+
+    public static final ItemStack MATCH_MODE_MATERIAL_MATCH = Networks.getLocalizationService().getIcon(
+            "match-mode-material-match",
+            Material.MAP
+    );
+
+    public static final ItemStack ADVANCED_VACUUM_SPLIT_BLOCK = Networks.getLocalizationService().getIcon(
+            "advanced-vacuum-split-block",
+            Material.CYAN_STAINED_GLASS_PANE
+    );
+
     // pages are 1-based
     @Nonnull
     public static ItemStack getPageStack(@Nonnull ItemStack origin, int currentPage, int maxPage) {

@@ -81,6 +81,7 @@ import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.AdvancedGreedyBlock;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.AdvancedImport;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.AdvancedPurger;
+import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.AdvancedVacuum;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.BetterGrabber;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.DueMachine;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.NetworkBlueprintDecoder;
@@ -1587,5 +1588,12 @@ public class ExpansionItems {
             ExpansionItemStacks.ITEM_FLOW_VIEWER,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.ITEM_FLOW_VIEWER
+    );
+
+    public static final AdvancedVacuum ADVANCED_VACUUM = new AdvancedVacuum(
+            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+            ExpansionItemStacks.ADVANCED_VACUUM,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.ADVANCED_VACUUM
     );
 }
