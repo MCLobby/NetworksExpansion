@@ -1591,7 +1591,7 @@ public class ExpansionItems {
     );
 
     public static final AdvancedVacuum ADVANCED_VACUUM = new AdvancedVacuum(
-            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.ADVANCED_VACUUM,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.ADVANCED_VACUUM

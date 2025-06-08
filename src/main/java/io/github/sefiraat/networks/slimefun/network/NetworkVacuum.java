@@ -2,6 +2,7 @@ package io.github.sefiraat.networks.slimefun.network;
 
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import dev.sefiraat.sefilib.misc.ParticleUtils;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
@@ -15,6 +16,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -26,16 +28,20 @@ import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.UUID;
 
 public class NetworkVacuum extends NetworkObject {
 
@@ -81,6 +87,18 @@ public class NetworkVacuum extends NetworkObject {
                     }
                 }
         );
+
+        addItemHandler(new BlockPlaceHandler(false) {
+            @Override
+            public void onPlayerPlace(@NotNull BlockPlaceEvent event) {
+                NetworkStorage.removeNode(event.getBlock().getLocation());
+                var blockData = StorageCacheUtils.getBlock(event.getBlock().getLocation());
+                if (blockData == null) {
+                    return;
+                }
+                blockData.setData(NetworkDirectional.OWNER_KEY, event.getPlayer().getUniqueId().toString());
+            }
+        });
     }
 
     private void findItem(@Nonnull BlockMenu blockMenu) {
@@ -96,6 +114,19 @@ public class NetworkVacuum extends NetworkObject {
                     sendFeedback(blockMenu.getLocation(), FeedbackType.NO_ITEM_FOUND);
                     return;
                 }
+
+                final String ownerUUID = StorageCacheUtils.getData(blockMenu.getLocation(), NetworkDirectional.OWNER_KEY);
+                if (ownerUUID == null) {
+                    sendFeedback(blockMenu.getLocation(), FeedbackType.NO_OWNER_FOUND);
+                    return;
+                }
+                final UUID uuid = UUID.fromString(ownerUUID);
+                final OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
+                if (!Slimefun.getProtectionManager().hasPermission(offlinePlayer, item.getLocation(), Interaction.INTERACT_ENTITY)) {
+                    sendFeedback(blockMenu.getLocation(), FeedbackType.NO_PERMISSION);
+                    return;
+                }
+
                 if (item.getPickupDelay() <= 0 && !SlimefunUtils.hasNoPickupFlag(item)) {
                     final ItemStack itemStack = item.getItemStack().clone();
                     final int amount = SupportedPluginManager.getStackAmount(item);

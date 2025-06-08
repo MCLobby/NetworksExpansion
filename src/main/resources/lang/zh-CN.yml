@@ -46,6 +46,7 @@ messages:
     result_is_too_large: "输出物过多"
     success: "成功"
     working: "工作中"
+    not_allowed_item: "不被允许的物品"
   blueprint:
     title: "<click_info>已指定配方"
     empty: "<passive>空"
@@ -509,9 +510,9 @@ icons:
     lore:
       - "&7点击切换为全匹配模式"
   advanced-vacuum-split-block:
-    name: ""
+    name: " "
     lore:
-      - ""
+      - " "
   jeg-button:
     name: "&6配方补全"
     lore:

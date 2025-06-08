@@ -824,7 +824,7 @@ public class ExpansionItemStacks {
             Theme.MACHINE
     );
     public static final SlimefunItemStack ADVANCED_VACUUM = Theme.themedSlimefunItemStack(
-            Networks.getLocalizationService().getItem("NTW_EXPANSION_ADVANCED_VACUUM", Material.ENCHANTED_BOOK),
+            Networks.getLocalizationService().getItem("NTW_EXPANSION_ADVANCED_VACUUM", Material.PINK_GLAZED_TERRACOTTA),
             Theme.MACHINE
     );
 

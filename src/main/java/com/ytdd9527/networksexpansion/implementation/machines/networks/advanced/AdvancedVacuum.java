@@ -13,6 +13,7 @@ import io.github.sefiraat.networks.managers.SupportedPluginManager;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
+import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -21,6 +22,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
@@ -32,12 +34,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -45,7 +50,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AdvancedVacuum extends NetworkObject {
@@ -114,6 +119,17 @@ public class AdvancedVacuum extends NetworkObject {
                     }
                 }
         );
+        addItemHandler(new BlockPlaceHandler(false) {
+            @Override
+            public void onPlayerPlace(@NotNull BlockPlaceEvent event) {
+                NetworkStorage.removeNode(event.getBlock().getLocation());
+                var blockData = StorageCacheUtils.getBlock(event.getBlock().getLocation());
+                if (blockData == null) {
+                    return;
+                }
+                blockData.setData(NetworkDirectional.OWNER_KEY, event.getPlayer().getUniqueId().toString());
+            }
+        });
     }
 
     public static void clearFilterItemsCache(BlockMenu menu) {
@@ -306,29 +322,45 @@ public class AdvancedVacuum extends NetworkObject {
                 final int range = this.vacuumRange.getValue();
                 Collection<Entity> items = location.getWorld()
                         .getNearbyEntities(location, range, range, range, Item.class::isInstance);
-                Optional<Entity> optionalEntity = items.stream().findFirst();
-                if (optionalEntity.isEmpty() || !(optionalEntity.get() instanceof Item item)) {
-                    sendFeedback(blockMenu.getLocation(), FeedbackType.NO_ITEM_FOUND);
-                    return;
-                }
-                if (item.getPickupDelay() <= 0 && !SlimefunUtils.hasNoPickupFlag(item)) {
-                    final ItemStack itemStack = item.getItemStack().clone();
-                    if (!isAllowedItemStack(blockMenu, itemStack)) {
+
+                for (Entity optionalEntity : items.stream().toList()) {
+                    if (!(optionalEntity instanceof Item item)) {
+                        sendFeedback(blockMenu.getLocation(), FeedbackType.NO_ITEM_FOUND);
                         continue;
                     }
 
-                    final int amount = SupportedPluginManager.getStackAmount(item);
-                    if (amount > itemStack.getMaxStackSize()) {
-                        SupportedPluginManager.setStackAmount(item, amount - itemStack.getMaxStackSize());
-                        itemStack.setAmount(itemStack.getMaxStackSize());
-                    } else {
-                        itemStack.setAmount(amount);
-                        item.remove();
+                    final String ownerUUID = StorageCacheUtils.getData(blockMenu.getLocation(), NetworkDirectional.OWNER_KEY);
+                    if (ownerUUID == null) {
+                        sendFeedback(blockMenu.getLocation(), FeedbackType.NO_OWNER_FOUND);
+                        return;
                     }
-                    blockMenu.replaceExistingItem(inputSlot, itemStack);
-                    ParticleUtils.displayParticleRandomly(item, 1, 5, new Particle.DustOptions(Color.BLUE, 1));
+                    final UUID uuid = UUID.fromString(ownerUUID);
+                    final OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
+                    if (!Slimefun.getProtectionManager().hasPermission(offlinePlayer, item.getLocation(), Interaction.INTERACT_ENTITY)) {
+                        sendFeedback(blockMenu.getLocation(), FeedbackType.NO_PERMISSION);
+                        return;
+                    }
+
+                    if (item.getPickupDelay() <= 0 && !SlimefunUtils.hasNoPickupFlag(item)) {
+                        final ItemStack itemStack = item.getItemStack().clone();
+                        if (!isAllowedItemStack(blockMenu, itemStack)) {
+                            sendFeedback(blockMenu.getLocation(), FeedbackType.NOT_ALLOWED_ITEM);
+                            continue;
+                        }
+
+                        final int amount = SupportedPluginManager.getStackAmount(item);
+                        if (amount > itemStack.getMaxStackSize()) {
+                            SupportedPluginManager.setStackAmount(item, amount - itemStack.getMaxStackSize());
+                            itemStack.setAmount(itemStack.getMaxStackSize());
+                        } else {
+                            itemStack.setAmount(amount);
+                            item.remove();
+                        }
+                        blockMenu.replaceExistingItem(inputSlot, itemStack);
+                        ParticleUtils.displayParticleRandomly(item, 1, 5, new Particle.DustOptions(Color.BLUE, 1));
+                        return;
+                    }
                 }
-                return;
             }
         }
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
