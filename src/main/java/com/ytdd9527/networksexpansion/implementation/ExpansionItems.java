@@ -72,6 +72,7 @@ import com.ytdd9527.networksexpansion.implementation.machines.encoders.OreCrushe
 import com.ytdd9527.networksexpansion.implementation.machines.encoders.PressureChamberEncoder;
 import com.ytdd9527.networksexpansion.implementation.machines.encoders.QuantumWorkbenchEncoder;
 import com.ytdd9527.networksexpansion.implementation.machines.encoders.SmelteryEncoder;
+import com.ytdd9527.networksexpansion.implementation.machines.managers.CrafterManager;
 import com.ytdd9527.networksexpansion.implementation.machines.managers.DrawerManager;
 import com.ytdd9527.networksexpansion.implementation.machines.managers.QuantumManager;
 import com.ytdd9527.networksexpansion.implementation.machines.manual.Expansion6x6Workbench;
@@ -1595,5 +1596,12 @@ public class ExpansionItems {
             ExpansionItemStacks.ADVANCED_VACUUM,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.ADVANCED_VACUUM
+    );
+
+    public static final CrafterManager CRAFTER_MANAGER = new CrafterManager(
+            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemStacks.CRAFTER_MANAGER,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.CRAFTER_MANAGER
     );
 }

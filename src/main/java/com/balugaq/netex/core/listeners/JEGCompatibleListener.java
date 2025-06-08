@@ -2,15 +2,17 @@ package com.balugaq.netex.core.listeners;
 
 import com.balugaq.jeg.api.objects.events.GuideEvents;
 import com.balugaq.jeg.utils.ReflectionUtil;
-import io.github.thebusybiscuit.slimefun4.api.events.SlimefunGuideOpenEvent;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import lombok.SneakyThrows;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 
 import javax.annotation.Nonnull;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,9 +37,7 @@ public class JEGCompatibleListener implements Listener {
         return PlayerProfile.find(player).orElseThrow(() -> new RuntimeException("PlayerProfile not found"));
     }
 
-    @EventHandler
-    public void onGuideOpen(SlimefunGuideOpenEvent event) {
-        var player = event.getPlayer();
+    public static void tagGuideOpen(Player player) {
         if (!PROFILE_CALLBACKS.containsKey(player.getUniqueId())) {
             return;
         }
@@ -54,16 +54,18 @@ public class JEGCompatibleListener implements Listener {
             return;
         }
 
-        player.closeInventory();
         var profile = getPlayerProfile(player);
         rollbackGuideHistory(profile);
         PROFILE_CALLBACKS.get(player.getUniqueId()).accept(event, profile);
         PROFILE_CALLBACKS.remove(player.getUniqueId());
     }
 
-    private void saveOriginGuideHistory(PlayerProfile profile) {
-        var history = new GuideHistory(profile);
-        GUIDE_HISTORY.put(profile.getUUID(), history);
+    private static void saveOriginGuideHistory(PlayerProfile profile) {
+        GuideHistory oldHistory = profile.getGuideHistory();
+        GuideHistory newHistory = new GuideHistory(profile);
+        ReflectionUtil.setValue(newHistory, "mainMenuPage", oldHistory.getMainMenuPage());
+        ReflectionUtil.setValue(newHistory, "queue", ReflectionUtil.getValue(oldHistory, "queue", LinkedList.class).clone());
+        GUIDE_HISTORY.put(profile.getUUID(), newHistory);
     }
 
     private void rollbackGuideHistory(PlayerProfile profile) {
@@ -75,7 +77,7 @@ public class JEGCompatibleListener implements Listener {
         ReflectionUtil.setValue(profile, "guideHistory", originHistory);
     }
 
-    private void clearGuideHistory(PlayerProfile profile) {
+    private static void clearGuideHistory(PlayerProfile profile) {
         ReflectionUtil.setValue(profile, "guideHistory", new GuideHistory(profile));
     }
 }
