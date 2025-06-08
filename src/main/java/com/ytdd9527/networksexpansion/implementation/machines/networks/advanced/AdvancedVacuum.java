@@ -22,6 +22,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
@@ -40,11 +41,13 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -128,6 +131,16 @@ public class AdvancedVacuum extends NetworkObject {
                     return;
                 }
                 blockData.setData(NetworkDirectional.OWNER_KEY, event.getPlayer().getUniqueId().toString());
+            }
+        });
+        addItemHandler(new BlockBreakHandler(false, false) {
+            @Override
+            @ParametersAreNonnullByDefault
+            public void onPlayerBreak(BlockBreakEvent blockBreakEvent, ItemStack itemStack, List<ItemStack> list) {
+                Location location = blockBreakEvent.getBlock().getLocation();
+                CACHE_FILTER_ITEMS.remove(location);
+                CACHE_FILTER_MODE.remove(location);
+                CACHE_MATCH_MODE.remove(location);
             }
         });
     }

@@ -116,15 +116,14 @@ public class NetworkVacuum extends NetworkObject {
                 }
 
                 final String ownerUUID = StorageCacheUtils.getData(blockMenu.getLocation(), NetworkDirectional.OWNER_KEY);
-                if (ownerUUID == null) {
-                    sendFeedback(blockMenu.getLocation(), FeedbackType.NO_OWNER_FOUND);
-                    return;
-                }
-                final UUID uuid = UUID.fromString(ownerUUID);
-                final OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
-                if (!Slimefun.getProtectionManager().hasPermission(offlinePlayer, item.getLocation(), Interaction.INTERACT_ENTITY)) {
-                    sendFeedback(blockMenu.getLocation(), FeedbackType.NO_PERMISSION);
-                    return;
+                // There's no owner before... but the new ones has owner.
+                if (ownerUUID != null) {
+                    final UUID uuid = UUID.fromString(ownerUUID);
+                    final OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
+                    if (!Slimefun.getProtectionManager().hasPermission(offlinePlayer, item.getLocation(), Interaction.INTERACT_ENTITY)) {
+                        sendFeedback(blockMenu.getLocation(), FeedbackType.NO_PERMISSION);
+                        return;
+                    }
                 }
 
                 if (item.getPickupDelay() <= 0 && !SlimefunUtils.hasNoPickupFlag(item)) {
