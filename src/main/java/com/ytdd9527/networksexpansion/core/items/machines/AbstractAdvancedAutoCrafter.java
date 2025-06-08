@@ -47,7 +47,6 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
     private static final int[] OUTPUT_BACKGROUND = new int[]{6, 7, 8, 15, 17, 24, 25, 26};
     private static final int BLUEPRINT_SLOT = 10;
     private static final int OUTPUT_SLOT = 16;
-    private static final Map<Location, BlueprintInstance> INSTANCE_MAP = new HashMap<>();
     private final int chargePerCraft;
     private final boolean withholding;
 
@@ -126,7 +125,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
                 return;
             }
 
-            BlueprintInstance instance = INSTANCE_MAP.get(blockMenu.getLocation());
+            BlueprintInstance instance = AbstractAutoCrafter.INSTANCE_MAP.get(blockMenu.getLocation());
 
             if (instance == null) {
                 final ItemMeta blueprintMeta = blueprint.getItemMeta();
@@ -282,13 +281,13 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
 
     public void releaseCache(@Nonnull BlockMenu blockMenu) {
         if (blockMenu.hasViewer()) {
-            INSTANCE_MAP.remove(blockMenu.getLocation());
+            AbstractAutoCrafter.INSTANCE_MAP.remove(blockMenu.getLocation());
         }
     }
 
     public void setCache(@Nonnull BlockMenu blockMenu, @Nonnull BlueprintInstance blueprintInstance) {
         if (!blockMenu.hasViewer()) {
-            INSTANCE_MAP.putIfAbsent(blockMenu.getLocation().clone(), blueprintInstance);
+            AbstractAutoCrafter.INSTANCE_MAP.putIfAbsent(blockMenu.getLocation().clone(), blueprintInstance);
         }
     }
 

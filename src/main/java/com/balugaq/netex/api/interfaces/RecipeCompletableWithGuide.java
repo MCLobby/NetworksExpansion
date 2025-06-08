@@ -72,6 +72,7 @@ public interface RecipeCompletableWithGuide {
             player.updateInventory();
             actualMenu.open(player);
         }));
+        JEGCompatibleListener.tagGuideOpen(player);
     }
 
     default void completeRecipeWithGuide(@Nonnull BlockMenu blockMenu, @Nonnull NetworkRoot root, GuideEvents.ItemButtonClickEvent event) {

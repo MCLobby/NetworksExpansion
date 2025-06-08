@@ -62,6 +62,10 @@ public class Icon {
             "blank-slot-stack",
             Material.LIGHT_GRAY_STAINED_GLASS_PANE
     );
+    public static final ItemStack DARK_BLANK_SLOT_STACK = Networks.getLocalizationService().getIcon(
+            "blank-slot-stack",
+            Material.BLACK_STAINED_GLASS_PANE
+    );
     public static final ItemStack PAGE_PREVIOUS_STACK = Networks.getLocalizationService().getIcon(
             "page-previous-stack",
             Material.RED_STAINED_GLASS_PANE

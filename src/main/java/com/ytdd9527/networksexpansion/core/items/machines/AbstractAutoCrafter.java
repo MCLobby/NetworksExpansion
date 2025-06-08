@@ -33,6 +33,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,9 +46,9 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
     };
     private static final int[] BLUEPRINT_BACKGROUND = new int[]{0, 1, 2, 9, 11, 18, 19, 20};
     private static final int[] OUTPUT_BACKGROUND = new int[]{6, 7, 8, 15, 17, 24, 25, 26};
-    private static final int BLUEPRINT_SLOT = 10;
-    private static final int OUTPUT_SLOT = 16;
-    private static final Map<Location, BlueprintInstance> INSTANCE_MAP = new HashMap<>();
+    public static final int BLUEPRINT_SLOT = 10;
+    public static final int OUTPUT_SLOT = 16;
+    public static final Map<Location, BlueprintInstance> INSTANCE_MAP = new HashMap<>();
     private final int chargePerCraft;
     private final boolean withholding;
 
@@ -312,5 +313,9 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
 
     public boolean canTestVanillaRecipe() {
         return false;
+    }
+
+    public static void updateCache(@Nonnull BlockMenu blockMenu) {
+        AbstractAutoCrafter.INSTANCE_MAP.remove(blockMenu.getLocation());
     }
 }

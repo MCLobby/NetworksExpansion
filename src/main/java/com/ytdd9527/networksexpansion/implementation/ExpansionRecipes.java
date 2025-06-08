@@ -1075,4 +1075,10 @@ public class ExpansionRecipes {
             NETWORK_BRIDGE.getItem(), NETWORK_VACUUM.getItem(), NETWORK_BRIDGE.getItem(),
             NETWORK_BRIDGE.getItem(), RADIOACTIVE_OPTIC_STAR.getItem(), NETWORK_BRIDGE.getItem()
     };
+
+    public static final ItemStack[] CRAFTER_MANAGER = new ItemStack[]{
+            NETWORK_BRIDGE.getItem(), NETWORK_AUTO_CRAFTER.getItem(), NETWORK_BRIDGE.getItem(),
+            NETWORK_BRIDGE.getItem(), NETWORK_AUTO_CRAFTER.getItem(), NETWORK_BRIDGE.getItem(),
+            NETWORK_BRIDGE.getItem(), NETWORK_AUTO_CRAFTER.getItem(), NETWORK_BRIDGE.getItem()
+    };
 }

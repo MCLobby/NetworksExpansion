@@ -112,6 +112,7 @@ public class SetupUtil {
                 ExpansionItems.ADVANCED_TRANSFER_BEST_PUSHER.registerThis(),
                 ExpansionItems.QUANTUM_MANAGER.registerThis(),
                 ExpansionItems.DRAWER_MANAGER.registerThis(),
+                ExpansionItems.CRAFTER_MANAGER.registerThis(),
                 ExpansionItems.ITEM_FLOW_VIEWER.registerThis()
         );
 
