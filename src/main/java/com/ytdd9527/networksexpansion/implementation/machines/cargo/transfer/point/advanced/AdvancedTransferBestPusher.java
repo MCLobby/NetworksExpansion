@@ -185,13 +185,13 @@ public class AdvancedTransferBestPusher extends AdvancedDirectional implements R
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
 
-    @NotNull @Override
-    protected int[] getBackgroundSlots() {
+    @Override
+    protected int @NotNull [] getBackgroundSlots() {
         return BACKGROUND_SLOTS;
     }
 
-    @Nullable @Override
-    protected int[] getOtherBackgroundSlots() {
+    @Override
+    protected int @Nullable [] getOtherBackgroundSlots() {
         return TEMPLATE_BACKGROUND;
     }
 

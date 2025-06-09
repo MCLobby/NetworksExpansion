@@ -225,7 +225,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     }
 
     @Override
-    @NotNull protected int[] getBackgroundSlots() {
+    protected int @NotNull [] getBackgroundSlots() {
         return BACKGROUND_SLOTS;
     }
 

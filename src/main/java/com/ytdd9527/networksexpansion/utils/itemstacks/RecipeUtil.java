@@ -216,7 +216,13 @@ public class RecipeUtil {
     public static void registerNetherGoldPan(@NotNull RecipeItem recipeItem) {
         NetherGoldPan netherGoldPan = SlimefunItems.NETHER_GOLD_PAN.getItem(NetherGoldPan.class);
         try {
+            if (netherGoldPan == null) {
+                return;
+            }
             Field field = ReflectionUtil.getField(netherGoldPan.getClass(), "drops");
+            if (field == null) {
+                return;
+            }
             field.setAccessible(true);
             Set<GoldPanDrop> goldPanDrops = (Set<GoldPanDrop>) field.get(netherGoldPan);
             List<RandomMachineRecipe.RandomOutput> randomOutputList = new ArrayList<>(goldPanDrops.size());

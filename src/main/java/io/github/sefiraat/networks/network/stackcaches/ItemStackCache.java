@@ -33,13 +33,13 @@ public class ItemStackCache {
 
     @Nullable public ItemMeta getItemMeta() {
         if (this.itemMeta == null && !this.metaCached) {
-            this.itemMeta = itemStack.hasItemMeta() ? itemStack.getItemMeta() : null;
+            this.itemMeta = itemStack == null ? null : itemStack.hasItemMeta() ? itemStack.getItemMeta() : null;
             this.metaCached = !this.metaCached;
         }
         return this.itemMeta;
     }
 
     @Nullable public Material getItemType() {
-        return this.itemStack.getType();
+        return this.itemStack == null ? null : this.itemStack.getType();
     }
 }

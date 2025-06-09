@@ -435,9 +435,9 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         return false;
     }
 
-    @NotNull protected abstract int[] getBackgroundSlots();
+    protected abstract int @NotNull [] getBackgroundSlots();
 
-    @Nullable protected int[] getOtherBackgroundSlots() {
+    protected int @Nullable [] getOtherBackgroundSlots() {
         return super.getOtherBackgroundSlots();
     }
 

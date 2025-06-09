@@ -217,8 +217,8 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
         }
     }
 
-    @NotNull @Override
-    protected int[] getBackgroundSlots() {
+    @Override
+    protected int @NotNull [] getBackgroundSlots() {
         return BACKGROUND_SLOTS;
     }
 

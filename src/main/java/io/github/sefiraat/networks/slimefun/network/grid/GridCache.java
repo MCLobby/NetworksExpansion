@@ -81,19 +81,19 @@ public class GridCache {
 
         public @NotNull SortOrder next() {
             return switch (this) {
-                case ALPHABETICAL -> ADDON;
-                case NUMBER -> ALPHABETICAL;
-                case NUMBER_REVERSE -> NUMBER;
-                case ADDON -> NUMBER_REVERSE;
+                case ALPHABETICAL -> NUMBER;
+                case NUMBER -> NUMBER_REVERSE;
+                case NUMBER_REVERSE -> ADDON;
+                case ADDON -> ALPHABETICAL;
             };
         }
 
         public @NotNull SortOrder previous() {
             return switch (this) {
                 case ALPHABETICAL -> ADDON;
-                case NUMBER -> NUMBER_REVERSE;
-                case NUMBER_REVERSE -> ADDON;
-                case ADDON -> ALPHABETICAL;
+                case NUMBER -> ALPHABETICAL;
+                case NUMBER_REVERSE -> NUMBER;
+                case ADDON -> NUMBER_REVERSE;
             };
         }
     }

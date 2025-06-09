@@ -175,8 +175,8 @@ public class NetworkVanillaGrabber extends NetworkDirectional {
         }
     }
 
-    @NotNull @Override
-    protected int[] getBackgroundSlots() {
+    @Override
+    protected int @NotNull [] getBackgroundSlots() {
         return BACKGROUND_SLOTS;
     }
 

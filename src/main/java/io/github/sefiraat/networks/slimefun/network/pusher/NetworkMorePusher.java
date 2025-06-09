@@ -19,17 +19,17 @@ public class NetworkMorePusher extends AbstractNetworkPusher {
     }
 
     @Override
-    @NotNull public int[] getBackgroundSlots() {
+    public int @NotNull [] getBackgroundSlots() {
         return BACKGROUND_SLOTS;
     }
 
-    @NotNull @Override
-    public int[] getOtherBackgroundSlots() {
+    @Override
+    public int @NotNull [] getOtherBackgroundSlots() {
         return TEMPLATE_BACKGROUND;
     }
 
-    @NotNull @Override
-    public int[] getItemSlots() {
+    @Override
+    public int @NotNull [] getItemSlots() {
         return TEMPLATE_SLOTS;
     }
 }

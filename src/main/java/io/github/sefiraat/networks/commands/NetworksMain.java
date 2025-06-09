@@ -598,13 +598,15 @@ public class NetworksMain implements TabExecutor {
             @NotNull Player player, @NotNull String sfid, boolean overrideData, boolean force) {
         final SlimefunItem sfItem = SlimefunItem.getById(sfid);
 
-        if (getPos1(player) == null || getPos2(player) == null) {
+        var pos1 = getPos1(player);
+        var pos2 = getPos2(player);
+        if (pos1 == null || pos2 == null) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
         }
 
         if (!Objects.equals(
-                getPos1(player).getWorld().getUID(), getPos2(player).getWorld().getUID())) {
+                pos1.getWorld().getUID(), pos2.getWorld().getUID())) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-same-world"));
             return;
         }
@@ -687,13 +689,15 @@ public class NetworksMain implements TabExecutor {
 
     @Deprecated
     public static void worldeditClear(@NotNull Player player, boolean callHandler, boolean skipVanilla) {
-        if (getPos1(player) == null || getPos2(player) == null) {
+        var pos1 = getPos1(player);
+        var pos2 = getPos2(player);
+        if (pos1 == null || pos2 == null) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
         }
 
         if (!Objects.equals(
-                getPos1(player).getWorld().getUID(), getPos2(player).getWorld().getUID())) {
+                pos1.getWorld().getUID(), pos2.getWorld().getUID())) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-same-world"));
             return;
         }
@@ -706,10 +710,10 @@ public class NetworksMain implements TabExecutor {
 
         final AtomicInteger count = new AtomicInteger();
         doWorldEdit(getPos1(player), getPos2(player), (location -> {
-            final Block targetBlock = getPos1(player).getWorld().getBlockAt(location);
+            final Block targetBlock = pos1.getWorld().getBlockAt(location);
             if (StorageCacheUtils.hasBlock(location)) {
                 SlimefunItem item = StorageCacheUtils.getSfItem(location);
-                if (callHandler) {
+                if (item != null && callHandler) {
                     item.callItemHandler(
                             BlockBreakHandler.class,
                             handler -> handler.onPlayerBreak(
@@ -734,13 +738,15 @@ public class NetworksMain implements TabExecutor {
 
     @Deprecated
     public static void worldeditBlockMenuSetSlot(@NotNull Player player, int slot) {
-        if (getPos1(player) == null || getPos2(player) == null) {
+        var pos1 = getPos1(player);
+        var pos2 = getPos2(player);
+        if (pos1 == null || pos2 == null) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
         }
 
         if (!Objects.equals(
-                getPos1(player).getWorld().getUID(), getPos2(player).getWorld().getUID())) {
+                pos1.getWorld().getUID(), pos2.getWorld().getUID())) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-same-world"));
             return;
         }
@@ -775,13 +781,15 @@ public class NetworksMain implements TabExecutor {
 
     @Deprecated
     public static void worldeditBlockInfoAdd(@NotNull Player player, @NotNull String key, @NotNull String value) {
-        if (getPos1(player) == null || getPos2(player) == null) {
+        var pos1 = getPos1(player);
+        var pos2 = getPos2(player);
+        if (pos1 == null || pos2 == null) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
         }
 
         if (!Objects.equals(
-                getPos1(player).getWorld().getUID(), getPos2(player).getWorld().getUID())) {
+                pos1.getWorld().getUID(), pos2.getWorld().getUID())) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-same-world"));
             return;
         }
@@ -806,13 +814,15 @@ public class NetworksMain implements TabExecutor {
 
     @Deprecated
     public static void worldeditBlockInfoRemove(@NotNull Player player, @NotNull String key) {
-        if (getPos1(player) == null || getPos2(player) == null) {
+        var pos1 = getPos1(player);
+        var pos2 = getPos2(player);
+        if (pos1 == null || pos2 == null) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
         }
 
         if (!Objects.equals(
-                getPos1(player).getWorld().getUID(), getPos2(player).getWorld().getUID())) {
+                pos1.getWorld().getUID(), pos2.getWorld().getUID())) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-same-world"));
             return;
         }
@@ -860,7 +870,10 @@ public class NetworksMain implements TabExecutor {
             }
 
             if (quantumCache == null || quantumCache.getItemStack() == null) {
-                itemInHand.setItemMeta(SlimefunItem.getById(currentId).getItem().getItemMeta());
+                var sf = SlimefunItem.getById(currentId);
+                if (sf != null) {
+                    itemInHand.setItemMeta(sf.getItem().getItemMeta());
+                }
                 player.sendMessage(Lang.getString("messages.commands.updated-item"));
                 return;
             }
@@ -869,8 +882,10 @@ public class NetworksMain implements TabExecutor {
             final SlimefunItem sfi = SlimefunItem.getByItem(stored);
             if (sfi != null) {
                 final String quantumStoredId = sfi.getId();
-                stored.setItemMeta(
-                        SlimefunItem.getById(quantumStoredId).getItem().getItemMeta());
+                var sf = SlimefunItem.getById(quantumStoredId);
+                if (sf != null) {
+                    stored.setItemMeta(sf.getItem().getItemMeta());
+                }
                 player.sendMessage(Lang.getString("messages.commands.updated-item-in-quantum-storage"));
             }
             DataTypeMethods.setCustom(
@@ -879,7 +894,10 @@ public class NetworksMain implements TabExecutor {
             itemInHand.setItemMeta(meta);
             player.sendMessage(Lang.getString("messages.commands.updated-item"));
         } else {
-            itemInHand.setItemMeta(SlimefunItem.getById(currentId).getItem().getItemMeta());
+            var sf = SlimefunItem.getById(currentId);
+            if (sf != null) {
+                itemInHand.setItemMeta(sf.getItem().getItemMeta());
+            }
             player.sendMessage(Lang.getString("messages.commands.updated-item"));
         }
     }
@@ -1430,7 +1448,10 @@ public class NetworksMain implements TabExecutor {
         BlueprintInstance instance = optional.get();
 
         ItemStack fix = NetworksSlimefunItemStacks.CRAFTING_BLUEPRINT.clone();
-        AbstractBlueprint.setBlueprint(fix, instance.getRecipeItems(), instance.getItemStack());
+        var item2 = instance.getItemStack();
+        if (item2 != null) {
+            AbstractBlueprint.setBlueprint(fix, instance.getRecipeItems(), item2);
+        }
 
         blueprint.setItemMeta(fix.getItemMeta());
 

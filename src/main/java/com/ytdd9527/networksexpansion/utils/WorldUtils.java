@@ -31,38 +31,42 @@ public class WorldUtils {
                     fail = true;
                 }
                 craftBlockStateClass = result.getSecondValue();
-            } else {
-                fail = true;
-            }
-            var r2 = ReflectionUtil.getDeclaredFieldsRecursively(craftBlockStateClass, "position");
-            if (r2 != null) {
-                blockPositionField = r2.getFirstValue();
-                if (blockPositionField != null) {
-                    blockPositionField.setAccessible(true);
-                } else {
-                    fail = true;
-                }
-            } else {
-                fail = true;
-            }
-            var r3 = ReflectionUtil.getDeclaredFieldsRecursively(craftBlockStateClass, "world");
-            if (r3 != null) {
-                worldField = r3.getFirstValue();
-                if (worldField != null) {
-                    worldField.setAccessible(true);
-                } else {
-                    fail = true;
-                }
-            } else {
-                fail = true;
-            }
-            var r4 = ReflectionUtil.getDeclaredFieldsRecursively(craftBlockStateClass, "weakWorld");
-            if (r4 != null) {
-                weakWorldField = r4.getFirstValue();
-                if (weakWorldField != null) {
-                    weakWorldField.setAccessible(true);
-                } else {
-                    fail = true;
+                if (craftBlockStateClass != null) {
+                    var r2 = ReflectionUtil.getDeclaredFieldsRecursively(craftBlockStateClass, "position");
+                    if (r2 != null) {
+                        blockPositionField = r2.getFirstValue();
+                        if (blockPositionField != null) {
+                            blockPositionField.setAccessible(true);
+                        } else {
+                            fail = true;
+                        }
+                    } else {
+                        fail = true;
+                    }
+
+                    var r3 = ReflectionUtil.getDeclaredFieldsRecursively(craftBlockStateClass, "world");
+                    if (r3 != null) {
+                        worldField = r3.getFirstValue();
+                        if (worldField != null) {
+                            worldField.setAccessible(true);
+                        } else {
+                            fail = true;
+                        }
+                    } else {
+                        fail = true;
+                    }
+
+                    var r4 = ReflectionUtil.getDeclaredFieldsRecursively(craftBlockStateClass, "weakWorld");
+                    if (r4 != null) {
+                        weakWorldField = r4.getFirstValue();
+                        if (weakWorldField != null) {
+                            weakWorldField.setAccessible(true);
+                        } else {
+                            fail = true;
+                        }
+                    } else {
+                        fail = true;
+                    }
                 }
             } else {
                 fail = true;
@@ -79,14 +83,21 @@ public class WorldUtils {
         }
 
         BlockState toState = toBlock.getState();
-        if (!craftBlockStateClass.isInstance(toState) || !craftBlockStateClass.isInstance(fromBlockState)) {
+        if (craftBlockStateClass != null && (!craftBlockStateClass.isInstance(toState) || !craftBlockStateClass.isInstance(fromBlockState))) {
             return false;
         }
 
         try {
-            blockPositionField.set(fromBlockState, blockPositionField.get(toState));
-            worldField.set(fromBlockState, worldField.get(toState));
-            weakWorldField.set(fromBlockState, weakWorldField.get(toState));
+            if (blockPositionField != null) {
+                blockPositionField.set(fromBlockState, blockPositionField.get(toState));
+            }
+
+            if (worldField != null) {
+                worldField.set(fromBlockState, worldField.get(toState));
+            }
+            if (weakWorldField != null) {
+                weakWorldField.set(fromBlockState, weakWorldField.get(toState));
+            }
             fromBlockState.update(true, false);
             return true;
         } catch (Throwable ignored) {

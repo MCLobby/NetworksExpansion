@@ -179,8 +179,8 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements Admi
                 if (itemInSlot == null || itemInSlot.getType() == Material.AIR) {
                     menu.replaceExistingItem(outputSlot, out);
                 } else if (StackUtils.itemsMatch(itemInSlot, out)) {
-                    if (itemInSlot.getAmount() + out.getAmount() <= itemInSlot.getMaxStackSize()) {
-                        itemInSlot.setAmount(itemInSlot.getAmount() + out.getAmount());
+                    if (itemInSlot.getAmount() + (out == null ? 0 : out.getAmount()) <= itemInSlot.getMaxStackSize()) {
+                        itemInSlot.setAmount(itemInSlot.getAmount() + (out == null ? 0 : out.getAmount()));
                     } else {
                         return;
                     }

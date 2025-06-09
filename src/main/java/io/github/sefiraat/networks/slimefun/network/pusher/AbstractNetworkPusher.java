@@ -146,9 +146,9 @@ public abstract class AbstractNetworkPusher extends NetworkDirectional {
         return Icon.PUSHER_TEMPLATE_BACKGROUND_STACK;
     }
 
-    @NotNull public abstract int[] getBackgroundSlots();
+    public abstract int @NotNull [] getBackgroundSlots();
 
-    @NotNull public abstract int[] getOtherBackgroundSlots();
+    public abstract int @NotNull [] getOtherBackgroundSlots();
 
-    @NotNull public abstract int[] getItemSlots();
+    public abstract int @NotNull [] getItemSlots();
 }

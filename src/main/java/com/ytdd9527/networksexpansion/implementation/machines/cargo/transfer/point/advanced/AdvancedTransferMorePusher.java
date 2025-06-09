@@ -186,13 +186,13 @@ public class AdvancedTransferMorePusher extends AdvancedDirectional implements R
                         blockMenu.getLocation(), root, targetMenu, templates, currentTransportMode, limitQuantity));
     }
 
-    @NotNull @Override
-    protected int[] getBackgroundSlots() {
+    @Override
+    protected int @NotNull [] getBackgroundSlots() {
         return BACKGROUND_SLOTS;
     }
 
-    @Nullable @Override
-    protected int[] getOtherBackgroundSlots() {
+    @Override
+    protected int @Nullable [] getOtherBackgroundSlots() {
         return TEMPLATE_BACKGROUND;
     }
 

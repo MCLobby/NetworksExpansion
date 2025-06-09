@@ -20,7 +20,7 @@ public class NetworkCraftEvent extends PlayerEvent implements Cancellable {
     private @Nullable ItemStack output;
     private boolean cancelled;
 
-    public NetworkCraftEvent(@NotNull Player p, SlimefunItem machine, ItemStack[] input, ItemStack output) {
+    public NetworkCraftEvent(@NotNull Player p, SlimefunItem machine, ItemStack[] input, @Nullable ItemStack output) {
         super(p);
 
         this.input = input;
@@ -36,7 +36,7 @@ public class NetworkCraftEvent extends PlayerEvent implements Cancellable {
         return this.input;
     }
 
-    public @NotNull ItemStack getOutput() {
+    public @Nullable ItemStack getOutput() {
         return this.output;
     }
 

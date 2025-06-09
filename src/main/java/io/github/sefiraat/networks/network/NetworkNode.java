@@ -37,7 +37,8 @@ public class NetworkNode {
     @Getter
     protected @Nullable NetworkNode parent = null;
 
-    protected @Nullable NetworkRoot root = null;
+    @Getter
+    protected NetworkRoot root = null;
 
     public NetworkNode(Location location, NodeType type) {
         this.nodePosition = location;
@@ -48,8 +49,10 @@ public class NetworkNode {
     public void addChild(@NotNull NetworkNode child) {
         child.setParent(this);
         child.setRoot(this.getRoot());
-        this.root.addRootPower(child.getPower());
-        this.root.registerNode(child.nodePosition, child.nodeType);
+        if (this.root != null) {
+            this.root.addRootPower(child.getPower());
+            this.root.registerNode(child.nodePosition, child.nodeType);
+        }
         this.childrenNodes.add(child);
     }
 
@@ -66,22 +69,26 @@ public class NetworkNode {
     }
 
     public boolean networkContains(@NotNull Location location) {
+        if (this.root == null) {
+            return false;
+        }
+
         return this.root.getNodeLocations().contains(location);
     }
 
-    @NotNull public NetworkRoot getRoot() {
-        return this.root;
-    }
-
-    private void setRoot(NetworkRoot root) {
+    private void setRoot(@Nullable NetworkRoot root) {
         this.root = root;
     }
 
-    private void setParent(NetworkNode parent) {
+    private void setParent(@Nullable NetworkNode parent) {
         this.parent = parent;
     }
 
     public void addAllChildren() {
+        if (this.root == null) {
+            return;
+        }
+
         // Loop through all possible locations
         for (BlockFace face : VALID_FACES) {
             final Location testLocation = this.nodePosition.clone().add(face.getDirection());
@@ -94,15 +101,15 @@ public class NetworkNode {
             final NodeType testType = testDefinition.getType();
 
             // Kill additional controllers if it isn't the root
-            if (testType == NodeType.CONTROLLER && !testLocation.equals(getRoot().nodePosition)) {
+            if (testType == NodeType.CONTROLLER && !testLocation.equals(this.root.nodePosition)) {
                 killAdditionalController(testLocation);
                 continue;
             }
 
             // Check if it's in the network already and, if not, create a child node and propagate further.
             if (testType != NodeType.CONTROLLER && !this.networkContains(testLocation)) {
-                if (this.getRoot().getNodeCount() >= root.getMaxNodes()) {
-                    this.getRoot().setOverburdened(true);
+                if (this.root.getNodeCount() >= this.root.getMaxNodes()) {
+                    this.root.setOverburdened(true);
                     return;
                 }
                 final NetworkNode networkNode = new NetworkNode(testLocation, testType);

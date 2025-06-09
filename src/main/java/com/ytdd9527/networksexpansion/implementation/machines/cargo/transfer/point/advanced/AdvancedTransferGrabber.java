@@ -222,7 +222,7 @@ public class AdvancedTransferGrabber extends AdvancedDirectional implements Reci
     }
 
     @Override
-    @NotNull protected int[] getBackgroundSlots() {
+    protected int @NotNull [] getBackgroundSlots() {
         return BACKGROUND_SLOTS;
     }
 

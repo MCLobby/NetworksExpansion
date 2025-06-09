@@ -258,7 +258,9 @@ public class NetworkCraftingGrid extends AbstractGrid {
         crafted = event.getOutput();
 
         // Push item
-        BlockMenuUtil.pushItem(menu, crafted, CRAFT_OUTPUT_SLOT);
+        if (crafted != null) {
+            BlockMenuUtil.pushItem(menu, crafted, CRAFT_OUTPUT_SLOT);
+        }
 
         NetworkRoot root = definition.getNode().getRoot();
         root.refreshRootItems();
