@@ -9,9 +9,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Final_ROOT
@@ -31,8 +31,7 @@ public class RecipeTypeRegistry {
         this.init();
     }
 
-    @Nonnull
-    public static RecipeTypeRegistry getInstance() {
+    @NotNull public static RecipeTypeRegistry getInstance() {
         if (instance == null) {
             synchronized (RecipeTypeRegistry.class) {
                 if (instance == null) {
@@ -93,8 +92,7 @@ public class RecipeTypeRegistry {
         return null;
     }
 
-    @Nonnull
-    public List<SlimefunItem> getByRecipeType(@Nonnull RecipeType recipeType) {
+    @NotNull public List<SlimefunItem> getByRecipeType(@NotNull RecipeType recipeType) {
         if (this.recipeSlimefunItemMap.containsKey(recipeType)) {
             return this.recipeSlimefunItemMap.get(recipeType);
         } else {

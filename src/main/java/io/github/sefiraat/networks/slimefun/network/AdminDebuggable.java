@@ -9,10 +9,10 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
-import javax.annotation.Nonnull;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public interface AdminDebuggable {
     Queue<Pair<Location, String>> DEBUG_QUEUE = new ConcurrentLinkedQueue<>();
@@ -40,18 +40,18 @@ public interface AdminDebuggable {
                         10L);
     }
 
-    static boolean isDebug0(@Nonnull Location location) {
+    static boolean isDebug0(@NotNull Location location) {
         String debug = StorageCacheUtils.getData(location, DEBUG_KEY);
         return Boolean.parseBoolean(debug);
     }
 
-    static void sendDebugMessage0(@Nonnull Location location, @Nonnull String string) {
+    static void sendDebugMessage0(@NotNull Location location, @NotNull String string) {
         if (isDebug0(location)) {
             DEBUG_QUEUE.add(new Pair<>(location, string));
         }
     }
 
-    static void sendDebugMessage1(@Nonnull Location location, @Nonnull String string) {
+    static void sendDebugMessage1(@NotNull Location location, @NotNull String string) {
         final String locationString = "W[" + location.getWorld().getName() + "] " + "X["
                 + location.getBlockX() + "] " + "Y["
                 + location.getBlockY() + "] " + "Z["
@@ -68,28 +68,28 @@ public interface AdminDebuggable {
         }
     }
 
-    static void addViewer0(@Nonnull Player player) {
+    static void addViewer0(@NotNull Player player) {
         VIEWERS.add(player);
     }
 
-    static void removeViewer0(@Nonnull Player player) {
+    static void removeViewer0(@NotNull Player player) {
         VIEWERS.remove(player);
     }
 
-    static boolean hasViewer0(@Nonnull Player player) {
+    static boolean hasViewer0(@NotNull Player player) {
         return VIEWERS.contains(player);
     }
 
-    default boolean isDebug(@Nonnull Location location) {
+    default boolean isDebug(@NotNull Location location) {
         String debug = StorageCacheUtils.getData(location, DEBUG_KEY);
         return Boolean.parseBoolean(debug);
     }
 
-    default void setDebug(@Nonnull Location location, boolean value) {
+    default void setDebug(@NotNull Location location, boolean value) {
         StorageCacheUtils.setData(location, DEBUG_KEY, String.valueOf(value));
     }
 
-    default void toggleDebugMode(@Nonnull Location location, @Nonnull Player player) {
+    default void toggleDebugMode(@NotNull Location location, @NotNull Player player) {
         final boolean isDebug = isDebug(location);
         final boolean nextState = !isDebug;
         setDebug(location, nextState);
@@ -99,21 +99,21 @@ public interface AdminDebuggable {
         }
     }
 
-    default void sendDebugMessage(@Nonnull Location location, @Nonnull String string) {
+    default void sendDebugMessage(@NotNull Location location, @NotNull String string) {
         if (isDebug(location)) {
             DEBUG_QUEUE.add(new Pair<>(location, string));
         }
     }
 
-    default void addViewer(@Nonnull Player player) {
+    default void addViewer(@NotNull Player player) {
         VIEWERS.add(player);
     }
 
-    default void removeViewer(@Nonnull Player player) {
+    default void removeViewer(@NotNull Player player) {
         VIEWERS.remove(player);
     }
 
-    default boolean hasViewer(@Nonnull Player player) {
+    default boolean hasViewer(@NotNull Player player) {
         return VIEWERS.contains(player);
     }
 }

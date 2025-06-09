@@ -4,11 +4,11 @@ import com.jeff_media.morepersistentdatatypes.DataType;
 import io.github.sefiraat.networks.network.stackcaches.CardInstance;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.sefiraat.networks.utils.Keys;
-import javax.annotation.Nonnull;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A {@link PersistentDataType} for {@link CardInstance}
@@ -23,21 +23,18 @@ public class PersistentQuantumStorageType implements PersistentDataType<Persiste
             new PersistentQuantumStorageType();
 
     @Override
-    @Nonnull
-    public Class<PersistentDataContainer> getPrimitiveType() {
+    @NotNull public Class<PersistentDataContainer> getPrimitiveType() {
         return PersistentDataContainer.class;
     }
 
     @Override
-    @Nonnull
-    public Class<QuantumCache> getComplexType() {
+    @NotNull public Class<QuantumCache> getComplexType() {
         return QuantumCache.class;
     }
 
     @Override
-    @Nonnull
-    public PersistentDataContainer toPrimitive(
-            @Nonnull QuantumCache complex, @Nonnull PersistentDataAdapterContext context) {
+    @NotNull public PersistentDataContainer toPrimitive(
+            @NotNull QuantumCache complex, @NotNull PersistentDataAdapterContext context) {
         final PersistentDataContainer container = context.newPersistentDataContainer();
 
         if (complex.getItemStack() != null) {
@@ -51,9 +48,8 @@ public class PersistentQuantumStorageType implements PersistentDataType<Persiste
     }
 
     @Override
-    @Nonnull
-    public QuantumCache fromPrimitive(
-            @Nonnull PersistentDataContainer primitive, @Nonnull PersistentDataAdapterContext context) {
+    @NotNull public QuantumCache fromPrimitive(
+            @NotNull PersistentDataContainer primitive, @NotNull PersistentDataAdapterContext context) {
         ItemStack item = primitive.get(Keys.ITEM, DataType.ITEM_STACK);
         if (item == null) {
             item = primitive.get(Keys.ITEM2, DataType.ITEM_STACK);

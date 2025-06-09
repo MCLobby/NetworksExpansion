@@ -16,8 +16,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import java.util.UUID;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -33,6 +31,8 @@ import org.bukkit.inventory.FurnaceInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class NetworkVanillaPusher extends NetworkDirectional {
 
@@ -55,14 +55,14 @@ public class NetworkVanillaPusher extends NetworkDirectional {
     }
 
     @Override
-    protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
+    protected void onTick(@Nullable BlockMenu blockMenu, @NotNull Block block) {
         super.onTick(blockMenu, block);
         if (blockMenu != null) {
             tryPushItem(blockMenu);
         }
     }
 
-    private void tryPushItem(@Nonnull BlockMenu blockMenu) {
+    private void tryPushItem(@NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
@@ -136,7 +136,7 @@ public class NetworkVanillaPusher extends NetworkDirectional {
     }
 
     private void handleFurnace(
-            @Nonnull BlockMenu blockMenu, @Nonnull ItemStack stack, @Nonnull FurnaceInventory furnace) {
+            @NotNull BlockMenu blockMenu, @NotNull ItemStack stack, @NotNull FurnaceInventory furnace) {
         if (stack.getType().isFuel()
                 && (furnace.getFuel() == null || furnace.getFuel().getType() == Material.AIR)) {
             furnace.setFuel(stack.clone());
@@ -151,7 +151,7 @@ public class NetworkVanillaPusher extends NetworkDirectional {
     }
 
     private void handleBrewingStand(
-            @Nonnull BlockMenu blockMenu, @Nonnull ItemStack stack, @Nonnull BrewerInventory brewer) {
+            @NotNull BlockMenu blockMenu, @NotNull ItemStack stack, @NotNull BrewerInventory brewer) {
         if (stack.getType() == Material.BLAZE_POWDER) {
             if (brewer.getFuel() == null || brewer.getFuel().getType() == Material.AIR) {
                 brewer.setFuel(stack.clone());
@@ -181,8 +181,7 @@ public class NetworkVanillaPusher extends NetworkDirectional {
         }
     }
 
-    @Nonnull
-    @Override
+    @NotNull @Override
     protected int[] getBackgroundSlots() {
         return BACKGROUND_SLOTS;
     }

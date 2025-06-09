@@ -21,7 +21,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -32,6 +31,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 public class NetworkQuantumWorkbench extends SpecialSlimefunItem {
 
@@ -75,7 +75,7 @@ public class NetworkQuantumWorkbench extends SpecialSlimefunItem {
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
                         || (this.getSlimefunItem().canUse(player, false)
                                 && Slimefun.getProtectionManager()
@@ -91,7 +91,7 @@ public class NetworkQuantumWorkbench extends SpecialSlimefunItem {
             }
 
             @Override
-            public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
+            public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
                 menu.addMenuClickHandler(CRAFT_SLOT, (player, slot, item, action) -> {
                     craft(menu, player);
                     return false;
@@ -100,7 +100,7 @@ public class NetworkQuantumWorkbench extends SpecialSlimefunItem {
         };
     }
 
-    public void craft(@Nonnull BlockMenu menu, @Nonnull Player player) {
+    public void craft(@NotNull BlockMenu menu, @NotNull Player player) {
         final ItemStack[] inputs = new ItemStack[RECIPE_SLOTS.length];
         int i = 0;
 
@@ -198,7 +198,7 @@ public class NetworkQuantumWorkbench extends SpecialSlimefunItem {
         return new BlockBreakHandler(false, false) {
             @Override
             public void onPlayerBreak(
-                    @Nonnull BlockBreakEvent event, @Nonnull ItemStack itemStack, @Nonnull List<ItemStack> drops) {
+                    @NotNull BlockBreakEvent event, @NotNull ItemStack itemStack, @NotNull List<ItemStack> drops) {
                 BlockMenu menu = StorageCacheUtils.getMenu(event.getBlock().getLocation());
                 if (menu == null) {
                     return;

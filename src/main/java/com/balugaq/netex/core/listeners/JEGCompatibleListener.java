@@ -9,12 +9,12 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
-import javax.annotation.Nonnull;
 import lombok.SneakyThrows;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.jetbrains.annotations.NotNull;
 
 public class JEGCompatibleListener implements Listener {
     public static final Map<UUID, GuideHistory> GUIDE_HISTORY = new ConcurrentHashMap<>();
@@ -22,17 +22,16 @@ public class JEGCompatibleListener implements Listener {
             new ConcurrentHashMap<>();
 
     public static void addCallback(
-            @Nonnull UUID uuid, @Nonnull BiConsumer<GuideEvents.ItemButtonClickEvent, PlayerProfile> callback) {
+            @NotNull UUID uuid, @NotNull BiConsumer<GuideEvents.ItemButtonClickEvent, PlayerProfile> callback) {
         PROFILE_CALLBACKS.put(uuid, callback);
     }
 
-    public static void removeCallback(@Nonnull UUID uuid) {
+    public static void removeCallback(@NotNull UUID uuid) {
         PROFILE_CALLBACKS.remove(uuid);
     }
 
     @SneakyThrows
-    @Nonnull
-    public static PlayerProfile getPlayerProfile(OfflinePlayer player) {
+    @NotNull public static PlayerProfile getPlayerProfile(OfflinePlayer player) {
         // Shouldn't be null;
         return PlayerProfile.find(player).orElseThrow(() -> new RuntimeException("PlayerProfile not found"));
     }

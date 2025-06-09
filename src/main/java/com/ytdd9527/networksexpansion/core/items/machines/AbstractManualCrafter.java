@@ -23,7 +23,6 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nonnull;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -35,13 +34,14 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractManualCrafter extends SpecialSlimefunItem implements AdminDebuggable, EnergyNetComponent {
     public AbstractManualCrafter(
-            @Nonnull ItemGroup itemGroup,
-            @Nonnull SlimefunItemStack item,
-            @Nonnull RecipeType recipeType,
-            @Nonnull ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            @NotNull ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -74,7 +74,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
                         || (this.getSlimefunItem().canUse(player, false)
                                 && Slimefun.getProtectionManager()
@@ -94,7 +94,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
 
             @SuppressWarnings("deprecation")
             @Override
-            public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
+            public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
                 menu.addMenuClickHandler(getHandleSlot(), (p, slot, item, action) -> {
                     craft(p, menu);
                     return false;
@@ -304,8 +304,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
     }
 
     @Override
-    @Nonnull
-    public EnergyNetComponentType getEnergyComponentType() {
+    @NotNull public EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.CONSUMER;
     }
 

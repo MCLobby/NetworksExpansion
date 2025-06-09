@@ -34,8 +34,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -49,6 +47,8 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractGridNewStyle extends NetworkObject {
     public static final String BS_FILTER_KEY = "filter";
@@ -102,8 +102,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         });
     }
 
-    @Nonnull
-    private static List<String> getLoreAddition(Long long1) {
+    @NotNull private static List<String> getLoreAddition(Long long1) {
         final MessageFormat format =
                 new MessageFormat(Lang.getString("messages.normal-operation.grid.item_amount"), Locale.ROOT);
         return List.of(
@@ -115,13 +114,12 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
                         .toString());
     }
 
-    @Nonnull
-    private static List<String> getHistoryLoreAddition() {
+    @NotNull private static List<String> getHistoryLoreAddition() {
         return List.of(" ", Lang.getString("messages.normal-operation.grid_new_style.click_to_withdraw"));
     }
 
     @SuppressWarnings("deprecation")
-    protected void updateDisplay(@Nonnull BlockMenu blockMenu) {
+    protected void updateDisplay(@NotNull BlockMenu blockMenu) {
         // No viewer - lets not bother updating
         if (!blockMenu.hasViewer()) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.AFK);
@@ -289,8 +287,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
-    @Nonnull
-    protected List<Entry<ItemStack, Long>> getEntries(@Nonnull NetworkRoot networkRoot, @Nonnull GridCache cache) {
+    @NotNull protected List<Entry<ItemStack, Long>> getEntries(@NotNull NetworkRoot networkRoot, @NotNull GridCache cache) {
         return networkRoot.getAllNetworkItemsLongType().entrySet().stream()
                 .filter(entry -> {
                     if (cache.getFilter() == null) {
@@ -316,10 +313,10 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
 
     @SuppressWarnings("deprecation")
     protected void setFilter(
-            @Nonnull Player player,
-            @Nonnull BlockMenu blockMenu,
-            @Nonnull GridCache gridCache,
-            @Nonnull ClickAction action) {
+            @NotNull Player player,
+            @NotNull BlockMenu blockMenu,
+            @NotNull GridCache gridCache,
+            @NotNull ClickAction action) {
         if (action.isRightClicked()) {
             gridCache.setFilter(null);
             SlimefunBlockData data = StorageCacheUtils.getBlock(blockMenu.getLocation());
@@ -358,7 +355,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
     }
 
     @Deprecated
-    protected void autoSetFilter(@Nonnull BlockMenu blockMenu, @Nonnull GridCache gridCache) {
+    protected void autoSetFilter(@NotNull BlockMenu blockMenu, @NotNull GridCache gridCache) {
         final ItemStack itemStack = blockMenu.getItemInSlot(getAutoFilterSlot());
         if (itemStack != null && itemStack.getType() != Material.AIR) {
             SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
@@ -491,7 +488,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
 
     @SuppressWarnings("deprecation")
     private boolean canAddMore(
-            @Nonnull ClickAction action, @Nonnull ItemStack cursor, @Nonnull GridItemRequest request) {
+            @NotNull ClickAction action, @NotNull ItemStack cursor, @NotNull GridItemRequest request) {
         return !action.isRightClicked()
                 && request.getAmount() == 1
                 && cursor.getAmount() < cursor.getMaxStackSize()
@@ -503,11 +500,9 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         getPreset();
     }
 
-    @Nonnull
-    protected abstract BlockMenuPreset getPreset();
+    @NotNull protected abstract BlockMenuPreset getPreset();
 
-    @Nonnull
-    protected abstract Map<Location, GridCache> getCacheMap();
+    @NotNull protected abstract Map<Location, GridCache> getCacheMap();
 
     protected abstract int[] getBackgroundSlots();
 

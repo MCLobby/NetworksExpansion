@@ -18,13 +18,13 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Final_ROOT
@@ -49,35 +49,35 @@ public class MainItemGroup extends FlexItemGroup {
     private List<List<ItemGroup>> sonItemGroupList = new ArrayList<>();
     private Map<Integer, MainItemGroup> pageMap = new LinkedHashMap<>();
 
-    public MainItemGroup(@Nonnull NamespacedKey key, @Nullable ItemStack item, int tier) {
+    public MainItemGroup(@NotNull NamespacedKey key, @Nullable ItemStack item, int tier) {
         super(key, ItemStackUtil.getCleanItem(item), tier);
         this.page = 1;
         this.item = item;
         this.pageMap.put(1, this);
     }
 
-    private MainItemGroup(@Nonnull NamespacedKey key, @Nullable ItemStack item, int tier, int page) {
+    private MainItemGroup(@NotNull NamespacedKey key, @Nullable ItemStack item, int tier, int page) {
         super(key, ItemStackUtil.getCleanItem(item), tier);
         this.page = page;
         this.item = item;
     }
 
     @Override
-    public boolean isVisible(@Nonnull Player p, @Nonnull PlayerProfile profile, @Nonnull SlimefunGuideMode layout) {
+    public boolean isVisible(@NotNull Player p, @NotNull PlayerProfile profile, @NotNull SlimefunGuideMode layout) {
         return layout.equals(SlimefunGuideMode.SURVIVAL_MODE) && this.page == 1;
     }
 
     @Override
     public void open(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode) {
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode) {
         playerProfile.getGuideHistory().add(this, this.page);
         this.generateMenu(player, playerProfile, slimefunGuideMode).open(player);
     }
 
     @Override
-    public void register(@Nonnull SlimefunAddon addon) {
+    public void register(@NotNull SlimefunAddon addon) {
         super.register(addon);
         for (int i = 0; i < this.fatherItemGroupList.size(); i++) {
             this.fatherItemGroupList.get(i).register(addon);
@@ -87,7 +87,7 @@ public class MainItemGroup extends FlexItemGroup {
         }
     }
 
-    public void addTo(@Nonnull ItemGroup fatherItemGroup, @Nonnull ItemGroup... itemGroups) {
+    public void addTo(@NotNull ItemGroup fatherItemGroup, @NotNull ItemGroup... itemGroups) {
         if (this.fatherItemGroupList.contains(fatherItemGroup)
                 && this.sonItemGroupList.size() > this.fatherItemGroupList.indexOf(fatherItemGroup)) {
             this.sonItemGroupList
@@ -100,11 +100,10 @@ public class MainItemGroup extends FlexItemGroup {
     }
 
     @SuppressWarnings("deprecation")
-    @Nonnull
-    private ChestMenu generateMenu(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode) {
+    @NotNull private ChestMenu generateMenu(
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode) {
         ChestMenu chestMenu = new ChestMenu(Lang.getString("groups.expansion.slimefun.main"));
 
         chestMenu.setEmptySlotsClickable(false);
@@ -187,8 +186,7 @@ public class MainItemGroup extends FlexItemGroup {
         return chestMenu;
     }
 
-    @Nonnull
-    public MainItemGroup getByPage(int page) {
+    @NotNull public MainItemGroup getByPage(int page) {
         if (pageMap.containsKey(page)) {
             return pageMap.get(page);
         } else {

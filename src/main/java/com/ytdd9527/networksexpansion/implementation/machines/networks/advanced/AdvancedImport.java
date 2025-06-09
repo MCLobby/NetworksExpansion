@@ -20,7 +20,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Nonnull;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -29,6 +28,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class AdvancedImport extends NetworkObject implements RecipeDisplayItem {
     private static final int[] INPUT_SLOTS = new int[] {
@@ -79,7 +79,7 @@ public class AdvancedImport extends NetworkObject implements RecipeDisplayItem {
         });
     }
 
-    private void tryAddItem(@Nonnull BlockMenu blockMenu) {
+    private void tryAddItem(@NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
@@ -109,7 +109,7 @@ public class AdvancedImport extends NetworkObject implements RecipeDisplayItem {
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
                         || (ExpansionItems.ADVANCED_IMPORT.canUse(player, false)
                                 && Slimefun.getProtectionManager()
@@ -126,8 +126,7 @@ public class AdvancedImport extends NetworkObject implements RecipeDisplayItem {
         };
     }
 
-    @Nonnull
-    @Override
+    @NotNull @Override
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>();
         displayRecipes.add(Lang.getMechanism("import"));

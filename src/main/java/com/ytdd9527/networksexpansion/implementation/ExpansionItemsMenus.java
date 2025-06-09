@@ -10,10 +10,10 @@ import io.github.thebusybiscuit.slimefun4.api.items.groups.SubItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import javax.annotation.Nonnull;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Final_ROOT
@@ -29,7 +29,7 @@ public final class ExpansionItemsMenus {
                             Material.CHEST_MINECART, Lang.getString("groups.expansion.custom.main_item_group"))) {
                 @Override
                 public boolean isVisible(
-                        @Nonnull Player p, @Nonnull PlayerProfile profile, @Nonnull SlimefunGuideMode mode) {
+                        @NotNull Player p, @NotNull PlayerProfile profile, @NotNull SlimefunGuideMode mode) {
                     return false;
                 }
             };

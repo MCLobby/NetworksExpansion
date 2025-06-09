@@ -17,11 +17,11 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import java.util.List;
-import javax.annotation.Nonnull;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Final_ROOT
@@ -41,27 +41,27 @@ public class SlimefunItem3x3RecipeMenu extends ChestMenu {
     private final int[] WORK_CONTENT =
             new int[] {36, 45, 37, 46, 38, 47, 39, 48, 40, 49, 41, 50, 42, 51, 43, 52, 44, 53};
 
-    private final @Nonnull Player player;
-    private final @Nonnull PlayerProfile playerProfile;
-    private final @Nonnull SlimefunGuideMode slimefunGuideMode;
-    private final @Nonnull SlimefunItem slimefunItem;
-    private final @Nonnull ItemGroup itemGroup;
+    private final @NotNull Player player;
+    private final @NotNull PlayerProfile playerProfile;
+    private final @NotNull SlimefunGuideMode slimefunGuideMode;
+    private final @NotNull SlimefunItem slimefunItem;
+    private final @NotNull ItemGroup itemGroup;
 
     public SlimefunItem3x3RecipeMenu(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode,
-            @Nonnull SlimefunItem slimefunItem,
-            @Nonnull ItemGroup itemGroup) {
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode,
+            @NotNull SlimefunItem slimefunItem,
+            @NotNull ItemGroup itemGroup) {
         this(player, playerProfile, slimefunGuideMode, slimefunItem, itemGroup, 0);
     }
 
     public SlimefunItem3x3RecipeMenu(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode,
-            @Nonnull SlimefunItem slimefunItem,
-            @Nonnull ItemGroup itemGroup,
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode,
+            @NotNull SlimefunItem slimefunItem,
+            @NotNull ItemGroup itemGroup,
             int page) {
         super(slimefunItem.getItemName());
         this.player = player;

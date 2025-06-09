@@ -25,8 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -38,6 +36,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class LineTransferGrabber extends NetworkDirectional implements RecipeDisplayItem, Configurable {
     private static final int DEFAULT_MAX_DISTANCE = 32;
@@ -83,7 +83,7 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
     }
 
     @Override
-    protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
+    protected void onTick(@Nullable BlockMenu blockMenu, @NotNull Block block) {
         super.onTick(blockMenu, block);
 
         if (blockMenu == null) {
@@ -118,7 +118,7 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
         TICKER_MAP.put(location, tickCounter);
     }
 
-    private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
+    private void tryGrabItem(@NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
@@ -152,7 +152,7 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
     }
 
     @Override
-    public void onPlace(@Nonnull BlockPlaceEvent e) {
+    public void onPlace(@NotNull BlockPlaceEvent e) {
         super.onPlace(e);
         if (useSpecialModel) {
             e.getBlock().setType(Material.BARRIER);
@@ -161,14 +161,14 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
     }
 
     @Override
-    public void postBreak(@Nonnull BlockBreakEvent e) {
+    public void postBreak(@NotNull BlockBreakEvent e) {
         super.postBreak(e);
         Location location = e.getBlock().getLocation();
         removeDisplay(location);
         e.getBlock().setType(Material.AIR);
     }
 
-    private void setupDisplay(@Nonnull Location location) {
+    private void setupDisplay(@NotNull Location location) {
         if (this.displayGroupGenerator != null) {
             DisplayGroup displayGroup =
                     this.displayGroupGenerator.apply(location.clone().add(0.5, 0, 0.5));
@@ -177,14 +177,14 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
         }
     }
 
-    private void removeDisplay(@Nonnull Location location) {
+    private void removeDisplay(@NotNull Location location) {
         DisplayGroup group = getDisplayGroup(location);
         if (group != null) {
             group.remove();
         }
     }
 
-    @Nullable private UUID getDisplayGroupUUID(@Nonnull Location location) {
+    @Nullable private UUID getDisplayGroupUUID(@NotNull Location location) {
         String uuid = StorageCacheUtils.getData(location, KEY_UUID);
         if (uuid == null) {
             return null;
@@ -192,7 +192,7 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
         return UUID.fromString(uuid);
     }
 
-    @Nullable private DisplayGroup getDisplayGroup(@Nonnull Location location) {
+    @Nullable private DisplayGroup getDisplayGroup(@NotNull Location location) {
         UUID uuid = getDisplayGroupUUID(location);
         if (uuid == null) {
             return null;
@@ -200,8 +200,7 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
         return DisplayGroup.fromUUID(uuid);
     }
 
-    @Nonnull
-    @Override
+    @NotNull @Override
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);
         displayRecipes.add(new CustomItemStack(

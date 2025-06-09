@@ -9,7 +9,6 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.Nonnull;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -17,6 +16,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class NetworkGrid extends AbstractGrid {
 
@@ -46,8 +46,7 @@ public class NetworkGrid extends AbstractGrid {
     }
 
     @Override
-    @Nonnull
-    protected BlockMenuPreset getPreset() {
+    @NotNull protected BlockMenuPreset getPreset() {
         return new BlockMenuPreset(this.getId(), this.getItemName()) {
 
             @Override
@@ -58,7 +57,7 @@ public class NetworkGrid extends AbstractGrid {
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
                         || (NetworkSlimefunItems.NETWORK_GRID.canUse(player, false)
                                 && Slimefun.getProtectionManager()
@@ -71,7 +70,7 @@ public class NetworkGrid extends AbstractGrid {
             }
 
             @Override
-            public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
+            public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
                 getCacheMap().put(menu.getLocation(), new GridCache(0, 0, GridCache.SortOrder.ALPHABETICAL));
 
                 menu.replaceExistingItem(getPagePrevious(), getPagePreviousStack());
@@ -134,8 +133,7 @@ public class NetworkGrid extends AbstractGrid {
         };
     }
 
-    @Nonnull
-    public Map<Location, GridCache> getCacheMap() {
+    @NotNull public Map<Location, GridCache> getCacheMap() {
         return CACHE_MAP;
     }
 

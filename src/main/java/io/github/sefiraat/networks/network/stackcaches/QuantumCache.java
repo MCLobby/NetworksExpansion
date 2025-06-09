@@ -3,12 +3,12 @@ package io.github.sefiraat.networks.network.stackcaches;
 import com.balugaq.netex.utils.Lang;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
 public class QuantumCache extends ItemStackCache {

@@ -18,7 +18,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import lombok.Getter;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -29,6 +28,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 public abstract class NetworkObject extends SpecialSlimefunItem implements AdminDebuggable {
@@ -85,19 +85,19 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
                 });
     }
 
-    protected void addToRegistry(@Nonnull Block block) {
+    protected void addToRegistry(@NotNull Block block) {
         if (!NetworkStorage.containsKey(block.getLocation())) {
             final NodeDefinition nodeDefinition = new NodeDefinition(nodeType);
             NetworkStorage.registerNode(block.getLocation(), nodeDefinition);
         }
     }
 
-    protected void preBreak(@Nonnull BlockBreakEvent event) {
+    protected void preBreak(@NotNull BlockBreakEvent event) {
         NetworkRoot.removePersistentAccessHistory(event.getBlock().getLocation());
         NetworkRoot.removeCountObservingAccessHistory(event.getBlock().getLocation());
     }
 
-    protected void onBreak(@Nonnull BlockBreakEvent event) {
+    protected void onBreak(@NotNull BlockBreakEvent event) {
         final Location location = event.getBlock().getLocation();
         final BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
 
@@ -110,20 +110,20 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
         Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);
     }
 
-    protected void postBreak(@Nonnull BlockBreakEvent event) {}
+    protected void postBreak(@NotNull BlockBreakEvent event) {}
 
     @SuppressWarnings("unused")
-    protected void prePlace(@Nonnull BlockPlaceEvent event) {}
+    protected void prePlace(@NotNull BlockPlaceEvent event) {}
 
     protected void cancelPlace(BlockPlaceEvent event) {
         event.getPlayer().sendMessage(Theme.ERROR.getColor() + "This placement would connect two controllers!");
         event.setCancelled(true);
     }
 
-    protected void onPlace(@Nonnull BlockPlaceEvent event) {}
+    protected void onPlace(@NotNull BlockPlaceEvent event) {}
 
     @SuppressWarnings("unused")
-    protected void postPlace(@Nonnull BlockPlaceEvent event) {}
+    protected void postPlace(@NotNull BlockPlaceEvent event) {}
 
     public boolean isAdminDebuggable() {
         return false;

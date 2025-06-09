@@ -10,11 +10,11 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
-import javax.annotation.Nonnull;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 public class DataStorage {
 
@@ -50,8 +50,7 @@ public class DataStorage {
         }.runTaskAsynchronously(Networks.getInstance());
     }
 
-    @Nonnull
-    public static Optional<StorageUnitData> getCachedStorageData(int id) {
+    @NotNull public static Optional<StorageUnitData> getCachedStorageData(int id) {
         return cache.getOrDefault(id, Optional.empty());
     }
 

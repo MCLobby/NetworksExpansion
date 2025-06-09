@@ -1,10 +1,10 @@
 package io.github.sefiraat.networks.network.stackcaches;
 
-import javax.annotation.Nullable;
 import lombok.ToString;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.Nullable;
 
 @ToString
 public class ItemStackCache {

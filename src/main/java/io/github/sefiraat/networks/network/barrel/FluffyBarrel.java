@@ -6,14 +6,14 @@ import io.github.sefiraat.networks.network.stackcaches.BarrelIdentity;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.ncbpfluffybear.fluffymachines.items.Barrel;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import lombok.Getter;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @Getter
 public class FluffyBarrel extends BarrelIdentity {
@@ -32,7 +32,7 @@ public class FluffyBarrel extends BarrelIdentity {
     }
 
     @Nullable @Override
-    public ItemStack requestItem(@Nonnull ItemRequest itemRequest) {
+    public ItemStack requestItem(@NotNull ItemRequest itemRequest) {
         BlockMenu menu = StorageCacheUtils.getMenu(getLocation());
         if (menu == null) {
             return null;

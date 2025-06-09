@@ -13,10 +13,10 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Nonnull;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A {@link SlimefunItem} that will show its working-recipe in {@link SlimefunGuide}.
@@ -25,8 +25,7 @@ import org.bukkit.inventory.ItemStack;
  * @since 1.0
  */
 public interface RecipeItem extends RecipeDisplayItem {
-    @Nonnull
-    @Override
+    @NotNull @Override
     default List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes =
                 new ArrayList<>(this.getMachineRecipes().size() * 2);
@@ -57,43 +56,42 @@ public interface RecipeItem extends RecipeDisplayItem {
         return displayRecipes;
     }
 
-    @Nonnull
-    default List<MachineRecipe> getMachineRecipes() {
+    @NotNull default List<MachineRecipe> getMachineRecipes() {
         return MachineRecipeFactory.getInstance().getRecipe(this.getId());
     }
 
-    default void registerRecipe(@Nonnull MachineRecipe recipe) {
+    default void registerRecipe(@NotNull MachineRecipe recipe) {
         this.getMachineRecipes().add(recipe);
     }
 
     @Deprecated
-    default void registerRecipe(int seconds, @Nonnull ItemStack[] input, @Nonnull ItemStack[] output) {
+    default void registerRecipe(int seconds, @NotNull ItemStack[] input, @NotNull ItemStack[] output) {
         this.registerRecipe(new MachineRecipe(seconds, input, output));
     }
 
-    default void registerRecipe(@Nonnull ItemStack input, @Nonnull ItemStack output) {
+    default void registerRecipe(@NotNull ItemStack input, @NotNull ItemStack output) {
         this.registerRecipe(new MachineRecipe(0, new ItemStack[] {input}, new ItemStack[] {output}));
     }
 
-    default void registerRecipe(@Nonnull ItemStack input, @Nonnull Material output) {
+    default void registerRecipe(@NotNull ItemStack input, @NotNull Material output) {
         this.registerRecipe(new MachineRecipe(0, new ItemStack[] {input}, new ItemStack[] {new ItemStack(output)}));
     }
 
-    default void registerRecipe(@Nonnull Material input, @Nonnull ItemStack output) {
+    default void registerRecipe(@NotNull Material input, @NotNull ItemStack output) {
         this.registerRecipe(new MachineRecipe(0, new ItemStack[] {new ItemStack(input)}, new ItemStack[] {output}));
     }
 
-    default void registerRecipe(@Nonnull Material input, @Nonnull Material output) {
+    default void registerRecipe(@NotNull Material input, @NotNull Material output) {
         this.registerRecipe(
                 new MachineRecipe(0, new ItemStack[] {new ItemStack(input)}, new ItemStack[] {new ItemStack(output)}));
     }
 
-    default void registerRecipe(@Nonnull ItemStack[] input, @Nonnull ItemStack[] output) {
+    default void registerRecipe(@NotNull ItemStack[] input, @NotNull ItemStack[] output) {
         this.registerRecipe(new MachineRecipe(0, input, output));
     }
 
     @Deprecated
-    default void registerRecipe(int seconds, @Nonnull ItemStack input, @Nonnull ItemStack output) {
+    default void registerRecipe(int seconds, @NotNull ItemStack input, @NotNull ItemStack output) {
         this.registerRecipe(new MachineRecipe(seconds, new ItemStack[] {input}, new ItemStack[] {output}));
     }
 
@@ -102,11 +100,11 @@ public interface RecipeItem extends RecipeDisplayItem {
      * if the slimefun-item's recipe contains liquid-bucket(water bucket, lava bucket e.g.),
      * this method will also register another similar machine-recipe that replace liquid-bucket with {@link ReplaceableCard}
      */
-    default void registerRecipeInCard(int seconds, @Nonnull SlimefunItem slimefunItem) {
+    default void registerRecipeInCard(int seconds, @NotNull SlimefunItem slimefunItem) {
         this.registerRecipeInCard(seconds, slimefunItem.getRecipe(), new ItemStack[] {slimefunItem.getRecipeOutput()});
     }
 
-    default void registerRecipeInCard(int seconds, @Nonnull ItemStack[] input, @Nonnull ItemStack[] output) {
+    default void registerRecipeInCard(int seconds, @NotNull ItemStack[] input, @NotNull ItemStack[] output) {
         List<ItemStack> inputList1 = new ArrayList<>(input.length);
         List<ItemStack> inputList2 = new ArrayList<>(input.length);
         List<ItemStack> outputList1 = new ArrayList<>(output.length);
@@ -156,15 +154,15 @@ public interface RecipeItem extends RecipeDisplayItem {
      *
      * @param item The item to consume
      */
-    default void registerDescriptiveRecipe(@Nonnull ItemStack item) {
+    default void registerDescriptiveRecipe(@NotNull ItemStack item) {
         this.registerRecipe(new MachineRecipe(0, new ItemStack[] {item}, new ItemStack[] {ItemStackUtil.AIR}));
     }
 
-    default void registerDescriptiveRecipe(@Nonnull String name, @Nonnull String... lore) {
+    default void registerDescriptiveRecipe(@NotNull String name, @NotNull String... lore) {
         this.registerDescriptiveRecipe(new CustomItemStack(Material.BOOK, name, lore));
     }
 
-    default void registerDescriptiveRecipe(@Nonnull ItemStack item, @Nonnull String name, @Nonnull String... lore) {
+    default void registerDescriptiveRecipe(@NotNull ItemStack item, @NotNull String name, @NotNull String... lore) {
         this.registerRecipe(0, new CustomItemStack(Material.BOOK, name, lore), item);
     }
 

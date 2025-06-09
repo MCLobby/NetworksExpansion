@@ -15,8 +15,6 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import java.util.UUID;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -33,6 +31,8 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class NetworkVanillaGrabber extends NetworkDirectional {
 
@@ -55,7 +55,7 @@ public class NetworkVanillaGrabber extends NetworkDirectional {
     }
 
     @Override
-    protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
+    protected void onTick(@Nullable BlockMenu blockMenu, @NotNull Block block) {
         super.onTick(blockMenu, block);
         if (blockMenu != null) {
             tryGrabItem(blockMenu);
@@ -63,7 +63,7 @@ public class NetworkVanillaGrabber extends NetworkDirectional {
     }
 
     @SuppressWarnings("removal")
-    private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
+    private void tryGrabItem(@NotNull BlockMenu blockMenu) {
 
         final ItemStack itemInSlot = blockMenu.getItemInSlot(OUTPUT_SLOT);
 
@@ -161,7 +161,7 @@ public class NetworkVanillaGrabber extends NetworkDirectional {
         }
     }
 
-    private boolean grabItem(@Nonnull BlockMenu blockMenu, @Nullable ItemStack stack) {
+    private boolean grabItem(@NotNull BlockMenu blockMenu, @Nullable ItemStack stack) {
         if (stack != null && stack.getType() != Material.AIR) {
             blockMenu.replaceExistingItem(OUTPUT_SLOT, stack.clone());
             stack.setAmount(0);
@@ -172,8 +172,7 @@ public class NetworkVanillaGrabber extends NetworkDirectional {
         }
     }
 
-    @Nonnull
-    @Override
+    @NotNull @Override
     protected int[] getBackgroundSlots() {
         return BACKGROUND_SLOTS;
     }

@@ -35,8 +35,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -52,6 +50,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ItemFlowViewer extends NetworkObject {
     public static final DateFormat DATE_FORMAT = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM);
@@ -123,7 +123,7 @@ public class ItemFlowViewer extends NetworkObject {
         });
     }
 
-    public static String serializeIcon(@Nonnull ItemStack itemStack) {
+    public static String serializeIcon(@NotNull ItemStack itemStack) {
         var sf = SlimefunItem.getByItem(itemStack);
         if (sf != null) {
             return NAMESPACE_SF + ":" + sf.getId();
@@ -132,7 +132,7 @@ public class ItemFlowViewer extends NetworkObject {
         }
     }
 
-    @Nullable public static ItemStack deserializeIcon(@Nonnull String icon) {
+    @Nullable public static ItemStack deserializeIcon(@NotNull String icon) {
         if (icon.startsWith(NAMESPACE_SF)) {
             var id = icon.split(":")[1];
             var sf = SlimefunItem.getById(id);
@@ -147,14 +147,13 @@ public class ItemFlowViewer extends NetworkObject {
         return null;
     }
 
-    public static void highlightBlock(@Nonnull Player player, @Nonnull Location barrelLocation) {
+    public static void highlightBlock(@NotNull Player player, @NotNull Location barrelLocation) {
         ParticleUtil.drawLineFrom(player.getEyeLocation().clone().add(0D, -0.5D, 0D), barrelLocation);
         ParticleUtil.highlightBlock(barrelLocation);
     }
 
     @SuppressWarnings("deprecation")
-    @Nonnull
-    public static List<DisplayEntry> getRecords(NetworkRoot root, GridCache cache) {
+    @NotNull public static List<DisplayEntry> getRecords(NetworkRoot root, GridCache cache) {
         if (!root.isRecordFlow() || root.getItemFlowRecord() == null) {
             return new ArrayList<>();
         }
@@ -187,8 +186,7 @@ public class ItemFlowViewer extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
-    @Nonnull
-    public static List<ItemFlowRecord.TransportAction> getSubMenu(
+    @NotNull public static List<ItemFlowRecord.TransportAction> getSubMenu(
             NetworkRoot root, GridCache cache, ItemStack itemStack) {
         if (!root.isRecordFlow() || root.getItemFlowRecord() == null) {
             return new ArrayList<>();
@@ -266,8 +264,7 @@ public class ItemFlowViewer extends NetworkObject {
         return DATE_FORMAT.format(date);
     }
 
-    @Nonnull
-    public static ItemStack getIcon(ItemFlowRecord.TransportAction action) {
+    @NotNull public static ItemStack getIcon(ItemFlowRecord.TransportAction action) {
         var sf = StorageCacheUtils.getSfItem(action.accessor());
         if (sf == null) {
             return Icon.UNKNOWN_ITEM.clone();
@@ -486,8 +483,7 @@ public class ItemFlowViewer extends NetworkObject {
         getPreset();
     }
 
-    @Nonnull
-    protected BlockMenuPreset getPreset() {
+    @NotNull protected BlockMenuPreset getPreset() {
         return new BlockMenuPreset(this.getId(), this.getItemName()) {
 
             @Override
@@ -498,7 +494,7 @@ public class ItemFlowViewer extends NetworkObject {
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
                         || (ExpansionItems.NETWORK_GRID_NEW_STYLE.canUse(player, false)
                                 && Slimefun.getProtectionManager()
@@ -511,7 +507,7 @@ public class ItemFlowViewer extends NetworkObject {
             }
 
             @Override
-            public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
+            public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
                 getCacheMap().put(menu.getLocation(), new GridCache(0, 0, GridCache.SortOrder.ALPHABETICAL));
 
                 menu.replaceExistingItem(getPagePrevious(), getPagePreviousStack());
@@ -583,8 +579,7 @@ public class ItemFlowViewer extends NetworkObject {
         };
     }
 
-    @Nonnull
-    public Map<Location, GridCache> getCacheMap() {
+    @NotNull public Map<Location, GridCache> getCacheMap() {
         return CACHE_MAP;
     }
 
@@ -610,10 +605,10 @@ public class ItemFlowViewer extends NetworkObject {
 
     @SuppressWarnings("deprecation")
     protected void setFilter(
-            @Nonnull Player player,
-            @Nonnull BlockMenu blockMenu,
-            @Nonnull GridCache gridCache,
-            @Nonnull ClickAction action) {
+            @NotNull Player player,
+            @NotNull BlockMenu blockMenu,
+            @NotNull GridCache gridCache,
+            @NotNull ClickAction action) {
         if (action.isRightClicked()) {
             gridCache.setFilter(null);
         } else {

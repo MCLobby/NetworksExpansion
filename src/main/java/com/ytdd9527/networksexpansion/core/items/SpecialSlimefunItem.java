@@ -16,13 +16,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * We may add something soon
@@ -35,28 +35,28 @@ public abstract class SpecialSlimefunItem extends SlimefunItem {
     protected static final Map<UUID, Set<Location>> subscribedLocations = new HashMap<>();
 
     public SpecialSlimefunItem(
-            @Nonnull ItemGroup itemGroup,
-            @Nonnull SlimefunItemStack item,
-            @Nonnull RecipeType recipeType,
-            @Nonnull ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            @NotNull ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
     public SpecialSlimefunItem(
-            @Nonnull ItemGroup itemGroup,
-            @Nonnull SlimefunItemStack item,
-            @Nonnull RecipeType recipeType,
-            @Nonnull ItemStack[] recipe,
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            @NotNull ItemStack[] recipe,
             @Nullable ItemStack recipeOutput) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
     }
 
     protected SpecialSlimefunItem(
-            @Nonnull ItemGroup itemGroup,
-            @Nonnull ItemStack item,
-            @Nonnull String id,
-            @Nonnull RecipeType recipeType,
-            @Nonnull ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull ItemStack item,
+            @NotNull String id,
+            @NotNull RecipeType recipeType,
+            @NotNull ItemStack[] recipe) {
         super(itemGroup, item, id, recipeType, recipe);
     }
 
@@ -84,7 +84,7 @@ public abstract class SpecialSlimefunItem extends SlimefunItem {
     }
 
     @Override
-    public void register(@Nonnull SlimefunAddon addon) {
+    public void register(@NotNull SlimefunAddon addon) {
         super.register(addon);
         if (this instanceof RecipeItem recipeItem) {
             int delay = recipeItem.getRegisterRecipeDelay();
@@ -107,8 +107,7 @@ public abstract class SpecialSlimefunItem extends SlimefunItem {
         }
     }
 
-    @Nonnull
-    public SpecialSlimefunItem registerThis() {
+    @NotNull public SpecialSlimefunItem registerThis() {
         this.register(Networks.getInstance());
         return this;
     }

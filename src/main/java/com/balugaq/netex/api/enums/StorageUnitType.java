@@ -1,6 +1,6 @@
 package com.balugaq.netex.api.enums;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public enum StorageUnitType {
     TINY(32, 256),

@@ -23,8 +23,6 @@ import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -34,6 +32,8 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class NetworkControlV extends NetworkDirectional {
 
@@ -58,7 +58,7 @@ public class NetworkControlV extends NetworkDirectional {
     }
 
     @Override
-    protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
+    protected void onTick(@Nullable BlockMenu blockMenu, @NotNull Block block) {
         super.onTick(blockMenu, block);
         if (blockMenu != null) {
             tryPasteBlock(blockMenu);
@@ -71,7 +71,7 @@ public class NetworkControlV extends NetworkDirectional {
     }
 
     @SuppressWarnings({"deprecation", "removal"})
-    private void tryPasteBlock(@Nonnull BlockMenu blockMenu) {
+    private void tryPasteBlock(@NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
@@ -164,8 +164,7 @@ public class NetworkControlV extends NetworkDirectional {
         });
     }
 
-    @Nonnull
-    @Override
+    @NotNull @Override
     protected int[] getBackgroundSlots() {
         return BACKGROUND_SLOTS;
     }

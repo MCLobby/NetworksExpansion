@@ -27,7 +27,6 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Nonnull;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -37,6 +36,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
 
@@ -97,7 +97,7 @@ public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
                 new BlockBreakHandler(true, true) {
                     @Override
                     public void onPlayerBreak(
-                            @Nonnull BlockBreakEvent e, @Nonnull ItemStack item, @Nonnull List<ItemStack> drops) {
+                            @NotNull BlockBreakEvent e, @NotNull ItemStack item, @NotNull List<ItemStack> drops) {
                         BlockMenu blockMenu =
                                 StorageCacheUtils.getMenu(e.getBlock().getLocation());
                         if (blockMenu == null) {
@@ -114,7 +114,7 @@ public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
                 });
     }
 
-    private void tryFetchItem(@Nonnull BlockMenu blockMenu) {
+    private void tryFetchItem(@NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
         if (definition == null || definition.getNode() == null) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NO_NETWORK_FOUND);
@@ -167,9 +167,9 @@ public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
     }
 
     private void placeItems(
-            @Nonnull NetworkRoot root,
-            @Nonnull BlockMenu blockMenu,
-            @Nonnull ItemStack itemStack,
+            @NotNull NetworkRoot root,
+            @NotNull BlockMenu blockMenu,
+            @NotNull ItemStack itemStack,
             int itemAmount,
             int[] outputSlots) {
         BlockMenuUtil.pushItem(blockMenu, itemStack, outputSlots);
@@ -179,7 +179,7 @@ public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
         }
     }
 
-    private void returnItems(@Nonnull NetworkRoot root, @Nonnull ItemStack itemStack, @Nonnull BlockMenu blockMenu) {
+    private void returnItems(@NotNull NetworkRoot root, @NotNull ItemStack itemStack, @NotNull BlockMenu blockMenu) {
         root.addItemStack0(blockMenu.getLocation(), itemStack);
     }
 
@@ -200,7 +200,7 @@ public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
                         || (ExpansionItems.ADVANCED_EXPORT.canUse(player, false)
                                 && Slimefun.getProtectionManager()
@@ -225,8 +225,7 @@ public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
         return OUTPUT_ITEM_SLOTS;
     }
 
-    @Nonnull
-    @Override
+    @NotNull @Override
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>();
         displayRecipes.add(Lang.getMechanism("export"));

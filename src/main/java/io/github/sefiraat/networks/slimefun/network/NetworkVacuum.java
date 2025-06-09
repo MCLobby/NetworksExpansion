@@ -23,7 +23,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
-import javax.annotation.Nonnull;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -103,7 +102,7 @@ public class NetworkVacuum extends NetworkObject {
         });
     }
 
-    private void findItem(@Nonnull BlockMenu blockMenu) {
+    private void findItem(@NotNull BlockMenu blockMenu) {
         for (int inputSlot : INPUT_SLOTS) {
             final ItemStack inSlot = blockMenu.getItemInSlot(inputSlot);
             if (inSlot == null || inSlot.getType() == Material.AIR) {
@@ -150,7 +149,7 @@ public class NetworkVacuum extends NetworkObject {
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
 
-    private void tryAddItem(@Nonnull BlockMenu blockMenu) {
+    private void tryAddItem(@NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition.getNode() == null) {
@@ -179,7 +178,7 @@ public class NetworkVacuum extends NetworkObject {
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
                         || (NetworkSlimefunItems.NETWORK_VACUUM.canUse(player, false)
                                 && Slimefun.getProtectionManager()

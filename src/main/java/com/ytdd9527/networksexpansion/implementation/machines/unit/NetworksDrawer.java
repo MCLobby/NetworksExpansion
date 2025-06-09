@@ -44,8 +44,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.ddggdd135.guguslimefunlib.GuguSlimefunLib;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -66,6 +64,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
 public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveItem, ModelledItem, Configurable {
@@ -116,7 +116,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
             }
 
             @Override
-            public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
+            public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
                 Location l = b.getLocation();
                 requestData(l, getContainerId(l));
                 // Restore mode
@@ -175,7 +175,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block b, @Nonnull Player p) {
+            public boolean canOpen(@NotNull Block b, @NotNull Player p) {
                 return p.hasPermission("slimefun.inventory.bypass")
                         || (canUse(p, false)
                                 && Slimefun.getProtectionManager().hasPermission(p, b, Interaction.INTERACT_BLOCK));
@@ -196,8 +196,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         return storages.get(l);
     }
 
-    @Nonnull
-    public static Map<Location, StorageUnitData> getAllStorageData() {
+    @NotNull public static Map<Location, StorageUnitData> getAllStorageData() {
         return storages;
     }
 
@@ -251,7 +250,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         return false;
     }
 
-    public static int getBoundId(@Nonnull ItemStack item) {
+    public static int getBoundId(@NotNull ItemStack item) {
         // Get meta
         final ItemMeta meta = item.getItemMeta();
         Integer id = null;
@@ -265,7 +264,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         return id;
     }
 
-    public static boolean getLock(@Nonnull ItemStack item) {
+    public static boolean getLock(@NotNull ItemStack item) {
         // Get meta
         final ItemMeta meta = item.getItemMeta();
         Boolean lock = null;
@@ -279,7 +278,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         return lock;
     }
 
-    public static boolean getVoidExcess(@Nonnull ItemStack item) {
+    public static boolean getVoidExcess(@NotNull ItemStack item) {
         // Get meta
         final ItemMeta meta = item.getItemMeta();
         Boolean voidExcess = null;
@@ -293,7 +292,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         return voidExcess;
     }
 
-    public static ItemStack bindId(@Nonnull ItemStack itemSample, int id) {
+    public static ItemStack bindId(@NotNull ItemStack itemSample, int id) {
         final ItemStack item = itemSample.clone();
         final ItemMeta meta = item.getItemMeta();
         List<String> lore;
@@ -318,7 +317,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         return item;
     }
 
-    public static ItemStack bindIdNew(@Nonnull ItemStack itemSample, int id, boolean lock, boolean voidExcess) {
+    public static ItemStack bindIdNew(@NotNull ItemStack itemSample, int id, boolean lock, boolean voidExcess) {
         final ItemStack item = itemSample.clone();
         final ItemMeta meta = item.getItemMeta();
         List<String> lore;
@@ -813,7 +812,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         }
     }
 
-    public void onPlace(@Nonnull BlockPlaceEvent e) {
+    public void onPlace(@NotNull BlockPlaceEvent e) {
         Location l = e.getBlock().getLocation();
         ItemStack itemInHand = e.getItemInHand();
         Player p = e.getPlayer();
@@ -905,7 +904,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         addBlockInfo(l, id, a, b);
     }
 
-    public void onBreak(@Nonnull BlockBreakEvent e) {
+    public void onBreak(@NotNull BlockBreakEvent e) {
         Block b = e.getBlock();
         Location l = b.getLocation();
 
@@ -956,7 +955,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
 
         addItemHandler(new BlockPlaceHandler(false) {
             @Override
-            public void onPlayerPlace(@Nonnull BlockPlaceEvent blockPlaceEvent) {
+            public void onPlayerPlace(@NotNull BlockPlaceEvent blockPlaceEvent) {
                 onPlace(blockPlaceEvent);
             }
         });
@@ -964,15 +963,15 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         addItemHandler(new BlockBreakHandler(false, false) {
             @Override
             public void onPlayerBreak(
-                    @Nonnull BlockBreakEvent blockBreakEvent,
-                    @Nonnull ItemStack itemStack,
-                    @Nonnull List<ItemStack> list) {
+                    @NotNull BlockBreakEvent blockBreakEvent,
+                    @NotNull ItemStack itemStack,
+                    @NotNull List<ItemStack> list) {
                 onBreak(blockBreakEvent);
             }
         });
     }
 
-    private void onTick(@Nonnull Block block) {
+    private void onTick(@NotNull Block block) {
         Location l = block.getLocation();
         StorageUnitData data = storages.get(l);
         if (data == null) {
@@ -1090,7 +1089,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
                 lore);
     }
 
-    private void setupDisplay(@Nonnull Location location) {
+    private void setupDisplay(@NotNull Location location) {
         if (this.displayGroupGenerator != null) {
             DisplayGroup displayGroup =
                     this.displayGroupGenerator.apply(location.clone().add(0.5, 0, 0.5));
@@ -1099,14 +1098,14 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         }
     }
 
-    private void removeDisplay(@Nonnull Location location) {
+    private void removeDisplay(@NotNull Location location) {
         DisplayGroup group = getDisplayGroup(location);
         if (group != null) {
             group.remove();
         }
     }
 
-    @Nullable private UUID getDisplayGroupUUID(@Nonnull Location location) {
+    @Nullable private UUID getDisplayGroupUUID(@NotNull Location location) {
         String uuid = StorageCacheUtils.getData(location, KEY_UUID);
         if (uuid == null) {
             return null;
@@ -1114,7 +1113,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         return UUID.fromString(uuid);
     }
 
-    @Nullable private DisplayGroup getDisplayGroup(@Nonnull Location location) {
+    @Nullable private DisplayGroup getDisplayGroup(@NotNull Location location) {
         UUID uuid = getDisplayGroupUUID(location);
         if (uuid == null) {
             return null;

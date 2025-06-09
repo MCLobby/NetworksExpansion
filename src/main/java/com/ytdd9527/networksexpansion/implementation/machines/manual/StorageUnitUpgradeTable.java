@@ -28,7 +28,6 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nonnull;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -41,6 +40,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("deprecation")
 public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements AdminDebuggable {
@@ -87,7 +87,7 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements Admi
             }
 
             @Override
-            public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
+            public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
                 menu.addMenuClickHandler(actionBtnSlot, (p, slot, item, action) -> {
                     craft(p, menu);
                     return false;
@@ -96,7 +96,7 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements Admi
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block b, @Nonnull Player p) {
+            public boolean canOpen(@NotNull Block b, @NotNull Player p) {
                 return p.hasPermission("slimefun.inventory.bypass")
                         || (canUse(p, false)
                                 && Slimefun.getProtectionManager().hasPermission(p, b, Interaction.INTERACT_BLOCK));
@@ -224,7 +224,7 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements Admi
         return new BlockBreakHandler(false, false) {
             @Override
             public void onPlayerBreak(
-                    @Nonnull BlockBreakEvent event, @Nonnull ItemStack itemStack, @Nonnull List<ItemStack> drops) {
+                    @NotNull BlockBreakEvent event, @NotNull ItemStack itemStack, @NotNull List<ItemStack> drops) {
                 Location l = event.getBlock().getLocation();
                 BlockMenu menu = StorageCacheUtils.getMenu(l);
                 if (menu != null) {

@@ -4,9 +4,9 @@ import io.github.sefiraat.networks.Networks;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import javax.annotation.Nonnull;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Color;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Final_ROOT
@@ -30,8 +30,7 @@ public class TextUtil {
 
     private static long COUNT = 0;
 
-    @Nonnull
-    public static String colorString(@Nonnull String string0, @Nonnull List<Color> colorList) {
+    @NotNull public static String colorString(@NotNull String string0, @NotNull List<Color> colorList) {
         StringBuilder stringBuilder = new StringBuilder();
         if (string0.isEmpty()) {
             string0 += " ";
@@ -69,8 +68,7 @@ public class TextUtil {
         return re;
     }
 
-    @Nonnull
-    public static String colorRandomString(@Nonnull String string) {
+    @NotNull public static String colorRandomString(@NotNull String string) {
         List<Color> colorList = new ArrayList<>();
         double r = 1;
         while (1 / r >= Math.random() && r * r <= string.length()) {
@@ -83,8 +81,7 @@ public class TextUtil {
         return TextUtil.colorString(string, colorList);
     }
 
-    @Nonnull
-    public static String colorPseudorandomString(@Nonnull String string) {
+    @NotNull public static String colorPseudorandomString(@NotNull String string) {
         List<Color> colorList = new ArrayList<>();
         double r = 1;
         Random random = new Random(string.hashCode() / 2
@@ -100,8 +97,7 @@ public class TextUtil {
         return TextUtil.colorString(string, colorList);
     }
 
-    @Nonnull
-    public static String colorPseudorandomString(@Nonnull String string0, long seed) {
+    @NotNull public static String colorPseudorandomString(@NotNull String string0, long seed) {
         List<Color> colorList = new ArrayList<>();
         double r = 1;
         String string = string0.replaceAll("%s", PLACEHOLDER);
@@ -138,15 +134,13 @@ public class TextUtil {
                 + (TextUtil.codeColor(random.nextInt(8) + 8));
     }
 
-    @Nonnull
-    public static String toTextCode(@Nonnull Color color) {
+    @NotNull public static String toTextCode(@NotNull Color color) {
         return "§x" + "§" + TextUtil.codeColor(color.getRed() / 16) + "§" + TextUtil.codeColor(color.getRed() % 16)
                 + "§" + TextUtil.codeColor(color.getGreen() / 16) + "§" + TextUtil.codeColor(color.getGreen() % 16)
                 + "§" + TextUtil.codeColor(color.getBlue() / 16) + "§" + TextUtil.codeColor(color.getBlue() % 16);
     }
 
-    @Nonnull
-    public static String codeColor(int c) {
+    @NotNull public static String codeColor(int c) {
         if (c < 10 && c >= 0) {
             return String.valueOf(c);
         }
@@ -161,8 +155,7 @@ public class TextUtil {
         };
     }
 
-    @Nonnull
-    public static Color cloneColor(@Nonnull Color color) {
+    @NotNull public static Color cloneColor(@NotNull Color color) {
         return Color.fromRGB(color.getRed(), color.getGreen(), color.getBlue());
     }
 

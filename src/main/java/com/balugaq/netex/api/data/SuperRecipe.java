@@ -1,11 +1,11 @@
 package com.balugaq.netex.api.data;
 
 import com.balugaq.netex.api.interfaces.SuperRecipeHandler;
-import javax.annotation.Nullable;
 import lombok.Data;
 import lombok.Getter;
 import lombok.ToString;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 @Data
 @Getter

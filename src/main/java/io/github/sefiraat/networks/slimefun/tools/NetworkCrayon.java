@@ -10,10 +10,10 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import java.util.Optional;
-import javax.annotation.Nonnull;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class NetworkCrayon extends SpecialSlimefunItem {
 
@@ -33,7 +33,7 @@ public class NetworkCrayon extends SpecialSlimefunItem {
         });
     }
 
-    public void toggleCrayon(@Nonnull Block block, @Nonnull Player player) {
+    public void toggleCrayon(@NotNull Block block, @NotNull Player player) {
         if (NetworkController.hasCrayon(block.getLocation())) {
             NetworkController.removeCrayon(block.getLocation());
             player.sendMessage(Lang.getString("messages.completed-operation.crayon.disabled"));

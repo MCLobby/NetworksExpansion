@@ -22,8 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -35,6 +33,8 @@ import org.bukkit.block.data.Directional;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * not a {@link NetworkObject} and has no {@link BlockMenu}
@@ -47,10 +47,10 @@ public class SmartGrabber extends SpecialSlimefunItem implements AdminDebuggable
             EnumSet.of(BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
 
     public SmartGrabber(
-            @Nonnull ItemGroup itemGroup,
-            @Nonnull SlimefunItemStack item,
-            @Nonnull RecipeType recipeType,
-            @Nonnull ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            @NotNull ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -96,15 +96,15 @@ public class SmartGrabber extends SpecialSlimefunItem implements AdminDebuggable
                 new BlockBreakHandler(false, false) {
                     @Override
                     public void onPlayerBreak(
-                            @Nonnull BlockBreakEvent blockBreakEvent,
-                            @Nonnull ItemStack itemStack,
-                            @Nonnull List<ItemStack> list) {
+                            @NotNull BlockBreakEvent blockBreakEvent,
+                            @NotNull ItemStack itemStack,
+                            @NotNull List<ItemStack> list) {
                         removeDirection(blockBreakEvent.getBlock().getLocation());
                     }
                 },
                 new BlockPlaceHandler(false) {
                     @Override
-                    public void onPlayerPlace(@Nonnull BlockPlaceEvent blockPlaceEvent) {
+                    public void onPlayerPlace(@NotNull BlockPlaceEvent blockPlaceEvent) {
                         if (blockPlaceEvent.getBlock().getBlockData() instanceof Directional directional) {
                             final BlockFace face = directional.getFacing();
                             setDirection(blockPlaceEvent.getBlock().getLocation(), face);
@@ -113,7 +113,7 @@ public class SmartGrabber extends SpecialSlimefunItem implements AdminDebuggable
                 });
     }
 
-    public void onTick(@Nonnull Block thisBlock, BlockFace bridgeFace) {
+    public void onTick(@NotNull Block thisBlock, BlockFace bridgeFace) {
         final BlockFace containerFace = bridgeFace.getOppositeFace();
         final Block bridge = thisBlock.getRelative(bridgeFace);
         final Block container = thisBlock.getRelative(containerFace);

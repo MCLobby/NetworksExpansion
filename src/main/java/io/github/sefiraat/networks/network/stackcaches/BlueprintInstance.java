@@ -1,12 +1,12 @@
 package io.github.sefiraat.networks.network.stackcaches;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class BlueprintInstance extends ItemStackCache {
 
@@ -15,7 +15,7 @@ public class BlueprintInstance extends ItemStackCache {
 
     @Nullable private Recipe recipe = null;
 
-    public BlueprintInstance(@Nonnull ItemStack[] recipeItems, @Nonnull ItemStack expectedOutput) {
+    public BlueprintInstance(@NotNull ItemStack[] recipeItems, @NotNull ItemStack expectedOutput) {
         super(expectedOutput);
         this.recipeItems = recipeItems;
     }

@@ -18,11 +18,11 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
-import javax.annotation.Nonnull;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
 
@@ -34,7 +34,7 @@ public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
     }
 
     @SuppressWarnings("deprecation")
-    private static void displayToPlayer(@Nonnull Block block, @Nonnull Player player) {
+    private static void displayToPlayer(@NotNull Block block, @NotNull Player player) {
         final NetworkRoot root = NetworkController.getNetworks().get(block.getLocation());
         if (root != null) {
             final int bridges = root.getBridges().size();

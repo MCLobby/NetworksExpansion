@@ -23,14 +23,14 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 public class DataSource {
@@ -270,8 +270,7 @@ public class DataSource {
         }
     }
 
-    @Nonnull
-    private Map<Integer, ItemContainer> getStoredItem(int id) {
+    @NotNull private Map<Integer, ItemContainer> getStoredItem(int id) {
         Map<Integer, ItemContainer> re = new HashMap<>();
 
         // Schedule query

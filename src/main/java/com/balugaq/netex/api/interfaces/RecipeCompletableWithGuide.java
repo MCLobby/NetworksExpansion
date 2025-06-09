@@ -18,8 +18,6 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -29,10 +27,12 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
 public interface RecipeCompletableWithGuide {
-    default void addJEGButton(@Nonnull BlockMenu blockMenu, @Range(from = 0, to = 53) int slot) {
+    default void addJEGButton(@NotNull BlockMenu blockMenu, @Range(from = 0, to = 53) int slot) {
         if (Networks.getSupportedPluginManager().isJustEnoughGuide()) {
             blockMenu.replaceExistingItem(slot, Icon.JEG_BUTTON);
             blockMenu.addMenuClickHandler(slot, (player, slot1, item, action) -> {
@@ -42,7 +42,7 @@ public interface RecipeCompletableWithGuide {
         }
     }
 
-    default void openGuide(@Nonnull BlockMenu blockMenu, @Nonnull Player player) {
+    default void openGuide(@NotNull BlockMenu blockMenu, @NotNull Player player) {
         NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
         if (definition == null || definition.getNode() == null) {
             return;
@@ -75,7 +75,7 @@ public interface RecipeCompletableWithGuide {
     }
 
     default void completeRecipeWithGuide(
-            @Nonnull BlockMenu blockMenu, @Nonnull NetworkRoot root, GuideEvents.ItemButtonClickEvent event) {
+            @NotNull BlockMenu blockMenu, @NotNull NetworkRoot root, GuideEvents.ItemButtonClickEvent event) {
         Player player = event.getPlayer();
 
         ItemStack clickedItem = event.getClickedItem();
@@ -138,7 +138,7 @@ public interface RecipeCompletableWithGuide {
 
     int[] getIngredientSlots();
 
-    @Nullable default List<RecipeChoice> getRecipe(@Nonnull ItemStack itemStack) {
+    @Nullable default List<RecipeChoice> getRecipe(@NotNull ItemStack itemStack) {
         SlimefunItem sf = SlimefunItem.getByItem(itemStack);
         if (sf != null) {
             List<RecipeChoice> raw = new ArrayList<>(Arrays.stream(sf.getRecipe())
@@ -193,7 +193,7 @@ public interface RecipeCompletableWithGuide {
     }
 
     @SuppressWarnings("deprecation")
-    @Nullable default ItemStack getItemStack(@Nonnull NetworkRoot root, @Nonnull Player player, @Nonnull ItemStack itemStack) {
+    @Nullable default ItemStack getItemStack(@NotNull NetworkRoot root, @NotNull Player player, @NotNull ItemStack itemStack) {
         // get from root
         ItemStack item = root.getItemStack0(player.getLocation(), new ItemRequest(itemStack, 1));
         if (item != null) {

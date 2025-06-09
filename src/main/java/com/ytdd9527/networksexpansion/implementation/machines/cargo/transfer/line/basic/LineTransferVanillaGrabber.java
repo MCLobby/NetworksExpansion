@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -43,6 +41,8 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class LineTransferVanillaGrabber extends NetworkDirectional implements RecipeDisplayItem, Configurable {
     private static final int DEFAULT_MAX_DISTANCE = 32;
@@ -77,7 +77,7 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
     }
 
     @Override
-    protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
+    protected void onTick(@Nullable BlockMenu blockMenu, @NotNull Block block) {
         super.onTick(blockMenu, block);
 
         if (blockMenu == null) {
@@ -113,7 +113,7 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
     }
 
     @SuppressWarnings("removal")
-    private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
+    private void tryGrabItem(@NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
@@ -205,7 +205,7 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
 
-    private boolean grabItem(@Nonnull NetworkRoot root, @Nonnull BlockMenu blockMenu, @Nullable ItemStack stack) {
+    private boolean grabItem(@NotNull NetworkRoot root, @NotNull BlockMenu blockMenu, @Nullable ItemStack stack) {
         if (stack != null && stack.getType() != Material.AIR) {
             root.addItemStack0(blockMenu.getLocation(), stack);
             return true;
@@ -214,8 +214,7 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
         }
     }
 
-    @Nonnull
-    @Override
+    @NotNull @Override
     protected int[] getBackgroundSlots() {
         return BACKGROUND_SLOTS;
     }
@@ -260,7 +259,7 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
         return new Particle.DustOptions(Color.MAROON, 1);
     }
 
-    public @Nonnull List<ItemStack> getDisplayRecipes() {
+    public @NotNull List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);
         displayRecipes.add(new CustomItemStack(
                 Material.BOOK,

@@ -12,17 +12,17 @@ import io.github.thebusybiscuit.slimefun4.api.events.ExplosiveToolBreakBlocksEve
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Nonnull;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.jetbrains.annotations.NotNull;
 
 public class ExplosiveToolListener implements Listener {
 
     @SuppressWarnings("deprecation")
     @EventHandler
-    public void onExplosiveBlockBreak(@Nonnull ExplosiveToolBreakBlocksEvent event) {
+    public void onExplosiveBlockBreak(@NotNull ExplosiveToolBreakBlocksEvent event) {
         final List<Block> blocksToRemove = new ArrayList<>();
         for (Block block : event.getAdditionalBlocks()) {
             final Location location = block.getLocation();

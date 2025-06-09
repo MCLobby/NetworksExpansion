@@ -14,18 +14,18 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import java.util.Optional;
-import javax.annotation.Nonnull;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class StatusViewer extends SpecialSlimefunItem {
     public StatusViewer(
-            @Nonnull ItemGroup itemGroup,
-            @Nonnull SlimefunItemStack item,
-            @Nonnull RecipeType recipeType,
-            @Nonnull ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            @NotNull ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 

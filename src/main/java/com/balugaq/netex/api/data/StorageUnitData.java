@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import lombok.Getter;
 import lombok.ToString;
 import org.bukkit.Bukkit;
@@ -23,6 +21,8 @@ import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @ToString
 public class StorageUnitData {
@@ -47,7 +47,7 @@ public class StorageUnitData {
     private Location lastLocation;
 
     public StorageUnitData(
-            int id, @Nonnull String ownerUUID, StorageUnitType sizeType, boolean isPlaced, Location lastLocation) {
+            int id, @NotNull String ownerUUID, StorageUnitType sizeType, boolean isPlaced, Location lastLocation) {
         this(
                 id,
                 Bukkit.getOfflinePlayer(UUID.fromString(ownerUUID)),
@@ -59,7 +59,7 @@ public class StorageUnitData {
 
     public StorageUnitData(
             int id,
-            @Nonnull String ownerUUID,
+            @NotNull String ownerUUID,
             StorageUnitType sizeType,
             boolean isPlaced,
             Location lastLocation,
@@ -145,7 +145,7 @@ public class StorageUnitData {
         observingAccessHistory.put(location, locations);
     }
 
-    public static boolean isBlacklisted(@Nonnull ItemStack itemStack) {
+    public static boolean isBlacklisted(@NotNull ItemStack itemStack) {
         // if item is air, it's blacklisted
         if (itemStack.getType() == Material.AIR) {
             return true;
@@ -169,17 +169,17 @@ public class StorageUnitData {
      * @return the amount actual added
      */
     @Deprecated
-    public int addStoredItem(@Nonnull ItemStack item, boolean contentLocked) {
+    public int addStoredItem(@NotNull ItemStack item, boolean contentLocked) {
         return addStoredItem(item, item.getAmount(), contentLocked, false);
     }
 
     @Deprecated
-    public int addStoredItem(@Nonnull ItemStack item, boolean contentLocked, boolean force) {
+    public int addStoredItem(@NotNull ItemStack item, boolean contentLocked, boolean force) {
         return addStoredItem(item, item.getAmount(), contentLocked, force);
     }
 
     @Deprecated
-    public int addStoredItem(@Nonnull ItemStack item, int amount, boolean contentLocked) {
+    public int addStoredItem(@NotNull ItemStack item, int amount, boolean contentLocked) {
         return addStoredItem(item, amount, contentLocked, false);
     }
 
@@ -191,7 +191,7 @@ public class StorageUnitData {
      * @return the amount actual added
      */
     @Deprecated
-    public int addStoredItem(@Nonnull ItemStack item, int amount, boolean contentLocked, boolean force) {
+    public int addStoredItem(@NotNull ItemStack item, int amount, boolean contentLocked, boolean force) {
         int add = 0;
         boolean isVoidExcess = NetworksDrawer.isVoidExcess(getLastLocation());
         for (ItemContainer each : storedItems.values()) {
@@ -317,15 +317,15 @@ public class StorageUnitData {
         return copyStoredItems();
     }
 
-    public @Nonnull List<ItemContainer> copyStoredItems() {
+    public @NotNull List<ItemContainer> copyStoredItems() {
         return new ArrayList<>(storedItems.values());
     }
 
-    public @Nonnull Collection<ItemContainer> getStoredItemsDirectly() {
+    public @NotNull Collection<ItemContainer> getStoredItemsDirectly() {
         return storedItems.values();
     }
 
-    public @Nonnull Map<Integer, ItemContainer> copyStoredItemsMap() {
+    public @NotNull Map<Integer, ItemContainer> copyStoredItemsMap() {
         return new HashMap<>(storedItems);
     }
 
@@ -334,7 +334,7 @@ public class StorageUnitData {
     }
 
     @Deprecated
-    @Nullable public ItemStack requestItem(@Nonnull ItemRequest itemRequest) {
+    @Nullable public ItemStack requestItem(@NotNull ItemRequest itemRequest) {
         ItemStack item = itemRequest.getItemStack();
         if (item == null) {
             return null;
@@ -359,7 +359,7 @@ public class StorageUnitData {
     }
 
     @Deprecated
-    public void depositItemStacks(@Nonnull Map<ItemStack, Long> itemsToDeposit, boolean contentLocked) {
+    public void depositItemStacks(@NotNull Map<ItemStack, Long> itemsToDeposit, boolean contentLocked) {
         for (Map.Entry<ItemStack, Long> entry : itemsToDeposit.entrySet()) {
             if (entry.getValue() > Integer.MAX_VALUE) {
                 // rollback to MAX_VALUE
@@ -378,7 +378,7 @@ public class StorageUnitData {
     }
 
     @Deprecated
-    public void depositItemStack(@Nonnull Map.Entry<ItemStack, Integer> entry, boolean contentLocked) {
+    public void depositItemStack(@NotNull Map.Entry<ItemStack, Integer> entry, boolean contentLocked) {
         ItemStack item = StackUtils.getAsQuantity(entry.getKey(), entry.getValue());
         depositItemStack(item, contentLocked);
         int leftover = item.getAmount();
@@ -386,14 +386,14 @@ public class StorageUnitData {
     }
 
     @Deprecated
-    public void depositItemStack(@Nonnull Map<ItemStack, Integer> itemsToDeposit, boolean contentLocked) {
+    public void depositItemStack(@NotNull Map<ItemStack, Integer> itemsToDeposit, boolean contentLocked) {
         for (Map.Entry<ItemStack, Integer> entry : itemsToDeposit.entrySet()) {
             depositItemStack(entry, contentLocked);
         }
     }
 
     @Deprecated
-    public void depositItemStack(@Nonnull ItemStack[] itemsToDeposit, boolean contentLocked) {
+    public void depositItemStack(@NotNull ItemStack[] itemsToDeposit, boolean contentLocked) {
         for (ItemStack item : itemsToDeposit) {
             depositItemStack(item, contentLocked);
         }
@@ -415,11 +415,11 @@ public class StorageUnitData {
         depositItemStack(item, contentLocked, false);
     }
 
-    @Nullable public ItemStack requestItem0(@Nonnull Location accessor, @Nonnull ItemRequest itemRequest) {
+    @Nullable public ItemStack requestItem0(@NotNull Location accessor, @NotNull ItemRequest itemRequest) {
         return requestItem0(accessor, itemRequest, true);
     }
 
-    @Nullable public ItemStack requestItem0(@Nonnull Location accessor, @Nonnull ItemRequest itemRequest, boolean contentLocked) {
+    @Nullable public ItemStack requestItem0(@NotNull Location accessor, @NotNull ItemRequest itemRequest, boolean contentLocked) {
         ItemStack item = itemRequest.getItemStack();
         if (item == null) {
             return null;
@@ -496,7 +496,7 @@ public class StorageUnitData {
     }
 
     public void depositItemStacks0(
-            @Nonnull Location accessor, @Nonnull Map<ItemStack, Long> itemsToDeposit, boolean contentLocked) {
+            @NotNull Location accessor, @NotNull Map<ItemStack, Long> itemsToDeposit, boolean contentLocked) {
         for (Map.Entry<ItemStack, Long> entry : itemsToDeposit.entrySet()) {
             if (entry.getValue() > Integer.MAX_VALUE) {
                 // rollback to MAX_VALUE
@@ -515,7 +515,7 @@ public class StorageUnitData {
     }
 
     public void depositItemStack0(
-            @Nonnull Location accessor, @Nonnull Map.Entry<ItemStack, Integer> entry, boolean contentLocked) {
+            @NotNull Location accessor, @NotNull Map.Entry<ItemStack, Integer> entry, boolean contentLocked) {
         ItemStack item = StackUtils.getAsQuantity(entry.getKey(), entry.getValue());
         depositItemStack0(accessor, item, contentLocked);
         int leftover = item.getAmount();
@@ -523,21 +523,21 @@ public class StorageUnitData {
     }
 
     public void depositItemStack0(
-            @Nonnull Location accessor, @Nonnull Map<ItemStack, Integer> itemsToDeposit, boolean contentLocked) {
+            @NotNull Location accessor, @NotNull Map<ItemStack, Integer> itemsToDeposit, boolean contentLocked) {
         for (Map.Entry<ItemStack, Integer> entry : itemsToDeposit.entrySet()) {
             depositItemStack0(accessor, entry, contentLocked);
         }
     }
 
     public void depositItemStack0(
-            @Nonnull Location accessor, @Nonnull ItemStack[] itemsToDeposit, boolean contentLocked) {
+            @NotNull Location accessor, @NotNull ItemStack[] itemsToDeposit, boolean contentLocked) {
         for (ItemStack item : itemsToDeposit) {
             depositItemStack0(accessor, item, contentLocked);
         }
     }
 
     public void depositItemStack0(
-            @Nonnull Location accessor, @Nullable ItemStack itemsToDeposit, boolean contentLocked, boolean force) {
+            @NotNull Location accessor, @Nullable ItemStack itemsToDeposit, boolean contentLocked, boolean force) {
         if (itemsToDeposit == null || isBlacklisted(itemsToDeposit)) {
             return;
         }
@@ -547,7 +547,7 @@ public class StorageUnitData {
         }
     }
 
-    public void depositItemStack0(@Nonnull Location accessor, ItemStack item, boolean contentLocked) {
+    public void depositItemStack0(@NotNull Location accessor, ItemStack item, boolean contentLocked) {
         depositItemStack0(accessor, item, contentLocked, false);
     }
 
@@ -560,7 +560,7 @@ public class StorageUnitData {
      * @return the amount actual added
      */
     public int addStoredItem0(
-            Location accessor, @Nonnull ItemStack item, int amount, boolean contentLocked, boolean force) {
+            Location accessor, @NotNull ItemStack item, int amount, boolean contentLocked, boolean force) {
         int add = 0;
         boolean isVoidExcess = NetworksDrawer.isVoidExcess(getLastLocation());
         var stored = getStoredItems();
@@ -662,15 +662,15 @@ public class StorageUnitData {
      * @param item:     item will be added
      * @return the amount actual added
      */
-    public int addStoredItem0(Location accessor, @Nonnull ItemStack item, boolean contentLocked) {
+    public int addStoredItem0(Location accessor, @NotNull ItemStack item, boolean contentLocked) {
         return addStoredItem0(accessor, item, item.getAmount(), contentLocked, false);
     }
 
-    public int addStoredItem0(Location accessor, @Nonnull ItemStack item, boolean contentLocked, boolean force) {
+    public int addStoredItem0(Location accessor, @NotNull ItemStack item, boolean contentLocked, boolean force) {
         return addStoredItem0(accessor, item, item.getAmount(), contentLocked, force);
     }
 
-    public int addStoredItem0(Location accessor, @Nonnull ItemStack item, int amount, boolean contentLocked) {
+    public int addStoredItem0(Location accessor, @NotNull ItemStack item, int amount, boolean contentLocked) {
         return addStoredItem0(accessor, item, amount, contentLocked, false);
     }
 }

@@ -3,15 +3,15 @@ package com.balugaq.netex.utils;
 import com.balugaq.netex.api.enums.MinecraftVersion;
 import io.github.sefiraat.networks.Networks;
 import java.lang.reflect.Field;
-import javax.annotation.Nonnull;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Particle;
+import org.jetbrains.annotations.NotNull;
 
 @UtilityClass
 public class NetworksVersionedParticle {
-    public static final @Nonnull Particle DUST;
-    public static final @Nonnull Particle EXPLOSION;
-    public static final @Nonnull Particle SMOKE;
+    public static final @NotNull Particle DUST;
+    public static final @NotNull Particle EXPLOSION;
+    public static final @NotNull Particle SMOKE;
 
     static {
         MinecraftVersion version = Networks.getInstance().getMCVersion();
@@ -20,8 +20,7 @@ public class NetworksVersionedParticle {
         SMOKE = version.isAtLeast(MinecraftVersion.MC1_20_5) ? Particle.SMOKE : getKey("SMOKE_NORMAL");
     }
 
-    @Nonnull
-    private static Particle getKey(@Nonnull String key) {
+    @NotNull private static Particle getKey(@NotNull String key) {
         try {
             Field field = Particle.class.getDeclaredField(key);
             return (Particle) field.get(null);

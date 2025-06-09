@@ -31,8 +31,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import lombok.Getter;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 import org.bstats.bukkit.Metrics;
@@ -42,6 +40,8 @@ import org.bukkit.Location;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.yaml.snakeyaml.error.YAMLException;
 
 public class Networks extends JavaPlugin implements SlimefunAddon {
@@ -81,8 +81,7 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         return Networks.instance;
     }
 
-    @Nonnull
-    public static PluginManager getPluginManager() {
+    @NotNull public static PluginManager getPluginManager() {
         return Networks.getInstance().getServer().getPluginManager();
     }
 
@@ -327,8 +326,7 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         metrics.addCustomChart(networksChart);
     }
 
-    @Nonnull
-    @Override
+    @NotNull @Override
     public JavaPlugin getJavaPlugin() {
         return this;
     }
@@ -338,8 +336,7 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         return MessageFormat.format("https://github.com/{0}/{1}/issues/", this.username, this.repo);
     }
 
-    @Nonnull
-    public String getWikiURL() {
+    @NotNull public String getWikiURL() {
         return MessageFormat.format(
                 "https://slimefun-addons-wiki.guizhanss.cn/networks/{0}/{1}", this.username, this.repo);
     }

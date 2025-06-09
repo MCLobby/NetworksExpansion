@@ -20,13 +20,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import java.util.Optional;
-import javax.annotation.Nonnull;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 public class NetworkConfigurator extends SpecialSlimefunItem {
 
@@ -98,10 +98,10 @@ public class NetworkConfigurator extends SpecialSlimefunItem {
     }
 
     private void setConfigurator(
-            @Nonnull NetworkDirectional directional,
-            @Nonnull ItemStack itemStack,
-            @Nonnull BlockMenu blockMenu,
-            @Nonnull Player player) {
+            @NotNull NetworkDirectional directional,
+            @NotNull ItemStack itemStack,
+            @NotNull BlockMenu blockMenu,
+            @NotNull Player player) {
         BlockFace blockFace = NetworkDirectional.getSelectedFace(blockMenu.getLocation());
         if (blockFace == null) {
             blockFace = AdvancedDirectional.getSelectedFace(blockMenu.getLocation());

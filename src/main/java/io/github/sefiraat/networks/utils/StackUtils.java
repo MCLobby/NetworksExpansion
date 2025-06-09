@@ -7,8 +7,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import java.util.Objects;
 import java.util.Optional;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
@@ -41,6 +39,8 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.inventory.meta.SuspiciousStewMeta;
 import org.bukkit.inventory.meta.TropicalFishBucketMeta;
 import org.bukkit.inventory.meta.WritableBookMeta;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
 @UtilityClass
@@ -50,8 +50,7 @@ public class StackUtils {
     private static final boolean IS_1_20_5 = MC_VERSION.isAtLeast(MinecraftVersion.MC1_20_5);
     private static final boolean IS_1_21 = MC_VERSION.isAtLeast(MinecraftVersion.MC1_21);
 
-    @Nonnull
-    public static ItemStack getAsQuantity(@Nullable ItemStack itemStack, int amount) {
+    @NotNull public static ItemStack getAsQuantity(@Nullable ItemStack itemStack, int amount) {
         if (itemStack == null) {
             return new ItemStack(Material.AIR);
         }
@@ -84,21 +83,21 @@ public class StackUtils {
     }
 
     public static boolean itemsMatch(
-            @Nonnull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore, boolean checkAmount) {
+            @NotNull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore, boolean checkAmount) {
         return itemsMatch(cache, itemStack, checkLore, checkAmount, true);
     }
 
-    public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore) {
+    public static boolean itemsMatch(@NotNull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore) {
         return itemsMatch(cache, itemStack, checkLore, false, true);
     }
 
-    public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack) {
+    public static boolean itemsMatch(@NotNull ItemStackCache cache, @Nullable ItemStack itemStack) {
         return itemsMatch(cache, itemStack, false, false, true);
     }
 
     public static boolean itemsMatch(
             @Nullable ItemStack itemStack,
-            @Nonnull ItemStackCache cache,
+            @NotNull ItemStackCache cache,
             boolean checkLore,
             boolean checkAmount,
             boolean checkCustomModelId) {
@@ -106,15 +105,15 @@ public class StackUtils {
     }
 
     public static boolean itemsMatch(
-            @Nullable ItemStack itemStack, @Nonnull ItemStackCache cache, boolean checkLore, boolean checkAmount) {
+            @Nullable ItemStack itemStack, @NotNull ItemStackCache cache, boolean checkLore, boolean checkAmount) {
         return itemsMatch(cache, itemStack, checkLore, checkAmount, true);
     }
 
-    public static boolean itemsMatch(@Nullable ItemStack itemStack, @Nonnull ItemStackCache cache, boolean checkLore) {
+    public static boolean itemsMatch(@Nullable ItemStack itemStack, @NotNull ItemStackCache cache, boolean checkLore) {
         return itemsMatch(cache, itemStack, checkLore, false, true);
     }
 
-    public static boolean itemsMatch(@Nullable ItemStack itemStack, @Nonnull ItemStackCache cache) {
+    public static boolean itemsMatch(@Nullable ItemStack itemStack, @NotNull ItemStackCache cache) {
         return itemsMatch(cache, itemStack, false, false, true);
     }
 
@@ -127,7 +126,7 @@ public class StackUtils {
      */
     @SuppressWarnings("UnstableApiUsage")
     public static boolean itemsMatch(
-            @Nonnull ItemStackCache cache,
+            @NotNull ItemStackCache cache,
             @Nullable ItemStack itemStack,
             boolean checkLore,
             boolean checkAmount,
@@ -315,7 +314,7 @@ public class StackUtils {
     }
 
     @SuppressWarnings("removal")
-    public static boolean canQuickEscapeMetaVariant(@Nonnull ItemMeta metaOne, @Nonnull ItemMeta metaTwo) {
+    public static boolean canQuickEscapeMetaVariant(@NotNull ItemMeta metaOne, @NotNull ItemMeta metaTwo) {
 
         // Damageable (first as everything can be damageable apparently)
         if (metaOne instanceof Damageable instanceOne && metaTwo instanceof Damageable instanceTwo) {

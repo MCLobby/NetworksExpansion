@@ -25,8 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
@@ -47,6 +45,8 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class AdvancedDirectional extends NetworkDirectional {
 
@@ -98,9 +98,8 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     }
 
     @SuppressWarnings("deprecation")
-    @Nonnull
-    public static ItemStack getDirectionalSlotPane(
-            @Nonnull BlockFace blockFace, @Nonnull SlimefunItem slimefunItem, boolean active) {
+    @NotNull public static ItemStack getDirectionalSlotPane(
+            @NotNull BlockFace blockFace, @NotNull SlimefunItem slimefunItem, boolean active) {
         final ItemStack displayStack = ItemStackUtil.getCleanItem(new CustomItemStack(
                 slimefunItem.getItem(),
                 String.format(
@@ -124,9 +123,8 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     }
 
     @SuppressWarnings("deprecation")
-    @Nonnull
-    public static ItemStack getDirectionalSlotPane(
-            @Nonnull BlockFace blockFace, @Nonnull Material blockMaterial, boolean active) {
+    @NotNull public static ItemStack getDirectionalSlotPane(
+            @NotNull BlockFace blockFace, @NotNull Material blockMaterial, boolean active) {
         if (blockMaterial.isItem() && blockMaterial != Material.AIR) {
             final ItemStack displayStack = new CustomItemStack(
                     blockMaterial,
@@ -156,7 +154,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         }
     }
 
-    @Nullable public static BlockFace getSelectedFace(@Nonnull Location location) {
+    @Nullable public static BlockFace getSelectedFace(@NotNull Location location) {
         return SELECTED_DIRECTION_MAP.get(location);
     }
 
@@ -209,8 +207,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         }
     }
 
-    @Nonnull
-    protected BlockFace getCurrentDirection(@Nonnull BlockMenu blockMenu) {
+    @NotNull protected BlockFace getCurrentDirection(@NotNull BlockMenu blockMenu) {
         BlockFace direction = SELECTED_DIRECTION_MAP.get(blockMenu.getLocation().clone());
 
         if (direction == null) {
@@ -221,7 +218,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     }
 
     @OverridingMethodsMustInvokeSuper
-    protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
+    protected void onTick(@Nullable BlockMenu blockMenu, @NotNull Block block) {
         super.onTick(blockMenu, block);
         addToRegistry(block);
         updateGui(blockMenu);
@@ -232,7 +229,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     }
 
     @Override
-    public void onPlace(@Nonnull BlockPlaceEvent event) {
+    public void onPlace(@NotNull BlockPlaceEvent event) {
         NetworkStorage.removeNode(event.getBlock().getLocation());
         var blockData = StorageCacheUtils.getBlock(event.getBlock().getLocation());
         if (blockData == null) {
@@ -293,7 +290,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
             }
 
             @Override
-            public void newInstance(@Nonnull BlockMenu blockMenu, @Nonnull Block b) {
+            public void newInstance(@NotNull BlockMenu blockMenu, @NotNull Block b) {
                 final BlockFace direction;
                 final Location location = blockMenu.getLocation();
                 final String string = StorageCacheUtils.getData(location, DIRECTION);
@@ -366,7 +363,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
                         || (this.getSlimefunItem().canUse(player, false)
                                 && Slimefun.getProtectionManager()
@@ -434,8 +431,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         return false;
     }
 
-    @Nonnull
-    protected abstract int[] getBackgroundSlots();
+    @NotNull protected abstract int[] getBackgroundSlots();
 
     @Nullable protected int[] getOtherBackgroundSlots() {
         return super.getOtherBackgroundSlots();
@@ -477,7 +473,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         return super.getDustOptions();
     }
 
-    protected void showParticle(@Nonnull Location location, @Nonnull BlockFace blockFace) {
+    protected void showParticle(@NotNull Location location, @NotNull BlockFace blockFace) {
         final Vector faceVector = blockFace.getDirection().clone().multiply(-1);
         final Vector pushVector = faceVector.clone().multiply(2);
         final Location displayLocation = location.clone().add(0.5, 0.5, 0.5).add(faceVector);

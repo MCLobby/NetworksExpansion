@@ -4,12 +4,12 @@ import com.jeff_media.morepersistentdatatypes.DataType;
 import io.github.sefiraat.networks.network.stackcaches.BlueprintInstance;
 import io.github.sefiraat.networks.network.stackcaches.CardInstance;
 import io.github.sefiraat.networks.utils.Keys;
-import javax.annotation.Nonnull;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A {@link PersistentDataType} for {@link CardInstance}
@@ -24,21 +24,18 @@ public class PersistentCraftingBlueprintType implements PersistentDataType<Persi
             new PersistentCraftingBlueprintType();
 
     @Override
-    @Nonnull
-    public Class<PersistentDataContainer> getPrimitiveType() {
+    @NotNull public Class<PersistentDataContainer> getPrimitiveType() {
         return PersistentDataContainer.class;
     }
 
     @Override
-    @Nonnull
-    public Class<BlueprintInstance> getComplexType() {
+    @NotNull public Class<BlueprintInstance> getComplexType() {
         return BlueprintInstance.class;
     }
 
     @Override
-    @Nonnull
-    public PersistentDataContainer toPrimitive(
-            @Nonnull BlueprintInstance complex, @Nonnull PersistentDataAdapterContext context) {
+    @NotNull public PersistentDataContainer toPrimitive(
+            @NotNull BlueprintInstance complex, @NotNull PersistentDataAdapterContext context) {
         final PersistentDataContainer container = context.newPersistentDataContainer();
 
         container.set(Keys.RECIPE, DataType.ITEM_STACK_ARRAY, complex.getRecipeItems());
@@ -49,9 +46,8 @@ public class PersistentCraftingBlueprintType implements PersistentDataType<Persi
     }
 
     @Override
-    @Nonnull
-    public BlueprintInstance fromPrimitive(
-            @Nonnull PersistentDataContainer primitive, @Nonnull PersistentDataAdapterContext context) {
+    @NotNull public BlueprintInstance fromPrimitive(
+            @NotNull PersistentDataContainer primitive, @NotNull PersistentDataAdapterContext context) {
         ItemStack[] recipe = primitive.get(Keys.RECIPE, DataType.ITEM_STACK_ARRAY);
         if (recipe == null) {
             recipe = primitive.get(Keys.RECIPE2, DataType.ITEM_STACK_ARRAY);

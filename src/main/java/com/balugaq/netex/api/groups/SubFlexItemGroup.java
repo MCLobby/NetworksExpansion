@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -30,6 +28,8 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Final_ROOT
@@ -59,21 +59,20 @@ public class SubFlexItemGroup extends FlexItemGroup {
 
     private Map<Integer, SubFlexItemGroup> pageMap = new LinkedHashMap<>();
 
-    public SubFlexItemGroup(@Nonnull NamespacedKey key, @Nullable ItemStack item, int tier) {
+    public SubFlexItemGroup(@NotNull NamespacedKey key, @Nullable ItemStack item, int tier) {
         super(key, ItemStackUtil.getCleanItem(item), tier);
         this.item = item;
         this.page = 1;
         this.pageMap.put(1, this);
     }
 
-    public SubFlexItemGroup(@Nonnull NamespacedKey key, @Nullable ItemStack item, int tier, int page) {
+    public SubFlexItemGroup(@NotNull NamespacedKey key, @Nullable ItemStack item, int tier, int page) {
         super(key, ItemStackUtil.getCleanItem(item), tier);
         this.item = item;
         this.page = page;
     }
 
-    @Nonnull
-    public static SubFlexItemGroup generateFromItemGroup(@Nonnull ItemGroup itemGroup, @Nonnull Player player) {
+    @NotNull public static SubFlexItemGroup generateFromItemGroup(@NotNull ItemGroup itemGroup, @NotNull Player player) {
         SubFlexItemGroup subFlexItemGroup = new SubFlexItemGroup(
                 Keys.newKey(itemGroup.getKey().getNamespace()), itemGroup.getItem(player), itemGroup.getTier());
         subFlexItemGroup.addTo(itemGroup.getItems());
@@ -82,35 +81,35 @@ public class SubFlexItemGroup extends FlexItemGroup {
 
     @Override
     public boolean isVisible(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode) {
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode) {
         return false;
     }
 
     @Override
-    public boolean isAccessible(@Nonnull Player p) {
+    public boolean isAccessible(@NotNull Player p) {
         return false;
     }
 
     @Override
     public void open(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode) {
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode) {
         playerProfile.getGuideHistory().add(this, this.page);
         this.generateMenu(player, playerProfile, slimefunGuideMode).open(player);
     }
 
     public void refresh(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode) {
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode) {
         GuideUtil.removeLastEntry(playerProfile.getGuideHistory());
         this.open(player, playerProfile, slimefunGuideMode);
     }
 
-    public void addTo(@Nonnull SlimefunItem... slimefunItems) {
+    public void addTo(@NotNull SlimefunItem... slimefunItems) {
         List<SlimefunItem> slimefunItemList = new ArrayList<>();
         for (SlimefunItem slimefunItem : slimefunItems) {
             if (slimefunItem != null && !slimefunItem.isDisabled()) {
@@ -126,7 +125,7 @@ public class SubFlexItemGroup extends FlexItemGroup {
         }
     }
 
-    public void addTo(@Nonnull SlimefunItemStack... slimefunItemStacks) {
+    public void addTo(@NotNull SlimefunItemStack... slimefunItemStacks) {
         List<SlimefunItem> slimefunItemList = new ArrayList<>();
         for (SlimefunItemStack slimefunItemStack : slimefunItemStacks) {
             SlimefunItem slimefunItem = SlimefunItem.getByItem(slimefunItemStack);
@@ -143,7 +142,7 @@ public class SubFlexItemGroup extends FlexItemGroup {
         }
     }
 
-    public void addTo(@Nonnull List<SlimefunItem> slimefunItemList) {
+    public void addTo(@NotNull List<SlimefunItem> slimefunItemList) {
         List<SlimefunItem> slimefunItemList1 = new ArrayList<>();
         for (SlimefunItem slimefunItem : slimefunItemList) {
             if (slimefunItem != null && !slimefunItem.isDisabled()) {
@@ -159,13 +158,13 @@ public class SubFlexItemGroup extends FlexItemGroup {
         }
     }
 
-    public void addFrom(@Nonnull SubFlexItemGroup... subFlexItemGroups) {
+    public void addFrom(@NotNull SubFlexItemGroup... subFlexItemGroups) {
         for (SubFlexItemGroup subFlexItemGroup : subFlexItemGroups) {
             this.slimefunItemList.addAll(subFlexItemGroup.slimefunItemList);
         }
     }
 
-    public @Nonnull List<SlimefunItem> getSlimefunItems() {
+    public @NotNull List<SlimefunItem> getSlimefunItems() {
         List<SlimefunItem> result = new ArrayList<>();
         for (List<SlimefunItem> list : this.slimefunItemList) {
             result.addAll(list);
@@ -173,11 +172,10 @@ public class SubFlexItemGroup extends FlexItemGroup {
         return result;
     }
 
-    @Nonnull
-    private ChestMenu generateMenu(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode) {
+    @NotNull private ChestMenu generateMenu(
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode) {
         ChestMenu chestMenu = new ChestMenu(ItemStackUtil.getItemName(super.item));
 
         chestMenu.setEmptySlotsClickable(false);
@@ -294,8 +292,7 @@ public class SubFlexItemGroup extends FlexItemGroup {
         return chestMenu;
     }
 
-    @Nonnull
-    private SubFlexItemGroup getByPage(int page) {
+    @NotNull private SubFlexItemGroup getByPage(int page) {
         if (this.pageMap.containsKey(page)) {
             return this.pageMap.get(page);
         } else {

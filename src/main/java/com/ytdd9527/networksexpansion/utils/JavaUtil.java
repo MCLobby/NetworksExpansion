@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Final_ROOT
@@ -166,7 +166,7 @@ public class JavaUtil {
         return false;
     }
 
-    public static long testTime(@Nonnull Runnable runnable) {
+    public static long testTime(@NotNull Runnable runnable) {
         long beginTime = System.nanoTime();
         runnable.run();
         return System.nanoTime() - beginTime;

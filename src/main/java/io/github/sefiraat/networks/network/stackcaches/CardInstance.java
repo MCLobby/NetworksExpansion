@@ -3,14 +3,14 @@ package io.github.sefiraat.networks.network.stackcaches;
 import com.balugaq.netex.utils.Lang;
 import io.github.sefiraat.networks.utils.Theme;
 import java.util.List;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @Getter
 public class CardInstance extends ItemStackCache {
@@ -59,7 +59,7 @@ public class CardInstance extends ItemStackCache {
     }
 
     @SuppressWarnings("deprecation")
-    public void updateLore(@Nonnull ItemMeta itemMeta) {
+    public void updateLore(@NotNull ItemMeta itemMeta) {
         List<String> lore = itemMeta.getLore();
         if (lore == null) {
             return;

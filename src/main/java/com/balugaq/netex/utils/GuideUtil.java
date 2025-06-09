@@ -6,10 +6,10 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import lombok.experimental.UtilityClass;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Final_ROOT, balugaq
@@ -30,7 +30,7 @@ public class GuideUtil {
         Slimefun.getRegistry().getSlimefunGuide(mode).openMainMenu(profile, selectedPage);
     }
 
-    public static void removeLastEntry(@Nonnull GuideHistory guideHistory) {
+    public static void removeLastEntry(@NotNull GuideHistory guideHistory) {
         try {
             Method getLastEntry = guideHistory.getClass().getDeclaredMethod("getLastEntry", boolean.class);
             getLastEntry.setAccessible(true);

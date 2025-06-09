@@ -1,9 +1,9 @@
 package io.github.sefiraat.networks.network.stackcaches;
 
-import javax.annotation.Nonnull;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 @Setter
 @Getter
@@ -13,7 +13,7 @@ public class ItemRequest extends ItemStackCache {
 
     private int amount;
 
-    public ItemRequest(@Nonnull ItemStack itemStack, int amount) {
+    public ItemRequest(@NotNull ItemStack itemStack, int amount) {
         super(itemStack);
         this.originalAmount = amount;
         this.amount = amount;

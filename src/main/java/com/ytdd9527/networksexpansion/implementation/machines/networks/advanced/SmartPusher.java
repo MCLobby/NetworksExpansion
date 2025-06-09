@@ -26,8 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -41,6 +39,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class SmartPusher extends SpecialSlimefunItem implements AdminDebuggable {
     private static final Map<Location, BlockFace> DIRECTIONS = new HashMap<>();
@@ -51,10 +51,10 @@ public class SmartPusher extends SpecialSlimefunItem implements AdminDebuggable 
     private static final int[] TEMPLATE_SLOTS = {4};
 
     public SmartPusher(
-            @Nonnull ItemGroup itemGroup,
-            @Nonnull SlimefunItemStack item,
-            @Nonnull RecipeType recipeType,
-            @Nonnull ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            @NotNull ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -105,9 +105,9 @@ public class SmartPusher extends SpecialSlimefunItem implements AdminDebuggable 
                 new BlockBreakHandler(false, false) {
                     @Override
                     public void onPlayerBreak(
-                            @Nonnull BlockBreakEvent blockBreakEvent,
-                            @Nonnull ItemStack itemStack,
-                            @Nonnull List<ItemStack> list) {
+                            @NotNull BlockBreakEvent blockBreakEvent,
+                            @NotNull ItemStack itemStack,
+                            @NotNull List<ItemStack> list) {
                         removeDirection(blockBreakEvent.getBlock().getLocation());
                         final Location location = blockBreakEvent.getBlock().getLocation();
                         final BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
@@ -118,7 +118,7 @@ public class SmartPusher extends SpecialSlimefunItem implements AdminDebuggable 
                 },
                 new BlockPlaceHandler(false) {
                     @Override
-                    public void onPlayerPlace(@Nonnull BlockPlaceEvent blockPlaceEvent) {
+                    public void onPlayerPlace(@NotNull BlockPlaceEvent blockPlaceEvent) {
                         if (blockPlaceEvent.getBlock().getBlockData() instanceof Directional directional) {
                             final BlockFace face = directional.getFacing();
                             setDirection(blockPlaceEvent.getBlock().getLocation(), face);
@@ -138,14 +138,14 @@ public class SmartPusher extends SpecialSlimefunItem implements AdminDebuggable 
             }
 
             @Override
-            public void newInstance(@Nonnull BlockMenu blockMenu, @Nonnull Block b) {
+            public void newInstance(@NotNull BlockMenu blockMenu, @NotNull Block b) {
                 for (int backgroundSlot : getBackgroundSlots()) {
                     blockMenu.addMenuClickHandler(backgroundSlot, ChestMenuUtils.getEmptyClickHandler());
                 }
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
                         || (this.getSlimefunItem().canUse(player, false)
                                 && Slimefun.getProtectionManager()
@@ -159,7 +159,7 @@ public class SmartPusher extends SpecialSlimefunItem implements AdminDebuggable 
         };
     }
 
-    public void onTick(@Nonnull BlockMenu blockMenu, BlockFace bridgeFace) {
+    public void onTick(@NotNull BlockMenu blockMenu, BlockFace bridgeFace) {
         final BlockFace containerFace = bridgeFace.getOppositeFace();
         final Block thisBlock = blockMenu.getBlock();
         final Block bridge = thisBlock.getRelative(bridgeFace);
@@ -221,7 +221,7 @@ public class SmartPusher extends SpecialSlimefunItem implements AdminDebuggable 
         return 3456;
     }
 
-    public List<ItemStack> getTemplateItems(@Nonnull BlockMenu blockMenu) {
+    public List<ItemStack> getTemplateItems(@NotNull BlockMenu blockMenu) {
         final List<ItemStack> items = new ArrayList<>();
         for (int slot : getTemplateSlots()) {
             final ItemStack itemStack = blockMenu.getItemInSlot(slot);

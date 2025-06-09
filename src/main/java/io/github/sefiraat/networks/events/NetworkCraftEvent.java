@@ -1,14 +1,14 @@
 package io.github.sefiraat.networks.events;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class NetworkCraftEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
@@ -28,15 +28,15 @@ public class NetworkCraftEvent extends PlayerEvent implements Cancellable {
         this.machine = machine;
     }
 
-    public static @Nonnull HandlerList getHandlerList() {
+    public static @NotNull HandlerList getHandlerList() {
         return handlers;
     }
 
-    public @Nonnull ItemStack[] getInput() {
+    public @NotNull ItemStack[] getInput() {
         return this.input;
     }
 
-    public @Nonnull ItemStack getOutput() {
+    public @NotNull ItemStack getOutput() {
         return this.output;
     }
 
@@ -57,7 +57,7 @@ public class NetworkCraftEvent extends PlayerEvent implements Cancellable {
     }
 
     @Override
-    public @Nonnull HandlerList getHandlers() {
+    public @NotNull HandlerList getHandlers() {
         return getHandlerList();
     }
 }

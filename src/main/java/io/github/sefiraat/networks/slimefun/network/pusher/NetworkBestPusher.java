@@ -3,8 +3,8 @@ package io.github.sefiraat.networks.slimefun.network.pusher;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import javax.annotation.Nonnull;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class NetworkBestPusher extends AbstractNetworkPusher {
 
@@ -18,19 +18,16 @@ public class NetworkBestPusher extends AbstractNetworkPusher {
     }
 
     @Override
-    @Nonnull
-    public int[] getBackgroundSlots() {
+    @NotNull public int[] getBackgroundSlots() {
         return BACKGROUND_SLOTS;
     }
 
-    @Nonnull
-    @Override
+    @NotNull @Override
     public int[] getOtherBackgroundSlots() {
         return TEMPLATE_BACKGROUND;
     }
 
-    @Nonnull
-    @Override
+    @NotNull @Override
     public int[] getItemSlots() {
         return TEMPLATE_SLOTS;
     }

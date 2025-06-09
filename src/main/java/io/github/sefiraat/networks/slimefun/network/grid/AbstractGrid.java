@@ -30,8 +30,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -45,6 +43,8 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractGrid extends NetworkObject {
 
@@ -97,8 +97,7 @@ public abstract class AbstractGrid extends NetworkObject {
         });
     }
 
-    @Nonnull
-    private static List<String> getLoreAddition(long amount) {
+    @NotNull private static List<String> getLoreAddition(long amount) {
         final MessageFormat format =
                 new MessageFormat(Lang.getString("messages.normal-operation.grid.item_amount"), Locale.ROOT);
         return List.of(
@@ -110,7 +109,7 @@ public abstract class AbstractGrid extends NetworkObject {
                         .toString());
     }
 
-    protected void tryAddItem(@Nonnull BlockMenu blockMenu) {
+    protected void tryAddItem(@NotNull BlockMenu blockMenu) {
         final ItemStack itemStack = blockMenu.getItemInSlot(getInputSlot());
 
         if (itemStack == null || itemStack.getType() == Material.AIR) {
@@ -126,7 +125,7 @@ public abstract class AbstractGrid extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
-    protected void updateDisplay(@Nonnull BlockMenu blockMenu) {
+    protected void updateDisplay(@NotNull BlockMenu blockMenu) {
         // No viewer - lets not bother updating
         if (!blockMenu.hasViewer()) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.AFK);
@@ -220,8 +219,7 @@ public abstract class AbstractGrid extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
-    @Nonnull
-    protected List<Map.Entry<ItemStack, Long>> getEntries(@Nonnull NetworkRoot networkRoot, @Nonnull GridCache cache) {
+    @NotNull protected List<Map.Entry<ItemStack, Long>> getEntries(@NotNull NetworkRoot networkRoot, @NotNull GridCache cache) {
         return networkRoot.getAllNetworkItemsLongType().entrySet().stream()
                 .filter(entry -> {
                     if (cache.getFilter() == null) {
@@ -247,10 +245,10 @@ public abstract class AbstractGrid extends NetworkObject {
 
     @SuppressWarnings("deprecation")
     protected void setFilter(
-            @Nonnull Player player,
-            @Nonnull BlockMenu blockMenu,
-            @Nonnull GridCache gridCache,
-            @Nonnull ClickAction action) {
+            @NotNull Player player,
+            @NotNull BlockMenu blockMenu,
+            @NotNull GridCache gridCache,
+            @NotNull ClickAction action) {
         if (action.isRightClicked()) {
             gridCache.setFilter(null);
         } else {
@@ -371,7 +369,7 @@ public abstract class AbstractGrid extends NetworkObject {
             NodeDefinition definition,
             GridItemRequest request,
             ClickAction action,
-            @Nonnull BlockMenu menu) {
+            @NotNull BlockMenu menu) {
         final ItemStack cursor = player.getItemOnCursor();
 
         // Quickly check if the cursor has an item and if we can add more to it
@@ -394,7 +392,7 @@ public abstract class AbstractGrid extends NetworkObject {
 
     @SuppressWarnings("deprecation")
     private boolean canAddMore(
-            @Nonnull ClickAction action, @Nonnull ItemStack cursor, @Nonnull GridItemRequest request) {
+            @NotNull ClickAction action, @NotNull ItemStack cursor, @NotNull GridItemRequest request) {
         return !action.isRightClicked()
                 && request.getAmount() == 1
                 && cursor.getAmount() < cursor.getMaxStackSize()
@@ -406,11 +404,9 @@ public abstract class AbstractGrid extends NetworkObject {
         getPreset();
     }
 
-    @Nonnull
-    protected abstract BlockMenuPreset getPreset();
+    @NotNull protected abstract BlockMenuPreset getPreset();
 
-    @Nonnull
-    protected abstract Map<Location, GridCache> getCacheMap();
+    @NotNull protected abstract Map<Location, GridCache> getCacheMap();
 
     protected abstract int[] getBackgroundSlots();
 

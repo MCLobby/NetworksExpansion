@@ -7,12 +7,12 @@ import io.github.sefiraat.networks.slimefun.groups.MainFlexGroup;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import javax.annotation.Nonnull;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 @UtilityClass
 public final class NetworksItemGroups {
@@ -66,7 +66,7 @@ public final class NetworksItemGroups {
 
         @SuppressWarnings("deprecation")
         @Override
-        public boolean isHidden(@Nonnull Player p) {
+        public boolean isHidden(@NotNull Player p) {
             return true;
         }
     }

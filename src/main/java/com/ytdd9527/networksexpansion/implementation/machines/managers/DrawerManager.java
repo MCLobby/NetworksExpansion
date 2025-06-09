@@ -37,8 +37,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -52,6 +50,8 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
 public class DrawerManager extends NetworkObject {
@@ -123,17 +123,17 @@ public class DrawerManager extends NetworkObject {
         });
     }
 
-    public static String getStorageName(@Nonnull Location dataLocation) {
+    public static String getStorageName(@NotNull Location dataLocation) {
         return StorageCacheUtils.getData(dataLocation, BS_NAME);
     }
 
     public static void setStorageIcon(
-            @Nonnull Player player, @Nonnull Location dataLocation, @Nonnull ItemStack cursor) {
+            @NotNull Player player, @NotNull Location dataLocation, @NotNull ItemStack cursor) {
         StorageCacheUtils.setData(dataLocation, BS_ICON, serializeIcon(cursor));
         player.sendMessage(Lang.getString("messages.completed-operation.manager.set_icon"));
     }
 
-    public static ItemStack getStorageIcon(@Nonnull Location dataLocation) {
+    public static ItemStack getStorageIcon(@NotNull Location dataLocation) {
         String icon = StorageCacheUtils.getData(dataLocation, BS_ICON);
         if (icon == null) {
             return null;
@@ -141,7 +141,7 @@ public class DrawerManager extends NetworkObject {
         return deserializeIcon(icon);
     }
 
-    public static String serializeIcon(@Nonnull ItemStack itemStack) {
+    public static String serializeIcon(@NotNull ItemStack itemStack) {
         var sf = SlimefunItem.getByItem(itemStack);
         if (sf != null) {
             return NAMESPACE_SF + ":" + sf.getId();
@@ -150,7 +150,7 @@ public class DrawerManager extends NetworkObject {
         }
     }
 
-    @Nullable public static ItemStack deserializeIcon(@Nonnull String icon) {
+    @Nullable public static ItemStack deserializeIcon(@NotNull String icon) {
         if (icon.startsWith(NAMESPACE_SF)) {
             var id = icon.split(":")[1];
             var sf = SlimefunItem.getById(id);
@@ -165,7 +165,7 @@ public class DrawerManager extends NetworkObject {
         return null;
     }
 
-    public static void topOrUntopStorage(@Nonnull Player player, @Nonnull Location dataLocation) {
+    public static void topOrUntopStorage(@NotNull Player player, @NotNull Location dataLocation) {
         if (Objects.equals(StorageCacheUtils.getData(dataLocation, BS_TOP), BS_TOP_1B)) {
             StorageCacheUtils.setData(dataLocation, BS_TOP, BS_TOP_0B);
             player.sendMessage(Lang.getString("messages.completed-operation.manager.top_storage_off"));
@@ -175,17 +175,17 @@ public class DrawerManager extends NetworkObject {
         }
     }
 
-    public static boolean isTopStorage(@Nonnull Location dataLocation) {
+    public static boolean isTopStorage(@NotNull Location dataLocation) {
         String top = StorageCacheUtils.getData(dataLocation, BS_TOP);
         return top != null && top.equals(BS_TOP_1B);
     }
 
-    public static void highlightBlock(@Nonnull Player player, @Nonnull Location dataLocation) {
+    public static void highlightBlock(@NotNull Player player, @NotNull Location dataLocation) {
         ParticleUtil.drawLineFrom(player.getEyeLocation().clone().add(0D, -0.5D, 0D), dataLocation);
         ParticleUtil.highlightBlock(dataLocation);
     }
 
-    public static void openMenu(@Nonnull StorageUnitData data, @Nonnull Player player) {
+    public static void openMenu(@NotNull StorageUnitData data, @NotNull Player player) {
         BlockMenu menu = StorageCacheUtils.getMenu(data.getLastLocation());
         if (menu == null) {
             return;
@@ -195,7 +195,7 @@ public class DrawerManager extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
-    public static ItemStack getItemStack(@Nonnull StorageUnitData entry) {
+    public static ItemStack getItemStack(@NotNull StorageUnitData entry) {
         var itemContainers = entry.getStoredItems();
         if (itemContainers.isEmpty()) {
             return null;
@@ -233,8 +233,7 @@ public class DrawerManager extends NetworkObject {
                 .toList();
     }
 
-    @Nonnull
-    private static String getAmountLore(Long long1) {
+    @NotNull private static String getAmountLore(Long long1) {
         final MessageFormat format =
                 new MessageFormat(Lang.getString("messages.normal-operation.grid.item_amount"), Locale.ROOT);
         return format.format(
@@ -246,13 +245,13 @@ public class DrawerManager extends NetworkObject {
 
     @SuppressWarnings({"deprecation", "unused"})
     public void handleClick(
-            @Nonnull NetworkRoot root,
-            @Nonnull BlockMenu blockMenu,
-            @Nonnull Location dataLocation,
-            @Nonnull Player player,
+            @NotNull NetworkRoot root,
+            @NotNull BlockMenu blockMenu,
+            @NotNull Location dataLocation,
+            @NotNull Player player,
             @Range(from = 0, to = 53) int slot,
-            @Nonnull ItemStack item,
-            @Nonnull ClickAction action) {
+            @NotNull ItemStack item,
+            @NotNull ClickAction action) {
         StorageUnitData data = NetworkRoot.getCargoStorageUnitData(dataLocation);
         if (data == null) {
             return;
@@ -280,7 +279,7 @@ public class DrawerManager extends NetworkObject {
         }
     }
 
-    public void setStorageName(@Nonnull BlockMenu blockMenu, @Nonnull Player player, @Nonnull Location dataLocation) {
+    public void setStorageName(@NotNull BlockMenu blockMenu, @NotNull Player player, @NotNull Location dataLocation) {
         player.sendMessage(Lang.getString("messages.normal-operation.manager.set_name"));
         player.closeInventory();
         ChatUtils.awaitInput(player, s -> {
@@ -435,8 +434,7 @@ public class DrawerManager extends NetworkObject {
         getPreset();
     }
 
-    @Nonnull
-    protected BlockMenuPreset getPreset() {
+    @NotNull protected BlockMenuPreset getPreset() {
         return new BlockMenuPreset(this.getId(), this.getItemName()) {
 
             @Override
@@ -447,7 +445,7 @@ public class DrawerManager extends NetworkObject {
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
                         || (ExpansionItems.NETWORK_GRID_NEW_STYLE.canUse(player, false)
                                 && Slimefun.getProtectionManager()
@@ -460,7 +458,7 @@ public class DrawerManager extends NetworkObject {
             }
 
             @Override
-            public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
+            public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
                 getCacheMap().put(menu.getLocation(), new GridCache(0, 0, GridCache.SortOrder.ALPHABETICAL));
 
                 menu.replaceExistingItem(getPagePrevious(), getPagePreviousStack());
@@ -514,8 +512,7 @@ public class DrawerManager extends NetworkObject {
         };
     }
 
-    @Nonnull
-    public Map<Location, GridCache> getCacheMap() {
+    @NotNull public Map<Location, GridCache> getCacheMap() {
         return CACHE_MAP;
     }
 
@@ -545,10 +542,10 @@ public class DrawerManager extends NetworkObject {
 
     @SuppressWarnings("deprecation")
     protected void setFilter(
-            @Nonnull Player player,
-            @Nonnull BlockMenu blockMenu,
-            @Nonnull GridCache gridCache,
-            @Nonnull ClickAction action) {
+            @NotNull Player player,
+            @NotNull BlockMenu blockMenu,
+            @NotNull GridCache gridCache,
+            @NotNull ClickAction action) {
         if (action.isRightClicked()) {
             gridCache.setFilter(null);
         } else {

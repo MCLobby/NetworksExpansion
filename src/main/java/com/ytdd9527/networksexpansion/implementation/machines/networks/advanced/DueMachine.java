@@ -18,7 +18,6 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Nonnull;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -31,6 +30,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("ALL")
 public class DueMachine extends SpecialSlimefunItem implements AdminDebuggable {
@@ -53,14 +53,14 @@ public class DueMachine extends SpecialSlimefunItem implements AdminDebuggable {
     private static final int[] OUTPUT_BORDERS = new int[] {};
 
     public DueMachine(
-            @Nonnull ItemGroup itemGroup,
-            @Nonnull SlimefunItemStack item,
-            @Nonnull RecipeType recipeType,
-            @Nonnull ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            @NotNull ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
-    private static void onTick(@Nonnull Block block) {
+    private static void onTick(@NotNull Block block) {
         Location location = block.getLocation();
         BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
         if (blockMenu == null) {
@@ -92,15 +92,15 @@ public class DueMachine extends SpecialSlimefunItem implements AdminDebuggable {
     public void preRegister() {
         addItemHandler(new BlockPlaceHandler(false) {
             @Override
-            public void onPlayerPlace(@Nonnull BlockPlaceEvent blockPlaceEvent) {}
+            public void onPlayerPlace(@NotNull BlockPlaceEvent blockPlaceEvent) {}
         });
 
         addItemHandler(new BlockBreakHandler(false, false) {
             @Override
             public void onPlayerBreak(
-                    @Nonnull BlockBreakEvent blockBreakEvent,
-                    @Nonnull ItemStack itemStack,
-                    @Nonnull List<ItemStack> list) {}
+                    @NotNull BlockBreakEvent blockBreakEvent,
+                    @NotNull ItemStack itemStack,
+                    @NotNull List<ItemStack> list) {}
         });
 
         addItemHandler(new BlockTicker() {
@@ -148,7 +148,7 @@ public class DueMachine extends SpecialSlimefunItem implements AdminDebuggable {
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
                         || (Slimefun.getPermissionsService().hasPermission(player, this.getSlimefunItem())
                                 && Slimefun.getProtectionManager()

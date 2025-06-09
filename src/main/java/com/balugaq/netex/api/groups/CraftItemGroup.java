@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nonnull;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -28,6 +27,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Final_ROOT
@@ -52,11 +52,11 @@ public class CraftItemGroup extends FlexItemGroup {
     private static final Map<SlimefunItem, CraftItemGroup> ITEM_MAP = new LinkedHashMap<>();
 
     private final int page;
-    private final @Nonnull SlimefunItem slimefunItem;
-    private final @Nonnull List<SlimefunItem> slimefunItemList;
+    private final @NotNull SlimefunItem slimefunItem;
+    private final @NotNull List<SlimefunItem> slimefunItemList;
     private Map<Integer, CraftItemGroup> pageMap = new LinkedHashMap<>();
 
-    protected CraftItemGroup(@Nonnull NamespacedKey key, @Nonnull SlimefunItem slimefunItem) {
+    protected CraftItemGroup(@NotNull NamespacedKey key, @NotNull SlimefunItem slimefunItem) {
         super(key, ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(slimefunItem.getItem())));
         this.page = 1;
         this.slimefunItem = slimefunItem;
@@ -73,7 +73,7 @@ public class CraftItemGroup extends FlexItemGroup {
         ITEM_MAP.put(slimefunItem, this);
     }
 
-    protected CraftItemGroup(@Nonnull NamespacedKey key, @Nonnull SlimefunItem slimefunItem, int page) {
+    protected CraftItemGroup(@NotNull NamespacedKey key, @NotNull SlimefunItem slimefunItem, int page) {
         super(key, ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(slimefunItem.getItem())));
         this.page = page;
         this.slimefunItem = slimefunItem;
@@ -87,42 +87,40 @@ public class CraftItemGroup extends FlexItemGroup {
         }
     }
 
-    @Nonnull
-    public static CraftItemGroup getBySlimefunItem(@Nonnull SlimefunItem slimefunItem) {
+    @NotNull public static CraftItemGroup getBySlimefunItem(@NotNull SlimefunItem slimefunItem) {
         return new CraftItemGroup(Keys.newKey("" + slimefunItem.getId().hashCode()), slimefunItem);
     }
 
     @Override
     public boolean isVisible(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode) {
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode) {
         return false;
     }
 
     @Override
     public void open(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode) {
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode) {
         playerProfile.getGuideHistory().add(this, this.page);
         this.generateMenu(player, playerProfile, slimefunGuideMode).open(player);
     }
 
     public void refresh(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode) {
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode) {
         GuideUtil.removeLastEntry(playerProfile.getGuideHistory());
         this.open(player, playerProfile, slimefunGuideMode);
     }
 
     @SuppressWarnings("deprecation")
-    @Nonnull
-    private ChestMenu generateMenu(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode) {
+    @NotNull private ChestMenu generateMenu(
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode) {
         ChestMenu chestMenu = new ChestMenu(this.slimefunItem.getItemName());
 
         chestMenu.setEmptySlotsClickable(false);
@@ -232,8 +230,7 @@ public class CraftItemGroup extends FlexItemGroup {
         return chestMenu;
     }
 
-    @Nonnull
-    private CraftItemGroup getByPage(int page) {
+    @NotNull private CraftItemGroup getByPage(int page) {
         if (this.pageMap.containsKey(page)) {
             return this.pageMap.get(page);
         } else {

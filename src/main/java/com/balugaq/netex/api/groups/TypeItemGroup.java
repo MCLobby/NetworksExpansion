@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nonnull;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -30,6 +29,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Final_ROOT
@@ -54,11 +54,11 @@ public class TypeItemGroup extends FlexItemGroup {
     private static final Map<RecipeType, TypeItemGroup> RECIPE_TYPE_MAP = new LinkedHashMap<>();
 
     private final int page;
-    private final @Nonnull RecipeType recipeType;
-    private final @Nonnull List<SlimefunItem> slimefunItemList;
+    private final @NotNull RecipeType recipeType;
+    private final @NotNull List<SlimefunItem> slimefunItemList;
     private Map<Integer, TypeItemGroup> pageMap = new LinkedHashMap<>();
 
-    protected TypeItemGroup(@Nonnull NamespacedKey key, @Nonnull RecipeType recipeType) {
+    protected TypeItemGroup(@NotNull NamespacedKey key, @NotNull RecipeType recipeType) {
         super(
                 key,
                 ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(
@@ -78,7 +78,7 @@ public class TypeItemGroup extends FlexItemGroup {
         RECIPE_TYPE_MAP.put(recipeType, this);
     }
 
-    protected TypeItemGroup(@Nonnull NamespacedKey key, @Nonnull RecipeType recipeType, int page) {
+    protected TypeItemGroup(@NotNull NamespacedKey key, @NotNull RecipeType recipeType, int page) {
         super(
                 key,
                 ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(
@@ -95,41 +95,39 @@ public class TypeItemGroup extends FlexItemGroup {
         }
     }
 
-    @Nonnull
-    public static TypeItemGroup getByRecipeType(@Nonnull RecipeType recipeType) {
+    @NotNull public static TypeItemGroup getByRecipeType(@NotNull RecipeType recipeType) {
         return new TypeItemGroup(recipeType.getKey(), recipeType);
     }
 
     @Override
     public boolean isVisible(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode) {
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode) {
         return false;
     }
 
     @Override
     public void open(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode) {
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode) {
         playerProfile.getGuideHistory().add(this, this.page);
         this.generateMenu(player, playerProfile, slimefunGuideMode).open(player);
     }
 
     public void refresh(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode) {
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode) {
         GuideUtil.removeLastEntry(playerProfile.getGuideHistory());
         this.open(player, playerProfile, slimefunGuideMode);
     }
 
-    @Nonnull
-    private ChestMenu generateMenu(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode) {
+    @NotNull private ChestMenu generateMenu(
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode) {
         ChestMenu chestMenu = new ChestMenu(ItemStackUtil.getItemName(super.item));
 
         chestMenu.setEmptySlotsClickable(false);
@@ -239,8 +237,7 @@ public class TypeItemGroup extends FlexItemGroup {
         return chestMenu;
     }
 
-    @Nonnull
-    private TypeItemGroup getByPage(int page) {
+    @NotNull private TypeItemGroup getByPage(int page) {
         if (this.pageMap.containsKey(page)) {
             return this.pageMap.get(page);
         } else {

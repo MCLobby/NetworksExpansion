@@ -26,8 +26,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -45,6 +43,8 @@ import org.bukkit.inventory.FurnaceInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("ALL")
 public class LineTransferVanillaPusher extends NetworkDirectional implements RecipeDisplayItem, Configurable {
@@ -85,7 +85,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
     }
 
     @Override
-    protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
+    protected void onTick(@Nullable BlockMenu blockMenu, @NotNull Block block) {
         super.onTick(blockMenu, block);
 
         if (blockMenu == null) {
@@ -121,7 +121,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
         TICKER_MAP.put(location, tickCounter);
     }
 
-    private void tryPushItem(@Nonnull BlockMenu blockMenu) {
+    private void tryPushItem(@NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
@@ -221,10 +221,10 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
     }
 
     private void handleFurnace(
-            @Nonnull NetworkRoot root,
-            @Nonnull ItemStack template,
-            @Nonnull FurnaceInventory furnace,
-            @Nonnull BlockMenu blockMenu) {
+            @NotNull NetworkRoot root,
+            @NotNull ItemStack template,
+            @NotNull FurnaceInventory furnace,
+            @NotNull BlockMenu blockMenu) {
         if (template.getType().isFuel()
                 && (furnace.getFuel() == null || furnace.getFuel().getType() == Material.AIR)) {
             final ItemStack stack =
@@ -247,10 +247,10 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
     }
 
     private void handleBrewingStand(
-            @Nonnull NetworkRoot root,
-            @Nonnull ItemStack template,
-            @Nonnull BrewerInventory brewer,
-            @Nonnull BlockMenu blockMenu) {
+            @NotNull NetworkRoot root,
+            @NotNull ItemStack template,
+            @NotNull BrewerInventory brewer,
+            @NotNull BlockMenu blockMenu) {
         if (template.getType() == Material.BLAZE_POWDER) {
             if (brewer.getFuel() == null || brewer.getFuel().getType() == Material.AIR) {
                 final ItemStack stack = root.getItemStack0(
@@ -298,8 +298,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
         }
     }
 
-    @Nonnull
-    @Override
+    @NotNull @Override
     protected int[] getBackgroundSlots() {
         return BACKGROUND_SLOTS;
     }
@@ -349,7 +348,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
         return new Particle.DustOptions(Color.MAROON, 1);
     }
 
-    public @Nonnull List<ItemStack> getDisplayRecipes() {
+    public @NotNull List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);
         displayRecipes.add(new CustomItemStack(
                 Material.BOOK,

@@ -3,8 +3,8 @@ package com.balugaq.netex.api.enums;
 import dev.sefiraat.sefilib.misc.RotationFace;
 import dev.sefiraat.sefilib.misc.TransformationBuilder;
 import io.github.sefiraat.networks.Networks;
-import javax.annotation.Nonnull;
 import org.bukkit.util.Transformation;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 
 public enum Transformations {
@@ -21,9 +21,9 @@ public enum Transformations {
     CLOCHE_DIRT(new TransformationBuilder().scale(0.4f, 0.4f, 0.4f).build()),
     ;
 
-    private final @Nonnull Transformation transformation;
+    private final @NotNull Transformation transformation;
 
-    Transformations(@Nonnull Transformation transformation) {
+    Transformations(@NotNull Transformation transformation) {
         this.transformation = transformation;
     }
 
@@ -31,7 +31,7 @@ public enum Transformations {
         return getTransformation(true);
     }
 
-    public @Nonnull Transformation getTransformation(boolean itemDisplay) {
+    public @NotNull Transformation getTransformation(boolean itemDisplay) {
         // In 1.20+ the y-axis of item displays are rotated by 180°
         // This corrects the visuals by rotating again
         if (itemDisplay && Networks.getInstance().getMCVersion().isAtLeast(MinecraftVersion.MC1_20)) {

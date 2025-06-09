@@ -20,7 +20,6 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import java.util.Optional;
-import javax.annotation.Nonnull;
 import lombok.Getter;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
@@ -29,6 +28,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class NetworkRemote extends SpecialSlimefunItem {
@@ -69,7 +69,7 @@ public class NetworkRemote extends SpecialSlimefunItem {
         });
     }
 
-    public static void setGrid(@Nonnull ItemStack itemStack, @Nonnull Block block, @Nonnull Player player) {
+    public static void setGrid(@NotNull ItemStack itemStack, @NotNull Block block, @NotNull Player player) {
         final ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta == null) {
             return;
@@ -79,7 +79,7 @@ public class NetworkRemote extends SpecialSlimefunItem {
         player.sendMessage(Lang.getString("messages.completed-operation.remote.bound_to_grid"));
     }
 
-    public static void tryOpenGrid(@Nonnull ItemStack itemStack, @Nonnull Player player, int range) {
+    public static void tryOpenGrid(@NotNull ItemStack itemStack, @NotNull Player player, int range) {
         final ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta == null) {
             return;
@@ -107,7 +107,7 @@ public class NetworkRemote extends SpecialSlimefunItem {
         }
     }
 
-    public static void openGrid(@Nonnull Location location, @Nonnull Player player) {
+    public static void openGrid(@NotNull Location location, @NotNull Player player) {
         SlimefunBlockData blockData = StorageCacheUtils.getBlock(location);
         if (blockData == null) {
             player.sendMessage(Theme.ERROR + "无法找到绑定的网格");

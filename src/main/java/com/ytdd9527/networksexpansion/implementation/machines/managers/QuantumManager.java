@@ -39,8 +39,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -54,6 +52,8 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
 @SuppressWarnings("deprecation")
@@ -126,17 +126,17 @@ public class QuantumManager extends NetworkObject {
         });
     }
 
-    public static String getStorageName(@Nonnull Location barrelLocation) {
+    public static String getStorageName(@NotNull Location barrelLocation) {
         return StorageCacheUtils.getData(barrelLocation, BS_NAME);
     }
 
     public static void setStorageIcon(
-            @Nonnull Player player, @Nonnull Location barrelLocation, @Nonnull ItemStack cursor) {
+            @NotNull Player player, @NotNull Location barrelLocation, @NotNull ItemStack cursor) {
         StorageCacheUtils.setData(barrelLocation, BS_ICON, serializeIcon(cursor));
         player.sendMessage(Lang.getString("messages.completed-operation.manager.set_icon"));
     }
 
-    public static ItemStack getStorageIcon(@Nonnull Location barrelLocation) {
+    public static ItemStack getStorageIcon(@NotNull Location barrelLocation) {
         String icon = StorageCacheUtils.getData(barrelLocation, BS_ICON);
         if (icon == null) {
             return null;
@@ -144,7 +144,7 @@ public class QuantumManager extends NetworkObject {
         return deserializeIcon(icon);
     }
 
-    public static String serializeIcon(@Nonnull ItemStack itemStack) {
+    public static String serializeIcon(@NotNull ItemStack itemStack) {
         var sf = SlimefunItem.getByItem(itemStack);
         if (sf != null) {
             return NAMESPACE_SF + ":" + sf.getId();
@@ -153,7 +153,7 @@ public class QuantumManager extends NetworkObject {
         }
     }
 
-    @Nullable public static ItemStack deserializeIcon(@Nonnull String icon) {
+    @Nullable public static ItemStack deserializeIcon(@NotNull String icon) {
         if (icon.startsWith(NAMESPACE_SF)) {
             var id = icon.split(":")[1];
             var sf = SlimefunItem.getById(id);
@@ -168,7 +168,7 @@ public class QuantumManager extends NetworkObject {
         return null;
     }
 
-    public static void topOrUntopStorage(@Nonnull Player player, @Nonnull Location barrelLocation) {
+    public static void topOrUntopStorage(@NotNull Player player, @NotNull Location barrelLocation) {
         if (Objects.equals(StorageCacheUtils.getData(barrelLocation, BS_TOP), BS_TOP_1B)) {
             StorageCacheUtils.setData(barrelLocation, BS_TOP, BS_TOP_0B);
             player.sendMessage(Lang.getString("messages.completed-operation.manager.top_storage_off"));
@@ -178,18 +178,18 @@ public class QuantumManager extends NetworkObject {
         }
     }
 
-    public static boolean isTopStorage(@Nonnull Location barrelLocation) {
+    public static boolean isTopStorage(@NotNull Location barrelLocation) {
         String top = StorageCacheUtils.getData(barrelLocation, BS_TOP);
         return top != null && top.equals(BS_TOP_1B);
     }
 
-    public static void highlightBlock(@Nonnull Player player, @Nonnull Location barrelLocation) {
+    public static void highlightBlock(@NotNull Player player, @NotNull Location barrelLocation) {
         ParticleUtil.drawLineFrom(player.getEyeLocation().clone().add(0D, -0.5D, 0D), barrelLocation);
         ParticleUtil.highlightBlock(barrelLocation);
     }
 
     public static void setItem(
-            @Nonnull BarrelIdentity barrel, @Nonnull Location barrelLocation, @Nonnull Player player) {
+            @NotNull BarrelIdentity barrel, @NotNull Location barrelLocation, @NotNull Player player) {
         if (!(barrel instanceof io.github.sefiraat.networks.network.barrel.NetworkStorage)) {
             player.sendMessage(Lang.getString("messages.unsupported-operation.manager.support_quantum_only"));
         }
@@ -213,7 +213,7 @@ public class QuantumManager extends NetworkObject {
         NetworkQuantumStorage.setItem(menu, player);
     }
 
-    public static void openMenu(@Nonnull BarrelIdentity barrel, @Nonnull Player player) {
+    public static void openMenu(@NotNull BarrelIdentity barrel, @NotNull Player player) {
         BlockMenu menu = StorageCacheUtils.getMenu(barrel.getLocation());
         if (menu == null) {
             return;
@@ -255,8 +255,7 @@ public class QuantumManager extends NetworkObject {
                 .toList();
     }
 
-    @Nonnull
-    private static String getAmountLore(Long long1) {
+    @NotNull private static String getAmountLore(Long long1) {
         final MessageFormat format =
                 new MessageFormat(Lang.getString("messages.normal-operation.grid.item_amount"), Locale.ROOT);
         return format.format(
@@ -267,13 +266,13 @@ public class QuantumManager extends NetworkObject {
     }
 
     public void handleClick(
-            @Nonnull NetworkRoot root,
-            @Nonnull BlockMenu blockMenu,
-            @Nonnull Location barrelLocation,
-            @Nonnull Player player,
+            @NotNull NetworkRoot root,
+            @NotNull BlockMenu blockMenu,
+            @NotNull Location barrelLocation,
+            @NotNull Player player,
             @Range(from = 0, to = 53) int slot,
-            @Nonnull ItemStack item,
-            @Nonnull ClickAction action) {
+            @NotNull ItemStack item,
+            @NotNull ClickAction action) {
         BarrelIdentity barrel = NetworkRoot.getBarrel(barrelLocation, true);
         if (barrel == null) {
             return;
@@ -303,7 +302,7 @@ public class QuantumManager extends NetworkObject {
         }
     }
 
-    public void setStorageName(@Nonnull BlockMenu blockMenu, @Nonnull Player player, @Nonnull Location barrelLocation) {
+    public void setStorageName(@NotNull BlockMenu blockMenu, @NotNull Player player, @NotNull Location barrelLocation) {
         player.sendMessage(Lang.getString("messages.normal-operation.manager.set_name"));
         player.closeInventory();
         ChatUtils.awaitInput(player, s -> {
@@ -456,8 +455,7 @@ public class QuantumManager extends NetworkObject {
         getPreset();
     }
 
-    @Nonnull
-    protected BlockMenuPreset getPreset() {
+    @NotNull protected BlockMenuPreset getPreset() {
         return new BlockMenuPreset(this.getId(), this.getItemName()) {
 
             @Override
@@ -468,7 +466,7 @@ public class QuantumManager extends NetworkObject {
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
                         || (ExpansionItems.NETWORK_GRID_NEW_STYLE.canUse(player, false)
                                 && Slimefun.getProtectionManager()
@@ -481,7 +479,7 @@ public class QuantumManager extends NetworkObject {
             }
 
             @Override
-            public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
+            public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
                 getCacheMap().put(menu.getLocation(), new GridCache(0, 0, GridCache.SortOrder.ALPHABETICAL));
 
                 menu.replaceExistingItem(getPagePrevious(), getPagePreviousStack());
@@ -535,8 +533,7 @@ public class QuantumManager extends NetworkObject {
         };
     }
 
-    @Nonnull
-    public Map<Location, GridCache> getCacheMap() {
+    @NotNull public Map<Location, GridCache> getCacheMap() {
         return CACHE_MAP;
     }
 
@@ -565,10 +562,10 @@ public class QuantumManager extends NetworkObject {
     }
 
     protected void setFilter(
-            @Nonnull Player player,
-            @Nonnull BlockMenu blockMenu,
-            @Nonnull GridCache gridCache,
-            @Nonnull ClickAction action) {
+            @NotNull Player player,
+            @NotNull BlockMenu blockMenu,
+            @NotNull GridCache gridCache,
+            @NotNull ClickAction action) {
         if (action.isRightClicked()) {
             gridCache.setFilter(null);
         } else {

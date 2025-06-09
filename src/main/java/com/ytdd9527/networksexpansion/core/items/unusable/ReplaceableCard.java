@@ -7,11 +7,11 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import java.util.EnumMap;
 import java.util.Map;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * targetMaterial = this.getItem() + sourceMaterial
@@ -35,7 +35,7 @@ public class ReplaceableCard extends UnusableSlimefunItem implements RecipeItem,
             SlimefunItemStack item,
             RecipeType recipeType,
             ItemStack[] recipe,
-            @Nonnull Material targetMaterial,
+            @NotNull Material targetMaterial,
             @Nullable Material extraSourceMaterial) {
         super(itemGroup, item, recipeType, recipe);
         if (MATERIAL_SLIMEFUN_ITEM_MAP.containsKey(targetMaterial)) {
@@ -46,7 +46,7 @@ public class ReplaceableCard extends UnusableSlimefunItem implements RecipeItem,
         this.extraSourceMaterial = extraSourceMaterial;
     }
 
-    @Nullable public static ReplaceableCard getByMaterial(@Nonnull Material material) {
+    @Nullable public static ReplaceableCard getByMaterial(@NotNull Material material) {
         return MATERIAL_SLIMEFUN_ITEM_MAP.get(material);
     }
 

@@ -19,7 +19,6 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.annotation.Nonnull;
 import lombok.Getter;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import org.bukkit.Bukkit;
@@ -27,6 +26,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class NetworkController extends NetworkObject {
@@ -110,21 +110,21 @@ public class NetworkController extends NetworkObject {
         return CRAYONS;
     }
 
-    public static void addCrayon(@Nonnull Location location) {
+    public static void addCrayon(@NotNull Location location) {
         StorageCacheUtils.setData(location, CRAYON, String.valueOf(true));
         CRAYONS.add(location);
     }
 
-    public static void removeCrayon(@Nonnull Location location) {
+    public static void removeCrayon(@NotNull Location location) {
         StorageCacheUtils.removeData(location, CRAYON);
         CRAYONS.remove(location);
     }
 
-    public static boolean hasCrayon(@Nonnull Location location) {
+    public static boolean hasCrayon(@NotNull Location location) {
         return CRAYONS.contains(location);
     }
 
-    public static void wipeNetwork(@Nonnull Location location) {
+    public static void wipeNetwork(@NotNull Location location) {
         NetworkRoot networkRoot = NETWORKS.remove(location);
         if (networkRoot != null) {
             for (NetworkNode node : networkRoot.getChildrenNodes()) {
@@ -139,7 +139,7 @@ public class NetworkController extends NetworkObject {
         event.setCancelled(true);
     }
 
-    private void onFirstTick(@Nonnull Block block, @Nonnull SlimefunBlockData data) {
+    private void onFirstTick(@NotNull Block block, @NotNull SlimefunBlockData data) {
         final String crayon = data.getData(CRAYON);
         if (Boolean.parseBoolean(crayon)) {
             CRAYONS.add(block.getLocation());

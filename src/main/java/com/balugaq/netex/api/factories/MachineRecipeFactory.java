@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nonnull;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Final_ROOT
@@ -22,8 +22,7 @@ public class MachineRecipeFactory {
 
     private MachineRecipeFactory() {}
 
-    @Nonnull
-    public static MachineRecipeFactory getInstance() {
+    @NotNull public static MachineRecipeFactory getInstance() {
         if (instance == null) {
             synchronized (MachineRecipeFactory.class) {
                 if (instance == null) {
@@ -34,8 +33,7 @@ public class MachineRecipeFactory {
         return instance;
     }
 
-    @Nonnull
-    public List<MachineRecipe> getRecipe(@Nonnull String id) {
+    @NotNull public List<MachineRecipe> getRecipe(@NotNull String id) {
         if (this.recipeMap.containsKey(id)) {
             return this.recipeMap.get(id);
         }
@@ -44,8 +42,7 @@ public class MachineRecipeFactory {
         return machineRecipeList;
     }
 
-    @Nonnull
-    public List<AdvancedMachineRecipe> getAdvancedRecipe(@Nonnull String id) {
+    @NotNull public List<AdvancedMachineRecipe> getAdvancedRecipe(@NotNull String id) {
         if (this.advancedRecipeMap.containsKey(id)) {
             return this.advancedRecipeMap.get(id);
         } else if (this.recipeMap.containsKey(id)) {
@@ -55,7 +52,7 @@ public class MachineRecipeFactory {
         return new ArrayList<>();
     }
 
-    public void initAdvancedRecipeMap(@Nonnull String id) {
+    public void initAdvancedRecipeMap(@NotNull String id) {
         List<MachineRecipe> machineRecipeList = this.recipeMap.get(id);
         if (machineRecipeList == null) {
             return;

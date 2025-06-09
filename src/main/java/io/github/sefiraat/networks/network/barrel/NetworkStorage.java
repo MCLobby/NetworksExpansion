@@ -5,11 +5,11 @@ import io.github.sefiraat.networks.network.stackcaches.BarrelIdentity;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class NetworkStorage extends BarrelIdentity {
 
@@ -18,7 +18,7 @@ public class NetworkStorage extends BarrelIdentity {
     }
 
     @Override
-    @Nullable public ItemStack requestItem(@Nonnull ItemRequest itemRequest) {
+    @Nullable public ItemStack requestItem(@NotNull ItemRequest itemRequest) {
         final BlockMenu blockMenu = StorageCacheUtils.getMenu(this.getLocation());
 
         if (blockMenu == null) {

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nonnull;
 import lombok.experimental.UtilityClass;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -18,6 +17,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Final_ROOT
@@ -28,15 +28,15 @@ import org.bukkit.inventory.ItemStack;
 public final class MachineUtil {
     public static final BlockPlaceHandler BLOCK_PLACE_HANDLER_PLACER_ALLOW = new BlockPlaceHandler(true) {
         @Override
-        public void onPlayerPlace(@Nonnull BlockPlaceEvent blockPlaceEvent) {}
+        public void onPlayerPlace(@NotNull BlockPlaceEvent blockPlaceEvent) {}
     };
     public static final BlockPlaceHandler BLOCK_PLACE_HANDLER_PLACER_DENY = new BlockPlaceHandler(false) {
         @Override
-        public void onPlayerPlace(@Nonnull BlockPlaceEvent blockPlaceEvent) {}
+        public void onPlayerPlace(@NotNull BlockPlaceEvent blockPlaceEvent) {}
     };
     public static final BlockPlaceHandler BLOCK_PLACE_HANDLER_DENY = new BlockPlaceHandler(false) {
         @Override
-        public void onPlayerPlace(@Nonnull BlockPlaceEvent blockPlaceEvent) {
+        public void onPlayerPlace(@NotNull BlockPlaceEvent blockPlaceEvent) {
             blockPlaceEvent.setCancelled(true);
         }
     };
@@ -45,19 +45,19 @@ public final class MachineUtil {
         return new BlockBreakHandler(false, true) {
             @Override
             public void onPlayerBreak(
-                    @Nonnull BlockBreakEvent blockBreakEvent,
-                    @Nonnull ItemStack itemStack,
-                    @Nonnull List<ItemStack> list) {}
+                    @NotNull BlockBreakEvent blockBreakEvent,
+                    @NotNull ItemStack itemStack,
+                    @NotNull List<ItemStack> list) {}
         };
     }
 
-    public static BlockBreakHandler simpleBlockBreakerHandler(@Nonnull int... slot) {
+    public static BlockBreakHandler simpleBlockBreakerHandler(@NotNull int... slot) {
         return new BlockBreakHandler(false, true) {
             @Override
             public void onPlayerBreak(
-                    @Nonnull BlockBreakEvent blockBreakEvent,
-                    @Nonnull ItemStack itemStack,
-                    @Nonnull List<ItemStack> list) {
+                    @NotNull BlockBreakEvent blockBreakEvent,
+                    @NotNull ItemStack itemStack,
+                    @NotNull List<ItemStack> list) {
                 Location location = blockBreakEvent.getBlock().getLocation();
                 BlockMenu blockMenu = BlockStorage.getInventory(location);
                 blockMenu.dropItems(location, slot);
@@ -68,7 +68,7 @@ public final class MachineUtil {
     /**
      * @return How many slot that has item on it.
      */
-    public static int slotCount(@Nonnull Inventory inventory, int[] slots) {
+    public static int slotCount(@NotNull Inventory inventory, int[] slots) {
         int count = 0;
         ItemStack itemStack;
         for (int slot : slots) {
@@ -83,7 +83,7 @@ public final class MachineUtil {
     /**
      * @return Whether all item on the specified slots is full.
      */
-    public static boolean isFull(@Nonnull Inventory inventory, int[] slots) {
+    public static boolean isFull(@NotNull Inventory inventory, int[] slots) {
         ItemStack itemStack;
         for (int slot : slots) {
             itemStack = inventory.getItem(slot);
@@ -97,7 +97,7 @@ public final class MachineUtil {
     /**
      * @return Whether all item on the specified slots is null.
      */
-    public static boolean isEmpty(@Nonnull Inventory inventory, int[] slots) {
+    public static boolean isEmpty(@NotNull Inventory inventory, int[] slots) {
         ItemStack itemStack;
         for (int slot : slots) {
             itemStack = inventory.getItem(slot);
@@ -111,7 +111,7 @@ public final class MachineUtil {
     /**
      * Stock same items in the specified area of slots.
      */
-    public static void stockSlots(@Nonnull Inventory inventory, int[] slots) {
+    public static void stockSlots(@NotNull Inventory inventory, int[] slots) {
         List<ItemWrapper> items = new ArrayList<>(slots.length);
         ItemWrapper itemWrapper = new ItemWrapper();
         for (int slot : slots) {
@@ -132,7 +132,7 @@ public final class MachineUtil {
     /**
      * @return Get the List of ItemWrapper by specified slots.
      */
-    public static List<ItemWrapper> getItemList(@Nonnull Inventory inventory, int[] slots) {
+    public static List<ItemWrapper> getItemList(@NotNull Inventory inventory, int[] slots) {
         List<ItemWrapper> itemWrapperList = new ArrayList<>();
         for (int filterSlot : slots) {
             if (!ItemStackUtil.isItemNull(inventory.getItem(filterSlot))) {
@@ -145,7 +145,7 @@ public final class MachineUtil {
     /**
      * @return Get the Map of ItemWrapper by specified slots.
      */
-    public static Map<Integer, ItemWrapper> getSlotItemWrapperMap(@Nonnull Inventory inventory, int[] slots) {
+    public static Map<Integer, ItemWrapper> getSlotItemWrapperMap(@NotNull Inventory inventory, int[] slots) {
         Map<Integer, ItemWrapper> itemMap = new LinkedHashMap<>(slots.length);
         for (int slot : slots) {
             ItemStack item = inventory.getItem(slot);
@@ -159,7 +159,7 @@ public final class MachineUtil {
     /**
      * @return Get the List of ItemWrapper and its amount by specified slots. The ItemStack in return list is not the same of ItemStack in the Inventory.
      */
-    public static List<ItemAmountWrapper> calItemListWithAmount(@Nonnull Inventory inventory, int[] slots) {
+    public static List<ItemAmountWrapper> calItemListWithAmount(@NotNull Inventory inventory, int[] slots) {
         List<ItemAmountWrapper> itemAmountWrapperList = new ArrayList<>(slots.length);
         ItemAmountWrapper itemAmountWrapper = new ItemAmountWrapper();
         for (int slot : slots) {
@@ -184,7 +184,7 @@ public final class MachineUtil {
     }
 
     public static int calMaxMatch(
-            @Nonnull Inventory inventory, int[] slots, @Nonnull List<ItemAmountWrapper> itemAmountWrapperList) {
+            @NotNull Inventory inventory, int[] slots, @NotNull List<ItemAmountWrapper> itemAmountWrapperList) {
         List<Integer> countList = new ArrayList<>(itemAmountWrapperList.size());
         List<Integer> stackList = new ArrayList<>(itemAmountWrapperList.size());
         int[] counts = new int[itemAmountWrapperList.size()];
@@ -250,7 +250,7 @@ public final class MachineUtil {
     }
 
     public static int calMaxMatch(
-            @Nonnull Inventory inventory, int[] slots, @Nonnull ItemAmountWrapper[] itemAmountWrapperList) {
+            @NotNull Inventory inventory, int[] slots, @NotNull ItemAmountWrapper[] itemAmountWrapperList) {
         List<Integer> countList = new ArrayList<>(itemAmountWrapperList.length);
         List<Integer> stackList = new ArrayList<>(itemAmountWrapperList.length);
         for (int i = 0; i < itemAmountWrapperList.length; i++) {
@@ -303,7 +303,7 @@ public final class MachineUtil {
     }
 
     public static int calMaxMatch(
-            @Nonnull Inventory inventory, int[] slots, @Nonnull ItemAmountWrapper itemAmountWrapper) {
+            @NotNull Inventory inventory, int[] slots, @NotNull ItemAmountWrapper itemAmountWrapper) {
         int count = 0;
         int maxStack = itemAmountWrapper.getItemStack().getMaxStackSize();
         for (int slot : slots) {
@@ -318,7 +318,7 @@ public final class MachineUtil {
         return count / itemAmountWrapper.getAmount();
     }
 
-    public static int calMaxMatch(@Nonnull Inventory inventory, int[] slots, @Nonnull ItemStack item) {
+    public static int calMaxMatch(@NotNull Inventory inventory, int[] slots, @NotNull ItemStack item) {
         return MachineUtil.calMaxMatch(inventory, slots, new ItemAmountWrapper(item));
     }
 }

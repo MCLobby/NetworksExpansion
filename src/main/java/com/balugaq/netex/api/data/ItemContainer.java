@@ -2,25 +2,25 @@ package com.balugaq.netex.api.data;
 
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-import javax.annotation.Nonnull;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class ItemContainer {
 
     private final int id;
-    private final @Nonnull ItemStack sample;
+    private final @NotNull ItemStack sample;
 
     @Getter
-    private final @Nonnull ItemStackWrapper wrapper;
+    private final @NotNull ItemStackWrapper wrapper;
 
     @Setter
     @Getter
     private int amount;
 
-    public ItemContainer(int id, @Nonnull ItemStack item, int amount) {
+    public ItemContainer(int id, @NotNull ItemStack item, int amount) {
         this.id = id;
         this.sample = item.clone();
         sample.setAmount(1);
@@ -28,7 +28,7 @@ public class ItemContainer {
         this.amount = amount;
     }
 
-    public @Nonnull ItemStack getSample() {
+    public @NotNull ItemStack getSample() {
         return sample.clone();
     }
 
@@ -61,7 +61,7 @@ public class ItemContainer {
         }
     }
 
-    public @Nonnull String toString() {
+    public @NotNull String toString() {
         return "ItemContainer{" + "id="
                 + id + ", sample="
                 + sample + ", wrapper="

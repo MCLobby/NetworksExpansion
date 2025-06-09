@@ -1,26 +1,24 @@
 package com.balugaq.netex.api.data;
 
 import com.ytdd9527.networksexpansion.utils.itemstacks.CompareUtil;
-import javax.annotation.Nonnull;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Final_ROOT
  * @since 2.0
  */
 public class AdvancedMachineRecipe {
-    @Nonnull
-    private final ItemAmountWrapper[] inputs;
+    @NotNull private final ItemAmountWrapper[] inputs;
 
-    @Nonnull
-    private final AdvancedRandomOutput[] randomOutputs;
+    @NotNull private final AdvancedRandomOutput[] randomOutputs;
 
     private final int[] weightBeginValues;
 
     @Getter
     private int weightSum = 0;
 
-    public AdvancedMachineRecipe(@Nonnull ItemAmountWrapper[] inputs, @Nonnull AdvancedRandomOutput[] randomOutputs) {
+    public AdvancedMachineRecipe(@NotNull ItemAmountWrapper[] inputs, @NotNull AdvancedRandomOutput[] randomOutputs) {
         this.inputs = inputs;
         this.randomOutputs = randomOutputs;
         this.weightBeginValues = new int[randomOutputs.length];
@@ -30,19 +28,16 @@ public class AdvancedMachineRecipe {
         }
     }
 
-    @Nonnull
-    public ItemAmountWrapper[] getInput() {
+    @NotNull public ItemAmountWrapper[] getInput() {
         return this.inputs;
     }
 
-    @Nonnull
-    public ItemAmountWrapper[] getOutput() {
+    @NotNull public ItemAmountWrapper[] getOutput() {
         int r = (int) (Math.random() * this.weightSum);
         return this.randomOutputs[CompareUtil.getIntSmallFuzzyIndex(this.weightBeginValues, r)].outputItem;
     }
 
-    @Nonnull
-    public AdvancedRandomOutput[] getOutputs() {
+    @NotNull public AdvancedRandomOutput[] getOutputs() {
         return this.randomOutputs;
     }
 
@@ -50,10 +45,9 @@ public class AdvancedMachineRecipe {
         return this.randomOutputs.length > 1;
     }
 
-    public record AdvancedRandomOutput(@Nonnull ItemAmountWrapper[] outputItem, int weight) {
+    public record AdvancedRandomOutput(@NotNull ItemAmountWrapper[] outputItem, int weight) {
 
-        @Nonnull
-        public ItemAmountWrapper[] getOutputItem() {
+        @NotNull public ItemAmountWrapper[] getOutputItem() {
             return outputItem;
         }
     }

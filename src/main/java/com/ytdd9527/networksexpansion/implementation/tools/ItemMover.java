@@ -32,8 +32,6 @@ import io.ncbpfluffybear.fluffymachines.items.Barrel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.Location;
@@ -44,15 +42,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
-    @Nonnull
-    public static final Interaction[] CHECK_INTERACTIONS =
+    @NotNull public static final Interaction[] CHECK_INTERACTIONS =
             new Interaction[] {Interaction.PLACE_BLOCK, Interaction.BREAK_BLOCK, Interaction.INTERACT_BLOCK};
 
     @SuppressWarnings("deprecation")
-    @Nonnull
-    public static final List<String> DEFAULT_LORE = ExpansionItemStacks.ITEM_MOVER.getItemMeta() == null
+    @NotNull public static final List<String> DEFAULT_LORE = ExpansionItemStacks.ITEM_MOVER.getItemMeta() == null
             ? new ArrayList<>()
             : (ExpansionItemStacks.ITEM_MOVER.getItemMeta().hasLore()
                             && ExpansionItemStacks.ITEM_MOVER.getItemMeta().getLore() != null
@@ -60,10 +58,10 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
                     : new ArrayList<>());
 
     public ItemMover(
-            @Nonnull ItemGroup itemGroup,
-            @Nonnull SlimefunItemStack item,
-            @Nonnull RecipeType recipeType,
-            @Nonnull ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            @NotNull ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
         addItemHandler((ItemUseHandler) e -> {
             final Player player = e.getPlayer();
@@ -249,7 +247,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         itemStack.setItemMeta(itemMeta);
     }
 
-    @Nullable public static BarrelIdentity getBarrel(@Nonnull Player player, @Nonnull Location location) {
+    @Nullable public static BarrelIdentity getBarrel(@NotNull Player player, @NotNull Location location) {
         final SlimefunItem sfitem = StorageCacheUtils.getSfItem(location);
 
         if (sfitem == null) {
@@ -274,7 +272,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         return null;
     }
 
-    @Nullable public static InfinityBarrel getInfinityBarrel(@Nonnull Location location, @Nonnull StorageUnit unit) {
+    @Nullable public static InfinityBarrel getInfinityBarrel(@NotNull Location location, @NotNull StorageUnit unit) {
         StorageCache cache = unit.getCache(location);
         if (cache == null) {
             return null;
@@ -327,7 +325,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         return new InfinityBarrel(location, displayItem, stored, cache);
     }
 
-    @Nullable private static FluffyBarrel getFluffyBarrel(@Nonnull Location location, @Nonnull Barrel barrel) {
+    @Nullable private static FluffyBarrel getFluffyBarrel(@NotNull Location location, @NotNull Barrel barrel) {
         Block block = location.getBlock();
         ItemStack itemStack;
         try {
@@ -353,7 +351,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         return new FluffyBarrel(location, clone, stored, limit, voidExcess);
     }
 
-    @Nullable public static NetworkStorage getNetworkStorage(@Nonnull Location location) {
+    @Nullable public static NetworkStorage getNetworkStorage(@NotNull Location location) {
         QuantumCache cache = NetworkQuantumStorage.getCaches().get(location);
         if (cache == null) {
             return null;
@@ -465,7 +463,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
     }
 
     @Override
-    public boolean canStack(@Nonnull ItemMeta itemMeta, @Nonnull ItemMeta itemMeta1) {
+    public boolean canStack(@NotNull ItemMeta itemMeta, @NotNull ItemMeta itemMeta1) {
         return itemMeta.getPersistentDataContainer().equals(itemMeta1.getPersistentDataContainer());
     }
 }

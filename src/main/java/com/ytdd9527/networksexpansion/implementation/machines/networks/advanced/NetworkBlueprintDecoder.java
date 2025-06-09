@@ -23,7 +23,6 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nonnull;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -33,6 +32,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 public class NetworkBlueprintDecoder extends NetworkObject {
     private static final int[] BACKGROUND_SLOTS = {0, 1, 2, 3, 4, 5, 9, 11, 12, 14, 18, 19, 20, 21, 22, 23};
@@ -66,9 +66,9 @@ public class NetworkBlueprintDecoder extends NetworkObject {
         addItemHandler(new BlockBreakHandler(false, false) {
             @Override
             public void onPlayerBreak(
-                    @Nonnull BlockBreakEvent blockBreakEvent,
-                    @Nonnull ItemStack itemStack,
-                    @Nonnull List<ItemStack> list) {
+                    @NotNull BlockBreakEvent blockBreakEvent,
+                    @NotNull ItemStack itemStack,
+                    @NotNull List<ItemStack> list) {
                 BlockMenu blockMenu =
                         StorageCacheUtils.getMenu(blockBreakEvent.getBlock().getLocation());
                 if (blockMenu == null) {
@@ -104,7 +104,7 @@ public class NetworkBlueprintDecoder extends NetworkObject {
             }
 
             @Override
-            public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
+            public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
                 menu.addMenuClickHandler(DECODE_SLOT, (player, slot, clickedItem, clickAction) -> {
                     decode(player, menu);
                     return false;
@@ -112,7 +112,7 @@ public class NetworkBlueprintDecoder extends NetworkObject {
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
                         || (ExpansionItems.ADVANCED_EXPORT.canUse(player, false)
                                 && Slimefun.getProtectionManager()

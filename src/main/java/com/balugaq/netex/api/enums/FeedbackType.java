@@ -2,10 +2,10 @@ package com.balugaq.netex.api.enums;
 
 import com.balugaq.netex.utils.Lang;
 import io.github.sefiraat.networks.utils.Keys;
-import javax.annotation.Nonnull;
 import lombok.Getter;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 public enum FeedbackType implements Keyed {
@@ -56,21 +56,20 @@ public enum FeedbackType implements Keyed {
     WORKING,
     NOT_ALLOWED_ITEM;
 
-    private final @Nonnull NamespacedKey key;
-    private final @Nonnull String message;
+    private final @NotNull NamespacedKey key;
+    private final @NotNull String message;
 
     FeedbackType() {
         this.key = Keys.newKey(name().toLowerCase());
         this.message = Lang.getString("messages.feedback." + this.key.getKey());
     }
 
-    FeedbackType(@Nonnull String key) {
+    FeedbackType(@NotNull String key) {
         this.key = Keys.newKey(key);
         this.message = Lang.getString("messages.feedback." + this.key.getKey());
     }
 
-    @Nonnull
-    @Override
+    @NotNull @Override
     public NamespacedKey getKey() {
         return this.key;
     }

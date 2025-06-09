@@ -24,12 +24,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import lombok.experimental.UtilityClass;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Final_ROOT
@@ -38,7 +38,7 @@ import org.bukkit.inventory.ItemStack;
 @SuppressWarnings({"deprecation", "unused", "unchecked"})
 @UtilityClass
 public class RecipeUtil {
-    public static Map<ItemStack[], ItemStack> getRecipesBySlimefunId(@Nonnull String slimefunId) {
+    public static Map<ItemStack[], ItemStack> getRecipesBySlimefunId(@NotNull String slimefunId) {
         final SlimefunItem slimefunItem = SlimefunItem.getById(slimefunId);
         try {
             if (slimefunItem == null) {
@@ -77,7 +77,7 @@ public class RecipeUtil {
     }
 
     @SuppressWarnings("unchecked")
-    public static void registerRecipeBySlimefunId(@Nonnull RecipeItem recipeItem, @Nonnull String slimefunId) {
+    public static void registerRecipeBySlimefunId(@NotNull RecipeItem recipeItem, @NotNull String slimefunId) {
         final SlimefunItem slimefunItem = SlimefunItem.getById(slimefunId);
         try {
             if (slimefunItem == null) {
@@ -154,7 +154,7 @@ public class RecipeUtil {
         }
     }
 
-    public static void registerRecipeByRecipeType(@Nonnull RecipeItem recipeItem, @Nonnull RecipeType recipeType) {
+    public static void registerRecipeByRecipeType(@NotNull RecipeItem recipeItem, @NotNull RecipeType recipeType) {
         List<SlimefunItem> list = Slimefun.getRegistry().getEnabledSlimefunItems();
         for (SlimefunItem slimefunItem : list) {
             if (!slimefunItem.isDisabled() && recipeType.equals(slimefunItem.getRecipeType())) {
@@ -164,7 +164,7 @@ public class RecipeUtil {
     }
 
     public static void registerRecipeBySimpleDisplayRecipe(
-            @Nonnull RecipeItem recipeItem, List<ItemStack> displayRecipes) {
+            @NotNull RecipeItem recipeItem, List<ItemStack> displayRecipes) {
         for (int i = 0; i < displayRecipes.size(); i += 2) {
             boolean disabled = false;
             ItemStack itemStack = displayRecipes.get(i + 1);
@@ -179,7 +179,7 @@ public class RecipeUtil {
         }
     }
 
-    public static void registerGoldPan(@Nonnull RecipeItem recipeItem) {
+    public static void registerGoldPan(@NotNull RecipeItem recipeItem) {
         GoldPan goldPan = SlimefunItems.GOLD_PAN.getItem(GoldPan.class);
         if (goldPan == null) {
             return;
@@ -213,7 +213,7 @@ public class RecipeUtil {
         }
     }
 
-    public static void registerNetherGoldPan(@Nonnull RecipeItem recipeItem) {
+    public static void registerNetherGoldPan(@NotNull RecipeItem recipeItem) {
         NetherGoldPan netherGoldPan = SlimefunItems.NETHER_GOLD_PAN.getItem(NetherGoldPan.class);
         try {
             Field field = ReflectionUtil.getField(netherGoldPan.getClass(), "drops");

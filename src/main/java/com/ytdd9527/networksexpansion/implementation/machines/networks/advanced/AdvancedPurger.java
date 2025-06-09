@@ -28,8 +28,6 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import lombok.Setter;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -42,6 +40,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
 
@@ -97,7 +97,7 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
                 new BlockBreakHandler(true, true) {
                     @Override
                     public void onPlayerBreak(
-                            @Nonnull BlockBreakEvent e, @Nonnull ItemStack item, @Nonnull List<ItemStack> drops) {
+                            @NotNull BlockBreakEvent e, @NotNull ItemStack item, @NotNull List<ItemStack> drops) {
                         BlockMenu blockMenu =
                                 StorageCacheUtils.getMenu(e.getBlock().getLocation());
                         if (blockMenu == null) {
@@ -108,7 +108,7 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
                 });
     }
 
-    private void tryKillItem(@Nonnull BlockMenu blockMenu) {
+    private void tryKillItem(@NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
@@ -149,7 +149,7 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
                         || (ExpansionItems.ADVANCED_PURGER.canUse(player, false)
                                 && Slimefun.getProtectionManager()
@@ -168,7 +168,7 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
         if (useSpecialModel) {
             addItemHandler(new BlockPlaceHandler(false) {
                 @Override
-                public void onPlayerPlace(@Nonnull BlockPlaceEvent e) {
+                public void onPlayerPlace(@NotNull BlockPlaceEvent e) {
                     e.getBlock().setType(Material.BARRIER);
                     setupDisplay(e.getBlock().getLocation());
                 }
@@ -178,7 +178,7 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
         addItemHandler(new BlockBreakHandler(false, false) {
             @Override
             public void onPlayerBreak(
-                    @Nonnull BlockBreakEvent e, @Nonnull ItemStack item, @Nonnull List<ItemStack> drops) {
+                    @NotNull BlockBreakEvent e, @NotNull ItemStack item, @NotNull List<ItemStack> drops) {
                 Location location = e.getBlock().getLocation();
                 removeDisplay(location);
                 e.getBlock().setType(Material.AIR);
@@ -186,21 +186,21 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
         });
     }
 
-    private void setupDisplay(@Nonnull Location location) {
+    private void setupDisplay(@NotNull Location location) {
         DisplayGroup displayGroup =
                 DisplayGroupGenerators.generateCloche(location.clone().add(0.5, 0, 0.5));
         StorageCacheUtils.setData(
                 location, KEY_UUID, displayGroup.getParentUUID().toString());
     }
 
-    private void removeDisplay(@Nonnull Location location) {
+    private void removeDisplay(@NotNull Location location) {
         DisplayGroup group = getDisplayGroup(location);
         if (group != null) {
             group.remove();
         }
     }
 
-    @Nullable private UUID getDisplayGroupUUID(@Nonnull Location location) {
+    @Nullable private UUID getDisplayGroupUUID(@NotNull Location location) {
         String uuid = StorageCacheUtils.getData(location, KEY_UUID);
         if (uuid == null) {
             return null;
@@ -208,7 +208,7 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
         return UUID.fromString(uuid);
     }
 
-    @Nullable private DisplayGroup getDisplayGroup(@Nonnull Location location) {
+    @Nullable private DisplayGroup getDisplayGroup(@NotNull Location location) {
         UUID uuid = getDisplayGroupUUID(location);
         if (uuid == null) {
             return null;
@@ -216,8 +216,7 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
         return DisplayGroup.fromUUID(uuid);
     }
 
-    @Nonnull
-    @Override
+    @NotNull @Override
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>();
         displayRecipes.add(Lang.getMechanism("advanced_purger"));

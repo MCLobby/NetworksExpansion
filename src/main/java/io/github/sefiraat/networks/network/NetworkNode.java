@@ -10,13 +10,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
-import javax.annotation.Nonnull;
 import lombok.Getter;
 import lombok.ToString;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 @ToString
 public class NetworkNode {
@@ -44,7 +44,7 @@ public class NetworkNode {
         this.power = retrieveBlockCharge();
     }
 
-    public void addChild(@Nonnull NetworkNode child) {
+    public void addChild(@NotNull NetworkNode child) {
         child.setParent(this);
         child.setRoot(this.getRoot());
         this.root.addRootPower(child.getPower());
@@ -52,26 +52,23 @@ public class NetworkNode {
         this.childrenNodes.add(child);
     }
 
-    @Nonnull
-    public Location getNodePosition() {
+    @NotNull public Location getNodePosition() {
         return nodePosition;
     }
 
-    @Nonnull
-    public NodeType getNodeType() {
+    @NotNull public NodeType getNodeType() {
         return nodeType;
     }
 
-    public boolean networkContains(@Nonnull NetworkNode networkNode) {
+    public boolean networkContains(@NotNull NetworkNode networkNode) {
         return networkContains(networkNode.nodePosition);
     }
 
-    public boolean networkContains(@Nonnull Location location) {
+    public boolean networkContains(@NotNull Location location) {
         return this.root.getNodeLocations().contains(location);
     }
 
-    @Nonnull
-    public NetworkRoot getRoot() {
+    @NotNull public NetworkRoot getRoot() {
         return this.root;
     }
 
@@ -116,7 +113,7 @@ public class NetworkNode {
         }
     }
 
-    private void killAdditionalController(@Nonnull Location location) {
+    private void killAdditionalController(@NotNull Location location) {
         var sfItem = StorageCacheUtils.getSfItem(location);
         if (sfItem != null) {
             Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);

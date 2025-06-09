@@ -12,8 +12,6 @@ import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Color;
@@ -22,6 +20,8 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractNetworkPusher extends NetworkDirectional {
     private static final int NORTH_SLOT = 11;
@@ -40,14 +40,14 @@ public abstract class AbstractNetworkPusher extends NetworkDirectional {
     }
 
     @Override
-    protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
+    protected void onTick(@Nullable BlockMenu blockMenu, @NotNull Block block) {
         super.onTick(blockMenu, block);
         if (blockMenu != null) {
             tryPushItem(blockMenu);
         }
     }
 
-    private void tryPushItem(@Nonnull BlockMenu blockMenu) {
+    private void tryPushItem(@NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
@@ -146,12 +146,9 @@ public abstract class AbstractNetworkPusher extends NetworkDirectional {
         return Icon.PUSHER_TEMPLATE_BACKGROUND_STACK;
     }
 
-    @Nonnull
-    public abstract int[] getBackgroundSlots();
+    @NotNull public abstract int[] getBackgroundSlots();
 
-    @Nonnull
-    public abstract int[] getOtherBackgroundSlots();
+    @NotNull public abstract int[] getOtherBackgroundSlots();
 
-    @Nonnull
-    public abstract int[] getItemSlots();
+    @NotNull public abstract int[] getItemSlots();
 }

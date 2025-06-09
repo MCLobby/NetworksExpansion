@@ -2,10 +2,10 @@ package com.balugaq.netex.api.enums;
 
 import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerHead;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerSkin;
-import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public enum Skins {
     // https://minecraft-heads.com/custom-heads/head/15044-arcane-workbench
@@ -58,14 +58,14 @@ public enum Skins {
     public static final Skins[] cachedValues = values();
 
     @Getter
-    private final @Nonnull String hash;
+    private final @NotNull String hash;
 
     @ParametersAreNonnullByDefault
     Skins(String hash) {
         this.hash = hash;
     }
 
-    public @Nonnull ItemStack getPlayerHead() {
+    public @NotNull ItemStack getPlayerHead() {
         return PlayerHead.getItemStack(PlayerSkin.fromHashCode(hash));
     }
 }

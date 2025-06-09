@@ -3,12 +3,12 @@ package io.github.sefiraat.networks.utils.datatypes;
 import com.jeff_media.morepersistentdatatypes.DataType;
 import io.github.sefiraat.networks.network.stackcaches.CardInstance;
 import io.github.sefiraat.networks.utils.Keys;
-import javax.annotation.Nonnull;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A {@link PersistentDataType} for {@link CardInstance}
@@ -29,21 +29,18 @@ public class PersistentCardInstanceType implements PersistentDataType<Persistent
     public static final NamespacedKey UNSTACK = Keys.newKey("time");
 
     @Override
-    @Nonnull
-    public Class<PersistentDataContainer> getPrimitiveType() {
+    @NotNull public Class<PersistentDataContainer> getPrimitiveType() {
         return PersistentDataContainer.class;
     }
 
     @Override
-    @Nonnull
-    public Class<CardInstance> getComplexType() {
+    @NotNull public Class<CardInstance> getComplexType() {
         return CardInstance.class;
     }
 
     @Override
-    @Nonnull
-    public PersistentDataContainer toPrimitive(
-            @Nonnull CardInstance complex, @Nonnull PersistentDataAdapterContext context) {
+    @NotNull public PersistentDataContainer toPrimitive(
+            @NotNull CardInstance complex, @NotNull PersistentDataAdapterContext context) {
         final PersistentDataContainer container = context.newPersistentDataContainer();
 
         if (complex.getItemStack() != null) {
@@ -56,9 +53,8 @@ public class PersistentCardInstanceType implements PersistentDataType<Persistent
     }
 
     @Override
-    @Nonnull
-    public CardInstance fromPrimitive(
-            @Nonnull PersistentDataContainer primitive, @Nonnull PersistentDataAdapterContext context) {
+    @NotNull public CardInstance fromPrimitive(
+            @NotNull PersistentDataContainer primitive, @NotNull PersistentDataAdapterContext context) {
         final ItemStack item = primitive.get(ITEM, DataType.ITEM_STACK);
         final Integer amount = primitive.get(AMOUNT, DataType.INTEGER);
         final Integer limit = primitive.get(LIMIT, DataType.INTEGER);

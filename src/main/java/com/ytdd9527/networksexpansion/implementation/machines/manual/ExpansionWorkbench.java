@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -24,6 +23,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class ExpansionWorkbench extends AbstractManualCrafter {
     public static final List<SuperRecipe> RECIPES = new ArrayList<>();
@@ -99,7 +99,7 @@ public class ExpansionWorkbench extends AbstractManualCrafter {
     public BlockPlaceHandler getMachineBlockPlaceHandler() {
         return new BlockPlaceHandler(false) {
             @Override
-            public void onPlayerPlace(@Nonnull BlockPlaceEvent e) {}
+            public void onPlayerPlace(@NotNull BlockPlaceEvent e) {}
         };
     }
 

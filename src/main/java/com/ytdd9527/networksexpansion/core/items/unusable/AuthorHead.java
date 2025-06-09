@@ -5,20 +5,20 @@ import com.ytdd9527.networksexpansion.implementation.ExpansionRecipes;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import javax.annotation.Nonnull;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class AuthorHead extends SpecialSlimefunItem {
 
-    public AuthorHead(@Nonnull ItemGroup itemGroup, @Nonnull SlimefunItemStack item) {
+    public AuthorHead(@NotNull ItemGroup itemGroup, @NotNull SlimefunItemStack item) {
         super(itemGroup, item, RecipeType.NULL, ExpansionRecipes.NULL);
     }
 
-    public AuthorHead(@Nonnull ItemGroup itemGroup, @Nonnull SlimefunItemStack item, @Nonnull ItemStack recipeOutput) {
+    public AuthorHead(@NotNull ItemGroup itemGroup, @NotNull SlimefunItemStack item, @NotNull ItemStack recipeOutput) {
         super(itemGroup, item, RecipeType.NULL, ExpansionRecipes.NULL, recipeOutput);
     }
 
-    protected AuthorHead(@Nonnull ItemGroup itemGroup, @Nonnull ItemStack item, @Nonnull String id) {
+    protected AuthorHead(@NotNull ItemGroup itemGroup, @NotNull ItemStack item, @NotNull String id) {
         super(itemGroup, item, id, RecipeType.NULL, ExpansionRecipes.NULL);
     }
 }

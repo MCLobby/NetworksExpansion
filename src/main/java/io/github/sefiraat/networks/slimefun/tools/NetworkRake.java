@@ -16,13 +16,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.LimitedUseItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import java.util.Optional;
-import javax.annotation.Nonnull;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class NetworkRake extends LimitedUseItem {
 
@@ -46,8 +46,7 @@ public class NetworkRake extends LimitedUseItem {
      *
      * @return The {@link ItemHandler} that should be added to this {@link SlimefunItem}
      */
-    @Nonnull
-    @Override
+    @NotNull @Override
     public ItemUseHandler getItemHandler() {
         return this::onUse;
     }
@@ -75,7 +74,7 @@ public class NetworkRake extends LimitedUseItem {
     }
 
     @Override
-    protected @Nonnull NamespacedKey getStorageKey() {
+    protected @NotNull NamespacedKey getStorageKey() {
         return key;
     }
 

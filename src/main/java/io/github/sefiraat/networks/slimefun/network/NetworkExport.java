@@ -19,7 +19,6 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import java.util.List;
-import javax.annotation.Nonnull;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -29,6 +28,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class NetworkExport extends NetworkObject {
 
@@ -80,7 +80,7 @@ public class NetworkExport extends NetworkObject {
                 new BlockBreakHandler(true, true) {
                     @Override
                     public void onPlayerBreak(
-                            @Nonnull BlockBreakEvent e, @Nonnull ItemStack item, @Nonnull List<ItemStack> drops) {
+                            @NotNull BlockBreakEvent e, @NotNull ItemStack item, @NotNull List<ItemStack> drops) {
                         BlockMenu blockMenu =
                                 StorageCacheUtils.getMenu(e.getBlock().getLocation());
                         if (blockMenu == null) {
@@ -92,7 +92,7 @@ public class NetworkExport extends NetworkObject {
                 });
     }
 
-    private void tryFetchItem(@Nonnull BlockMenu blockMenu) {
+    private void tryFetchItem(@NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition.getNode() == null) {
@@ -130,7 +130,7 @@ public class NetworkExport extends NetworkObject {
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
                         || (NetworkSlimefunItems.NETWORK_EXPORT.canUse(player, false)
                                 && Slimefun.getProtectionManager()

@@ -17,13 +17,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import java.util.Optional;
-import javax.annotation.Nonnull;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 public class DueMachineConfigurator extends SpecialSlimefunItem {
     public DueMachineConfigurator(
@@ -59,10 +59,10 @@ public class DueMachineConfigurator extends SpecialSlimefunItem {
     }
 
     public static void applyConfig(
-            @Nonnull DueMachine dueMachine,
-            @Nonnull ItemStack itemStack,
-            @Nonnull BlockMenu blockMenu,
-            @Nonnull Player player) {
+            @NotNull DueMachine dueMachine,
+            @NotNull ItemStack itemStack,
+            @NotNull BlockMenu blockMenu,
+            @NotNull Player player) {
         final ItemMeta itemMeta = itemStack.getItemMeta();
         final ItemStack[] templateStacks = DataTypeMethods.getCustom(itemMeta, Keys.ITEM, DataType.ITEM_STACK_ARRAY);
 
@@ -104,10 +104,10 @@ public class DueMachineConfigurator extends SpecialSlimefunItem {
     }
 
     private void setConfigurator(
-            @Nonnull DueMachine dueMachine,
-            @Nonnull ItemStack itemStack,
-            @Nonnull BlockMenu blockMenu,
-            @Nonnull Player player) {
+            @NotNull DueMachine dueMachine,
+            @NotNull ItemStack itemStack,
+            @NotNull BlockMenu blockMenu,
+            @NotNull Player player) {
         final ItemMeta itemMeta = itemStack.getItemMeta();
 
         if (dueMachine.getItemSlots().length > 0) {

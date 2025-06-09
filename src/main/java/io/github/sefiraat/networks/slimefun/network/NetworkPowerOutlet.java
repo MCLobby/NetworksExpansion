@@ -11,12 +11,12 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class NetworkPowerOutlet extends NetworkDirectional {
 
@@ -29,7 +29,7 @@ public class NetworkPowerOutlet extends NetworkDirectional {
     }
 
     @Override
-    public void onTick(@Nullable BlockMenu menu, @Nonnull Block b) {
+    public void onTick(@Nullable BlockMenu menu, @NotNull Block b) {
         super.onTick(menu, b);
         if (menu == null) {
             sendFeedback(b.getLocation(), FeedbackType.INVALID_BLOCK);

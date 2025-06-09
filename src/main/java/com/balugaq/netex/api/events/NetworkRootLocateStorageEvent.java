@@ -2,11 +2,11 @@ package com.balugaq.netex.api.events;
 
 import com.balugaq.netex.api.enums.StorageType;
 import io.github.sefiraat.networks.network.NetworkRoot;
-import javax.annotation.Nonnull;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class NetworkRootLocateStorageEvent extends Event {
@@ -36,12 +36,11 @@ public class NetworkRootLocateStorageEvent extends Event {
         this.strategy = strategy;
     }
 
-    public static @Nonnull HandlerList getHandlerList() {
+    public static @NotNull HandlerList getHandlerList() {
         return handlers;
     }
 
-    @Nonnull
-    @Override
+    @NotNull @Override
     public HandlerList getHandlers() {
         return handlers;
     }
@@ -54,11 +53,9 @@ public class NetworkRootLocateStorageEvent extends Event {
             return StrategyImpl.custom(tag);
         }
 
-        @Nonnull
-        String getTag();
+        @NotNull String getTag();
 
-        @Nonnull
-        Strategy setTag(String tag);
+        @NotNull Strategy setTag(String tag);
 
         class StrategyImpl implements Strategy {
             private String tag;
@@ -68,19 +65,16 @@ public class NetworkRootLocateStorageEvent extends Event {
             }
 
             @SneakyThrows
-            @Nonnull
-            public static Strategy custom(String tag) {
+            @NotNull public static Strategy custom(String tag) {
                 return new StrategyImpl().setTag(tag);
             }
 
-            @Nonnull
-            @Override
+            @NotNull @Override
             public String getTag() {
                 return tag;
             }
 
-            @Nonnull
-            @Override
+            @NotNull @Override
             public Strategy setTag(String tag) {
                 this.tag = tag;
                 return this;

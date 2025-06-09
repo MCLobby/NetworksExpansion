@@ -1,31 +1,31 @@
 package com.balugaq.netex.api.events;
 
-import javax.annotation.Nonnull;
 import lombok.Getter;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class NetworksBlockPlaceEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private final @Nonnull Block block;
-    private final @Nonnull Player player;
+    private final @NotNull Block block;
+    private final @NotNull Player player;
     private boolean cancelled = false;
 
-    public NetworksBlockPlaceEvent(@Nonnull Block theBlock, @Nonnull Player player) {
+    public NetworksBlockPlaceEvent(@NotNull Block theBlock, @NotNull Player player) {
         this.block = theBlock;
         this.player = player;
     }
 
-    public static @Nonnull HandlerList getHandlerList() {
+    public static @NotNull HandlerList getHandlerList() {
         return handlers;
     }
 
     @Override
-    public @Nonnull HandlerList getHandlers() {
+    public @NotNull HandlerList getHandlers() {
         return handlers;
     }
 

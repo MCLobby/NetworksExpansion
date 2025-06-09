@@ -13,8 +13,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Color;
@@ -23,6 +21,8 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class BetterGrabber extends NetworkDirectional {
     private static final int NORTH_SLOT = 11;
@@ -47,14 +47,14 @@ public class BetterGrabber extends NetworkDirectional {
     }
 
     @Override
-    protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
+    protected void onTick(@Nullable BlockMenu blockMenu, @NotNull Block block) {
         super.onTick(blockMenu, block);
         if (blockMenu != null) {
             tryGrabItem(blockMenu);
         }
     }
 
-    private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
+    private void tryGrabItem(@NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
@@ -147,19 +147,16 @@ public class BetterGrabber extends NetworkDirectional {
     }
 
     @Override
-    @Nonnull
-    public int[] getBackgroundSlots() {
+    @NotNull public int[] getBackgroundSlots() {
         return BACKGROUND_SLOTS;
     }
 
-    @Nonnull
-    @Override
+    @NotNull @Override
     public int[] getOtherBackgroundSlots() {
         return TEMPLATE_BACKGROUND;
     }
 
-    @Nonnull
-    @Override
+    @NotNull @Override
     public int[] getItemSlots() {
         return TEMPLATE_SLOTS;
     }

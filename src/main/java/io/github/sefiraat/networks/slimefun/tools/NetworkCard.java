@@ -11,13 +11,13 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
-import javax.annotation.Nonnull;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 @Deprecated
@@ -87,7 +87,7 @@ public class NetworkCard extends SlimefunItem implements DistinctiveItem {
         return SIZES;
     }
 
-    private boolean isBlacklisted(@Nonnull ItemStack itemStack) {
+    private boolean isBlacklisted(@NotNull ItemStack itemStack) {
         return itemStack.getType() == Material.AIR
                 || itemStack.getType().getMaxDurability() < 0
                 || Tag.SHULKER_BOXES.isTagged(itemStack.getType())
@@ -100,7 +100,7 @@ public class NetworkCard extends SlimefunItem implements DistinctiveItem {
     }
 
     @Override
-    public boolean canStack(@Nonnull ItemMeta sfItemMeta, @Nonnull ItemMeta itemMeta) {
+    public boolean canStack(@NotNull ItemMeta sfItemMeta, @NotNull ItemMeta itemMeta) {
         return sfItemMeta.getPersistentDataContainer().equals(itemMeta.getPersistentDataContainer());
     }
 }

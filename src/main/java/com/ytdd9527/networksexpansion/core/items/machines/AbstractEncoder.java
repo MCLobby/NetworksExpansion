@@ -19,7 +19,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.Nonnull;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -28,6 +27,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractEncoder extends NetworkObject implements RecipeCompletableWithGuide {
     private static final int[] BACKGROUND = new int[] {
@@ -64,7 +64,7 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
             }
 
             @Override
-            public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
+            public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
                 menu.addMenuClickHandler(ENCODE_SLOT, (player, i, itemStack, clickAction) -> {
                     tryEncode(player, menu);
                     return false;
@@ -73,7 +73,7 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
                         || (this.getSlimefunItem().canUse(player, false)
                                 && Slimefun.getProtectionManager()
@@ -87,7 +87,7 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
         };
     }
 
-    public void tryEncode(@Nonnull Player player, @Nonnull BlockMenu blockMenu) {
+    public void tryEncode(@NotNull Player player, @NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {

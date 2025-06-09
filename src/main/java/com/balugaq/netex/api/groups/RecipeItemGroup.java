@@ -12,12 +12,12 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Final_ROOT
@@ -27,25 +27,25 @@ public class RecipeItemGroup extends FlexItemGroup {
     private static final Map<String, RecipeItemGroup> ID_MAP = new HashMap<>();
     private static final int SMALL_LIMIT = 9;
     private static final int BIG_LIMIT = 36;
-    private final @Nonnull String id;
+    private final @NotNull String id;
     private final int page;
 
-    public RecipeItemGroup(@Nonnull NamespacedKey key, @Nonnull SlimefunItem slimefunItem) {
+    public RecipeItemGroup(@NotNull NamespacedKey key, @NotNull SlimefunItem slimefunItem) {
         super(key, ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(slimefunItem.getItem())));
         this.id = slimefunItem.getId();
         this.page = 1;
     }
 
-    public RecipeItemGroup(@Nonnull NamespacedKey key, @Nonnull SlimefunItem slimefunItem, int page) {
+    public RecipeItemGroup(@NotNull NamespacedKey key, @NotNull SlimefunItem slimefunItem, int page) {
         super(key, ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(slimefunItem.getItem())));
         this.id = slimefunItem.getId();
         this.page = page;
     }
 
     @Nullable public static RecipeItemGroup getByItemStack(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode,
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode,
             @Nullable ItemStack itemStack,
             int page) {
         SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
@@ -80,17 +80,17 @@ public class RecipeItemGroup extends FlexItemGroup {
     }
 
     @Nullable public static RecipeItemGroup getByItemStack(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode,
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode,
             @Nullable ItemStack itemStack) {
         return RecipeItemGroup.getByItemStack(player, playerProfile, slimefunGuideMode, itemStack, 1);
     }
 
     @Nullable public static RecipeItemGroup getBySlimefunItem(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode,
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode,
             @Nullable SlimefunItem slimefunItem,
             int page) {
         if (slimefunItem != null) {
@@ -119,27 +119,27 @@ public class RecipeItemGroup extends FlexItemGroup {
     }
 
     @Nullable public static RecipeItemGroup getBySlimefunItem(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode,
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode,
             @Nullable SlimefunItem slimefunItem) {
         return RecipeItemGroup.getBySlimefunItem(player, playerProfile, slimefunGuideMode, slimefunItem, 1);
     }
 
     @Override
     public boolean isVisible(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode) {
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode) {
         return false;
     }
 
     @SuppressWarnings("deprecation")
     @Override
     public void open(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode) {
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode) {
         playerProfile.getGuideHistory().add(this, this.page);
         ChestMenu chestMenu = this.generateMenu(player, playerProfile, slimefunGuideMode);
         if (chestMenu != null) {
@@ -152,9 +152,9 @@ public class RecipeItemGroup extends FlexItemGroup {
 
     @SuppressWarnings("deprecation")
     @Nullable private ChestMenu generateMenu(
-            @Nonnull Player player,
-            @Nonnull PlayerProfile playerProfile,
-            @Nonnull SlimefunGuideMode slimefunGuideMode) {
+            @NotNull Player player,
+            @NotNull PlayerProfile playerProfile,
+            @NotNull SlimefunGuideMode slimefunGuideMode) {
         SlimefunItem slimefunItem = SlimefunItem.getById(this.id);
         if (slimefunItem != null) {
             if (slimefunItem.getRecipe().length <= SMALL_LIMIT) {

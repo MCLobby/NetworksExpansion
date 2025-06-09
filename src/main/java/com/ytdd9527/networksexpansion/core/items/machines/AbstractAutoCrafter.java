@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import javax.annotation.Nonnull;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -37,6 +36,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractAutoCrafter extends NetworkObject {
     public static final int BLUEPRINT_SLOT = 10;
@@ -80,11 +80,11 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
         });
     }
 
-    public static void updateCache(@Nonnull BlockMenu blockMenu) {
+    public static void updateCache(@NotNull BlockMenu blockMenu) {
         AbstractAutoCrafter.INSTANCE_MAP.remove(blockMenu.getLocation());
     }
 
-    protected void craftPreFlight(@Nonnull BlockMenu blockMenu) {
+    protected void craftPreFlight(@NotNull BlockMenu blockMenu) {
 
         releaseCache(blockMenu);
 
@@ -174,7 +174,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
     }
 
     private boolean tryCraft(
-            @Nonnull BlockMenu blockMenu, @Nonnull BlueprintInstance instance, @Nonnull NetworkRoot root) {
+            @NotNull BlockMenu blockMenu, @NotNull BlueprintInstance instance, @NotNull NetworkRoot root) {
         // Get the recipe input
         final ItemStack[] inputs = new ItemStack[9];
 
@@ -254,7 +254,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
         return true;
     }
 
-    private void returnItems(@Nonnull NetworkRoot root, @Nonnull ItemStack[] inputs, @Nonnull BlockMenu blockMenu) {
+    private void returnItems(@NotNull NetworkRoot root, @NotNull ItemStack[] inputs, @NotNull BlockMenu blockMenu) {
         for (ItemStack input : inputs) {
             if (input != null) {
                 root.addItemStack0(blockMenu.getLocation(), input);
@@ -262,13 +262,13 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
         }
     }
 
-    public void releaseCache(@Nonnull BlockMenu blockMenu) {
+    public void releaseCache(@NotNull BlockMenu blockMenu) {
         if (blockMenu.hasViewer()) {
             INSTANCE_MAP.remove(blockMenu.getLocation());
         }
     }
 
-    public void setCache(@Nonnull BlockMenu blockMenu, @Nonnull BlueprintInstance blueprintInstance) {
+    public void setCache(@NotNull BlockMenu blockMenu, @NotNull BlueprintInstance blueprintInstance) {
         if (!blockMenu.hasViewer()) {
             INSTANCE_MAP.putIfAbsent(blockMenu.getLocation().clone(), blueprintInstance);
         }
@@ -286,7 +286,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
             }
 
             @Override
-            public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
+            public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
                 menu.addMenuClickHandler(BLUEPRINT_SLOT, (player, slot, clickedItem, clickAction) -> {
                     releaseCache(menu);
                     return true;
@@ -294,7 +294,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
                         || (this.getSlimefunItem().canUse(player, false)
                                 && Slimefun.getProtectionManager()

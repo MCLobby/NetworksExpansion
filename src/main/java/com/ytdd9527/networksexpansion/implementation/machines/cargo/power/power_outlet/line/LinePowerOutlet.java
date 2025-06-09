@@ -12,13 +12,13 @@ import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class LinePowerOutlet extends NetworkDirectional implements Configurable {
     private static final int DEFAULT_RATE = 2000;
@@ -27,10 +27,10 @@ public class LinePowerOutlet extends NetworkDirectional implements Configurable 
     private int rate;
 
     public LinePowerOutlet(
-            @Nonnull ItemGroup itemGroup,
-            @Nonnull SlimefunItemStack item,
-            @Nonnull RecipeType recipeType,
-            @Nonnull ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            @NotNull ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_POWER_OUTLET);
         loadConfigurations();
     }
@@ -44,7 +44,7 @@ public class LinePowerOutlet extends NetworkDirectional implements Configurable 
     }
 
     @Override
-    public void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block b) {
+    public void onTick(@Nullable BlockMenu blockMenu, @NotNull Block b) {
         super.onTick(blockMenu, b);
         if (blockMenu == null) {
             sendFeedback(b.getLocation(), FeedbackType.INVALID_BLOCK);
@@ -54,7 +54,7 @@ public class LinePowerOutlet extends NetworkDirectional implements Configurable 
         outPower(blockMenu);
     }
 
-    private void outPower(@Nonnull BlockMenu blockMenu) {
+    private void outPower(@NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {

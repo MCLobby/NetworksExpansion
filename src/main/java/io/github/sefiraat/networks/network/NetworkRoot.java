@@ -36,8 +36,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -49,6 +47,8 @@ import org.bukkit.Warning;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
 public class NetworkRoot extends NetworkNode {
@@ -234,13 +234,13 @@ public class NetworkRoot extends NetworkNode {
     @Getter
     private boolean displayParticles = false;
 
-    public NetworkRoot(@Nonnull Location location, @Nonnull NodeType type, int maxNodes) {
+    public NetworkRoot(@NotNull Location location, @NotNull NodeType type, int maxNodes) {
         this(location, type, maxNodes, false, null);
     }
 
     public NetworkRoot(
-            @Nonnull Location location,
-            @Nonnull NodeType type,
+            @NotNull Location location,
+            @NotNull NodeType type,
             int maxNodes,
             boolean recordFlow,
             @Nullable ItemFlowRecord itemFlowRecord) {
@@ -316,12 +316,12 @@ public class NetworkRoot extends NetworkNode {
         observingAccessHistory.put(location, locations);
     }
 
-    @Nullable public static InfinityBarrel getInfinityBarrel(@Nonnull BlockMenu blockMenu, @Nonnull StorageUnit storageUnit) {
+    @Nullable public static InfinityBarrel getInfinityBarrel(@NotNull BlockMenu blockMenu, @NotNull StorageUnit storageUnit) {
         return getInfinityBarrel(blockMenu, storageUnit, false);
     }
 
     @Nullable public static InfinityBarrel getInfinityBarrel(
-            @Nonnull BlockMenu blockMenu, @Nonnull StorageUnit storageUnit, boolean includeEmpty) {
+            @NotNull BlockMenu blockMenu, @NotNull StorageUnit storageUnit, boolean includeEmpty) {
         final ItemStack itemStack = blockMenu.getItemInSlot(16);
         final var data = StorageCacheUtils.getBlock(blockMenu.getLocation());
         if (data == null) {
@@ -357,12 +357,12 @@ public class NetworkRoot extends NetworkNode {
                 blockMenu.getLocation(), clone, storedInt + (itemStack == null ? 0 : itemStack.getAmount()), cache);
     }
 
-    @Nullable public static FluffyBarrel getFluffyBarrel(@Nonnull BlockMenu blockMenu, @Nonnull Barrel barrel) {
+    @Nullable public static FluffyBarrel getFluffyBarrel(@NotNull BlockMenu blockMenu, @NotNull Barrel barrel) {
         return getFluffyBarrel(blockMenu, barrel, false);
     }
 
     @Nullable public static FluffyBarrel getFluffyBarrel(
-            @Nonnull BlockMenu blockMenu, @Nonnull Barrel barrel, boolean includeEmpty) {
+            @NotNull BlockMenu blockMenu, @NotNull Barrel barrel, boolean includeEmpty) {
         Block block = blockMenu.getBlock();
         ItemStack itemStack;
         try {
@@ -394,11 +394,11 @@ public class NetworkRoot extends NetworkNode {
         return new FluffyBarrel(blockMenu.getLocation(), clone, stored, limit, voidExcess);
     }
 
-    @Nullable public static NetworkStorage getNetworkStorage(@Nonnull BlockMenu blockMenu) {
+    @Nullable public static NetworkStorage getNetworkStorage(@NotNull BlockMenu blockMenu) {
         return getNetworkStorage(blockMenu, false);
     }
 
-    @Nullable public static NetworkStorage getNetworkStorage(@Nonnull BlockMenu blockMenu, boolean includeEmpty) {
+    @Nullable public static NetworkStorage getNetworkStorage(@NotNull BlockMenu blockMenu, boolean includeEmpty) {
 
         final QuantumCache cache = NetworkQuantumStorage.getCaches().get(blockMenu.getLocation());
 
@@ -429,11 +429,11 @@ public class NetworkRoot extends NetworkNode {
         return new NetworkStorage(blockMenu.getLocation(), clone, storedInt);
     }
 
-    @Nullable public static BarrelIdentity getBarrel(@Nonnull Location barrelLocation) {
+    @Nullable public static BarrelIdentity getBarrel(@NotNull Location barrelLocation) {
         return getBarrel(barrelLocation, false);
     }
 
-    @Nullable public static BarrelIdentity getBarrel(@Nonnull Location barrelLocation, boolean includeEmpty) {
+    @Nullable public static BarrelIdentity getBarrel(@NotNull Location barrelLocation, boolean includeEmpty) {
         SlimefunItem item = StorageCacheUtils.getSfItem(barrelLocation);
         BlockMenu menu = StorageCacheUtils.getMenu(barrelLocation);
         if (menu == null) {
@@ -451,15 +451,15 @@ public class NetworkRoot extends NetworkNode {
         }
     }
 
-    @Nullable public static StorageUnitData getCargoStorageUnitData(@Nonnull BlockMenu blockMenu) {
+    @Nullable public static StorageUnitData getCargoStorageUnitData(@NotNull BlockMenu blockMenu) {
         return NetworksDrawer.getStorageData(blockMenu.getLocation());
     }
 
-    @Nullable public static StorageUnitData getCargoStorageUnitData(@Nonnull Location location) {
+    @Nullable public static StorageUnitData getCargoStorageUnitData(@NotNull Location location) {
         return NetworksDrawer.getStorageData(location);
     }
 
-    public void registerNode(@Nonnull Location location, @Nonnull NodeType type) {
+    public void registerNode(@NotNull Location location, @NotNull NodeType type) {
         nodeLocations.add(location);
         switch (type) {
             case CONTROLLER -> this.controller = location;
@@ -566,8 +566,7 @@ public class NetworkRoot extends NetworkNode {
         this.isOverburdened = overburdened;
     }
 
-    @Nonnull
-    public Map<ItemStack, Long> getAllNetworkItemsLongType() {
+    @NotNull public Map<ItemStack, Long> getAllNetworkItemsLongType() {
         final Map<ItemStack, Long> itemStacks = new HashMap<>();
 
         // Barrels
@@ -847,8 +846,7 @@ public class NetworkRoot extends NetworkNode {
     }
 
     @Deprecated
-    @Nonnull
-    public Set<BarrelIdentity> getBarrels() {
+    @NotNull public Set<BarrelIdentity> getBarrels() {
 
         if (this.barrels != null) {
             return this.barrels;
@@ -914,8 +912,7 @@ public class NetworkRoot extends NetworkNode {
     }
 
     @Deprecated
-    @Nonnull
-    public Map<StorageUnitData, Location> getCargoStorageUnitDatas() {
+    @NotNull public Map<StorageUnitData, Location> getCargoStorageUnitDatas() {
         if (this.cargoStorageUnitDatas != null) {
             return this.cargoStorageUnitDatas;
         }
@@ -955,8 +952,7 @@ public class NetworkRoot extends NetworkNode {
         return dataSet;
     }
 
-    @Nonnull
-    public Set<BlockMenu> getCellMenus() {
+    @NotNull public Set<BlockMenu> getCellMenus() {
         final Set<BlockMenu> menus = new HashSet<>();
         for (Location cellLocation : this.cells) {
             BlockMenu menu = StorageCacheUtils.getMenu(cellLocation);
@@ -967,8 +963,7 @@ public class NetworkRoot extends NetworkNode {
         return menus;
     }
 
-    @Nonnull
-    public Set<BlockMenu> getCrafterOutputs() {
+    @NotNull public Set<BlockMenu> getCrafterOutputs() {
         final Set<BlockMenu> menus = new HashSet<>();
         for (Location location : this.crafters) {
             BlockMenu menu = StorageCacheUtils.getMenu(location);
@@ -979,8 +974,7 @@ public class NetworkRoot extends NetworkNode {
         return menus;
     }
 
-    @Nonnull
-    public Set<BlockMenu> getGreedyBlockMenus() {
+    @NotNull public Set<BlockMenu> getGreedyBlockMenus() {
         final Set<BlockMenu> menus = new HashSet<>();
         for (Location location : this.greedyBlocks) {
             BlockMenu menu = StorageCacheUtils.getMenu(location);
@@ -991,8 +985,7 @@ public class NetworkRoot extends NetworkNode {
         return menus;
     }
 
-    @Nonnull
-    public Set<BlockMenu> getAdvancedGreedyBlockMenus() {
+    @NotNull public Set<BlockMenu> getAdvancedGreedyBlockMenus() {
         final Set<BlockMenu> menus = new HashSet<>();
         for (Location location : this.advancedGreedyBlocks) {
             BlockMenu menu = StorageCacheUtils.getMenu(location);
@@ -1007,7 +1000,7 @@ public class NetworkRoot extends NetworkNode {
             reason =
                     "This method is deprecated and will be removed in the future. Use getItemStack0(Location, ItemRequest) instead.")
     @Deprecated(forRemoval = true)
-    @Nullable public ItemStack getItemStack(@Nonnull ItemRequest request) {
+    @Nullable public ItemStack getItemStack(@NotNull ItemRequest request) {
         ItemStack stackToReturn = null;
 
         if (request.getAmount() <= 0) {
@@ -1195,11 +1188,11 @@ public class NetworkRoot extends NetworkNode {
         return stackToReturn;
     }
 
-    public boolean contains(@Nonnull ItemStack itemStack) {
+    public boolean contains(@NotNull ItemStack itemStack) {
         return contains(new ItemRequest(itemStack, 1));
     }
 
-    public boolean contains(@Nonnull ItemRequest request) {
+    public boolean contains(@NotNull ItemRequest request) {
 
         long found = 0;
 
@@ -1326,7 +1319,7 @@ public class NetworkRoot extends NetworkNode {
         return false;
     }
 
-    public int getAmount(@Nonnull ItemStack itemStack) {
+    public int getAmount(@NotNull ItemStack itemStack) {
         long totalAmount = 0;
         for (BlockMenu blockMenu : getAdvancedGreedyBlockMenus()) {
             int[] slots = blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
@@ -1380,7 +1373,7 @@ public class NetworkRoot extends NetworkNode {
         }
     }
 
-    public HashMap<ItemStack, Long> getAmount(@Nonnull Set<ItemStack> itemStacks) {
+    public HashMap<ItemStack, Long> getAmount(@NotNull Set<ItemStack> itemStacks) {
         HashMap<ItemStack, Long> totalAmounts = new HashMap<>();
         for (BlockMenu menu : getAdvancedGreedyBlockMenus()) {
             int[] slots = menu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
@@ -1456,7 +1449,7 @@ public class NetworkRoot extends NetworkNode {
             reason =
                     "This method is deprecated and will be removed in the future. Use addItemStack0(Location, ItemStack) instead.")
     @Deprecated(forRemoval = true)
-    public void addItemStack(@Nonnull ItemStack incoming) {
+    public void addItemStack(@NotNull ItemStack incoming) {
         for (BlockMenu blockMenu : getAdvancedGreedyBlockMenus()) {
             final ItemStack template = blockMenu.getItemInSlot(AdvancedGreedyBlock.TEMPLATE_SLOT);
 
@@ -1546,8 +1539,7 @@ public class NetworkRoot extends NetworkNode {
             reason =
                     "This method is deprecated and will be removed in the future. Use getItemStacks0(Location, List<ItemRequest>) instead.")
     @Deprecated(forRemoval = true)
-    @Nonnull
-    public List<ItemStack> getItemStacks(@Nonnull List<ItemRequest> itemRequests) {
+    @NotNull public List<ItemStack> getItemStacks(@NotNull List<ItemRequest> itemRequests) {
         List<ItemStack> retrievedItems = new ArrayList<>();
 
         for (ItemRequest request : itemRequests) {
@@ -1559,8 +1551,7 @@ public class NetworkRoot extends NetworkNode {
         return retrievedItems;
     }
 
-    @Nonnull
-    public List<ItemStack> getItemStacks0(@Nonnull Location location, @Nonnull List<ItemRequest> itemRequests) {
+    @NotNull public List<ItemStack> getItemStacks0(@NotNull Location location, @NotNull List<ItemRequest> itemRequests) {
         List<ItemStack> retrievedItems = new ArrayList<>();
         for (ItemRequest request : itemRequests) {
             ItemStack retrieved = getItemStack0(location, request);
@@ -1571,8 +1562,7 @@ public class NetworkRoot extends NetworkNode {
         return retrievedItems;
     }
 
-    @Nonnull
-    public List<BarrelIdentity> getBarrels(
+    @NotNull public List<BarrelIdentity> getBarrels(
             Predicate<BarrelIdentity> filter, NetworkRootLocateStorageEvent.Strategy strategy, boolean includeEmpty) {
         final Set<Location> addedLocations = ConcurrentHashMap.newKeySet();
         final List<BarrelIdentity> barrelSet = new ArrayList<>();
@@ -1645,8 +1635,7 @@ public class NetworkRoot extends NetworkNode {
         return barrelSet;
     }
 
-    @Nonnull
-    public Map<StorageUnitData, Location> getCargoStorageUnitDatas(
+    @NotNull public Map<StorageUnitData, Location> getCargoStorageUnitDatas(
             NetworkRootLocateStorageEvent.Strategy strategy, boolean includeEmpty) {
         final Set<Location> addedLocations = ConcurrentHashMap.newKeySet();
         final Map<StorageUnitData, Location> dataSet = new HashMap<>();
@@ -1686,8 +1675,7 @@ public class NetworkRoot extends NetworkNode {
         return dataSet;
     }
 
-    @Nonnull
-    public Set<BarrelIdentity> getInputAbleBarrels() {
+    @NotNull public Set<BarrelIdentity> getInputAbleBarrels() {
         if (this.inputAbleBarrels != null) {
             return this.inputAbleBarrels;
         }
@@ -1761,8 +1749,7 @@ public class NetworkRoot extends NetworkNode {
         return barrelSet;
     }
 
-    @Nonnull
-    public Set<BarrelIdentity> getOutputAbleBarrels() {
+    @NotNull public Set<BarrelIdentity> getOutputAbleBarrels() {
 
         if (this.outputAbleBarrels != null) {
             return this.outputAbleBarrels;
@@ -1837,8 +1824,7 @@ public class NetworkRoot extends NetworkNode {
         return barrelSet;
     }
 
-    @Nonnull
-    public Map<StorageUnitData, Location> getInputAbleCargoStorageUnitDatas() {
+    @NotNull public Map<StorageUnitData, Location> getInputAbleCargoStorageUnitDatas() {
         if (this.inputAbleCargoStorageUnitDatas != null) {
             return this.inputAbleCargoStorageUnitDatas;
         }
@@ -1885,8 +1871,7 @@ public class NetworkRoot extends NetworkNode {
         return dataSet;
     }
 
-    @Nonnull
-    public Map<StorageUnitData, Location> getOutputAbleCargoStorageUnitDatas() {
+    @NotNull public Map<StorageUnitData, Location> getOutputAbleCargoStorageUnitDatas() {
         if (this.outputAbleCargoStorageUnitDatas != null) {
             return this.outputAbleCargoStorageUnitDatas;
         }
@@ -1974,21 +1959,21 @@ public class NetworkRoot extends NetworkNode {
         return getMapOutputAbleCargoStorageUnits().get(storageUnitLocation);
     }
 
-    @Nullable public ItemStack requestItem(@Nonnull Location accessor, @Nonnull ItemRequest request) {
+    @Nullable public ItemStack requestItem(@NotNull Location accessor, @NotNull ItemRequest request) {
         return getItemStack0(accessor, request);
     }
 
-    @Nullable public ItemStack requestItem(@Nonnull Location accessor, @Nonnull ItemStack itemStack) {
+    @Nullable public ItemStack requestItem(@NotNull Location accessor, @NotNull ItemStack itemStack) {
         return requestItem(accessor, new ItemRequest(itemStack, itemStack.getAmount()));
     }
 
-    public void tryRecord(@Nonnull Location accessor, @Nonnull ItemRequest request) {
+    public void tryRecord(@NotNull Location accessor, @NotNull ItemRequest request) {
         if (recordFlow && itemFlowRecord != null) {
             itemFlowRecord.addAction(accessor, request);
         }
     }
 
-    @Nullable public ItemStack getItemStack0(@Nonnull Location accessor, @Nonnull ItemRequest request) {
+    @Nullable public ItemStack getItemStack0(@NotNull Location accessor, @NotNull ItemRequest request) {
         ItemStack stackToReturn = null;
 
         if (request.getAmount() <= 0) {
@@ -2327,17 +2312,17 @@ public class NetworkRoot extends NetworkNode {
         return stackToReturn;
     }
 
-    public void addItem(@Nonnull Location accessor, @Nonnull ItemStack incoming) {
+    public void addItem(@NotNull Location accessor, @NotNull ItemStack incoming) {
         addItemStack0(accessor, incoming);
     }
 
-    public void tryRecord(@Nonnull Location accessor, @Nullable ItemStack before, int after) {
+    public void tryRecord(@NotNull Location accessor, @Nullable ItemStack before, int after) {
         if (recordFlow && itemFlowRecord != null && before != null) {
             itemFlowRecord.addAction(accessor, before, after);
         }
     }
 
-    public void addItemStack0(@Nonnull Location accessor, @Nonnull ItemStack incoming) {
+    public void addItemStack0(@NotNull Location accessor, @NotNull ItemStack incoming) {
         if (!allowAccessInput(accessor)) {
             return;
         }
@@ -2577,7 +2562,7 @@ public class NetworkRoot extends NetworkNode {
         return this.mapOutputAbleCargoStorageUnits;
     }
 
-    public boolean allowAccessInput(@Nonnull Location accessor) {
+    public boolean allowAccessInput(@NotNull Location accessor) {
         var lastTime = reducedAccessOutputHistory.get(accessor);
         if (lastTime == null) {
             return true;
@@ -2586,7 +2571,7 @@ public class NetworkRoot extends NetworkNode {
         }
     }
 
-    public boolean allowAccessOutput(@Nonnull Location accessor) {
+    public boolean allowAccessOutput(@NotNull Location accessor) {
         var lastTime = reducedAccessInputHistory.get(accessor);
         if (lastTime == null) {
             return true;
@@ -2595,7 +2580,7 @@ public class NetworkRoot extends NetworkNode {
         }
     }
 
-    public void addTransportInputMiss(@Nonnull Location location) {
+    public void addTransportInputMiss(@NotNull Location location) {
         transportMissInputHistory.merge(location, 1, (a, b) -> {
             if (a + b > transportMissThreshold) {
                 reduceAccessInput(location);
@@ -2606,7 +2591,7 @@ public class NetworkRoot extends NetworkNode {
         });
     }
 
-    public void addTransportOutputMiss(@Nonnull Location location) {
+    public void addTransportOutputMiss(@NotNull Location location) {
         transportMissOutputHistory.merge(location, 1, (a, b) -> {
             if (a + b > transportMissThreshold) {
                 reduceAccessOutput(location);
@@ -2617,19 +2602,19 @@ public class NetworkRoot extends NetworkNode {
         });
     }
 
-    public void reduceAccessInput(@Nonnull Location accessor) {
+    public void reduceAccessInput(@NotNull Location accessor) {
         reducedAccessInputHistory.put(accessor, System.currentTimeMillis());
     }
 
-    public void reduceAccessOutput(@Nonnull Location accessor) {
+    public void reduceAccessOutput(@NotNull Location accessor) {
         reducedAccessOutputHistory.put(accessor, System.currentTimeMillis());
     }
 
-    public void unreduceAccessInput(@Nonnull Location accessor) {
+    public void unreduceAccessInput(@NotNull Location accessor) {
         reducedAccessInputHistory.remove(accessor);
     }
 
-    public void unreduceAccessOutput(@Nonnull Location accessor) {
+    public void unreduceAccessOutput(@NotNull Location accessor) {
         reducedAccessOutputHistory.remove(accessor);
     }
 }

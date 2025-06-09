@@ -3,11 +3,11 @@ package io.github.sefiraat.networks.utils;
 import io.github.mooy1.infinityexpansion.InfinityExpansion;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.managers.SupportedPluginManager;
-import javax.annotation.Nonnull;
 import lombok.Data;
 import lombok.experimental.UtilityClass;
 import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
 @Data
 @UtilityClass
@@ -84,18 +84,15 @@ public class Keys {
         }
     }
 
-    @Nonnull
-    public static NamespacedKey newKey(@Nonnull String key) {
+    @NotNull public static NamespacedKey newKey(@NotNull String key) {
         return new NamespacedKey(Networks.getInstance(), key);
     }
 
-    @Nonnull
-    public static NamespacedKey customNewKey(@Nonnull String namespace, @Nonnull String key) {
+    @NotNull public static NamespacedKey customNewKey(@NotNull String namespace, @NotNull String key) {
         return new NamespacedKey(namespace, key);
     }
 
-    @Nonnull
-    public static NamespacedKey customNewKey(@Nonnull Plugin plugin, @Nonnull String key) {
+    @NotNull public static NamespacedKey customNewKey(@NotNull Plugin plugin, @NotNull String key) {
         return new NamespacedKey(plugin, key);
     }
 }

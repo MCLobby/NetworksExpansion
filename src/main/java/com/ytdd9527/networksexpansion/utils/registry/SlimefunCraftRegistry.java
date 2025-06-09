@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nonnull;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Final_ROOT
@@ -18,8 +18,7 @@ public class SlimefunCraftRegistry {
     private boolean init = false;
     private Map<String, List<String>> craftMap = new HashMap<>();
 
-    @Nonnull
-    public static SlimefunCraftRegistry getInstance() {
+    @NotNull public static SlimefunCraftRegistry getInstance() {
         if (instance == null) {
             synchronized (SlimefunCraftRegistry.class) {
                 if (instance == null) {
@@ -65,8 +64,7 @@ public class SlimefunCraftRegistry {
         this.craftMap = craftMap;
     }
 
-    @Nonnull
-    public List<String> getCraftSlimefunItemIdList(@Nonnull String id) {
+    @NotNull public List<String> getCraftSlimefunItemIdList(@NotNull String id) {
         if (!this.init) {
             this.init();
         }
@@ -74,13 +72,11 @@ public class SlimefunCraftRegistry {
         return this.craftMap.containsKey(id) ? this.craftMap.get(id) : new ArrayList<>();
     }
 
-    @Nonnull
-    public List<String> getCraftSlimefunItemIdList(@Nonnull SlimefunItem slimefunItem) {
+    @NotNull public List<String> getCraftSlimefunItemIdList(@NotNull SlimefunItem slimefunItem) {
         return this.getCraftSlimefunItemIdList(slimefunItem.getId());
     }
 
-    @Nonnull
-    public List<SlimefunItem> getCraftSlimefunItemList(@Nonnull String id) {
+    @NotNull public List<SlimefunItem> getCraftSlimefunItemList(@NotNull String id) {
         if (!this.init) {
             this.init();
         }
@@ -100,8 +96,7 @@ public class SlimefunCraftRegistry {
         return slimefunItemList;
     }
 
-    @Nonnull
-    public List<SlimefunItem> getCraftSlimefunItemList(@Nonnull SlimefunItem slimefunItem) {
+    @NotNull public List<SlimefunItem> getCraftSlimefunItemList(@NotNull SlimefunItem slimefunItem) {
         return this.getCraftSlimefunItemList(slimefunItem.getId());
     }
 }
