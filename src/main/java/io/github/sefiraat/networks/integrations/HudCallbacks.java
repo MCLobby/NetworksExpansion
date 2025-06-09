@@ -3,6 +3,7 @@ package io.github.sefiraat.networks.integrations;
 import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.AdvancedGreedyBlock;
+import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.schntgaispock.slimehud.SlimeHUD;
 import io.github.schntgaispock.slimehud.util.HudBuilder;
 import io.github.schntgaispock.slimehud.waila.HudController;
@@ -82,6 +83,7 @@ public class HudCallbacks {
         String limitStr = HudBuilder.getAbbreviatedNumber(limit);
         String itemName = ItemStackHelper.getDisplayName(itemStack);
 
-        return "&7| &f" + itemName + " &7| " + amountStr + "/" + limitStr;
+        return TextUtil.GRAY + "| " + TextUtil.WHITE + itemName + " " + TextUtil.GRAY + "| " + amountStr + "/"
+                + limitStr;
     }
 }

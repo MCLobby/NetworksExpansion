@@ -33,7 +33,6 @@ import lombok.Setter;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -324,9 +323,8 @@ public class LocalizationService {
         return itemStack;
     }
 
-    @SuppressWarnings("deprecation")
     @NotNull public String color(@NotNull String str) {
-        str = ChatColor.translateAlternateColorCodes('&', str);
+        str = TextUtil.color(str);
         if (str.startsWith("<random_color>")) {
             str = str.replaceAll("<random_color>", "");
             str = TextUtil.colorPseudorandomString(str);

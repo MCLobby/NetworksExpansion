@@ -1,13 +1,13 @@
 package com.balugaq.netex.api.helpers;
 
 import com.balugaq.netex.utils.Lang;
+import com.ytdd9527.networksexpansion.utils.TextUtil;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import java.util.ArrayList;
 import java.util.Optional;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -150,7 +150,7 @@ public class Icon {
         var meta = clone.getItemMeta();
         if (meta != null) {
             var lore = Optional.ofNullable(meta.getLore()).orElse(new ArrayList<>());
-            lore.add(ChatColor.translateAlternateColorCodes('&', "&7页 &a" + currentPage + " / " + maxPage));
+            lore.add(TextUtil.GRAY + "页 &a" + currentPage + " / " + maxPage);
             meta.setLore(lore);
             clone.setItemMeta(meta);
         }

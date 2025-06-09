@@ -3,6 +3,7 @@ package com.balugaq.netex.api.algorithm;
 import com.balugaq.netex.api.data.StorageUnitData;
 import com.balugaq.netex.api.helpers.Icon;
 import com.ytdd9527.networksexpansion.implementation.machines.managers.DrawerManager;
+import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.sefiraat.networks.network.stackcaches.BarrelIdentity;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import java.text.Collator;
@@ -10,10 +11,8 @@ import java.util.Comparator;
 import java.util.Locale;
 import java.util.Map;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
-import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 
-@SuppressWarnings("deprecation")
 public class Sorters {
     public static final String NO_ITEM = ItemStackHelper.getDisplayName(Icon.QUANTUM_STORAGE_NO_ITEM);
 
@@ -22,9 +21,9 @@ public class Sorters {
                 ItemStack itemStack = entry.getKey();
                 SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
                 if (slimefunItem != null) {
-                    return ChatColor.stripColor(slimefunItem.getItemName());
+                    return TextUtil.stripColor(slimefunItem.getItemName());
                 } else {
-                    return ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack));
+                    return TextUtil.stripColor(ItemStackHelper.getDisplayName(itemStack));
                 }
             },
             Collator.getInstance(Locale.CHINA)::compare);
@@ -34,7 +33,7 @@ public class Sorters {
                 ItemStack itemStack = entry.getKey();
                 SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
                 if (slimefunItem != null) {
-                    return ChatColor.stripColor(slimefunItem.getAddon().getName());
+                    return TextUtil.stripColor(slimefunItem.getAddon().getName());
                 } else {
                     return "Minecraft";
                 }
@@ -49,9 +48,9 @@ public class Sorters {
                 }
                 SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
                 if (slimefunItem != null) {
-                    return ChatColor.stripColor(slimefunItem.getItemName());
+                    return TextUtil.stripColor(slimefunItem.getItemName());
                 } else {
-                    return ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack));
+                    return TextUtil.stripColor(ItemStackHelper.getDisplayName(itemStack));
                 }
             },
             Collator.getInstance(Locale.CHINA)::compare);
@@ -65,9 +64,9 @@ public class Sorters {
                 }
                 SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
                 if (slimefunItem != null) {
-                    return ChatColor.stripColor(slimefunItem.getItemName());
+                    return TextUtil.stripColor(slimefunItem.getItemName());
                 } else {
-                    return ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack));
+                    return TextUtil.stripColor(ItemStackHelper.getDisplayName(itemStack));
                 }
             },
             Collator.getInstance(Locale.CHINA)::compare);

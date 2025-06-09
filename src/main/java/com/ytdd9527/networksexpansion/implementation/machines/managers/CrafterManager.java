@@ -12,6 +12,7 @@ import com.ytdd9527.networksexpansion.core.items.machines.AbstractAutoCrafter;
 import com.ytdd9527.networksexpansion.core.items.unusable.AbstractBlueprint;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
 import com.ytdd9527.networksexpansion.utils.ParticleUtil;
+import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
@@ -47,7 +48,6 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -409,10 +409,10 @@ public class CrafterManager extends NetworkObject {
 
                 var name = getCrafterName(crafterLocation);
                 if (name != null) {
-                    displayStack = new CustomItemStack(displayStack, ChatColor.translateAlternateColorCodes('&', name));
+                    displayStack = new CustomItemStack(displayStack, TextUtil.color(name));
                 } else if (!isEmpty) {
                     displayStack = new CustomItemStack(
-                            displayStack, ChatColor.GRAY + ItemStackHelper.getDisplayName(rawDisplayStack));
+                            displayStack, TextUtil.GRAY + ItemStackHelper.getDisplayName(rawDisplayStack));
                 } else {
                     displayStack = new CustomItemStack(displayStack, Sorters.NO_ITEM);
                 }

@@ -1,8 +1,8 @@
 package com.balugaq.netex.utils;
 
+import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.sefiraat.networks.Networks;
 import java.util.Arrays;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -11,7 +11,6 @@ import org.jetbrains.annotations.Nullable;
 /**
  * @author balugaq
  */
-@SuppressWarnings({"deprecation", "unused"})
 public class Debug {
     private static final String debugPrefix = "[Debug] ";
     private static JavaPlugin plugin;
@@ -113,9 +112,7 @@ public class Debug {
 
     public static void log(@NotNull String message) {
         init();
-        plugin.getServer()
-                .getConsoleSender()
-                .sendMessage("[" + plugin.getName() + "] " + ChatColor.translateAlternateColorCodes('&', message));
+        plugin.getServer().getConsoleSender().sendMessage("[" + plugin.getName() + "] " + TextUtil.color(message));
     }
 
     public static void log(@NotNull Throwable e) {

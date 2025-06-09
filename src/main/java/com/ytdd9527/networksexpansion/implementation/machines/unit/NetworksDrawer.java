@@ -14,6 +14,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.implementation.tools.ItemMover;
 import com.ytdd9527.networksexpansion.utils.DisplayGroupGenerators;
+import com.ytdd9527.networksexpansion.utils.TextUtil;
 import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import dev.sefiraat.sefilib.entity.display.DisplayGroup;
@@ -50,7 +51,6 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -848,13 +848,13 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
                 // This container already exists and placed in another location
                 p.sendMessage(Lang.getString("messages.unsupported-operation.drawer.already_exists"));
                 Location currLoc = data.getLastLocation();
-                p.sendMessage(ChatColor.translateAlternateColorCodes(
-                        '&',
-                        "&e"
-                                + (currLoc.getWorld() == null
-                                        ? "Unknown"
-                                        : currLoc.getWorld().getName()) + " &7| &e" + currLoc.getBlockX() + "&7/&e"
-                                + currLoc.getBlockY() + "&7/&e" + currLoc.getBlockZ() + "&7;"));
+                p.sendMessage(TextUtil.YELLOW
+                        + (currLoc.getWorld() == null
+                                ? "Unknown"
+                                : currLoc.getWorld().getName()) + " " + TextUtil.GRAY + "| " + TextUtil.YELLOW
+                        + currLoc.getBlockX() + TextUtil.GRAY + "/" + TextUtil.YELLOW
+                        + currLoc.getBlockY() + TextUtil.GRAY + "/" + TextUtil.YELLOW + currLoc.getBlockZ()
+                        + TextUtil.GRAY + ";");
                 e.setCancelled(true);
                 if (useSpecialModel) {
                     removeDisplay(l);

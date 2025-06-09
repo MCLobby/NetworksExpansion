@@ -1,6 +1,7 @@
 package com.ytdd9527.networksexpansion.core.items.unusable;
 
 import com.balugaq.netex.utils.Lang;
+import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.sefiraat.networks.network.stackcaches.BlueprintInstance;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.Theme;
@@ -14,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.ParametersAreNonnullByDefault;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
-import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
@@ -43,13 +43,13 @@ public abstract class AbstractBlueprint extends UnusableSlimefunItem implements 
                 lore.add(Theme.PASSIVE + "- " + Lang.getString("messages.blueprint.empty"));
                 continue;
             }
-            lore.add(Theme.PASSIVE + "- " + ChatColor.stripColor(ItemStackHelper.getDisplayName(item)));
+            lore.add(Theme.PASSIVE + "- " + TextUtil.stripColor(ItemStackHelper.getDisplayName(item)));
         }
 
         lore.add("");
         lore.add(Lang.getString("messages.blueprint.output"));
 
-        lore.add(Theme.PASSIVE + "- " + ChatColor.stripColor(ItemStackHelper.getDisplayName(output)));
+        lore.add(Theme.PASSIVE + "- " + TextUtil.stripColor(ItemStackHelper.getDisplayName(output)));
 
         itemMeta.setLore(lore);
 

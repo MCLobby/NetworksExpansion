@@ -1,6 +1,7 @@
 package io.github.sefiraat.networks.slimefun.groups;
 
 import com.balugaq.netex.utils.Lang;
+import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.sefiraat.networks.slimefun.NetworksItemGroups;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -82,9 +83,7 @@ public class MainFlexGroup extends FlexItemGroup {
         menu.replaceExistingItem(
                 GUIDE_BACK,
                 ChestMenuUtils.getBackButton(
-                        player,
-                        "",
-                        ChatColor.GRAY + Slimefun.getLocalization().getMessage(player, "guide.back.guide")));
+                        player, "", TextUtil.GRAY + Slimefun.getLocalization().getMessage(player, "guide.back.guide")));
         menu.addMenuClickHandler(GUIDE_BACK, (player1, slot, itemStack, clickAction) -> {
             SlimefunGuide.openMainMenu(profile, mode, 1);
             return false;

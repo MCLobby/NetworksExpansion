@@ -11,6 +11,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
 import com.ytdd9527.networksexpansion.utils.ParticleUtil;
+import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
@@ -45,7 +46,6 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -243,7 +243,7 @@ public class QuantumManager extends NetworkObject {
                         return true;
                     }
 
-                    String name = ChatColor.stripColor(
+                    String name = TextUtil.stripColor(
                             ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
                     if (cache.getFilter().matches("^[a-zA-Z]+$")) {
                         final String pinyinName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
@@ -400,10 +400,10 @@ public class QuantumManager extends NetworkObject {
 
                 var name = getStorageName(barrelLocation);
                 if (name != null) {
-                    displayStack = new CustomItemStack(displayStack, ChatColor.translateAlternateColorCodes('&', name));
+                    displayStack = new CustomItemStack(displayStack, TextUtil.color(name));
                 } else if (!isEmpty) {
                     displayStack = new CustomItemStack(
-                            displayStack, ChatColor.GRAY + ItemStackHelper.getDisplayName(barrelItemStack));
+                            displayStack, TextUtil.GRAY + ItemStackHelper.getDisplayName(barrelItemStack));
                 } else {
                     displayStack = new CustomItemStack(displayStack, Sorters.NO_ITEM);
                 }

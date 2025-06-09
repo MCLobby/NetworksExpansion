@@ -1,12 +1,12 @@
 package io.github.sefiraat.networks.network.stackcaches;
 
 import com.balugaq.netex.utils.Lang;
+import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.sefiraat.networks.utils.Theme;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
-import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
@@ -73,7 +73,7 @@ public class CardInstance extends ItemStackCache {
         if (this.getItemStack() == null) {
             return Lang.getString("messages.normal-operation.memory_card.empty");
         }
-        String name = ChatColor.stripColor(ItemStackHelper.getDisplayName(getItemStack()));
+        String name = TextUtil.stripColor(ItemStackHelper.getDisplayName(getItemStack()));
         return Theme.CLICK_INFO + name + ": " + Theme.PASSIVE + this.amount;
     }
 }
