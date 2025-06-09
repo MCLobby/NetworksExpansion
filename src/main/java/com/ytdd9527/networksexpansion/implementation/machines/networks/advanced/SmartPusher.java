@@ -54,7 +54,7 @@ public class SmartPusher extends SpecialSlimefunItem implements AdminDebuggable 
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            @NotNull ItemStack[] recipe) {
+            @NotNull ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -80,7 +80,10 @@ public class SmartPusher extends SpecialSlimefunItem implements AdminDebuggable 
                     }
 
                     @Override
-                    public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData slimefunBlockData) {
+                    public void tick(
+                            @NotNull Block block,
+                            SlimefunItem slimefunItem,
+                            @NotNull SlimefunBlockData slimefunBlockData) {
                         final Location location = block.getLocation();
                         final BlockFace cachedFace = getDirection(location);
                         if (cachedFace != null && VALID_FACES.contains(cachedFace)) {
@@ -159,7 +162,7 @@ public class SmartPusher extends SpecialSlimefunItem implements AdminDebuggable 
         };
     }
 
-    public void onTick(@NotNull BlockMenu blockMenu, BlockFace bridgeFace) {
+    public void onTick(@NotNull BlockMenu blockMenu, @NotNull BlockFace bridgeFace) {
         final BlockFace containerFace = bridgeFace.getOppositeFace();
         final Block thisBlock = blockMenu.getBlock();
         final Block bridge = thisBlock.getRelative(bridgeFace);
@@ -221,7 +224,7 @@ public class SmartPusher extends SpecialSlimefunItem implements AdminDebuggable 
         return 3456;
     }
 
-    public List<ItemStack> getTemplateItems(@NotNull BlockMenu blockMenu) {
+    public @NotNull List<ItemStack> getTemplateItems(@NotNull BlockMenu blockMenu) {
         final List<ItemStack> items = new ArrayList<>();
         for (int slot : getTemplateSlots()) {
             final ItemStack itemStack = blockMenu.getItemInSlot(slot);

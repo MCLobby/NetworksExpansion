@@ -63,7 +63,10 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
     private final HashMap<Location, Integer> TICKER_MAP = new HashMap<>();
 
     public LineTransferVanillaGrabber(
-            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSFER_VANILLA_GRABBER);
         loadConfigurations();
     }
@@ -255,7 +258,7 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
     }
 
     @Override
-    protected Particle.DustOptions getDustOptions() {
+    protected Particle.@NotNull DustOptions getDustOptions() {
         return new Particle.DustOptions(Color.MAROON, 1);
     }
 

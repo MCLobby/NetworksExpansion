@@ -27,7 +27,10 @@ import org.jetbrains.annotations.NotNull;
 public class NetworkWirelessConfigurator extends SpecialSlimefunItem {
 
     public NetworkWirelessConfigurator(
-            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
         addItemHandler((ItemUseHandler) e -> {
             final Player player = e.getPlayer();

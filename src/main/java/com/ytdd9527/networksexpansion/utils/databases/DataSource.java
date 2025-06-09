@@ -37,9 +37,9 @@ public class DataSource {
 
     private final String ITEM_ID_KEY = "NEXT_ITEM_ID";
     private final String CONTAINER_ID_KEY = "NEXT_CONTAINER_ID";
-    private final Logger logger;
-    private final Map<Integer, ItemStack> itemMap;
-    private final Map<String, String> environment;
+    private final @NotNull Logger logger;
+    private final @NotNull Map<Integer, ItemStack> itemMap;
+    private final @NotNull Map<String, String> environment;
     private Connection conn;
     private int nextContainerId = 0;
     private int nextItemId = 0;
@@ -59,7 +59,7 @@ public class DataSource {
         init();
     }
 
-    void saveNewStorageData(StorageUnitData storageData) {
+    void saveNewStorageData(@NotNull StorageUnitData storageData) {
         String sql = "INSERT INTO " + DataTables.CONTAINER + " VALUES(" + storageData.getId()
                 + ",'" + storageData.getOwner().getUniqueId()
                 + "'," + storageData.getSizeType().ordinal()
@@ -120,7 +120,7 @@ public class DataSource {
         return re;
     }
 
-    int getItemId(ItemStack item) {
+    int getItemId(@NotNull ItemStack item) {
         ItemStack clone = item.clone();
         ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
         for (Map.Entry<Integer, ItemStack> each : itemMap.entrySet()) {
@@ -192,7 +192,7 @@ public class DataSource {
         scheduleExecute(sql, Lang.getString("messages.data-saving.error-occurred-when-updating-storage"));
     }
 
-    int getIdFromLocation(Location l) {
+    int getIdFromLocation(@NotNull Location l) {
         String sql = "SELECT ContainerID FROM " + DataTables.CONTAINER + " WHERE IsPlaced = 1 AND LastLocation = '"
                 + DataStorage.formatLocation(l) + "';";
         try (Statement stat = conn.createStatement();
@@ -310,7 +310,7 @@ public class DataSource {
         return re;
     }
 
-    private void executeQuery(String sql, Consumer<ResultSet> usage) {
+    private void executeQuery(String sql, @NotNull Consumer<ResultSet> usage) {
 
         try (Statement stat = conn.createStatement();
                 ResultSet result = stat.executeQuery(sql)) {
@@ -335,7 +335,7 @@ public class DataSource {
     }
 
     @SuppressWarnings("deprecation")
-    private String getBase64String(ItemStack item) throws IOException {
+    private @NotNull String getBase64String(ItemStack item) throws IOException {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         BukkitObjectOutputStream bs = new BukkitObjectOutputStream(stream);
         bs.writeObject(item);
@@ -345,7 +345,7 @@ public class DataSource {
     }
 
     @SuppressWarnings("deprecation")
-    private ItemStack getItemStack(String base64Str) throws IOException, ClassNotFoundException {
+    private ItemStack getItemStack(@NotNull String base64Str) throws IOException, ClassNotFoundException {
         ByteArrayInputStream stream = new ByteArrayInputStream(Base64Coder.decodeLines(base64Str));
         BukkitObjectInputStream bs = new BukkitObjectInputStream(stream);
         ItemStack re = (ItemStack) bs.readObject();

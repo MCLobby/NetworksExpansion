@@ -14,11 +14,15 @@ import java.util.Optional;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class NetworkAdminDebugger extends SpecialSlimefunItem {
 
     public NetworkAdminDebugger(
-            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -27,7 +31,7 @@ public class NetworkAdminDebugger extends SpecialSlimefunItem {
         addItemHandler((ItemUseHandler) this::onUse);
     }
 
-    protected void onUse(PlayerRightClickEvent e) {
+    protected void onUse(@NotNull PlayerRightClickEvent e) {
         final Optional<Block> optional = e.getClickedBlock();
         if (optional.isPresent()) {
             final Block block = optional.get();

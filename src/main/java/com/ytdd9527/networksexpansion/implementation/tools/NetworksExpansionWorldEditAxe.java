@@ -13,11 +13,12 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 @Deprecated
 public class NetworksExpansionWorldEditAxe extends SpecialSlimefunItem {
 
-    public NetworksExpansionWorldEditAxe(ItemGroup itemGroup, SlimefunItemStack item) {
+    public NetworksExpansionWorldEditAxe(@NotNull ItemGroup itemGroup, @NotNull SlimefunItemStack item) {
         super(itemGroup, item, RecipeType.NULL, new ItemStack[] {});
         addItemHandler(
                 (ItemUseHandler) e -> {

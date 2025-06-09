@@ -205,26 +205,26 @@ public class NetworkRoot extends NetworkNode {
     private final @Nullable ItemFlowRecord itemFlowRecord;
 
     @Getter
-    private Location controller = null;
+    private @Nullable Location controller = null;
 
     @Getter
     private boolean isOverburdened = false;
 
     @Deprecated
-    private Set<BarrelIdentity> barrels = null;
+    private @Nullable Set<BarrelIdentity> barrels = null;
 
-    private Set<BarrelIdentity> inputAbleBarrels = null;
-    private Set<BarrelIdentity> outputAbleBarrels = null;
+    private @Nullable Set<BarrelIdentity> inputAbleBarrels = null;
+    private @Nullable Set<BarrelIdentity> outputAbleBarrels = null;
 
     @Deprecated
-    private Map<StorageUnitData, Location> cargoStorageUnitDatas = null;
+    private @Nullable Map<StorageUnitData, Location> cargoStorageUnitDatas = null;
 
-    private Map<StorageUnitData, Location> inputAbleCargoStorageUnitDatas = null;
-    private Map<StorageUnitData, Location> outputAbleCargoStorageUnitDatas = null;
-    private Map<Location, BarrelIdentity> mapInputAbleBarrels = null;
-    private Map<Location, BarrelIdentity> mapOutputAbleBarrels = null;
-    private Map<Location, StorageUnitData> mapInputAbleCargoStorageUnits = null;
-    private Map<Location, StorageUnitData> mapOutputAbleCargoStorageUnits = null;
+    private @Nullable Map<StorageUnitData, Location> inputAbleCargoStorageUnitDatas = null;
+    private @Nullable Map<StorageUnitData, Location> outputAbleCargoStorageUnitDatas = null;
+    private @Nullable Map<Location, BarrelIdentity> mapInputAbleBarrels = null;
+    private @Nullable Map<Location, BarrelIdentity> mapOutputAbleBarrels = null;
+    private @Nullable Map<Location, StorageUnitData> mapInputAbleCargoStorageUnits = null;
+    private @Nullable Map<Location, StorageUnitData> mapOutputAbleCargoStorageUnits = null;
 
     @Setter
     @Getter
@@ -706,7 +706,7 @@ public class NetworkRoot extends NetworkNode {
         return itemStacks;
     }
 
-    public Map<ItemStack, Integer> getAllNetworkItems() {
+    public @NotNull Map<ItemStack, Integer> getAllNetworkItems() {
         final Map<ItemStack, Integer> itemStacks = new HashMap<>();
 
         // Barrels
@@ -1373,7 +1373,7 @@ public class NetworkRoot extends NetworkNode {
         }
     }
 
-    public HashMap<ItemStack, Long> getAmount(@NotNull Set<ItemStack> itemStacks) {
+    public @NotNull HashMap<ItemStack, Long> getAmount(@NotNull Set<ItemStack> itemStacks) {
         HashMap<ItemStack, Long> totalAmounts = new HashMap<>();
         for (BlockMenu menu : getAdvancedGreedyBlockMenus()) {
             int[] slots = menu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW);
@@ -1563,7 +1563,9 @@ public class NetworkRoot extends NetworkNode {
     }
 
     @NotNull public List<BarrelIdentity> getBarrels(
-            Predicate<BarrelIdentity> filter, NetworkRootLocateStorageEvent.Strategy strategy, boolean includeEmpty) {
+            @NotNull Predicate<BarrelIdentity> filter,
+            NetworkRootLocateStorageEvent.Strategy strategy,
+            boolean includeEmpty) {
         final Set<Location> addedLocations = ConcurrentHashMap.newKeySet();
         final List<BarrelIdentity> barrelSet = new ArrayList<>();
 

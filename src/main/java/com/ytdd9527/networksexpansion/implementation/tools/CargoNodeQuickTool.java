@@ -34,13 +34,19 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class CargoNodeQuickTool extends SpecialSlimefunItem {
-    private final NamespacedKey listKey, configKey, cargoKey;
+    private final @NotNull NamespacedKey listKey, configKey, cargoKey;
     private final int[] listSlots = {19, 20, 21, 28, 29, 30, 37, 38, 39};
     private final Gson gson = new Gson();
 
-    public CargoNodeQuickTool(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public CargoNodeQuickTool(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
         listKey = Keys.newKey("item_list");
         configKey = Keys.newKey("config");
@@ -221,7 +227,7 @@ public class CargoNodeQuickTool extends SpecialSlimefunItem {
         });
     }
 
-    private ItemStack isInclude(ItemStack item, Map<ItemStack, Boolean> checkList) {
+    private @Nullable ItemStack isInclude(@Nullable ItemStack item, @NotNull Map<ItemStack, Boolean> checkList) {
         for (ItemStack each : checkList.keySet()) {
             if (item != null
                     && StackUtils.itemsMatch(each, item, true, false)
@@ -233,14 +239,14 @@ public class CargoNodeQuickTool extends SpecialSlimefunItem {
         return null;
     }
 
-    private boolean isAllTrue(Collection<Boolean> set) {
+    private boolean isAllTrue(@NotNull Collection<Boolean> set) {
         for (boolean each : set) {
             if (!each) return false;
         }
         return true;
     }
 
-    private boolean isTool(ItemStack tool) {
+    private boolean isTool(@Nullable ItemStack tool) {
         if (tool != null && tool.getItemMeta() != null) {
             var sf = Slimefun.instance();
             if (sf != null) {

@@ -124,7 +124,7 @@ public final class ExpansionItemsMenus {
             Material.KNOWLEDGE_BOOK,
             Lang.getString("groups.expansion.custom.sub_menu_announce"));
 
-    private static NamespacedKey getKey(String key) {
+    private static @NotNull NamespacedKey getKey(@NotNull String key) {
         return Keys.newKey(key);
     }
 }

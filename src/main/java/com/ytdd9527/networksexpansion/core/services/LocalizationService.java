@@ -54,28 +54,28 @@ public class LocalizationService {
     private static final String MSG_MATERIAL_NULL = "Material cannot be null";
     private static final String MSG_ITEMSTACK_NULL = "ItemStack cannot be null";
     private static final String MSG_TEXTURE_NULL = "Texture cannot be null";
-    private final JavaPlugin plugin;
-    private final String langFolderName;
-    private final File langFolder;
-    private final List<String> languages;
-    private final Map<String, Language> langMap;
+    private final @NotNull JavaPlugin plugin;
+    private final @NotNull String langFolderName;
+    private final @NotNull File langFolder;
+    private final @NotNull List<String> languages;
+    private final @NotNull Map<String, Language> langMap;
     private final String colorTagRegex = "<[a-zA-Z0-9_]+>";
     private final Pattern pattern = Pattern.compile(this.colorTagRegex);
 
     @Setter
     @Getter
-    private String idPrefix = "";
+    private @NotNull String idPrefix = "";
 
     @Setter
-    private String itemGroupKey = "categories";
+    private @NotNull String itemGroupKey = "categories";
 
     @Setter
-    private String itemsKey = "items";
+    private @NotNull String itemsKey = "items";
 
     @Setter
-    private String recipesKey = "recipes";
+    private @NotNull String recipesKey = "recipes";
 
-    public LocalizationService(Networks plugin) {
+    public LocalizationService(@NotNull Networks plugin) {
         this(plugin.getJavaPlugin());
     }
 
@@ -203,7 +203,7 @@ public class LocalizationService {
         return localization;
     }
 
-    @NotNull public String[] getStringArray(@NotNull String path) {
+    @NotNull public String @NotNull [] getStringArray(@NotNull String path) {
         return this.getStringList(path).stream().map(this::color).toList().toArray(new String[0]);
     }
 
@@ -274,7 +274,7 @@ public class LocalizationService {
         return this.getItemBy(this.itemGroupKey, id, itemStack);
     }
 
-    public SlimefunItemStack getItem(String id, Material material, String... extraLore) {
+    public @NotNull SlimefunItemStack getItem(@NotNull String id, @NotNull Material material, String... extraLore) {
         return this.getItemBy(this.itemsKey, id, material, extraLore);
     }
 
@@ -307,7 +307,8 @@ public class LocalizationService {
     }
 
     @SuppressWarnings("deprecation")
-    private <T extends ItemStack> T appendLore(@NotNull T itemStack, @Nullable String... extraLore) {
+    private <T extends ItemStack> @NotNull T appendLore(
+            @NotNull T itemStack, @Nullable String @Nullable ... extraLore) {
         Preconditions.checkArgument(itemStack != null, MSG_ITEMSTACK_NULL);
         if (extraLore != null && extraLore.length != 0) {
             ItemMeta meta = itemStack.getItemMeta();

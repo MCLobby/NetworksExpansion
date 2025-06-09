@@ -8,6 +8,7 @@ import lombok.experimental.UtilityClass;
 import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @Data
 @UtilityClass
@@ -76,7 +77,7 @@ public class Keys {
     public static final NamespacedKey EXPANSION_WORKBENCH = newKey("expansion_workbench");
     public static final NamespacedKey EXPANSION_WORKBENCH_6x6 = newKey("expansion_workbench_6x6");
 
-    public static NamespacedKey INFINITY_DISPLAY = null;
+    public static @Nullable NamespacedKey INFINITY_DISPLAY = null;
 
     static {
         if (SupportedPluginManager.getInstance().isInfinityExpansion()) {

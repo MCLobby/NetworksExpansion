@@ -215,7 +215,7 @@ public class NetworkControlV extends NetworkDirectional {
     }
 
     @Override
-    protected Particle.DustOptions getDustOptions() {
+    protected Particle.@NotNull DustOptions getDustOptions() {
         return new Particle.DustOptions(Color.MAROON, 1);
     }
 }

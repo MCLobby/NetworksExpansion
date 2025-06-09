@@ -39,9 +39,13 @@ public class AdvancedImport extends NetworkObject implements RecipeDisplayItem {
         36, 37, 38, 39, 40, 41, 42, 43, 44,
         45, 46, 47, 48, 49, 50, 51, 52, 53
     };
-    private final ItemSetting<Integer> tickRate;
+    private final @NotNull ItemSetting<Integer> tickRate;
 
-    public AdvancedImport(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public AdvancedImport(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.ADVANCED_IMPORT);
 
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
@@ -61,7 +65,7 @@ public class AdvancedImport extends NetworkObject implements RecipeDisplayItem {
             }
 
             @Override
-            public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
+            public void tick(@NotNull Block block, SlimefunItem item, @NotNull SlimefunBlockData data) {
                 if (tick <= 1) {
                     final BlockMenu blockMenu = data.getBlockMenu();
                     if (blockMenu == null) {

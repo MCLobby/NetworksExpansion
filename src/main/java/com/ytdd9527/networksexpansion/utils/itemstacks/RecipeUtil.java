@@ -38,7 +38,7 @@ import org.jetbrains.annotations.Nullable;
 @SuppressWarnings({"deprecation", "unused", "unchecked"})
 @UtilityClass
 public class RecipeUtil {
-    public static Map<ItemStack[], ItemStack> getRecipesBySlimefunId(@NotNull String slimefunId) {
+    public static @Nullable Map<ItemStack[], ItemStack> getRecipesBySlimefunId(@NotNull String slimefunId) {
         final SlimefunItem slimefunItem = SlimefunItem.getById(slimefunId);
         try {
             if (slimefunItem == null) {
@@ -164,7 +164,7 @@ public class RecipeUtil {
     }
 
     public static void registerRecipeBySimpleDisplayRecipe(
-            @NotNull RecipeItem recipeItem, List<ItemStack> displayRecipes) {
+            @NotNull RecipeItem recipeItem, @NotNull List<ItemStack> displayRecipes) {
         for (int i = 0; i < displayRecipes.size(); i += 2) {
             boolean disabled = false;
             ItemStack itemStack = displayRecipes.get(i + 1);

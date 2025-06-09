@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 @ToString
 public class ItemStackCache {
 
-    private ItemStack itemStack;
+    private @Nullable ItemStack itemStack;
 
     @Nullable private ItemMeta itemMeta = null;
 

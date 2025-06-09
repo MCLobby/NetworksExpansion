@@ -50,7 +50,7 @@ public class SmartGrabber extends SpecialSlimefunItem implements AdminDebuggable
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            @NotNull ItemStack[] recipe) {
+            @NotNull ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -76,7 +76,8 @@ public class SmartGrabber extends SpecialSlimefunItem implements AdminDebuggable
                     }
 
                     @Override
-                    public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData slimefunBlockData) {
+                    public void tick(
+                            @NotNull Block block, SlimefunItem slimefunItem, SlimefunBlockData slimefunBlockData) {
                         final Location location = block.getLocation();
                         final BlockFace cachedFace = getDirection(location);
                         if (cachedFace != null && VALID_FACES.contains(cachedFace)) {
@@ -113,7 +114,7 @@ public class SmartGrabber extends SpecialSlimefunItem implements AdminDebuggable
                 });
     }
 
-    public void onTick(@NotNull Block thisBlock, BlockFace bridgeFace) {
+    public void onTick(@NotNull Block thisBlock, @NotNull BlockFace bridgeFace) {
         final BlockFace containerFace = bridgeFace.getOppositeFace();
         final Block bridge = thisBlock.getRelative(bridgeFace);
         final Block container = thisBlock.getRelative(containerFace);

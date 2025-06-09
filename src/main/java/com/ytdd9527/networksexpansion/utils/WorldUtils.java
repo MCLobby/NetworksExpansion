@@ -5,14 +5,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @Deprecated
 public class WorldUtils {
-    protected static Class<?> craftBlockStateClass;
-    protected static Field interfaceBlockDataField;
-    protected static Field blockPositionField;
-    protected static Field worldField;
-    protected static Field weakWorldField;
+    protected static @Nullable Class<?> craftBlockStateClass;
+    protected static @Nullable Field interfaceBlockDataField;
+    protected static @Nullable Field blockPositionField;
+    protected static @Nullable Field worldField;
+    protected static @Nullable Field weakWorldField;
     protected static boolean success = false;
 
     static {
@@ -71,7 +73,7 @@ public class WorldUtils {
         }
     }
 
-    public static boolean copyBlockState(BlockState fromBlockState, Block toBlock) {
+    public static boolean copyBlockState(@NotNull BlockState fromBlockState, @NotNull Block toBlock) {
         if (!success) {
             return false;
         }

@@ -42,9 +42,13 @@ public class NetworkController extends NetworkObject {
     protected final Map<Location, Boolean> firstTickMap = new ConcurrentHashMap<>();
 
     @Getter
-    private final ItemSetting<Integer> maxNodes;
+    private final @NotNull ItemSetting<Integer> maxNodes;
 
-    public NetworkController(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public NetworkController(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.CONTROLLER);
 
         maxNodes = new IntRangeSetting(this, "max_nodes", 10, 8000, 50000);
@@ -57,7 +61,7 @@ public class NetworkController extends NetworkObject {
             }
 
             @Override
-            public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
+            public void tick(@NotNull Block block, SlimefunItem item, @NotNull SlimefunBlockData data) {
                 if (!firstTickMap.containsKey(block.getLocation())) {
                     onFirstTick(block, data);
                     firstTickMap.put(block.getLocation(), true);
@@ -102,11 +106,11 @@ public class NetworkController extends NetworkObject {
         }
     }
 
-    public static Map<Location, NetworkRoot> getNetworks() {
+    public static @NotNull Map<Location, NetworkRoot> getNetworks() {
         return NETWORKS;
     }
 
-    public static Set<Location> getCrayons() {
+    public static @NotNull Set<Location> getCrayons() {
         return CRAYONS;
     }
 
@@ -134,7 +138,7 @@ public class NetworkController extends NetworkObject {
     }
 
     @Override
-    protected void cancelPlace(BlockPlaceEvent event) {
+    protected void cancelPlace(@NotNull BlockPlaceEvent event) {
         event.getPlayer().sendMessage(Theme.ERROR.getColor() + "This network already has a controller!");
         event.setCancelled(true);
     }

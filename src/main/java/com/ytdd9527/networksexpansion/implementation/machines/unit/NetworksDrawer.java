@@ -91,14 +91,14 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
     private final int[] BORDER = {0, 1, 2, 3, 5, 6, 17, 26, 35, 36, 44, 45, 53};
     private final int VOID_MODE_SLOT = 7;
     private final int LOCK_MODE_SLOT = 8;
-    private Function<Location, DisplayGroup> displayGroupGenerator;
+    private @Nullable Function<Location, DisplayGroup> displayGroupGenerator;
     private boolean useSpecialModel;
 
     public NetworksDrawer(
-            ItemGroup itemGroup,
-            SlimefunItemStack item,
-            RecipeType recipeType,
-            ItemStack[] recipe,
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack @NotNull [] recipe,
             StorageUnitType sizeType) {
         super(itemGroup, item, recipeType, recipe);
 
@@ -204,7 +204,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         storages.put(l, data);
     }
 
-    public static void update(Location l, boolean force) {
+    public static void update(@NotNull Location l, boolean force) {
         BlockMenu menu = StorageCacheUtils.getMenu(l);
         if (menu != null && (force || menu.hasViewer())) {
 
@@ -292,7 +292,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         return voidExcess;
     }
 
-    public static ItemStack bindId(@NotNull ItemStack itemSample, int id) {
+    public static @NotNull ItemStack bindId(@NotNull ItemStack itemSample, int id) {
         final ItemStack item = itemSample.clone();
         final ItemMeta meta = item.getItemMeta();
         List<String> lore;
@@ -317,7 +317,8 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         return item;
     }
 
-    public static ItemStack bindIdNew(@NotNull ItemStack itemSample, int id, boolean lock, boolean voidExcess) {
+    public static @NotNull ItemStack bindIdNew(
+            @NotNull ItemStack itemSample, int id, boolean lock, boolean voidExcess) {
         final ItemStack item = itemSample.clone();
         final ItemMeta meta = item.getItemMeta();
         List<String> lore;
@@ -344,7 +345,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         return item;
     }
 
-    public static void addBlockInfo(Location l, int id, boolean lock, boolean voidExcess) {
+    public static void addBlockInfo(@NotNull Location l, int id, boolean lock, boolean voidExcess) {
         // Save id
         StorageCacheUtils.setData(l, "containerId", String.valueOf(id));
         // Save mode
@@ -378,7 +379,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         return false;
     }
 
-    private static ItemStack getDisplayItem(ItemStack item, int amount, int max) {
+    private static @NotNull ItemStack getDisplayItem(@Nullable ItemStack item, int amount, int max) {
         if (item == null) {
             return Icon.ERROR_BORDER;
         }
@@ -390,7 +391,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         }
     }
 
-    public static void requestData(Location l, int id) {
+    public static void requestData(@NotNull Location l, int id) {
         if (id == -1) return;
         if (DataStorage.isContainerLoaded(id)) {
             DataStorage.getCachedStorageData(id).ifPresent(data -> storages.put(l, data));
@@ -400,7 +401,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         addClickHandler(l);
     }
 
-    private static void addClickHandler(Location l) {
+    private static void addClickHandler(@NotNull Location l) {
         final BlockMenu blockMenu = StorageCacheUtils.getMenu(l);
         if (blockMenu == null) {
             return;
@@ -458,7 +459,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         }
     }
 
-    private static ItemStack getStorageInfoItem(
+    private static @NotNull ItemStack getStorageInfoItem(
             int id, int typeCount, int maxType, int maxEach, boolean locked, boolean voidExcess) {
         return new CustomItemStack(
                 Material.LIGHT_BLUE_STAINED_GLASS_PANE,
@@ -479,21 +480,21 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
                                 : Lang.getString("icons.drawer.storage_info.disabled")));
     }
 
-    private static void setLock(Location l, boolean lock) {
+    private static void setLock(@NotNull Location l, boolean lock) {
         if (lock) {
             locked.add(l);
             StorageCacheUtils.setData(l, "locked", "enable");
         }
     }
 
-    private static void setVoidExcess(Location l, boolean voidExcess) {
+    private static void setVoidExcess(@NotNull Location l, boolean voidExcess) {
         if (voidExcess) {
             voidExcesses.add(l);
             StorageCacheUtils.setData(l, "voidExcess", "enable");
         }
     }
 
-    private static void switchQuickTransferMode(BlockMenu blockMenu, Location location) {
+    private static void switchQuickTransferMode(@NotNull BlockMenu blockMenu, @NotNull Location location) {
         QuickTransferMode mode = quickTransferModes.get(location);
         if (mode == null || mode == QuickTransferMode.TO_QUANTUM) {
             mode = QuickTransferMode.FROM_QUANTUM;
@@ -505,7 +506,8 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         StorageCacheUtils.setData(location, "quickTransferMode", mode.name());
     }
 
-    private static void quickTransfer(BlockMenu blockMenu, Location location, Player player) {
+    private static void quickTransfer(
+            @NotNull BlockMenu blockMenu, @NotNull Location location, @NotNull Player player) {
         final ItemStack itemStack = blockMenu.getItemInSlot(QUANTUM_SLOT);
         if (itemStack == null || itemStack.getType() == Material.AIR) {
             player.sendMessage(Lang.getString("messages.unsupported-operation.drawer.invalid_container"));
@@ -740,12 +742,12 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         }
     }
 
-    private static int getContainerId(Location l) {
+    private static int getContainerId(@NotNull Location l) {
         final String str = StorageCacheUtils.getData(l, "containerId");
         return str == null ? -1 : Integer.parseInt(str);
     }
 
-    private static ItemStack getQuickTransferItem(QuickTransferMode mode) {
+    private static @NotNull ItemStack getQuickTransferItem(QuickTransferMode mode) {
         List<String> lore = new ArrayList<>(Lang.getStringList("icons.drawer.quick_transfer.lore_before_status"));
         lore.add(String.format(
                 Lang.getString("icons.drawer.quick_transfer.status"),
@@ -948,7 +950,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
             }
 
             @Override
-            public void tick(Block block, SlimefunItem item, SlimefunBlockData blockData) {
+            public void tick(@NotNull Block block, SlimefunItem item, SlimefunBlockData blockData) {
                 onTick(block);
             }
         });
@@ -1009,7 +1011,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         }
     }
 
-    private ItemStack getLocationErrorItem(int id, Location lastLoc) {
+    private @NotNull ItemStack getLocationErrorItem(int id, @Nullable Location lastLoc) {
         List<String> lore = new ArrayList<>(Lang.getStringList("icons.drawer.location_error.lore_before_info"));
         lore.add(String.format(Lang.getString("icons.drawer.location_error.id"), id));
         lore.add(
@@ -1029,7 +1031,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         return new CustomItemStack(Material.REDSTONE_TORCH, Lang.getString("icons.drawer.location_error.name"), lore);
     }
 
-    private void switchLock(BlockMenu menu, Location l) {
+    private void switchLock(@NotNull BlockMenu menu, @NotNull Location l) {
         if (locked.contains(l)) {
             StorageCacheUtils.removeData(l, "locked");
             locked.remove(l);
@@ -1041,7 +1043,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         }
     }
 
-    private void switchVoidExcess(BlockMenu menu, Location l) {
+    private void switchVoidExcess(@NotNull BlockMenu menu, @NotNull Location l) {
         if (voidExcesses.contains(l)) {
             StorageCacheUtils.removeData(l, "voidExcess");
             voidExcesses.remove(l);
@@ -1053,7 +1055,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         }
     }
 
-    private ItemStack getContentLockItem(boolean locked) {
+    private @NotNull ItemStack getContentLockItem(boolean locked) {
         List<String> lore = new ArrayList<>(Lang.getStringList("icons.drawer.content_lock.lore_before_status"));
         lore.add(String.format(
                 Lang.getString("icons.drawer.content_lock.status"),
@@ -1071,7 +1073,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
                 lore);
     }
 
-    private ItemStack getVoidExcessItem(boolean voidExcess) {
+    private @NotNull ItemStack getVoidExcessItem(boolean voidExcess) {
         List<String> lore = new ArrayList<>(Lang.getStringList("icons.drawer.void_excess.lore_before_status"));
         lore.add(String.format(
                 Lang.getString("icons.drawer.void_excess.status"),
@@ -1122,7 +1124,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
     }
 
     @Override
-    public boolean canStack(ItemMeta meta1, ItemMeta meta2) {
+    public boolean canStack(@NotNull ItemMeta meta1, @NotNull ItemMeta meta2) {
         return meta1.getPersistentDataContainer().equals(meta2.getPersistentDataContainer());
     }
 }

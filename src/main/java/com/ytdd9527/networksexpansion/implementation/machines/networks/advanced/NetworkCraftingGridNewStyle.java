@@ -68,7 +68,10 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle implements
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
 
     public NetworkCraftingGridNewStyle(
-            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -234,7 +237,7 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle implements
     }
 
     @SuppressWarnings("deprecation")
-    private synchronized void tryCraft(BlockMenu menu, Player player, ClickAction action) {
+    private synchronized void tryCraft(@NotNull BlockMenu menu, @NotNull Player player, @NotNull ClickAction action) {
         // Get node and, if it doesn't exist - escape
         final NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
         if (definition == null || definition.getNode() == null) {

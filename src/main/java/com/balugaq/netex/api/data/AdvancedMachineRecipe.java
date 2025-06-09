@@ -13,12 +13,13 @@ public class AdvancedMachineRecipe {
 
     @NotNull private final AdvancedRandomOutput[] randomOutputs;
 
-    private final int[] weightBeginValues;
+    private final int @NotNull [] weightBeginValues;
 
     @Getter
     private int weightSum = 0;
 
-    public AdvancedMachineRecipe(@NotNull ItemAmountWrapper[] inputs, @NotNull AdvancedRandomOutput[] randomOutputs) {
+    public AdvancedMachineRecipe(
+            @NotNull ItemAmountWrapper[] inputs, @NotNull AdvancedRandomOutput @NotNull [] randomOutputs) {
         this.inputs = inputs;
         this.randomOutputs = randomOutputs;
         this.weightBeginValues = new int[randomOutputs.length];

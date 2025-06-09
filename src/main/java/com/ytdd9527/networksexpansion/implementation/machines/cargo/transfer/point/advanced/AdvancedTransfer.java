@@ -72,9 +72,13 @@ public class AdvancedTransfer extends AdvancedDirectional implements RecipeDispl
     private int grabItemTick;
     private int requiredPower;
     private boolean useSpecialModel;
-    private Function<Location, DisplayGroup> displayGroupGenerator;
+    private @Nullable Function<Location, DisplayGroup> displayGroupGenerator;
 
-    public AdvancedTransfer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public AdvancedTransfer(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.TRANSFER);
         for (int slot : TEMPLATE_SLOTS) {
             this.getSlotsToDrop().add(slot);

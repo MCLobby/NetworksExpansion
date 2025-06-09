@@ -10,14 +10,20 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import java.util.Map;
 import java.util.Set;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class GrindStoneEncoder extends AbstractEncoder {
 
-    public GrindStoneEncoder(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public GrindStoneEncoder(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
-    public void blueprintSetter(ItemStack itemStack, ItemStack[] inputs, ItemStack crafted) {
+    public void blueprintSetter(
+            @NotNull ItemStack itemStack, ItemStack @NotNull [] inputs, @NotNull ItemStack crafted) {
         GrindStoneBlueprint.setBlueprint(itemStack, inputs, crafted);
     }
 
@@ -25,11 +31,11 @@ public class GrindStoneEncoder extends AbstractEncoder {
         return SlimefunItem.getByItem(blueprint) instanceof GrindStoneBlueprint;
     }
 
-    public Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {
+    public @NotNull Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {
         return SupportedGrindStoneRecipes.getRecipes().entrySet();
     }
 
-    public boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe) {
+    public boolean getRecipeTester(ItemStack[] inputs, ItemStack @NotNull [] recipe) {
         return SupportedGrindStoneRecipes.testRecipe(inputs, recipe);
     }
 }

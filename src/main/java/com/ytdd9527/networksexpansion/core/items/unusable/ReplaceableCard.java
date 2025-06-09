@@ -26,7 +26,7 @@ public class ReplaceableCard extends UnusableSlimefunItem implements RecipeItem,
     private static final Map<Material, ReplaceableCard> MATERIAL_SLIMEFUN_ITEM_MAP = new EnumMap<>(Material.class);
 
     @Getter
-    private final Material targetMaterial;
+    private final @NotNull Material targetMaterial;
 
     @Nullable private final Material extraSourceMaterial;
 

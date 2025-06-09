@@ -39,14 +39,18 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
     private final List<Integer> slotsToDrop = new ArrayList<>();
 
     protected NetworkObject(
-            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, NodeType type) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe,
+            NodeType type) {
         this(itemGroup, item, recipeType, recipe, null, type);
     }
 
     protected NetworkObject(
-            ItemGroup itemGroup,
-            SlimefunItemStack item,
-            RecipeType recipeType,
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
             ItemStack[] recipe,
             ItemStack recipeOutput,
             NodeType type) {
@@ -61,7 +65,7 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
                     }
 
                     @Override
-                    public void tick(Block b, SlimefunItem item, SlimefunBlockData data) {
+                    public void tick(@NotNull Block b, SlimefunItem item, SlimefunBlockData data) {
                         addToRegistry(b);
                     }
                 },
@@ -115,7 +119,7 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
     @SuppressWarnings("unused")
     protected void prePlace(@NotNull BlockPlaceEvent event) {}
 
-    protected void cancelPlace(BlockPlaceEvent event) {
+    protected void cancelPlace(@NotNull BlockPlaceEvent event) {
         event.getPlayer().sendMessage(Theme.ERROR.getColor() + "This placement would connect two controllers!");
         event.setCancelled(true);
     }

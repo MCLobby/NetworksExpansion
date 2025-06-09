@@ -48,7 +48,7 @@ public final class SupportedExpansionWorkbenchRecipes implements RecipesHolder, 
         RECIPES.put(input, output);
     }
 
-    public static boolean testRecipe(@NotNull ItemStack[] input, @NotNull ItemStack[] recipe) {
+    public static boolean testRecipe(@NotNull ItemStack[] input, @NotNull ItemStack @NotNull [] recipe) {
         for (int test = 0; test < recipe.length; test++) {
             if (!StackUtils.itemsMatch(input[test], recipe[test])) {
                 return false;

@@ -87,7 +87,7 @@ public class MainItemGroup extends FlexItemGroup {
         }
     }
 
-    public void addTo(@NotNull ItemGroup fatherItemGroup, @NotNull ItemGroup... itemGroups) {
+    public void addTo(@NotNull ItemGroup fatherItemGroup, @NotNull ItemGroup @NotNull ... itemGroups) {
         if (this.fatherItemGroupList.contains(fatherItemGroup)
                 && this.sonItemGroupList.size() > this.fatherItemGroupList.indexOf(fatherItemGroup)) {
             this.sonItemGroupList

@@ -20,7 +20,7 @@ public class FluffyBarrel extends BarrelIdentity {
     final int limit;
     final boolean voidExcess;
 
-    public FluffyBarrel(Location location, ItemStack itemStack, int amount, int limit, boolean voidExcess) {
+    public FluffyBarrel(@NotNull Location location, ItemStack itemStack, int amount, int limit, boolean voidExcess) {
         super(location, itemStack, amount, BarrelType.FLUFFY);
         this.limit = limit;
         this.voidExcess = voidExcess;

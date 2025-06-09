@@ -75,7 +75,7 @@ public interface RecipeCompletableWithGuide {
     }
 
     default void completeRecipeWithGuide(
-            @NotNull BlockMenu blockMenu, @NotNull NetworkRoot root, GuideEvents.ItemButtonClickEvent event) {
+            @NotNull BlockMenu blockMenu, @NotNull NetworkRoot root, GuideEvents.@NotNull ItemButtonClickEvent event) {
         Player player = event.getPlayer();
 
         ItemStack clickedItem = event.getClickedItem();

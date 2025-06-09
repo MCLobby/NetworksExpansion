@@ -69,7 +69,7 @@ public class CardInstance extends ItemStackCache {
     }
 
     @SuppressWarnings("deprecation")
-    public String getLoreLine() {
+    public @NotNull String getLoreLine() {
         if (this.getItemStack() == null) {
             return Lang.getString("messages.normal-operation.memory_card.empty");
         }

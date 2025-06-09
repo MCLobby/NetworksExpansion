@@ -53,9 +53,13 @@ public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
     };
     private static final int[] OUTPUT_ITEM_BACKDROP = {49};
     private final int lockModeSlot = 26;
-    private final ItemSetting<Integer> tickRate;
+    private final @NotNull ItemSetting<Integer> tickRate;
 
-    public AdvancedExport(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public AdvancedExport(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.ADVANCED_EXPORT);
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
         addItemSetting(this.tickRate);
@@ -78,7 +82,7 @@ public class AdvancedExport extends NetworkObject implements RecipeDisplayItem {
                     }
 
                     @Override
-                    public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
+                    public void tick(@NotNull Block block, SlimefunItem item, @NotNull SlimefunBlockData data) {
                         if (tick <= 1) {
                             final BlockMenu blockMenu = data.getBlockMenu();
                             if (blockMenu == null) {

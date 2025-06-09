@@ -49,7 +49,7 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            @NotNull ItemStack[] recipe) {
+            @NotNull ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -217,7 +217,7 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
             }
 
             @Override
-            public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
+            public void tick(@NotNull Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
                 onTick(block);
             }
         });

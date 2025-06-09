@@ -31,12 +31,12 @@ public class JEGCompatibleListener implements Listener {
     }
 
     @SneakyThrows
-    @NotNull public static PlayerProfile getPlayerProfile(OfflinePlayer player) {
+    @NotNull public static PlayerProfile getPlayerProfile(@NotNull OfflinePlayer player) {
         // Shouldn't be null;
         return PlayerProfile.find(player).orElseThrow(() -> new RuntimeException("PlayerProfile not found"));
     }
 
-    public static void tagGuideOpen(Player player) {
+    public static void tagGuideOpen(@NotNull Player player) {
         if (!PROFILE_CALLBACKS.containsKey(player.getUniqueId())) {
             return;
         }
@@ -46,7 +46,7 @@ public class JEGCompatibleListener implements Listener {
         clearGuideHistory(profile);
     }
 
-    private static void saveOriginGuideHistory(PlayerProfile profile) {
+    private static void saveOriginGuideHistory(@NotNull PlayerProfile profile) {
         GuideHistory oldHistory = profile.getGuideHistory();
         GuideHistory newHistory = new GuideHistory(profile);
         ReflectionUtil.setValue(newHistory, "mainMenuPage", oldHistory.getMainMenuPage());
@@ -55,12 +55,12 @@ public class JEGCompatibleListener implements Listener {
         GUIDE_HISTORY.put(profile.getUUID(), newHistory);
     }
 
-    private static void clearGuideHistory(PlayerProfile profile) {
+    private static void clearGuideHistory(@NotNull PlayerProfile profile) {
         ReflectionUtil.setValue(profile, "guideHistory", new GuideHistory(profile));
     }
 
     @EventHandler
-    public void onJEGItemClick(GuideEvents.ItemButtonClickEvent event) {
+    public void onJEGItemClick(GuideEvents.@NotNull ItemButtonClickEvent event) {
         var player = event.getPlayer();
         if (!PROFILE_CALLBACKS.containsKey(player.getUniqueId())) {
             return;
@@ -72,7 +72,7 @@ public class JEGCompatibleListener implements Listener {
         PROFILE_CALLBACKS.remove(player.getUniqueId());
     }
 
-    private void rollbackGuideHistory(PlayerProfile profile) {
+    private void rollbackGuideHistory(@NotNull PlayerProfile profile) {
         var originHistory = GUIDE_HISTORY.get(profile.getUUID());
         if (originHistory == null) {
             return;

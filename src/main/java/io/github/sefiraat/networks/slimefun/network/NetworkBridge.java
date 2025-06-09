@@ -30,7 +30,7 @@ public class NetworkBridge extends NetworkObject {
     @Setter
     private boolean useSpecialModel = false;
 
-    private Function<Location, DisplayGroup> displayGroupGenerator;
+    private @Nullable Function<Location, DisplayGroup> displayGroupGenerator;
 
     public NetworkBridge(
             ItemGroup itemGroup,

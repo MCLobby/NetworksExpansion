@@ -79,7 +79,7 @@ public class GridCache {
         NUMBER_REVERSE,
         ADDON;
 
-        public SortOrder next() {
+        public @NotNull SortOrder next() {
             return switch (this) {
                 case ALPHABETICAL -> ADDON;
                 case NUMBER -> ALPHABETICAL;
@@ -88,7 +88,7 @@ public class GridCache {
             };
         }
 
-        public SortOrder previous() {
+        public @NotNull SortOrder previous() {
             return switch (this) {
                 case ALPHABETICAL -> ADDON;
                 case NUMBER -> NUMBER_REVERSE;

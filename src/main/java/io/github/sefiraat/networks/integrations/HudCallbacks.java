@@ -14,6 +14,7 @@ import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class HudCallbacks {
 
@@ -76,7 +77,7 @@ public class HudCallbacks {
         });
     }
 
-    private static String format(ItemStack itemStack, long amount, int limit) {
+    private static @NotNull String format(@NotNull ItemStack itemStack, long amount, int limit) {
         String amountStr = HudBuilder.getAbbreviatedNumber(amount);
         String limitStr = HudBuilder.getAbbreviatedNumber(limit);
         String itemName = ItemStackHelper.getDisplayName(itemStack);

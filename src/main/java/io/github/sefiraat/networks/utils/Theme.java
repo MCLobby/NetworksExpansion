@@ -46,8 +46,8 @@ public enum Theme {
     GUIDE(ChatColor.of("#444444"), Lang.getString("theme.guide"));
 
     private static final Theme[] cachedValues = values();
-    private final ChatColor color;
-    private final String loreLine;
+    private final @NotNull ChatColor color;
+    private final @NotNull String loreLine;
 
     @ParametersAreNonnullByDefault
     Theme(ChatColor color, String loreLine) {

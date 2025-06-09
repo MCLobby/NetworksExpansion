@@ -60,7 +60,7 @@ public final class NetworksItemGroups {
 
     public static class HiddenItemGroup extends ItemGroup {
 
-        public HiddenItemGroup(NamespacedKey key, ItemStack item) {
+        public HiddenItemGroup(@NotNull NamespacedKey key, @NotNull ItemStack item) {
             super(key, item);
         }
 

@@ -41,6 +41,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
 public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements AdminDebuggable {
@@ -56,7 +57,10 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements Admi
     private final int actionBtnSlot = 17;
 
     public StorageUnitUpgradeTable(
-            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
 
         new BlockMenuPreset(this.getId(), this.getItemName()) {
@@ -73,7 +77,11 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements Admi
                 addItem(outputSlot, null, new AdvancedMenuClickHandler() {
                     @Override
                     public boolean onClick(
-                            InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
+                            @NotNull InventoryClickEvent e,
+                            Player p,
+                            int slot,
+                            @Nullable ItemStack cursor,
+                            ClickAction action) {
                         ItemStack itemInSlot = e.getInventory().getItem(slot);
                         return (cursor == null || cursor.getType() == Material.AIR)
                                 && (itemInSlot == null || itemInSlot.getType() != Material.BARRIER);
@@ -113,7 +121,7 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements Admi
         recipes.put(recipe, out);
     }
 
-    private void craft(Player p, BlockMenu menu) {
+    private void craft(@NotNull Player p, @NotNull BlockMenu menu) {
         for (Map.Entry<ItemStack[], ItemStack> each : recipes.entrySet()) {
             if (match(menu, each.getKey())) {
                 ItemStack itemInSlot = menu.getItemInSlot(outputSlot);
@@ -191,7 +199,7 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements Admi
         p.sendMessage(Lang.getString("messages.unsupported-operation.storage_unit_upgrade_table.no_recipe_match"));
     }
 
-    private boolean match(BlockMenu menu, ItemStack[] recipe) {
+    private boolean match(@NotNull BlockMenu menu, ItemStack[] recipe) {
         for (int i = 0; i < 9; i++) {
             if (i == 4) {
                 SlimefunItem sfItem = SlimefunItem.getByItem(menu.getItemInSlot(inputSlots[i]));
@@ -208,7 +216,7 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements Admi
         return true;
     }
 
-    private void upgrade(StorageUnitData d) {
+    private void upgrade(@NotNull StorageUnitData d) {
         StorageUnitType next = d.getSizeType().next();
         if (next != null) {
             d.setSizeType(next);
@@ -220,7 +228,7 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements Admi
         addItemHandler(getBlockBreakHandler());
     }
 
-    private BlockBreakHandler getBlockBreakHandler() {
+    private @NotNull BlockBreakHandler getBlockBreakHandler() {
         return new BlockBreakHandler(false, false) {
             @Override
             public void onPlayerBreak(

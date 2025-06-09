@@ -17,7 +17,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class NetworkCrayon extends SpecialSlimefunItem {
 
-    public NetworkCrayon(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public NetworkCrayon(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
         addItemHandler((ItemUseHandler) e -> {
             final Optional<Block> optional = e.getClickedBlock();

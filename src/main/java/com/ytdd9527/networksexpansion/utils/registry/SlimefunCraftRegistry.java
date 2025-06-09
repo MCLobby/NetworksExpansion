@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 public class SlimefunCraftRegistry {
     private static volatile SlimefunCraftRegistry instance;
     private boolean init = false;
-    private Map<String, List<String>> craftMap = new HashMap<>();
+    private @NotNull Map<String, List<String>> craftMap = new HashMap<>();
 
     @NotNull public static SlimefunCraftRegistry getInstance() {
         if (instance == null) {

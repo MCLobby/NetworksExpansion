@@ -31,6 +31,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("ALL")
 public class DueMachine extends SpecialSlimefunItem implements AdminDebuggable {
@@ -56,7 +57,7 @@ public class DueMachine extends SpecialSlimefunItem implements AdminDebuggable {
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            @NotNull ItemStack[] recipe) {
+            @NotNull ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -110,7 +111,7 @@ public class DueMachine extends SpecialSlimefunItem implements AdminDebuggable {
             }
 
             @Override
-            public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
+            public void tick(@NotNull Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
                 onTick(block);
             }
         });
@@ -166,7 +167,7 @@ public class DueMachine extends SpecialSlimefunItem implements AdminDebuggable {
 
             @Override
             public int[] getSlotsAccessedByItemTransport(
-                    DirtyChestMenu menu, ItemTransportFlow itemTransportFlow, ItemStack incoming) {
+                    @NotNull DirtyChestMenu menu, ItemTransportFlow itemTransportFlow, @Nullable ItemStack incoming) {
                 if (itemTransportFlow == ItemTransportFlow.INSERT) {
                     if (incoming == null || incoming.getType() == Material.AIR) {
                         return new int[0];

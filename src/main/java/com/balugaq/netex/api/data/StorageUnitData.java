@@ -313,7 +313,7 @@ public class StorageUnitData {
     }
 
     @Deprecated
-    public List<ItemContainer> getStoredItems() {
+    public @NotNull List<ItemContainer> getStoredItems() {
         return copyStoredItems();
     }
 
@@ -393,7 +393,7 @@ public class StorageUnitData {
     }
 
     @Deprecated
-    public void depositItemStack(@NotNull ItemStack[] itemsToDeposit, boolean contentLocked) {
+    public void depositItemStack(@NotNull ItemStack @NotNull [] itemsToDeposit, boolean contentLocked) {
         for (ItemStack item : itemsToDeposit) {
             depositItemStack(item, contentLocked);
         }
@@ -530,7 +530,7 @@ public class StorageUnitData {
     }
 
     public void depositItemStack0(
-            @NotNull Location accessor, @NotNull ItemStack[] itemsToDeposit, boolean contentLocked) {
+            @NotNull Location accessor, @NotNull ItemStack @NotNull [] itemsToDeposit, boolean contentLocked) {
         for (ItemStack item : itemsToDeposit) {
             depositItemStack0(accessor, item, contentLocked);
         }

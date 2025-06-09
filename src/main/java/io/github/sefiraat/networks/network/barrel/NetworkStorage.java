@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class NetworkStorage extends BarrelIdentity {
 
-    public NetworkStorage(Location location, ItemStack itemStack, long amount) {
+    public NetworkStorage(@NotNull Location location, ItemStack itemStack, long amount) {
         super(location, itemStack, amount, BarrelType.NETWORKS);
     }
 
@@ -35,7 +35,7 @@ public class NetworkStorage extends BarrelIdentity {
     }
 
     @Override
-    public void depositItemStack(ItemStack[] itemsToDeposit) {
+    public void depositItemStack(ItemStack @NotNull [] itemsToDeposit) {
         if (StorageCacheUtils.getSfItem(this.getLocation()) instanceof NetworkQuantumStorage) {
             final BlockMenu blockMenu = StorageCacheUtils.getMenu(this.getLocation());
             if (blockMenu == null) {

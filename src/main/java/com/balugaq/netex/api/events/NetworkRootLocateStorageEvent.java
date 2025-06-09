@@ -49,7 +49,7 @@ public class NetworkRootLocateStorageEvent extends Event {
         Strategy DEFAULT = new StrategyImpl();
         String DEFAULT_TAG = "default";
 
-        static Strategy custom(String tag) {
+        static @NotNull Strategy custom(String tag) {
             return StrategyImpl.custom(tag);
         }
 
@@ -81,7 +81,7 @@ public class NetworkRootLocateStorageEvent extends Event {
             }
 
             @Override
-            public Strategy clone() {
+            public @NotNull Strategy clone() {
                 return new StrategyImpl().setTag(tag);
             }
         }

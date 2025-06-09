@@ -104,7 +104,8 @@ public interface RecipeItem extends RecipeDisplayItem {
         this.registerRecipeInCard(seconds, slimefunItem.getRecipe(), new ItemStack[] {slimefunItem.getRecipeOutput()});
     }
 
-    default void registerRecipeInCard(int seconds, @NotNull ItemStack[] input, @NotNull ItemStack[] output) {
+    default void registerRecipeInCard(
+            int seconds, @NotNull ItemStack @NotNull [] input, @NotNull ItemStack @NotNull [] output) {
         List<ItemStack> inputList1 = new ArrayList<>(input.length);
         List<ItemStack> inputList2 = new ArrayList<>(input.length);
         List<ItemStack> outputList1 = new ArrayList<>(output.length);

@@ -35,7 +35,7 @@ public class ItemWrapper {
         this.itemMeta = itemMeta;
     }
 
-    @NotNull public static ItemStack[] getItemArray(@NotNull ItemWrapper[] itemWrappers) {
+    @NotNull public static ItemStack @NotNull [] getItemArray(@NotNull ItemWrapper @NotNull [] itemWrappers) {
         ItemStack[] itemStacks = new ItemStack[itemWrappers.length];
         for (int i = 0, length = itemStacks.length; i < length; i++) {
             itemStacks[i] = itemWrappers[i].getItemStack();
@@ -43,7 +43,7 @@ public class ItemWrapper {
         return itemStacks;
     }
 
-    @NotNull public static ItemStack[] getItemArray(@NotNull List<? extends ItemWrapper> itemWrapperList) {
+    @NotNull public static ItemStack @NotNull [] getItemArray(@NotNull List<? extends ItemWrapper> itemWrapperList) {
         ItemStack[] itemStacks = new ItemStack[itemWrapperList.size()];
         for (int i = 0, length = itemStacks.length; i < length; i++) {
             itemStacks[i] = itemWrapperList.get(i).getItemStack();
@@ -51,7 +51,7 @@ public class ItemWrapper {
         return itemStacks;
     }
 
-    @NotNull public static ItemStack[] getCopiedItemArray(@NotNull List<? extends ItemWrapper> itemWrapperList) {
+    @NotNull public static ItemStack @NotNull [] getCopiedItemArray(@NotNull List<? extends ItemWrapper> itemWrapperList) {
         ItemStack[] itemStacks = new ItemStack[itemWrapperList.size()];
         for (int i = 0, length = itemStacks.length; i < length; i++) {
             itemStacks[i] = ItemStackUtil.cloneItem(itemWrapperList.get(i).getItemStack());
@@ -59,7 +59,7 @@ public class ItemWrapper {
         return itemStacks;
     }
 
-    @NotNull public static List<ItemStack> getItemList(@NotNull ItemWrapper[] itemWrappers) {
+    @NotNull public static List<ItemStack> getItemList(@NotNull ItemWrapper @NotNull [] itemWrappers) {
         List<ItemStack> itemStackList = new ArrayList<>(itemWrappers.length);
         for (ItemWrapper itemWrapper : itemWrappers) {
             itemStackList.add(itemWrapper.getItemStack());

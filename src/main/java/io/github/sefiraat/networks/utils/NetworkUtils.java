@@ -107,7 +107,7 @@ public class NetworkUtils {
         }
     }
 
-    public static void clearNetwork(Location location) {
+    public static void clearNetwork(@NotNull Location location) {
         NodeDefinition definition = NetworkStorage.getNode(location);
 
         if (definition == null || definition.getNode() == null) {

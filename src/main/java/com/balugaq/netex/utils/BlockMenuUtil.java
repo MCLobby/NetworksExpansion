@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 
 @UtilityClass
 public class BlockMenuUtil {
-    @Nullable public static ItemStack pushItem(@NotNull BlockMenu blockMenu, @NotNull ItemStack item, int... slots) {
+    @Nullable public static ItemStack pushItem(@NotNull BlockMenu blockMenu, @NotNull ItemStack item, int @NotNull ... slots) {
         if (item == null || item.getType() == Material.AIR) {
             throw new IllegalArgumentException("Cannot push null or AIR");
         }
@@ -59,7 +59,7 @@ public class BlockMenuUtil {
     }
 
     @NotNull public static Map<ItemStack, Integer> pushItem(
-            @NotNull BlockMenu blockMenu, @NotNull ItemStack[] items, int... slots) {
+            @NotNull BlockMenu blockMenu, @NotNull ItemStack @NotNull [] items, int... slots) {
         if (items == null || items.length == 0) {
             throw new IllegalArgumentException("Cannot push null or empty array");
         }
@@ -93,7 +93,7 @@ public class BlockMenuUtil {
         return itemMap;
     }
 
-    public static boolean fits(@NotNull BlockMenu blockMenu, @NotNull ItemStack item, int... slots) {
+    public static boolean fits(@NotNull BlockMenu blockMenu, @NotNull ItemStack item, int @NotNull ... slots) {
         if (item == null || item.getType() == Material.AIR) {
             return true;
         }
@@ -116,7 +116,7 @@ public class BlockMenuUtil {
         return false;
     }
 
-    public static boolean fits(@NotNull BlockMenu blockMenu, @NotNull ItemStack[] items, int... slots) {
+    public static boolean fits(@NotNull BlockMenu blockMenu, ItemStack @Nullable [] items, int... slots) {
         if (items == null || items.length == 0) {
             return false;
         }
@@ -131,7 +131,7 @@ public class BlockMenuUtil {
         return fits(blockMenu, listItems, slots);
     }
 
-    public static boolean fits(@NotNull BlockMenu blockMenu, @NotNull List<ItemStack> items, int... slots) {
+    public static boolean fits(@NotNull BlockMenu blockMenu, @NotNull List<ItemStack> items, int @NotNull ... slots) {
         if (items == null || items.isEmpty()) {
             return false;
         }

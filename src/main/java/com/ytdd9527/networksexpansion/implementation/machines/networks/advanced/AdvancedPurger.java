@@ -55,12 +55,16 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
         45, 46, 47, 48, 49, 50, 51, 52
     };
     private static final int[] TEST_ITEM_BACKDROP = {8, 17, 26, 35, 44, 53};
-    private final ItemSetting<Integer> tickRate;
+    private final @NotNull ItemSetting<Integer> tickRate;
 
     @Setter
     private boolean useSpecialModel = false;
 
-    public AdvancedPurger(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public AdvancedPurger(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.ADVANCED_PURGER);
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
         addItemSetting(this.tickRate);
@@ -79,7 +83,7 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
                     }
 
                     @Override
-                    public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
+                    public void tick(@NotNull Block block, SlimefunItem item, SlimefunBlockData data) {
                         if (tick <= 1) {
                             addToRegistry(block);
                             BlockMenu blockMenu = StorageCacheUtils.getMenu(block.getLocation());

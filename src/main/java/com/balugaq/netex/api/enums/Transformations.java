@@ -27,7 +27,7 @@ public enum Transformations {
         this.transformation = transformation;
     }
 
-    public Transformation getTransformation() {
+    public @NotNull Transformation getTransformation() {
         return getTransformation(true);
     }
 

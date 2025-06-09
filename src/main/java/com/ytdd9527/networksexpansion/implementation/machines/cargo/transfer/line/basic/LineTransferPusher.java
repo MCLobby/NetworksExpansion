@@ -60,11 +60,15 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
     private static final int DOWN_SLOT = 32;
     private final HashMap<Location, Integer> TICKER_MAP = new HashMap<>();
     private boolean useSpecialModel;
-    private Function<Location, DisplayGroup> displayGroupGenerator;
+    private @Nullable Function<Location, DisplayGroup> displayGroupGenerator;
     private int pushItemTick;
     private int maxDistance;
 
-    public LineTransferPusher(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public LineTransferPusher(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.TRANSFER_PUSHER);
         for (int slot : TEMPLATE_SLOTS) {
             this.getSlotsToDrop().add(slot);
@@ -221,7 +225,7 @@ public class LineTransferPusher extends NetworkDirectional implements RecipeDisp
     }
 
     @Override
-    protected Particle.DustOptions getDustOptions() {
+    protected Particle.@NotNull DustOptions getDustOptions() {
         return new Particle.DustOptions(Color.BLUE, 2);
     }
 

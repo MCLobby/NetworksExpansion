@@ -41,7 +41,10 @@ public class NetworkBlueprintDecoder extends NetworkObject {
     private static final int DECODE_SLOT = 13;
 
     public NetworkBlueprintDecoder(
-            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.DECODER);
     }
 
@@ -130,7 +133,7 @@ public class NetworkBlueprintDecoder extends NetworkObject {
         };
     }
 
-    private void decode(Player player, BlockMenu menu) {
+    private void decode(@NotNull Player player, @NotNull BlockMenu menu) {
         ItemStack input = menu.getItemInSlot(getInputSlot());
         if (input == null || input.getType() == Material.AIR) {
             player.sendMessage(Lang.getString("messages.unsupported-operation.decoder.no_input"));

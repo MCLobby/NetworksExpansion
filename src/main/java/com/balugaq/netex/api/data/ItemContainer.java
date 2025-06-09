@@ -32,7 +32,7 @@ public class ItemContainer {
         return sample.clone();
     }
 
-    public ItemStack getSampleDirectly() {
+    public @NotNull ItemStack getSampleDirectly() {
         return sample;
     }
 

@@ -87,9 +87,13 @@ public class DrawerManager extends NetworkObject {
         SORT_MAP.put(GridCache.SortOrder.NUMBER_REVERSE, Sorters.DRAWER_NUMERICAL_SORT.reversed());
     }
 
-    private final IntRangeSetting tickRate;
+    private final @NotNull IntRangeSetting tickRate;
 
-    public DrawerManager(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public DrawerManager(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.DRAWER_MANAGER);
 
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
@@ -105,7 +109,7 @@ public class DrawerManager extends NetworkObject {
             }
 
             @Override
-            public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
+            public void tick(@NotNull Block block, SlimefunItem item, @NotNull SlimefunBlockData data) {
                 if (tick <= 1) {
                     final BlockMenu blockMenu = data.getBlockMenu();
                     if (blockMenu == null) {
@@ -123,7 +127,7 @@ public class DrawerManager extends NetworkObject {
         });
     }
 
-    public static String getStorageName(@NotNull Location dataLocation) {
+    public static @Nullable String getStorageName(@NotNull Location dataLocation) {
         return StorageCacheUtils.getData(dataLocation, BS_NAME);
     }
 
@@ -133,7 +137,7 @@ public class DrawerManager extends NetworkObject {
         player.sendMessage(Lang.getString("messages.completed-operation.manager.set_icon"));
     }
 
-    public static ItemStack getStorageIcon(@NotNull Location dataLocation) {
+    public static @Nullable ItemStack getStorageIcon(@NotNull Location dataLocation) {
         String icon = StorageCacheUtils.getData(dataLocation, BS_ICON);
         if (icon == null) {
             return null;
@@ -141,7 +145,7 @@ public class DrawerManager extends NetworkObject {
         return deserializeIcon(icon);
     }
 
-    public static String serializeIcon(@NotNull ItemStack itemStack) {
+    public static @NotNull String serializeIcon(@NotNull ItemStack itemStack) {
         var sf = SlimefunItem.getByItem(itemStack);
         if (sf != null) {
             return NAMESPACE_SF + ":" + sf.getId();
@@ -195,7 +199,7 @@ public class DrawerManager extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
-    public static ItemStack getItemStack(@NotNull StorageUnitData entry) {
+    public static @Nullable ItemStack getItemStack(@NotNull StorageUnitData entry) {
         var itemContainers = entry.getStoredItems();
         if (itemContainers.isEmpty()) {
             return null;
@@ -205,7 +209,8 @@ public class DrawerManager extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
-    public static List<StorageUnitData> getStorageUnitDatas(NetworkRoot root, GridCache cache) {
+    public static @NotNull List<StorageUnitData> getStorageUnitDatas(
+            @NotNull NetworkRoot root, @NotNull GridCache cache) {
         return root.getCargoStorageUnitDatas(MANAGER_STRATEGY, true).keySet().stream()
                 .filter(entry -> {
                     if (cache.getFilter() == null) {
@@ -302,7 +307,7 @@ public class DrawerManager extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
-    public void updateDisplay(BlockMenu blockMenu) {
+    public void updateDisplay(@Nullable BlockMenu blockMenu) {
         if (blockMenu == null) {
             return;
         }
@@ -412,7 +417,7 @@ public class DrawerManager extends NetworkObject {
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
 
-    public List<String> getLoreAddition(StorageUnitData data) {
+    public @NotNull List<String> getLoreAddition(@NotNull StorageUnitData data) {
         var loc = data.getLastLocation();
         List<String> list = new ArrayList<>();
         list.add("");
@@ -576,27 +581,27 @@ public class DrawerManager extends NetworkObject {
         }
     }
 
-    protected ItemStack getBlankSlotStack() {
+    protected @NotNull ItemStack getBlankSlotStack() {
         return Icon.BLANK_SLOT_STACK;
     }
 
-    protected ItemStack getPagePreviousStack() {
+    protected @NotNull ItemStack getPagePreviousStack() {
         return Icon.PAGE_PREVIOUS_STACK;
     }
 
-    protected ItemStack getPageNextStack() {
+    protected @NotNull ItemStack getPageNextStack() {
         return Icon.PAGE_NEXT_STACK;
     }
 
-    protected ItemStack getChangeSortStack() {
+    protected @NotNull ItemStack getChangeSortStack() {
         return Icon.CHANGE_SORT_STACK;
     }
 
-    protected ItemStack getFilterStack() {
+    protected @NotNull ItemStack getFilterStack() {
         return Icon.FILTER_STACK;
     }
 
-    protected void clearDisplay(BlockMenu blockMenu) {
+    protected void clearDisplay(@NotNull BlockMenu blockMenu) {
         for (int displaySlot : getDisplaySlots()) {
             blockMenu.replaceExistingItem(displaySlot, getBlankSlotStack());
             blockMenu.addMenuClickHandler(displaySlot, (p, slot, item, action) -> false);

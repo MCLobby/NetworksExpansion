@@ -33,7 +33,10 @@ public class NetworkWirelessReceiver extends NetworkObject {
     private static final int[] RECEIVED_SLOTS_TEMPLATE = new int[] {3, 4, 5, 12, 14, 21, 22, 23};
 
     public NetworkWirelessReceiver(
-            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.WIRELESS_RECEIVER);
         this.getSlotsToDrop().add(RECEIVED_SLOT);
 
@@ -44,7 +47,7 @@ public class NetworkWirelessReceiver extends NetworkObject {
             }
 
             @Override
-            public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
+            public void tick(@NotNull Block block, SlimefunItem slimefunItem, @NotNull SlimefunBlockData data) {
                 BlockMenu blockMenu = data.getBlockMenu();
                 if (blockMenu != null) {
                     addToRegistry(block);

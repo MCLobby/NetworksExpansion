@@ -185,7 +185,7 @@ public class NetworkQuantumWorkbench extends SpecialSlimefunItem {
         }
     }
 
-    private boolean testRecipe(ItemStack[] input, ItemStack[] recipe) {
+    private boolean testRecipe(ItemStack[] input, ItemStack @NotNull [] recipe) {
         for (int test = 0; test < recipe.length; test++) {
             if (!SlimefunUtils.isItemSimilar(input[test], recipe[test], true, false, false)) {
                 return false;
@@ -194,7 +194,7 @@ public class NetworkQuantumWorkbench extends SpecialSlimefunItem {
         return true;
     }
 
-    private BlockBreakHandler getBlockBreakHandler() {
+    private @NotNull BlockBreakHandler getBlockBreakHandler() {
         return new BlockBreakHandler(false, false) {
             @Override
             public void onPlayerBreak(

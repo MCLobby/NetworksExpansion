@@ -68,10 +68,14 @@ public abstract class NetworkDirectional extends NetworkObject {
 
     private static final Map<Location, BlockFace> SELECTED_DIRECTION_MAP = new HashMap<>();
 
-    private final ItemSetting<Integer> tickRate;
+    private final @NotNull ItemSetting<Integer> tickRate;
 
     protected NetworkDirectional(
-            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, NodeType type) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe,
+            NodeType type) {
         super(itemGroup, item, recipeType, recipe, type);
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
         addItemSetting(this.tickRate);
@@ -86,7 +90,7 @@ public abstract class NetworkDirectional extends NetworkObject {
             }
 
             @Override
-            public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
+            public void tick(@NotNull Block block, SlimefunItem slimefunItem, @NotNull SlimefunBlockData data) {
                 if (tick <= 1) {
                     onTick(data.getBlockMenu(), block);
                 }

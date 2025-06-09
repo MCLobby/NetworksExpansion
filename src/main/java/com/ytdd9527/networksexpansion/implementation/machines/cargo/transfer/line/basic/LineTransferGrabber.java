@@ -46,11 +46,15 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
     private static final String KEY_UUID = "display-uuid";
     private final HashMap<Location, Integer> TICKER_MAP = new HashMap<>();
     private boolean useSpecialModel;
-    private Function<Location, DisplayGroup> displayGroupGenerator;
+    private @Nullable Function<Location, DisplayGroup> displayGroupGenerator;
     private int grabItemTick;
     private int maxDistance;
 
-    public LineTransferGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public LineTransferGrabber(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.TRANSFER_GRABBER);
         loadConfigurations();
     }
@@ -147,7 +151,7 @@ public class LineTransferGrabber extends NetworkDirectional implements RecipeDis
     }
 
     @Override
-    protected Particle.DustOptions getDustOptions() {
+    protected Particle.@NotNull DustOptions getDustOptions() {
         return new Particle.DustOptions(Color.LIME, 5);
     }
 

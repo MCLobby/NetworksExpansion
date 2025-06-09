@@ -2,12 +2,13 @@ package com.balugaq.netex.api.algorithm;
 
 import java.util.Comparator;
 import java.util.function.Function;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author balugaq
  */
 public class LevenshteinSorter {
-    public static int distance(String a, String b) {
+    public static int distance(@NotNull String a, @NotNull String b) {
         if (a.isEmpty()) return b.length();
         if (b.isEmpty()) return a.length();
 
@@ -26,7 +27,7 @@ public class LevenshteinSorter {
         return prev[b.length()];
     }
 
-    public static <T> Comparator<T> sortByDistance(Function<T, String> extractor) {
+    public static <T> @NotNull Comparator<T> sortByDistance(@NotNull Function<T, String> extractor) {
         return (a, b) -> {
             String aName = extractor.apply(a);
             String bName = extractor.apply(b);

@@ -74,9 +74,13 @@ public class ItemFlowViewer extends NetworkObject {
     private static final String BS_SUB_MENU = "sub-menu";
     private static final String NAMESPACE_SF = "sf";
     private static final String NAMESPACE_MC = "mc";
-    private final IntRangeSetting tickRate;
+    private final @NotNull IntRangeSetting tickRate;
 
-    public ItemFlowViewer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public ItemFlowViewer(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.FLOW_VIEWER);
 
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
@@ -92,7 +96,7 @@ public class ItemFlowViewer extends NetworkObject {
             }
 
             @Override
-            public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
+            public void tick(@NotNull Block block, SlimefunItem item, @NotNull SlimefunBlockData data) {
                 if (tick <= 1) {
                     final BlockMenu blockMenu = data.getBlockMenu();
                     if (blockMenu == null) {
@@ -123,7 +127,7 @@ public class ItemFlowViewer extends NetworkObject {
         });
     }
 
-    public static String serializeIcon(@NotNull ItemStack itemStack) {
+    public static @NotNull String serializeIcon(@NotNull ItemStack itemStack) {
         var sf = SlimefunItem.getByItem(itemStack);
         if (sf != null) {
             return NAMESPACE_SF + ":" + sf.getId();
@@ -153,7 +157,7 @@ public class ItemFlowViewer extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
-    @NotNull public static List<DisplayEntry> getRecords(NetworkRoot root, GridCache cache) {
+    @NotNull public static List<DisplayEntry> getRecords(@NotNull NetworkRoot root, @NotNull GridCache cache) {
         if (!root.isRecordFlow() || root.getItemFlowRecord() == null) {
             return new ArrayList<>();
         }
@@ -187,7 +191,7 @@ public class ItemFlowViewer extends NetworkObject {
 
     @SuppressWarnings("deprecation")
     @NotNull public static List<ItemFlowRecord.TransportAction> getSubMenu(
-            NetworkRoot root, GridCache cache, ItemStack itemStack) {
+            @NotNull NetworkRoot root, @NotNull GridCache cache, @Nullable ItemStack itemStack) {
         if (!root.isRecordFlow() || root.getItemFlowRecord() == null) {
             return new ArrayList<>();
         }
@@ -218,7 +222,7 @@ public class ItemFlowViewer extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
-    public static List<String> getLoreAddition(DisplayEntry entry) {
+    public static @NotNull List<String> getLoreAddition(@NotNull DisplayEntry entry) {
         long change = entry.actions().stream()
                 .map(ItemFlowRecord.TransportAction::amount)
                 .mapToLong(i -> i)
@@ -236,7 +240,7 @@ public class ItemFlowViewer extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
-    public static List<String> getLoreAddition(ItemFlowRecord.TransportAction entry) {
+    public static @NotNull List<String> getLoreAddition(ItemFlowRecord.@NotNull TransportAction entry) {
         var loc = entry.accessor();
         long change = entry.amount();
         List<String> list = new ArrayList<>();
@@ -257,14 +261,14 @@ public class ItemFlowViewer extends NetworkObject {
         return list;
     }
 
-    public static String humanizeTime(long milliSecond) {
+    public static @NotNull String humanizeTime(long milliSecond) {
         // milliSecond is System.currentTimeMillis()
         // we should transform it to the Date
         Date date = new Date(milliSecond);
         return DATE_FORMAT.format(date);
     }
 
-    @NotNull public static ItemStack getIcon(ItemFlowRecord.TransportAction action) {
+    @NotNull public static ItemStack getIcon(ItemFlowRecord.@NotNull TransportAction action) {
         var sf = StorageCacheUtils.getSfItem(action.accessor());
         if (sf == null) {
             return Icon.UNKNOWN_ITEM.clone();
@@ -273,7 +277,7 @@ public class ItemFlowViewer extends NetworkObject {
         }
     }
 
-    public void setSubMenu(BlockMenu menu, GridCache cache, @Nullable ItemStack itemStack) {
+    public void setSubMenu(@NotNull BlockMenu menu, @NotNull GridCache cache, @Nullable ItemStack itemStack) {
         var data = StorageCacheUtils.getBlock(menu.getLocation());
         if (data == null) {
             return;
@@ -287,7 +291,7 @@ public class ItemFlowViewer extends NetworkObject {
         }
     }
 
-    public String getSubMenu(BlockMenu menu) {
+    public @Nullable String getSubMenu(@NotNull BlockMenu menu) {
         var data = StorageCacheUtils.getBlock(menu.getLocation());
         if (data == null) {
             return null;
@@ -296,7 +300,7 @@ public class ItemFlowViewer extends NetworkObject {
         return data.getData(BS_SUB_MENU);
     }
 
-    public void updateDisplay(BlockMenu blockMenu) {
+    public void updateDisplay(@Nullable BlockMenu blockMenu) {
         if (blockMenu == null) {
             return;
         }
@@ -334,7 +338,11 @@ public class ItemFlowViewer extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
-    public void subMenu(NetworkRoot root, BlockMenu blockMenu, GridCache gridCache, String subMenu) {
+    public void subMenu(
+            @NotNull NetworkRoot root,
+            @NotNull BlockMenu blockMenu,
+            @NotNull GridCache gridCache,
+            @NotNull String subMenu) {
         var entries = getSubMenu(root, gridCache, deserializeIcon(subMenu));
 
         final int pages = (int) Math.ceil(entries.size() / (double) getDisplaySlots().length) - 1;
@@ -400,7 +408,7 @@ public class ItemFlowViewer extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
-    public void mainMenu(NetworkRoot root, BlockMenu blockMenu, GridCache gridCache) {
+    public void mainMenu(@NotNull NetworkRoot root, @NotNull BlockMenu blockMenu, @NotNull GridCache gridCache) {
         var entries = getRecords(root, gridCache);
 
         final int pages = (int) Math.ceil(entries.size() / (double) getDisplaySlots().length) - 1;
@@ -639,30 +647,30 @@ public class ItemFlowViewer extends NetworkObject {
         }
     }
 
-    protected ItemStack getBlankSlotStack() {
+    protected @NotNull ItemStack getBlankSlotStack() {
         return Icon.BLANK_SLOT_STACK;
     }
 
-    protected ItemStack getPagePreviousStack() {
+    protected @NotNull ItemStack getPagePreviousStack() {
         return Icon.PAGE_PREVIOUS_STACK;
     }
 
-    protected ItemStack getPageNextStack() {
+    protected @NotNull ItemStack getPageNextStack() {
         return Icon.PAGE_NEXT_STACK;
     }
 
-    protected ItemStack getFilterStack() {
+    protected @NotNull ItemStack getFilterStack() {
         return Icon.FILTER_STACK;
     }
 
-    protected void clearDisplay(BlockMenu blockMenu) {
+    protected void clearDisplay(@NotNull BlockMenu blockMenu) {
         for (int displaySlot : getDisplaySlots()) {
             blockMenu.replaceExistingItem(displaySlot, getBlankSlotStack());
             blockMenu.addMenuClickHandler(displaySlot, (p, slot, item, action) -> false);
         }
     }
 
-    public void forceCleanHistory(NetworkRoot root) {
+    public void forceCleanHistory(@NotNull NetworkRoot root) {
         var r = NetworkController.getRecords().get(root.getController());
         if (r == null) {
             return;

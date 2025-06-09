@@ -40,7 +40,7 @@ public class NetworkExport extends NetworkObject {
     private static final int OUTPUT_ITEM_SLOT = 24;
     private static final int[] OUTPUT_ITEM_BACKDROP = {14, 15, 16, 23, 25, 32, 33, 34};
 
-    private final ItemSetting<Integer> tickRate;
+    private final @NotNull ItemSetting<Integer> tickRate;
 
     public NetworkExport(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.EXPORT);
@@ -61,7 +61,7 @@ public class NetworkExport extends NetworkObject {
                     }
 
                     @Override
-                    public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
+                    public void tick(@NotNull Block block, SlimefunItem item, @NotNull SlimefunBlockData data) {
                         if (tick <= 1) {
                             final BlockMenu blockMenu = data.getBlockMenu();
                             if (blockMenu == null) {

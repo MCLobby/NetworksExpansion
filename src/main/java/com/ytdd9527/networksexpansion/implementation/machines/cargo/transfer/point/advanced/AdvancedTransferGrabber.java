@@ -55,11 +55,14 @@ public class AdvancedTransferGrabber extends AdvancedDirectional implements Reci
     private static final int ADD_SLOT = 38;
     private static final Map<Location, Integer> GRAB_TICKER_MAP = new HashMap<>();
     private boolean useSpecialModel;
-    private Function<Location, DisplayGroup> displayGroupGenerator;
+    private @Nullable Function<Location, DisplayGroup> displayGroupGenerator;
     private int grabItemTick;
 
     public AdvancedTransferGrabber(
-            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.TRANSFER_GRABBER);
         loadConfigurations();
     }
@@ -165,7 +168,7 @@ public class AdvancedTransferGrabber extends AdvancedDirectional implements Reci
     }
 
     @Override
-    protected Particle.DustOptions getDustOptions() {
+    protected Particle.@NotNull DustOptions getDustOptions() {
         return new Particle.DustOptions(Color.LIME, 5);
     }
 

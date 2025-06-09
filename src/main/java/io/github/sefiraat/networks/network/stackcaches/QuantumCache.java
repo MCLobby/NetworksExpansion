@@ -8,6 +8,7 @@ import lombok.Setter;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
@@ -88,7 +89,7 @@ public class QuantumCache extends ItemStackCache {
         return withdrawItem(this.getItemStack().getMaxStackSize());
     }
 
-    public void addMetaLore(ItemMeta itemMeta) {
+    public void addMetaLore(@NotNull ItemMeta itemMeta) {
         var old = itemMeta.getLore();
         final List<String> lore = old != null ? new ArrayList<>(old) : new ArrayList<>();
         String itemName = Lang.getString("messages.normal-operation.quantum_cache.empty");
@@ -107,7 +108,7 @@ public class QuantumCache extends ItemStackCache {
         itemMeta.setLore(lore);
     }
 
-    public void updateMetaLore(ItemMeta itemMeta) {
+    public void updateMetaLore(@NotNull ItemMeta itemMeta) {
         List<String> lore = itemMeta.hasLore() ? itemMeta.getLore() : new ArrayList<>();
         if (lore == null) {
             lore = new ArrayList<>();

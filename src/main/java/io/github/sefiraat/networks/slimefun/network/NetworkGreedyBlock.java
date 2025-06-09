@@ -23,7 +23,11 @@ public class NetworkGreedyBlock extends NetworkObject {
     private static final int[] BACKGROUND_SLOTS_TEMPLATE = new int[] {0, 1, 2, 9, 11, 18, 19, 20};
     private static final int[] BACKGROUND_SLOTS_INPUT = new int[] {6, 7, 8, 15, 17, 24, 25, 26};
 
-    public NetworkGreedyBlock(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public NetworkGreedyBlock(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.GREEDY_BLOCK);
         this.getSlotsToDrop().add(INPUT_SLOT);
         this.getSlotsToDrop().add(TEMPLATE_SLOT);

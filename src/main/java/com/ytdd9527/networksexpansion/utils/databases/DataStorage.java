@@ -21,7 +21,7 @@ public class DataStorage {
     private static final DataSource dataSource = Networks.getDataSource();
     private static final Map<Integer, Boolean> state = new ConcurrentHashMap<>(4096);
     private static final Map<Integer, Optional<StorageUnitData>> cache = new ConcurrentHashMap<>(4096);
-    private static Map<Integer, Map<Integer, Integer>> changes = new ConcurrentHashMap<>(4096);
+    private static @NotNull Map<Integer, Map<Integer, Integer>> changes = new ConcurrentHashMap<>(4096);
 
     public static void requestStorageData(int id) {
         // First check if loading or already loaded
@@ -33,7 +33,7 @@ public class DataStorage {
         }
     }
 
-    public static void restoreFromLocation(Location l, Consumer<Optional<StorageUnitData>> usage) {
+    public static void restoreFromLocation(@NotNull Location l, @NotNull Consumer<Optional<StorageUnitData>> usage) {
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -54,12 +54,12 @@ public class DataStorage {
         return cache.getOrDefault(id, Optional.empty());
     }
 
-    public static int getItemId(ItemStack item) {
+    public static int getItemId(@NotNull ItemStack item) {
         return dataSource.getItemId(item);
     }
 
-    public static synchronized StorageUnitData createStorageUnitData(
-            OfflinePlayer owner, StorageUnitType sizeType, Location placedLocation) {
+    public static synchronized @NotNull StorageUnitData createStorageUnitData(
+            @NotNull OfflinePlayer owner, StorageUnitType sizeType, Location placedLocation) {
         StorageUnitData re = new StorageUnitData(
                 dataSource.getNextContainerId(), owner.getUniqueId().toString(), sizeType, true, placedLocation);
 
@@ -77,14 +77,14 @@ public class DataStorage {
         dataSource.updateContainer(id, "IsPlaced", String.valueOf(isPlaced ? 1 : 0));
     }
 
-    public static void setContainerSizeType(int id, StorageUnitType type) {
+    public static void setContainerSizeType(int id, @NotNull StorageUnitType type) {
         if (isContainerLoaded(id)) {
             getCachedStorageData(id).ifPresent(data -> data.setSizeType(type));
         }
         dataSource.updateContainer(id, "SizeType", String.valueOf(type.ordinal()));
     }
 
-    public static void setContainerLocation(int id, Location l) {
+    public static void setContainerLocation(int id, @NotNull Location l) {
         if (isContainerLoaded(id)) {
             getCachedStorageData(id).ifPresent(data -> data.setLastLocation(l));
         }
@@ -129,7 +129,7 @@ public class DataStorage {
         state.put(id, true);
     }
 
-    static String formatLocation(Location l) {
+    static @NotNull String formatLocation(@NotNull Location l) {
         return Objects.requireNonNull(l.getWorld()).getUID() + ";" + l.getBlockX() + ";" + l.getBlockY() + ";"
                 + l.getBlockZ();
     }

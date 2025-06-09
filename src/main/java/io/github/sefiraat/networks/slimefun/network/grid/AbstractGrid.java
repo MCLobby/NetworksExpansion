@@ -58,7 +58,7 @@ public abstract class AbstractGrid extends NetworkObject {
         SORT_MAP.put(GridCache.SortOrder.ADDON, Sorters.ITEMSTACK_ADDON_SORT);
     }
 
-    private final ItemSetting<Integer> tickRate;
+    private final @NotNull ItemSetting<Integer> tickRate;
 
     protected AbstractGrid(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.GRID);
@@ -78,7 +78,7 @@ public abstract class AbstractGrid extends NetworkObject {
             }
 
             @Override
-            public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
+            public void tick(@NotNull Block block, SlimefunItem item, @NotNull SlimefunBlockData data) {
                 if (tick <= 1) {
                     final BlockMenu blockMenu = data.getBlockMenu();
                     if (blockMenu == null) {
@@ -211,7 +211,7 @@ public abstract class AbstractGrid extends NetworkObject {
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
 
-    protected void clearDisplay(BlockMenu blockMenu) {
+    protected void clearDisplay(@NotNull BlockMenu blockMenu) {
         for (int displaySlot : getDisplaySlots()) {
             blockMenu.replaceExistingItem(displaySlot, Icon.BLANK_SLOT_STACK);
             blockMenu.addMenuClickHandler(displaySlot, (p, slot, item, action) -> false);
@@ -381,7 +381,7 @@ public abstract class AbstractGrid extends NetworkObject {
         setCursor(player, cursor, requestingStack);
     }
 
-    private void setCursor(Player player, ItemStack cursor, ItemStack requestingStack) {
+    private void setCursor(@NotNull Player player, @NotNull ItemStack cursor, @Nullable ItemStack requestingStack) {
         if (requestingStack != null) {
             if (cursor.getType() != Material.AIR) {
                 requestingStack.setAmount(cursor.getAmount() + 1);
@@ -423,28 +423,28 @@ public abstract class AbstractGrid extends NetworkObject {
     protected abstract int getFilterSlot();
 
     @SuppressWarnings("unused")
-    protected ItemStack getBlankSlotStack() {
+    protected @NotNull ItemStack getBlankSlotStack() {
         return Icon.BLANK_SLOT_STACK;
     }
 
-    protected ItemStack getPagePreviousStack() {
+    protected @NotNull ItemStack getPagePreviousStack() {
         return Icon.PAGE_PREVIOUS_STACK;
     }
 
-    protected ItemStack getPageNextStack() {
+    protected @NotNull ItemStack getPageNextStack() {
         return Icon.PAGE_NEXT_STACK;
     }
 
-    protected ItemStack getChangeSortStack() {
+    protected @NotNull ItemStack getChangeSortStack() {
         return Icon.CHANGE_SORT_STACK;
     }
 
-    protected ItemStack getFilterStack() {
+    protected @NotNull ItemStack getFilterStack() {
         return Icon.FILTER_STACK;
     }
 
     @SuppressWarnings("deprecation")
-    public void receiveItem(Player player, ClickAction action, BlockMenu blockMenu) {
+    public void receiveItem(@NotNull Player player, ClickAction action, @NotNull BlockMenu blockMenu) {
         NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
         if (definition == null || definition.getNode() == null) {
             clearDisplay(blockMenu);
@@ -463,7 +463,8 @@ public abstract class AbstractGrid extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
-    public void receiveItem(Player player, ItemStack itemStack, ClickAction action, BlockMenu blockMenu) {
+    public void receiveItem(
+            @NotNull Player player, ItemStack itemStack, ClickAction action, @NotNull BlockMenu blockMenu) {
         NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
         if (definition == null || definition.getNode() == null) {
             clearDisplay(blockMenu);
@@ -482,7 +483,11 @@ public abstract class AbstractGrid extends NetworkObject {
 
     @SuppressWarnings({"deprecation", "unused"})
     public void receiveItem(
-            NetworkRoot root, Player player, ItemStack itemStack, ClickAction action, BlockMenu blockMenu) {
+            @NotNull NetworkRoot root,
+            Player player,
+            @Nullable ItemStack itemStack,
+            ClickAction action,
+            @NotNull BlockMenu blockMenu) {
         if (itemStack != null && itemStack.getType() != Material.AIR) {
             root.addItemStack0(blockMenu.getLocation(), itemStack);
         }

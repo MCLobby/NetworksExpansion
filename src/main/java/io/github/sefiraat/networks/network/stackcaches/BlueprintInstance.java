@@ -28,7 +28,7 @@ public class BlueprintInstance extends ItemStackCache {
         this.recipe = recipe;
     }
 
-    public void generateVanillaRecipe(World world) {
+    public void generateVanillaRecipe(@NotNull World world) {
         if (this.recipe == null) {
             this.recipe = Bukkit.getCraftingRecipe(this.recipeItems, world);
         }

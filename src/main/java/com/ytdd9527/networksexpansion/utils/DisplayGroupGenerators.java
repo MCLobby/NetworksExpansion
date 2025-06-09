@@ -19,7 +19,7 @@ public final class DisplayGroupGenerators {
     public static final CustomItemStack BRIDGE_CORNER_RIM_STACK =
             new CustomItemStack(Skins.BRIDGE2.getPlayerHead(), "");
 
-    public static DisplayGroup generateStorageUnit_1(@NotNull Location location) {
+    public static @NotNull DisplayGroup generateStorageUnit_1(@NotNull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
         displayGroup.addDisplay(
                 "StorageUnit_1",
@@ -31,7 +31,7 @@ public final class DisplayGroupGenerators {
         return displayGroup;
     }
 
-    public static DisplayGroup generateStorageUnit_2(@NotNull Location location) {
+    public static @NotNull DisplayGroup generateStorageUnit_2(@NotNull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
         displayGroup.addDisplay(
                 "StorageUnit_2",
@@ -43,7 +43,7 @@ public final class DisplayGroupGenerators {
         return displayGroup;
     }
 
-    public static DisplayGroup generateStorageUnit_3(@NotNull Location location) {
+    public static @NotNull DisplayGroup generateStorageUnit_3(@NotNull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
         displayGroup.addDisplay(
                 "StorageUnit_3",
@@ -55,7 +55,7 @@ public final class DisplayGroupGenerators {
         return displayGroup;
     }
 
-    public static DisplayGroup generateStorageUnit_4(@NotNull Location location) {
+    public static @NotNull DisplayGroup generateStorageUnit_4(@NotNull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
         displayGroup.addDisplay(
                 "StorageUnit_4",
@@ -67,7 +67,7 @@ public final class DisplayGroupGenerators {
         return displayGroup;
     }
 
-    public static DisplayGroup generateStorageUnit_5(@NotNull Location location) {
+    public static @NotNull DisplayGroup generateStorageUnit_5(@NotNull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
         displayGroup.addDisplay(
                 "StorageUnit_5",
@@ -79,7 +79,7 @@ public final class DisplayGroupGenerators {
         return displayGroup;
     }
 
-    public static DisplayGroup generateStorageUnit_6(@NotNull Location location) {
+    public static @NotNull DisplayGroup generateStorageUnit_6(@NotNull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
         displayGroup.addDisplay(
                 "StorageUnit_6",
@@ -91,7 +91,7 @@ public final class DisplayGroupGenerators {
         return displayGroup;
     }
 
-    public static DisplayGroup generateStorageUnit_7(@NotNull Location location) {
+    public static @NotNull DisplayGroup generateStorageUnit_7(@NotNull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
         displayGroup.addDisplay(
                 "StorageUnit_7",
@@ -103,7 +103,7 @@ public final class DisplayGroupGenerators {
         return displayGroup;
     }
 
-    public static DisplayGroup generateStorageUnit_8(@NotNull Location location) {
+    public static @NotNull DisplayGroup generateStorageUnit_8(@NotNull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
         displayGroup.addDisplay(
                 "StorageUnit_8",
@@ -115,7 +115,7 @@ public final class DisplayGroupGenerators {
         return displayGroup;
     }
 
-    public static DisplayGroup generateStorageUnit_9(@NotNull Location location) {
+    public static @NotNull DisplayGroup generateStorageUnit_9(@NotNull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
         displayGroup.addDisplay(
                 "StorageUnit_9",
@@ -127,7 +127,7 @@ public final class DisplayGroupGenerators {
         return displayGroup;
     }
 
-    public static DisplayGroup generateStorageUnit_10(@NotNull Location location) {
+    public static @NotNull DisplayGroup generateStorageUnit_10(@NotNull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
         displayGroup.addDisplay(
                 "StorageUnit_10",
@@ -139,7 +139,7 @@ public final class DisplayGroupGenerators {
         return displayGroup;
     }
 
-    public static DisplayGroup generateStorageUnit_11(@NotNull Location location) {
+    public static @NotNull DisplayGroup generateStorageUnit_11(@NotNull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
         displayGroup.addDisplay(
                 "StorageUnit_11",
@@ -151,7 +151,7 @@ public final class DisplayGroupGenerators {
         return displayGroup;
     }
 
-    public static DisplayGroup generateStorageUnit_12(@NotNull Location location) {
+    public static @NotNull DisplayGroup generateStorageUnit_12(@NotNull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
         displayGroup.addDisplay(
                 "StorageUnit_12",
@@ -163,7 +163,7 @@ public final class DisplayGroupGenerators {
         return displayGroup;
     }
 
-    public static DisplayGroup generateStorageUnit_13(@NotNull Location location) {
+    public static @NotNull DisplayGroup generateStorageUnit_13(@NotNull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
         displayGroup.addDisplay(
                 "StorageUnit_13",
@@ -175,7 +175,7 @@ public final class DisplayGroupGenerators {
         return displayGroup;
     }
 
-    public static DisplayGroup generateCloche(@NotNull Location location) {
+    public static @NotNull DisplayGroup generateCloche(@NotNull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
         displayGroup.addDisplay(
                 "purge",
@@ -187,7 +187,7 @@ public final class DisplayGroupGenerators {
         return displayGroup;
     }
 
-    public static DisplayGroup generateCell(@NotNull Location location) {
+    public static @NotNull DisplayGroup generateCell(@NotNull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location, 1.1f, 0.5f);
         displayGroup.addDisplay(
                 "cell",
@@ -199,7 +199,7 @@ public final class DisplayGroupGenerators {
         return displayGroup;
     }
 
-    public static DisplayGroup generatePowerNode(@NotNull Location location) {
+    public static @NotNull DisplayGroup generatePowerNode(@NotNull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location, 2f, 0.5f);
         displayGroup.addDisplay(
                 "powernode",
@@ -211,7 +211,7 @@ public final class DisplayGroupGenerators {
         return displayGroup;
     }
 
-    public static DisplayGroup generateBridge1(@NotNull Location location) {
+    public static @NotNull DisplayGroup generateBridge1(@NotNull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location, 1f, 0.5f);
 
         displayGroup.addDisplay(
@@ -231,7 +231,7 @@ public final class DisplayGroupGenerators {
         return displayGroup;
     }
 
-    public static DisplayGroup generateBridge2(@NotNull Location location) {
+    public static @NotNull DisplayGroup generateBridge2(@NotNull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location, 1f, 0.5f);
         displayGroup.addDisplay(
                 "bridge_2",
@@ -243,7 +243,7 @@ public final class DisplayGroupGenerators {
         return displayGroup;
     }
 
-    public static DisplayGroup generateBridge3(@NotNull Location location) {
+    public static @NotNull DisplayGroup generateBridge3(@NotNull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location, 1f, 0.5f);
         displayGroup.addDisplay(
                 "bridge_3",
@@ -255,7 +255,7 @@ public final class DisplayGroupGenerators {
         return displayGroup;
     }
 
-    public static DisplayGroup generateBridge4(@NotNull Location location) {
+    public static @NotNull DisplayGroup generateBridge4(@NotNull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location, 1f, 0.5f);
         displayGroup.addDisplay(
                 "bridge_4",

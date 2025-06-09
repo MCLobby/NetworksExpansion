@@ -98,7 +98,7 @@ public class NetworksMain implements TabExecutor {
     }
 
     @Deprecated
-    public static Location getPos1(Player p) {
+    public static @Nullable Location getPos1(@NotNull Player p) {
         if (SELECTED_POS.get(p.getUniqueId()) == null) {
             return null;
         }
@@ -107,7 +107,7 @@ public class NetworksMain implements TabExecutor {
     }
 
     @Deprecated
-    public static Location getPos2(Player p) {
+    public static @Nullable Location getPos2(@NotNull Player p) {
         if (SELECTED_POS.get(p.getUniqueId()) == null) {
             return null;
         }
@@ -115,23 +115,23 @@ public class NetworksMain implements TabExecutor {
     }
 
     @Deprecated
-    public static void setPos1(Player p, Location pos) {
+    public static void setPos1(@NotNull Player p, Location pos) {
         SELECTED_POS.put(p.getUniqueId(), new Pair<>(pos, getPos2(p)));
     }
 
     @Deprecated
-    public static void setPos2(Player p, Location pos) {
+    public static void setPos2(@NotNull Player p, Location pos) {
         SELECTED_POS.put(p.getUniqueId(), new Pair<>(getPos1(p), pos));
     }
 
     @Deprecated
-    public static void clearPos(Player p) {
+    public static void clearPos(@NotNull Player p) {
         SELECTED_POS.remove(p.getUniqueId());
         p.sendMessage(Lang.getString("messages.commands.clear-selected-pos"));
     }
 
     @Deprecated
-    public static void toggleShowSelectedAreaOutline(Player p) {
+    public static void toggleShowSelectedAreaOutline(@NotNull Player p) {
         if (requesters.contains(p.getUniqueId())) {
             requesters.remove(p.getUniqueId());
             p.sendMessage(Lang.getString("messages.commands.selected-area-outline-hide-request"));
@@ -142,7 +142,7 @@ public class NetworksMain implements TabExecutor {
     }
 
     @Deprecated
-    private static void handleSelectedAreaOutlineShowRequest(Player p) {
+    private static void handleSelectedAreaOutlineShowRequest(@NotNull Player p) {
         Location pos1 = getPos1(p);
         Location pos2 = getPos2(p);
         if (pos1 == null || pos2 == null) {
@@ -159,7 +159,7 @@ public class NetworksMain implements TabExecutor {
     }
 
     @Deprecated
-    public static String locationToString(Location l) {
+    public static @NotNull String locationToString(@Nullable Location l) {
         if (l == null) {
             return Lang.getString("icons.drawer.location_error.unknown");
         }
@@ -170,7 +170,7 @@ public class NetworksMain implements TabExecutor {
     }
 
     @Deprecated
-    public static long locationRange(Location pos1, Location pos2) {
+    public static long locationRange(@Nullable Location pos1, @Nullable Location pos2) {
         if (pos1 == null || pos2 == null) {
             return 0;
         }
@@ -185,7 +185,8 @@ public class NetworksMain implements TabExecutor {
     }
 
     @Deprecated
-    private static void doWorldEdit(Location pos1, Location pos2, Consumer<Location> consumer) {
+    private static void doWorldEdit(
+            @Nullable Location pos1, @Nullable Location pos2, @NotNull Consumer<Location> consumer) {
         if (pos1 == null || pos2 == null) {
             return;
         }
@@ -204,7 +205,7 @@ public class NetworksMain implements TabExecutor {
         }
     }
 
-    public static void viewLog(Player player) {
+    public static void viewLog(@NotNull Player player) {
         final Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         if (targetBlock == null || targetBlock.getType() == Material.AIR) {
             player.sendMessage(Lang.getString("messages.commands.must-admin-debuggable"));
@@ -231,7 +232,7 @@ public class NetworksMain implements TabExecutor {
         }
     }
 
-    public static void setQuantum(Player player, int amount) {
+    public static void setQuantum(@NotNull Player player, int amount) {
         final Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         if (targetBlock == null || targetBlock.getType() == Material.AIR) {
             player.sendMessage(Lang.getString("messages.commands.must-look-at-quantum-storage"));
@@ -280,7 +281,7 @@ public class NetworksMain implements TabExecutor {
         NetworkQuantumStorage.getCaches().put(blockMenu.getLocation(), cache);
     }
 
-    private static void addStorageItem(Player player, int amount) {
+    private static void addStorageItem(@NotNull Player player, int amount) {
         final Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         if (targetBlock == null || targetBlock.getType() == Material.AIR) {
             player.sendMessage(Lang.getString("messages.commands.must-look-at-drawer"));
@@ -324,7 +325,7 @@ public class NetworksMain implements TabExecutor {
         player.sendMessage(Lang.getString("messages.commands.updated-drawer"));
     }
 
-    private static void reduceStorageItem(Player player, int amount) {
+    private static void reduceStorageItem(@NotNull Player player, int amount) {
         final Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         if (targetBlock == null || targetBlock.getType() == Material.AIR) {
             player.sendMessage(Lang.getString("messages.commands.must-look-at-drawer"));
@@ -368,7 +369,7 @@ public class NetworksMain implements TabExecutor {
         player.sendMessage(Lang.getString("messages.commands.updated-drawer"));
     }
 
-    public static void setContainerId(Player player, int containerId) {
+    public static void setContainerId(@NotNull Player player, int containerId) {
         final Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         if (targetBlock == null || targetBlock.getType() == Material.AIR) {
             player.sendMessage(Lang.getString("messages.commands.must-look-at-drawer"));
@@ -395,7 +396,7 @@ public class NetworksMain implements TabExecutor {
     }
 
     @Deprecated
-    public static void worldeditPos1(Player player) {
+    public static void worldeditPos1(@NotNull Player player) {
         Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         if (targetBlock == null) {
             targetBlock = player.getLocation().getBlock();
@@ -405,7 +406,7 @@ public class NetworksMain implements TabExecutor {
     }
 
     @Deprecated
-    public static void worldeditPos1(Player player, Location location) {
+    public static void worldeditPos1(@NotNull Player player, Location location) {
         setPos1(player, location);
         if (getPos2(player) == null) {
             player.sendMessage(String.format(
@@ -419,7 +420,7 @@ public class NetworksMain implements TabExecutor {
     }
 
     @Deprecated
-    public static void worldeditPos2(Player player) {
+    public static void worldeditPos2(@NotNull Player player) {
         Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         if (targetBlock == null) {
             targetBlock = player.getLocation().getBlock();
@@ -429,7 +430,7 @@ public class NetworksMain implements TabExecutor {
     }
 
     @Deprecated
-    public static void worldeditPos2(Player player, Location location) {
+    public static void worldeditPos2(@NotNull Player player, Location location) {
         setPos2(player, location);
         if (getPos1(player) == null) {
             player.sendMessage(String.format(
@@ -443,13 +444,13 @@ public class NetworksMain implements TabExecutor {
     }
 
     @Deprecated
-    public static void worldeditClone(Player player) {
+    public static void worldeditClone(@NotNull Player player) {
         worldeditClone(player, false);
     }
 
     @Deprecated
     @SuppressWarnings("UnstableApiUsage")
-    public static void worldeditClone(Player player, boolean overrideData) {
+    public static void worldeditClone(@NotNull Player player, boolean overrideData) {
         var pos1 = getPos1(player);
         var pos2 = getPos2(player);
         if (pos1 == null || pos2 == null) {
@@ -582,18 +583,19 @@ public class NetworksMain implements TabExecutor {
     }
 
     @Deprecated
-    public static void worldeditPaste(Player player, String sfid) {
+    public static void worldeditPaste(@NotNull Player player, @NotNull String sfid) {
         worldeditPaste(player, sfid, false, false);
     }
 
     @Deprecated
-    public static void worldeditPaste(Player player, String sfid, boolean overrideData) {
+    public static void worldeditPaste(@NotNull Player player, @NotNull String sfid, boolean overrideData) {
         worldeditPaste(player, sfid, overrideData, false);
     }
 
     @Deprecated
     @SuppressWarnings("UnstableApiUsage")
-    public static void worldeditPaste(Player player, String sfid, boolean overrideData, boolean force) {
+    public static void worldeditPaste(
+            @NotNull Player player, @NotNull String sfid, boolean overrideData, boolean force) {
         final SlimefunItem sfItem = SlimefunItem.getById(sfid);
 
         if (getPos1(player) == null || getPos2(player) == null) {
@@ -684,7 +686,7 @@ public class NetworksMain implements TabExecutor {
     }
 
     @Deprecated
-    public static void worldeditClear(Player player, boolean callHandler, boolean skipVanilla) {
+    public static void worldeditClear(@NotNull Player player, boolean callHandler, boolean skipVanilla) {
         if (getPos1(player) == null || getPos2(player) == null) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
@@ -731,7 +733,7 @@ public class NetworksMain implements TabExecutor {
     }
 
     @Deprecated
-    public static void worldeditBlockMenuSetSlot(Player player, int slot) {
+    public static void worldeditBlockMenuSetSlot(@NotNull Player player, int slot) {
         if (getPos1(player) == null || getPos2(player) == null) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
@@ -772,7 +774,7 @@ public class NetworksMain implements TabExecutor {
     }
 
     @Deprecated
-    public static void worldeditBlockInfoAdd(Player player, String key, String value) {
+    public static void worldeditBlockInfoAdd(@NotNull Player player, @NotNull String key, @NotNull String value) {
         if (getPos1(player) == null || getPos2(player) == null) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
@@ -803,7 +805,7 @@ public class NetworksMain implements TabExecutor {
     }
 
     @Deprecated
-    public static void worldeditBlockInfoRemove(Player player, String key) {
+    public static void worldeditBlockInfoRemove(@NotNull Player player, @NotNull String key) {
         if (getPos1(player) == null || getPos2(player) == null) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
@@ -831,7 +833,7 @@ public class NetworksMain implements TabExecutor {
                 System.currentTimeMillis() - currentMillSeconds));
     }
 
-    private static void updateItem(Player player) {
+    private static void updateItem(@NotNull Player player) {
         final ItemStack itemInHand = player.getInventory().getItemInMainHand();
         final SlimefunItem slimefunItem = SlimefunItem.getByItem(itemInHand);
         if (slimefunItem == null) {
@@ -882,7 +884,7 @@ public class NetworksMain implements TabExecutor {
         }
     }
 
-    public static void getStorageItem(Player player, int slot) {
+    public static void getStorageItem(@NotNull Player player, int slot) {
         final Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         if (targetBlock == null || targetBlock.getType() == Material.AIR) {
             player.sendMessage(Lang.getString("messages.commands.must-look-at-drawer"));
@@ -927,7 +929,7 @@ public class NetworksMain implements TabExecutor {
         }
     }
 
-    public static void help(CommandSender sender, String mainCommand) {
+    public static void help(@NotNull CommandSender sender, @Nullable String mainCommand) {
         if (mainCommand == null) {
             for (String message : Lang.getStringList("messages.commands.help")) {
                 sender.sendMessage(message);
@@ -1000,7 +1002,10 @@ public class NetworksMain implements TabExecutor {
 
     @Override
     public boolean onCommand(
-            @NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+            @NotNull CommandSender sender,
+            @NotNull Command command,
+            @NotNull String label,
+            @NotNull String @NotNull [] args) {
         if (args.length == 0) {
             help(sender, null);
             return true;
@@ -1365,7 +1370,7 @@ public class NetworksMain implements TabExecutor {
         return true;
     }
 
-    public void fillQuantum(Player player, int amount) {
+    public void fillQuantum(@NotNull Player player, int amount) {
         final ItemStack itemStack = player.getInventory().getItemInMainHand();
         if (itemStack.getType() == Material.AIR) {
             player.sendMessage(Lang.getString("messages.commands.no-item-in-hand"));
@@ -1396,7 +1401,7 @@ public class NetworksMain implements TabExecutor {
     }
 
     // change "networks-changed:recipe" -> "networks:recipe"
-    public void fixBlueprint(Player player, String before) {
+    public void fixBlueprint(@NotNull Player player, @NotNull String before) {
         ItemStack blueprint = player.getInventory().getItemInMainHand();
         if (blueprint.getType() == Material.AIR) {
             player.sendMessage(Lang.getString("messages.commands.must-hand-blueprint"));
@@ -1434,12 +1439,15 @@ public class NetworksMain implements TabExecutor {
 
     @Override
     public @Nullable List<String> onTabComplete(
-            @NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+            @NotNull CommandSender sender,
+            @NotNull Command command,
+            @NotNull String label,
+            @NotNull String @NotNull [] args) {
         List<String> raw = onTabCompleteRaw(sender, args);
         return StringUtil.copyPartialMatches(args[args.length - 1], raw, new ArrayList<>());
     }
 
-    public @NotNull List<String> onTabCompleteRaw(@NotNull CommandSender sender, @NotNull String[] args) {
+    public @NotNull List<String> onTabCompleteRaw(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
         switch (args.length) {
             case 1 -> {
                 return List.of(
@@ -1518,11 +1526,11 @@ public class NetworksMain implements TabExecutor {
         return new ArrayList<>();
     }
 
-    public String getErrorMessage(ErrorType errorType) {
+    public String getErrorMessage(@NotNull ErrorType errorType) {
         return getErrorMessage(errorType, null);
     }
 
-    public String getErrorMessage(ErrorType errorType, String argument) {
+    public @NotNull String getErrorMessage(@NotNull ErrorType errorType, String argument) {
         return switch (errorType) {
             case NO_PERMISSION -> Lang.getString("messages.commands.no-permission");
             case NO_ITEM_IN_HAND -> Lang.getString("messages.commands.no-item-in-hand");

@@ -23,13 +23,18 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
 
     public static final String SPACES = " ".repeat(32);
     private static final MessageFormat MESSAGE_FORMAT = new MessageFormat("{0}{1}: {2}{3}", Locale.ROOT);
 
-    public NetworkProbe(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public NetworkProbe(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -170,7 +175,7 @@ public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
         }
     }
 
-    public static String formatter(String name, long count) {
+    public static @NotNull String formatter(String name, long count) {
         return MESSAGE_FORMAT
                 .format(
                         new Object[] {Theme.CLICK_INFO.getColor(), name, Theme.SUCCESS.getColor(), count},
@@ -179,7 +184,7 @@ public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
                 .toString();
     }
 
-    public static String formatter(String name, String s) {
+    public static @NotNull String formatter(String name, String s) {
         return MESSAGE_FORMAT
                 .format(
                         new Object[] {Theme.CLICK_INFO.getColor(), name, Theme.SUCCESS.getColor(), s},
@@ -188,7 +193,7 @@ public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
                 .toString();
     }
 
-    public static String nullOrSpaces(String s) {
+    public static @NotNull String nullOrSpaces(@Nullable String s) {
         return s == null ? SPACES : s;
     }
 
@@ -197,7 +202,7 @@ public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
         addItemHandler((ItemUseHandler) this::onUse);
     }
 
-    protected void onUse(PlayerRightClickEvent e) {
+    protected void onUse(@NotNull PlayerRightClickEvent e) {
         final Optional<Block> optional = e.getClickedBlock();
         if (optional.isPresent()) {
             final Block block = optional.get();

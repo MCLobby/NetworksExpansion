@@ -61,7 +61,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            @NotNull ItemStack[] recipe) {
+            @NotNull ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
         addItemHandler((ItemUseHandler) e -> {
             final Player player = e.getPlayer();
@@ -97,7 +97,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         });
     }
 
-    @Nullable public static ItemStack getStoredItemStack(PersistentDataHolder holder) {
+    @Nullable public static ItemStack getStoredItemStack(@Nullable PersistentDataHolder holder) {
         if (holder == null) {
             return null;
         }
@@ -105,7 +105,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         return DataTypeMethods.getCustom(holder, Keys.ITEM_MOVER_ITEM, DataType.ITEM_STACK);
     }
 
-    @Nullable public static ItemStack getStoredItemStack(ItemStack mover) {
+    @Nullable public static ItemStack getStoredItemStack(@Nullable ItemStack mover) {
         if (mover == null || mover.getType() == Material.AIR) {
             return null;
         }
@@ -118,7 +118,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         return getStoredItemStack(itemMeta);
     }
 
-    public static int getStoredAmount(PersistentDataHolder holder) {
+    public static int getStoredAmount(@Nullable PersistentDataHolder holder) {
         if (holder == null) {
             return 0;
         }
@@ -131,7 +131,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         return amount;
     }
 
-    public static int getStoredAmount(ItemStack mover) {
+    public static int getStoredAmount(@Nullable ItemStack mover) {
         if (mover == null || mover.getType() == Material.AIR) {
             return 0;
         }
@@ -144,7 +144,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         return getStoredAmount(itemMeta);
     }
 
-    public static void setStoredItemStack(ItemStack mover, @Nullable ItemStack itemStack) {
+    public static void setStoredItemStack(@Nullable ItemStack mover, @Nullable ItemStack itemStack) {
         if (mover == null || mover.getType() == Material.AIR) {
             return;
         }
@@ -163,7 +163,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         mover.setItemMeta(itemMeta);
     }
 
-    public static void setStoredAmount(ItemStack mover, int amount) {
+    public static void setStoredAmount(@Nullable ItemStack mover, int amount) {
         if (mover == null || mover.getType() == Material.AIR) {
             return;
         }
@@ -182,7 +182,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         mover.setItemMeta(itemMeta);
     }
 
-    public static void depositItem(ItemStack mover, ItemStack incoming) {
+    public static void depositItem(ItemStack mover, @Nullable ItemStack incoming) {
         if (incoming == null || incoming.getType() == Material.AIR) {
             return;
         }
@@ -204,7 +204,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         }
     }
 
-    private static void clearPDC(ItemStack mover) {
+    private static void clearPDC(@Nullable ItemStack mover) {
         if (mover == null || mover.getType() == Material.AIR) {
             return;
         }
@@ -221,7 +221,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
     }
 
     @SuppressWarnings("deprecation")
-    public static void updateLore(ItemStack itemStack) {
+    public static void updateLore(@Nullable ItemStack itemStack) {
         if (itemStack == null || itemStack.getType() == Material.AIR) {
             return;
         }
@@ -370,7 +370,8 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         return new NetworkStorage(location, stored, storedAmount);
     }
 
-    private static void tryDepositIntoMover(Player player, ItemStack mover, Location clickedLocation) {
+    private static void tryDepositIntoMover(
+            @NotNull Player player, ItemStack mover, @NotNull Location clickedLocation) {
         if (!hasPermission(player, clickedLocation)) {
             return;
         }
@@ -412,7 +413,8 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         updateLore(mover);
     }
 
-    private static void tryWithdrawFromMover(Player player, ItemStack mover, Location clickedLocation) {
+    private static void tryWithdrawFromMover(
+            @NotNull Player player, ItemStack mover, @NotNull Location clickedLocation) {
         if (!hasPermission(player, clickedLocation)) {
             return;
         }
@@ -447,11 +449,11 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         updateLore(mover);
     }
 
-    private static List<String> cloneDefaultLore() {
+    private static @NotNull List<String> cloneDefaultLore() {
         return new ArrayList<>(DEFAULT_LORE);
     }
 
-    public static boolean hasPermission(Player player, Location location) {
+    public static boolean hasPermission(@NotNull Player player, @NotNull Location location) {
         for (Interaction interaction : CHECK_INTERACTIONS) {
             if (!Slimefun.getProtectionManager().hasPermission(player, location, interaction)) {
                 return false;

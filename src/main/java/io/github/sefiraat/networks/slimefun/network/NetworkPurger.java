@@ -41,9 +41,13 @@ public class NetworkPurger extends NetworkObject {
     private static final int TEST_ITEM_SLOT = 13;
     private static final int[] TEST_ITEM_BACKDROP = {3, 4, 5, 12, 14, 21, 22, 23};
 
-    private final ItemSetting<Integer> tickRate;
+    private final @NotNull ItemSetting<Integer> tickRate;
 
-    public NetworkPurger(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public NetworkPurger(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.PURGER);
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
         addItemSetting(this.tickRate);
@@ -61,7 +65,7 @@ public class NetworkPurger extends NetworkObject {
                     }
 
                     @Override
-                    public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
+                    public void tick(@NotNull Block block, SlimefunItem item, @NotNull SlimefunBlockData data) {
                         if (tick <= 1) {
                             BlockMenu blockMenu = data.getBlockMenu();
                             if (blockMenu == null) {

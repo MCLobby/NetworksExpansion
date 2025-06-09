@@ -68,7 +68,10 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
     private final HashMap<Location, Integer> TICKER_MAP = new HashMap<>();
 
     public LineTransferVanillaPusher(
-            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSFER_VANILLA_PUSHER);
         for (int slot : getInputSlots()) {
             this.getSlotsToDrop().add(slot);
@@ -344,7 +347,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
     }
 
     @Override
-    protected Particle.DustOptions getDustOptions() {
+    protected Particle.@NotNull DustOptions getDustOptions() {
         return new Particle.DustOptions(Color.MAROON, 1);
     }
 

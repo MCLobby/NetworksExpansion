@@ -16,14 +16,14 @@ import org.jetbrains.annotations.NotNull;
 @UtilityClass
 public class GroupConfigUtil {
 
-    public static MainItemGroup getMainItemGroup(
+    public static @NotNull MainItemGroup getMainItemGroup(
             @NotNull String key, @NotNull Material defaultMaterial, @NotNull String defaultName) {
         CustomItemStack customItemStack = new CustomItemStack(defaultMaterial, defaultName);
         NamespacedKey namespacedKey = Keys.newKey(key);
         return new MainItemGroup(namespacedKey, customItemStack, 0);
     }
 
-    public static SubFlexItemGroup getSubFlexItemGroup(
+    public static @NotNull SubFlexItemGroup getSubFlexItemGroup(
             @NotNull String key, @NotNull Material defaultMaterial, @NotNull String defaultName) {
         CustomItemStack customItemStack = new CustomItemStack(defaultMaterial, defaultName);
         NamespacedKey namespacedKey = Keys.newKey(key);

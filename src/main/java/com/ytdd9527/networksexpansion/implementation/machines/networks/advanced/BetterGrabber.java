@@ -39,7 +39,11 @@ public class BetterGrabber extends NetworkDirectional {
     private static final int[] TEMPLATE_BACKGROUND = new int[] {16};
     private static final int[] TEMPLATE_SLOTS = new int[] {24, 25, 26, 34};
 
-    public BetterGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public BetterGrabber(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.GRABBER);
         for (int slot : getItemSlots()) {
             this.getSlotsToDrop().add(slot);
@@ -137,7 +141,7 @@ public class BetterGrabber extends NetworkDirectional {
     }
 
     @Override
-    protected Particle.DustOptions getDustOptions() {
+    protected Particle.@NotNull DustOptions getDustOptions() {
         return new Particle.DustOptions(Color.FUCHSIA, 1);
     }
 

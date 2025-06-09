@@ -5,6 +5,7 @@ import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.listeners.ExplosiveToolListener;
 import io.github.sefiraat.networks.listeners.SyncListener;
 import org.bukkit.event.Listener;
+import org.jetbrains.annotations.NotNull;
 
 public class ListenerManager {
 
@@ -20,7 +21,7 @@ public class ListenerManager {
         }
     }
 
-    private void addListener(Listener listener) {
+    private void addListener(@NotNull Listener listener) {
         Networks.getPluginManager().registerEvents(listener, Networks.getInstance());
     }
 }

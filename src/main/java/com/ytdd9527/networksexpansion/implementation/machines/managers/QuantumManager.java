@@ -90,9 +90,13 @@ public class QuantumManager extends NetworkObject {
         SORT_MAP.put(GridCache.SortOrder.NUMBER_REVERSE, Sorters.BARREL_NUMERICAL_SORT.reversed());
     }
 
-    private final IntRangeSetting tickRate;
+    private final @NotNull IntRangeSetting tickRate;
 
-    public QuantumManager(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public QuantumManager(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.QUANTUM_MANAGER);
 
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
@@ -108,7 +112,7 @@ public class QuantumManager extends NetworkObject {
             }
 
             @Override
-            public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
+            public void tick(@NotNull Block block, SlimefunItem item, @NotNull SlimefunBlockData data) {
                 if (tick <= 1) {
                     final BlockMenu blockMenu = data.getBlockMenu();
                     if (blockMenu == null) {
@@ -126,7 +130,7 @@ public class QuantumManager extends NetworkObject {
         });
     }
 
-    public static String getStorageName(@NotNull Location barrelLocation) {
+    public static @Nullable String getStorageName(@NotNull Location barrelLocation) {
         return StorageCacheUtils.getData(barrelLocation, BS_NAME);
     }
 
@@ -136,7 +140,7 @@ public class QuantumManager extends NetworkObject {
         player.sendMessage(Lang.getString("messages.completed-operation.manager.set_icon"));
     }
 
-    public static ItemStack getStorageIcon(@NotNull Location barrelLocation) {
+    public static @Nullable ItemStack getStorageIcon(@NotNull Location barrelLocation) {
         String icon = StorageCacheUtils.getData(barrelLocation, BS_ICON);
         if (icon == null) {
             return null;
@@ -144,7 +148,7 @@ public class QuantumManager extends NetworkObject {
         return deserializeIcon(icon);
     }
 
-    public static String serializeIcon(@NotNull ItemStack itemStack) {
+    public static @NotNull String serializeIcon(@NotNull ItemStack itemStack) {
         var sf = SlimefunItem.getByItem(itemStack);
         if (sf != null) {
             return NAMESPACE_SF + ":" + sf.getId();
@@ -222,7 +226,7 @@ public class QuantumManager extends NetworkObject {
         menu.open(player);
     }
 
-    public static List<BarrelIdentity> getBarrels(NetworkRoot root, GridCache cache) {
+    public static @NotNull List<BarrelIdentity> getBarrels(@NotNull NetworkRoot root, @NotNull GridCache cache) {
         return root
                 .getBarrels(
                         barrel -> barrel instanceof io.github.sefiraat.networks.network.barrel.NetworkStorage,
@@ -324,7 +328,7 @@ public class QuantumManager extends NetworkObject {
         });
     }
 
-    public void updateDisplay(BlockMenu blockMenu) {
+    public void updateDisplay(@Nullable BlockMenu blockMenu) {
         if (blockMenu == null) {
             return;
         }
@@ -434,7 +438,7 @@ public class QuantumManager extends NetworkObject {
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
 
-    public List<String> getLoreAddition(BarrelIdentity barrel) {
+    public @NotNull List<String> getLoreAddition(@NotNull BarrelIdentity barrel) {
         var loc = barrel.getLocation();
         List<String> list = new ArrayList<>();
         list.add("");
@@ -596,27 +600,27 @@ public class QuantumManager extends NetworkObject {
         }
     }
 
-    protected ItemStack getBlankSlotStack() {
+    protected @NotNull ItemStack getBlankSlotStack() {
         return Icon.BLANK_SLOT_STACK;
     }
 
-    protected ItemStack getPagePreviousStack() {
+    protected @NotNull ItemStack getPagePreviousStack() {
         return Icon.PAGE_PREVIOUS_STACK;
     }
 
-    protected ItemStack getPageNextStack() {
+    protected @NotNull ItemStack getPageNextStack() {
         return Icon.PAGE_NEXT_STACK;
     }
 
-    protected ItemStack getChangeSortStack() {
+    protected @NotNull ItemStack getChangeSortStack() {
         return Icon.CHANGE_SORT_STACK;
     }
 
-    protected ItemStack getFilterStack() {
+    protected @NotNull ItemStack getFilterStack() {
         return Icon.FILTER_STACK;
     }
 
-    protected void clearDisplay(BlockMenu blockMenu) {
+    protected void clearDisplay(@NotNull BlockMenu blockMenu) {
         for (int displaySlot : getDisplaySlots()) {
             blockMenu.replaceExistingItem(displaySlot, getBlankSlotStack());
             blockMenu.addMenuClickHandler(displaySlot, (p, slot, item, action) -> false);

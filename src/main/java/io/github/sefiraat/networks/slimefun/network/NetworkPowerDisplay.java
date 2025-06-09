@@ -32,7 +32,11 @@ public class NetworkPowerDisplay extends NetworkObject {
     private static final int[] BACKGROUND_SLOTS = new int[] {0, 1, 2, 3, 5, 6, 7, 8};
     private static final int DISPLAY_SLOT = 4;
 
-    public NetworkPowerDisplay(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public NetworkPowerDisplay(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.POWER_DISPLAY);
         addItemHandler(new BlockTicker() {
             @Override
@@ -41,7 +45,7 @@ public class NetworkPowerDisplay extends NetworkObject {
             }
 
             @Override
-            public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
+            public void tick(@NotNull Block block, SlimefunItem slimefunItem, @NotNull SlimefunBlockData data) {
                 BlockMenu blockMenu = data.getBlockMenu();
                 if (blockMenu != null) {
                     addToRegistry(block);
@@ -51,14 +55,14 @@ public class NetworkPowerDisplay extends NetworkObject {
         });
     }
 
-    private static ItemStack getChargeStack(long charge) {
+    private static @NotNull ItemStack getChargeStack(long charge) {
         return ItemStackUtil.getCleanItem(new CustomItemStack(
                 Material.GREEN_STAINED_GLASS_PANE,
                 Lang.getString("icons.power_display.status_title"),
                 String.format(Lang.getString("icons.power_display.charge"), charge)));
     }
 
-    private void setDisplay(BlockMenu blockMenu) {
+    private void setDisplay(@NotNull BlockMenu blockMenu) {
         if (blockMenu.hasViewer()) {
             final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 

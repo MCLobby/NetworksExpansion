@@ -31,7 +31,11 @@ public class NetworkRake extends LimitedUseItem {
     private static final NamespacedKey key = Keys.newKey("uses");
 
     public NetworkRake(
-            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int amount) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack @NotNull [] recipe,
+            int amount) {
         super(itemGroup, item, recipeType, recipe);
         setMaxUseCount(amount);
     }
@@ -51,7 +55,7 @@ public class NetworkRake extends LimitedUseItem {
         return this::onUse;
     }
 
-    protected void onUse(PlayerRightClickEvent e) {
+    protected void onUse(@NotNull PlayerRightClickEvent e) {
         e.cancel();
         final Optional<Block> optional = e.getClickedBlock();
         if (optional.isPresent()) {

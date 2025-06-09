@@ -46,10 +46,14 @@ public class TransferGrabber extends NetworkDirectional implements RecipeDisplay
     private static final String KEY_UUID = "display-uuid";
     private final HashMap<Location, Integer> TICKER_MAP = new HashMap<>();
     private boolean useSpecialModel;
-    private Function<Location, DisplayGroup> displayGroupGenerator;
+    private @Nullable Function<Location, DisplayGroup> displayGroupGenerator;
     private int grabItemTick;
 
-    public TransferGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public TransferGrabber(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.TRANSFER_GRABBER);
         loadConfigurations();
     }
@@ -144,7 +148,7 @@ public class TransferGrabber extends NetworkDirectional implements RecipeDisplay
     }
 
     @Override
-    protected Particle.DustOptions getDustOptions() {
+    protected Particle.@NotNull DustOptions getDustOptions() {
         return new Particle.DustOptions(Color.LIME, 5);
     }
 

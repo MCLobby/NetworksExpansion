@@ -47,7 +47,7 @@ public class DataTypeMethods {
      * @param defaultVal The default value to use if no key is found
      * @return The object associated with this key or the default value if it doesn't exist
      */
-    public static <T, Z> Z getCustom(
+    public static <T, Z> @NotNull Z getCustom(
             @NotNull PersistentDataHolder holder,
             @NotNull NamespacedKey key,
             @NotNull PersistentDataType<T, Z> type,

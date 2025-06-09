@@ -20,6 +20,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @noinspection deprecation
@@ -39,7 +40,7 @@ public class MainFlexGroup extends FlexItemGroup {
     private static final int[] HEADER = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8};
     private static final int[] FOOTER = new int[] {45, 46, 47, 48, 49, 50, 51, 52, 53};
 
-    public MainFlexGroup(NamespacedKey key, ItemStack item, int tier) {
+    public MainFlexGroup(@NotNull NamespacedKey key, @NotNull ItemStack item, int tier) {
         super(key, item, tier);
     }
 

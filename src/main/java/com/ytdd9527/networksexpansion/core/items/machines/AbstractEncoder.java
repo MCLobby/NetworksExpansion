@@ -42,7 +42,11 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
     private static final int JEG_SLOT = 4;
     private static final int CHARGE_COST = 2000;
 
-    public AbstractEncoder(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public AbstractEncoder(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.ENCODER);
         for (int recipeSlot : RECIPE_SLOTS) {
             this.getSlotsToDrop().add(recipeSlot);

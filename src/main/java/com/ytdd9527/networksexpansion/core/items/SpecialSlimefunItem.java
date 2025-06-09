@@ -38,7 +38,7 @@ public abstract class SpecialSlimefunItem extends SlimefunItem {
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            @NotNull ItemStack[] recipe) {
+            @NotNull ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -46,7 +46,7 @@ public abstract class SpecialSlimefunItem extends SlimefunItem {
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            @NotNull ItemStack[] recipe,
+            @NotNull ItemStack @NotNull [] recipe,
             @Nullable ItemStack recipeOutput) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
     }
@@ -56,11 +56,11 @@ public abstract class SpecialSlimefunItem extends SlimefunItem {
             @NotNull ItemStack item,
             @NotNull String id,
             @NotNull RecipeType recipeType,
-            @NotNull ItemStack[] recipe) {
+            @NotNull ItemStack @NotNull [] recipe) {
         super(itemGroup, item, id, recipeType, recipe);
     }
 
-    public static void subscribe(Player player, Location location) {
+    public static void subscribe(@NotNull Player player, Location location) {
         UUID key = player.getUniqueId();
         if (!subscribedLocations.containsKey(key)) {
             subscribedLocations.put(key, new HashSet<>());
@@ -68,14 +68,14 @@ public abstract class SpecialSlimefunItem extends SlimefunItem {
         subscribedLocations.get(key).add(location);
     }
 
-    public static void unsubscribe(Player player, Location location) {
+    public static void unsubscribe(@NotNull Player player, Location location) {
         UUID key = player.getUniqueId();
         if (subscribedLocations.containsKey(key)) {
             subscribedLocations.get(key).remove(location);
         }
     }
 
-    public static boolean hasSubscribed(Player player, Location location) {
+    public static boolean hasSubscribed(@NotNull Player player, Location location) {
         UUID key = player.getUniqueId();
         if (subscribedLocations.containsKey(key)) {
             return subscribedLocations.get(key).contains(location);
@@ -112,7 +112,7 @@ public abstract class SpecialSlimefunItem extends SlimefunItem {
         return this;
     }
 
-    public void sendFeedback(Location location, FeedbackType type) {
+    public void sendFeedback(@NotNull Location location, @NotNull FeedbackType type) {
         for (UUID uuid : subscribedLocations.keySet()) {
             if (subscribedLocations.get(uuid).contains(location)) {
                 Player player = Bukkit.getServer().getPlayer(uuid);
@@ -123,7 +123,7 @@ public abstract class SpecialSlimefunItem extends SlimefunItem {
         }
     }
 
-    public void sendFeedback(Player player, Location location, String message) {
+    public void sendFeedback(@NotNull Player player, @NotNull Location location, String message) {
         player.sendMessage(String.format(
                 Lang.getString("messages.debug.status_view"), LocationUtil.humanizeBlock(location), message));
     }

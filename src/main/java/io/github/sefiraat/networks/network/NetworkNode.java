@@ -17,6 +17,7 @@ import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @ToString
 public class NetworkNode {
@@ -34,9 +35,9 @@ public class NetworkNode {
     protected final long power;
 
     @Getter
-    protected NetworkNode parent = null;
+    protected @Nullable NetworkNode parent = null;
 
-    protected NetworkRoot root = null;
+    protected @Nullable NetworkRoot root = null;
 
     public NetworkNode(Location location, NodeType type) {
         this.nodePosition = location;

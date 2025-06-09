@@ -79,9 +79,13 @@ public class CrafterManager extends NetworkObject {
     private static final String NAMESPACE_SF = "sf";
     private static final String NAMESPACE_MC = "mc";
 
-    private final IntRangeSetting tickRate;
+    private final @NotNull IntRangeSetting tickRate;
 
-    public CrafterManager(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public CrafterManager(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.CRAFTER_MANAGER);
 
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
@@ -97,7 +101,7 @@ public class CrafterManager extends NetworkObject {
             }
 
             @Override
-            public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
+            public void tick(@NotNull Block block, SlimefunItem item, @NotNull SlimefunBlockData data) {
                 if (tick <= 1) {
                     final BlockMenu blockMenu = data.getBlockMenu();
                     if (blockMenu == null) {
@@ -115,7 +119,7 @@ public class CrafterManager extends NetworkObject {
         });
     }
 
-    public static String getCrafterName(@NotNull Location crafterLocation) {
+    public static @Nullable String getCrafterName(@NotNull Location crafterLocation) {
         return StorageCacheUtils.getData(crafterLocation, BS_NAME);
     }
 
@@ -125,7 +129,7 @@ public class CrafterManager extends NetworkObject {
         player.sendMessage(Lang.getString("messages.completed-operation.manager.set_icon"));
     }
 
-    public static ItemStack getCrafterIcon(@NotNull Location crafterLocation) {
+    public static @Nullable ItemStack getCrafterIcon(@NotNull Location crafterLocation) {
         String icon = StorageCacheUtils.getData(crafterLocation, BS_ICON);
         if (icon == null) {
             return null;
@@ -133,7 +137,7 @@ public class CrafterManager extends NetworkObject {
         return deserializeIcon(icon);
     }
 
-    public static String serializeIcon(@NotNull ItemStack itemStack) {
+    public static @NotNull String serializeIcon(@NotNull ItemStack itemStack) {
         var sf = SlimefunItem.getByItem(itemStack);
         if (sf != null) {
             return NAMESPACE_SF + ":" + sf.getId();
@@ -177,7 +181,7 @@ public class CrafterManager extends NetworkObject {
         ParticleUtil.highlightBlock(crafterLocation);
     }
 
-    public static ItemStack getItemStack(@NotNull CrafterMetaData data) {
+    public static @NotNull ItemStack getItemStack(@NotNull CrafterMetaData data) {
         ItemStack raw = null;
         if (data.instance() != null) {
             raw = data.instance().getItemStack();
@@ -333,7 +337,7 @@ public class CrafterManager extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
-    public void updateDisplay(BlockMenu managerMenu) {
+    public void updateDisplay(@Nullable BlockMenu managerMenu) {
         if (managerMenu == null) {
             return;
         }
@@ -443,7 +447,7 @@ public class CrafterManager extends NetworkObject {
         sendFeedback(managerMenu.getLocation(), FeedbackType.WORKING);
     }
 
-    public List<String> getLoreAddition(CrafterMetaData data) {
+    public @NotNull List<String> getLoreAddition(@NotNull CrafterMetaData data) {
         var loc = data.location();
         List<String> list = new ArrayList<>();
         list.add("");
@@ -572,19 +576,19 @@ public class CrafterManager extends NetworkObject {
         return PAGE_NEXT;
     }
 
-    protected ItemStack getBlankSlotStack() {
+    protected @NotNull ItemStack getBlankSlotStack() {
         return Icon.DARK_BLANK_SLOT_STACK;
     }
 
-    protected ItemStack getPagePreviousStack() {
+    protected @NotNull ItemStack getPagePreviousStack() {
         return Icon.PAGE_PREVIOUS_STACK;
     }
 
-    protected ItemStack getPageNextStack() {
+    protected @NotNull ItemStack getPageNextStack() {
         return Icon.PAGE_NEXT_STACK;
     }
 
-    protected void clearDisplay(BlockMenu blockMenu) {
+    protected void clearDisplay(@NotNull BlockMenu blockMenu) {
         for (int displaySlot : getDisplaySlots()) {
             blockMenu.replaceExistingItem(displaySlot, getBlankSlotStack());
             blockMenu.addMenuClickHandler(displaySlot, (p, slot, item, action) -> false);

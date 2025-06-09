@@ -112,7 +112,7 @@ public class TextUtil {
         return TextUtil.colorString(string, colorList);
     }
 
-    public static String getRandomColor() {
+    public static @NotNull String getRandomColor() {
         return "§x" + "§"
                 + (TextUtil.codeColor((int) (Math.random() * 8) + 8)) + "§"
                 + (TextUtil.codeColor((int) (Math.random() * 8) + 8)) + "§"
@@ -122,7 +122,7 @@ public class TextUtil {
                 + (TextUtil.codeColor((int) (Math.random() * 8) + 8));
     }
 
-    public static String getPseudorandomColor(long seed) {
+    public static @NotNull String getPseudorandomColor(long seed) {
         COUNT += seed;
         Random random = new Random(COUNT);
         return "§x" + "§"
@@ -159,7 +159,7 @@ public class TextUtil {
         return Color.fromRGB(color.getRed(), color.getGreen(), color.getBlue());
     }
 
-    public static Color[] disperse(int size, Color... colors) {
+    public static Color @NotNull [] disperse(int size, Color @NotNull ... colors) {
         if (size == 1 && colors.length > 0) {
             return new Color[] {TextUtil.cloneColor(colors[0])};
         } else if (size == 0 || colors.length == 0) {
@@ -181,7 +181,7 @@ public class TextUtil {
         return result;
     }
 
-    public static Color[] disperse(int size, List<Color> colorList) {
+    public static Color @NotNull [] disperse(int size, @NotNull List<Color> colorList) {
         if (size == 1 && !colorList.isEmpty()) {
             return new Color[] {TextUtil.cloneColor(colorList.get(0))};
         } else if (size == 0 || colorList.isEmpty()) {

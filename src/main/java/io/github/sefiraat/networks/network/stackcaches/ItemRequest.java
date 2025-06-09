@@ -27,7 +27,7 @@ public class ItemRequest extends ItemStackCache {
         return originalAmount - amount;
     }
 
-    public String toString() {
+    public @NotNull String toString() {
         return "ItemRequest{" + "itemStack=" + getItemStack() + ", amount=" + amount + '}';
     }
 }

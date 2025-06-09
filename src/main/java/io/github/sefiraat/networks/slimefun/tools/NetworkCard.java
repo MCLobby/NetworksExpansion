@@ -31,7 +31,11 @@ public class NetworkCard extends SlimefunItem implements DistinctiveItem {
     private final int size;
 
     public NetworkCard(
-            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int size) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack @NotNull [] recipe,
+            int size) {
         super(itemGroup, item, recipeType, recipe);
         this.size = size;
         addItemHandler((ItemUseHandler) e -> {

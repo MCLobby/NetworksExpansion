@@ -11,6 +11,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.WeaponUseHandler;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -20,7 +21,10 @@ import org.jetbrains.annotations.Nullable;
 // TODO: Optimization
 public class UnusableSlimefunItem extends SpecialSlimefunItem {
     public UnusableSlimefunItem(
-            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
         this.addItemHandler(MachineUtil.BLOCK_PLACE_HANDLER_DENY);
         this.addItemHandler((ItemUseHandler) PlayerRightClickEvent::cancel);
@@ -30,9 +34,9 @@ public class UnusableSlimefunItem extends SpecialSlimefunItem {
     }
 
     public UnusableSlimefunItem(
-            ItemGroup itemGroup,
-            SlimefunItemStack item,
-            RecipeType recipeType,
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
             ItemStack[] recipe,
             @Nullable ItemStack recipeOutput) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);

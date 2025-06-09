@@ -49,7 +49,10 @@ public class NetworkVanillaGrabber extends NetworkDirectional {
     private static final int DOWN_SLOT = 32;
 
     public NetworkVanillaGrabber(
-            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.PUSHER);
         this.getSlotsToDrop().add(OUTPUT_SLOT);
     }
@@ -218,7 +221,7 @@ public class NetworkVanillaGrabber extends NetworkDirectional {
     }
 
     @Override
-    protected Particle.DustOptions getDustOptions() {
+    protected Particle.@NotNull DustOptions getDustOptions() {
         return new Particle.DustOptions(Color.MAROON, 1);
     }
 }

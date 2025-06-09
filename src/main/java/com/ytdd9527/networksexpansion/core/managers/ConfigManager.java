@@ -12,6 +12,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 public class ConfigManager {
 
@@ -65,7 +66,7 @@ public class ConfigManager {
         return Networks.getInstance().getConfig().getBoolean("debug", false);
     }
 
-    public String getLanguage() {
+    public @NotNull String getLanguage() {
         return Networks.getInstance().getConfig().getString("language", "zh-CN");
     }
 

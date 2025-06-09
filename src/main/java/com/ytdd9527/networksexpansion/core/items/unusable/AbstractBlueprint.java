@@ -17,6 +17,7 @@ import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractBlueprint extends UnusableSlimefunItem implements DistinctiveItem {
 
@@ -59,7 +60,7 @@ public abstract class AbstractBlueprint extends UnusableSlimefunItem implements 
      * Fix https://github.com/Sefiraat/Networks/issues/201
      */
     @Override
-    public boolean canStack(ItemMeta meta1, ItemMeta meta2) {
+    public boolean canStack(@NotNull ItemMeta meta1, @NotNull ItemMeta meta2) {
         return meta1.getPersistentDataContainer().equals(meta2.getPersistentDataContainer());
     }
 }

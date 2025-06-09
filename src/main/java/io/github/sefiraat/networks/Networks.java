@@ -58,9 +58,9 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
     private static BukkitRunnable autoSaveThread;
 
     private static MinecraftVersion minecraftVersion = MinecraftVersion.UNKNOWN;
-    private final String username;
-    private final String repo;
-    private final String branch;
+    private final @NotNull String username;
+    private final @NotNull String repo;
+    private final @NotNull String branch;
     private ConfigManager configManager;
     private ListenerManager listenerManager;
     private SupportedPluginManager supportedPluginManager;

@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import lombok.Data;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 @Data
 public class ItemFlowRecord {
@@ -29,7 +30,7 @@ public class ItemFlowRecord {
         actions.clear();
     }
 
-    public void addAction(Location accessor, ItemStack before, int after) {
+    public void addAction(Location accessor, @NotNull ItemStack before, int after) {
         int change = before.getAmount() - after;
         if (change == 0) {
             return;
@@ -46,7 +47,7 @@ public class ItemFlowRecord {
         list.add(action);
     }
 
-    public void addAction(Location accessor, ItemRequest request) {
+    public void addAction(Location accessor, @NotNull ItemRequest request) {
         if (request.getReceivedAmount() == 0) {
             return;
         }

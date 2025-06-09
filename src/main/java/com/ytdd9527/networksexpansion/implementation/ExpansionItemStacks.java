@@ -7,6 +7,7 @@ import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author ytdd9527
@@ -477,12 +478,12 @@ public class ExpansionItemStacks {
     public static final SlimefunItemStack ADVANCED_VACUUM = Theme.themedSlimefunItemStack(
             Lang.getItem("NTW_EXPANSION_ADVANCED_VACUUM", Material.PINK_GLAZED_TERRACOTTA), Theme.MACHINE);
 
-    public static ItemStack enchanted(Material material) {
+    public static @NotNull ItemStack enchanted(@NotNull Material material) {
         return ItemStackUtil.getPreEnchantedItemStack(material);
     }
 
     @Deprecated
-    public static ItemStack Enchanted(Material material) {
+    public static @NotNull ItemStack Enchanted(@NotNull Material material) {
         return ItemStackUtil.getPreEnchantedItemStack(material);
     }
 }

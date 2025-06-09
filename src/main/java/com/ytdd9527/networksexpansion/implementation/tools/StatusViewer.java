@@ -25,7 +25,7 @@ public class StatusViewer extends SpecialSlimefunItem {
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            @NotNull ItemStack[] recipe) {
+            @NotNull ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -34,7 +34,7 @@ public class StatusViewer extends SpecialSlimefunItem {
         addItemHandler((ItemUseHandler) this::onUse);
     }
 
-    protected void onUse(PlayerRightClickEvent e) {
+    protected void onUse(@NotNull PlayerRightClickEvent e) {
         final Optional<Block> optional = e.getClickedBlock();
         if (optional.isPresent()) {
             final Block block = optional.get();

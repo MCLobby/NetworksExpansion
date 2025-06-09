@@ -24,7 +24,11 @@ public class AdvancedGreedyBlock extends NetworkObject {
     private static final int[] BACKGROUND_SLOTS_TEMPLATE = new int[] {0, 1, 2, 9, 11, 18, 19, 20};
     private static final int[] BACKGROUND_SLOTS_INPUT = new int[] {5, 14, 23};
 
-    public AdvancedGreedyBlock(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public AdvancedGreedyBlock(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.ADVANCED_GREEDY_BLOCK);
         for (int slot : INPUT_SLOTS) {
             this.getSlotsToDrop().add(slot);

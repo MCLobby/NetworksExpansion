@@ -23,7 +23,7 @@ public class RandomMachineRecipe extends MachineRecipe {
     private int[] weightBeginValues;
     private int weightSum = 0;
 
-    public RandomMachineRecipe(@NotNull MachineRecipe machineRecipe, @NotNull RandomOutput[] randomOutputs) {
+    public RandomMachineRecipe(@NotNull MachineRecipe machineRecipe, @NotNull RandomOutput @NotNull [] randomOutputs) {
         super(machineRecipe.getTicks(), machineRecipe.getInput(), new ItemStack[0]);
         this.randomOutputs = randomOutputs;
         this.weightBeginValues = new int[randomOutputs.length];
@@ -33,7 +33,7 @@ public class RandomMachineRecipe extends MachineRecipe {
         }
     }
 
-    public RandomMachineRecipe(@NotNull ItemStack[] input, @NotNull RandomOutput[] randomOutputs) {
+    public RandomMachineRecipe(@NotNull ItemStack[] input, @NotNull RandomOutput @NotNull [] randomOutputs) {
         super(0, input, new ItemStack[0]);
         this.randomOutputs = randomOutputs;
         this.weightBeginValues = new int[randomOutputs.length];
@@ -81,7 +81,7 @@ public class RandomMachineRecipe extends MachineRecipe {
         return this.randomOutputs;
     }
 
-    @NotNull public RandomMachineRecipe addRandomOutput(@NotNull RandomOutput... randomOutputs) {
+    @NotNull public RandomMachineRecipe addRandomOutput(@NotNull RandomOutput @NotNull ... randomOutputs) {
         RandomOutput[] newRandomOutput = new RandomOutput[this.randomOutputs.length + randomOutputs.length];
         int[] newWeightBeginValues = new int[this.weightBeginValues.length + randomOutputs.length];
         System.arraycopy(this.randomOutputs, 0, newRandomOutput, 0, this.randomOutputs.length);

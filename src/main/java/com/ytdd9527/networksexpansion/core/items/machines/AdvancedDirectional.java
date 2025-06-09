@@ -67,14 +67,18 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     private static final Map<Location, Integer> NETWORK_LIMIT_QUANTITY_MAP = new HashMap<>();
     private static final Map<Location, TransportMode> NETWORK_TRANSPORT_MODE_MAP = new HashMap<>();
     final NetworkDirectional instance = this;
-    private final ItemStack showIconClone;
-    private final ItemStack transportModeIconClone;
+    private final @NotNull ItemStack showIconClone;
+    private final @NotNull ItemStack transportModeIconClone;
 
     @SuppressWarnings("unused")
-    public TransportMode transportMode = TransportMode.FIRST_STOP;
+    public @NotNull TransportMode transportMode = TransportMode.FIRST_STOP;
 
     protected AdvancedDirectional(
-            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, NodeType type) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe,
+            NodeType type) {
         super(itemGroup, item, recipeType, recipe, type);
         this.showIconClone = Icon.SHOW_ICON.clone();
         this.transportModeIconClone = Icon.TRANSPORT_MODE_ICON.clone();
@@ -86,7 +90,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
             }
 
             @Override
-            public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
+            public void tick(@NotNull Block block, SlimefunItem slimefunItem, @NotNull SlimefunBlockData data) {
                 onTick(data.getBlockMenu(), block);
             }
 
@@ -492,19 +496,19 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         return this.showIconClone;
     }
 
-    public ItemStack getMinusIcon() {
+    public @NotNull ItemStack getMinusIcon() {
         return Icon.MINUS_ICON;
     }
 
-    public ItemStack getAddIcon() {
+    public @NotNull ItemStack getAddIcon() {
         return Icon.ADD_ICON;
     }
 
-    public ItemStack getTransportModeIcon() {
+    public @NotNull ItemStack getTransportModeIcon() {
         return Icon.TRANSPORT_MODE_ICON;
     }
 
-    public int getLimitQuantity(Location location) {
+    public int getLimitQuantity(@NotNull Location location) {
         Integer quantity = NETWORK_LIMIT_QUANTITY_MAP.get(location.clone());
         if (quantity == null) {
             var squantity = StorageCacheUtils.getData(location, LIMIT_KEY);
@@ -518,12 +522,12 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         return quantity;
     }
 
-    public void setLimitQuantity(Location location, int quantity) {
+    public void setLimitQuantity(@NotNull Location location, int quantity) {
         NETWORK_LIMIT_QUANTITY_MAP.put(location.clone(), quantity);
         StorageCacheUtils.setData(location, LIMIT_KEY, Integer.toString(quantity));
     }
 
-    public TransportMode getCurrentTransportMode(Location location) {
+    public @NotNull TransportMode getCurrentTransportMode(@NotNull Location location) {
         TransportMode mode = NETWORK_TRANSPORT_MODE_MAP.get(location.clone());
         if (mode == null) {
             mode = TransportMode.valueOf(StorageCacheUtils.getData(location, TRANSPORT_MODE_KEY));
@@ -532,13 +536,13 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         return mode;
     }
 
-    public void setTransportMode(Location location, TransportMode mode) {
+    public void setTransportMode(@NotNull Location location, TransportMode mode) {
         NETWORK_TRANSPORT_MODE_MAP.put(location.clone(), mode);
         StorageCacheUtils.setData(location, TRANSPORT_MODE_KEY, String.valueOf(mode));
     }
 
     @SuppressWarnings("deprecation")
-    public boolean toggleTransportMode(Location location, ClickAction action) {
+    public boolean toggleTransportMode(@NotNull Location location, @NotNull ClickAction action) {
         TransportMode mode = getCurrentTransportMode(location);
         if (action.isRightClicked()) {
             setTransportMode(location, mode.previous());
@@ -549,7 +553,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         return false;
     }
 
-    public void minusLimitQuantity(Location location, int quantity) {
+    public void minusLimitQuantity(@NotNull Location location, int quantity) {
         int limitQuantity = getLimitQuantity(location);
         if (limitQuantity - quantity >= 1) {
             setLimitQuantity(location, (limitQuantity - quantity));
@@ -559,7 +563,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         updateShowIcon(location);
     }
 
-    public void addLimitQuantity(Location location, int quantity) {
+    public void addLimitQuantity(@NotNull Location location, int quantity) {
         int limitQuantity = getLimitQuantity(location);
         int newQuantity = limitQuantity + quantity;
         if (isExceedLimit(newQuantity)) {
@@ -574,7 +578,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     public abstract int getMaxLimit();
 
     @SuppressWarnings("deprecation")
-    public void updateShowIcon(Location location) {
+    public void updateShowIcon(@NotNull Location location) {
         ItemMeta itemMeta = this.showIconClone.getItemMeta();
         List<String> lore = new ArrayList<>();
         var old = itemMeta.getLore();
@@ -596,7 +600,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     }
 
     @SuppressWarnings("deprecation")
-    public void updateTransportModeIcon(Location location) {
+    public void updateTransportModeIcon(@NotNull Location location) {
         ItemMeta itemMeta = this.transportModeIconClone.getItemMeta();
         List<String> lore = new ArrayList<>();
         var old = itemMeta.getLore();

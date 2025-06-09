@@ -49,7 +49,10 @@ public class NetworkWirelessTransmitter extends NetworkObject {
     private final Map<Location, Location> linkedLocations = new HashMap<>();
 
     public NetworkWirelessTransmitter(
-            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.WIRELESS_TRANSMITTER);
         this.getSlotsToDrop().add(TEMPLATE_SLOT);
 
@@ -63,7 +66,7 @@ public class NetworkWirelessTransmitter extends NetworkObject {
             }
 
             @Override
-            public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
+            public void tick(@NotNull Block block, SlimefunItem slimefunItem, @NotNull SlimefunBlockData data) {
                 BlockMenu blockMenu = data.getBlockMenu();
                 if (blockMenu != null) {
                     addToRegistry(block);

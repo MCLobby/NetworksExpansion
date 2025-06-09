@@ -10,23 +10,24 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import java.util.Map;
 import java.util.Set;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class AutoJuicer extends AbstractAutoCrafter {
     public AutoJuicer(
-            ItemGroup itemGroup,
-            SlimefunItemStack item,
-            RecipeType recipeType,
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
             ItemStack[] recipe,
             int chargePerCraft,
             boolean withholding) {
         super(itemGroup, item, recipeType, recipe, chargePerCraft, withholding);
     }
 
-    public Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {
+    public @NotNull Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {
         return SupportedJuicerRecipes.getRecipes().entrySet();
     }
 
-    public boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe) {
+    public boolean getRecipeTester(ItemStack[] inputs, ItemStack @NotNull [] recipe) {
         return SupportedJuicerRecipes.testRecipe(inputs, recipe);
     }
 

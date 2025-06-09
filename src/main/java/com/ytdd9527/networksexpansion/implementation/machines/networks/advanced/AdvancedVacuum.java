@@ -71,10 +71,14 @@ public class AdvancedVacuum extends NetworkObject {
     private static final int[] FILTER_SLOTS = new int[] {27, 28, 29, 30, 31, 32, 33, 34, 35};
     private static final int FILTER_MODE_SLOT = 36;
     private static final int MATCH_MODE_SLOT = 37;
-    private final ItemSetting<Integer> tickRate;
-    private final ItemSetting<Integer> vacuumRange;
+    private final @NotNull ItemSetting<Integer> tickRate;
+    private final @NotNull ItemSetting<Integer> vacuumRange;
 
-    public AdvancedVacuum(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public AdvancedVacuum(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.ADVANCED_VACUUM);
 
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
@@ -95,7 +99,7 @@ public class AdvancedVacuum extends NetworkObject {
             }
 
             @Override
-            public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
+            public void tick(@NotNull Block block, SlimefunItem item, @NotNull SlimefunBlockData data) {
                 if (tick <= 1) {
                     final BlockMenu blockMenu = data.getBlockMenu();
                     if (blockMenu == null) {
@@ -138,11 +142,11 @@ public class AdvancedVacuum extends NetworkObject {
         });
     }
 
-    public static void clearFilterItemsCache(BlockMenu menu) {
+    public static void clearFilterItemsCache(@NotNull BlockMenu menu) {
         CACHE_FILTER_ITEMS.remove(menu.getLocation());
     }
 
-    public static List<ItemStack> getFilterItemStacksFromMenu(BlockMenu menu) {
+    public static @NotNull List<ItemStack> getFilterItemStacksFromMenu(@NotNull BlockMenu menu) {
         List<ItemStack> filterItemStacks = new ArrayList<>();
         for (int slot : FILTER_SLOTS) {
             ItemStack itemStack = menu.getItemInSlot(slot);
@@ -154,7 +158,7 @@ public class AdvancedVacuum extends NetworkObject {
         return filterItemStacks;
     }
 
-    public static List<ItemStack> getFilterItemStacks(BlockMenu menu) {
+    public static @NotNull List<ItemStack> getFilterItemStacks(@NotNull BlockMenu menu) {
         List<ItemStack> cache = CACHE_FILTER_ITEMS.get(menu.getLocation());
         if (cache != null) {
             return cache;
@@ -165,7 +169,7 @@ public class AdvancedVacuum extends NetworkObject {
         return filterItemStacks;
     }
 
-    public static boolean isAllowedItemStack(BlockMenu menu, ItemStack item) {
+    public static boolean isAllowedItemStack(@NotNull BlockMenu menu, @NotNull ItemStack item) {
         List<ItemStack> itemStacks = getFilterItemStacks(menu);
         FilterMode filterMode = getFilterMode(menu);
         MatchMode matchMode = getMatchMode(menu);
@@ -221,7 +225,7 @@ public class AdvancedVacuum extends NetworkObject {
         updateBlockMenu(blockMenu);
     }
 
-    public static FilterMode getFilterMode(@NotNull BlockMenu blockMenu) {
+    public static @NotNull FilterMode getFilterMode(@NotNull BlockMenu blockMenu) {
         Location location = blockMenu.getLocation();
         FilterMode cache = CACHE_FILTER_MODE.get(location);
         if (cache != null) {
@@ -242,7 +246,7 @@ public class AdvancedVacuum extends NetworkObject {
         }
     }
 
-    public static MatchMode getMatchMode(@NotNull BlockMenu blockMenu) {
+    public static @NotNull MatchMode getMatchMode(@NotNull BlockMenu blockMenu) {
         Location location = blockMenu.getLocation();
         MatchMode cache = CACHE_MATCH_MODE.get(location);
         if (cache != null) {
@@ -263,14 +267,14 @@ public class AdvancedVacuum extends NetworkObject {
         }
     }
 
-    public static ItemStack getFilterModeIcon(@NotNull FilterMode filterMode) {
+    public static @NotNull ItemStack getFilterModeIcon(@NotNull FilterMode filterMode) {
         return switch (filterMode) {
             case BLACK_LIST -> Icon.FILTER_MODE_BLACK_LIST;
             case WHITE_LIST -> Icon.FILTER_MODE_WHITE_LIST;
         };
     }
 
-    public static ItemStack getMatchModeIcon(@NotNull MatchMode matchMode) {
+    public static @NotNull ItemStack getMatchModeIcon(@NotNull MatchMode matchMode) {
         return switch (matchMode) {
             case ALL_MATCH -> Icon.MATCH_MODE_ALL_MATCH;
             case MATERIAL_MATCH -> Icon.MATCH_MODE_MATERIAL_MATCH;
@@ -294,7 +298,7 @@ public class AdvancedVacuum extends NetworkObject {
                         : Lang.getString("messages.completed-operation.comprehensive.filter_mode_white_list")));
     }
 
-    public static void toggleMatchMode(Player player, @NotNull BlockMenu menu) {
+    public static void toggleMatchMode(@NotNull Player player, @NotNull BlockMenu menu) {
         MatchMode currentMode = MatchMode.ALL_MATCH;
         switch (getMatchMode(menu)) {
             case ALL_MATCH -> {
@@ -311,7 +315,7 @@ public class AdvancedVacuum extends NetworkObject {
                         : Lang.getString("messages.completed-operation.comprehensive.match_mode_material_match")));
     }
 
-    public static void updateBlockMenu(BlockMenu menu) {
+    public static void updateBlockMenu(@NotNull BlockMenu menu) {
         menu.addItem(FILTER_MODE_SLOT, getFilterModeIcon(getFilterMode(menu)));
         menu.addItem(MATCH_MODE_SLOT, getMatchModeIcon(getMatchMode(menu)));
     }

@@ -24,6 +24,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ExpansionWorkbench extends AbstractManualCrafter {
     public static final List<SuperRecipe> RECIPES = new ArrayList<>();
@@ -60,7 +61,7 @@ public class ExpansionWorkbench extends AbstractManualCrafter {
     }
 
     @Override
-    public List<SuperRecipe> getRecipes() {
+    public @NotNull List<SuperRecipe> getRecipes() {
         return RECIPES;
     }
 
@@ -85,18 +86,18 @@ public class ExpansionWorkbench extends AbstractManualCrafter {
     }
 
     @Override
-    public Map<Integer, ItemStack> getBackgrounds() {
+    public @NotNull Map<Integer, ItemStack> getBackgrounds() {
         return BACKGROUNDS;
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public Map<Integer, ChestMenu.MenuClickHandler> getMenuClickHandlers() {
+    public @Nullable Map<Integer, ChestMenu.MenuClickHandler> getMenuClickHandlers() {
         return null;
     }
 
     @Override
-    public BlockPlaceHandler getMachineBlockPlaceHandler() {
+    public @NotNull BlockPlaceHandler getMachineBlockPlaceHandler() {
         return new BlockPlaceHandler(false) {
             @Override
             public void onPlayerPlace(@NotNull BlockPlaceEvent e) {}
@@ -104,7 +105,7 @@ public class ExpansionWorkbench extends AbstractManualCrafter {
     }
 
     @Override
-    public BlockBreakHandler getMachineBlockBreakHandler() {
+    public @NotNull BlockBreakHandler getMachineBlockBreakHandler() {
         return new BlockBreakHandler(false, false) {
             @Override
             @ParametersAreNonnullByDefault
@@ -119,7 +120,7 @@ public class ExpansionWorkbench extends AbstractManualCrafter {
     }
 
     @Override
-    public BlockTicker getMachineBlockTicker() {
+    public @Nullable BlockTicker getMachineBlockTicker() {
         return null;
     }
 

@@ -49,9 +49,9 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
     private final boolean withholding;
 
     public AbstractAutoCrafter(
-            ItemGroup itemGroup,
-            SlimefunItemStack item,
-            RecipeType recipeType,
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
             ItemStack[] recipe,
             int chargePerCraft,
             boolean withholding) {
@@ -70,7 +70,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
             }
 
             @Override
-            public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
+            public void tick(@NotNull Block block, SlimefunItem slimefunItem, @NotNull SlimefunBlockData data) {
                 BlockMenu blockMenu = data.getBlockMenu();
                 if (blockMenu != null) {
                     addToRegistry(block);
@@ -254,7 +254,8 @@ public abstract class AbstractAutoCrafter extends NetworkObject {
         return true;
     }
 
-    private void returnItems(@NotNull NetworkRoot root, @NotNull ItemStack[] inputs, @NotNull BlockMenu blockMenu) {
+    private void returnItems(
+            @NotNull NetworkRoot root, @NotNull ItemStack @NotNull [] inputs, @NotNull BlockMenu blockMenu) {
         for (ItemStack input : inputs) {
             if (input != null) {
                 root.addItemStack0(blockMenu.getLocation(), input);

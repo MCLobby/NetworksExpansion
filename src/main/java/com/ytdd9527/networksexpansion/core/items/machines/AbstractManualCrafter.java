@@ -109,7 +109,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
         };
     }
 
-    public void craft(Player player, BlockMenu blockMenu) {
+    public void craft(@NotNull Player player, @NotNull BlockMenu blockMenu) {
         boolean success = false;
         for (SuperRecipe recipe : getRecipes()) {
             if (getCapacity() < recipe.getConsumeEnergy()) {
@@ -133,7 +133,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
         }
     }
 
-    public boolean shapedCraft(SuperRecipe recipe, Player player, BlockMenu blockMenu) {
+    public boolean shapedCraft(@NotNull SuperRecipe recipe, @NotNull Player player, @NotNull BlockMenu blockMenu) {
         World world = blockMenu.getLocation().getWorld();
         if (world == null) {
             return false;
@@ -205,7 +205,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
         return true;
     }
 
-    public boolean shapelessCraft(SuperRecipe recipe, Player player, BlockMenu blockMenu) {
+    public boolean shapelessCraft(@NotNull SuperRecipe recipe, @NotNull Player player, @NotNull BlockMenu blockMenu) {
         World world = blockMenu.getLocation().getWorld();
         if (world == null) {
             return false;

@@ -10,15 +10,20 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import java.util.Map;
 import java.util.Set;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class PressureChamberEncoder extends AbstractEncoder {
 
     public PressureChamberEncoder(
-            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
-    public void blueprintSetter(ItemStack itemStack, ItemStack[] inputs, ItemStack crafted) {
+    public void blueprintSetter(
+            @NotNull ItemStack itemStack, ItemStack @NotNull [] inputs, @NotNull ItemStack crafted) {
         PressureChamberBlueprint.setBlueprint(itemStack, inputs, crafted);
     }
 
@@ -26,11 +31,11 @@ public class PressureChamberEncoder extends AbstractEncoder {
         return SlimefunItem.getByItem(blueprint) instanceof PressureChamberBlueprint;
     }
 
-    public Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {
+    public @NotNull Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {
         return SupportedPressureChamberRecipes.getRecipes().entrySet();
     }
 
-    public boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe) {
+    public boolean getRecipeTester(ItemStack[] inputs, ItemStack @NotNull [] recipe) {
         return SupportedPressureChamberRecipes.testRecipe(inputs, recipe);
     }
 }

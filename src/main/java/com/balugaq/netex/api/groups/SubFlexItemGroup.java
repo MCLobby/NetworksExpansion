@@ -109,7 +109,7 @@ public class SubFlexItemGroup extends FlexItemGroup {
         this.open(player, playerProfile, slimefunGuideMode);
     }
 
-    public void addTo(@NotNull SlimefunItem... slimefunItems) {
+    public void addTo(@NotNull SlimefunItem @NotNull ... slimefunItems) {
         List<SlimefunItem> slimefunItemList = new ArrayList<>();
         for (SlimefunItem slimefunItem : slimefunItems) {
             if (slimefunItem != null && !slimefunItem.isDisabled()) {
@@ -125,7 +125,7 @@ public class SubFlexItemGroup extends FlexItemGroup {
         }
     }
 
-    public void addTo(@NotNull SlimefunItemStack... slimefunItemStacks) {
+    public void addTo(@NotNull SlimefunItemStack @NotNull ... slimefunItemStacks) {
         List<SlimefunItem> slimefunItemList = new ArrayList<>();
         for (SlimefunItemStack slimefunItemStack : slimefunItemStacks) {
             SlimefunItem slimefunItem = SlimefunItem.getByItem(slimefunItemStack);
@@ -158,7 +158,7 @@ public class SubFlexItemGroup extends FlexItemGroup {
         }
     }
 
-    public void addFrom(@NotNull SubFlexItemGroup... subFlexItemGroups) {
+    public void addFrom(@NotNull SubFlexItemGroup @NotNull ... subFlexItemGroups) {
         for (SubFlexItemGroup subFlexItemGroup : subFlexItemGroups) {
             this.slimefunItemList.addAll(subFlexItemGroup.slimefunItemList);
         }

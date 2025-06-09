@@ -47,7 +47,11 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
 
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
 
-    public NetworkGridNewStyle(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public NetworkGridNewStyle(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
