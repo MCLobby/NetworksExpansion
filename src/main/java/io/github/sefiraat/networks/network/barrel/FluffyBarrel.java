@@ -12,16 +12,15 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @Getter
 public class FluffyBarrel extends BarrelIdentity {
     final int limit;
     final boolean voidExcess;
 
-    public FluffyBarrel(Location location, ItemStack itemStack, int amount, int limit, boolean voidExcess) {
+    public FluffyBarrel(@NotNull Location location, ItemStack itemStack, int amount, int limit, boolean voidExcess) {
         super(location, itemStack, amount, BarrelType.FLUFFY);
         this.limit = limit;
         this.voidExcess = voidExcess;
@@ -32,9 +31,8 @@ public class FluffyBarrel extends BarrelIdentity {
         }
     }
 
-    @Nullable
-    @Override
-    public ItemStack requestItem(@Nonnull ItemRequest itemRequest) {
+    @Nullable @Override
+    public ItemStack requestItem(@NotNull ItemRequest itemRequest) {
         BlockMenu menu = StorageCacheUtils.getMenu(getLocation());
         if (menu == null) {
             return null;

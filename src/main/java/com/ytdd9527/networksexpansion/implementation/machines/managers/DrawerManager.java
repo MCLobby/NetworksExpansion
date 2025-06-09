@@ -5,6 +5,7 @@ import com.balugaq.netex.api.data.StorageUnitData;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.events.NetworkRootLocateStorageEvent;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.utils.Lang;
 import com.github.houbb.pinyin.constant.enums.PinyinStyleEnum;
 import com.github.houbb.pinyin.util.PinyinHelper;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
@@ -12,7 +13,6 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
 import com.ytdd9527.networksexpansion.utils.ParticleUtil;
 import io.github.sefiraat.networks.NetworkStorage;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
@@ -29,6 +29,14 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -42,34 +50,23 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-
-@SuppressWarnings("deprecation")
 public class DrawerManager extends NetworkObject {
     public static final String MANAGER_TAG = "drawer_manager";
-    public static final NetworkRootLocateStorageEvent.Strategy MANAGER_STRATEGY = NetworkRootLocateStorageEvent.Strategy.custom(MANAGER_TAG);
+    public static final NetworkRootLocateStorageEvent.Strategy MANAGER_STRATEGY =
+            NetworkRootLocateStorageEvent.Strategy.custom(MANAGER_TAG);
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
-    private static final int[] BACKGROUND_SLOTS = new int[]{
-            8, 17
-    };
+    private static final int[] BACKGROUND_SLOTS = new int[] {8, 17};
     private static final int[] DISPLAY_SLOTS = {
-            0, 1, 2, 3, 4, 5, 6, 7,
-            9, 10, 11, 12, 13, 14, 15, 16,
-            18, 19, 20, 21, 22, 23, 24, 25,
-            27, 28, 29, 30, 31, 32, 33, 34,
-            36, 37, 38, 39, 40, 41, 42, 43,
-            45, 46, 47, 48, 49, 50, 51, 52,
+        0, 1, 2, 3, 4, 5, 6, 7,
+        9, 10, 11, 12, 13, 14, 15, 16,
+        18, 19, 20, 21, 22, 23, 24, 25,
+        27, 28, 29, 30, 31, 32, 33, 34,
+        36, 37, 38, 39, 40, 41, 42, 43,
+        45, 46, 47, 48, 49, 50, 51, 52,
     };
     private static final int CHANGE_SORT = 35;
     private static final int FILTER = 26;
@@ -90,54 +87,57 @@ public class DrawerManager extends NetworkObject {
         SORT_MAP.put(GridCache.SortOrder.NUMBER_REVERSE, Sorters.DRAWER_NUMERICAL_SORT.reversed());
     }
 
-    private final IntRangeSetting tickRate;
+    private final @NotNull IntRangeSetting tickRate;
 
-    public DrawerManager(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public DrawerManager(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.DRAWER_MANAGER);
 
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
         addItemSetting(this.tickRate);
 
-        addItemHandler(
-                new BlockTicker() {
+        addItemHandler(new BlockTicker() {
 
-                    private int tick = 1;
+            private int tick = 1;
 
-                    @Override
-                    public boolean isSynchronized() {
-                        return false;
+            @Override
+            public boolean isSynchronized() {
+                return false;
+            }
+
+            @Override
+            public void tick(@NotNull Block block, SlimefunItem item, @NotNull SlimefunBlockData data) {
+                if (tick <= 1) {
+                    final BlockMenu blockMenu = data.getBlockMenu();
+                    if (blockMenu == null) {
+                        return;
                     }
-
-                    @Override
-                    public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
-                        if (tick <= 1) {
-                            final BlockMenu blockMenu = data.getBlockMenu();
-                            if (blockMenu == null) {
-                                return;
-                            }
-                            addToRegistry(block);
-                            updateDisplay(blockMenu);
-                        }
-                    }
-
-                    @Override
-                    public void uniqueTick() {
-                        tick = tick <= 1 ? tickRate.getValue() : tick - 1;
-                    }
+                    addToRegistry(block);
+                    updateDisplay(blockMenu);
                 }
-        );
+            }
+
+            @Override
+            public void uniqueTick() {
+                tick = tick <= 1 ? tickRate.getValue() : tick - 1;
+            }
+        });
     }
 
-    public static String getStorageName(@Nonnull Location dataLocation) {
+    public static @Nullable String getStorageName(@NotNull Location dataLocation) {
         return StorageCacheUtils.getData(dataLocation, BS_NAME);
     }
 
-    public static void setStorageIcon(@Nonnull Player player, @Nonnull Location dataLocation, @Nonnull ItemStack cursor) {
+    public static void setStorageIcon(
+            @NotNull Player player, @NotNull Location dataLocation, @NotNull ItemStack cursor) {
         StorageCacheUtils.setData(dataLocation, BS_ICON, serializeIcon(cursor));
-        player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.manager.set_icon"));
+        player.sendMessage(Lang.getString("messages.completed-operation.manager.set_icon"));
     }
 
-    public static ItemStack getStorageIcon(@Nonnull Location dataLocation) {
+    public static @Nullable ItemStack getStorageIcon(@NotNull Location dataLocation) {
         String icon = StorageCacheUtils.getData(dataLocation, BS_ICON);
         if (icon == null) {
             return null;
@@ -145,7 +145,7 @@ public class DrawerManager extends NetworkObject {
         return deserializeIcon(icon);
     }
 
-    public static String serializeIcon(@Nonnull ItemStack itemStack) {
+    public static @NotNull String serializeIcon(@NotNull ItemStack itemStack) {
         var sf = SlimefunItem.getByItem(itemStack);
         if (sf != null) {
             return NAMESPACE_SF + ":" + sf.getId();
@@ -154,8 +154,7 @@ public class DrawerManager extends NetworkObject {
         }
     }
 
-    @Nullable
-    public static ItemStack deserializeIcon(@Nonnull String icon) {
+    @Nullable public static ItemStack deserializeIcon(@NotNull String icon) {
         if (icon.startsWith(NAMESPACE_SF)) {
             var id = icon.split(":")[1];
             var sf = SlimefunItem.getById(id);
@@ -170,27 +169,27 @@ public class DrawerManager extends NetworkObject {
         return null;
     }
 
-    public static void topOrUntopStorage(@Nonnull Player player, @Nonnull Location dataLocation) {
+    public static void topOrUntopStorage(@NotNull Player player, @NotNull Location dataLocation) {
         if (Objects.equals(StorageCacheUtils.getData(dataLocation, BS_TOP), BS_TOP_1B)) {
             StorageCacheUtils.setData(dataLocation, BS_TOP, BS_TOP_0B);
-            player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.manager.top_storage_off"));
+            player.sendMessage(Lang.getString("messages.completed-operation.manager.top_storage_off"));
         } else {
             StorageCacheUtils.setData(dataLocation, BS_TOP, BS_TOP_1B);
-            player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.manager.top_storage_on"));
+            player.sendMessage(Lang.getString("messages.completed-operation.manager.top_storage_on"));
         }
     }
 
-    public static boolean isTopStorage(@Nonnull Location dataLocation) {
+    public static boolean isTopStorage(@NotNull Location dataLocation) {
         String top = StorageCacheUtils.getData(dataLocation, BS_TOP);
         return top != null && top.equals(BS_TOP_1B);
     }
 
-    public static void highlightBlock(@Nonnull Player player, @Nonnull Location dataLocation) {
+    public static void highlightBlock(@NotNull Player player, @NotNull Location dataLocation) {
         ParticleUtil.drawLineFrom(player.getEyeLocation().clone().add(0D, -0.5D, 0D), dataLocation);
         ParticleUtil.highlightBlock(dataLocation);
     }
 
-    public static void openMenu(@Nonnull StorageUnitData data, @Nonnull Player player) {
+    public static void openMenu(@NotNull StorageUnitData data, @NotNull Player player) {
         BlockMenu menu = StorageCacheUtils.getMenu(data.getLastLocation());
         if (menu == null) {
             return;
@@ -199,7 +198,8 @@ public class DrawerManager extends NetworkObject {
         menu.open(player);
     }
 
-    public static ItemStack getItemStack(@Nonnull StorageUnitData entry) {
+    @SuppressWarnings("deprecation")
+    public static @Nullable ItemStack getItemStack(@NotNull StorageUnitData entry) {
         var itemContainers = entry.getStoredItems();
         if (itemContainers.isEmpty()) {
             return null;
@@ -208,10 +208,10 @@ public class DrawerManager extends NetworkObject {
         }
     }
 
-    public static List<StorageUnitData> getStorageUnitDatas(NetworkRoot root, GridCache cache) {
-        return root.getCargoStorageUnitDatas(MANAGER_STRATEGY, true)
-                .keySet()
-                .stream()
+    @SuppressWarnings("deprecation")
+    public static @NotNull List<StorageUnitData> getStorageUnitDatas(
+            @NotNull NetworkRoot root, @NotNull GridCache cache) {
+        return root.getCargoStorageUnitDatas(MANAGER_STRATEGY, true).keySet().stream()
                 .filter(entry -> {
                     if (cache.getFilter() == null) {
                         return true;
@@ -222,11 +222,14 @@ public class DrawerManager extends NetworkObject {
                         return true;
                     }
 
-                    String name = ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
+                    String name = ChatColor.stripColor(
+                            ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
                     if (cache.getFilter().matches("^[a-zA-Z]+$")) {
                         final String pinyinName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
                         final String pinyinFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
-                        return name.contains(cache.getFilter()) || pinyinName.contains(cache.getFilter()) || pinyinFirstLetter.contains(cache.getFilter());
+                        return name.contains(cache.getFilter())
+                                || pinyinName.contains(cache.getFilter())
+                                || pinyinFirstLetter.contains(cache.getFilter());
                     } else {
                         return name.contains(cache.getFilter());
                     }
@@ -235,14 +238,25 @@ public class DrawerManager extends NetworkObject {
                 .toList();
     }
 
-    @Nonnull
-    private static String getAmountLore(Long long1) {
-        final MessageFormat format = new MessageFormat(Networks.getLocalizationService().getString("messages.normal-operation.grid.item_amount"), Locale.ROOT);
-        return format.format(new Object[]{Theme.CLICK_INFO.getColor(), Theme.PASSIVE.getColor(), long1}, new StringBuffer(), null).toString();
+    @NotNull private static String getAmountLore(Long long1) {
+        final MessageFormat format =
+                new MessageFormat(Lang.getString("messages.normal-operation.grid.item_amount"), Locale.ROOT);
+        return format.format(
+                        new Object[] {Theme.CLICK_INFO.getColor(), Theme.PASSIVE.getColor(), long1},
+                        new StringBuffer(),
+                        null)
+                .toString();
     }
 
-    @SuppressWarnings("deprecation")
-    public void handleClick(@Nonnull NetworkRoot root, @Nonnull BlockMenu blockMenu, @Nonnull Location dataLocation, @Nonnull Player player, @Range(from = 0, to = 53) int slot, @Nonnull ItemStack item, @Nonnull ClickAction action) {
+    @SuppressWarnings({"deprecation", "unused"})
+    public void handleClick(
+            @NotNull NetworkRoot root,
+            @NotNull BlockMenu blockMenu,
+            @NotNull Location dataLocation,
+            @NotNull Player player,
+            @Range(from = 0, to = 53) int slot,
+            @NotNull ItemStack item,
+            @NotNull ClickAction action) {
         StorageUnitData data = NetworkRoot.getCargoStorageUnitData(dataLocation);
         if (data == null) {
             return;
@@ -270,12 +284,12 @@ public class DrawerManager extends NetworkObject {
         }
     }
 
-    public void setStorageName(@Nonnull BlockMenu blockMenu, @Nonnull Player player, @Nonnull Location dataLocation) {
-        player.sendMessage(Networks.getLocalizationService().getString("messages.normal-operation.manager.set_name"));
+    public void setStorageName(@NotNull BlockMenu blockMenu, @NotNull Player player, @NotNull Location dataLocation) {
+        player.sendMessage(Lang.getString("messages.normal-operation.manager.set_name"));
         player.closeInventory();
         ChatUtils.awaitInput(player, s -> {
             StorageCacheUtils.setData(dataLocation, BS_NAME, s);
-            player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.manager.set_name"));
+            player.sendMessage(Lang.getString("messages.completed-operation.manager.set_name"));
 
             SlimefunBlockData data = StorageCacheUtils.getBlock(blockMenu.getLocation());
             if (data == null) {
@@ -292,7 +306,8 @@ public class DrawerManager extends NetworkObject {
         });
     }
 
-    public void updateDisplay(BlockMenu blockMenu) {
+    @SuppressWarnings("deprecation")
+    public void updateDisplay(@Nullable BlockMenu blockMenu) {
         if (blockMenu == null) {
             return;
         }
@@ -334,9 +349,9 @@ public class DrawerManager extends NetworkObject {
         }
         final int end = Math.min(start + getDisplaySlots().length, datas.size());
 
-        datas = datas.stream().sorted((a, b) ->
-                isTopStorage(a.getLastLocation()) ? -1 : isTopStorage(b.getLastLocation()) ? 1 : 0
-        ).toList();
+        datas = datas.stream()
+                .sorted((a, b) -> isTopStorage(a.getLastLocation()) ? -1 : isTopStorage(b.getLastLocation()) ? 1 : 0)
+                .toList();
 
         final List<StorageUnitData> validdatas = datas.subList(start, end);
 
@@ -366,7 +381,8 @@ public class DrawerManager extends NetworkObject {
                 if (name != null) {
                     displayStack = new CustomItemStack(displayStack, ChatColor.translateAlternateColorCodes('&', name));
                 } else if (!isEmpty) {
-                    displayStack = new CustomItemStack(displayStack, ChatColor.GRAY + ItemStackHelper.getDisplayName(dataItemStack));
+                    displayStack = new CustomItemStack(
+                            displayStack, ChatColor.GRAY + ItemStackHelper.getDisplayName(dataItemStack));
                 } else {
                     displayStack = new CustomItemStack(displayStack, Sorters.NO_ITEM);
                 }
@@ -391,21 +407,29 @@ public class DrawerManager extends NetworkObject {
             }
         }
 
-        blockMenu.replaceExistingItem(getPagePrevious(), Icon.getPageStack(getPagePreviousStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
-        blockMenu.replaceExistingItem(getPageNext(), Icon.getPageStack(getPageNextStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
+        blockMenu.replaceExistingItem(
+                getPagePrevious(),
+                Icon.getPageStack(getPagePreviousStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
+        blockMenu.replaceExistingItem(
+                getPageNext(),
+                Icon.getPageStack(getPageNextStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
 
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
 
-    public List<String> getLoreAddition(StorageUnitData data) {
+    public @NotNull List<String> getLoreAddition(@NotNull StorageUnitData data) {
         var loc = data.getLastLocation();
         List<String> list = new ArrayList<>();
         list.add("");
-        list.add(String.format(Networks.getLocalizationService().getString("messages.normal-operation.manager.id"), data.getId()));
-        list.add(String.format(Networks.getLocalizationService().getString("messages.normal-operation.manager.location"), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
+        list.add(String.format(Lang.getString("messages.normal-operation.manager.id"), data.getId()));
+        list.add(String.format(
+                Lang.getString("messages.normal-operation.manager.location"),
+                loc.getBlockX(),
+                loc.getBlockY(),
+                loc.getBlockZ()));
         list.add(getAmountLore(data.getTotalAmountLong()));
         list.add("");
-        list.addAll(Networks.getLocalizationService().getStringList("messages.normal-operation.manager.drawer-manager-click-behavior"));
+        list.addAll(Lang.getStringList("messages.normal-operation.manager.drawer-manager-click-behavior"));
 
         return list;
     }
@@ -415,8 +439,7 @@ public class DrawerManager extends NetworkObject {
         getPreset();
     }
 
-    @Nonnull
-    protected BlockMenuPreset getPreset() {
+    @NotNull protected BlockMenuPreset getPreset() {
         return new BlockMenuPreset(this.getId(), this.getItemName()) {
 
             @Override
@@ -427,9 +450,11 @@ public class DrawerManager extends NetworkObject {
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return player.hasPermission("slimefun.inventory.bypass") || (ExpansionItems.NETWORK_GRID_NEW_STYLE.canUse(player, false)
-                        && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
+                return player.hasPermission("slimefun.inventory.bypass")
+                        || (ExpansionItems.NETWORK_GRID_NEW_STYLE.canUse(player, false)
+                                && Slimefun.getProtectionManager()
+                                        .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override
@@ -438,7 +463,7 @@ public class DrawerManager extends NetworkObject {
             }
 
             @Override
-            public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
+            public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
                 getCacheMap().put(menu.getLocation(), new GridCache(0, 0, GridCache.SortOrder.ALPHABETICAL));
 
                 menu.replaceExistingItem(getPagePrevious(), getPagePreviousStack());
@@ -453,7 +478,10 @@ public class DrawerManager extends NetworkObject {
                 menu.replaceExistingItem(getPageNext(), getPageNextStack());
                 menu.addMenuClickHandler(getPageNext(), (p, slot, item, action) -> {
                     GridCache gridCache = getCacheMap().get(menu.getLocation());
-                    gridCache.setPage(gridCache.getPage() >= gridCache.getMaxPages() ? gridCache.getMaxPages() : gridCache.getPage() + 1);
+                    gridCache.setPage(
+                            gridCache.getPage() >= gridCache.getMaxPages()
+                                    ? gridCache.getMaxPages()
+                                    : gridCache.getPage() + 1);
                     getCacheMap().put(menu.getLocation(), gridCache);
                     updateDisplay(menu);
                     return false;
@@ -489,8 +517,7 @@ public class DrawerManager extends NetworkObject {
         };
     }
 
-    @Nonnull
-    public Map<Location, GridCache> getCacheMap() {
+    @NotNull public Map<Location, GridCache> getCacheMap() {
         return CACHE_MAP;
     }
 
@@ -518,12 +545,17 @@ public class DrawerManager extends NetworkObject {
         return FILTER;
     }
 
-    protected void setFilter(@Nonnull Player player, @Nonnull BlockMenu blockMenu, @Nonnull GridCache gridCache, @Nonnull ClickAction action) {
+    @SuppressWarnings("deprecation")
+    protected void setFilter(
+            @NotNull Player player,
+            @NotNull BlockMenu blockMenu,
+            @NotNull GridCache gridCache,
+            @NotNull ClickAction action) {
         if (action.isRightClicked()) {
             gridCache.setFilter(null);
         } else {
             player.closeInventory();
-            player.sendMessage(Networks.getLocalizationService().getString("messages.normal-operation.grid.waiting_for_filter"));
+            player.sendMessage(Lang.getString("messages.normal-operation.grid.waiting_for_filter"));
             ChatUtils.awaitInput(player, s -> {
                 if (s.isBlank()) {
                     return;
@@ -531,7 +563,7 @@ public class DrawerManager extends NetworkObject {
                 s = s.toLowerCase(Locale.ROOT);
                 gridCache.setFilter(s);
                 getCacheMap().put(blockMenu.getLocation(), gridCache);
-                player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.grid.filter_set"));
+                player.sendMessage(Lang.getString("messages.completed-operation.grid.filter_set"));
 
                 SlimefunBlockData data = StorageCacheUtils.getBlock(blockMenu.getLocation());
                 if (data == null) {
@@ -549,27 +581,27 @@ public class DrawerManager extends NetworkObject {
         }
     }
 
-    protected ItemStack getBlankSlotStack() {
+    protected @NotNull ItemStack getBlankSlotStack() {
         return Icon.BLANK_SLOT_STACK;
     }
 
-    protected ItemStack getPagePreviousStack() {
+    protected @NotNull ItemStack getPagePreviousStack() {
         return Icon.PAGE_PREVIOUS_STACK;
     }
 
-    protected ItemStack getPageNextStack() {
+    protected @NotNull ItemStack getPageNextStack() {
         return Icon.PAGE_NEXT_STACK;
     }
 
-    protected ItemStack getChangeSortStack() {
+    protected @NotNull ItemStack getChangeSortStack() {
         return Icon.CHANGE_SORT_STACK;
     }
 
-    protected ItemStack getFilterStack() {
+    protected @NotNull ItemStack getFilterStack() {
         return Icon.FILTER_STACK;
     }
 
-    protected void clearDisplay(BlockMenu blockMenu) {
+    protected void clearDisplay(@NotNull BlockMenu blockMenu) {
         for (int displaySlot : getDisplaySlots()) {
             blockMenu.replaceExistingItem(displaySlot, getBlankSlotStack());
             blockMenu.addMenuClickHandler(displaySlot, (p, slot, item, action) -> false);

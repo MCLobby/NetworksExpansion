@@ -4,6 +4,7 @@ import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.enums.TransportMode;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.api.interfaces.Configurable;
+import com.balugaq.netex.utils.Lang;
 import com.balugaq.netex.utils.LineOperationUtil;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.machines.AdvancedDirectional;
@@ -20,6 +21,12 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.function.Function;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -31,15 +38,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.function.Function;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class AdvancedLineTransferBestPusher extends AdvancedDirectional implements RecipeDisplayItem, Configurable {
     private static final int DEFAULT_MAX_DISTANCE = 64;
@@ -51,11 +51,10 @@ public class AdvancedLineTransferBestPusher extends AdvancedDirectional implemen
     private static final int MINUS_SLOT = 36;
     private static final int SHOW_SLOT = 37;
     private static final int ADD_SLOT = 38;
-    private static final int[] BACKGROUND_SLOTS = new int[]{
-            0, 1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 13, 18, 20, 22, 23, 27, 28, 30, 31, 36, 37, 38, 39, 40, 41
-    };
-    private static final int[] TEMPLATE_BACKGROUND = new int[]{7};
-    private static final int[] TEMPLATE_SLOTS = new int[]{15, 16, 17, 24, 25, 26, 33, 34, 35, 42, 43, 44};
+    private static final int[] BACKGROUND_SLOTS =
+            new int[] {0, 1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 13, 18, 20, 22, 23, 27, 28, 30, 31, 36, 37, 38, 39, 40, 41};
+    private static final int[] TEMPLATE_BACKGROUND = new int[] {7};
+    private static final int[] TEMPLATE_SLOTS = new int[] {15, 16, 17, 24, 25, 26, 33, 34, 35, 42, 43, 44};
     private static final int NORTH_SLOT = 11;
     private static final int SOUTH_SLOT = 29;
     private static final int EAST_SLOT = 21;
@@ -64,11 +63,15 @@ public class AdvancedLineTransferBestPusher extends AdvancedDirectional implemen
     private static final int DOWN_SLOT = 32;
     private static final Map<Location, Integer> PUSH_TICKER_MAP = new HashMap<>();
     private boolean useSpecialModel;
-    private Function<Location, DisplayGroup> displayGroupGenerator;
+    private @Nullable Function<Location, DisplayGroup> displayGroupGenerator;
     private int pushItemTick;
     private int maxDistance;
 
-    public AdvancedLineTransferBestPusher(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public AdvancedLineTransferBestPusher(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.TRANSFER_PUSHER);
         for (int slot : TEMPLATE_SLOTS) {
             this.getSlotsToDrop().add(slot);
@@ -92,8 +95,8 @@ public class AdvancedLineTransferBestPusher extends AdvancedDirectional implemen
 
         this.maxDistance = config.getInt("items." + configKey + ".max-distance", DEFAULT_MAX_DISTANCE);
         this.pushItemTick = config.getInt("items." + configKey + ".pushitem-tick", DEFAULT_PUSH_ITEM_TICK);
-        this.useSpecialModel = config.getBoolean("items." + configKey + ".use-special-model.enable", DEFAULT_USE_SPECIAL_MODEL);
-
+        this.useSpecialModel =
+                config.getBoolean("items." + configKey + ".use-special-model.enable", DEFAULT_USE_SPECIAL_MODEL);
 
         Map<String, Function<Location, DisplayGroup>> generatorMap = new HashMap<>();
         generatorMap.put("cloche", DisplayGroupGenerators::generateCloche);
@@ -105,14 +108,17 @@ public class AdvancedLineTransferBestPusher extends AdvancedDirectional implemen
             String generatorKey = config.getString("items." + configKey + ".use-special-model.type");
             this.displayGroupGenerator = generatorMap.get(generatorKey);
             if (this.displayGroupGenerator == null) {
-                Networks.getInstance().getLogger().warning(String.format(Networks.getLocalizationService().getString("messages.unsupported-operation.display.unknown_type"), generatorKey));
+                Networks.getInstance()
+                        .getLogger()
+                        .warning(String.format(
+                                Lang.getString("messages.unsupported-operation.display.unknown_type"), generatorKey));
                 this.useSpecialModel = false;
             }
         }
     }
 
     @Override
-    protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
+    protected void onTick(@Nullable BlockMenu blockMenu, @NotNull Block block) {
         super.onTick(blockMenu, block);
         if (blockMenu == null) {
             sendFeedback(block.getLocation(), FeedbackType.INVALID_BLOCK);
@@ -145,7 +151,7 @@ public class AdvancedLineTransferBestPusher extends AdvancedDirectional implemen
         PUSH_TICKER_MAP.put(location, tickCounter);
     }
 
-    private void tryPushItem(@Nonnull BlockMenu blockMenu) {
+    private void tryPushItem(@NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
@@ -178,24 +184,22 @@ public class AdvancedLineTransferBestPusher extends AdvancedDirectional implemen
                 maxDistance,
                 false,
                 false,
-                (targetMenu) -> LineOperationUtil.pushItem(blockMenu.getLocation(), root, targetMenu, templates, currentTransportMode, limitQuantity));
+                (targetMenu) -> LineOperationUtil.pushItem(
+                        blockMenu.getLocation(), root, targetMenu, templates, currentTransportMode, limitQuantity));
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
 
-    @Nonnull
     @Override
-    protected int[] getBackgroundSlots() {
+    protected int @NotNull [] getBackgroundSlots() {
         return BACKGROUND_SLOTS;
     }
 
-    @Nullable
     @Override
-    protected int[] getOtherBackgroundSlots() {
+    protected int @Nullable [] getOtherBackgroundSlots() {
         return TEMPLATE_BACKGROUND;
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     protected ItemStack getOtherBackgroundStack() {
         return Icon.PUSHER_TEMPLATE_BACKGROUND_STACK;
     }
@@ -236,12 +240,12 @@ public class AdvancedLineTransferBestPusher extends AdvancedDirectional implemen
     }
 
     @Override
-    protected Particle.DustOptions getDustOptions() {
+    protected Particle.@NotNull DustOptions getDustOptions() {
         return new Particle.DustOptions(Color.BLUE, 2);
     }
 
     @Override
-    public void onPlace(@Nonnull BlockPlaceEvent e) {
+    public void onPlace(@NotNull BlockPlaceEvent e) {
         super.onPlace(e);
         if (useSpecialModel) {
             e.getBlock().setType(Material.BARRIER);
@@ -250,29 +254,30 @@ public class AdvancedLineTransferBestPusher extends AdvancedDirectional implemen
     }
 
     @Override
-    public void postBreak(@Nonnull BlockBreakEvent e) {
+    public void postBreak(@NotNull BlockBreakEvent e) {
         super.postBreak(e);
         Location location = e.getBlock().getLocation();
         removeDisplay(location);
         e.getBlock().setType(Material.AIR);
     }
 
-    private void setupDisplay(@Nonnull Location location) {
+    private void setupDisplay(@NotNull Location location) {
         if (this.displayGroupGenerator != null) {
-            DisplayGroup displayGroup = this.displayGroupGenerator.apply(location.clone().add(0.5, 0, 0.5));
-            StorageCacheUtils.setData(location, KEY_UUID, displayGroup.getParentUUID().toString());
+            DisplayGroup displayGroup =
+                    this.displayGroupGenerator.apply(location.clone().add(0.5, 0, 0.5));
+            StorageCacheUtils.setData(
+                    location, KEY_UUID, displayGroup.getParentUUID().toString());
         }
     }
 
-    private void removeDisplay(@Nonnull Location location) {
+    private void removeDisplay(@NotNull Location location) {
         DisplayGroup group = getDisplayGroup(location);
         if (group != null) {
             group.remove();
         }
     }
 
-    @Nullable
-    private UUID getDisplayGroupUUID(@Nonnull Location location) {
+    @Nullable private UUID getDisplayGroupUUID(@NotNull Location location) {
         String uuid = StorageCacheUtils.getData(location, KEY_UUID);
         if (uuid == null) {
             return null;
@@ -280,8 +285,7 @@ public class AdvancedLineTransferBestPusher extends AdvancedDirectional implemen
         return UUID.fromString(uuid);
     }
 
-    @Nullable
-    private DisplayGroup getDisplayGroup(@Nonnull Location location) {
+    @Nullable private DisplayGroup getDisplayGroup(@NotNull Location location) {
         UUID uuid = getDisplayGroupUUID(location);
         if (uuid == null) {
             return null;
@@ -301,16 +305,15 @@ public class AdvancedLineTransferBestPusher extends AdvancedDirectional implemen
         return ADD_SLOT;
     }
 
-    @Nonnull
-    @Override
+    @NotNull @Override
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);
-        displayRecipes.add(new CustomItemStack(Material.BOOK,
-                Networks.getLocalizationService().getString("icons.mechanism.transfers.data_title"),
+        displayRecipes.add(new CustomItemStack(
+                Material.BOOK,
+                Lang.getString("icons.mechanism.transfers.data_title"),
                 "",
-                String.format(Networks.getLocalizationService().getString("icons.mechanism.transfers.max_distance"), maxDistance),
-                String.format(Networks.getLocalizationService().getString("icons.mechanism.transfers.push_item_tick"), pushItemTick)
-        ));
+                String.format(Lang.getString("icons.mechanism.transfers.max_distance"), maxDistance),
+                String.format(Lang.getString("icons.mechanism.transfers.push_item_tick"), pushItemTick)));
         return displayRecipes;
     }
 

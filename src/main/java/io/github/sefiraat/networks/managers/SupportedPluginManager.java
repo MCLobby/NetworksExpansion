@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Item;
+import org.jetbrains.annotations.NotNull;
 
 public class SupportedPluginManager {
 
@@ -26,6 +27,7 @@ public class SupportedPluginManager {
     // region First Tick Only Registrations
     private @Getter boolean mcMMO;
     private @Getter boolean wildChests;
+
     @Setter
     private @Getter boolean justEnoughGuide;
 
@@ -61,7 +63,7 @@ public class SupportedPluginManager {
                 .runTaskLater(Networks.getInstance(), this::firstTickRegistrations, 1);
     }
 
-    public static int getStackAmount(Item item) {
+    public static int getStackAmount(@NotNull Item item) {
         if (getInstance().isWildStacker()) {
             return WildStackerAPI.getItemAmount(item);
         } else if (getInstance().isRoseStacker()) {
@@ -72,7 +74,7 @@ public class SupportedPluginManager {
         }
     }
 
-    public static void setStackAmount(Item item, int amount) {
+    public static void setStackAmount(@NotNull Item item, int amount) {
         if (getInstance().isWildStacker()) {
             WildStackerAPI.getStackedItem(item).setStackAmount(amount, true);
         } else if (getInstance().isRoseStacker()) {

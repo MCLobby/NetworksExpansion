@@ -7,8 +7,7 @@ import lombok.Data;
 import lombok.experimental.UtilityClass;
 import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.Plugin;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 @Data
 @UtilityClass
@@ -21,8 +20,10 @@ public class Keys {
     public static final NamespacedKey ON_COOLDOWN3 = customNewKey(NETWORKS_CHANGED_ID, "cooldown");
 
     public static final NamespacedKey CARD_INSTANCE = newKey("ntw_card");
+
     @Deprecated
     public static final NamespacedKey CARD_INSTANCE2 = customNewKey(NETWORKS_ID, "ntw_card");
+
     @Deprecated
     public static final NamespacedKey CARD_INSTANCE3 = customNewKey(NETWORKS_CHANGED_ID, "ntw_card");
 
@@ -75,27 +76,25 @@ public class Keys {
     public static final NamespacedKey EXPANSION_WORKBENCH = newKey("expansion_workbench");
     public static final NamespacedKey EXPANSION_WORKBENCH_6x6 = newKey("expansion_workbench_6x6");
 
-    public static NamespacedKey INFINITY_DISPLAY = null;
+    public static final NamespacedKey INFINITY_DISPLAY;
 
     static {
         if (SupportedPluginManager.getInstance().isInfinityExpansion()) {
             INFINITY_DISPLAY = InfinityExpansion.createKey("display");
+        } else {
+            INFINITY_DISPLAY = Keys.customNewKey("InfinityExpansion", "display");
         }
     }
 
-
-    @Nonnull
-    public static NamespacedKey newKey(@Nonnull String key) {
+    @NotNull public static NamespacedKey newKey(@NotNull String key) {
         return new NamespacedKey(Networks.getInstance(), key);
     }
 
-    @Nonnull
-    public static NamespacedKey customNewKey(@Nonnull String namespace, @Nonnull String key) {
+    @NotNull public static NamespacedKey customNewKey(@NotNull String namespace, @NotNull String key) {
         return new NamespacedKey(namespace, key);
     }
 
-    @Nonnull
-    public static NamespacedKey customNewKey(@Nonnull Plugin plugin, @Nonnull String key) {
+    @NotNull public static NamespacedKey customNewKey(@NotNull Plugin plugin, @NotNull String key) {
         return new NamespacedKey(plugin, key);
     }
 }

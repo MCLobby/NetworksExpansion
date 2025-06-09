@@ -5,14 +5,13 @@ import com.balugaq.netex.api.helpers.Icon;
 import com.ytdd9527.networksexpansion.implementation.machines.managers.DrawerManager;
 import io.github.sefiraat.networks.network.stackcaches.BarrelIdentity;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
-import org.bukkit.ChatColor;
-import org.bukkit.inventory.ItemStack;
-
 import java.text.Collator;
 import java.util.Comparator;
 import java.util.Locale;
 import java.util.Map;
+import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
+import org.bukkit.ChatColor;
+import org.bukkit.inventory.ItemStack;
 
 @SuppressWarnings("deprecation")
 public class Sorters {
@@ -28,8 +27,7 @@ public class Sorters {
                     return ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack));
                 }
             },
-            Collator.getInstance(Locale.CHINA)::compare
-    );
+            Collator.getInstance(Locale.CHINA)::compare);
     public static final Comparator<Map.Entry<ItemStack, Long>> ITEMSTACK_NUMERICAL_SORT = Map.Entry.comparingByValue();
     public static final Comparator<Map.Entry<ItemStack, Long>> ITEMSTACK_ADDON_SORT = Comparator.comparing(
             entry -> {
@@ -41,8 +39,7 @@ public class Sorters {
                     return "Minecraft";
                 }
             },
-            Collator.getInstance(Locale.CHINA)::compare
-    );
+            Collator.getInstance(Locale.CHINA)::compare);
 
     public static final Comparator<? super BarrelIdentity> BARREL_ALPHABETICAL_SORT = Comparator.comparing(
             barrel -> {
@@ -57,9 +54,9 @@ public class Sorters {
                     return ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack));
                 }
             },
-            Collator.getInstance(Locale.CHINA)::compare
-    );
-    public static final Comparator<BarrelIdentity> BARREL_NUMERICAL_SORT = Comparator.comparingLong(BarrelIdentity::getAmount);
+            Collator.getInstance(Locale.CHINA)::compare);
+    public static final Comparator<BarrelIdentity> BARREL_NUMERICAL_SORT =
+            Comparator.comparingLong(BarrelIdentity::getAmount);
     public static final Comparator<? super StorageUnitData> DRAWER_ALPHABETICAL_SORT = Comparator.comparing(
             data -> {
                 ItemStack itemStack = DrawerManager.getItemStack(data);
@@ -73,7 +70,7 @@ public class Sorters {
                     return ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack));
                 }
             },
-            Collator.getInstance(Locale.CHINA)::compare
-    );
-    public static final Comparator<StorageUnitData> DRAWER_NUMERICAL_SORT = Comparator.comparingLong(StorageUnitData::getTotalAmountLong);
+            Collator.getInstance(Locale.CHINA)::compare);
+    public static final Comparator<StorageUnitData> DRAWER_NUMERICAL_SORT =
+            Comparator.comparingLong(StorageUnitData::getTotalAmountLong);
 }

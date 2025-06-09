@@ -7,6 +7,7 @@ import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.utils.NetworkUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import java.text.MessageFormat;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -14,8 +15,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
-
-import java.text.MessageFormat;
+import org.jetbrains.annotations.NotNull;
 
 /*
  * Fix https://github.com/Sefiraat/Networks/issues/188
@@ -28,7 +28,7 @@ public class SyncListener implements Listener {
     private static final String S3 = "Listened ChunkUnloadEvent at world: {0}, x: {1}, z: {2}";
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onBlockBreak(BlockBreakEvent e) {
+    public void onBlockBreak(@NotNull BlockBreakEvent e) {
         Networks.getInstance().debug(MessageFormat.format(S1, e.getBlock().getLocation()));
         NetworkUtils.clearNetwork(e.getBlock().getLocation());
         SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(e.getBlock().getLocation());
@@ -42,7 +42,7 @@ public class SyncListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onBlockPlace(BlockPlaceEvent e) {
+    public void onBlockPlace(@NotNull BlockPlaceEvent e) {
         Networks.getInstance().debug(MessageFormat.format(S2, e.getBlock().getLocation()));
         NetworkUtils.clearNetwork(e.getBlock().getLocation());
         SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(e.getBlock().getLocation());
@@ -56,8 +56,13 @@ public class SyncListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onChunkUnload(ChunkUnloadEvent e) {
-        Networks.getInstance().debug(MessageFormat.format(S3, e.getWorld().getName(), e.getChunk().getX(), e.getChunk().getZ()));
+    public void onChunkUnload(@NotNull ChunkUnloadEvent e) {
+        Networks.getInstance()
+                .debug(MessageFormat.format(
+                        S3,
+                        e.getWorld().getName(),
+                        e.getChunk().getX(),
+                        e.getChunk().getZ()));
         NetworkStorage.unregisterChunk(e.getChunk());
     }
 }

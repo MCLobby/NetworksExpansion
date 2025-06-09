@@ -8,7 +8,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class QuantumWorkbenchBlueprint extends AbstractBlueprint {
 
-    public QuantumWorkbenchBlueprint(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public QuantumWorkbenchBlueprint(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 }

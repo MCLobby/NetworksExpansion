@@ -11,5 +11,4 @@ public class NetworkMonitor extends NetworkDirectional {
     public NetworkMonitor(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.STORAGE_MONITOR);
     }
-
 }

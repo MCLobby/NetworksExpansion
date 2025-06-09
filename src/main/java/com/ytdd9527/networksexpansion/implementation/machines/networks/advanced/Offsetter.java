@@ -3,10 +3,10 @@ package com.ytdd9527.networksexpansion.implementation.machines.networks.advanced
 import com.balugaq.netex.api.enums.TransportFacing;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.utils.BlockMenuUtil;
+import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -16,6 +16,10 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -31,12 +35,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.jetbrains.annotations.NotNull;
 
 public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
     private static final Map<Location, TransportFacing> facingMap = new HashMap<>();
@@ -46,11 +45,15 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
     private static final int OFFSET_SHOW_SLOT = 4;
     private static final int OFFSET_INCREASE_SLOT = 5;
 
-    public Offsetter(@Nonnull ItemGroup itemGroup, @Nonnull SlimefunItemStack item, @Nonnull RecipeType recipeType, @Nonnull ItemStack[] recipe) {
+    public Offsetter(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            @NotNull ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
-    private static void onTick(@Nonnull Block block) {
+    private static void onTick(@NotNull Block block) {
         final Location location = block.getLocation();
         final BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
         if (blockMenu == null) {
@@ -110,13 +113,15 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
             return;
         }
 
-        final int[] fromSlot = fromMenu.getPreset().getSlotsAccessedByItemTransport(fromMenu, ItemTransportFlow.WITHDRAW, null);
+        final int[] fromSlot =
+                fromMenu.getPreset().getSlotsAccessedByItemTransport(fromMenu, ItemTransportFlow.WITHDRAW, null);
         for (int i = 0; i < fromSlot.length; i++) {
             ItemStack fromItem = fromMenu.getItemInSlot(fromSlot[i]);
             if (fromItem == null || fromItem.getType() == Material.AIR) {
                 continue;
             }
-            final int[] toSlot = toMenu.getPreset().getSlotsAccessedByItemTransport(toMenu, ItemTransportFlow.INSERT, fromItem);
+            final int[] toSlot =
+                    toMenu.getPreset().getSlotsAccessedByItemTransport(toMenu, ItemTransportFlow.INSERT, fromItem);
             final int offset = getOffset(location);
             final int offseti = i + offset;
             if (offseti >= toSlot.length || offseti < 0) {
@@ -129,7 +134,7 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
         }
     }
 
-    private static void increaseOffset(@Nonnull Location location, int amount) {
+    private static void increaseOffset(@NotNull Location location, int amount) {
         int offset = getOffset(location);
         if (offset + amount > 53 || offset + amount < -53) {
             return;
@@ -138,7 +143,7 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
         setOffset(location, offset + amount);
     }
 
-    private static void decreaseOffset(@Nonnull Location location, int amount) {
+    private static void decreaseOffset(@NotNull Location location, int amount) {
         int offset = getOffset(location);
         if (offset - amount > 53 || offset - amount < -53) {
             return;
@@ -147,13 +152,13 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
         setOffset(location, offset - amount);
     }
 
-    private static void setOffset(@Nonnull Location location, int offset) {
+    private static void setOffset(@NotNull Location location, int offset) {
         offsetMap.put(location, offset);
         StorageCacheUtils.setData(location, BS_OFFSET, String.valueOf(offset));
         updateOffsetShowIcon(location, offset);
     }
 
-    private static int getOffset(@Nonnull Location location) {
+    private static int getOffset(@NotNull Location location) {
         Integer offset = offsetMap.get(location);
         if (offset == null) {
             String data = StorageCacheUtils.getData(location, BS_OFFSET);
@@ -172,14 +177,15 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
         return offset;
     }
 
-    private static void updateOffsetShowIcon(@Nonnull Location location, int offset) {
+    @SuppressWarnings("deprecation")
+    private static void updateOffsetShowIcon(@NotNull Location location, int offset) {
         ItemStack newIcon = Icon.OFFSET_SHOW_ICON.clone();
         ItemMeta meta = newIcon.getItemMeta();
         if (meta == null) {
             return;
         }
         List<String> newLore = new ArrayList<>();
-        newLore.add(String.format(Networks.getLocalizationService().getString("icons.offset-show-icon.lore"), offset));
+        newLore.add(String.format(Lang.getString("icons.offset-show-icon.lore"), offset));
         meta.setLore(newLore);
         newIcon.setItemMeta(meta);
 
@@ -194,7 +200,10 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
     public void preRegister() {
         addItemHandler(new BlockBreakHandler(false, false) {
             @Override
-            public void onPlayerBreak(@Nonnull BlockBreakEvent blockBreakEvent, @Nonnull ItemStack itemStack, @Nonnull List<ItemStack> list) {
+            public void onPlayerBreak(
+                    @NotNull BlockBreakEvent blockBreakEvent,
+                    @NotNull ItemStack itemStack,
+                    @NotNull List<ItemStack> list) {
                 Location location = blockBreakEvent.getBlock().getLocation();
                 facingMap.remove(location);
                 offsetMap.remove(location);
@@ -208,7 +217,7 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
             }
 
             @Override
-            public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
+            public void tick(@NotNull Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
                 onTick(block);
             }
         });
@@ -229,8 +238,11 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return player.hasPermission("slimefun.inventory.bypass") || (Slimefun.getPermissionsService().hasPermission(player, this.getSlimefunItem()) && Slimefun.getProtectionManager().hasPermission(player, block, Interaction.INTERACT_BLOCK));
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
+                return player.hasPermission("slimefun.inventory.bypass")
+                        || (Slimefun.getPermissionsService().hasPermission(player, this.getSlimefunItem())
+                                && Slimefun.getProtectionManager()
+                                        .hasPermission(player, block, Interaction.INTERACT_BLOCK));
             }
 
             @Override
@@ -239,7 +251,7 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
             }
 
             @Override
-            public void newInstance(@Nonnull BlockMenu blockMenu, @Nonnull Block block) {
+            public void newInstance(@NotNull BlockMenu blockMenu, @NotNull Block block) {
                 // Texture should be Grindstone
                 BlockData blockData = block.getBlockData();
                 BlockFace blockFace = null;
@@ -290,5 +302,4 @@ public class Offsetter extends SpecialSlimefunItem implements AdminDebuggable {
             }
         };
     }
-
 }

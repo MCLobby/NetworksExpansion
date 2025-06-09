@@ -2,11 +2,20 @@ package com.ytdd9527.networksexpansion.utils.itemstacks;
 
 import com.balugaq.netex.api.data.ItemAmountWrapper;
 import com.balugaq.netex.api.data.ItemWrapper;
+import com.balugaq.netex.utils.Debug;
 import com.balugaq.netex.utils.NetworksVersionedEnchantment;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.nms.ItemNameAdapter;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -20,24 +29,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Final_ROOT
  */
+@SuppressWarnings({"deprecation", "unused"})
 public final class ItemStackUtil {
     public static final ItemStack AIR = new ItemStack(Material.AIR);
-    public static final ItemNameAdapter itemNameAdapter = ItemNameAdapter.get();
+    public static final @Nullable ItemNameAdapter itemNameAdapter = ItemNameAdapter.get();
 
     /**
      * Clone an #{@link ItemStack}
@@ -45,11 +46,11 @@ public final class ItemStackUtil {
      * @param item to be cloned
      * @return a cloned #{@link ItemStack}
      */
-    public static ItemStack cloneItem(@Nonnull ItemStack item) {
+    public static @NotNull ItemStack cloneItem(@NotNull ItemStack item) {
         return item instanceof ItemStackWrapper ? ItemStackUtil.getCleanItem(item) : item.clone();
     }
 
-    public static ItemStack getCleanItem(@Nullable ItemStack item) {
+    public static @NotNull ItemStack getCleanItem(@Nullable ItemStack item) {
         if (item == null) {
             return new ItemStack(Material.AIR);
         }
@@ -70,7 +71,7 @@ public final class ItemStackUtil {
      * @param amount the amount of the result item
      * @return a cloned #{@link ItemStack}
      */
-    public static ItemStack cloneItem(@Nonnull ItemStack item, int amount) {
+    public static @NotNull ItemStack cloneItem(@NotNull ItemStack item, int amount) {
         ItemStack itemStack = item instanceof ItemStackWrapper ? ItemStackUtil.getCleanItem(item) : item.clone();
         itemStack.setAmount(amount);
         return itemStack;
@@ -108,7 +109,7 @@ public final class ItemStackUtil {
         return !item1.hasItemMeta() && !item2.hasItemMeta();
     }
 
-    public static boolean isItemSimilar(@Nullable ItemStack item1, @Nonnull ItemWrapper item2) {
+    public static boolean isItemSimilar(@Nullable ItemStack item1, @NotNull ItemWrapper item2) {
         if (item1 == item2.getItemStack()) {
             return true;
         }
@@ -124,7 +125,7 @@ public final class ItemStackUtil {
         return !item1.hasItemMeta() && !item2.hasItemMeta();
     }
 
-    public static boolean isItemSimilar(@Nonnull ItemWrapper item1, @Nullable ItemStack item2) {
+    public static boolean isItemSimilar(@NotNull ItemWrapper item1, @Nullable ItemStack item2) {
         if (item1.getItemStack() == item2) {
             return true;
         }
@@ -140,7 +141,7 @@ public final class ItemStackUtil {
         return !item1.hasItemMeta() && !item2.hasItemMeta();
     }
 
-    public static boolean isItemSimilar(@Nonnull ItemWrapper item1, @Nonnull ItemWrapper item2) {
+    public static boolean isItemSimilar(@NotNull ItemWrapper item1, @NotNull ItemWrapper item2) {
         if (item1.getItemStack() == item2.getItemStack()) {
             return true;
         }
@@ -156,7 +157,11 @@ public final class ItemStackUtil {
     /**
      * @return Whether two #{@link ItemMeta} is same.
      */
-    public static boolean isItemMetaSame(@Nonnull ItemMeta itemMeta1, @Nonnull ItemMeta itemMeta2) {
+    public static boolean isItemMetaSame(@Nullable ItemMeta itemMeta1, @Nullable ItemMeta itemMeta2) {
+        if (itemMeta1 == null || itemMeta2 == null) {
+            return itemMeta1 == itemMeta2;
+        }
+
         if (itemMeta1.hasDisplayName() && itemMeta2.hasDisplayName()) {
             if (!itemMeta1.getDisplayName().equals(itemMeta2.getDisplayName())) {
                 return false;
@@ -171,10 +176,13 @@ public final class ItemStackUtil {
      * @return Whether two #{@link ItemMeta} have same lore.
      * @see ItemMeta#getLore()
      */
-    public static boolean isLoreSame(@Nonnull ItemMeta itemMeta1, @Nonnull ItemMeta itemMeta2) {
+    public static boolean isLoreSame(@NotNull ItemMeta itemMeta1, @NotNull ItemMeta itemMeta2) {
         if (itemMeta1.hasLore() && itemMeta2.hasLore()) {
             List<String> lore1 = itemMeta1.getLore();
             List<String> lore2 = itemMeta2.getLore();
+            if (lore1 == null || lore2 == null) {
+                return lore1 == lore2;
+            }
             if (lore1.size() != lore2.size()) {
                 return false;
             }
@@ -192,7 +200,7 @@ public final class ItemStackUtil {
      * @return Whether two #{@link ItemMeta} have same #{@link PersistentDataContainer}
      * @see ItemMeta#getPersistentDataContainer()
      */
-    public static boolean isContainerSame(@Nonnull ItemMeta itemMeta1, @Nonnull ItemMeta itemMeta2) {
+    public static boolean isContainerSame(@NotNull ItemMeta itemMeta1, @NotNull ItemMeta itemMeta2) {
         PersistentDataContainer persistentDataContainer1 = itemMeta1.getPersistentDataContainer();
         PersistentDataContainer persistentDataContainer2 = itemMeta2.getPersistentDataContainer();
         Set<NamespacedKey> keys1 = persistentDataContainer1.getKeys();
@@ -204,14 +212,16 @@ public final class ItemStackUtil {
             if (!persistentDataContainer2.has(namespacedKey, PersistentDataType.STRING)) {
                 return false;
             }
-            if (!Objects.equals(persistentDataContainer1.get(namespacedKey, PersistentDataType.STRING), persistentDataContainer2.get(namespacedKey, PersistentDataType.STRING))) {
+            if (!Objects.equals(
+                    persistentDataContainer1.get(namespacedKey, PersistentDataType.STRING),
+                    persistentDataContainer2.get(namespacedKey, PersistentDataType.STRING))) {
                 return false;
             }
         }
         return true;
     }
 
-    public static boolean isEnchantmentSame(@Nonnull ItemStack itemStack1, @Nonnull ItemStack itemStack2) {
+    public static boolean isEnchantmentSame(@NotNull ItemStack itemStack1, @NotNull ItemStack itemStack2) {
         if (itemStack1 == itemStack2) {
             return true;
         }
@@ -221,7 +231,8 @@ public final class ItemStackUtil {
             return false;
         }
         for (Map.Entry<Enchantment, Integer> entry : enchantments1.entrySet()) {
-            if (!enchantments2.containsKey(entry.getKey()) || !Objects.equals(enchantments2.get(entry.getKey()), entry.getValue())) {
+            if (!enchantments2.containsKey(entry.getKey())
+                    || !Objects.equals(enchantments2.get(entry.getKey()), entry.getValue())) {
                 return false;
             }
         }
@@ -231,8 +242,7 @@ public final class ItemStackUtil {
     /**
      * @return Same #{@link ItemStack} but nonnull.
      */
-    @Nonnull
-    public static ItemStack[] getNoNullItemArray(@Nonnull List<ItemStack> itemList) {
+    @NotNull public static ItemStack[] getNoNullItemArray(@NotNull List<ItemStack> itemList) {
         List<ItemStack> noNullItemList = new ArrayList<>(itemList.size());
         for (ItemStack item : itemList) {
             if (!ItemStackUtil.isItemNull(item)) {
@@ -245,8 +255,7 @@ public final class ItemStackUtil {
     /**
      * @return Same #{@link ItemStack} but in array.
      */
-    @Nonnull
-    public static ItemStack[] getItemArray(@Nonnull List<ItemStack> itemList) {
+    @NotNull public static ItemStack @NotNull [] getItemArray(@NotNull List<ItemStack> itemList) {
         ItemStack[] items = new ItemStack[itemList.size()];
         for (int i = 0; i < items.length; i++) {
             items[i] = itemList.get(i);
@@ -257,8 +266,7 @@ public final class ItemStackUtil {
     /**
      * @return Same #{@link ItemStack} but nonnull.
      */
-    @Nonnull
-    public static List<ItemStack> getNoNullItemList(@Nonnull ItemStack[] items) {
+    @NotNull public static List<ItemStack> getNoNullItemList(@NotNull ItemStack @NotNull [] items) {
         List<ItemStack> itemList = new ArrayList<>(items.length);
         for (ItemStack item : items) {
             if (!ItemStackUtil.isItemNull(item)) {
@@ -271,8 +279,7 @@ public final class ItemStackUtil {
     /**
      * Merge item to a new List.
      */
-    @Nonnull
-    public static List<ItemStack> calMergeItems(@Nonnull List<ItemStack> itemList) {
+    @NotNull public static List<ItemStack> calMergeItems(@NotNull List<ItemStack> itemList) {
         List<ItemWrapper> itemWrapperList = new ArrayList<>(itemList.size());
         ItemWrapper itemWrapper = new ItemWrapper();
         int amount;
@@ -308,8 +315,7 @@ public final class ItemStackUtil {
     /**
      * Merge item to a new Array.
      */
-    @Nonnull
-    public static ItemStack[] calMergeItems(@Nonnull ItemStack[] items) {
+    @NotNull public static ItemStack[] calMergeItems(@NotNull ItemStack @NotNull [] items) {
         List<ItemWrapper> itemWrapperList = new ArrayList<>(items.length);
         ItemWrapper itemWrapper = new ItemWrapper();
         int amount;
@@ -347,8 +353,7 @@ public final class ItemStackUtil {
      * @param amount The amount that the #{@link ItemStack} will be enlarged.
      * @return A new array that multiply the amount to the items.
      */
-    @Nonnull
-    public static ItemStack[] calEnlargeItemArray(@Nonnull ItemStack[] items, int amount) {
+    @NotNull public static ItemStack @NotNull [] calEnlargeItemArray(@NotNull ItemStack @NotNull [] items, int amount) {
         int slot = 0;
         for (ItemStack item : items) {
             slot = slot + 1 + item.getAmount() * amount / item.getMaxStackSize();
@@ -378,12 +383,19 @@ public final class ItemStackUtil {
      * @param amount                The amount that the #{@link ItemStack} will be enlarged.
      * @return A new array that multiply the amount to the items.
      */
-    @Nonnull
-    public static ItemStack[] calEnlargeItemArray(@Nonnull List<ItemAmountWrapper> itemAmountWrapperList, int amount) {
+    @NotNull public static ItemStack @NotNull [] calEnlargeItemArray(
+            @NotNull List<ItemAmountWrapper> itemAmountWrapperList, int amount) {
         int slot = 0;
         for (ItemAmountWrapper itemAmountWrapper : itemAmountWrapperList) {
-            slot = slot + 1 + itemAmountWrapper.getAmount() * amount / itemAmountWrapper.getItemStack().getMaxStackSize();
-            if (itemAmountWrapper.getAmount() * amount % itemAmountWrapper.getItemStack().getMaxStackSize() == 0) {
+            slot = slot
+                    + 1
+                    + itemAmountWrapper.getAmount()
+                            * amount
+                            / itemAmountWrapper.getItemStack().getMaxStackSize();
+            if (itemAmountWrapper.getAmount()
+                            * amount
+                            % itemAmountWrapper.getItemStack().getMaxStackSize()
+                    == 0) {
                 slot--;
             }
         }
@@ -409,12 +421,19 @@ public final class ItemStackUtil {
      * @param amount                The amount that the #{@link ItemStack} will be enlarged.
      * @return A new array that multiply the amount to the items.
      */
-    @Nonnull
-    public static ItemStack[] calEnlargeItemArray(@Nonnull ItemAmountWrapper[] itemAmountWrapperList, int amount) {
+    @NotNull public static ItemStack @NotNull [] calEnlargeItemArray(
+            @NotNull ItemAmountWrapper @NotNull [] itemAmountWrapperList, int amount) {
         int slot = 0;
         for (ItemAmountWrapper itemAmountWrapper : itemAmountWrapperList) {
-            slot = slot + 1 + itemAmountWrapper.getAmount() * amount / itemAmountWrapper.getItemStack().getMaxStackSize();
-            if (itemAmountWrapper.getAmount() * amount % itemAmountWrapper.getItemStack().getMaxStackSize() == 0) {
+            slot = slot
+                    + 1
+                    + itemAmountWrapper.getAmount()
+                            * amount
+                            / itemAmountWrapper.getItemStack().getMaxStackSize();
+            if (itemAmountWrapper.getAmount()
+                            * amount
+                            % itemAmountWrapper.getItemStack().getMaxStackSize()
+                    == 0) {
                 slot--;
             }
         }
@@ -439,8 +458,7 @@ public final class ItemStackUtil {
      * Transfer #{@link ItemStack} to A List of #{@link ItemAmountWrapper}.
      * All returned #{@link ItemAmountWrapper} will contain different #{@link ItemStack} with its amount in items.
      */
-    @Nonnull
-    public static List<ItemAmountWrapper> calItemListWithAmount(@Nonnull ItemStack[] items) {
+    @NotNull public static List<ItemAmountWrapper> calItemListWithAmount(@NotNull ItemStack @NotNull [] items) {
         List<ItemAmountWrapper> itemWithWrapperList = new ArrayList<>(items.length);
         ItemAmountWrapper itemAmountWrapper = new ItemAmountWrapper();
         for (ItemStack item : items) {
@@ -467,8 +485,7 @@ public final class ItemStackUtil {
      * Transfer #{@link ItemStack} to A List of #{@link ItemAmountWrapper}.
      * All returned #{@link ItemAmountWrapper} will contain different #{@link ItemStack} with its amount in items.
      */
-    @Nonnull
-    public static List<ItemAmountWrapper> calItemListWithAmount(@Nonnull List<ItemStack> itemList) {
+    @NotNull public static List<ItemAmountWrapper> calItemListWithAmount(@NotNull List<ItemStack> itemList) {
         List<ItemAmountWrapper> itemWithWrapperList = new ArrayList<>(itemList.size());
         ItemAmountWrapper itemAmountWrapper = new ItemAmountWrapper();
         for (ItemStack item : itemList) {
@@ -495,9 +512,7 @@ public final class ItemStackUtil {
      * Transfer #{@link ItemStack} to A List of #{@link ItemAmountWrapper}.
      * All returned #{@link ItemAmountWrapper} will contain different #{@link ItemStack} with its amount in items.
      */
-    @Nonnull
-    public static ItemAmountWrapper[] calItemArrayWithAmount(@Nonnull ItemStack[] items) {
-        // TODO update it
+    @NotNull public static ItemAmountWrapper @NotNull [] calItemArrayWithAmount(@NotNull ItemStack @NotNull [] items) {
         return ItemStackUtil.calItemListWithAmount(items).toArray(new ItemAmountWrapper[0]);
     }
 
@@ -505,9 +520,7 @@ public final class ItemStackUtil {
      * Transfer #{@link ItemStack} to A List of #{@link ItemAmountWrapper}.
      * All returned #{@link ItemAmountWrapper} will contain different #{@link ItemStack} with its amount in items.
      */
-    @Nonnull
-    public static ItemAmountWrapper[] calItemArrayWithAmount(@Nonnull List<ItemStack> itemList) {
-        // TODO update it
+    @NotNull public static ItemAmountWrapper @NotNull [] calItemArrayWithAmount(@NotNull List<ItemStack> itemList) {
         return ItemStackUtil.calItemListWithAmount(itemList).toArray(new ItemAmountWrapper[0]);
     }
 
@@ -519,7 +532,12 @@ public final class ItemStackUtil {
      * @return The number that truly stacked.
      */
     public static int stack(@Nullable ItemStack input, @Nullable ItemStack output) {
-        if (!ItemStackUtil.isItemNull(output) && output.getAmount() < output.getMaxStackSize() && StackUtils.itemsMatch(input, output)) {
+        if (!ItemStackUtil.isItemNull(output)
+                && output.getAmount() < output.getMaxStackSize()
+                && StackUtils.itemsMatch(input, output)) {
+            if (input == null) {
+                return output.getAmount();
+            }
             int amount = Math.min(input.getAmount(), output.getMaxStackSize() - output.getAmount());
             input.setAmount(input.getAmount() - amount);
             output.setAmount(output.getAmount() + amount);
@@ -528,8 +546,10 @@ public final class ItemStackUtil {
         return 0;
     }
 
-    public static int stack(@Nonnull ItemWrapper input, @Nullable ItemStack output) {
-        if (!ItemStackUtil.isItemNull(output) && output.getAmount() < output.getMaxStackSize() && StackUtils.itemsMatch(input.getItemStack(), output)) {
+    public static int stack(@NotNull ItemWrapper input, @Nullable ItemStack output) {
+        if (!ItemStackUtil.isItemNull(output)
+                && output.getAmount() < output.getMaxStackSize()
+                && StackUtils.itemsMatch(input.getItemStack(), output)) {
             int amount = Math.min(input.getItemStack().getAmount(), output.getMaxStackSize() - output.getAmount());
             input.getItemStack().setAmount(input.getItemStack().getAmount() - amount);
             output.setAmount(output.getAmount() + amount);
@@ -538,9 +558,14 @@ public final class ItemStackUtil {
         return 0;
     }
 
-    public static int stack(@Nullable ItemStack input, @Nonnull ItemWrapper output) {
-        if (!ItemStackUtil.isItemNull(input) && output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize() && StackUtils.itemsMatch(input, output.getItemStack())) {
-            int amount = Math.min(input.getAmount(), output.getItemStack().getMaxStackSize() - output.getItemStack().getAmount());
+    public static int stack(@Nullable ItemStack input, @NotNull ItemWrapper output) {
+        if (!ItemStackUtil.isItemNull(input)
+                && output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize()
+                && StackUtils.itemsMatch(input, output.getItemStack())) {
+            int amount = Math.min(
+                    input.getAmount(),
+                    output.getItemStack().getMaxStackSize()
+                            - output.getItemStack().getAmount());
             input.setAmount(input.getAmount() - amount);
             output.getItemStack().setAmount(output.getItemStack().getAmount() + amount);
             return amount;
@@ -548,16 +573,19 @@ public final class ItemStackUtil {
         return 0;
     }
 
-    public static int stack(@Nonnull ItemWrapper input, @Nonnull ItemWrapper output) {
-        if (output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize() && StackUtils.itemsMatch(input.getItemStack(), output.getItemStack())) {
-            int amount = Math.min(input.getItemStack().getAmount(), output.getItemStack().getMaxStackSize() - output.getItemStack().getAmount());
+    public static int stack(@NotNull ItemWrapper input, @NotNull ItemWrapper output) {
+        if (output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize()
+                && StackUtils.itemsMatch(input.getItemStack(), output.getItemStack())) {
+            int amount = Math.min(
+                    input.getItemStack().getAmount(),
+                    output.getItemStack().getMaxStackSize()
+                            - output.getItemStack().getAmount());
             input.getItemStack().setAmount(input.getItemStack().getAmount() - amount);
             output.getItemStack().setAmount(output.getItemStack().getAmount() + amount);
             return amount;
         }
         return 0;
     }
-
 
     /**
      * Try stack one #{@link ItemStack} to another #{@link ItemStack} in limited amount
@@ -568,8 +596,14 @@ public final class ItemStackUtil {
      * @return The number that truly stacked.
      */
     public static int stack(@Nullable ItemStack input, @Nullable ItemStack output, int maxAmount) {
-        if (!ItemStackUtil.isItemNull(output) && output.getMaxStackSize() > output.getAmount() && StackUtils.itemsMatch(input, output)) {
-            int amount = Math.min(maxAmount, Math.min(input.getAmount(), output.getMaxStackSize() - output.getAmount()));
+        if (!ItemStackUtil.isItemNull(output)
+                && output.getMaxStackSize() > output.getAmount()
+                && StackUtils.itemsMatch(input, output)) {
+            if (input == null) {
+                return output.getAmount();
+            }
+            int amount =
+                    Math.min(maxAmount, Math.min(input.getAmount(), output.getMaxStackSize() - output.getAmount()));
             input.setAmount(input.getAmount() - amount);
             output.setAmount(output.getAmount() + amount);
             return amount;
@@ -577,9 +611,13 @@ public final class ItemStackUtil {
         return 0;
     }
 
-    public static int stack(@Nonnull ItemWrapper input, @Nullable ItemStack output, int maxAmount) {
-        if (!ItemStackUtil.isItemNull(output) && output.getAmount() < output.getMaxStackSize() && StackUtils.itemsMatch(input.getItemStack(), output)) {
-            int amount = Math.min(maxAmount, Math.min(input.getItemStack().getAmount(), output.getMaxStackSize() - output.getAmount()));
+    public static int stack(@NotNull ItemWrapper input, @Nullable ItemStack output, int maxAmount) {
+        if (!ItemStackUtil.isItemNull(output)
+                && output.getAmount() < output.getMaxStackSize()
+                && StackUtils.itemsMatch(input.getItemStack(), output)) {
+            int amount = Math.min(
+                    maxAmount,
+                    Math.min(input.getItemStack().getAmount(), output.getMaxStackSize() - output.getAmount()));
             input.getItemStack().setAmount(input.getItemStack().getAmount() - amount);
             output.setAmount(output.getAmount() + amount);
             return amount;
@@ -587,9 +625,16 @@ public final class ItemStackUtil {
         return 0;
     }
 
-    public static int stack(@Nullable ItemStack input, @Nonnull ItemWrapper output, int maxAmount) {
-        if (!ItemStackUtil.isItemNull(input) && output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize() && StackUtils.itemsMatch(input, output.getItemStack())) {
-            int amount = Math.min(maxAmount, Math.min(input.getAmount(), output.getItemStack().getMaxStackSize() - output.getItemStack().getAmount()));
+    public static int stack(@Nullable ItemStack input, @NotNull ItemWrapper output, int maxAmount) {
+        if (!ItemStackUtil.isItemNull(input)
+                && output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize()
+                && StackUtils.itemsMatch(input, output.getItemStack())) {
+            int amount = Math.min(
+                    maxAmount,
+                    Math.min(
+                            input.getAmount(),
+                            output.getItemStack().getMaxStackSize()
+                                    - output.getItemStack().getAmount()));
             input.setAmount(input.getAmount() - amount);
             output.getItemStack().setAmount(output.getItemStack().getAmount() + amount);
             return amount;
@@ -597,9 +642,15 @@ public final class ItemStackUtil {
         return 0;
     }
 
-    public static int stack(@Nonnull ItemWrapper input, @Nonnull ItemWrapper output, int maxAmount) {
-        if (output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize() && StackUtils.itemsMatch(input.getItemStack(), output.getItemStack())) {
-            int amount = Math.min(maxAmount, Math.min(input.getItemStack().getAmount(), output.getItemStack().getMaxStackSize() - output.getItemStack().getAmount()));
+    public static int stack(@NotNull ItemWrapper input, @NotNull ItemWrapper output, int maxAmount) {
+        if (output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize()
+                && StackUtils.itemsMatch(input.getItemStack(), output.getItemStack())) {
+            int amount = Math.min(
+                    maxAmount,
+                    Math.min(
+                            input.getItemStack().getAmount(),
+                            output.getItemStack().getMaxStackSize()
+                                    - output.getItemStack().getAmount()));
             input.getItemStack().setAmount(input.getItemStack().getAmount() - amount);
             output.getItemStack().setAmount(output.getItemStack().getAmount() + amount);
             return amount;
@@ -610,8 +661,7 @@ public final class ItemStackUtil {
     /**
      * @return Name of the given #{@link ItemStack}.
      */
-    @Nonnull
-    public static String getItemName(@Nullable ItemStack item) {
+    @NotNull public static String getItemName(@Nullable ItemStack item) {
         if (ItemStackUtil.isItemNull(item)) {
             return "null";
         }
@@ -623,16 +673,20 @@ public final class ItemStackUtil {
             }
         } else {
             try {
-                return itemNameAdapter.getName(item);
+                if (itemNameAdapter != null) {
+                    return itemNameAdapter.getName(item);
+                } else {
+                    return "unknown";
+                }
             } catch (InvocationTargetException | IllegalAccessException e) {
-                e.printStackTrace();
+                Debug.trace(e);
                 return "unknown";
             }
         }
         return "unknown";
     }
 
-    public static void setItemName(@Nonnull ItemStack item, @Nonnull String itemName) {
+    public static void setItemName(@NotNull ItemStack item, @NotNull String itemName) {
         if (!item.hasItemMeta()) {
             return;
         }
@@ -641,7 +695,7 @@ public final class ItemStackUtil {
         item.setItemMeta(itemMeta);
     }
 
-    public static void addLoreToFirst(@Nullable ItemStack item, @Nonnull String s) {
+    public static void addLoreToFirst(@Nullable ItemStack item, @NotNull String s) {
         if (ItemStackUtil.isItemNull(item)) {
             return;
         }
@@ -661,7 +715,7 @@ public final class ItemStackUtil {
         }
     }
 
-    public static void addLoreToLast(@Nullable ItemStack item, @Nonnull String s) {
+    public static void addLoreToLast(@Nullable ItemStack item, @NotNull String s) {
         if (ItemStackUtil.isItemNull(item)) {
             return;
         }
@@ -675,7 +729,7 @@ public final class ItemStackUtil {
         item.setItemMeta(itemMeta);
     }
 
-    public static void addLoreToLast(@Nonnull ItemMeta itemMeta, @Nonnull String s) {
+    public static void addLoreToLast(@NotNull ItemMeta itemMeta, @NotNull String s) {
         List<String> lore = itemMeta.getLore();
         if (lore == null) {
             lore = new ArrayList<>(8);
@@ -684,7 +738,7 @@ public final class ItemStackUtil {
         itemMeta.setLore(lore);
     }
 
-    public static void addLoresToLast(@Nullable ItemStack item, @Nonnull String... s) {
+    public static void addLoresToLast(@Nullable ItemStack item, @NotNull String @NotNull ... s) {
         if (ItemStackUtil.isItemNull(item)) {
             return;
         }
@@ -698,7 +752,7 @@ public final class ItemStackUtil {
         item.setItemMeta(itemMeta);
     }
 
-    public static void addLoresToLast(@Nonnull ItemMeta itemMeta, @Nonnull String... s) {
+    public static void addLoresToLast(@NotNull ItemMeta itemMeta, @NotNull String @NotNull ... s) {
         List<String> lore = itemMeta.getLore();
         if (lore == null) {
             lore = new ArrayList<>(8);
@@ -721,7 +775,7 @@ public final class ItemStackUtil {
         item.setItemMeta(itemMeta);
     }
 
-    public static void removeLastLore(@Nonnull ItemMeta itemMeta) {
+    public static void removeLastLore(@NotNull ItemMeta itemMeta) {
         List<String> lore = itemMeta.getLore();
         if (lore == null || lore.isEmpty()) {
             return;
@@ -730,7 +784,7 @@ public final class ItemStackUtil {
         itemMeta.setLore(lore);
     }
 
-    public static void setLastLore(@Nonnull ItemStack item, @Nonnull String s) {
+    public static void setLastLore(@NotNull ItemStack item, @NotNull String s) {
         if (ItemStackUtil.isItemNull(item)) {
             return;
         }
@@ -746,7 +800,7 @@ public final class ItemStackUtil {
         item.setItemMeta(itemMeta);
     }
 
-    public static void setLastLore(@Nonnull ItemMeta itemMeta, @Nonnull String s) {
+    public static void setLastLore(@NotNull ItemMeta itemMeta, @NotNull String s) {
         List<String> lore = itemMeta.getLore();
         if (lore == null || lore.isEmpty()) {
             lore = new ArrayList<>();
@@ -757,8 +811,7 @@ public final class ItemStackUtil {
         itemMeta.setLore(lore);
     }
 
-    @Nullable
-    public static String getLastLore(@Nonnull ItemStack item) {
+    @Nullable public static String getLastLore(@NotNull ItemStack item) {
         if (ItemStackUtil.isItemNull(item)) {
             return null;
         }
@@ -770,8 +823,7 @@ public final class ItemStackUtil {
         return lore.get(lore.size() - 1);
     }
 
-    @Nullable
-    public static String getLastLore(@Nonnull ItemMeta itemMeta) {
+    @Nullable public static String getLastLore(@NotNull ItemMeta itemMeta) {
         List<String> lore = itemMeta.getLore();
         if (lore == null || lore.isEmpty()) {
             return null;
@@ -779,7 +831,7 @@ public final class ItemStackUtil {
         return lore.get(lore.size() - 1);
     }
 
-    public static void setLore(@Nonnull ItemStack item, @Nonnull String... lore) {
+    public static void setLore(@NotNull ItemStack item, @NotNull String @NotNull ... lore) {
         if (ItemStackUtil.isItemNull(item)) {
             return;
         }
@@ -788,7 +840,7 @@ public final class ItemStackUtil {
         item.setItemMeta(itemMeta);
     }
 
-    public static void setLore(@Nonnull ItemStack item, @Nonnull List<String> lore) {
+    public static void setLore(@NotNull ItemStack item, @NotNull List<String> lore) {
         if (ItemStackUtil.isItemNull(item)) {
             return;
         }
@@ -797,7 +849,7 @@ public final class ItemStackUtil {
         item.setItemMeta(itemMeta);
     }
 
-    public static void replaceLore(@Nonnull ItemStack item, int loreOffset, @Nonnull String... lore) {
+    public static void replaceLore(@NotNull ItemStack item, int loreOffset, @NotNull String @NotNull ... lore) {
         if (loreOffset < 0) {
             ItemStackUtil.setLore(item, lore);
             return;
@@ -824,7 +876,7 @@ public final class ItemStackUtil {
         item.setItemMeta(itemMeta);
     }
 
-    public static void replaceLore(@Nonnull ItemStack item, int loreOffset, @Nonnull List<String> lore) {
+    public static void replaceLore(@NotNull ItemStack item, int loreOffset, @NotNull List<String> lore) {
         if (loreOffset < 0) {
             ItemStackUtil.setLore(item, lore);
             return;
@@ -851,7 +903,7 @@ public final class ItemStackUtil {
         item.setItemMeta(itemMeta);
     }
 
-    public static void addItemFlag(@Nonnull ItemStack item, @Nonnull ItemFlag itemFlag) {
+    public static void addItemFlag(@NotNull ItemStack item, @NotNull ItemFlag itemFlag) {
         if (!item.hasItemMeta()) {
             return;
         }
@@ -860,7 +912,7 @@ public final class ItemStackUtil {
         item.setItemMeta(itemMeta);
     }
 
-    public static void addNBT(@Nonnull ItemStack item, @Nonnull NamespacedKey namespacedKey, @Nonnull String value) {
+    public static void addNBT(@NotNull ItemStack item, @NotNull NamespacedKey namespacedKey, @NotNull String value) {
         if (!item.hasItemMeta()) {
             return;
         }
@@ -872,7 +924,7 @@ public final class ItemStackUtil {
         }
     }
 
-    public static void setNBT(@Nonnull ItemStack item, @Nonnull NamespacedKey namespacedKey, @Nonnull String value) {
+    public static void setNBT(@NotNull ItemStack item, @NotNull NamespacedKey namespacedKey, @NotNull String value) {
         if (!item.hasItemMeta()) {
             return;
         }
@@ -882,7 +934,7 @@ public final class ItemStackUtil {
         item.setItemMeta(itemMeta);
     }
 
-    public static void clearNBT(@Nonnull ItemStack itemStack) {
+    public static void clearNBT(@NotNull ItemStack itemStack) {
         if (!itemStack.hasItemMeta()) {
             return;
         }
@@ -894,8 +946,7 @@ public final class ItemStackUtil {
         itemStack.setItemMeta(itemMeta);
     }
 
-    @Nullable
-    public static ItemStack cloneWithoutNBT(@Nullable ItemStack itemStack) {
+    @Nullable public static ItemStack cloneWithoutNBT(@Nullable ItemStack itemStack) {
         if (itemStack == null) {
             return null;
         }
@@ -907,7 +958,7 @@ public final class ItemStackUtil {
         return result;
     }
 
-    public static ItemStack getDried(@Nonnull ItemStack item) {
+    public static @Nullable ItemStack getDried(@NotNull ItemStack item) {
         if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
             return null;
         }
@@ -921,8 +972,7 @@ public final class ItemStackUtil {
     /**
      * Transfer #{@link ItemStack} to #{@link String}
      */
-    @Nonnull
-    public static String itemStackToString(@Nonnull ItemStack itemStack) {
+    @NotNull public static String itemStackToString(@NotNull ItemStack itemStack) {
         YamlConfiguration yamlConfiguration = new YamlConfiguration();
         yamlConfiguration.set("item", itemStack);
         return yamlConfiguration.saveToString();
@@ -931,25 +981,24 @@ public final class ItemStackUtil {
     /**
      * Transfer #{@link String} to #{@link ItemStack}
      */
-    @Nullable
-    public static ItemStack stringToItemStack(@Nonnull String local) {
+    @Nullable public static ItemStack stringToItemStack(@NotNull String local) {
         YamlConfiguration yamlConfiguration = new YamlConfiguration();
         try {
             yamlConfiguration.loadFromString(local);
         } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
+            Debug.trace(e);
         }
         return yamlConfiguration.getItemStack("item");
     }
 
-    public static String color(String str) {
+    public static String color(@Nullable String str) {
         if (str == null) {
             return null;
         }
         return ChatColor.translateAlternateColorCodes('&', str);
     }
 
-    public static void giveOrDropItem(Player p, ItemStack toGive) {
+    public static void giveOrDropItem(@NotNull Player p, @NotNull ItemStack toGive) {
         for (int i = 0; i < 64; i++) {
             if (toGive.getAmount() <= 0) {
                 return;
@@ -964,25 +1013,30 @@ public final class ItemStackUtil {
         }
     }
 
-    public static void send(CommandSender p, String message) {
+    public static void send(@NotNull CommandSender p, String message) {
         p.sendMessage(color("&7[&6NetworksExpansion&7] &r" + message));
     }
 
-    public static ItemStack getPreEnchantedItemStack(Material material) {
+    public static @NotNull ItemStack getPreEnchantedItemStack(@NotNull Material material) {
         return getPreEnchantedItemStack(material, true);
     }
 
-    public static ItemStack getPreEnchantedItemStack(Material material, boolean hide) {
+    public static @NotNull ItemStack getPreEnchantedItemStack(@NotNull Material material, boolean hide) {
         return getPreEnchantedItemStack(material, hide, new Pair<>(NetworksVersionedEnchantment.GLOW, 1));
     }
 
-    @Nonnull
-    @SafeVarargs
-    public static ItemStack getPreEnchantedItemStack(Material material, boolean hide, @Nonnull Pair<Enchantment, Integer>... enchantments) {
+    @NotNull @SafeVarargs
+    public static ItemStack getPreEnchantedItemStack(
+            @NotNull Material material, boolean hide, @NotNull Pair<Enchantment, Integer> @NotNull ... enchantments) {
         ItemStack itemStack = new ItemStack(material);
         ItemMeta itemMeta = itemStack.getItemMeta();
         for (Pair<Enchantment, Integer> pair : enchantments) {
-            itemMeta.addEnchant(pair.getFirstValue(), pair.getSecondValue(), true);
+            var v1 = pair.getFirstValue();
+            var v2 = pair.getSecondValue();
+            if (v1 == null || v2 == null) {
+                continue;
+            }
+            itemMeta.addEnchant(v1, v2, true);
         }
         if (hide) {
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);

@@ -4,23 +4,22 @@ import lombok.ToString;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 @ToString
 public class ItemStackCache {
 
-    private ItemStack itemStack;
-    @Nullable
-    private ItemMeta itemMeta = null;
+    private @Nullable ItemStack itemStack;
+
+    @Nullable private ItemMeta itemMeta = null;
+
     private boolean metaCached = false;
 
     public ItemStackCache(@Nullable ItemStack itemStack) {
         this.itemStack = itemStack;
     }
 
-    @Nullable
-    public ItemStack getItemStack() {
+    @Nullable public ItemStack getItemStack() {
         return this.itemStack;
     }
 
@@ -32,17 +31,15 @@ public class ItemStackCache {
         this.itemMeta = null;
     }
 
-    @Nullable
-    public ItemMeta getItemMeta() {
+    @Nullable public ItemMeta getItemMeta() {
         if (this.itemMeta == null && !this.metaCached) {
-            this.itemMeta = itemStack.hasItemMeta() ? itemStack.getItemMeta() : null;
+            this.itemMeta = itemStack == null ? null : itemStack.hasItemMeta() ? itemStack.getItemMeta() : null;
             this.metaCached = !this.metaCached;
         }
         return this.itemMeta;
     }
 
-    @Nullable
-    public Material getItemType() {
-        return this.itemStack.getType();
+    @Nullable public Material getItemType() {
+        return this.itemStack == null ? null : this.itemStack.getType();
     }
 }

@@ -8,12 +8,11 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
-import lombok.experimental.UtilityClass;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.experimental.UtilityClass;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 @UtilityClass
 public final class SupportedExpansionWorkbenchRecipes implements RecipesHolder, CanTestRecipe {
@@ -41,15 +40,15 @@ public final class SupportedExpansionWorkbenchRecipes implements RecipesHolder, 
         }
     }
 
-    public static @Nonnull Map<ItemStack[], ItemStack> getRecipes() {
+    public static @NotNull Map<ItemStack[], ItemStack> getRecipes() {
         return RECIPES;
     }
 
-    public static void addRecipe(@Nonnull ItemStack[] input, @Nonnull ItemStack output) {
+    public static void addRecipe(@NotNull ItemStack[] input, @NotNull ItemStack output) {
         RECIPES.put(input, output);
     }
 
-    public static boolean testRecipe(@Nonnull ItemStack[] input, @Nonnull ItemStack[] recipe) {
+    public static boolean testRecipe(@NotNull ItemStack[] input, @NotNull ItemStack @NotNull [] recipe) {
         for (int test = 0; test < recipe.length; test++) {
             if (!StackUtils.itemsMatch(input[test], recipe[test])) {
                 return false;
@@ -58,8 +57,7 @@ public final class SupportedExpansionWorkbenchRecipes implements RecipesHolder, 
         return true;
     }
 
-    public static boolean allowedRecipe(@Nonnull SlimefunItem item) {
+    public static boolean allowedRecipe(@NotNull SlimefunItem item) {
         return !(item instanceof SlimefunBackpack);
     }
-
 }

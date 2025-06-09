@@ -8,19 +8,17 @@ import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class NetworkStorage extends BarrelIdentity {
 
-    public NetworkStorage(Location location, ItemStack itemStack, long amount) {
+    public NetworkStorage(@NotNull Location location, ItemStack itemStack, long amount) {
         super(location, itemStack, amount, BarrelType.NETWORKS);
     }
 
     @Override
-    @Nullable
-    public ItemStack requestItem(@Nonnull ItemRequest itemRequest) {
+    @Nullable public ItemStack requestItem(@NotNull ItemRequest itemRequest) {
         final BlockMenu blockMenu = StorageCacheUtils.getMenu(this.getLocation());
 
         if (blockMenu == null) {
@@ -37,9 +35,12 @@ public class NetworkStorage extends BarrelIdentity {
     }
 
     @Override
-    public void depositItemStack(ItemStack[] itemsToDeposit) {
+    public void depositItemStack(ItemStack @NotNull [] itemsToDeposit) {
         if (StorageCacheUtils.getSfItem(this.getLocation()) instanceof NetworkQuantumStorage) {
             final BlockMenu blockMenu = StorageCacheUtils.getMenu(this.getLocation());
+            if (blockMenu == null) {
+                return;
+            }
             final QuantumCache cache = NetworkQuantumStorage.getCaches().get(this.getLocation());
             if (cache != null) {
                 NetworkQuantumStorage.tryInputItem(blockMenu.getLocation(), itemsToDeposit, cache);
@@ -47,14 +48,13 @@ public class NetworkStorage extends BarrelIdentity {
         }
     }
 
-
     @Override
     public int[] getInputSlot() {
-        return new int[]{NetworkQuantumStorage.INPUT_SLOT};
+        return new int[] {NetworkQuantumStorage.INPUT_SLOT};
     }
 
     @Override
     public int[] getOutputSlot() {
-        return new int[]{NetworkQuantumStorage.OUTPUT_SLOT};
+        return new int[] {NetworkQuantumStorage.OUTPUT_SLOT};
     }
 }

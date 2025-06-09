@@ -5,6 +5,9 @@ import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.stackcaches.ItemStackCache;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
+import java.util.Objects;
+import java.util.Optional;
+import javax.annotation.ParametersAreNonnullByDefault;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -36,23 +39,18 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.inventory.meta.SuspiciousStewMeta;
 import org.bukkit.inventory.meta.TropicalFishBucketMeta;
 import org.bukkit.inventory.meta.WritableBookMeta;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Objects;
-import java.util.Optional;
-
-@UtilityClass
 @SuppressWarnings("deprecation")
+@UtilityClass
 public class StackUtils {
     private static final boolean FORCE_CHECK_LORE = Networks.getConfigManager().isForceCheckLore();
     private static final MinecraftVersion MC_VERSION = Networks.getInstance().getMCVersion();
     private static final boolean IS_1_20_5 = MC_VERSION.isAtLeast(MinecraftVersion.MC1_20_5);
     private static final boolean IS_1_21 = MC_VERSION.isAtLeast(MinecraftVersion.MC1_21);
 
-    @Nonnull
-    public static ItemStack getAsQuantity(@Nullable ItemStack itemStack, int amount) {
+    @NotNull public static ItemStack getAsQuantity(@Nullable ItemStack itemStack, int amount) {
         if (itemStack == null) {
             return new ItemStack(Material.AIR);
         }
@@ -61,15 +59,22 @@ public class StackUtils {
         return clone;
     }
 
-    public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore, boolean checkAmount, boolean checkCustomModelId) {
+    public static boolean itemsMatch(
+            @Nullable ItemStack itemStack1,
+            @Nullable ItemStack itemStack2,
+            boolean checkLore,
+            boolean checkAmount,
+            boolean checkCustomModelId) {
         return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, checkAmount, checkCustomModelId);
     }
 
-    public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore, boolean checkAmount) {
+    public static boolean itemsMatch(
+            @Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore, boolean checkAmount) {
         return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, checkAmount, true);
     }
 
-    public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore) {
+    public static boolean itemsMatch(
+            @Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore) {
         return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, false, true);
     }
 
@@ -77,31 +82,38 @@ public class StackUtils {
         return itemsMatch(new ItemStackCache(itemStack1), itemStack2, false, false, true);
     }
 
-    public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore, boolean checkAmount) {
+    public static boolean itemsMatch(
+            @NotNull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore, boolean checkAmount) {
         return itemsMatch(cache, itemStack, checkLore, checkAmount, true);
     }
 
-    public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore) {
+    public static boolean itemsMatch(@NotNull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore) {
         return itemsMatch(cache, itemStack, checkLore, false, true);
     }
 
-    public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack) {
+    public static boolean itemsMatch(@NotNull ItemStackCache cache, @Nullable ItemStack itemStack) {
         return itemsMatch(cache, itemStack, false, false, true);
     }
 
-    public static boolean itemsMatch(@Nullable ItemStack itemStack, @Nonnull ItemStackCache cache, boolean checkLore, boolean checkAmount, boolean checkCustomModelId) {
+    public static boolean itemsMatch(
+            @Nullable ItemStack itemStack,
+            @NotNull ItemStackCache cache,
+            boolean checkLore,
+            boolean checkAmount,
+            boolean checkCustomModelId) {
         return itemsMatch(cache, itemStack, checkLore, checkAmount, checkCustomModelId);
     }
 
-    public static boolean itemsMatch(@Nullable ItemStack itemStack, @Nonnull ItemStackCache cache, boolean checkLore, boolean checkAmount) {
+    public static boolean itemsMatch(
+            @Nullable ItemStack itemStack, @NotNull ItemStackCache cache, boolean checkLore, boolean checkAmount) {
         return itemsMatch(cache, itemStack, checkLore, checkAmount, true);
     }
 
-    public static boolean itemsMatch(@Nullable ItemStack itemStack, @Nonnull ItemStackCache cache, boolean checkLore) {
+    public static boolean itemsMatch(@Nullable ItemStack itemStack, @NotNull ItemStackCache cache, boolean checkLore) {
         return itemsMatch(cache, itemStack, checkLore, false, true);
     }
 
-    public static boolean itemsMatch(@Nullable ItemStack itemStack, @Nonnull ItemStackCache cache) {
+    public static boolean itemsMatch(@Nullable ItemStack itemStack, @NotNull ItemStackCache cache) {
         return itemsMatch(cache, itemStack, false, false, true);
     }
 
@@ -112,7 +124,13 @@ public class StackUtils {
      * @param itemStack The {@link ItemStack} being evaluated
      * @return True if items match
      */
-    public static boolean itemsMatch(@Nonnull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore, boolean checkAmount, boolean checkCustomModelId) {
+    @SuppressWarnings("UnstableApiUsage")
+    public static boolean itemsMatch(
+            @NotNull ItemStackCache cache,
+            @Nullable ItemStack itemStack,
+            boolean checkLore,
+            boolean checkAmount,
+            boolean checkCustomModelId) {
         // Null check
         if (cache.getItemStack() == null || itemStack == null) {
             return itemStack == null && cache.getItemStack() == null;
@@ -196,7 +214,8 @@ public class StackUtils {
         final boolean hasAttributeOne = itemMeta.hasAttributeModifiers();
         final boolean hasAttributeTwo = cachedMeta.hasAttributeModifiers();
         if (hasAttributeOne) {
-            if (!hasAttributeTwo || !Objects.equals(itemMeta.getAttributeModifiers(), cachedMeta.getAttributeModifiers())) {
+            if (!hasAttributeTwo
+                    || !Objects.equals(itemMeta.getAttributeModifiers(), cachedMeta.getAttributeModifiers())) {
                 return false;
             }
         } else if (hasAttributeTwo) {
@@ -264,7 +283,8 @@ public class StackUtils {
         if (checkLore
                 || FORCE_CHECK_LORE
                 || itemStack.getMaxStackSize() == 1 // Fix RPG weapons
-                || itemStack.getType() == Material.PLAYER_HEAD // Fix Soul jars in SoulJars & Number Components in MomoTech
+                || itemStack.getType()
+                        == Material.PLAYER_HEAD // Fix Soul jars in SoulJars & Number Components in MomoTech
                 || itemStack.getType() == Material.SPAWNER // Fix Reinforced Spawner in Slimefun4
                 || itemStack.getType() == Material.SUGAR // Fix Symbols in MomoTech
         ) {
@@ -288,15 +308,13 @@ public class StackUtils {
         }
 
         // Check the display name
-        if (itemMeta.hasDisplayName() && !Objects.equals(itemMeta.getDisplayName(), cachedMeta.getDisplayName())) {
-            return false;
-        }
+        return !itemMeta.hasDisplayName() || Objects.equals(itemMeta.getDisplayName(), cachedMeta.getDisplayName());
 
         // Everything should match if we've managed to get here
-        return true;
     }
 
-    public static boolean canQuickEscapeMetaVariant(@Nonnull ItemMeta metaOne, @Nonnull ItemMeta metaTwo) {
+    @SuppressWarnings("removal")
+    public static boolean canQuickEscapeMetaVariant(@NotNull ItemMeta metaOne, @NotNull ItemMeta metaTwo) {
 
         // Damageable (first as everything can be damageable apparently)
         if (metaOne instanceof Damageable instanceOne && metaTwo instanceof Damageable instanceTwo) {
@@ -410,7 +428,8 @@ public class StackUtils {
         }
 
         // Enchantment Storage
-        if (metaOne instanceof EnchantmentStorageMeta instanceOne && metaTwo instanceof EnchantmentStorageMeta instanceTwo) {
+        if (metaOne instanceof EnchantmentStorageMeta instanceOne
+                && metaTwo instanceof EnchantmentStorageMeta instanceTwo) {
             if (instanceOne.hasStoredEnchants() != instanceTwo.hasStoredEnchants()) {
                 return true;
             }
@@ -512,7 +531,8 @@ public class StackUtils {
         }
 
         // Fish Bucket
-        if (metaOne instanceof TropicalFishBucketMeta instanceOne && metaTwo instanceof TropicalFishBucketMeta instanceTwo) {
+        if (metaOne instanceof TropicalFishBucketMeta instanceOne
+                && metaTwo instanceof TropicalFishBucketMeta instanceTwo) {
             if (instanceOne.hasVariant() != instanceTwo.hasVariant()) {
                 return true;
             }
@@ -564,7 +584,8 @@ public class StackUtils {
             }
             if (IS_1_21) {
                 // Ominous Bottle
-                if (metaOne instanceof OminousBottleMeta instanceOne && metaTwo instanceof OminousBottleMeta instanceTwo) {
+                if (metaOne instanceof OminousBottleMeta instanceOne
+                        && metaTwo instanceof OminousBottleMeta instanceTwo) {
                     if (instanceOne.hasAmplifier() != instanceTwo.hasAmplifier()) {
                         return true;
                     }
@@ -575,9 +596,7 @@ public class StackUtils {
                 }
                 // Shield
                 if (metaOne instanceof ShieldMeta instanceOne && metaTwo instanceof ShieldMeta instanceTwo) {
-                    if (Objects.equals(instanceOne.getBaseColor(), instanceTwo.getBaseColor())) {
-                        return true;
-                    }
+                    return Objects.equals(instanceOne.getBaseColor(), instanceTwo.getBaseColor());
                 }
             }
         }
@@ -596,7 +615,8 @@ public class StackUtils {
     public static void putOnCooldown(ItemStack itemStack, int durationInSeconds) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta != null) {
-            PersistentDataAPI.setLong(itemMeta, Keys.ON_COOLDOWN, System.currentTimeMillis() + (durationInSeconds * 1000L));
+            PersistentDataAPI.setLong(
+                    itemMeta, Keys.ON_COOLDOWN, System.currentTimeMillis() + (durationInSeconds * 1000L));
             itemStack.setItemMeta(itemMeta);
         }
     }

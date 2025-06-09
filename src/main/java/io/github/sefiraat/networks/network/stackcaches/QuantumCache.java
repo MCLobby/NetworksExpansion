@@ -1,31 +1,40 @@
 package io.github.sefiraat.networks.network.stackcaches;
 
-import io.github.sefiraat.networks.Networks;
+import com.balugaq.netex.utils.Lang;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-
+@SuppressWarnings("deprecation")
 public class QuantumCache extends ItemStackCache {
 
-    @Nullable
-    private final ItemMeta storedItemMeta;
+    @Nullable private final ItemMeta storedItemMeta;
+
     private final boolean supportsCustomMaxAmount;
+
     @Setter
     @Getter
     private int limit;
+
     @Getter
     private long amount;
+
     @Setter
     @Getter
     private boolean voidExcess;
 
-    public QuantumCache(@Nullable ItemStack storedItem, long amount, int limit, boolean voidExcess, boolean supportsCustomMaxAmount) {
+    public QuantumCache(
+            @Nullable ItemStack storedItem,
+            long amount,
+            int limit,
+            boolean voidExcess,
+            boolean supportsCustomMaxAmount) {
         super(storedItem);
         this.storedItemMeta = storedItem == null ? null : storedItem.getItemMeta();
         this.amount = amount;
@@ -34,9 +43,7 @@ public class QuantumCache extends ItemStackCache {
         this.supportsCustomMaxAmount = supportsCustomMaxAmount;
     }
 
-
-    @Nullable
-    public ItemMeta getStoredItemMeta() {
+    @Nullable public ItemMeta getStoredItemMeta() {
         return this.storedItemMeta;
     }
 
@@ -65,9 +72,7 @@ public class QuantumCache extends ItemStackCache {
         this.amount = this.amount - amount;
     }
 
-
-    @Nullable
-    public ItemStack withdrawItem(int amount) {
+    @Nullable public ItemStack withdrawItem(int amount) {
         if (this.getItemStack() == null) {
             return null;
         }
@@ -77,41 +82,55 @@ public class QuantumCache extends ItemStackCache {
         return clone;
     }
 
-    @Nullable
-    public ItemStack withdrawItem() {
+    @Nullable public ItemStack withdrawItem() {
         if (this.getItemStack() == null) {
             return null;
         }
         return withdrawItem(this.getItemStack().getMaxStackSize());
     }
 
-    public void addMetaLore(ItemMeta itemMeta) {
-        final List<String> lore = itemMeta.hasLore() ? new ArrayList<>(itemMeta.getLore()) : new ArrayList<>();
-        String itemName = Networks.getLocalizationService().getString("messages.normal-operation.quantum_cache.empty");
+    public void addMetaLore(@NotNull ItemMeta itemMeta) {
+        var old = itemMeta.getLore();
+        final List<String> lore = old != null ? new ArrayList<>(old) : new ArrayList<>();
+        String itemName = Lang.getString("messages.normal-operation.quantum_cache.empty");
         if (getItemStack() != null) {
             itemName = ItemStackHelper.getDisplayName(this.getItemStack());
         }
         lore.add("");
-        lore.add(String.format(Networks.getLocalizationService().getString("messages.normal-operation.quantum_cache.stored_item"), itemName));
-        lore.add(String.format(Networks.getLocalizationService().getString("messages.normal-operation.quantum_cache.stored_amount"), this.getAmount()));
+        lore.add(String.format(Lang.getString("messages.normal-operation.quantum_cache.stored_item"), itemName));
+        lore.add(String.format(
+                Lang.getString("messages.normal-operation.quantum_cache.stored_amount"), this.getAmount()));
         if (this.supportsCustomMaxAmount) {
-            lore.add(String.format(Networks.getLocalizationService().getString("messages.normal-operation.quantum_cache.custom_max_limit"), this.getLimit()));
+            lore.add(String.format(
+                    Lang.getString("messages.normal-operation.quantum_cache.custom_max_limit"), this.getLimit()));
         }
 
         itemMeta.setLore(lore);
     }
 
-    public void updateMetaLore(ItemMeta itemMeta) {
-        final List<String> lore = itemMeta.hasLore() ? itemMeta.getLore() : new ArrayList<>();
-        String itemName = Networks.getLocalizationService().getString("messages.normal-operation.quantum_cache.empty");
+    public void updateMetaLore(@NotNull ItemMeta itemMeta) {
+        List<String> lore = itemMeta.hasLore() ? itemMeta.getLore() : new ArrayList<>();
+        if (lore == null) {
+            lore = new ArrayList<>();
+        }
+        String itemName = Lang.getString("messages.normal-operation.quantum_cache.empty");
         if (getItemStack() != null) {
             itemName = ItemStackHelper.getDisplayName(this.getItemStack());
         }
         final int loreIndexModifier = this.supportsCustomMaxAmount ? 1 : 0;
-        lore.set(lore.size() - 2 - loreIndexModifier, String.format(Networks.getLocalizationService().getString("messages.normal-operation.quantum_cache.stored_item"), itemName));
-        lore.set(lore.size() - 1 - loreIndexModifier, String.format(Networks.getLocalizationService().getString("messages.normal-operation.quantum_cache.stored_amount"), this.getAmount()));
+        lore.set(
+                lore.size() - 2 - loreIndexModifier,
+                String.format(Lang.getString("messages.normal-operation.quantum_cache.stored_item"), itemName));
+        lore.set(
+                lore.size() - 1 - loreIndexModifier,
+                String.format(
+                        Lang.getString("messages.normal-operation.quantum_cache.stored_amount"), this.getAmount()));
         if (this.supportsCustomMaxAmount) {
-            lore.set(lore.size() - loreIndexModifier, String.format(Networks.getLocalizationService().getString("messages.normal-operation.quantum_cache.custom_max_limit"), this.getLimit()));
+            lore.set(
+                    lore.size() - loreIndexModifier,
+                    String.format(
+                            Lang.getString("messages.normal-operation.quantum_cache.custom_max_limit"),
+                            this.getLimit()));
         }
 
         itemMeta.setLore(lore);

@@ -1,10 +1,8 @@
 package com.balugaq.netex.api.enums;
 
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public enum StorageUnitType {
-
     TINY(32, 256),
     MINI(32, 1024),
     SMALL(32, 4096),
@@ -35,8 +33,7 @@ public enum StorageUnitType {
         return maxStoredAmountEach;
     }
 
-    @Nullable
-    public StorageUnitType next() {
+    @Nullable public StorageUnitType next() {
         int index = this.ordinal() + 1;
         if (index >= values().length) {
             return null;
@@ -44,8 +41,7 @@ public enum StorageUnitType {
         return values()[index];
     }
 
-    @Nullable
-    public StorageUnitType previous() {
+    @Nullable public StorageUnitType previous() {
         int index = this.ordinal() - 1;
         if (index < 0) {
             return null;

@@ -17,9 +17,8 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class LinePowerOutlet extends NetworkDirectional implements Configurable {
     private static final int DEFAULT_RATE = 2000;
@@ -27,11 +26,11 @@ public class LinePowerOutlet extends NetworkDirectional implements Configurable 
     private int maxDistance;
     private int rate;
 
-    public LinePowerOutlet(@Nonnull ItemGroup itemGroup,
-                           @Nonnull SlimefunItemStack item,
-                           @Nonnull RecipeType recipeType,
-                           @Nonnull ItemStack[] recipe
-    ) {
+    public LinePowerOutlet(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            @NotNull ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_POWER_OUTLET);
         loadConfigurations();
     }
@@ -45,7 +44,7 @@ public class LinePowerOutlet extends NetworkDirectional implements Configurable 
     }
 
     @Override
-    public void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block b) {
+    public void onTick(@Nullable BlockMenu blockMenu, @NotNull Block b) {
         super.onTick(blockMenu, b);
         if (blockMenu == null) {
             sendFeedback(b.getLocation(), FeedbackType.INVALID_BLOCK);
@@ -55,7 +54,7 @@ public class LinePowerOutlet extends NetworkDirectional implements Configurable 
         outPower(blockMenu);
     }
 
-    private void outPower(@Nonnull BlockMenu blockMenu) {
+    private void outPower(@NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
@@ -65,6 +64,12 @@ public class LinePowerOutlet extends NetworkDirectional implements Configurable 
 
         final NetworkRoot root = definition.getNode().getRoot();
         final BlockFace blockFace = getCurrentDirection(blockMenu);
-        LineOperationUtil.doEnergyOperation(blockMenu.getLocation(), blockFace, this.maxDistance, true, false, (location) -> LineOperationUtil.outPower(location, root, this.rate));
+        LineOperationUtil.doEnergyOperation(
+                blockMenu.getLocation(),
+                blockFace,
+                this.maxDistance,
+                true,
+                false,
+                (location) -> LineOperationUtil.outPower(location, root, this.rate));
     }
 }

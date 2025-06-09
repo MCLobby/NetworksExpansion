@@ -3,22 +3,21 @@ package io.github.sefiraat.networks.network.stackcaches;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 @Setter
 @Getter
 public class ItemRequest extends ItemStackCache {
     @Getter
     private final int originalAmount;
+
     private int amount;
 
-    public ItemRequest(@Nonnull ItemStack itemStack, int amount) {
+    public ItemRequest(@NotNull ItemStack itemStack, int amount) {
         super(itemStack);
         this.originalAmount = amount;
         this.amount = amount;
     }
-
 
     public void receiveAmount(int amount) {
         this.amount = this.amount - amount;
@@ -28,10 +27,7 @@ public class ItemRequest extends ItemStackCache {
         return originalAmount - amount;
     }
 
-    public String toString() {
-        return "ItemRequest{" +
-                "itemStack=" + getItemStack() +
-                ", amount=" + amount +
-                '}';
+    public @NotNull String toString() {
+        return "ItemRequest{" + "itemStack=" + getItemStack() + ", amount=" + amount + '}';
     }
 }

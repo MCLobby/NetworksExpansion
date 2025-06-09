@@ -20,6 +20,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -29,20 +32,16 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
-@SuppressWarnings("deprecation")
 public class NetworkControlV extends NetworkDirectional {
 
-    private static final int[] BACKGROUND_SLOTS = new int[]{
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 17, 18, 20, 22, 23, 24, 26, 27, 28, 30, 31, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44
+    private static final int[] BACKGROUND_SLOTS = new int[] {
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 17, 18, 20, 22, 23, 24, 26, 27, 28, 30, 31, 33, 34, 35, 36, 37,
+        38, 39, 40, 41, 42, 43, 44
     };
-    private static final int[] TEMPLATE_BACKGROUND = new int[]{16};
+    private static final int[] TEMPLATE_BACKGROUND = new int[] {16};
     private static final int TEMPLATE_SLOT = 25;
     private static final int NORTH_SLOT = 11;
     private static final int SOUTH_SLOT = 29;
@@ -59,7 +58,7 @@ public class NetworkControlV extends NetworkDirectional {
     }
 
     @Override
-    protected void onTick(@Nullable BlockMenu blockMenu, @Nonnull Block block) {
+    protected void onTick(@Nullable BlockMenu blockMenu, @NotNull Block block) {
         super.onTick(blockMenu, block);
         if (blockMenu != null) {
             tryPasteBlock(blockMenu);
@@ -71,7 +70,8 @@ public class NetworkControlV extends NetworkDirectional {
         blockCache.clear();
     }
 
-    private void tryPasteBlock(@Nonnull BlockMenu blockMenu) {
+    @SuppressWarnings({"deprecation", "removal"})
+    private void tryPasteBlock(@NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
@@ -99,7 +99,13 @@ public class NetworkControlV extends NetworkDirectional {
             return;
         }
 
-        final UUID uuid = UUID.fromString(StorageCacheUtils.getData(blockMenu.getLocation(), OWNER_KEY));
+        final String owner = StorageCacheUtils.getData(blockMenu.getLocation(), OWNER_KEY);
+        if (owner == null) {
+            sendFeedback(blockMenu.getLocation(), FeedbackType.NO_OWNER_FOUND);
+            return;
+        }
+
+        final UUID uuid = UUID.fromString(owner);
         final OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
 
         if (!Slimefun.getProtectionManager().hasPermission(offlinePlayer, targetBlock, Interaction.PLACE_BLOCK)) {
@@ -153,29 +159,22 @@ public class NetworkControlV extends NetworkDirectional {
                 }
             }
             ParticleUtils.displayParticleRandomly(
-                    LocationUtils.centre(targetBlock.getLocation()),
-                    Particle.ELECTRIC_SPARK,
-                    1,
-                    5
-            );
+                    LocationUtils.centre(targetBlock.getLocation()), Particle.ELECTRIC_SPARK, 1, 5);
             sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
         });
     }
 
-    @Nonnull
     @Override
-    protected int[] getBackgroundSlots() {
+    protected int @NotNull [] getBackgroundSlots() {
         return BACKGROUND_SLOTS;
     }
 
-    @Nullable
     @Override
-    protected int[] getOtherBackgroundSlots() {
+    protected int @Nullable [] getOtherBackgroundSlots() {
         return TEMPLATE_BACKGROUND;
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     protected ItemStack getOtherBackgroundStack() {
         return Icon.CONTROL_V_TEMPLATE_BACKGROUND_STACK;
     }
@@ -212,11 +211,11 @@ public class NetworkControlV extends NetworkDirectional {
 
     @Override
     public int[] getItemSlots() {
-        return new int[]{TEMPLATE_SLOT};
+        return new int[] {TEMPLATE_SLOT};
     }
 
     @Override
-    protected Particle.DustOptions getDustOptions() {
+    protected Particle.@NotNull DustOptions getDustOptions() {
         return new Particle.DustOptions(Color.MAROON, 1);
     }
 }
