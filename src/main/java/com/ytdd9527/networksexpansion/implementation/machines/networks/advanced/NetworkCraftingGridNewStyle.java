@@ -390,13 +390,13 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle implements
         if (crafted != null) {
             BlockMenuUtil.pushItem(menu, crafted, OUTPUT_SLOT);
             menu.replaceExistingItem(
-                CRAFT_BUTTON_SLOT,
-                ItemStackUtil.getCleanItem(new CustomItemStack(
-                    Icon.CRAFT_BUTTON_NEW_STYLE,
-                    String.format(
-                        Lang.getString("messages.normal-operation.grid_new_style.crafted"),
-                        ItemStackHelper.getDisplayName(crafted),
-                        outputAmount))));
+                    CRAFT_BUTTON_SLOT,
+                    ItemStackUtil.getCleanItem(new CustomItemStack(
+                            Icon.CRAFT_BUTTON_NEW_STYLE,
+                            String.format(
+                                    Lang.getString("messages.normal-operation.grid_new_style.crafted"),
+                                    ItemStackHelper.getDisplayName(crafted),
+                                    outputAmount))));
         }
     }
 

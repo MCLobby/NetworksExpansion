@@ -605,8 +605,7 @@ public class NetworksMain implements TabExecutor {
             return;
         }
 
-        if (!Objects.equals(
-                pos1.getWorld().getUID(), pos2.getWorld().getUID())) {
+        if (!Objects.equals(pos1.getWorld().getUID(), pos2.getWorld().getUID())) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-same-world"));
             return;
         }
@@ -696,8 +695,7 @@ public class NetworksMain implements TabExecutor {
             return;
         }
 
-        if (!Objects.equals(
-                pos1.getWorld().getUID(), pos2.getWorld().getUID())) {
+        if (!Objects.equals(pos1.getWorld().getUID(), pos2.getWorld().getUID())) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-same-world"));
             return;
         }
@@ -745,8 +743,7 @@ public class NetworksMain implements TabExecutor {
             return;
         }
 
-        if (!Objects.equals(
-                pos1.getWorld().getUID(), pos2.getWorld().getUID())) {
+        if (!Objects.equals(pos1.getWorld().getUID(), pos2.getWorld().getUID())) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-same-world"));
             return;
         }
@@ -788,8 +785,7 @@ public class NetworksMain implements TabExecutor {
             return;
         }
 
-        if (!Objects.equals(
-                pos1.getWorld().getUID(), pos2.getWorld().getUID())) {
+        if (!Objects.equals(pos1.getWorld().getUID(), pos2.getWorld().getUID())) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-same-world"));
             return;
         }
@@ -821,8 +817,7 @@ public class NetworksMain implements TabExecutor {
             return;
         }
 
-        if (!Objects.equals(
-                pos1.getWorld().getUID(), pos2.getWorld().getUID())) {
+        if (!Objects.equals(pos1.getWorld().getUID(), pos2.getWorld().getUID())) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-same-world"));
             return;
         }

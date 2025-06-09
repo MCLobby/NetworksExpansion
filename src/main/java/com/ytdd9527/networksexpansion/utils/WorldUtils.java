@@ -83,7 +83,8 @@ public class WorldUtils {
         }
 
         BlockState toState = toBlock.getState();
-        if (craftBlockStateClass != null && (!craftBlockStateClass.isInstance(toState) || !craftBlockStateClass.isInstance(fromBlockState))) {
+        if (craftBlockStateClass != null
+                && (!craftBlockStateClass.isInstance(toState) || !craftBlockStateClass.isInstance(fromBlockState))) {
             return false;
         }
 
