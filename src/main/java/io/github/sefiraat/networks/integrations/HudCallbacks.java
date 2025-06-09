@@ -46,7 +46,8 @@ public class HudCallbacks {
 
             ItemStack itemStack = menu.getItemInSlot(NetworkGreedyBlock.INPUT_SLOT);
             // Only check type to improve performance
-            int amount = itemStack == null || itemStack.getType() != templateStack.getType() ? 0 : itemStack.getAmount();
+            int amount =
+                    itemStack == null || itemStack.getType() != templateStack.getType() ? 0 : itemStack.getAmount();
             return format(templateStack, amount, templateStack.getMaxStackSize());
         });
 

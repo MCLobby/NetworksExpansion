@@ -3,13 +3,12 @@ package com.balugaq.netex.utils;
 import com.ytdd9527.networksexpansion.core.services.LocalizationService;
 import io.github.sefiraat.networks.Networks;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.List;
 
 @UtilityClass
 public class Lang {
@@ -54,7 +53,6 @@ public class Lang {
     public String getString(String key, Object... args) {
         return get().getString(key, args);
     }
-
 
     @Nonnull
     public static List<String> getStringList(@Nonnull String key) {

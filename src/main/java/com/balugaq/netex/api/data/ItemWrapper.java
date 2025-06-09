@@ -2,14 +2,13 @@ package com.balugaq.netex.api.data;
 
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Final_ROOT
@@ -17,10 +16,11 @@ import java.util.List;
  */
 public class ItemWrapper {
     public static final ItemStack AIR = new ItemStack(Material.AIR);
+
     @Nonnull
     private ItemStack itemStack;
-    @Nullable
-    private ItemMeta itemMeta;
+
+    @Nullable private ItemMeta itemMeta;
 
     public ItemWrapper() {
         this.itemStack = AIR;
@@ -90,8 +90,7 @@ public class ItemWrapper {
         this.itemStack = itemStack;
     }
 
-    @Nullable
-    public ItemMeta getItemMeta() {
+    @Nullable public ItemMeta getItemMeta() {
         return this.itemMeta;
     }
 
@@ -127,6 +126,7 @@ public class ItemWrapper {
         return new ItemWrapper(ItemStackUtil.getCleanItem(this.itemStack));
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public int hashCode() {
         int hash = 31 + this.itemStack.getType().hashCode();

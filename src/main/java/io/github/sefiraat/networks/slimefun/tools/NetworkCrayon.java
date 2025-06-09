@@ -9,31 +9,28 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import java.util.Optional;
+import javax.annotation.Nonnull;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import java.util.Optional;
 
 public class NetworkCrayon extends SpecialSlimefunItem {
 
     public NetworkCrayon(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
-        addItemHandler(
-                (ItemUseHandler) e -> {
-                    final Optional<Block> optional = e.getClickedBlock();
-                    if (optional.isPresent()) {
-                        final Block block = optional.get();
-                        final Player player = e.getPlayer();
-                        final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(block.getLocation());
-                        if (slimefunItem instanceof NetworkController) {
-                            toggleCrayon(block, player);
-                            e.cancel();
-                        }
-                    }
+        addItemHandler((ItemUseHandler) e -> {
+            final Optional<Block> optional = e.getClickedBlock();
+            if (optional.isPresent()) {
+                final Block block = optional.get();
+                final Player player = e.getPlayer();
+                final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(block.getLocation());
+                if (slimefunItem instanceof NetworkController) {
+                    toggleCrayon(block, player);
+                    e.cancel();
                 }
-        );
+            }
+        });
     }
 
     public void toggleCrayon(@Nonnull Block block, @Nonnull Player player) {

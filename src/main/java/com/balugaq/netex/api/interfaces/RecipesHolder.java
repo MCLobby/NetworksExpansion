@@ -1,10 +1,9 @@
 package com.balugaq.netex.api.interfaces;
 
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Nonnull;
+import org.bukkit.inventory.ItemStack;
 
 public interface RecipesHolder {
     @Deprecated

@@ -1,6 +1,5 @@
 package com.ytdd9527.networksexpansion.utils;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -8,10 +7,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
 
 /**
  * @author Final_ROOT
  */
+@SuppressWarnings("GrazieInspection")
 public class JavaUtil {
 
     @SafeVarargs
@@ -80,7 +81,7 @@ public class JavaUtil {
 
     public static double[] disperse(int size, Number... value) {
         if (size == 1 && value.length > 0) {
-            return new double[]{value[0].doubleValue()};
+            return new double[] {value[0].doubleValue()};
         } else if (size == 0 || value.length == 0) {
             return new double[0];
         }

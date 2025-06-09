@@ -1,17 +1,15 @@
 package com.balugaq.netex.api.data;
 
-
 import com.ytdd9527.networksexpansion.utils.itemstacks.CompareUtil;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import javax.annotation.Nonnull;
 import lombok.Getter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * A {@link MachineRecipe} that its output item is random.
@@ -22,6 +20,7 @@ import java.util.List;
 public class RandomMachineRecipe extends MachineRecipe {
     @Nonnull
     private RandomOutput[] randomOutputs;
+
     private int[] weightBeginValues;
     private int weightSum = 0;
 
@@ -56,7 +55,7 @@ public class RandomMachineRecipe extends MachineRecipe {
     }
 
     public RandomMachineRecipe(@Nonnull ItemStack input, @Nonnull List<RandomOutput> randomOutputs) {
-        super(0, new ItemStack[]{input}, new ItemStack[0]);
+        super(0, new ItemStack[] {input}, new ItemStack[0]);
         this.randomOutputs = randomOutputs.toArray(new RandomOutput[0]);
         this.weightBeginValues = new int[randomOutputs.size()];
         for (int i = 0; i < this.randomOutputs.length; i++) {
@@ -113,6 +112,7 @@ public class RandomMachineRecipe extends MachineRecipe {
     public static class RandomOutput {
         @Nonnull
         private final ItemStack[] outputItem;
+
         @Getter
         private final int weight;
 
@@ -127,12 +127,12 @@ public class RandomMachineRecipe extends MachineRecipe {
         }
 
         public RandomOutput(@Nonnull ItemStack outputItem, int weight) {
-            this.outputItem = new ItemStack[]{outputItem};
+            this.outputItem = new ItemStack[] {outputItem};
             this.weight = weight;
         }
 
         public RandomOutput(@Nonnull Material outputItem, int weight) {
-            this.outputItem = new ItemStack[]{new ItemStack(outputItem)};
+            this.outputItem = new ItemStack[] {new ItemStack(outputItem)};
             this.weight = weight;
         }
 
@@ -140,6 +140,5 @@ public class RandomMachineRecipe extends MachineRecipe {
         public ItemStack[] getOutputItem() {
             return outputItem;
         }
-
     }
 }

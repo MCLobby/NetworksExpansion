@@ -7,12 +7,11 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
-import lombok.experimental.UtilityClass;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Nonnull;
+import lombok.experimental.UtilityClass;
+import org.bukkit.inventory.ItemStack;
 
 @UtilityClass
 public final class SupportedAncientAltarRecipes implements RecipesHolder, CanTestRecipe {
@@ -60,5 +59,4 @@ public final class SupportedAncientAltarRecipes implements RecipesHolder, CanTes
     public static boolean allowedRecipe(@Nonnull SlimefunItem item) {
         return !(item instanceof SlimefunBackpack);
     }
-
 }

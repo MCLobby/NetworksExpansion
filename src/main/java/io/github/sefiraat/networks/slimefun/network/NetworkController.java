@@ -16,6 +16,10 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import javax.annotation.Nonnull;
 import lombok.Getter;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import org.bukkit.Bukkit;
@@ -24,21 +28,19 @@ import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
 @Getter
 public class NetworkController extends NetworkObject {
     @Getter
     private static final Map<Location, ItemFlowRecord> records = new ConcurrentHashMap<>();
+
     @Getter
     private static final Map<Location, Boolean> recordFlow = new ConcurrentHashMap<>();
+
     private static final String CRAYON = "crayon";
     private static final Map<Location, NetworkRoot> NETWORKS = new ConcurrentHashMap<>();
     private static final Set<Location> CRAYONS = ConcurrentHashMap.newKeySet();
     protected final Map<Location, Boolean> firstTickMap = new ConcurrentHashMap<>();
+
     @Getter
     private final ItemSetting<Integer> maxNodes;
 
@@ -48,40 +50,43 @@ public class NetworkController extends NetworkObject {
         maxNodes = new IntRangeSetting(this, "max_nodes", 10, 8000, 50000);
         addItemSetting(maxNodes);
 
-        addItemHandler(
-                new BlockTicker() {
-                    @Override
-                    public boolean isSynchronized() {
-                        return false;
-                    }
+        addItemHandler(new BlockTicker() {
+            @Override
+            public boolean isSynchronized() {
+                return false;
+            }
 
-                    @Override
-                    public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
-                        if (!firstTickMap.containsKey(block.getLocation())) {
-                            onFirstTick(block, data);
-                            firstTickMap.put(block.getLocation(), true);
-                        }
-
-                        addToRegistry(block);
-                        NetworkRoot networkRoot = new NetworkRoot(block.getLocation(), NodeType.CONTROLLER, maxNodes.getValue(), recordFlow.getOrDefault(block.getLocation(), false), records.get(block.getLocation()));
-                        networkRoot.addAllChildren();
-
-                        boolean crayon = CRAYONS.contains(block.getLocation());
-                        if (crayon) {
-                            networkRoot.setDisplayParticles(true);
-                        }
-
-                        NETWORKS.put(block.getLocation(), networkRoot);
-
-                        NodeDefinition definition = NetworkStorage.getNode(block.getLocation());
-                        if (definition != null) {
-                            definition.setNode(networkRoot);
-                        }
-                        NetworkRootReadyEvent event = new NetworkRootReadyEvent(networkRoot);
-                        Bukkit.getPluginManager().callEvent(event);
-                    }
+            @Override
+            public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
+                if (!firstTickMap.containsKey(block.getLocation())) {
+                    onFirstTick(block, data);
+                    firstTickMap.put(block.getLocation(), true);
                 }
-        );
+
+                addToRegistry(block);
+                NetworkRoot networkRoot = new NetworkRoot(
+                        block.getLocation(),
+                        NodeType.CONTROLLER,
+                        maxNodes.getValue(),
+                        recordFlow.getOrDefault(block.getLocation(), false),
+                        records.get(block.getLocation()));
+                networkRoot.addAllChildren();
+
+                boolean crayon = CRAYONS.contains(block.getLocation());
+                if (crayon) {
+                    networkRoot.setDisplayParticles(true);
+                }
+
+                NETWORKS.put(block.getLocation(), networkRoot);
+
+                NodeDefinition definition = NetworkStorage.getNode(block.getLocation());
+                if (definition != null) {
+                    definition.setNode(networkRoot);
+                }
+                NetworkRootReadyEvent event = new NetworkRootReadyEvent(networkRoot);
+                Bukkit.getPluginManager().callEvent(event);
+            }
+        });
     }
 
     public static void enableRecord(Location root) {

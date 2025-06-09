@@ -18,6 +18,11 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -28,20 +33,13 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class NetworkQuantumWorkbench extends SpecialSlimefunItem {
 
     private static final int[] BACKGROUND_SLOTS = {
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 13, 14, 15, 16, 17, 18, 22, 24, 26, 27, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 13, 14, 15, 16, 17, 18, 22, 24, 26, 27, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+        41, 42, 43, 44
     };
-    private static final int[] RECIPE_SLOTS = {
-            10, 11, 12, 19, 20, 21, 28, 29, 30
-    };
+    private static final int[] RECIPE_SLOTS = {10, 11, 12, 19, 20, 21, 28, 29, 30};
     private static final int CRAFT_SLOT = 23;
     private static final int OUTPUT_SLOT = 25;
 
@@ -50,11 +48,11 @@ public class NetworkQuantumWorkbench extends SpecialSlimefunItem {
     public static final RecipeType TYPE = new RecipeType(
             Keys.newKey("quantum-workbench"),
             Icon.RECIPE_TYPE_ITEMSTACK_QUANTUM_WORKBENCH,
-            NetworkQuantumWorkbench::addRecipe
-    );
+            NetworkQuantumWorkbench::addRecipe);
 
     @ParametersAreNonnullByDefault
-    public NetworkQuantumWorkbench(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public NetworkQuantumWorkbench(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -78,14 +76,16 @@ public class NetworkQuantumWorkbench extends SpecialSlimefunItem {
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return player.hasPermission("slimefun.inventory.bypass") || (this.getSlimefunItem().canUse(player, false)
-                        && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
+                return player.hasPermission("slimefun.inventory.bypass")
+                        || (this.getSlimefunItem().canUse(player, false)
+                                && Slimefun.getProtectionManager()
+                                        .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override
             public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
                 if (flow == ItemTransportFlow.WITHDRAW) {
-                    return new int[]{OUTPUT_SLOT};
+                    return new int[] {OUTPUT_SLOT};
                 }
                 return new int[0];
             }
@@ -129,25 +129,33 @@ public class NetworkQuantumWorkbench extends SpecialSlimefunItem {
                 final ItemMeta oldMeta = coreItem.getItemMeta();
                 final ItemMeta newMeta = crafted.getItemMeta();
                 final NetworkQuantumStorage newQuantum = (NetworkQuantumStorage) SlimefunItem.getByItem(crafted);
-                QuantumCache oldCache = DataTypeMethods.getCustom(oldMeta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE);
+                if (newQuantum == null) {
+                    return;
+                }
+
+                QuantumCache oldCache = DataTypeMethods.getCustom(
+                        oldMeta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE);
 
                 if (oldCache == null) {
-                    oldCache = DataTypeMethods.getCustom(oldMeta, Keys.QUANTUM_STORAGE_INSTANCE2, PersistentQuantumStorageType.TYPE);
+                    oldCache = DataTypeMethods.getCustom(
+                            oldMeta, Keys.QUANTUM_STORAGE_INSTANCE2, PersistentQuantumStorageType.TYPE);
                 }
 
                 if (oldCache == null) {
-                    oldCache = DataTypeMethods.getCustom(oldMeta, Keys.QUANTUM_STORAGE_INSTANCE3, PersistentQuantumStorageType.TYPE);
+                    oldCache = DataTypeMethods.getCustom(
+                            oldMeta, Keys.QUANTUM_STORAGE_INSTANCE3, PersistentQuantumStorageType.TYPE);
                 }
 
                 if (oldCache != null) {
+                    var itemStack = oldCache.getItemStack();
                     final QuantumCache newCache = new QuantumCache(
-                            oldCache.getItemStack().clone(),
+                            itemStack != null ? itemStack.clone() : null,
                             oldCache.getAmount(),
                             newQuantum.getMaxAmount(),
                             oldCache.isVoidExcess(),
-                            newQuantum.supportsCustomMaxAmount()
-                    );
-                    DataTypeMethods.setCustom(newMeta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, newCache);
+                            newQuantum.supportsCustomMaxAmount());
+                    DataTypeMethods.setCustom(
+                            newMeta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, newCache);
                     newCache.addMetaLore(newMeta);
                     crafted.setItemMeta(newMeta);
                 }
@@ -189,8 +197,12 @@ public class NetworkQuantumWorkbench extends SpecialSlimefunItem {
     private BlockBreakHandler getBlockBreakHandler() {
         return new BlockBreakHandler(false, false) {
             @Override
-            public void onPlayerBreak(@Nonnull BlockBreakEvent event, @Nonnull ItemStack itemStack, @Nonnull List<ItemStack> drops) {
+            public void onPlayerBreak(
+                    @Nonnull BlockBreakEvent event, @Nonnull ItemStack itemStack, @Nonnull List<ItemStack> drops) {
                 BlockMenu menu = StorageCacheUtils.getMenu(event.getBlock().getLocation());
+                if (menu == null) {
+                    return;
+                }
                 menu.dropItems(menu.getLocation(), RECIPE_SLOTS);
                 menu.dropItems(menu.getLocation(), OUTPUT_SLOT);
             }

@@ -12,6 +12,7 @@ import io.github.sefiraat.networks.slimefun.network.pusher.NetworkPusher;
 import io.github.sefiraat.networks.slimefun.tools.NetworkConfigurator;
 import io.github.sefiraat.networks.utils.datatypes.DataTypeMethods;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import javax.annotation.Nonnull;
 import lombok.experimental.UtilityClass;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
@@ -21,12 +22,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.annotation.Nonnull;
-
 @UtilityClass
 public class NetworkUtils {
 
-    public static void applyConfig(@Nonnull NetworkDirectional directional, @Nonnull BlockMenu blockMenu, @Nonnull Player player) {
+    public static void applyConfig(
+            @Nonnull NetworkDirectional directional, @Nonnull BlockMenu blockMenu, @Nonnull Player player) {
         ItemStack itemStack = player.getInventory().getItemInOffHand();
 
         if (SlimefunItem.getByItem(itemStack) instanceof NetworkConfigurator) {
@@ -34,7 +34,11 @@ public class NetworkUtils {
         }
     }
 
-    public static void applyConfig(@Nonnull NetworkDirectional directional, @Nonnull ItemStack itemStack, @Nonnull BlockMenu blockMenu, @Nonnull Player player) {
+    public static void applyConfig(
+            @Nonnull NetworkDirectional directional,
+            @Nonnull ItemStack itemStack,
+            @Nonnull BlockMenu blockMenu,
+            @Nonnull Player player) {
         final ItemMeta itemMeta = itemStack.getItemMeta();
         ItemStack[] templateStacks = DataTypeMethods.getCustom(itemMeta, Keys.ITEM, DataType.ITEM_STACK_ARRAY);
         if (templateStacks == null) {
@@ -62,7 +66,6 @@ public class NetworkUtils {
         directional.setDirection(blockMenu, BlockFace.valueOf(string));
         player.sendMessage(Lang.getString("messages.completed-operation.configurator.pasted_facing", string));
 
-
         directional.getItemSlots();
         for (int slot : directional.getItemSlots()) {
             final ItemStack stackToDrop = blockMenu.getItemInSlot(slot);
@@ -82,16 +85,20 @@ public class NetworkUtils {
                             final ItemStack stackClone = StackUtils.getAsQuantity(stack, 1);
                             stack.setAmount(stack.getAmount() - 1);
                             blockMenu.replaceExistingItem(directional.getItemSlots()[i], stackClone);
-                            player.sendMessage(String.format(Lang.getString("messages.completed-operation.configurator.pasted_item"), i));
+                            player.sendMessage(String.format(
+                                    Lang.getString("messages.completed-operation.configurator.pasted_item"), i));
                             worked = true;
                             break;
                         }
                     }
                     if (!worked) {
-                        player.sendMessage(String.format(Lang.getString("messages.unsupported-operation.configurator.not_enough_items"), i));
+                        player.sendMessage(String.format(
+                                Lang.getString("messages.unsupported-operation.configurator.not_enough_items"), i));
                     }
                 } else if (directional instanceof NetworkPusher) {
-                    player.sendMessage(String.format(Lang.getString("messages.unsupported-operation.configurator.no_item_configured_pusher"), i));
+                    player.sendMessage(String.format(
+                            Lang.getString("messages.unsupported-operation.configurator.no_item_configured_pusher"),
+                            i));
                 }
                 i++;
             }

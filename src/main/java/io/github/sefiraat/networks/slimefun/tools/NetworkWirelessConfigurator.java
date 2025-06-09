@@ -15,6 +15,8 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import java.util.Optional;
+import javax.annotation.Nonnull;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -22,48 +24,46 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.annotation.Nonnull;
-import java.util.Optional;
-
 public class NetworkWirelessConfigurator extends SpecialSlimefunItem {
 
-    public NetworkWirelessConfigurator(ItemGroup itemGroup,
-                                       SlimefunItemStack item,
-                                       RecipeType recipeType,
-                                       ItemStack[] recipe
-    ) {
+    public NetworkWirelessConfigurator(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
-        addItemHandler(
-                (ItemUseHandler) e -> {
-                    final Player player = e.getPlayer();
-                    final Optional<Block> optional = e.getClickedBlock();
-                    if (optional.isPresent()) {
-                        final Block block = optional.get();
-                        final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(block.getLocation());
-                        if (Slimefun.getProtectionManager().hasPermission(player, block, Interaction.INTERACT_BLOCK)) {
-                            final ItemStack heldItem = player.getInventory().getItemInMainHand();
-                            final BlockMenu blockMenu = StorageCacheUtils.getMenu(block.getLocation());
-                            if (slimefunItem instanceof NetworkWirelessTransmitter transmitter && player.isSneaking()) {
-                                setTransmitter(transmitter, heldItem, blockMenu, player);
-                            } else if (slimefunItem instanceof NetworkWirelessReceiver && !player.isSneaking()) {
-                                setReceiver(heldItem, blockMenu, player);
-                            } else {
-                                player.sendMessage(Lang.getString("messages.unsupported-operation.wireless_configurator.not_network_wireless_block"));
-                            }
-                        } else {
-                            player.sendMessage(Lang.getString("messages.unsupported-operation.comprehensive.no-permission"));
-                        }
+        addItemHandler((ItemUseHandler) e -> {
+            final Player player = e.getPlayer();
+            final Optional<Block> optional = e.getClickedBlock();
+            if (optional.isPresent()) {
+                final Block block = optional.get();
+                final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(block.getLocation());
+                if (Slimefun.getProtectionManager().hasPermission(player, block, Interaction.INTERACT_BLOCK)) {
+                    final ItemStack heldItem = player.getInventory().getItemInMainHand();
+                    final BlockMenu blockMenu = StorageCacheUtils.getMenu(block.getLocation());
+                    if (blockMenu == null) {
+                        player.sendMessage(Lang.getString(
+                                "messages.unsupported-operation.wireless_configurator.not_network_wireless_block"));
+                        return;
                     }
-                    e.cancel();
+                    if (slimefunItem instanceof NetworkWirelessTransmitter transmitter && player.isSneaking()) {
+                        setTransmitter(transmitter, heldItem, blockMenu, player);
+                    } else if (slimefunItem instanceof NetworkWirelessReceiver && !player.isSneaking()) {
+                        setReceiver(heldItem, blockMenu, player);
+                    } else {
+                        player.sendMessage(Lang.getString(
+                                "messages.unsupported-operation.wireless_configurator.not_network_wireless_block"));
+                    }
+                } else {
+                    player.sendMessage(Lang.getString("messages.unsupported-operation.comprehensive.no-permission"));
                 }
-        );
+            }
+            e.cancel();
+        });
     }
 
-    private void setTransmitter(@Nonnull NetworkWirelessTransmitter transmitter,
-                                @Nonnull ItemStack itemStack,
-                                @Nonnull BlockMenu blockMenu,
-                                @Nonnull Player player
-    ) {
+    private void setTransmitter(
+            @Nonnull NetworkWirelessTransmitter transmitter,
+            @Nonnull ItemStack itemStack,
+            @Nonnull BlockMenu blockMenu,
+            @Nonnull Player player) {
         final ItemMeta itemMeta = itemStack.getItemMeta();
         Location location = PersistentDataAPI.get(itemMeta, Keys.TARGET_LOCATION, DataType.LOCATION);
         if (location == null) {
@@ -75,7 +75,8 @@ public class NetworkWirelessConfigurator extends SpecialSlimefunItem {
         }
 
         if (location == null) {
-            player.sendMessage(Lang.getString("messages.unsupported-operation.wireless_configurator.no_target_location"));
+            player.sendMessage(
+                    Lang.getString("messages.unsupported-operation.wireless_configurator.no_target_location"));
             return;
         }
 

@@ -18,6 +18,11 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.Nonnull;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -26,27 +31,23 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * @author Final_ROOT
  * @since 2.2
  */
+@SuppressWarnings("ALL")
 public class TypeItemGroup extends FlexItemGroup {
     private static final int BACK_SLOT = 1;
     private static final int PREVIOUS_SLOT = 3;
     private static final int NEXT_SLOT = 5;
     private static final int ICON_SLOT = 7;
-    private static final int[] BORDER = new int[]{0, 2, 4, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17};
-    private static final int[] MAIN_CONTENT = new int[]{
-            18, 19, 20, 21, 22, 23, 24, 25, 26,
-            27, 28, 29, 30, 31, 32, 33, 34, 35,
-            36, 37, 38, 39, 40, 41, 42, 43, 44,
-            45, 46, 47, 48, 49, 50, 51, 52, 53};
+    private static final int[] BORDER = new int[] {0, 2, 4, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17};
+    private static final int[] MAIN_CONTENT = new int[] {
+        18, 19, 20, 21, 22, 23, 24, 25, 26,
+        27, 28, 29, 30, 31, 32, 33, 34, 35,
+        36, 37, 38, 39, 40, 41, 42, 43, 44,
+        45, 46, 47, 48, 49, 50, 51, 52, 53
+    };
 
     private static final JavaPlugin JAVA_PLUGIN = Networks.getInstance();
 
@@ -58,7 +59,10 @@ public class TypeItemGroup extends FlexItemGroup {
     private Map<Integer, TypeItemGroup> pageMap = new LinkedHashMap<>();
 
     protected TypeItemGroup(@Nonnull NamespacedKey key, @Nonnull RecipeType recipeType) {
-        super(key, ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(recipeType.toItem() == null ? Icon.ERROR_ICON : recipeType.toItem())));
+        super(
+                key,
+                ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(
+                        recipeType.toItem() == null ? Icon.ERROR_ICON : recipeType.toItem())));
         this.page = 1;
         this.recipeType = recipeType;
         this.slimefunItemList = new ArrayList<>();
@@ -75,7 +79,10 @@ public class TypeItemGroup extends FlexItemGroup {
     }
 
     protected TypeItemGroup(@Nonnull NamespacedKey key, @Nonnull RecipeType recipeType, int page) {
-        super(key, ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(recipeType.toItem() == null ? Icon.ERROR_ICON : recipeType.toItem())));
+        super(
+                key,
+                ItemStackUtil.getCleanItem(ItemStackUtil.cloneWithoutNBT(
+                        recipeType.toItem() == null ? Icon.ERROR_ICON : recipeType.toItem())));
         this.page = page;
         this.recipeType = recipeType;
         this.slimefunItemList = new ArrayList<>();
@@ -94,23 +101,35 @@ public class TypeItemGroup extends FlexItemGroup {
     }
 
     @Override
-    public boolean isVisible(@Nonnull Player player, @Nonnull PlayerProfile playerProfile, @Nonnull SlimefunGuideMode slimefunGuideMode) {
+    public boolean isVisible(
+            @Nonnull Player player,
+            @Nonnull PlayerProfile playerProfile,
+            @Nonnull SlimefunGuideMode slimefunGuideMode) {
         return false;
     }
 
     @Override
-    public void open(@Nonnull Player player, @Nonnull PlayerProfile playerProfile, @Nonnull SlimefunGuideMode slimefunGuideMode) {
+    public void open(
+            @Nonnull Player player,
+            @Nonnull PlayerProfile playerProfile,
+            @Nonnull SlimefunGuideMode slimefunGuideMode) {
         playerProfile.getGuideHistory().add(this, this.page);
         this.generateMenu(player, playerProfile, slimefunGuideMode).open(player);
     }
 
-    public void refresh(@Nonnull Player player, @Nonnull PlayerProfile playerProfile, @Nonnull SlimefunGuideMode slimefunGuideMode) {
+    public void refresh(
+            @Nonnull Player player,
+            @Nonnull PlayerProfile playerProfile,
+            @Nonnull SlimefunGuideMode slimefunGuideMode) {
         GuideUtil.removeLastEntry(playerProfile.getGuideHistory());
         this.open(player, playerProfile, slimefunGuideMode);
     }
 
     @Nonnull
-    private ChestMenu generateMenu(@Nonnull Player player, @Nonnull PlayerProfile playerProfile, @Nonnull SlimefunGuideMode slimefunGuideMode) {
+    private ChestMenu generateMenu(
+            @Nonnull Player player,
+            @Nonnull PlayerProfile playerProfile,
+            @Nonnull SlimefunGuideMode slimefunGuideMode) {
         ChestMenu chestMenu = new ChestMenu(ItemStackUtil.getItemName(super.item));
 
         chestMenu.setEmptySlotsClickable(false);
@@ -127,7 +146,10 @@ public class TypeItemGroup extends FlexItemGroup {
             return false;
         });
 
-        chestMenu.addItem(PREVIOUS_SLOT, ItemStackUtil.getCleanItem(ChestMenuUtils.getPreviousButton(player, this.page, (this.slimefunItemList.size() - 1) / MAIN_CONTENT.length + 1)));
+        chestMenu.addItem(
+                PREVIOUS_SLOT,
+                ItemStackUtil.getCleanItem(ChestMenuUtils.getPreviousButton(
+                        player, this.page, (this.slimefunItemList.size() - 1) / MAIN_CONTENT.length + 1)));
         chestMenu.addMenuClickHandler(PREVIOUS_SLOT, (p, slot, item, action) -> {
             GuideUtil.removeLastEntry(playerProfile.getGuideHistory());
             TypeItemGroup craftItemGroup = this.getByPage(Math.max(this.page - 1, 1));
@@ -135,10 +157,14 @@ public class TypeItemGroup extends FlexItemGroup {
             return false;
         });
 
-        chestMenu.addItem(NEXT_SLOT, ItemStackUtil.getCleanItem(ChestMenuUtils.getNextButton(player, this.page, (this.slimefunItemList.size() - 1) / MAIN_CONTENT.length + 1)));
+        chestMenu.addItem(
+                NEXT_SLOT,
+                ItemStackUtil.getCleanItem(ChestMenuUtils.getNextButton(
+                        player, this.page, (this.slimefunItemList.size() - 1) / MAIN_CONTENT.length + 1)));
         chestMenu.addMenuClickHandler(NEXT_SLOT, (p, slot, item, action) -> {
             GuideUtil.removeLastEntry(playerProfile.getGuideHistory());
-            TypeItemGroup craftItemGroup = this.getByPage(Math.min(this.page + 1, (this.slimefunItemList.size() - 1) / MAIN_CONTENT.length + 1));
+            TypeItemGroup craftItemGroup = this.getByPage(
+                    Math.min(this.page + 1, (this.slimefunItemList.size() - 1) / MAIN_CONTENT.length + 1));
             craftItemGroup.open(player, playerProfile, slimefunGuideMode);
             return false;
         });
@@ -161,21 +187,28 @@ public class TypeItemGroup extends FlexItemGroup {
                     ItemStackUtil.addLoreToFirst(itemStack, "§7" + slimefunItem.getId());
                     chestMenu.addItem(MAIN_CONTENT[i], ItemStackUtil.getCleanItem(itemStack));
                     chestMenu.addMenuClickHandler(MAIN_CONTENT[i], (p, slot, item, action) -> {
-                        RecipeItemGroup recipeItemGroup = RecipeItemGroup.getByItemStack(player, playerProfile, slimefunGuideMode, slimefunItem.getItem());
+                        RecipeItemGroup recipeItemGroup = RecipeItemGroup.getByItemStack(
+                                player, playerProfile, slimefunGuideMode, slimefunItem.getItem());
                         if (recipeItemGroup != null) {
-                            Bukkit.getScheduler().runTask(JAVA_PLUGIN, () -> recipeItemGroup.open(player, playerProfile, slimefunGuideMode));
+                            Bukkit.getScheduler()
+                                    .runTask(
+                                            JAVA_PLUGIN,
+                                            () -> recipeItemGroup.open(player, playerProfile, slimefunGuideMode));
                         }
                         return false;
                     });
                 } else {
                     ItemStack icon = ItemStackUtil.cloneItem(ChestMenuUtils.getNotResearchedItem());
-                    ItemStackUtil.setLore(icon,
+                    ItemStackUtil.setLore(
+                            icon,
                             "§7" + research.getName(player),
                             "§4§l" + Slimefun.getLocalization().getMessage(player, "guide.locked"),
                             "",
                             Lang.getString("messages.guide.click-to-research"),
                             "",
-                            Lang.getString("messages.guide.cost") + research.getCost() + Lang.getString("messages.guide.cost-level"));
+                            Lang.getString("messages.guide.cost")
+                                    + research.getCost()
+                                    + Lang.getString("messages.guide.cost-level"));
                     chestMenu.addItem(MAIN_CONTENT[i], ItemStackUtil.getCleanItem(icon));
                     chestMenu.addMenuClickHandler(MAIN_CONTENT[i], (p, slot, item, action) -> {
                         PlayerPreResearchEvent event = new PlayerPreResearchEvent(player, research, slimefunItem);
@@ -183,7 +216,12 @@ public class TypeItemGroup extends FlexItemGroup {
 
                         if (!event.isCancelled() && !playerProfile.hasUnlocked(research)) {
                             if (research.canUnlock(player)) {
-                                Slimefun.getRegistry().getSlimefunGuide(SlimefunGuideMode.SURVIVAL_MODE).unlockItem(player, slimefunItem, player1 -> this.refresh(player, playerProfile, slimefunGuideMode));
+                                Slimefun.getRegistry()
+                                        .getSlimefunGuide(SlimefunGuideMode.SURVIVAL_MODE)
+                                        .unlockItem(
+                                                player,
+                                                slimefunItem,
+                                                player1 -> this.refresh(player, playerProfile, slimefunGuideMode));
                             } else {
                                 this.refresh(player, playerProfile, slimefunGuideMode);
                                 Slimefun.getLocalization().sendMessage(player, "messages.not-enough-xp", true);

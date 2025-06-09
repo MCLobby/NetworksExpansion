@@ -7,9 +7,12 @@ public class NodeDefinition {
 
     @Getter
     private final NodeType type;
+
     private final long timeRegistered;
+
     @Getter
     private final int charge;
+
     @Setter
     @Getter
     private NetworkNode node;
@@ -27,5 +30,4 @@ public class NodeDefinition {
     public boolean isExpired() {
         return System.currentTimeMillis() > this.timeRegistered + 3000L;
     }
-
 }

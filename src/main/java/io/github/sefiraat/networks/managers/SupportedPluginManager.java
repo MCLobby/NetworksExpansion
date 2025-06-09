@@ -26,6 +26,7 @@ public class SupportedPluginManager {
     // region First Tick Only Registrations
     private @Getter boolean mcMMO;
     private @Getter boolean wildChests;
+
     @Setter
     private @Getter boolean justEnoughGuide;
 

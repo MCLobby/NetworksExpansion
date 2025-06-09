@@ -4,12 +4,11 @@ import com.jeff_media.morepersistentdatatypes.DataType;
 import io.github.sefiraat.networks.network.stackcaches.CardInstance;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.sefiraat.networks.utils.Keys;
+import javax.annotation.Nonnull;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-
-import javax.annotation.Nonnull;
 
 /**
  * A {@link PersistentDataType} for {@link CardInstance}
@@ -18,10 +17,10 @@ import javax.annotation.Nonnull;
  * @author Sfiguz7
  * @author Walshy
  */
-
 public class PersistentQuantumStorageType implements PersistentDataType<PersistentDataContainer, QuantumCache> {
 
-    public static final PersistentDataType<PersistentDataContainer, QuantumCache> TYPE = new PersistentQuantumStorageType();
+    public static final PersistentDataType<PersistentDataContainer, QuantumCache> TYPE =
+            new PersistentQuantumStorageType();
 
     @Override
     @Nonnull
@@ -37,10 +36,13 @@ public class PersistentQuantumStorageType implements PersistentDataType<Persiste
 
     @Override
     @Nonnull
-    public PersistentDataContainer toPrimitive(@Nonnull QuantumCache complex, @Nonnull PersistentDataAdapterContext context) {
+    public PersistentDataContainer toPrimitive(
+            @Nonnull QuantumCache complex, @Nonnull PersistentDataAdapterContext context) {
         final PersistentDataContainer container = context.newPersistentDataContainer();
 
-        container.set(Keys.ITEM, DataType.ITEM_STACK, complex.getItemStack());
+        if (complex.getItemStack() != null) {
+            container.set(Keys.ITEM, DataType.ITEM_STACK, complex.getItemStack());
+        }
         container.set(Keys.AMOUNT, DataType.LONG, complex.getAmount());
         container.set(Keys.MAX_AMOUNT, DataType.INTEGER, complex.getLimit());
         container.set(Keys.VOID, DataType.BOOLEAN, complex.isVoidExcess());
@@ -50,7 +52,8 @@ public class PersistentQuantumStorageType implements PersistentDataType<Persiste
 
     @Override
     @Nonnull
-    public QuantumCache fromPrimitive(@Nonnull PersistentDataContainer primitive, @Nonnull PersistentDataAdapterContext context) {
+    public QuantumCache fromPrimitive(
+            @Nonnull PersistentDataContainer primitive, @Nonnull PersistentDataAdapterContext context) {
         ItemStack item = primitive.get(Keys.ITEM, DataType.ITEM_STACK);
         if (item == null) {
             item = primitive.get(Keys.ITEM2, DataType.ITEM_STACK);
@@ -96,7 +99,8 @@ public class PersistentQuantumStorageType implements PersistentDataType<Persiste
             voidExcess = primitive.getOrDefault(Keys.VOID3, DataType.BOOLEAN, false);
         }
 
-        boolean supportsCustomMaxAmount = primitive.getOrDefault(Keys.SUPPORTS_CUSTOM_MAX_AMOUNT, DataType.BOOLEAN, false);
+        boolean supportsCustomMaxAmount =
+                primitive.getOrDefault(Keys.SUPPORTS_CUSTOM_MAX_AMOUNT, DataType.BOOLEAN, false);
 
         return new QuantumCache(item, amount, limit, voidExcess, supportsCustomMaxAmount);
     }

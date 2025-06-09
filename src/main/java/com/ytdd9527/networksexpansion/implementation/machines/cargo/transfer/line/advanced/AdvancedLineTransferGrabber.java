@@ -19,6 +19,14 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.function.Function;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -31,15 +39,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.function.Function;
-
 public class AdvancedLineTransferGrabber extends AdvancedDirectional implements RecipeDisplayItem, Configurable {
     private static final int DEFAULT_MAX_DISTANCE = 64;
     private static final int DEFAULT_GRAB_ITEM_TICK = 1;
@@ -48,7 +47,8 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     private static final String KEY_UUID = "display-uuid";
     private static final int TRANSPORT_LIMIT = 3456;
     private static final int[] BACKGROUND_SLOTS = {
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 19, 21, 23, 24, 25, 26, 28, 29, 21, 31, 32, 34, 35, 39, 40, 41, 42, 43, 44
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 16, 17, 18, 19, 21, 23, 24, 25, 26, 28, 29, 21, 31, 32, 34, 35,
+        39, 40, 41, 42, 43, 44
     };
     private static final int TRANSPORT_MODE_SLOT = 27;
     private static final int MINUS_SLOT = 36;
@@ -60,7 +60,8 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
     private int grabItemTick;
     private int maxDistance;
 
-    public AdvancedLineTransferGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public AdvancedLineTransferGrabber(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.TRANSFER_GRABBER);
         loadConfigurations();
     }
@@ -81,8 +82,8 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
 
         this.maxDistance = config.getInt("items." + configKey + ".max-distance", DEFAULT_MAX_DISTANCE);
         this.grabItemTick = config.getInt("items." + configKey + ".grabitem-tick", DEFAULT_GRAB_ITEM_TICK);
-        this.useSpecialModel = config.getBoolean("items." + configKey + ".use-special-model.enable", DEFAULT_USE_SPECIAL_MODEL);
-
+        this.useSpecialModel =
+                config.getBoolean("items." + configKey + ".use-special-model.enable", DEFAULT_USE_SPECIAL_MODEL);
 
         Map<String, Function<Location, DisplayGroup>> generatorMap = new HashMap<>();
         generatorMap.put("cloche", DisplayGroupGenerators::generateCloche);
@@ -93,11 +94,13 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
             String generatorKey = config.getString("items." + configKey + ".use-special-model.type");
             this.displayGroupGenerator = generatorMap.get(generatorKey);
             if (this.displayGroupGenerator == null) {
-                Networks.getInstance().getLogger().warning(String.format(Lang.getString("messages.unsupported-operation.display.unknown_type"), generatorKey));
+                Networks.getInstance()
+                        .getLogger()
+                        .warning(String.format(
+                                Lang.getString("messages.unsupported-operation.display.unknown_type"), generatorKey));
                 this.useSpecialModel = false;
             }
         }
-
     }
 
     @Override
@@ -159,10 +162,10 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
                 maxDistance,
                 false,
                 true,
-                (targetMenu) -> LineOperationUtil.grabItem(blockMenu.getLocation(), root, targetMenu, mode, limitQuantity));
+                (targetMenu) ->
+                        LineOperationUtil.grabItem(blockMenu.getLocation(), root, targetMenu, mode, limitQuantity));
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
-
 
     @Override
     protected Particle.DustOptions getDustOptions() {
@@ -188,8 +191,10 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
 
     private void setupDisplay(@Nonnull Location location) {
         if (this.displayGroupGenerator != null) {
-            DisplayGroup displayGroup = this.displayGroupGenerator.apply(location.clone().add(0.5, 0, 0.5));
-            StorageCacheUtils.setData(location, KEY_UUID, displayGroup.getParentUUID().toString());
+            DisplayGroup displayGroup =
+                    this.displayGroupGenerator.apply(location.clone().add(0.5, 0, 0.5));
+            StorageCacheUtils.setData(
+                    location, KEY_UUID, displayGroup.getParentUUID().toString());
         }
     }
 
@@ -200,8 +205,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         }
     }
 
-    @Nullable
-    private UUID getDisplayGroupUUID(@Nonnull Location location) {
+    @Nullable private UUID getDisplayGroupUUID(@Nonnull Location location) {
         String uuid = StorageCacheUtils.getData(location, KEY_UUID);
         if (uuid == null) {
             return null;
@@ -209,8 +213,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         return UUID.fromString(uuid);
     }
 
-    @Nullable
-    private DisplayGroup getDisplayGroup(@Nonnull Location location) {
+    @Nullable private DisplayGroup getDisplayGroup(@Nonnull Location location) {
         UUID uuid = getDisplayGroupUUID(location);
         if (uuid == null) {
             return null;
@@ -236,17 +239,16 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional implements 
         return ADD_SLOT;
     }
 
-
     @Nonnull
     @Override
     public List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);
-        displayRecipes.add(new CustomItemStack(Material.BOOK,
+        displayRecipes.add(new CustomItemStack(
+                Material.BOOK,
                 Lang.getString("icons.mechanism.transfers.data_title"),
                 "",
                 String.format(Lang.getString("icons.mechanism.transfers.max_distance"), maxDistance),
-                String.format(Lang.getString("icons.mechanism.transfers.grab_item_tick"), grabItemTick)
-        ));
+                String.format(Lang.getString("icons.mechanism.transfers.grab_item_tick"), grabItemTick)));
         return displayRecipes;
     }
 

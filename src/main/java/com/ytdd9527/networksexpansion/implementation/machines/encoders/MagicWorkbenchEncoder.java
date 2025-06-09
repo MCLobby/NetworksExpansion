@@ -7,14 +7,14 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import org.bukkit.inventory.ItemStack;
-
 import java.util.Map;
 import java.util.Set;
+import org.bukkit.inventory.ItemStack;
 
 public class MagicWorkbenchEncoder extends AbstractEncoder {
 
-    public MagicWorkbenchEncoder(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public MagicWorkbenchEncoder(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -33,5 +33,4 @@ public class MagicWorkbenchEncoder extends AbstractEncoder {
     public boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe) {
         return SupportedMagicWorkbenchRecipes.testRecipe(inputs, recipe);
     }
-
 }

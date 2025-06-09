@@ -17,6 +17,9 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import java.util.Map;
+import java.util.Set;
+import javax.annotation.Nonnull;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -26,20 +29,13 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import java.util.Map;
-import java.util.Set;
-
 public abstract class AbstractEncoder extends NetworkObject implements RecipeCompletableWithGuide {
-    private static final int[] BACKGROUND = new int[]{
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 17, 18, 20, 24, 25, 26, 27, 28, 29, 33, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44
+    private static final int[] BACKGROUND = new int[] {
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 17, 18, 20, 24, 25, 26, 27, 28, 29, 33, 35, 36, 37, 38, 39, 40, 41,
+        42, 43, 44
     };
-    private static final int[] RECIPE_SLOTS = new int[]{
-            12, 13, 14, 21, 22, 23, 30, 31, 32
-    };
-    private static final int[] BLUEPRINT_BACK = new int[]{
-            10, 28
-    };
+    private static final int[] RECIPE_SLOTS = new int[] {12, 13, 14, 21, 22, 23, 30, 31, 32};
+    private static final int[] BLUEPRINT_BACK = new int[] {10, 28};
     private static final int BLANK_BLUEPRINT_SLOT = 19;
     private static final int ENCODE_SLOT = 16;
     private static final int OUTPUT_SLOT = 34;
@@ -54,7 +50,6 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
         this.getSlotsToDrop().add(BLANK_BLUEPRINT_SLOT);
         this.getSlotsToDrop().add(OUTPUT_SLOT);
     }
-
 
     @Override
     public void postRegister() {
@@ -79,8 +74,10 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return player.hasPermission("slimefun.inventory.bypass") || (this.getSlimefunItem().canUse(player, false)
-                        && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
+                return player.hasPermission("slimefun.inventory.bypass")
+                        || (this.getSlimefunItem().canUse(player, false)
+                                && Slimefun.getProtectionManager()
+                                        .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override

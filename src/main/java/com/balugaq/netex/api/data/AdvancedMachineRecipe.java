@@ -1,10 +1,8 @@
 package com.balugaq.netex.api.data;
 
-
 import com.ytdd9527.networksexpansion.utils.itemstacks.CompareUtil;
-import lombok.Getter;
-
 import javax.annotation.Nonnull;
+import lombok.Getter;
 
 /**
  * @author Final_ROOT
@@ -13,9 +11,12 @@ import javax.annotation.Nonnull;
 public class AdvancedMachineRecipe {
     @Nonnull
     private final ItemAmountWrapper[] inputs;
+
     @Nonnull
     private final AdvancedRandomOutput[] randomOutputs;
+
     private final int[] weightBeginValues;
+
     @Getter
     private int weightSum = 0;
 
@@ -25,7 +26,7 @@ public class AdvancedMachineRecipe {
         this.weightBeginValues = new int[randomOutputs.length];
         for (int i = 0; i < this.randomOutputs.length; i++) {
             this.weightBeginValues[i] = this.weightSum;
-            this.weightSum += this.randomOutputs[i].getWeight();
+            this.weightSum += this.randomOutputs[i].weight();
         }
     }
 
@@ -54,10 +55,6 @@ public class AdvancedMachineRecipe {
         @Nonnull
         public ItemAmountWrapper[] getOutputItem() {
             return outputItem;
-        }
-
-        public int getWeight() {
-            return weight;
         }
     }
 }

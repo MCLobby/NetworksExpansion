@@ -2,6 +2,9 @@ package io.github.sefiraat.networks.network.stackcaches;
 
 import com.balugaq.netex.utils.Lang;
 import io.github.sefiraat.networks.utils.Theme;
+import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
@@ -9,14 +12,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
-
 @Getter
 public class CardInstance extends ItemStackCache {
 
     private final int limit;
+
     @Setter
     private int amount;
 
@@ -26,8 +26,7 @@ public class CardInstance extends ItemStackCache {
         this.limit = limit;
     }
 
-    @Nullable
-    public ItemStack withdrawItem(int amount) {
+    @Nullable public ItemStack withdrawItem(int amount) {
         if (this.getItemStack() == null) {
             return null;
         }
@@ -37,14 +36,15 @@ public class CardInstance extends ItemStackCache {
         return clone;
     }
 
-    @Nullable
-    public ItemStack withdrawItem() {
+    @SuppressWarnings("unused")
+    @Nullable public ItemStack withdrawItem() {
         if (this.getItemStack() == null) {
             return null;
         }
         return withdrawItem(this.getItemStack().getMaxStackSize());
     }
 
+    @SuppressWarnings("unused")
     public void increaseAmount(int amount) {
         long total = (long) this.amount + (long) amount;
         if (total > this.limit) {
@@ -58,12 +58,17 @@ public class CardInstance extends ItemStackCache {
         this.amount = this.amount - amount;
     }
 
+    @SuppressWarnings("deprecation")
     public void updateLore(@Nonnull ItemMeta itemMeta) {
         List<String> lore = itemMeta.getLore();
+        if (lore == null) {
+            return;
+        }
         lore.set(10, getLoreLine());
         itemMeta.setLore(lore);
     }
 
+    @SuppressWarnings("deprecation")
     public String getLoreLine() {
         if (this.getItemStack() == null) {
             return Lang.getString("messages.normal-operation.memory_card.empty");

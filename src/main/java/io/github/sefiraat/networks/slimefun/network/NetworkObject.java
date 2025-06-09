@@ -15,6 +15,11 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import lombok.Getter;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -25,32 +30,26 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 @Getter
 public abstract class NetworkObject extends SpecialSlimefunItem implements AdminDebuggable {
 
-    protected static final Set<BlockFace> CHECK_FACES = Set.of(
-            BlockFace.UP,
-            BlockFace.DOWN,
-            BlockFace.NORTH,
-            BlockFace.SOUTH,
-            BlockFace.EAST,
-            BlockFace.WEST
-    );
+    protected static final Set<BlockFace> CHECK_FACES =
+            Set.of(BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST);
     private final NodeType nodeType;
     private final List<Integer> slotsToDrop = new ArrayList<>();
 
-
-    protected NetworkObject(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, NodeType type) {
+    protected NetworkObject(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, NodeType type) {
         this(itemGroup, item, recipeType, recipe, null, type);
     }
 
-    protected NetworkObject(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, NodeType type) {
+    protected NetworkObject(
+            ItemGroup itemGroup,
+            SlimefunItemStack item,
+            RecipeType recipeType,
+            ItemStack[] recipe,
+            ItemStack recipeOutput,
+            NodeType type) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
         this.nodeType = type;
         addItemHandler(
@@ -83,8 +82,7 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
                         onPlace(event);
                         postPlace(event);
                     }
-                }
-        );
+                });
     }
 
     protected void addToRegistry(@Nonnull Block block) {
@@ -112,27 +110,20 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
         Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);
     }
 
-    protected void postBreak(@Nonnull BlockBreakEvent event) {
+    protected void postBreak(@Nonnull BlockBreakEvent event) {}
 
-    }
-
-    protected void prePlace(@Nonnull BlockPlaceEvent event) {
-
-    }
+    @SuppressWarnings("unused")
+    protected void prePlace(@Nonnull BlockPlaceEvent event) {}
 
     protected void cancelPlace(BlockPlaceEvent event) {
         event.getPlayer().sendMessage(Theme.ERROR.getColor() + "This placement would connect two controllers!");
         event.setCancelled(true);
-
     }
 
-    protected void onPlace(@Nonnull BlockPlaceEvent event) {
+    protected void onPlace(@Nonnull BlockPlaceEvent event) {}
 
-    }
-
-    protected void postPlace(@Nonnull BlockPlaceEvent event) {
-
-    }
+    @SuppressWarnings("unused")
+    protected void postPlace(@Nonnull BlockPlaceEvent event) {}
 
     public boolean isAdminDebuggable() {
         return false;

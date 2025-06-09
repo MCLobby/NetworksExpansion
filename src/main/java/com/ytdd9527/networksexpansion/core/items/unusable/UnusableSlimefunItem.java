@@ -10,9 +10,8 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.WeaponUseHandler;
-import org.bukkit.inventory.ItemStack;
-
 import javax.annotation.Nullable;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * @author Final_ROOT
@@ -20,7 +19,8 @@ import javax.annotation.Nullable;
  */
 // TODO: Optimization
 public class UnusableSlimefunItem extends SpecialSlimefunItem {
-    public UnusableSlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public UnusableSlimefunItem(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
         this.addItemHandler(MachineUtil.BLOCK_PLACE_HANDLER_DENY);
         this.addItemHandler((ItemUseHandler) PlayerRightClickEvent::cancel);
@@ -29,7 +29,12 @@ public class UnusableSlimefunItem extends SpecialSlimefunItem {
         this.addItemHandler((ToolUseHandler) (e, tool, fortune, drops) -> e.setCancelled(true));
     }
 
-    public UnusableSlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
+    public UnusableSlimefunItem(
+            ItemGroup itemGroup,
+            SlimefunItemStack item,
+            RecipeType recipeType,
+            ItemStack[] recipe,
+            @Nullable ItemStack recipeOutput) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
         this.addItemHandler(MachineUtil.BLOCK_PLACE_HANDLER_DENY);
         this.addItemHandler((ItemUseHandler) PlayerRightClickEvent::cancel);

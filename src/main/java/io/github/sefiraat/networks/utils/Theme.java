@@ -5,6 +5,12 @@ import com.ytdd9527.networksexpansion.utils.TextUtil;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import lombok.Getter;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import net.md_5.bungee.api.ChatColor;
@@ -14,14 +20,7 @@ import org.bukkit.Particle;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
-
-
+@SuppressWarnings("deprecation")
 @Getter
 public enum Theme {
     GOLD(ChatColor.GOLD, Lang.getString("theme.gold")),
@@ -44,9 +43,7 @@ public enum Theme {
     MATERIAL_CLASS(ChatColor.of("#a4c2ba"), Lang.getString("theme.material_class")),
     RECIPE_TYPE(ChatColor.of("#ffe89c"), Lang.getString("theme.recipe_type")),
 
-
     GUIDE(ChatColor.of("#444444"), Lang.getString("theme.guide"));
-
 
     private static final Theme[] cachedValues = values();
     private final ChatColor color;
@@ -56,7 +53,6 @@ public enum Theme {
     Theme(ChatColor color, String loreLine) {
         this.color = color;
         this.loreLine = loreLine;
-
     }
 
     /**
@@ -71,7 +67,8 @@ public enum Theme {
      */
     @Nonnull
     @ParametersAreNonnullByDefault
-    public static SlimefunItemStack themedSlimefunItemStack(String id, ItemStack itemStack, Theme themeType, String name, String... lore) {
+    public static SlimefunItemStack themedSlimefunItemStack(
+            String id, ItemStack itemStack, Theme themeType, String name, String... lore) {
         ChatColor passiveColor = Theme.PASSIVE.getColor();
         List<String> finalLore = new ArrayList<>();
         finalLore.add("");
@@ -84,13 +81,13 @@ public enum Theme {
                 id,
                 itemStack,
                 Theme.applyThemeToString(themeType, name),
-                finalLore.toArray(new String[finalLore.size() - 1])
-        );
+                finalLore.toArray(new String[finalLore.size() - 1]));
     }
 
     @Nonnull
     @ParametersAreNonnullByDefault
-    public static SlimefunItemStack themedSlimefunItemStack(String id, String texture, Theme themeType, String name, String... lore) {
+    public static SlimefunItemStack themedSlimefunItemStack(
+            String id, String texture, Theme themeType, String name, String... lore) {
         ChatColor passiveColor = Theme.PASSIVE.getColor();
         List<String> finalLore = new ArrayList<>();
         finalLore.add("");
@@ -103,8 +100,7 @@ public enum Theme {
                 id,
                 texture,
                 Theme.applyThemeToString(themeType, name),
-                finalLore.toArray(new String[finalLore.size() - 1])
-        );
+                finalLore.toArray(new String[finalLore.size() - 1]));
     }
 
     @Nonnull
@@ -115,12 +111,18 @@ public enum Theme {
         String name = sfis.getDisplayName();
         ItemMeta meta = sfis.getItemMeta();
         List<String> lore = meta == null ? new ArrayList<>() : meta.getLore();
-        return themedSlimefunItemStack(id, itemStack, themeType, name == null ? Lang.getString("theme.name_not_found") : name, lore == null ? new String[]{Lang.getString("theme.lore_not_found")} : lore.toArray(new String[0]));
+        return themedSlimefunItemStack(
+                id,
+                itemStack,
+                themeType,
+                name == null ? Lang.getString("theme.name_not_found") : name,
+                lore == null ? new String[] {Lang.getString("theme.lore_not_found")} : lore.toArray(new String[0]));
     }
 
     @Nonnull
     @ParametersAreNonnullByDefault
-    public static SlimefunItemStack tsItem(String id, ItemStack itemStack, Theme themeType, String name, String... lore) {
+    public static SlimefunItemStack tsItem(
+            String id, ItemStack itemStack, Theme themeType, String name, String... lore) {
         List<String> finalLore = new ArrayList<>(Arrays.stream(lore).toList());
         finalLore.add("");
         finalLore.add(applyThemeToString(Theme.SUCCESS, themeType.getLoreLine()));
@@ -128,19 +130,13 @@ public enum Theme {
                 id,
                 itemStack,
                 Theme.applyThemeToString(themeType, name),
-                finalLore.toArray(new String[finalLore.size() - 1])
-        );
+                finalLore.toArray(new String[finalLore.size() - 1]));
     }
 
     @Nonnull
     @ParametersAreNonnullByDefault
     public static SlimefunItemStack Random(
-            String id,
-            ItemStack itemStack,
-            Theme themeType,
-            String name,
-            String... lore
-    ) {
+            String id, ItemStack itemStack, Theme themeType, String name, String... lore) {
         String coloredName = TextUtil.colorPseudorandomString(name);
         ChatColor passiveColor = Theme.PASSIVE.getColor();
         List<String> finalLore = new ArrayList<>();
@@ -149,12 +145,7 @@ public enum Theme {
             finalLore.add(passiveColor + s);
         }
         finalLore.add(applyThemeToString(Theme.SUCCESS, themeType.getLoreLine()));
-        return new SlimefunItemStack(
-                id,
-                itemStack,
-                coloredName,
-                finalLore.toArray(new String[0])
-        );
+        return new SlimefunItemStack(id, itemStack, coloredName, finalLore.toArray(new String[0]));
     }
 
     @Nonnull
@@ -165,68 +156,47 @@ public enum Theme {
         String name = sfis.getDisplayName();
         ItemMeta meta = sfis.getItemMeta();
         List<String> lore = meta == null ? new ArrayList<>() : meta.getLore();
-        return Random(id, itemStack, themeType, name == null ? Lang.getString("theme.name_not_found") : name, lore == null ? new String[]{Lang.getString("theme.lore_not_found")} : lore.toArray(new String[0]));
-    }
-
-    @Nonnull
-    @ParametersAreNonnullByDefault
-    public static SlimefunItemStack Random(
-            String id,
-            String texture,
-            Theme themeType,
-            String name,
-            String... lore
-    ) {
-        String coloredName = TextUtil.colorPseudorandomString(name);
-        ChatColor passiveColor = Theme.PASSIVE.getColor();
-        List<String> finalLore = new ArrayList<>();
-        finalLore.add("");
-        for (String s : lore) {
-            finalLore.add(passiveColor + s);
-        }
-        finalLore.add(applyThemeToString(Theme.SUCCESS, themeType.getLoreLine()));
-        return new SlimefunItemStack(
-                id,
-                texture,
-                coloredName,
-                finalLore.toArray(new String[0])
-        );
-    }
-
-    @Nonnull
-    @ParametersAreNonnullByDefault
-    public static SlimefunItemStack model(
-            String id,
-            ItemStack itemStack,
-            Theme themeType,
-            String name,
-            String... lore
-    ) {
-        String coloredName = TextUtil.colorPseudorandomString(name);
-        ChatColor passiveColor = Theme.PASSIVE.getColor();
-        List<String> finalLore = new ArrayList<>();
-        finalLore.add("");
-        for (String s : lore) {
-            finalLore.add(passiveColor + s);
-        }
-        finalLore.add(applyThemeToString(Theme.SUCCESS, themeType.getLoreLine()));
-        return new SlimefunItemStack(
+        return Random(
                 id,
                 itemStack,
-                coloredName + Lang.getString("theme.model"),
-                finalLore.toArray(new String[0])
-        );
+                themeType,
+                name == null ? Lang.getString("theme.name_not_found") : name,
+                lore == null ? new String[] {Lang.getString("theme.lore_not_found")} : lore.toArray(new String[0]));
+    }
+
+    @Nonnull
+    @ParametersAreNonnullByDefault
+    public static SlimefunItemStack Random(String id, String texture, Theme themeType, String name, String... lore) {
+        String coloredName = TextUtil.colorPseudorandomString(name);
+        ChatColor passiveColor = Theme.PASSIVE.getColor();
+        List<String> finalLore = new ArrayList<>();
+        finalLore.add("");
+        for (String s : lore) {
+            finalLore.add(passiveColor + s);
+        }
+        finalLore.add(applyThemeToString(Theme.SUCCESS, themeType.getLoreLine()));
+        return new SlimefunItemStack(id, texture, coloredName, finalLore.toArray(new String[0]));
     }
 
     @Nonnull
     @ParametersAreNonnullByDefault
     public static SlimefunItemStack model(
-            String id,
-            String texture,
-            Theme themeType,
-            String name,
-            String... lore
-    ) {
+            String id, ItemStack itemStack, Theme themeType, String name, String... lore) {
+        String coloredName = TextUtil.colorPseudorandomString(name);
+        ChatColor passiveColor = Theme.PASSIVE.getColor();
+        List<String> finalLore = new ArrayList<>();
+        finalLore.add("");
+        for (String s : lore) {
+            finalLore.add(passiveColor + s);
+        }
+        finalLore.add(applyThemeToString(Theme.SUCCESS, themeType.getLoreLine()));
+        return new SlimefunItemStack(
+                id, itemStack, coloredName + Lang.getString("theme.model"), finalLore.toArray(new String[0]));
+    }
+
+    @Nonnull
+    @ParametersAreNonnullByDefault
+    public static SlimefunItemStack model(String id, String texture, Theme themeType, String name, String... lore) {
         String coloredName = TextUtil.colorPseudorandomString(name);
         ChatColor passiveColor = Theme.PASSIVE.getColor();
         List<String> finalLore = new ArrayList<>();
@@ -239,8 +209,7 @@ public enum Theme {
                 id,
                 texture,
                 coloredName + Lang.getString("theme.model"),
-                finalLore.toArray(new String[finalLore.size() - 1])
-        );
+                finalLore.toArray(new String[finalLore.size() - 1]));
     }
 
     @Nonnull
@@ -248,12 +217,16 @@ public enum Theme {
     public static SlimefunItemStack model(SlimefunItemStack sfis, Theme themeType) {
         String id = sfis.getItemId();
         AtomicReference<String> texture = new AtomicReference<>("");
-        sfis.getSkullTexture().ifPresentOrElse(texture::set, () -> {
-        });
+        sfis.getSkullTexture().ifPresentOrElse(texture::set, () -> {});
         String name = sfis.getDisplayName();
         ItemMeta meta = sfis.getItemMeta();
         List<String> lore = meta == null ? new ArrayList<>() : meta.getLore();
-        return model(id, texture.get(), themeType, name == null ? Lang.getString("theme.name_not_found") : name, lore == null ? new String[]{Lang.getString("theme.lore_not_found")} : lore.toArray(new String[0]));
+        return model(
+                id,
+                texture.get(),
+                themeType,
+                name == null ? Lang.getString("theme.name_not_found") : name,
+                lore == null ? new String[] {Lang.getString("theme.lore_not_found")} : lore.toArray(new String[0]));
     }
 
     /**
@@ -292,8 +265,7 @@ public enum Theme {
         return ItemStackUtil.getCleanItem(new CustomItemStack(
                 material,
                 Theme.applyThemeToString(themeType, name),
-                finalLore.toArray(new String[finalLore.size() - 1])
-        ));
+                finalLore.toArray(new String[finalLore.size() - 1])));
     }
 
     @Nonnull
@@ -318,11 +290,8 @@ public enum Theme {
         }
         finalLore.add("");
         finalLore.add(applyThemeToString(Theme.CLICK_INFO, themeType.getLoreLine()));
-        return ItemStackUtil.getCleanItem(new CustomItemStack(
-                itemStack.getType(),
-                Theme.applyThemeToString(themeType, name),
-                finalLore
-        ));
+        return ItemStackUtil.getCleanItem(
+                new CustomItemStack(itemStack.getType(), Theme.applyThemeToString(themeType, name), finalLore));
     }
 
     @Nonnull
@@ -331,10 +300,8 @@ public enum Theme {
                 Color.fromRGB(
                         color.getColor().getRed(),
                         color.getColor().getGreen(),
-                        color.getColor().getBlue()
-                ),
-                size
-        );
+                        color.getColor().getBlue()),
+                size);
     }
 
     /**
@@ -349,6 +316,4 @@ public enum Theme {
     public String toString() {
         return this.color.toString();
     }
-
-
 }

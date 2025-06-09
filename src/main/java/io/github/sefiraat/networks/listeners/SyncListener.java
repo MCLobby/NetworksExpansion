@@ -7,6 +7,7 @@ import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.utils.NetworkUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import java.text.MessageFormat;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -14,8 +15,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
-
-import java.text.MessageFormat;
 
 /*
  * Fix https://github.com/Sefiraat/Networks/issues/188
@@ -57,7 +56,12 @@ public class SyncListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onChunkUnload(ChunkUnloadEvent e) {
-        Networks.getInstance().debug(MessageFormat.format(S3, e.getWorld().getName(), e.getChunk().getX(), e.getChunk().getZ()));
+        Networks.getInstance()
+                .debug(MessageFormat.format(
+                        S3,
+                        e.getWorld().getName(),
+                        e.getChunk().getX(),
+                        e.getChunk().getZ()));
         NetworkStorage.unregisterChunk(e.getChunk());
     }
 }

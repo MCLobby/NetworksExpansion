@@ -3,12 +3,11 @@ package io.github.sefiraat.networks.utils;
 import io.github.mooy1.infinityexpansion.InfinityExpansion;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.managers.SupportedPluginManager;
+import javax.annotation.Nonnull;
 import lombok.Data;
 import lombok.experimental.UtilityClass;
 import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.Plugin;
-
-import javax.annotation.Nonnull;
 
 @Data
 @UtilityClass
@@ -21,8 +20,10 @@ public class Keys {
     public static final NamespacedKey ON_COOLDOWN3 = customNewKey(NETWORKS_CHANGED_ID, "cooldown");
 
     public static final NamespacedKey CARD_INSTANCE = newKey("ntw_card");
+
     @Deprecated
     public static final NamespacedKey CARD_INSTANCE2 = customNewKey(NETWORKS_ID, "ntw_card");
+
     @Deprecated
     public static final NamespacedKey CARD_INSTANCE3 = customNewKey(NETWORKS_CHANGED_ID, "ntw_card");
 
@@ -82,7 +83,6 @@ public class Keys {
             INFINITY_DISPLAY = InfinityExpansion.createKey("display");
         }
     }
-
 
     @Nonnull
     public static NamespacedKey newKey(@Nonnull String key) {

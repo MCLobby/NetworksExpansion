@@ -26,8 +26,9 @@ public class NetheoPlants {
             Theme.SEED,
             Lang.getString("messages.integrations.netheopoiesis.stone_chunk_seed.name"),
             Lang.getStringArray("messages.integrations.netheopoiesis.stone_chunk_seed.lore"),
-            Stacks.getCanBePlacedOnLore(Lang.getString("messages.integrations.netheopoiesis.dirt_level.highest"), Lang.getString("messages.integrations.netheopoiesis.dirt_tips"))
-    );
+            Stacks.getCanBePlacedOnLore(
+                    Lang.getString("messages.integrations.netheopoiesis.dirt_level.highest"),
+                    Lang.getString("messages.integrations.netheopoiesis.dirt_tips")));
 
     public static final SlimefunItemStack SYNTHETIC_SEED = Theme.themedSeed(
             "NTW_SYNTHETIC_SEED",
@@ -35,8 +36,9 @@ public class NetheoPlants {
             Theme.SEED,
             Lang.getString("messages.integrations.netheopoiesis.synthetic_seed.name"),
             Lang.getStringArray("messages.integrations.netheopoiesis.synthetic_seed.lore"),
-            Stacks.getCanBePlacedOnLore(Lang.getString("messages.integrations.netheopoiesis.dirt_level.highest"), Lang.getString("messages.integrations.netheopoiesis.dirt_tips"))
-    );
+            Stacks.getCanBePlacedOnLore(
+                    Lang.getString("messages.integrations.netheopoiesis.dirt_level.highest"),
+                    Lang.getString("messages.integrations.netheopoiesis.dirt_tips")));
 
     public static final SlimefunItemStack SYNTHETIC_EMERALD_SEED = Theme.themedSeed(
             "NTW_SYNTHETIC_EMERALD_SEED",
@@ -44,8 +46,9 @@ public class NetheoPlants {
             Theme.SEED,
             Lang.getString("messages.integrations.netheopoiesis.synthetic_emerald_seed.name"),
             Lang.getStringArray("messages.integrations.netheopoiesis.synthetic_emerald_seed.lore"),
-            Stacks.getCanBePlacedOnLore(Lang.getString("messages.integrations.netheopoiesis.dirt_level.high"), Lang.getString("messages.integrations.netheopoiesis.dirt_tips"))
-    );
+            Stacks.getCanBePlacedOnLore(
+                    Lang.getString("messages.integrations.netheopoiesis.dirt_level.high"),
+                    Lang.getString("messages.integrations.netheopoiesis.dirt_tips")));
 
     public static final SlimefunItemStack SYNTHETIC_DIAMOND_SEED = Theme.themedSeed(
             "NTW_SYNTHETIC_DIAMOND_SEED",
@@ -53,8 +56,9 @@ public class NetheoPlants {
             Theme.SEED,
             Lang.getString("messages.integrations.netheopoiesis.synthetic_diamond_seed.name"),
             Lang.getStringArray("messages.integrations.netheopoiesis.synthetic_diamond_seed.lore"),
-            Stacks.getCanBePlacedOnLore(Lang.getString("messages.integrations.netheopoiesis.dirt_level.high"), Lang.getString("messages.integrations.netheopoiesis.dirt_tips"))
-    );
+            Stacks.getCanBePlacedOnLore(
+                    Lang.getString("messages.integrations.netheopoiesis.dirt_level.high"),
+                    Lang.getString("messages.integrations.netheopoiesis.dirt_tips")));
 
     public static final SlimefunItemStack FRAGMENTED_SEED = Theme.themedSeed(
             "NTW_FRAGMENTED_SEED",
@@ -62,8 +66,9 @@ public class NetheoPlants {
             Theme.SEED,
             Lang.getString("messages.integrations.netheopoiesis.fragmented_seed.name"),
             Lang.getStringArray("messages.integrations.netheopoiesis.fragmented_seed.lore"),
-            Stacks.getCanBePlacedOnLore(Lang.getString("messages.integrations.netheopoiesis.dirt_level.high"), Lang.getString("messages.integrations.netheopoiesis.dirt_tips"))
-    );
+            Stacks.getCanBePlacedOnLore(
+                    Lang.getString("messages.integrations.netheopoiesis.dirt_level.high"),
+                    Lang.getString("messages.integrations.netheopoiesis.dirt_tips")));
 
     public static void setup() {
 

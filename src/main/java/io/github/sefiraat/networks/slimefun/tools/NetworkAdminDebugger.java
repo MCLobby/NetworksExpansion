@@ -10,22 +10,16 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import java.util.Optional;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Optional;
-
-
 public class NetworkAdminDebugger extends SpecialSlimefunItem {
 
-    public NetworkAdminDebugger(ItemGroup itemGroup,
-                                SlimefunItemStack item,
-                                RecipeType recipeType,
-                                ItemStack[] recipe
-    ) {
+    public NetworkAdminDebugger(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
-
     }
 
     @Override

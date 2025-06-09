@@ -3,21 +3,12 @@ package com.ytdd9527.networksexpansion.utils.databases;
 import com.balugaq.netex.api.data.ItemContainer;
 import com.balugaq.netex.api.data.StorageUnitData;
 import com.balugaq.netex.api.enums.StorageUnitType;
+import com.balugaq.netex.utils.Debug;
 import com.balugaq.netex.utils.Lang;
 import com.ytdd9527.networksexpansion.implementation.machines.unit.NetworksDrawer;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.io.BukkitObjectInputStream;
-import org.bukkit.util.io.BukkitObjectOutputStream;
-import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -32,6 +23,15 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.io.BukkitObjectInputStream;
+import org.bukkit.util.io.BukkitObjectOutputStream;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 public class DataSource {
 
@@ -57,25 +57,26 @@ public class DataSource {
         loadEnvironment();
 
         init();
-
     }
 
     void saveNewStorageData(StorageUnitData storageData) {
-        String sql = "INSERT INTO " + DataTables.CONTAINER + " VALUES(" +
-                storageData.getId() + ",'" +
-                storageData.getOwner().getUniqueId() + "'," +
-                storageData.getSizeType().ordinal() + "," +
-                (storageData.isPlaced() ? 1 : 0) + ",'" +
-                DataStorage.formatLocation(storageData.getLastLocation()) + "');";
+        String sql = "INSERT INTO " + DataTables.CONTAINER + " VALUES(" + storageData.getId()
+                + ",'" + storageData.getOwner().getUniqueId()
+                + "'," + storageData.getSizeType().ordinal()
+                + "," + (storageData.isPlaced() ? 1 : 0)
+                + ",'" + DataStorage.formatLocation(storageData.getLastLocation())
+                + "');";
         scheduleExecute(sql, Lang.getString("messages.data-saving.error-occurred-when-saving-new-data"));
     }
 
     int getNextContainerId() {
         int re = nextContainerId++;
 
-        String sql = "UPDATE " + DataTables.ENVIRONMENT + " SET VarValue = " + nextContainerId + " WHERE VarName = '" + CONTAINER_ID_KEY + "';";
+        String sql = "UPDATE " + DataTables.ENVIRONMENT + " SET VarValue = " + nextContainerId + " WHERE VarName = '"
+                + CONTAINER_ID_KEY + "';";
         if (!environment.containsKey(CONTAINER_ID_KEY)) {
-            sql = "INSERT INTO " + DataTables.ENVIRONMENT + " VALUES ('" + CONTAINER_ID_KEY + "'," + nextContainerId + ");";
+            sql = "INSERT INTO " + DataTables.ENVIRONMENT + " VALUES ('" + CONTAINER_ID_KEY + "'," + nextContainerId
+                    + ");";
             environment.put(CONTAINER_ID_KEY, "" + nextContainerId);
         }
         scheduleExecute(sql, Lang.getString("messages.data-saving.error-occurred-when-updating-environment-var"));
@@ -83,14 +84,12 @@ public class DataSource {
         return re;
     }
 
-    @Nullable
-    public StorageUnitData getStorageData(int id) {
+    @Nullable public StorageUnitData getStorageData(int id) {
         StorageUnitData re = null;
 
         String sql = "SELECT * FROM " + DataTables.CONTAINER + " WHERE ContainerID = " + id + ";";
         try (Statement stat = conn.createStatement();
-             ResultSet result = stat.executeQuery(sql)
-        ) {
+                ResultSet result = stat.executeQuery(sql)) {
             if (result.next()) {
                 String[] locStr = result.getString("LastLocation").split(";");
                 Location l = null;
@@ -98,15 +97,25 @@ public class DataSource {
                 if (locStr.length == 4) {
                     World w = Bukkit.getWorld(UUID.fromString(locStr[0]));
                     if (w != null) {
-                        l = new Location(w, Integer.parseInt(locStr[1]), Integer.parseInt(locStr[2]), Integer.parseInt(locStr[3]));
+                        l = new Location(
+                                w,
+                                Integer.parseInt(locStr[1]),
+                                Integer.parseInt(locStr[2]),
+                                Integer.parseInt(locStr[3]));
                     }
                 }
 
-                re = new StorageUnitData(result.getInt("ContainerID"), result.getString("PlayerUUID"), StorageUnitType.values()[result.getInt("SizeType") % 13], result.getBoolean("IsPlaced"), l, getStoredItem(id));
+                re = new StorageUnitData(
+                        result.getInt("ContainerID"),
+                        result.getString("PlayerUUID"),
+                        StorageUnitType.values()[result.getInt("SizeType") % 13],
+                        result.getBoolean("IsPlaced"),
+                        l,
+                        getStoredItem(id));
             }
         } catch (SQLException e) {
             logger.warning(Lang.getString("messages.data-saving.error-occurred-when-loading-data"));
-            e.printStackTrace();
+            Debug.trace(e);
         }
         return re;
     }
@@ -126,19 +135,22 @@ public class DataSource {
         Networks.getQueryQueue().scheduleUpdate(() -> {
             try (Statement stat = conn.createStatement()) {
                 // Update environment data
-                String sql = "UPDATE " + DataTables.ENVIRONMENT + " SET VarValue = " + nextItemId + " WHERE VarName = '" + ITEM_ID_KEY + "';";
+                String sql = "UPDATE " + DataTables.ENVIRONMENT + " SET VarValue = " + nextItemId + " WHERE VarName = '"
+                        + ITEM_ID_KEY + "';";
                 if (!environment.containsKey(ITEM_ID_KEY)) {
-                    sql = "INSERT INTO " + DataTables.ENVIRONMENT + " VALUES ('" + ITEM_ID_KEY + "'," + nextItemId + ");";
+                    sql = "INSERT INTO " + DataTables.ENVIRONMENT + " VALUES ('" + ITEM_ID_KEY + "'," + nextItemId
+                            + ");";
                     environment.put(ITEM_ID_KEY, "" + nextItemId);
                 }
                 stat.execute(sql);
 
                 // Save item map
-                stat.execute("INSERT INTO " + DataTables.ITEM_STACK + " VALUES (" + re + ",'" + getBase64String(clone) + "');");
+                stat.execute("INSERT INTO " + DataTables.ITEM_STACK + " VALUES (" + re + ",'" + getBase64String(clone)
+                        + "');");
                 return true;
             } catch (SQLException | IOException e) {
                 logger.warning(Lang.getString("messages.data-saving.error-occurred-when-saving-itemstack"));
-                e.printStackTrace();
+                Debug.trace(e);
                 return false;
             }
         });
@@ -147,13 +159,15 @@ public class DataSource {
     }
 
     void updateContainer(int id, String key, String value) {
-        String sql = "UPDATE " + DataTables.CONTAINER + " SET " + key + " = '" + value + "' WHERE ContainerID = " + id + ";";
+        String sql =
+                "UPDATE " + DataTables.CONTAINER + " SET " + key + " = '" + value + "' WHERE ContainerID = " + id + ";";
         scheduleExecute(sql, Lang.getString("messages.data-saving.error-occurred-when-updating-container-data"));
     }
 
     void addStoredItem(int containerId, int itemId, int amount) {
         if (amount <= 0) return;
-        String sql = "INSERT INTO " + DataTables.ITEM_STORED + " VALUES(" + containerId + "," + itemId + "," + amount + ");";
+        String sql =
+                "INSERT INTO " + DataTables.ITEM_STORED + " VALUES(" + containerId + "," + itemId + "," + amount + ");";
         scheduleExecute(sql, Lang.getString("messages.data-saving.error-occurred-when-updating-storage"));
     }
 
@@ -167,24 +181,28 @@ public class DataSource {
             deleteStoredItem(containerId, itemId);
             return;
         }
-        String sql = "UPDATE " + DataTables.ITEM_STORED + " SET Amount = " + amount + " WHERE ContainerID = " + containerId + " AND ItemID = " + itemId + ";";
+        String sql = "UPDATE " + DataTables.ITEM_STORED + " SET Amount = " + amount + " WHERE ContainerID = "
+                + containerId + " AND ItemID = " + itemId + ";";
         scheduleExecute(sql, Lang.getString("messages.data-saving.error-occurred-when-updating-storage"));
     }
 
     void deleteStoredItem(int containerId, int itemId) {
-        String sql = "DELETE FROM " + DataTables.ITEM_STORED + " WHERE ContainerID = " + containerId + " AND ItemID = " + itemId + ";";
+        String sql = "DELETE FROM " + DataTables.ITEM_STORED + " WHERE ContainerID = " + containerId + " AND ItemID = "
+                + itemId + ";";
         scheduleExecute(sql, Lang.getString("messages.data-saving.error-occurred-when-updating-storage"));
     }
 
     int getIdFromLocation(Location l) {
-        String sql = "SELECT ContainerID FROM " + DataTables.CONTAINER + " WHERE IsPlaced = 1 AND LastLocation = '" + DataStorage.formatLocation(l) + "';";
-        try (Statement stat = conn.createStatement(); ResultSet resultSet = stat.executeQuery(sql)) {
+        String sql = "SELECT ContainerID FROM " + DataTables.CONTAINER + " WHERE IsPlaced = 1 AND LastLocation = '"
+                + DataStorage.formatLocation(l) + "';";
+        try (Statement stat = conn.createStatement();
+                ResultSet resultSet = stat.executeQuery(sql)) {
             if (resultSet.next()) {
                 return resultSet.getInt(1);
             }
         } catch (SQLException e) {
             logger.warning(Lang.getString("messages.data-saving.error-occurred-when-fixing-data"));
-            e.printStackTrace();
+            Debug.trace(e);
         }
         return -1;
     }
@@ -193,7 +211,8 @@ public class DataSource {
         File dataFolder = Networks.getInstance().getDataFolder();
         if (!dataFolder.exists() || !dataFolder.isDirectory()) {
             if (!dataFolder.mkdir()) {
-                throw new IllegalStateException(Lang.getString("messages.data-saving.error-occurred-when-creating-data-folder"));
+                throw new IllegalStateException(
+                        Lang.getString("messages.data-saving.error-occurred-when-creating-data-folder"));
             }
         }
         Class.forName("org.sqlite.JDBC");
@@ -219,10 +238,9 @@ public class DataSource {
                 }
             } catch (SQLException | IOException | ClassNotFoundException e) {
                 logger.warning(Lang.getString("messages.data-saving.error-occurred-when-loading-itemstack"));
-                e.printStackTrace();
+                Debug.trace(e);
             }
         });
-
     }
 
     private void loadEnvironment() {
@@ -235,7 +253,7 @@ public class DataSource {
                 }
             } catch (SQLException e) {
                 logger.warning(Lang.getString("messages.data-saving.error-occurred-when-loading-environment-var"));
-                e.printStackTrace();
+                Debug.trace(e);
             }
         });
     }
@@ -262,7 +280,8 @@ public class DataSource {
 
             @Override
             public boolean execute() {
-                String sql = "SELECT ItemID, Amount FROM " + DataTables.ITEM_STORED + " WHERE ContainerID = " + id + ";";
+                String sql =
+                        "SELECT ItemID, Amount FROM " + DataTables.ITEM_STORED + " WHERE ContainerID = " + id + ";";
                 executeQuery(sql, result -> {
                     try {
                         while (result.next()) {
@@ -275,7 +294,7 @@ public class DataSource {
                     } catch (SQLException e) {
                         success = false;
                         logger.warning(Lang.getString("messages.data-saving.error-occurred-when-loading-storage"));
-                        e.printStackTrace();
+                        Debug.trace(e);
                     }
                 });
                 return success;
@@ -295,12 +314,11 @@ public class DataSource {
     private void executeQuery(String sql, Consumer<ResultSet> usage) {
 
         try (Statement stat = conn.createStatement();
-             ResultSet result = stat.executeQuery(sql)
-        ) {
+                ResultSet result = stat.executeQuery(sql)) {
             usage.accept(result);
         } catch (SQLException e) {
             logger.warning(Lang.getString("messages.data-saving.error-occurred-when-executing-query"));
-            e.printStackTrace();
+            Debug.trace(e);
         }
     }
 
@@ -311,12 +329,13 @@ public class DataSource {
                 return true;
             } catch (SQLException e) {
                 logger.warning(errorMsg);
-                e.printStackTrace();
+                Debug.trace(e);
                 return false;
             }
         });
     }
 
+    @SuppressWarnings("deprecation")
     private String getBase64String(ItemStack item) throws IOException {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         BukkitObjectOutputStream bs = new BukkitObjectOutputStream(stream);
@@ -326,6 +345,7 @@ public class DataSource {
         return Base64Coder.encodeLines(stream.toByteArray());
     }
 
+    @SuppressWarnings("deprecation")
     private ItemStack getItemStack(String base64Str) throws IOException, ClassNotFoundException {
         ByteArrayInputStream stream = new ByteArrayInputStream(Base64Coder.decodeLines(base64Str));
         BukkitObjectInputStream bs = new BukkitObjectInputStream(stream);
@@ -333,5 +353,4 @@ public class DataSource {
         bs.close();
         return re;
     }
-
 }

@@ -1,20 +1,19 @@
 package com.ytdd9527.networksexpansion.core.managers;
 
+import com.balugaq.netex.utils.Debug;
 import com.balugaq.netex.utils.Lang;
 import io.github.sefiraat.networks.Networks;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 public class ConfigManager {
-
 
     public ConfigManager() {
         setupDefaultConfig();
@@ -41,7 +40,7 @@ public class ConfigManager {
         try {
             existingConfig.save(existingFile);
         } catch (IOException e) {
-            e.printStackTrace();
+            Debug.trace(e);
         }
     }
 

@@ -2,7 +2,6 @@ package com.balugaq.netex.api.enums;
 
 import com.balugaq.netex.utils.Lang;
 import com.ytdd9527.networksexpansion.utils.TextUtil;
-
 import javax.annotation.Nonnull;
 
 public enum TransportMode {

@@ -11,24 +11,19 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 public class NetworkPowerOutlet extends NetworkDirectional {
 
     private final int rate;
 
-    public NetworkPowerOutlet(ItemGroup itemGroup,
-                              SlimefunItemStack item,
-                              RecipeType recipeType,
-                              ItemStack[] recipe,
-                              int rate
-    ) {
+    public NetworkPowerOutlet(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int rate) {
         super(itemGroup, item, recipeType, recipe, NodeType.POWER_OUTLET);
         this.rate = rate;
     }

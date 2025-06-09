@@ -1,8 +1,7 @@
 package com.balugaq.netex.api.enums;
 
-import lombok.Getter;
-
 import javax.annotation.Nonnull;
+import lombok.Getter;
 
 @Getter
 public enum MinecraftVersion {

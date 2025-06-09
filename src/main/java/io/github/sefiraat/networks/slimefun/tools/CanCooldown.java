@@ -2,11 +2,10 @@ package io.github.sefiraat.networks.slimefun.tools;
 
 import com.balugaq.netex.utils.Lang;
 import io.github.sefiraat.networks.utils.StackUtils;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public interface CanCooldown {
 

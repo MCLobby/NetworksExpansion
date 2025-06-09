@@ -2,12 +2,11 @@ package com.balugaq.netex.api.events;
 
 import com.balugaq.netex.api.enums.StorageType;
 import io.github.sefiraat.networks.network.NetworkRoot;
+import javax.annotation.Nonnull;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-
-import javax.annotation.Nonnull;
 
 @Getter
 public class NetworkRootLocateStorageEvent extends Event {
@@ -18,7 +17,8 @@ public class NetworkRootLocateStorageEvent extends Event {
     private final boolean outputAble;
     private final Strategy strategy;
 
-    public NetworkRootLocateStorageEvent(NetworkRoot root, StorageType storageType, boolean inputAble, boolean outputAble, boolean isSync) {
+    public NetworkRootLocateStorageEvent(
+            NetworkRoot root, StorageType storageType, boolean inputAble, boolean outputAble, boolean isSync) {
         super(!isSync);
         this.root = root;
         this.storageType = storageType;
@@ -51,7 +51,7 @@ public class NetworkRootLocateStorageEvent extends Event {
         String DEFAULT_TAG = "default";
 
         static Strategy custom(String tag) {
-            return new StrategyImpl().custom(tag);
+            return StrategyImpl.custom(tag);
         }
 
         @Nonnull

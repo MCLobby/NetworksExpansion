@@ -9,8 +9,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class NetworkInputOnlyMonitor extends NetworkDirectional {
 
-    public NetworkInputOnlyMonitor(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public NetworkInputOnlyMonitor(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.INPUT_ONLY_MONITOR);
     }
-
 }

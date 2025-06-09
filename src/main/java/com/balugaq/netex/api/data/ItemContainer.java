@@ -2,19 +2,20 @@ package com.balugaq.netex.api.data;
 
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+import javax.annotation.Nonnull;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
 
 @Getter
 public class ItemContainer {
 
     private final int id;
     private final @Nonnull ItemStack sample;
+
     @Getter
     private final @Nonnull ItemStackWrapper wrapper;
+
     @Setter
     @Getter
     private int amount;
@@ -61,11 +62,10 @@ public class ItemContainer {
     }
 
     public @Nonnull String toString() {
-        return "ItemContainer{" +
-                "id=" + id +
-                ", sample=" + sample +
-                ", wrapper=" + wrapper +
-                ", amount=" + amount +
-                '}';
+        return "ItemContainer{" + "id="
+                + id + ", sample="
+                + sample + ", wrapper="
+                + wrapper + ", amount="
+                + amount + '}';
     }
 }

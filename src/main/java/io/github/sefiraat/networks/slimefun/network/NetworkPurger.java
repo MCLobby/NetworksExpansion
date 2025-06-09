@@ -20,6 +20,8 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import java.util.List;
+import javax.annotation.Nonnull;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -31,12 +33,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import java.util.List;
-
 public class NetworkPurger extends NetworkObject {
 
-    private static final int[] BACKGROUND_SLOTS = {0, 1, 2, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
+    private static final int[] BACKGROUND_SLOTS = {
+        0, 1, 2, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26
+    };
     private static final int TEST_ITEM_SLOT = 13;
     private static final int[] TEST_ITEM_BACKDROP = {3, 4, 5, 12, 14, 21, 22, 23};
 
@@ -62,8 +63,12 @@ public class NetworkPurger extends NetworkObject {
                     @Override
                     public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
                         if (tick <= 1) {
+                            BlockMenu blockMenu = data.getBlockMenu();
+                            if (blockMenu == null) {
+                                return;
+                            }
                             addToRegistry(block);
-                            tryKillItem(data.getBlockMenu());
+                            tryKillItem(blockMenu);
                         }
                     }
 
@@ -74,12 +79,16 @@ public class NetworkPurger extends NetworkObject {
                 },
                 new BlockBreakHandler(true, true) {
                     @Override
-                    public void onPlayerBreak(@Nonnull BlockBreakEvent e, @Nonnull ItemStack item, @Nonnull List<ItemStack> drops) {
-                        BlockMenu blockMenu = StorageCacheUtils.getMenu(e.getBlock().getLocation());
+                    public void onPlayerBreak(
+                            @Nonnull BlockBreakEvent e, @Nonnull ItemStack item, @Nonnull List<ItemStack> drops) {
+                        BlockMenu blockMenu =
+                                StorageCacheUtils.getMenu(e.getBlock().getLocation());
+                        if (blockMenu == null) {
+                            return;
+                        }
                         blockMenu.dropItems(blockMenu.getLocation(), TEST_ITEM_SLOT);
                     }
-                }
-        );
+                });
     }
 
     private void tryKillItem(@Nonnull BlockMenu blockMenu) {
@@ -122,8 +131,10 @@ public class NetworkPurger extends NetworkObject {
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return player.hasPermission("slimefun.inventory.bypass") || (NetworkSlimefunItems.NETWORK_PURGER.canUse(player, false)
-                        && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
+                return player.hasPermission("slimefun.inventory.bypass")
+                        || (NetworkSlimefunItems.NETWORK_PURGER.canUse(player, false)
+                                && Slimefun.getProtectionManager()
+                                        .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override

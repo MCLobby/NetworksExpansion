@@ -5,9 +5,8 @@ import com.ytdd9527.networksexpansion.implementation.ExpansionRecipes;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import org.bukkit.inventory.ItemStack;
-
 import javax.annotation.Nonnull;
+import org.bukkit.inventory.ItemStack;
 
 public class AuthorHead extends SpecialSlimefunItem {
 
@@ -22,6 +21,4 @@ public class AuthorHead extends SpecialSlimefunItem {
     protected AuthorHead(@Nonnull ItemGroup itemGroup, @Nonnull ItemStack item, @Nonnull String id) {
         super(itemGroup, item, id, RecipeType.NULL, ExpansionRecipes.NULL);
     }
-
-
 }

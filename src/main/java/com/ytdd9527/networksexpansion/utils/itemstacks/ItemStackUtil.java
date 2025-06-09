@@ -2,11 +2,22 @@ package com.ytdd9527.networksexpansion.utils.itemstacks;
 
 import com.balugaq.netex.api.data.ItemAmountWrapper;
 import com.balugaq.netex.api.data.ItemWrapper;
+import com.balugaq.netex.utils.Debug;
 import com.balugaq.netex.utils.NetworksVersionedEnchantment;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.nms.ItemNameAdapter;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -21,20 +32,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-
 /**
  * @author Final_ROOT
  */
+@SuppressWarnings({"deprecation", "unused"})
 public final class ItemStackUtil {
     public static final ItemStack AIR = new ItemStack(Material.AIR);
     public static final ItemNameAdapter itemNameAdapter = ItemNameAdapter.get();
@@ -156,7 +157,11 @@ public final class ItemStackUtil {
     /**
      * @return Whether two #{@link ItemMeta} is same.
      */
-    public static boolean isItemMetaSame(@Nonnull ItemMeta itemMeta1, @Nonnull ItemMeta itemMeta2) {
+    public static boolean isItemMetaSame(@Nullable ItemMeta itemMeta1, @Nullable ItemMeta itemMeta2) {
+        if (itemMeta1 == null || itemMeta2 == null) {
+            return itemMeta1 == itemMeta2;
+        }
+
         if (itemMeta1.hasDisplayName() && itemMeta2.hasDisplayName()) {
             if (!itemMeta1.getDisplayName().equals(itemMeta2.getDisplayName())) {
                 return false;
@@ -175,6 +180,9 @@ public final class ItemStackUtil {
         if (itemMeta1.hasLore() && itemMeta2.hasLore()) {
             List<String> lore1 = itemMeta1.getLore();
             List<String> lore2 = itemMeta2.getLore();
+            if (lore1 == null || lore2 == null) {
+                return lore1 == lore2;
+            }
             if (lore1.size() != lore2.size()) {
                 return false;
             }
@@ -204,7 +212,9 @@ public final class ItemStackUtil {
             if (!persistentDataContainer2.has(namespacedKey, PersistentDataType.STRING)) {
                 return false;
             }
-            if (!Objects.equals(persistentDataContainer1.get(namespacedKey, PersistentDataType.STRING), persistentDataContainer2.get(namespacedKey, PersistentDataType.STRING))) {
+            if (!Objects.equals(
+                    persistentDataContainer1.get(namespacedKey, PersistentDataType.STRING),
+                    persistentDataContainer2.get(namespacedKey, PersistentDataType.STRING))) {
                 return false;
             }
         }
@@ -221,7 +231,8 @@ public final class ItemStackUtil {
             return false;
         }
         for (Map.Entry<Enchantment, Integer> entry : enchantments1.entrySet()) {
-            if (!enchantments2.containsKey(entry.getKey()) || !Objects.equals(enchantments2.get(entry.getKey()), entry.getValue())) {
+            if (!enchantments2.containsKey(entry.getKey())
+                    || !Objects.equals(enchantments2.get(entry.getKey()), entry.getValue())) {
                 return false;
             }
         }
@@ -382,8 +393,15 @@ public final class ItemStackUtil {
     public static ItemStack[] calEnlargeItemArray(@Nonnull List<ItemAmountWrapper> itemAmountWrapperList, int amount) {
         int slot = 0;
         for (ItemAmountWrapper itemAmountWrapper : itemAmountWrapperList) {
-            slot = slot + 1 + itemAmountWrapper.getAmount() * amount / itemAmountWrapper.getItemStack().getMaxStackSize();
-            if (itemAmountWrapper.getAmount() * amount % itemAmountWrapper.getItemStack().getMaxStackSize() == 0) {
+            slot = slot
+                    + 1
+                    + itemAmountWrapper.getAmount()
+                            * amount
+                            / itemAmountWrapper.getItemStack().getMaxStackSize();
+            if (itemAmountWrapper.getAmount()
+                            * amount
+                            % itemAmountWrapper.getItemStack().getMaxStackSize()
+                    == 0) {
                 slot--;
             }
         }
@@ -413,8 +431,15 @@ public final class ItemStackUtil {
     public static ItemStack[] calEnlargeItemArray(@Nonnull ItemAmountWrapper[] itemAmountWrapperList, int amount) {
         int slot = 0;
         for (ItemAmountWrapper itemAmountWrapper : itemAmountWrapperList) {
-            slot = slot + 1 + itemAmountWrapper.getAmount() * amount / itemAmountWrapper.getItemStack().getMaxStackSize();
-            if (itemAmountWrapper.getAmount() * amount % itemAmountWrapper.getItemStack().getMaxStackSize() == 0) {
+            slot = slot
+                    + 1
+                    + itemAmountWrapper.getAmount()
+                            * amount
+                            / itemAmountWrapper.getItemStack().getMaxStackSize();
+            if (itemAmountWrapper.getAmount()
+                            * amount
+                            % itemAmountWrapper.getItemStack().getMaxStackSize()
+                    == 0) {
                 slot--;
             }
         }
@@ -497,7 +522,6 @@ public final class ItemStackUtil {
      */
     @Nonnull
     public static ItemAmountWrapper[] calItemArrayWithAmount(@Nonnull ItemStack[] items) {
-        // TODO update it
         return ItemStackUtil.calItemListWithAmount(items).toArray(new ItemAmountWrapper[0]);
     }
 
@@ -507,7 +531,6 @@ public final class ItemStackUtil {
      */
     @Nonnull
     public static ItemAmountWrapper[] calItemArrayWithAmount(@Nonnull List<ItemStack> itemList) {
-        // TODO update it
         return ItemStackUtil.calItemListWithAmount(itemList).toArray(new ItemAmountWrapper[0]);
     }
 
@@ -519,7 +542,12 @@ public final class ItemStackUtil {
      * @return The number that truly stacked.
      */
     public static int stack(@Nullable ItemStack input, @Nullable ItemStack output) {
-        if (!ItemStackUtil.isItemNull(output) && output.getAmount() < output.getMaxStackSize() && StackUtils.itemsMatch(input, output)) {
+        if (!ItemStackUtil.isItemNull(output)
+                && output.getAmount() < output.getMaxStackSize()
+                && StackUtils.itemsMatch(input, output)) {
+            if (input == null) {
+                return output.getAmount();
+            }
             int amount = Math.min(input.getAmount(), output.getMaxStackSize() - output.getAmount());
             input.setAmount(input.getAmount() - amount);
             output.setAmount(output.getAmount() + amount);
@@ -529,7 +557,9 @@ public final class ItemStackUtil {
     }
 
     public static int stack(@Nonnull ItemWrapper input, @Nullable ItemStack output) {
-        if (!ItemStackUtil.isItemNull(output) && output.getAmount() < output.getMaxStackSize() && StackUtils.itemsMatch(input.getItemStack(), output)) {
+        if (!ItemStackUtil.isItemNull(output)
+                && output.getAmount() < output.getMaxStackSize()
+                && StackUtils.itemsMatch(input.getItemStack(), output)) {
             int amount = Math.min(input.getItemStack().getAmount(), output.getMaxStackSize() - output.getAmount());
             input.getItemStack().setAmount(input.getItemStack().getAmount() - amount);
             output.setAmount(output.getAmount() + amount);
@@ -539,8 +569,13 @@ public final class ItemStackUtil {
     }
 
     public static int stack(@Nullable ItemStack input, @Nonnull ItemWrapper output) {
-        if (!ItemStackUtil.isItemNull(input) && output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize() && StackUtils.itemsMatch(input, output.getItemStack())) {
-            int amount = Math.min(input.getAmount(), output.getItemStack().getMaxStackSize() - output.getItemStack().getAmount());
+        if (!ItemStackUtil.isItemNull(input)
+                && output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize()
+                && StackUtils.itemsMatch(input, output.getItemStack())) {
+            int amount = Math.min(
+                    input.getAmount(),
+                    output.getItemStack().getMaxStackSize()
+                            - output.getItemStack().getAmount());
             input.setAmount(input.getAmount() - amount);
             output.getItemStack().setAmount(output.getItemStack().getAmount() + amount);
             return amount;
@@ -549,15 +584,18 @@ public final class ItemStackUtil {
     }
 
     public static int stack(@Nonnull ItemWrapper input, @Nonnull ItemWrapper output) {
-        if (output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize() && StackUtils.itemsMatch(input.getItemStack(), output.getItemStack())) {
-            int amount = Math.min(input.getItemStack().getAmount(), output.getItemStack().getMaxStackSize() - output.getItemStack().getAmount());
+        if (output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize()
+                && StackUtils.itemsMatch(input.getItemStack(), output.getItemStack())) {
+            int amount = Math.min(
+                    input.getItemStack().getAmount(),
+                    output.getItemStack().getMaxStackSize()
+                            - output.getItemStack().getAmount());
             input.getItemStack().setAmount(input.getItemStack().getAmount() - amount);
             output.getItemStack().setAmount(output.getItemStack().getAmount() + amount);
             return amount;
         }
         return 0;
     }
-
 
     /**
      * Try stack one #{@link ItemStack} to another #{@link ItemStack} in limited amount
@@ -568,8 +606,14 @@ public final class ItemStackUtil {
      * @return The number that truly stacked.
      */
     public static int stack(@Nullable ItemStack input, @Nullable ItemStack output, int maxAmount) {
-        if (!ItemStackUtil.isItemNull(output) && output.getMaxStackSize() > output.getAmount() && StackUtils.itemsMatch(input, output)) {
-            int amount = Math.min(maxAmount, Math.min(input.getAmount(), output.getMaxStackSize() - output.getAmount()));
+        if (!ItemStackUtil.isItemNull(output)
+                && output.getMaxStackSize() > output.getAmount()
+                && StackUtils.itemsMatch(input, output)) {
+            if (input == null) {
+                return output.getAmount();
+            }
+            int amount =
+                    Math.min(maxAmount, Math.min(input.getAmount(), output.getMaxStackSize() - output.getAmount()));
             input.setAmount(input.getAmount() - amount);
             output.setAmount(output.getAmount() + amount);
             return amount;
@@ -578,8 +622,12 @@ public final class ItemStackUtil {
     }
 
     public static int stack(@Nonnull ItemWrapper input, @Nullable ItemStack output, int maxAmount) {
-        if (!ItemStackUtil.isItemNull(output) && output.getAmount() < output.getMaxStackSize() && StackUtils.itemsMatch(input.getItemStack(), output)) {
-            int amount = Math.min(maxAmount, Math.min(input.getItemStack().getAmount(), output.getMaxStackSize() - output.getAmount()));
+        if (!ItemStackUtil.isItemNull(output)
+                && output.getAmount() < output.getMaxStackSize()
+                && StackUtils.itemsMatch(input.getItemStack(), output)) {
+            int amount = Math.min(
+                    maxAmount,
+                    Math.min(input.getItemStack().getAmount(), output.getMaxStackSize() - output.getAmount()));
             input.getItemStack().setAmount(input.getItemStack().getAmount() - amount);
             output.setAmount(output.getAmount() + amount);
             return amount;
@@ -588,8 +636,15 @@ public final class ItemStackUtil {
     }
 
     public static int stack(@Nullable ItemStack input, @Nonnull ItemWrapper output, int maxAmount) {
-        if (!ItemStackUtil.isItemNull(input) && output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize() && StackUtils.itemsMatch(input, output.getItemStack())) {
-            int amount = Math.min(maxAmount, Math.min(input.getAmount(), output.getItemStack().getMaxStackSize() - output.getItemStack().getAmount()));
+        if (!ItemStackUtil.isItemNull(input)
+                && output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize()
+                && StackUtils.itemsMatch(input, output.getItemStack())) {
+            int amount = Math.min(
+                    maxAmount,
+                    Math.min(
+                            input.getAmount(),
+                            output.getItemStack().getMaxStackSize()
+                                    - output.getItemStack().getAmount()));
             input.setAmount(input.getAmount() - amount);
             output.getItemStack().setAmount(output.getItemStack().getAmount() + amount);
             return amount;
@@ -598,8 +653,14 @@ public final class ItemStackUtil {
     }
 
     public static int stack(@Nonnull ItemWrapper input, @Nonnull ItemWrapper output, int maxAmount) {
-        if (output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize() && StackUtils.itemsMatch(input.getItemStack(), output.getItemStack())) {
-            int amount = Math.min(maxAmount, Math.min(input.getItemStack().getAmount(), output.getItemStack().getMaxStackSize() - output.getItemStack().getAmount()));
+        if (output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize()
+                && StackUtils.itemsMatch(input.getItemStack(), output.getItemStack())) {
+            int amount = Math.min(
+                    maxAmount,
+                    Math.min(
+                            input.getItemStack().getAmount(),
+                            output.getItemStack().getMaxStackSize()
+                                    - output.getItemStack().getAmount()));
             input.getItemStack().setAmount(input.getItemStack().getAmount() - amount);
             output.getItemStack().setAmount(output.getItemStack().getAmount() + amount);
             return amount;
@@ -623,9 +684,13 @@ public final class ItemStackUtil {
             }
         } else {
             try {
-                return itemNameAdapter.getName(item);
+                if (itemNameAdapter != null) {
+                    return itemNameAdapter.getName(item);
+                } else {
+                    return "unknown";
+                }
             } catch (InvocationTargetException | IllegalAccessException e) {
-                e.printStackTrace();
+                Debug.trace(e);
                 return "unknown";
             }
         }
@@ -757,8 +822,7 @@ public final class ItemStackUtil {
         itemMeta.setLore(lore);
     }
 
-    @Nullable
-    public static String getLastLore(@Nonnull ItemStack item) {
+    @Nullable public static String getLastLore(@Nonnull ItemStack item) {
         if (ItemStackUtil.isItemNull(item)) {
             return null;
         }
@@ -770,8 +834,7 @@ public final class ItemStackUtil {
         return lore.get(lore.size() - 1);
     }
 
-    @Nullable
-    public static String getLastLore(@Nonnull ItemMeta itemMeta) {
+    @Nullable public static String getLastLore(@Nonnull ItemMeta itemMeta) {
         List<String> lore = itemMeta.getLore();
         if (lore == null || lore.isEmpty()) {
             return null;
@@ -894,8 +957,7 @@ public final class ItemStackUtil {
         itemStack.setItemMeta(itemMeta);
     }
 
-    @Nullable
-    public static ItemStack cloneWithoutNBT(@Nullable ItemStack itemStack) {
+    @Nullable public static ItemStack cloneWithoutNBT(@Nullable ItemStack itemStack) {
         if (itemStack == null) {
             return null;
         }
@@ -931,13 +993,12 @@ public final class ItemStackUtil {
     /**
      * Transfer #{@link String} to #{@link ItemStack}
      */
-    @Nullable
-    public static ItemStack stringToItemStack(@Nonnull String local) {
+    @Nullable public static ItemStack stringToItemStack(@Nonnull String local) {
         YamlConfiguration yamlConfiguration = new YamlConfiguration();
         try {
             yamlConfiguration.loadFromString(local);
         } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
+            Debug.trace(e);
         }
         return yamlConfiguration.getItemStack("item");
     }
@@ -978,11 +1039,17 @@ public final class ItemStackUtil {
 
     @Nonnull
     @SafeVarargs
-    public static ItemStack getPreEnchantedItemStack(Material material, boolean hide, @Nonnull Pair<Enchantment, Integer>... enchantments) {
+    public static ItemStack getPreEnchantedItemStack(
+            Material material, boolean hide, @Nonnull Pair<Enchantment, Integer>... enchantments) {
         ItemStack itemStack = new ItemStack(material);
         ItemMeta itemMeta = itemStack.getItemMeta();
         for (Pair<Enchantment, Integer> pair : enchantments) {
-            itemMeta.addEnchant(pair.getFirstValue(), pair.getSecondValue(), true);
+            var v1 = pair.getFirstValue();
+            var v2 = pair.getSecondValue();
+            if (v1 == null || v2 == null) {
+                continue;
+            }
+            itemMeta.addEnchant(v1, v2, true);
         }
         if (hide) {
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);

@@ -2,11 +2,10 @@ package com.balugaq.netex.utils;
 
 import com.balugaq.netex.api.enums.MinecraftVersion;
 import io.github.sefiraat.networks.Networks;
+import java.lang.reflect.Field;
+import javax.annotation.Nonnull;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Particle;
-
-import javax.annotation.Nonnull;
-import java.lang.reflect.Field;
 
 @UtilityClass
 public class NetworksVersionedParticle {
@@ -27,6 +26,7 @@ public class NetworksVersionedParticle {
             Field field = Particle.class.getDeclaredField(key);
             return (Particle) field.get(null);
         } catch (Exception ignored) {
+            //noinspection DataFlowIssue
             return null;
         }
     }

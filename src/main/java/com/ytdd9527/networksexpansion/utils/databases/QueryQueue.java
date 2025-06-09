@@ -1,11 +1,11 @@
 package com.ytdd9527.networksexpansion.utils.databases;
 
+import com.balugaq.netex.utils.Debug;
 import com.balugaq.netex.utils.Lang;
 import io.github.sefiraat.networks.Networks;
-import org.bukkit.scheduler.BukkitRunnable;
-
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class QueryQueue {
 
@@ -23,13 +23,15 @@ public class QueryQueue {
 
     public synchronized void scheduleUpdate(QueuedTask task) {
         if (!updateTasks.offer(task)) {
-            throw new IllegalStateException(Lang.getString("messages.unsupported-operation.comprehensive.invalid_queue"));
+            throw new IllegalStateException(
+                    Lang.getString("messages.unsupported-operation.comprehensive.invalid_queue"));
         }
     }
 
     public synchronized void scheduleQuery(QueuedTask task) {
         if (!queryTasks.offer(task)) {
-            throw new IllegalStateException(Lang.getString("messages.unsupported-operation.comprehensive.invalid_queue"));
+            throw new IllegalStateException(
+                    Lang.getString("messages.unsupported-operation.comprehensive.invalid_queue"));
         }
     }
 
@@ -76,11 +78,10 @@ public class QueryQueue {
                             break;
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        Debug.trace(e);
                     }
                 }
             }
         };
     }
-
 }

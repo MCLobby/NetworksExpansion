@@ -3,12 +3,11 @@ package io.github.sefiraat.networks.utils.datatypes;
 import com.jeff_media.morepersistentdatatypes.DataType;
 import io.github.sefiraat.networks.network.stackcaches.CardInstance;
 import io.github.sefiraat.networks.utils.Keys;
+import javax.annotation.Nonnull;
 import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-
-import javax.annotation.Nonnull;
 
 /**
  * A {@link PersistentDataType} for {@link CardInstance}
@@ -20,7 +19,8 @@ import javax.annotation.Nonnull;
 @Deprecated
 public class PersistentAmountInstanceType implements PersistentDataType<PersistentDataContainer, CardInstance> {
 
-    public static final PersistentDataType<PersistentDataContainer, CardInstance> TYPE = new PersistentAmountInstanceType();
+    public static final PersistentDataType<PersistentDataContainer, CardInstance> TYPE =
+            new PersistentAmountInstanceType();
 
     public static final NamespacedKey ITEM = Keys.newKey("item");
     public static final NamespacedKey AMOUNT = Keys.newKey("amount");
@@ -41,10 +41,13 @@ public class PersistentAmountInstanceType implements PersistentDataType<Persiste
 
     @Override
     @Nonnull
-    public PersistentDataContainer toPrimitive(@Nonnull CardInstance complex, @Nonnull PersistentDataAdapterContext context) {
+    public PersistentDataContainer toPrimitive(
+            @Nonnull CardInstance complex, @Nonnull PersistentDataAdapterContext context) {
         final PersistentDataContainer container = context.newPersistentDataContainer();
 
-        container.set(ITEM, DataType.ITEM_STACK, complex.getItemStack());
+        if (complex.getItemStack() != null) {
+            container.set(ITEM, DataType.ITEM_STACK, complex.getItemStack());
+        }
         container.set(AMOUNT, DataType.INTEGER, complex.getAmount());
         container.set(LIMIT, DataType.INTEGER, complex.getLimit());
         container.set(UNSTACK, DataType.LONG, System.currentTimeMillis());
@@ -53,10 +56,14 @@ public class PersistentAmountInstanceType implements PersistentDataType<Persiste
 
     @Override
     @Nonnull
-    public CardInstance fromPrimitive(@Nonnull PersistentDataContainer primitive, @Nonnull PersistentDataAdapterContext context) {
-        final int amount = primitive.get(AMOUNT, DataType.INTEGER);
-        final int limit = primitive.get(LIMIT, DataType.INTEGER);
+    public CardInstance fromPrimitive(
+            @Nonnull PersistentDataContainer primitive, @Nonnull PersistentDataAdapterContext context) {
+        final Integer amount = primitive.get(AMOUNT, DataType.INTEGER);
+        final Integer limit = primitive.get(LIMIT, DataType.INTEGER);
 
+        if (amount == null || limit == null) {
+            return new CardInstance(null, 0, 0);
+        }
         return new CardInstance(null, amount, limit);
     }
 }

@@ -2,22 +2,20 @@ package com.balugaq.netex.utils;
 
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import lombok.experimental.UtilityClass;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 @UtilityClass
 public class BlockMenuUtil {
-    @Nullable
-    public static ItemStack pushItem(@Nonnull BlockMenu blockMenu, @Nonnull ItemStack item, int... slots) {
+    @Nullable public static ItemStack pushItem(@Nonnull BlockMenu blockMenu, @Nonnull ItemStack item, int... slots) {
         if (item == null || item.getType() == Material.AIR) {
             throw new IllegalArgumentException("Cannot push null or AIR");
         }
@@ -61,7 +59,8 @@ public class BlockMenuUtil {
     }
 
     @Nonnull
-    public static Map<ItemStack, Integer> pushItem(@Nonnull BlockMenu blockMenu, @Nonnull ItemStack[] items, int... slots) {
+    public static Map<ItemStack, Integer> pushItem(
+            @Nonnull BlockMenu blockMenu, @Nonnull ItemStack[] items, int... slots) {
         if (items == null || items.length == 0) {
             throw new IllegalArgumentException("Cannot push null or empty array");
         }
@@ -77,7 +76,8 @@ public class BlockMenuUtil {
     }
 
     @Nonnull
-    public static Map<ItemStack, Integer> pushItem(@Nonnull BlockMenu blockMenu, @Nonnull List<ItemStack> items, int... slots) {
+    public static Map<ItemStack, Integer> pushItem(
+            @Nonnull BlockMenu blockMenu, @Nonnull List<ItemStack> items, int... slots) {
         if (items == null || items.isEmpty()) {
             throw new IllegalArgumentException("Cannot push null or empty list");
         }

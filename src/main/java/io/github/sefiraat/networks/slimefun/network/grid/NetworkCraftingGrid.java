@@ -18,6 +18,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Nonnull;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -28,23 +31,17 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
-
 public class NetworkCraftingGrid extends AbstractGrid {
 
     private static final int[] BACKGROUND_SLOTS = {
-            0, 1, 3, 4, 5, 14, 23, 32, 33, 35, 41, 42, 44, 45, 47, 49, 50, 51, 52, 53
+        0, 1, 3, 4, 5, 14, 23, 32, 33, 35, 41, 42, 44, 45, 47, 49, 50, 51, 52, 53
     };
 
     private static final int[] DISPLAY_SLOTS = {
-            9, 10, 11, 12, 13, 18, 19, 20, 21, 22, 27, 28, 29, 30, 31, 36, 37, 38, 39, 40
+        9, 10, 11, 12, 13, 18, 19, 20, 21, 22, 27, 28, 29, 30, 31, 36, 37, 38, 39, 40
     };
 
-    private static final int[] CRAFT_ITEMS = {
-            6, 7, 8, 15, 16, 17, 24, 25, 26
-    };
+    private static final int[] CRAFT_ITEMS = {6, 7, 8, 15, 16, 17, 24, 25, 26};
 
     private static final int INPUT_SLOT = 2;
     private static final int FILTER = 45;
@@ -56,7 +53,6 @@ public class NetworkCraftingGrid extends AbstractGrid {
     private static final int CRAFT_OUTPUT_SLOT = 43;
 
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
-
 
     public NetworkCraftingGrid(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
@@ -85,8 +81,10 @@ public class NetworkCraftingGrid extends AbstractGrid {
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return player.hasPermission("slimefun.inventory.bypass") || (NetworkSlimefunItems.NETWORK_CRAFTING_GRID.canUse(player, false)
-                        && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
+                return player.hasPermission("slimefun.inventory.bypass")
+                        || (NetworkSlimefunItems.NETWORK_CRAFTING_GRID.canUse(player, false)
+                                && Slimefun.getProtectionManager()
+                                        .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override
@@ -110,7 +108,10 @@ public class NetworkCraftingGrid extends AbstractGrid {
                 menu.replaceExistingItem(getPageNext(), getPageNextStack());
                 menu.addMenuClickHandler(getPageNext(), (p, slot, item, action) -> {
                     GridCache gridCache = getCacheMap().get(menu.getLocation());
-                    gridCache.setPage(gridCache.getPage() >= gridCache.getMaxPages() ? gridCache.getMaxPages() : gridCache.getPage() + 1);
+                    gridCache.setPage(
+                            gridCache.getPage() >= gridCache.getMaxPages()
+                                    ? gridCache.getMaxPages()
+                                    : gridCache.getPage() + 1);
                     getCacheMap().put(menu.getLocation(), gridCache);
                     updateDisplay(menu);
                     return false;
@@ -224,7 +225,8 @@ public class NetworkCraftingGrid extends AbstractGrid {
         ItemStack crafted = null;
 
         // Go through each slimefun recipe, test and set the ItemStack if found
-        for (Map.Entry<ItemStack[], ItemStack> entry : SupportedCraftingTableRecipes.getRecipes().entrySet()) {
+        for (Map.Entry<ItemStack[], ItemStack> entry :
+                SupportedCraftingTableRecipes.getRecipes().entrySet()) {
             if (SupportedCraftingTableRecipes.testRecipe(inputs, entry.getKey())) {
                 crafted = entry.getValue().clone();
                 break;
@@ -256,7 +258,6 @@ public class NetworkCraftingGrid extends AbstractGrid {
             return;
         }
         crafted = event.getOutput();
-
 
         // Push item
         BlockMenuUtil.pushItem(menu, crafted, CRAFT_OUTPUT_SLOT);

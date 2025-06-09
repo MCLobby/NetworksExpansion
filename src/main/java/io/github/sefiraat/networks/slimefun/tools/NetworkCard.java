@@ -11,6 +11,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import javax.annotation.Nonnull;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -18,34 +19,26 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.annotation.Nonnull;
-
 @Getter
 @Deprecated
 public class NetworkCard extends SlimefunItem implements DistinctiveItem {
 
-    private static final int[] SIZES = new int[]{
-            4096,
-            32768,
-            262144,
-            2097152,
-            16777216,
-            134217728,
-            1073741824,
-            Integer.MAX_VALUE
-    };
+    private static final int[] SIZES =
+            new int[] {4096, 32768, 262144, 2097152, 16777216, 134217728, 1073741824, Integer.MAX_VALUE};
 
     private static final String WIKI_PAGE = "Network-Memory-Card";
 
     private final int size;
 
-    public NetworkCard(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int size) {
+    public NetworkCard(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int size) {
         super(itemGroup, item, recipeType, recipe);
         this.size = size;
         addItemHandler((ItemUseHandler) e -> {
             final Player player = e.getPlayer();
             final ItemStack card = player.getInventory().getItemInMainHand();
-            final ItemStack stackToSet = player.getInventory().getItemInOffHand().clone();
+            final ItemStack stackToSet =
+                    player.getInventory().getItemInOffHand().clone();
 
             e.cancel();
             if (card.getAmount() > 1) {
@@ -61,18 +54,12 @@ public class NetworkCard extends SlimefunItem implements DistinctiveItem {
             final SlimefunItem cardItem = SlimefunItem.getByItem(card);
             if (cardItem instanceof NetworkCard networkCard) {
                 final ItemMeta cardMeta = card.getItemMeta();
-                CardInstance cardInstance = DataTypeMethods.getCustom(
-                        cardMeta,
-                        Keys.CARD_INSTANCE,
-                        PersistentCardInstanceType.TYPE
-                );
+                CardInstance cardInstance =
+                        DataTypeMethods.getCustom(cardMeta, Keys.CARD_INSTANCE, PersistentCardInstanceType.TYPE);
 
                 if (cardInstance == null) {
-                    cardInstance = DataTypeMethods.getCustom(
-                            cardMeta,
-                            Keys.CARD_INSTANCE2,
-                            PersistentCardInstanceType.TYPE
-                    );
+                    cardInstance =
+                            DataTypeMethods.getCustom(cardMeta, Keys.CARD_INSTANCE2, PersistentCardInstanceType.TYPE);
                 }
 
                 if (cardInstance == null) {
@@ -80,8 +67,7 @@ public class NetworkCard extends SlimefunItem implements DistinctiveItem {
                             cardMeta,
                             Keys.CARD_INSTANCE3,
                             PersistentCardInstanceType.TYPE,
-                            new CardInstance(null, 0, networkCard.getSize())
-                    );
+                            new CardInstance(null, 0, networkCard.getSize()));
                 }
 
                 if (cardInstance.getAmount() > 0) {

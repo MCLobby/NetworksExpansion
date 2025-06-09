@@ -7,10 +7,9 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import org.bukkit.inventory.ItemStack;
-
 import java.util.Map;
 import java.util.Set;
+import org.bukkit.inventory.ItemStack;
 
 public class GrindStoneEncoder extends AbstractEncoder {
 

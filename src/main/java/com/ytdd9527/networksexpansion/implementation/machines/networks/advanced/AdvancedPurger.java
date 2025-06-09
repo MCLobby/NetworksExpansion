@@ -25,6 +25,11 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import lombok.Setter;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -38,25 +43,20 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
 
     private static final String KEY_UUID = "display-uuid";
     private static final int[] TEST_ITEM_SLOT = {
-            0, 1, 2, 3, 4, 5, 6, 7,
-            9, 10, 11, 12, 13, 14, 15, 16,
-            18, 19, 20, 21, 22, 23, 24, 25,
-            27, 28, 29, 30, 31, 32, 33, 34,
-            36, 37, 38, 39, 40, 41, 42, 43,
-            45, 46, 47, 48, 49, 50, 51, 52
+        0, 1, 2, 3, 4, 5, 6, 7,
+        9, 10, 11, 12, 13, 14, 15, 16,
+        18, 19, 20, 21, 22, 23, 24, 25,
+        27, 28, 29, 30, 31, 32, 33, 34,
+        36, 37, 38, 39, 40, 41, 42, 43,
+        45, 46, 47, 48, 49, 50, 51, 52
     };
     private static final int[] TEST_ITEM_BACKDROP = {8, 17, 26, 35, 44, 53};
     private final ItemSetting<Integer> tickRate;
+
     @Setter
     private boolean useSpecialModel = false;
 
@@ -64,7 +64,6 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
         super(itemGroup, item, recipeType, recipe, NodeType.ADVANCED_PURGER);
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
         addItemSetting(this.tickRate);
-
 
         for (int testItemSlot : TEST_ITEM_SLOT) {
             this.getSlotsToDrop().add(testItemSlot);
@@ -97,15 +96,17 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
                 },
                 new BlockBreakHandler(true, true) {
                     @Override
-                    public void onPlayerBreak(@Nonnull BlockBreakEvent e, @Nonnull ItemStack item, @Nonnull List<ItemStack> drops) {
-                        BlockMenu blockMenu = StorageCacheUtils.getMenu(e.getBlock().getLocation());
+                    public void onPlayerBreak(
+                            @Nonnull BlockBreakEvent e, @Nonnull ItemStack item, @Nonnull List<ItemStack> drops) {
+                        BlockMenu blockMenu =
+                                StorageCacheUtils.getMenu(e.getBlock().getLocation());
+                        if (blockMenu == null) {
+                            return;
+                        }
                         blockMenu.dropItems(blockMenu.getLocation(), TEST_ITEM_SLOT);
                     }
-                }
-        );
-
+                });
     }
-
 
     private void tryKillItem(@Nonnull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
@@ -149,8 +150,10 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return player.hasPermission("slimefun.inventory.bypass") || (ExpansionItems.ADVANCED_PURGER.canUse(player, false)
-                        && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
+                return player.hasPermission("slimefun.inventory.bypass")
+                        || (ExpansionItems.ADVANCED_PURGER.canUse(player, false)
+                                && Slimefun.getProtectionManager()
+                                        .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override
@@ -174,7 +177,8 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
 
         addItemHandler(new BlockBreakHandler(false, false) {
             @Override
-            public void onPlayerBreak(@Nonnull BlockBreakEvent e, @Nonnull ItemStack item, @Nonnull List<ItemStack> drops) {
+            public void onPlayerBreak(
+                    @Nonnull BlockBreakEvent e, @Nonnull ItemStack item, @Nonnull List<ItemStack> drops) {
                 Location location = e.getBlock().getLocation();
                 removeDisplay(location);
                 e.getBlock().setType(Material.AIR);
@@ -183,8 +187,10 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
     }
 
     private void setupDisplay(@Nonnull Location location) {
-        DisplayGroup displayGroup = DisplayGroupGenerators.generateCloche(location.clone().add(0.5, 0, 0.5));
-        StorageCacheUtils.setData(location, KEY_UUID, displayGroup.getParentUUID().toString());
+        DisplayGroup displayGroup =
+                DisplayGroupGenerators.generateCloche(location.clone().add(0.5, 0, 0.5));
+        StorageCacheUtils.setData(
+                location, KEY_UUID, displayGroup.getParentUUID().toString());
     }
 
     private void removeDisplay(@Nonnull Location location) {
@@ -194,8 +200,7 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
         }
     }
 
-    @Nullable
-    private UUID getDisplayGroupUUID(@Nonnull Location location) {
+    @Nullable private UUID getDisplayGroupUUID(@Nonnull Location location) {
         String uuid = StorageCacheUtils.getData(location, KEY_UUID);
         if (uuid == null) {
             return null;
@@ -203,8 +208,7 @@ public class AdvancedPurger extends NetworkObject implements RecipeDisplayItem {
         return UUID.fromString(uuid);
     }
 
-    @Nullable
-    private DisplayGroup getDisplayGroup(@Nonnull Location location) {
+    @Nullable private DisplayGroup getDisplayGroup(@Nonnull Location location) {
         UUID uuid = getDisplayGroupUUID(location);
         if (uuid == null) {
             return null;

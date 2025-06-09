@@ -39,7 +39,7 @@ public enum NodeType {
     LINE_POWER_OUTLET,
     QUANTUM_MANAGER,
     DRAWER_MANAGER,
-    CRAFTER_MANAGER,     // todo: not finish yet
+    CRAFTER_MANAGER, // todo: not finish yet
     FLOW_VIEWER,
     ADVANCED_VACUUM
 }

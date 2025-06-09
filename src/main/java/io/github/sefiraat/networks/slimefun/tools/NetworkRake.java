@@ -15,6 +15,8 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.LimitedUseItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import java.util.Optional;
+import javax.annotation.Nonnull;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -22,16 +24,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import java.util.Optional;
-
 public class NetworkRake extends LimitedUseItem {
 
     private static final String WIKI_PAGE = "Network-Rake";
 
     private static final NamespacedKey key = Keys.newKey("uses");
 
-    public NetworkRake(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int amount) {
+    public NetworkRake(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, int amount) {
         super(itemGroup, item, recipeType, recipe);
         setMaxUseCount(amount);
     }
@@ -60,8 +60,7 @@ public class NetworkRake extends LimitedUseItem {
             final Player player = e.getPlayer();
             final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(block.getLocation());
             if ((slimefunItem instanceof NetworkObject || slimefunItem instanceof ModelledItem)
-                    && Slimefun.getProtectionManager().hasPermission(player, block, Interaction.BREAK_BLOCK)
-            ) {
+                    && Slimefun.getProtectionManager().hasPermission(player, block, Interaction.BREAK_BLOCK)) {
                 final BlockBreakEvent event = new BlockBreakEvent(block, player);
                 Networks.getPluginManager().callEvent(event);
                 if (event.isCancelled()) {
@@ -76,8 +75,7 @@ public class NetworkRake extends LimitedUseItem {
     }
 
     @Override
-    protected @Nonnull
-    NamespacedKey getStorageKey() {
+    protected @Nonnull NamespacedKey getStorageKey() {
         return key;
     }
 

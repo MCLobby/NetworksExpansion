@@ -19,6 +19,16 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -38,18 +48,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.OverridingMethodsMustInvokeSuper;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-
 public abstract class AdvancedDirectional extends NetworkDirectional {
 
     protected static final String DIRECTION = "direction";
@@ -62,14 +60,8 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     private static final int WEST_SLOT = 20;
     private static final int UP_SLOT = 15;
     private static final int DOWN_SLOT = 33;
-    private static final Set<BlockFace> VALID_FACES = EnumSet.of(
-            BlockFace.UP,
-            BlockFace.DOWN,
-            BlockFace.NORTH,
-            BlockFace.EAST,
-            BlockFace.SOUTH,
-            BlockFace.WEST
-    );
+    private static final Set<BlockFace> VALID_FACES =
+            EnumSet.of(BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
 
     private static final Map<Location, BlockFace> SELECTED_DIRECTION_MAP = new HashMap<>();
     private static final Map<Location, Integer> NETWORK_LIMIT_QUANTITY_MAP = new HashMap<>();
@@ -77,43 +69,51 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     final NetworkDirectional instance = this;
     private final ItemStack showIconClone;
     private final ItemStack transportModeIconClone;
+
+    @SuppressWarnings("unused")
     public TransportMode transportMode = TransportMode.FIRST_STOP;
 
-    protected AdvancedDirectional(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, NodeType type) {
+    protected AdvancedDirectional(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, NodeType type) {
         super(itemGroup, item, recipeType, recipe, type);
         this.showIconClone = Icon.SHOW_ICON.clone();
         this.transportModeIconClone = Icon.TRANSPORT_MODE_ICON.clone();
 
-        addItemHandler(
-                new BlockTicker() {
-                    @Override
-                    public boolean isSynchronized() {
-                        return runSync();
-                    }
+        addItemHandler(new BlockTicker() {
+            @Override
+            public boolean isSynchronized() {
+                return runSync();
+            }
 
-                    @Override
-                    public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
-                        onTick(data.getBlockMenu(), block);
-                    }
+            @Override
+            public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
+                onTick(data.getBlockMenu(), block);
+            }
 
-                    @Override
-                    public void uniqueTick() {
-                        onUniqueTick();
-                    }
-                }
-        );
+            @Override
+            public void uniqueTick() {
+                onUniqueTick();
+            }
+        });
     }
 
+    @SuppressWarnings("deprecation")
     @Nonnull
-    public static ItemStack getDirectionalSlotPane(@Nonnull BlockFace blockFace, @Nonnull SlimefunItem slimefunItem, boolean active) {
+    public static ItemStack getDirectionalSlotPane(
+            @Nonnull BlockFace blockFace, @Nonnull SlimefunItem slimefunItem, boolean active) {
         final ItemStack displayStack = ItemStackUtil.getCleanItem(new CustomItemStack(
                 slimefunItem.getItem(),
-                String.format(Lang.getString("messages.normal-operation.directional.display_name"), blockFace.name(), ChatColor.stripColor(slimefunItem.getItemName()))
-        ));
+                String.format(
+                        Lang.getString("messages.normal-operation.directional.display_name"),
+                        blockFace.name(),
+                        ChatColor.stripColor(slimefunItem.getItemName()))));
         final ItemMeta itemMeta = displayStack.getItemMeta();
         itemMeta.setLore(Lang.getStringList("messages.normal-operation.directional.display_lore"));
         if (active) {
             List<String> lore = itemMeta.getLore();
+            if (lore == null) {
+                lore = new ArrayList<>();
+            }
             lore.add(Lang.getString("messages.normal-operation.directional.set_facing"));
             itemMeta.setLore(lore);
             itemMeta.addEnchant(NetworksVersionedEnchantment.LUCK_OF_THE_SEA, 1, true);
@@ -123,17 +123,24 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         return displayStack;
     }
 
+    @SuppressWarnings("deprecation")
     @Nonnull
-    public static ItemStack getDirectionalSlotPane(@Nonnull BlockFace blockFace, @Nonnull Material blockMaterial, boolean active) {
+    public static ItemStack getDirectionalSlotPane(
+            @Nonnull BlockFace blockFace, @Nonnull Material blockMaterial, boolean active) {
         if (blockMaterial.isItem() && blockMaterial != Material.AIR) {
             final ItemStack displayStack = new CustomItemStack(
                     blockMaterial,
-                    String.format(Lang.getString("messages.normal-operation.directional.display_name"), blockFace.name(), MaterialHelper.getName(blockMaterial))
-            );
+                    String.format(
+                            Lang.getString("messages.normal-operation.directional.display_name"),
+                            blockFace.name(),
+                            MaterialHelper.getName(blockMaterial)));
             final ItemMeta itemMeta = displayStack.getItemMeta();
             itemMeta.setLore(Lang.getStringList("messages.normal-operation.directional.display_lore"));
             if (active) {
                 List<String> lore = itemMeta.getLore();
+                if (lore == null) {
+                    lore = new ArrayList<>();
+                }
                 lore.add(Lang.getString("messages.normal-operation.directional.set_facing"));
                 itemMeta.setLore(lore);
                 itemMeta.addEnchant(NetworksVersionedEnchantment.LUCK_OF_THE_SEA, 1, true);
@@ -145,13 +152,11 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
             Material material = active ? Material.GREEN_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE;
             return ItemStackUtil.getCleanItem(new CustomItemStack(
                     material,
-                    String.format(Lang.getString("messages.normal-operation.directional.display_empty"), blockFace)
-            ));
+                    String.format(Lang.getString("messages.normal-operation.directional.display_empty"), blockFace)));
         }
     }
 
-    @Nullable
-    public static BlockFace getSelectedFace(@Nonnull Location location) {
+    @Nullable public static BlockFace getSelectedFace(@Nonnull Location location) {
         return SELECTED_DIRECTION_MAP.get(location);
     }
 
@@ -167,38 +172,38 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
             final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(block.getLocation());
             if (slimefunItem != null) {
                 switch (blockFace) {
-                    case NORTH ->
-                            blockMenu.replaceExistingItem(getNorthSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
-                    case SOUTH ->
-                            blockMenu.replaceExistingItem(getSouthSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
-                    case EAST ->
-                            blockMenu.replaceExistingItem(getEastSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
-                    case WEST ->
-                            blockMenu.replaceExistingItem(getWestSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
-                    case UP ->
-                            blockMenu.replaceExistingItem(getUpSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
-                    case DOWN ->
-                            blockMenu.replaceExistingItem(getDownSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
-                    default ->
-                            throw new IllegalStateException(String.format(Lang.getString("messages.unsupported-operation.directional.unexcepted_value"), blockFace));
+                    case NORTH -> blockMenu.replaceExistingItem(
+                            getNorthSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
+                    case SOUTH -> blockMenu.replaceExistingItem(
+                            getSouthSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
+                    case EAST -> blockMenu.replaceExistingItem(
+                            getEastSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
+                    case WEST -> blockMenu.replaceExistingItem(
+                            getWestSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
+                    case UP -> blockMenu.replaceExistingItem(
+                            getUpSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
+                    case DOWN -> blockMenu.replaceExistingItem(
+                            getDownSlot(), getDirectionalSlotPane(blockFace, slimefunItem, blockFace == direction));
+                    default -> throw new IllegalStateException(String.format(
+                            Lang.getString("messages.unsupported-operation.directional.unexcepted_value"), blockFace));
                 }
             } else {
                 final Material material = block.getType();
                 switch (blockFace) {
-                    case NORTH ->
-                            blockMenu.replaceExistingItem(getNorthSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
-                    case SOUTH ->
-                            blockMenu.replaceExistingItem(getSouthSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
-                    case EAST ->
-                            blockMenu.replaceExistingItem(getEastSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
-                    case WEST ->
-                            blockMenu.replaceExistingItem(getWestSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
-                    case UP ->
-                            blockMenu.replaceExistingItem(getUpSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
-                    case DOWN ->
-                            blockMenu.replaceExistingItem(getDownSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
-                    default ->
-                            throw new IllegalStateException(String.format(Lang.getString("messages.unsupported-operation.directional.unexcepted_value"), blockFace));
+                    case NORTH -> blockMenu.replaceExistingItem(
+                            getNorthSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
+                    case SOUTH -> blockMenu.replaceExistingItem(
+                            getSouthSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
+                    case EAST -> blockMenu.replaceExistingItem(
+                            getEastSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
+                    case WEST -> blockMenu.replaceExistingItem(
+                            getWestSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
+                    case UP -> blockMenu.replaceExistingItem(
+                            getUpSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
+                    case DOWN -> blockMenu.replaceExistingItem(
+                            getDownSlot(), getDirectionalSlotPane(blockFace, material, blockFace == direction));
+                    default -> throw new IllegalStateException(String.format(
+                            Lang.getString("messages.unsupported-operation.directional.unexcepted_value"), blockFace));
                 }
             }
         }
@@ -230,11 +235,17 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     public void onPlace(@Nonnull BlockPlaceEvent event) {
         NetworkStorage.removeNode(event.getBlock().getLocation());
         var blockData = StorageCacheUtils.getBlock(event.getBlock().getLocation());
+        if (blockData == null) {
+            return;
+        }
         blockData.setData(OWNER_KEY, event.getPlayer().getUniqueId().toString());
         blockData.setData(DIRECTION, BlockFace.SELF.name());
         blockData.setData(LIMIT_KEY, String.valueOf(getMaxLimit()));
         blockData.setData(TRANSPORT_MODE_KEY, String.valueOf(TransportMode.FIRST_STOP));
-        NetworkUtils.applyConfig(instance, blockData.getBlockMenu(), event.getPlayer());
+        BlockMenu menu = blockData.getBlockMenu();
+        if (menu != null) {
+            NetworkUtils.applyConfig(instance, menu, event.getPlayer());
+        }
     }
 
     @Override
@@ -249,12 +260,30 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
                     drawBackground(getOtherBackgroundStack(), getOtherBackgroundSlots());
                 }
 
-                addItem(getNorthSlot(), getDirectionalSlotPane(BlockFace.NORTH, Material.AIR, false), (player, i, itemStack, clickAction) -> false);
-                addItem(getSouthSlot(), getDirectionalSlotPane(BlockFace.SOUTH, Material.AIR, false), (player, i, itemStack, clickAction) -> false);
-                addItem(getEastSlot(), getDirectionalSlotPane(BlockFace.EAST, Material.AIR, false), (player, i, itemStack, clickAction) -> false);
-                addItem(getWestSlot(), getDirectionalSlotPane(BlockFace.WEST, Material.AIR, false), (player, i, itemStack, clickAction) -> false);
-                addItem(getUpSlot(), getDirectionalSlotPane(BlockFace.UP, Material.AIR, false), (player, i, itemStack, clickAction) -> false);
-                addItem(getDownSlot(), getDirectionalSlotPane(BlockFace.DOWN, Material.AIR, false), (player, i, itemStack, clickAction) -> false);
+                addItem(
+                        getNorthSlot(),
+                        getDirectionalSlotPane(BlockFace.NORTH, Material.AIR, false),
+                        (player, i, itemStack, clickAction) -> false);
+                addItem(
+                        getSouthSlot(),
+                        getDirectionalSlotPane(BlockFace.SOUTH, Material.AIR, false),
+                        (player, i, itemStack, clickAction) -> false);
+                addItem(
+                        getEastSlot(),
+                        getDirectionalSlotPane(BlockFace.EAST, Material.AIR, false),
+                        (player, i, itemStack, clickAction) -> false);
+                addItem(
+                        getWestSlot(),
+                        getDirectionalSlotPane(BlockFace.WEST, Material.AIR, false),
+                        (player, i, itemStack, clickAction) -> false);
+                addItem(
+                        getUpSlot(),
+                        getDirectionalSlotPane(BlockFace.UP, Material.AIR, false),
+                        (player, i, itemStack, clickAction) -> false);
+                addItem(
+                        getDownSlot(),
+                        getDirectionalSlotPane(BlockFace.DOWN, Material.AIR, false),
+                        (player, i, itemStack, clickAction) -> false);
                 addItem(getAddSlot(), getAddIcon(), (p, i, itemStack, clickAction) -> false);
                 addItem(getMinusSlot(), getMinusIcon(), (p, i, itemStack, clickAction) -> false);
                 addItem(getShowSlot(), getShowIcon(), (p, i, itemStack, clickAction) -> false);
@@ -297,29 +326,39 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
                 }
                 NETWORK_TRANSPORT_MODE_MAP.put(location.clone(), mode);
 
-                blockMenu.addMenuClickHandler(getNorthSlot(), (player, i, itemStack, clickAction) ->
-                        directionClick(player, clickAction, blockMenu, BlockFace.NORTH));
-                blockMenu.addMenuClickHandler(getSouthSlot(), (player, i, itemStack, clickAction) ->
-                        directionClick(player, clickAction, blockMenu, BlockFace.SOUTH));
-                blockMenu.addMenuClickHandler(getEastSlot(), (player, i, itemStack, clickAction) ->
-                        directionClick(player, clickAction, blockMenu, BlockFace.EAST));
-                blockMenu.addMenuClickHandler(getWestSlot(), (player, i, itemStack, clickAction) ->
-                        directionClick(player, clickAction, blockMenu, BlockFace.WEST));
-                blockMenu.addMenuClickHandler(getUpSlot(), (player, i, itemStack, clickAction) ->
-                        directionClick(player, clickAction, blockMenu, BlockFace.UP));
-                blockMenu.addMenuClickHandler(getDownSlot(), (player, i, itemStack, clickAction) ->
-                        directionClick(player, clickAction, blockMenu, BlockFace.DOWN));
+                blockMenu.addMenuClickHandler(
+                        getNorthSlot(),
+                        (player, i, itemStack, clickAction) ->
+                                directionClick(player, clickAction, blockMenu, BlockFace.NORTH));
+                blockMenu.addMenuClickHandler(
+                        getSouthSlot(),
+                        (player, i, itemStack, clickAction) ->
+                                directionClick(player, clickAction, blockMenu, BlockFace.SOUTH));
+                blockMenu.addMenuClickHandler(
+                        getEastSlot(),
+                        (player, i, itemStack, clickAction) ->
+                                directionClick(player, clickAction, blockMenu, BlockFace.EAST));
+                blockMenu.addMenuClickHandler(
+                        getWestSlot(),
+                        (player, i, itemStack, clickAction) ->
+                                directionClick(player, clickAction, blockMenu, BlockFace.WEST));
+                blockMenu.addMenuClickHandler(
+                        getUpSlot(),
+                        (player, i, itemStack, clickAction) ->
+                                directionClick(player, clickAction, blockMenu, BlockFace.UP));
+                blockMenu.addMenuClickHandler(
+                        getDownSlot(),
+                        (player, i, itemStack, clickAction) ->
+                                directionClick(player, clickAction, blockMenu, BlockFace.DOWN));
 
                 blockMenu.addMenuClickHandler(getShowSlot(), (player, i, itemStack, clickAction) -> false);
 
-                blockMenu.addMenuClickHandler(getAddSlot(), (p, slot, item, action) ->
-                        addClick(location, action));
-                blockMenu.addMenuClickHandler(getMinusSlot(), (p, slot, item, action) ->
-                        minusClick(location, action));
+                blockMenu.addMenuClickHandler(getAddSlot(), (p, slot, item, action) -> addClick(location, action));
+                blockMenu.addMenuClickHandler(getMinusSlot(), (p, slot, item, action) -> minusClick(location, action));
 
                 if (getTransportModeSlot() != -1) {
-                    blockMenu.addMenuClickHandler(getTransportModeSlot(), (p, slot, item, action) ->
-                            toggleTransportMode(location, action));
+                    blockMenu.addMenuClickHandler(
+                            getTransportModeSlot(), (p, slot, item, action) -> toggleTransportMode(location, action));
                 }
 
                 updateShowIcon(location);
@@ -328,8 +367,10 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return player.hasPermission("slimefun.inventory.bypass") || (this.getSlimefunItem().canUse(player, false)
-                        && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
+                return player.hasPermission("slimefun.inventory.bypass")
+                        || (this.getSlimefunItem().canUse(player, false)
+                                && Slimefun.getProtectionManager()
+                                        .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override
@@ -343,6 +384,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         };
     }
 
+    @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     public boolean directionClick(Player player, ClickAction action, BlockMenu blockMenu, BlockFace blockFace) {
         if (action.isShiftClicked()) {
@@ -364,6 +406,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         StorageCacheUtils.setData(blockMenu.getBlock().getLocation(), DIRECTION, blockFace.name());
     }
 
+    @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     public boolean minusClick(Location location, ClickAction action) {
         int n = 1;
@@ -377,6 +420,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         return false;
     }
 
+    @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     public boolean addClick(Location location, ClickAction action) {
         int n = 1;
@@ -393,13 +437,11 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     @Nonnull
     protected abstract int[] getBackgroundSlots();
 
-    @Nullable
-    protected int[] getOtherBackgroundSlots() {
+    @Nullable protected int[] getOtherBackgroundSlots() {
         return super.getOtherBackgroundSlots();
     }
 
-    @Nullable
-    protected ItemStack getOtherBackgroundStack() {
+    @Nullable protected ItemStack getOtherBackgroundStack() {
         return super.getOtherBackgroundStack();
     }
 
@@ -431,14 +473,6 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         return new int[0];
     }
 
-    public int[] getInputSlots() {
-        return super.getInputSlots();
-    }
-
-    public int[] getOutputSlots() {
-        return super.getOutputSlots();
-    }
-
     protected Particle.DustOptions getDustOptions() {
         return super.getDustOptions();
     }
@@ -447,7 +481,15 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         final Vector faceVector = blockFace.getDirection().clone().multiply(-1);
         final Vector pushVector = faceVector.clone().multiply(2);
         final Location displayLocation = location.clone().add(0.5, 0.5, 0.5).add(faceVector);
-        location.getWorld().spawnParticle(NetworksVersionedParticle.DUST, displayLocation, 0, pushVector.getX(), pushVector.getY(), pushVector.getZ(), getDustOptions());
+        location.getWorld()
+                .spawnParticle(
+                        NetworksVersionedParticle.DUST,
+                        displayLocation,
+                        0,
+                        pushVector.getX(),
+                        pushVector.getY(),
+                        pushVector.getZ(),
+                        getDustOptions());
     }
 
     public ItemStack getShowIcon() {
@@ -466,11 +508,15 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         return Icon.TRANSPORT_MODE_ICON;
     }
 
-
     public int getLimitQuantity(Location location) {
         Integer quantity = NETWORK_LIMIT_QUANTITY_MAP.get(location.clone());
         if (quantity == null) {
-            quantity = Integer.parseInt(StorageCacheUtils.getData(location, LIMIT_KEY));
+            var squantity = StorageCacheUtils.getData(location, LIMIT_KEY);
+            if (squantity == null) {
+                quantity = 64;
+            } else {
+                quantity = Integer.parseInt(squantity);
+            }
             NETWORK_LIMIT_QUANTITY_MAP.put(location.clone(), quantity);
         }
         return quantity;
@@ -495,6 +541,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         StorageCacheUtils.setData(location, TRANSPORT_MODE_KEY, String.valueOf(mode));
     }
 
+    @SuppressWarnings("deprecation")
     public boolean toggleTransportMode(Location location, ClickAction action) {
         TransportMode mode = getCurrentTransportMode(location);
         if (action.isRightClicked()) {
@@ -530,10 +577,19 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
 
     public abstract int getMaxLimit();
 
+    @SuppressWarnings("deprecation")
     public void updateShowIcon(Location location) {
         ItemMeta itemMeta = this.showIconClone.getItemMeta();
-        List<String> lore = new ArrayList<>(itemMeta.getLore());
-        lore.set(0, String.format(Lang.getString("messages.normal-operation.directional.limit_quantity"), getLimitQuantity(location)));
+        List<String> lore = new ArrayList<>();
+        var old = itemMeta.getLore();
+        if (old != null) {
+            lore.addAll(old);
+        }
+        lore.set(
+                0,
+                String.format(
+                        Lang.getString("messages.normal-operation.directional.limit_quantity"),
+                        getLimitQuantity(location)));
         itemMeta.setLore(lore);
         this.showIconClone.setItemMeta(itemMeta);
 
@@ -543,10 +599,19 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public void updateTransportModeIcon(Location location) {
         ItemMeta itemMeta = this.transportModeIconClone.getItemMeta();
-        List<String> lore = new ArrayList<>(itemMeta.getLore());
-        lore.set(0, String.format(Lang.getString("messages.normal-operation.directional.transport_mode"), getCurrentTransportMode(location).getName()));
+        List<String> lore = new ArrayList<>();
+        var old = itemMeta.getLore();
+        if (old != null) {
+            lore.addAll(old);
+        }
+        lore.set(
+                0,
+                String.format(
+                        Lang.getString("messages.normal-operation.directional.transport_mode"),
+                        getCurrentTransportMode(location).getName()));
         itemMeta.setLore(lore);
         this.transportModeIconClone.setItemMeta(itemMeta);
 

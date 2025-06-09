@@ -1,11 +1,10 @@
 package io.github.sefiraat.networks.utils;
 
-import lombok.experimental.UtilityClass;
-
-import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import javax.annotation.Nonnull;
+import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public final class StringUtils {
@@ -42,8 +41,7 @@ public final class StringUtils {
             "OOOOMAGAAA",
             "TerslenK",
             "FN_FAL",
-            "supertechxter"
-    );
+            "supertechxter");
 
     @Nonnull
     public static String toTitleCase(@Nonnull String string) {
@@ -87,5 +85,4 @@ public final class StringUtils {
     public static List<String> getEggNames() {
         return EGG_NAMES;
     }
-
 }

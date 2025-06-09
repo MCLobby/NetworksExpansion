@@ -12,6 +12,8 @@ import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Color;
@@ -21,9 +23,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 public abstract class AbstractNetworkPusher extends NetworkDirectional {
     private static final int NORTH_SLOT = 11;
     private static final int SOUTH_SLOT = 29;
@@ -32,7 +31,8 @@ public abstract class AbstractNetworkPusher extends NetworkDirectional {
     private static final int UP_SLOT = 14;
     private static final int DOWN_SLOT = 32;
 
-    public AbstractNetworkPusher(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public AbstractNetworkPusher(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.PUSHER);
         for (int slot : getItemSlots()) {
             this.getSlotsToDrop().add(slot);
@@ -56,7 +56,8 @@ public abstract class AbstractNetworkPusher extends NetworkDirectional {
         }
 
         final BlockFace direction = getCurrentDirection(blockMenu);
-        final BlockMenu targetMenu = StorageCacheUtils.getMenu(blockMenu.getBlock().getRelative(direction).getLocation());
+        final BlockMenu targetMenu = StorageCacheUtils.getMenu(
+                blockMenu.getBlock().getRelative(direction).getLocation());
 
         if (targetMenu == null) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NO_TARGET_BLOCK);
@@ -74,7 +75,8 @@ public abstract class AbstractNetworkPusher extends NetworkDirectional {
             clone.setAmount(1);
             final ItemRequest itemRequest = new ItemRequest(clone, clone.getMaxStackSize());
 
-            int[] slots = targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.INSERT, clone);
+            int[] slots =
+                    targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.INSERT, clone);
 
             for (int slot : slots) {
                 final ItemStack itemStack = targetMenu.getItemInSlot(slot);
@@ -88,7 +90,8 @@ public abstract class AbstractNetworkPusher extends NetworkDirectional {
                     }
                 }
 
-                ItemStack retrieved = definition.getNode().getRoot().getItemStack0(blockMenu.getLocation(), itemRequest);
+                ItemStack retrieved =
+                        definition.getNode().getRoot().getItemStack0(blockMenu.getLocation(), itemRequest);
                 if (retrieved != null) {
                     targetMenu.pushItem(retrieved, slots);
                     sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
@@ -138,8 +141,7 @@ public abstract class AbstractNetworkPusher extends NetworkDirectional {
         return new Particle.DustOptions(Color.MAROON, 1);
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     protected ItemStack getOtherBackgroundStack() {
         return Icon.PUSHER_TEMPLATE_BACKGROUND_STACK;
     }

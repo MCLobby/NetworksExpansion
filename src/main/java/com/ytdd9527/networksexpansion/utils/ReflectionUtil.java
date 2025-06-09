@@ -1,15 +1,15 @@
 package com.ytdd9527.networksexpansion.utils;
 
+import com.balugaq.netex.utils.Debug;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
-import lombok.experimental.UtilityClass;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-
+import lombok.experimental.UtilityClass;
 
 /**
  * @author Final_ROOT
  */
+@SuppressWarnings("unused")
 @UtilityClass
 public class ReflectionUtil {
 
@@ -19,7 +19,7 @@ public class ReflectionUtil {
             declaredField.setAccessible(true);
             declaredField.set(object, value);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
+            Debug.trace(e);
             return false;
         }
         return true;
@@ -31,7 +31,7 @@ public class ReflectionUtil {
             declaredField.setAccessible(true);
             declaredField.set(null, value);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
+            Debug.trace(e);
             return false;
         }
         return true;
@@ -61,6 +61,7 @@ public class ReflectionUtil {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T, V> T getProperty(Object o, Class<V> clazz, String fieldName) throws IllegalAccessException {
         Field field = getField(clazz, fieldName);
         if (field != null) {

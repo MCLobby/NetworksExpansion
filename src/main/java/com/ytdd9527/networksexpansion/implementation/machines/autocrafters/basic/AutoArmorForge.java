@@ -7,10 +7,9 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import org.bukkit.inventory.ItemStack;
-
 import java.util.Map;
 import java.util.Set;
+import org.bukkit.inventory.ItemStack;
 
 public class AutoArmorForge extends AbstractAutoCrafter {
     public AutoArmorForge(
@@ -19,8 +18,7 @@ public class AutoArmorForge extends AbstractAutoCrafter {
             RecipeType recipeType,
             ItemStack[] recipe,
             int chargePerCraft,
-            boolean withholding
-    ) {
+            boolean withholding) {
         super(itemGroup, item, recipeType, recipe, chargePerCraft, withholding);
     }
 

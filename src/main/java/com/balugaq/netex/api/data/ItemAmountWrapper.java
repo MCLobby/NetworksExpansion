@@ -1,16 +1,14 @@
 package com.balugaq.netex.api.data;
 
-
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.utils.StackUtils;
+import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
 
 /**
  * @author Final_ROOT
@@ -120,6 +118,7 @@ public class ItemAmountWrapper extends ItemWrapper {
         return new ItemAmountWrapper(ItemStackUtil.cloneItem(this.getItemStack()), this.amount);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public int hashCode() {
         int hash = 31 + this.getItemStack().getType().hashCode();

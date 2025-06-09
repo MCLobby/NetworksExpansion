@@ -4,18 +4,17 @@ import com.balugaq.netex.api.data.StorageUnitData;
 import com.balugaq.netex.api.enums.StorageUnitType;
 import com.balugaq.netex.utils.Lang;
 import io.github.sefiraat.networks.Networks;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
+import javax.annotation.Nonnull;
+import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class DataStorage {
 
@@ -60,8 +59,10 @@ public class DataStorage {
         return dataSource.getItemId(item);
     }
 
-    public static synchronized StorageUnitData createStorageUnitData(OfflinePlayer owner, StorageUnitType sizeType, Location placedLocation) {
-        StorageUnitData re = new StorageUnitData(dataSource.getNextContainerId(), owner.getUniqueId().toString(), sizeType, true, placedLocation);
+    public static synchronized StorageUnitData createStorageUnitData(
+            OfflinePlayer owner, StorageUnitType sizeType, Location placedLocation) {
+        StorageUnitData re = new StorageUnitData(
+                dataSource.getNextContainerId(), owner.getUniqueId().toString(), sizeType, true, placedLocation);
 
         dataSource.saveNewStorageData(re);
         cache.put(re.getId(), Optional.of(re));
@@ -130,7 +131,8 @@ public class DataStorage {
     }
 
     static String formatLocation(Location l) {
-        return Objects.requireNonNull(l.getWorld()).getUID() + ";" + l.getBlockX() + ";" + l.getBlockY() + ";" + l.getBlockZ();
+        return Objects.requireNonNull(l.getWorld()).getUID() + ";" + l.getBlockX() + ";" + l.getBlockY() + ";"
+                + l.getBlockZ();
     }
 
     private static void loadContainer(int id) {
@@ -138,5 +140,4 @@ public class DataStorage {
         cache.put(id, Optional.ofNullable(data));
         state.put(id, data == null);
     }
-
 }

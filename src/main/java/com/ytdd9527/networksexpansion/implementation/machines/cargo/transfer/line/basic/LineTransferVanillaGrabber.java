@@ -1,6 +1,7 @@
 package com.ytdd9527.networksexpansion.implementation.machines.cargo.transfer.line.basic;
 
 import com.balugaq.netex.api.enums.FeedbackType;
+import com.balugaq.netex.api.enums.MinecraftVersion;
 import com.balugaq.netex.api.interfaces.Configurable;
 import com.balugaq.netex.utils.Lang;
 import com.bgsoftware.wildchests.api.WildChestsAPI;
@@ -18,6 +19,12 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -37,18 +44,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionType;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
-
 public class LineTransferVanillaGrabber extends NetworkDirectional implements RecipeDisplayItem, Configurable {
     private static final int DEFAULT_MAX_DISTANCE = 32;
     private static final int DEFAULT_GRAB_ITEM_TICK = 1;
-    private static final int[] BACKGROUND_SLOTS = new int[]{
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 16, 17, 18, 20, 22, 23, 24, 25, 26, 27, 28, 30, 31, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44
+    private static final int[] BACKGROUND_SLOTS = new int[] {
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 16, 17, 18, 20, 22, 23, 24, 25, 26, 27, 28, 30, 31, 33, 34, 35,
+        36, 37, 38, 39, 40, 41, 42, 43, 44
     };
     private static final int NORTH_SLOT = 11;
     private static final int SOUTH_SLOT = 29;
@@ -61,11 +62,8 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
     private static int grabItemTick;
     private final HashMap<Location, Integer> TICKER_MAP = new HashMap<>();
 
-    public LineTransferVanillaGrabber(ItemGroup itemGroup,
-                                      SlimefunItemStack item,
-                                      RecipeType recipeType,
-                                      ItemStack[] recipe
-    ) {
+    public LineTransferVanillaGrabber(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSFER_VANILLA_GRABBER);
         loadConfigurations();
     }
@@ -83,7 +81,7 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
         super.onTick(blockMenu, block);
 
         if (blockMenu == null) {
-            sendFeedback(blockMenu.getLocation(), FeedbackType.INVALID_BLOCK);
+            sendFeedback(block.getLocation(), FeedbackType.INVALID_BLOCK);
             return;
         }
         final Location location = blockMenu.getLocation();
@@ -114,6 +112,7 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
         TICKER_MAP.put(location, tickCounter);
     }
 
+    @SuppressWarnings("removal")
     private void tryGrabItem(@Nonnull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
@@ -139,7 +138,8 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
         Block targetBlock = block.getRelative(direction);
         for (int d = 0; d <= maxDistance; d++) {
             try {
-                if (!Slimefun.getProtectionManager().hasPermission(offlinePlayer, targetBlock, Interaction.INTERACT_BLOCK)) {
+                if (!Slimefun.getProtectionManager()
+                        .hasPermission(offlinePlayer, targetBlock, Interaction.INTERACT_BLOCK)) {
                     sendFeedback(blockMenu.getLocation(), FeedbackType.NO_PERMISSION);
                     break;
                 }
@@ -179,9 +179,17 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
                     final ItemStack stack = brewerInventory.getContents()[i];
                     if (stack != null && stack.getType() == Material.POTION) {
                         final PotionMeta potionMeta = (PotionMeta) stack.getItemMeta();
-                        if (potionMeta.getBasePotionData().getType() != PotionType.WATER) {
-                            grabItem(root, blockMenu, stack);
-                            break;
+                        if (Networks.getInstance().getMCVersion().isAtLeast(MinecraftVersion.MC1_20_5)) {
+                            if (potionMeta.getBasePotionType() != PotionType.WATER) {
+                                grabItem(root, blockMenu, stack);
+                                break;
+                            }
+                        } else {
+                            var bpd = potionMeta.getBasePotionData();
+                            if (bpd != null && bpd.getType() != PotionType.WATER) {
+                                grabItem(root, blockMenu, stack);
+                                break;
+                            }
                         }
                     }
                 }
@@ -254,12 +262,12 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
 
     public @Nonnull List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);
-        displayRecipes.add(new CustomItemStack(Material.BOOK,
+        displayRecipes.add(new CustomItemStack(
+                Material.BOOK,
                 Lang.getString("icons.mechanism.transfers.data_title"),
                 "",
                 String.format(Lang.getString("icons.mechanism.transfers.max_distance"), maxDistance),
-                String.format(Lang.getString("icons.mechanism.transfers.grab_item_tick"), grabItemTick)
-        ));
+                String.format(Lang.getString("icons.mechanism.transfers.grab_item_tick"), grabItemTick)));
         return displayRecipes;
     }
 }

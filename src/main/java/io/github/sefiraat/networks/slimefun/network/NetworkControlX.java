@@ -19,6 +19,11 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction
 import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import io.github.thebusybiscuit.slimefun4.libraries.paperlib.features.blockstatesnapshot.BlockStateSnapshotResult;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -30,18 +35,13 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
 public class NetworkControlX extends NetworkDirectional {
 
-    private static final int[] BACKGROUND_SLOTS = new int[]{
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 17, 18, 20, 22, 23, 24, 26, 27, 28, 30, 31, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44
+    private static final int[] BACKGROUND_SLOTS = new int[] {
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 17, 18, 20, 22, 23, 24, 26, 27, 28, 30, 31, 33, 34, 35, 36, 37,
+        38, 39, 40, 41, 42, 43, 44
     };
-    private static final int[] TEMPLATE_BACKGROUND = new int[]{16};
+    private static final int[] TEMPLATE_BACKGROUND = new int[] {16};
     private static final int TEMPLATE_SLOT = 25;
     private static final int NORTH_SLOT = 11;
     private static final int SOUTH_SLOT = 29;
@@ -121,13 +121,18 @@ public class NetworkControlX extends NetworkDirectional {
         boolean mustMatch = templateStack != null && templateStack.getType() != Material.AIR;
 
         if ((mustMatch && (targetBlock.getType() != templateStack.getType()))
-                || (SlimefunItem.getByItem(templateStack) != null)
-        ) {
+                || (SlimefunItem.getByItem(templateStack) != null)) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.BLOCK_NOT_MATCH_TEMPLATE);
             return;
         }
 
-        final UUID uuid = UUID.fromString(StorageCacheUtils.getData(blockMenu.getLocation(), OWNER_KEY));
+        final String owner = StorageCacheUtils.getData(blockMenu.getLocation(), OWNER_KEY);
+        if (owner == null) {
+            sendFeedback(blockMenu.getLocation(), FeedbackType.NO_OWNER_FOUND);
+            return;
+        }
+
+        final UUID uuid = UUID.fromString(owner);
         final OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
 
         Bukkit.getScheduler().runTask(Networks.getInstance(), bukkitTask -> {
@@ -152,11 +157,7 @@ public class NetworkControlX extends NetworkDirectional {
 
                 targetBlock.setType(Material.AIR, true);
                 ParticleUtils.displayParticleRandomly(
-                        LocationUtils.centre(targetBlock.getLocation()),
-                        1,
-                        5,
-                        DUST_OPTIONS
-                );
+                        LocationUtils.centre(targetBlock.getLocation()), 1, 5, DUST_OPTIONS);
                 definition.getNode().getRoot().removeRootPower(REQUIRED_POWER);
                 sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
             }
@@ -169,14 +170,12 @@ public class NetworkControlX extends NetworkDirectional {
         return BACKGROUND_SLOTS;
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     protected int[] getOtherBackgroundSlots() {
         return TEMPLATE_BACKGROUND;
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     protected ItemStack getOtherBackgroundStack() {
         return Icon.CONTROL_X_TEMPLATE_BACKGROUND_STACK;
     }
@@ -213,7 +212,7 @@ public class NetworkControlX extends NetworkDirectional {
 
     @Override
     public int[] getItemSlots() {
-        return new int[]{TEMPLATE_SLOT};
+        return new int[] {TEMPLATE_SLOT};
     }
 
     @Override

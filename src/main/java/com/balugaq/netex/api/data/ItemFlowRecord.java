@@ -3,14 +3,13 @@ package com.balugaq.netex.api.data;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.utils.StackUtils;
-import lombok.Data;
-import org.bukkit.Location;
-import org.bukkit.inventory.ItemStack;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import lombok.Data;
+import org.bukkit.Location;
+import org.bukkit.inventory.ItemStack;
 
 @Data
 public class ItemFlowRecord {
@@ -62,10 +61,5 @@ public class ItemFlowRecord {
         list.add(action);
     }
 
-    @Data
-    public static class TransportAction {
-        public final Location accessor;
-        public final long amount;
-        public final long milliSecond;
-    }
+    public record TransportAction(Location accessor, long amount, long milliSecond) {}
 }

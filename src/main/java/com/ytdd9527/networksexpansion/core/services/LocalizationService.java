@@ -10,24 +10,6 @@ import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import lombok.Getter;
-import lombok.Setter;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -45,7 +27,23 @@ import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import lombok.Getter;
+import lombok.Setter;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class LocalizationService {
     private static final Map<String, String> CACHE = new HashMap<>();
@@ -63,13 +61,17 @@ public class LocalizationService {
     private final Map<String, Language> langMap;
     private final String colorTagRegex = "<[a-zA-Z0-9_]+>";
     private final Pattern pattern = Pattern.compile(this.colorTagRegex);
+
     @Setter
     @Getter
     private String idPrefix = "";
+
     @Setter
     private String itemGroupKey = "categories";
+
     @Setter
     private String itemsKey = "items";
+
     @Setter
     private String recipesKey = "recipes";
 
@@ -98,7 +100,6 @@ public class LocalizationService {
         if (!this.langFolder.exists()) {
             this.langFolder.mkdir();
         }
-
     }
 
     @ParametersAreNonnullByDefault
@@ -121,6 +122,7 @@ public class LocalizationService {
         send(sender, MessageFormat.format(getString("messages." + messageKey), args));
     }
 
+    @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     public void sendActionbarMessage(Player p, String messageKey, Object... args) {
         Preconditions.checkArgument(p != null, "Player cannot be null");
@@ -140,13 +142,20 @@ public class LocalizationService {
             try {
                 this.plugin.saveResource(resourcePath, false);
             } catch (IllegalArgumentException var6) {
-                this.plugin.getLogger().log(Level.SEVERE, "The default language file {0} does not exist in jar file!", resourcePath);
+                this.plugin
+                        .getLogger()
+                        .log(Level.SEVERE, "The default language file {0} does not exist in jar file!", resourcePath);
                 return;
             }
         }
 
         this.languages.add(langFilename);
-        InputStreamReader defaultReader = new InputStreamReader(this.plugin.getResource(resourcePath), StandardCharsets.UTF_8);
+        var resource = this.plugin.getResource(resourcePath);
+        if (resource == null) {
+            throw new IllegalArgumentException(
+                    "The default language file " + resourcePath + " does not exist in jar file!");
+        }
+        InputStreamReader defaultReader = new InputStreamReader(resource, StandardCharsets.UTF_8);
         FileConfiguration defaultConfig = YamlConfiguration.loadConfiguration(defaultReader);
         this.langMap.put(langFilename, new Language(langFilename, langFile, defaultConfig));
     }
@@ -217,7 +226,11 @@ public class LocalizationService {
         Preconditions.checkArgument(key != null, MSG_KEY_NULL);
         Preconditions.checkArgument(id != null, MSG_ID_NULL);
         Preconditions.checkArgument(material != null, MSG_MATERIAL_NULL);
-        SlimefunItemStack item = new SlimefunItemStack((this.idPrefix + id).toUpperCase(Locale.ROOT), material, this.getString(key + "." + id + KEY_NAME), this.getStringArray(key + "." + id + KEY_LORE));
+        SlimefunItemStack item = new SlimefunItemStack(
+                (this.idPrefix + id).toUpperCase(Locale.ROOT),
+                material,
+                this.getString(key + "." + id + KEY_NAME),
+                this.getStringArray(key + "." + id + KEY_LORE));
         if (extraLore != null && extraLore.length != 0) {
             appendLore(item, extraLore);
         }
@@ -230,7 +243,13 @@ public class LocalizationService {
         Preconditions.checkArgument(key != null, MSG_KEY_NULL);
         Preconditions.checkArgument(id != null, MSG_ID_NULL);
         Preconditions.checkArgument(texture != null, MSG_TEXTURE_NULL);
-        return appendLore(new SlimefunItemStack((this.idPrefix + id).toUpperCase(Locale.ROOT), texture, this.getString(key + "." + id + ".name"), this.getStringArray(key + "." + id + ".lore")), extraLore);
+        return appendLore(
+                new SlimefunItemStack(
+                        (this.idPrefix + id).toUpperCase(Locale.ROOT),
+                        texture,
+                        this.getString(key + "." + id + ".name"),
+                        this.getStringArray(key + "." + id + ".lore")),
+                extraLore);
     }
 
     @Nonnull
@@ -239,7 +258,13 @@ public class LocalizationService {
         Preconditions.checkArgument(key != null, MSG_KEY_NULL);
         Preconditions.checkArgument(id != null, MSG_ID_NULL);
         Preconditions.checkArgument(itemStack != null, MSG_ITEMSTACK_NULL);
-        return appendLore(new SlimefunItemStack((this.idPrefix + id).toUpperCase(Locale.ROOT), itemStack, this.getString(key + "." + id + ".name"), this.getStringArray(key + "." + id + ".lore")), extraLore);
+        return appendLore(
+                new SlimefunItemStack(
+                        (this.idPrefix + id).toUpperCase(Locale.ROOT),
+                        itemStack,
+                        this.getString(key + "." + id + ".name"),
+                        this.getStringArray(key + "." + id + ".lore")),
+                extraLore);
     }
 
     @Nonnull
@@ -279,26 +304,33 @@ public class LocalizationService {
     @Nonnull
     @ParametersAreNonnullByDefault
     public RecipeType getRecipeType(String id, Material material, String... extraLore) {
-        return new RecipeType(Keys.customNewKey(this.getPlugin(), id), this.getItemBy(this.recipesKey, id, material, extraLore));
+        return new RecipeType(
+                Keys.customNewKey(this.getPlugin(), id), this.getItemBy(this.recipesKey, id, material, extraLore));
     }
 
     @Nonnull
     @ParametersAreNonnullByDefault
     public RecipeType getRecipeType(String id, String texture, String... extraLore) {
-        return new RecipeType(Keys.customNewKey(this.getPlugin(), id), this.getItemBy(this.recipesKey, id, texture, extraLore));
+        return new RecipeType(
+                Keys.customNewKey(this.getPlugin(), id), this.getItemBy(this.recipesKey, id, texture, extraLore));
     }
 
     @Nonnull
     @ParametersAreNonnullByDefault
     public RecipeType getRecipeType(String id, ItemStack itemStack, String... extraLore) {
-        return new RecipeType(Keys.customNewKey(this.getPlugin(), id), this.getItemBy(this.recipesKey, id, itemStack, extraLore));
+        return new RecipeType(
+                Keys.customNewKey(this.getPlugin(), id), this.getItemBy(this.recipesKey, id, itemStack, extraLore));
     }
 
+    @SuppressWarnings("deprecation")
     private <T extends ItemStack> T appendLore(@Nonnull T itemStack, @Nullable String... extraLore) {
         Preconditions.checkArgument(itemStack != null, MSG_ITEMSTACK_NULL);
         if (extraLore != null && extraLore.length != 0) {
             ItemMeta meta = itemStack.getItemMeta();
             List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
+            if (lore == null) {
+                lore = new ArrayList<>();
+            }
             lore.addAll(color(Arrays.asList(extraLore)));
             meta.setLore(lore);
             itemStack.setItemMeta(meta);
@@ -307,6 +339,7 @@ public class LocalizationService {
         return itemStack;
     }
 
+    @SuppressWarnings("deprecation")
     @Nonnull
     public String color(@Nonnull String str) {
         str = ChatColor.translateAlternateColorCodes('&', str);
@@ -355,7 +388,8 @@ public class LocalizationService {
     @Nonnull
     @ParametersAreNonnullByDefault
     public ItemStack getItemStack(String key, Material material) {
-        return ItemStackUtil.getCleanItem(new CustomItemStack(material, this.getString(key + KEY_NAME), this.getStringArray(key + KEY_LORE)));
+        return ItemStackUtil.getCleanItem(
+                new CustomItemStack(material, this.getString(key + KEY_NAME), this.getStringArray(key + KEY_LORE)));
     }
 
     @Nonnull

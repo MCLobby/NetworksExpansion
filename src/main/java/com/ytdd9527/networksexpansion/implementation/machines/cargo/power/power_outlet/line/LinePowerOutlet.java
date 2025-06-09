@@ -12,14 +12,13 @@ import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class LinePowerOutlet extends NetworkDirectional implements Configurable {
     private static final int DEFAULT_RATE = 2000;
@@ -27,11 +26,11 @@ public class LinePowerOutlet extends NetworkDirectional implements Configurable 
     private int maxDistance;
     private int rate;
 
-    public LinePowerOutlet(@Nonnull ItemGroup itemGroup,
-                           @Nonnull SlimefunItemStack item,
-                           @Nonnull RecipeType recipeType,
-                           @Nonnull ItemStack[] recipe
-    ) {
+    public LinePowerOutlet(
+            @Nonnull ItemGroup itemGroup,
+            @Nonnull SlimefunItemStack item,
+            @Nonnull RecipeType recipeType,
+            @Nonnull ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_POWER_OUTLET);
         loadConfigurations();
     }
@@ -65,6 +64,12 @@ public class LinePowerOutlet extends NetworkDirectional implements Configurable 
 
         final NetworkRoot root = definition.getNode().getRoot();
         final BlockFace blockFace = getCurrentDirection(blockMenu);
-        LineOperationUtil.doEnergyOperation(blockMenu.getLocation(), blockFace, this.maxDistance, true, false, (location) -> LineOperationUtil.outPower(location, root, this.rate));
+        LineOperationUtil.doEnergyOperation(
+                blockMenu.getLocation(),
+                blockFace,
+                this.maxDistance,
+                true,
+                false,
+                (location) -> LineOperationUtil.outPower(location, root, this.rate));
     }
 }

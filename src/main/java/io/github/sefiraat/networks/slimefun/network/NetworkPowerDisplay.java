@@ -17,6 +17,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import javax.annotation.Nonnull;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -26,42 +27,35 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-
 public class NetworkPowerDisplay extends NetworkObject {
 
-    private static final int[] BACKGROUND_SLOTS = new int[]{
-            0, 1, 2, 3, 5, 6, 7, 8
-    };
+    private static final int[] BACKGROUND_SLOTS = new int[] {0, 1, 2, 3, 5, 6, 7, 8};
     private static final int DISPLAY_SLOT = 4;
 
     public NetworkPowerDisplay(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.POWER_DISPLAY);
-        addItemHandler(
-                new BlockTicker() {
-                    @Override
-                    public boolean isSynchronized() {
-                        return false;
-                    }
+        addItemHandler(new BlockTicker() {
+            @Override
+            public boolean isSynchronized() {
+                return false;
+            }
 
-                    @Override
-                    public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
-                        BlockMenu blockMenu = data.getBlockMenu();
-                        if (blockMenu != null) {
-                            addToRegistry(block);
-                            setDisplay(blockMenu);
-                        }
-                    }
+            @Override
+            public void tick(Block block, SlimefunItem slimefunItem, SlimefunBlockData data) {
+                BlockMenu blockMenu = data.getBlockMenu();
+                if (blockMenu != null) {
+                    addToRegistry(block);
+                    setDisplay(blockMenu);
                 }
-        );
+            }
+        });
     }
 
     private static ItemStack getChargeStack(long charge) {
         return ItemStackUtil.getCleanItem(new CustomItemStack(
                 Material.GREEN_STAINED_GLASS_PANE,
                 Lang.getString("icons.power_display.status_title"),
-                String.format(Lang.getString("icons.power_display.charge"), charge)
-        ));
+                String.format(Lang.getString("icons.power_display.charge"), charge)));
     }
 
     private void setDisplay(BlockMenu blockMenu) {
@@ -93,8 +87,10 @@ public class NetworkPowerDisplay extends NetworkObject {
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return player.hasPermission("slimefun.inventory.bypass") || (NetworkSlimefunItems.NETWORK_POWER_DISPLAY.canUse(player, false)
-                        && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
+                return player.hasPermission("slimefun.inventory.bypass")
+                        || (NetworkSlimefunItems.NETWORK_POWER_DISPLAY.canUse(player, false)
+                                && Slimefun.getProtectionManager()
+                                        .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override

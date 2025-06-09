@@ -16,6 +16,8 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import java.util.Optional;
+import javax.annotation.Nonnull;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -23,43 +25,44 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.annotation.Nonnull;
-import java.util.Optional;
-
 public class DueMachineConfigurator extends SpecialSlimefunItem {
-    public DueMachineConfigurator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public DueMachineConfigurator(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
-        addItemHandler(
-                (ItemUseHandler) e -> {
-                    final Player player = e.getPlayer();
-                    final Optional<Block> optional = e.getClickedBlock();
-                    if (optional.isPresent()) {
-                        final Block block = optional.get();
-                        final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(block.getLocation());
+        addItemHandler((ItemUseHandler) e -> {
+            final Player player = e.getPlayer();
+            final Optional<Block> optional = e.getClickedBlock();
+            if (optional.isPresent()) {
+                final Block block = optional.get();
+                final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(block.getLocation());
 
-                        if (Slimefun.getProtectionManager().hasPermission(player, block, Interaction.INTERACT_BLOCK)) {
-                            if (slimefunItem instanceof DueMachine dueMachine) {
-                                final BlockMenu blockMenu = StorageCacheUtils.getMenu(block.getLocation());
-                                if (blockMenu == null) {
-                                    return;
-                                }
-
-                                if (player.isSneaking()) {
-                                    setConfigurator(dueMachine, e.getItem(), blockMenu, player);
-                                } else {
-                                    applyConfig(dueMachine, e.getItem(), blockMenu, player);
-                                }
-                            } else {
-                                player.sendMessage(Lang.getString("messages.unsupported-operation.configurator.not_a_pasteable_block"));
-                            }
+                if (Slimefun.getProtectionManager().hasPermission(player, block, Interaction.INTERACT_BLOCK)) {
+                    if (slimefunItem instanceof DueMachine dueMachine) {
+                        final BlockMenu blockMenu = StorageCacheUtils.getMenu(block.getLocation());
+                        if (blockMenu == null) {
+                            return;
                         }
+
+                        if (player.isSneaking()) {
+                            setConfigurator(dueMachine, e.getItem(), blockMenu, player);
+                        } else {
+                            applyConfig(dueMachine, e.getItem(), blockMenu, player);
+                        }
+                    } else {
+                        player.sendMessage(
+                                Lang.getString("messages.unsupported-operation.configurator.not_a_pasteable_block"));
                     }
-                    e.cancel();
                 }
-        );
+            }
+            e.cancel();
+        });
     }
 
-    public static void applyConfig(@Nonnull DueMachine dueMachine, @Nonnull ItemStack itemStack, @Nonnull BlockMenu blockMenu, @Nonnull Player player) {
+    public static void applyConfig(
+            @Nonnull DueMachine dueMachine,
+            @Nonnull ItemStack itemStack,
+            @Nonnull BlockMenu blockMenu,
+            @Nonnull Player player) {
         final ItemMeta itemMeta = itemStack.getItemMeta();
         final ItemStack[] templateStacks = DataTypeMethods.getCustom(itemMeta, Keys.ITEM, DataType.ITEM_STACK_ARRAY);
 
@@ -82,13 +85,15 @@ public class DueMachineConfigurator extends SpecialSlimefunItem {
                             final ItemStack stackClone = StackUtils.getAsQuantity(stack, 1);
                             stack.setAmount(stack.getAmount() - 1);
                             blockMenu.replaceExistingItem(dueMachine.getItemSlots()[i], stackClone);
-                            player.sendMessage(String.format(Lang.getString("messages.completed-operation.configurator.pasted_item"), i));
+                            player.sendMessage(String.format(
+                                    Lang.getString("messages.completed-operation.configurator.pasted_item"), i));
                             worked = true;
                             break;
                         }
                     }
                     if (!worked) {
-                        player.sendMessage(String.format(Lang.getString("messages.unsupported-operation.configurator.not_enough_items"), i));
+                        player.sendMessage(String.format(
+                                Lang.getString("messages.unsupported-operation.configurator.not_enough_items"), i));
                     }
                 }
                 i++;
@@ -98,7 +103,11 @@ public class DueMachineConfigurator extends SpecialSlimefunItem {
         }
     }
 
-    private void setConfigurator(@Nonnull DueMachine dueMachine, @Nonnull ItemStack itemStack, @Nonnull BlockMenu blockMenu, @Nonnull Player player) {
+    private void setConfigurator(
+            @Nonnull DueMachine dueMachine,
+            @Nonnull ItemStack itemStack,
+            @Nonnull BlockMenu blockMenu,
+            @Nonnull Player player) {
         final ItemMeta itemMeta = itemStack.getItemMeta();
 
         if (dueMachine.getItemSlots().length > 0) {

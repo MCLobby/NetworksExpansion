@@ -29,6 +29,16 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -44,32 +54,19 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.Range;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-
-
 public class DrawerManager extends NetworkObject {
     public static final String MANAGER_TAG = "drawer_manager";
-    public static final NetworkRootLocateStorageEvent.Strategy MANAGER_STRATEGY = NetworkRootLocateStorageEvent.Strategy.custom(MANAGER_TAG);
+    public static final NetworkRootLocateStorageEvent.Strategy MANAGER_STRATEGY =
+            NetworkRootLocateStorageEvent.Strategy.custom(MANAGER_TAG);
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
-    private static final int[] BACKGROUND_SLOTS = new int[]{
-            8, 17
-    };
+    private static final int[] BACKGROUND_SLOTS = new int[] {8, 17};
     private static final int[] DISPLAY_SLOTS = {
-            0, 1, 2, 3, 4, 5, 6, 7,
-            9, 10, 11, 12, 13, 14, 15, 16,
-            18, 19, 20, 21, 22, 23, 24, 25,
-            27, 28, 29, 30, 31, 32, 33, 34,
-            36, 37, 38, 39, 40, 41, 42, 43,
-            45, 46, 47, 48, 49, 50, 51, 52,
+        0, 1, 2, 3, 4, 5, 6, 7,
+        9, 10, 11, 12, 13, 14, 15, 16,
+        18, 19, 20, 21, 22, 23, 24, 25,
+        27, 28, 29, 30, 31, 32, 33, 34,
+        36, 37, 38, 39, 40, 41, 42, 43,
+        45, 46, 47, 48, 49, 50, 51, 52,
     };
     private static final int CHANGE_SORT = 35;
     private static final int FILTER = 26;
@@ -98,41 +95,40 @@ public class DrawerManager extends NetworkObject {
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
         addItemSetting(this.tickRate);
 
-        addItemHandler(
-                new BlockTicker() {
+        addItemHandler(new BlockTicker() {
 
-                    private int tick = 1;
+            private int tick = 1;
 
-                    @Override
-                    public boolean isSynchronized() {
-                        return false;
+            @Override
+            public boolean isSynchronized() {
+                return false;
+            }
+
+            @Override
+            public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
+                if (tick <= 1) {
+                    final BlockMenu blockMenu = data.getBlockMenu();
+                    if (blockMenu == null) {
+                        return;
                     }
-
-                    @Override
-                    public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
-                        if (tick <= 1) {
-                            final BlockMenu blockMenu = data.getBlockMenu();
-                            if (blockMenu == null) {
-                                return;
-                            }
-                            addToRegistry(block);
-                            updateDisplay(blockMenu);
-                        }
-                    }
-
-                    @Override
-                    public void uniqueTick() {
-                        tick = tick <= 1 ? tickRate.getValue() : tick - 1;
-                    }
+                    addToRegistry(block);
+                    updateDisplay(blockMenu);
                 }
-        );
+            }
+
+            @Override
+            public void uniqueTick() {
+                tick = tick <= 1 ? tickRate.getValue() : tick - 1;
+            }
+        });
     }
 
     public static String getStorageName(@Nonnull Location dataLocation) {
         return StorageCacheUtils.getData(dataLocation, BS_NAME);
     }
 
-    public static void setStorageIcon(@Nonnull Player player, @Nonnull Location dataLocation, @Nonnull ItemStack cursor) {
+    public static void setStorageIcon(
+            @Nonnull Player player, @Nonnull Location dataLocation, @Nonnull ItemStack cursor) {
         StorageCacheUtils.setData(dataLocation, BS_ICON, serializeIcon(cursor));
         player.sendMessage(Lang.getString("messages.completed-operation.manager.set_icon"));
     }
@@ -154,8 +150,7 @@ public class DrawerManager extends NetworkObject {
         }
     }
 
-    @Nullable
-    public static ItemStack deserializeIcon(@Nonnull String icon) {
+    @Nullable public static ItemStack deserializeIcon(@Nonnull String icon) {
         if (icon.startsWith(NAMESPACE_SF)) {
             var id = icon.split(":")[1];
             var sf = SlimefunItem.getById(id);
@@ -199,6 +194,7 @@ public class DrawerManager extends NetworkObject {
         menu.open(player);
     }
 
+    @SuppressWarnings("deprecation")
     public static ItemStack getItemStack(@Nonnull StorageUnitData entry) {
         var itemContainers = entry.getStoredItems();
         if (itemContainers.isEmpty()) {
@@ -208,10 +204,9 @@ public class DrawerManager extends NetworkObject {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public static List<StorageUnitData> getStorageUnitDatas(NetworkRoot root, GridCache cache) {
-        return root.getCargoStorageUnitDatas(MANAGER_STRATEGY, true)
-                .keySet()
-                .stream()
+        return root.getCargoStorageUnitDatas(MANAGER_STRATEGY, true).keySet().stream()
                 .filter(entry -> {
                     if (cache.getFilter() == null) {
                         return true;
@@ -222,11 +217,14 @@ public class DrawerManager extends NetworkObject {
                         return true;
                     }
 
-                    String name = ChatColor.stripColor(ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
+                    String name = ChatColor.stripColor(
+                            ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
                     if (cache.getFilter().matches("^[a-zA-Z]+$")) {
                         final String pinyinName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
                         final String pinyinFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
-                        return name.contains(cache.getFilter()) || pinyinName.contains(cache.getFilter()) || pinyinFirstLetter.contains(cache.getFilter());
+                        return name.contains(cache.getFilter())
+                                || pinyinName.contains(cache.getFilter())
+                                || pinyinFirstLetter.contains(cache.getFilter());
                     } else {
                         return name.contains(cache.getFilter());
                     }
@@ -237,12 +235,24 @@ public class DrawerManager extends NetworkObject {
 
     @Nonnull
     private static String getAmountLore(Long long1) {
-        final MessageFormat format = new MessageFormat(Lang.getString("messages.normal-operation.grid.item_amount"), Locale.ROOT);
-        return format.format(new Object[]{Theme.CLICK_INFO.getColor(), Theme.PASSIVE.getColor(), long1}, new StringBuffer(), null).toString();
+        final MessageFormat format =
+                new MessageFormat(Lang.getString("messages.normal-operation.grid.item_amount"), Locale.ROOT);
+        return format.format(
+                        new Object[] {Theme.CLICK_INFO.getColor(), Theme.PASSIVE.getColor(), long1},
+                        new StringBuffer(),
+                        null)
+                .toString();
     }
 
-
-    public void handleClick(@Nonnull NetworkRoot root, @Nonnull BlockMenu blockMenu, @Nonnull Location dataLocation, @Nonnull Player player, @Range(from = 0, to = 53) int slot, @Nonnull ItemStack item, @Nonnull ClickAction action) {
+    @SuppressWarnings({"deprecation", "unused"})
+    public void handleClick(
+            @Nonnull NetworkRoot root,
+            @Nonnull BlockMenu blockMenu,
+            @Nonnull Location dataLocation,
+            @Nonnull Player player,
+            @Range(from = 0, to = 53) int slot,
+            @Nonnull ItemStack item,
+            @Nonnull ClickAction action) {
         StorageUnitData data = NetworkRoot.getCargoStorageUnitData(dataLocation);
         if (data == null) {
             return;
@@ -292,6 +302,7 @@ public class DrawerManager extends NetworkObject {
         });
     }
 
+    @SuppressWarnings("deprecation")
     public void updateDisplay(BlockMenu blockMenu) {
         if (blockMenu == null) {
             return;
@@ -334,9 +345,9 @@ public class DrawerManager extends NetworkObject {
         }
         final int end = Math.min(start + getDisplaySlots().length, datas.size());
 
-        datas = datas.stream().sorted((a, b) ->
-                isTopStorage(a.getLastLocation()) ? -1 : isTopStorage(b.getLastLocation()) ? 1 : 0
-        ).toList();
+        datas = datas.stream()
+                .sorted((a, b) -> isTopStorage(a.getLastLocation()) ? -1 : isTopStorage(b.getLastLocation()) ? 1 : 0)
+                .toList();
 
         final List<StorageUnitData> validdatas = datas.subList(start, end);
 
@@ -366,7 +377,8 @@ public class DrawerManager extends NetworkObject {
                 if (name != null) {
                     displayStack = new CustomItemStack(displayStack, ChatColor.translateAlternateColorCodes('&', name));
                 } else if (!isEmpty) {
-                    displayStack = new CustomItemStack(displayStack, ChatColor.GRAY + ItemStackHelper.getDisplayName(dataItemStack));
+                    displayStack = new CustomItemStack(
+                            displayStack, ChatColor.GRAY + ItemStackHelper.getDisplayName(dataItemStack));
                 } else {
                     displayStack = new CustomItemStack(displayStack, Sorters.NO_ITEM);
                 }
@@ -391,8 +403,12 @@ public class DrawerManager extends NetworkObject {
             }
         }
 
-        blockMenu.replaceExistingItem(getPagePrevious(), Icon.getPageStack(getPagePreviousStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
-        blockMenu.replaceExistingItem(getPageNext(), Icon.getPageStack(getPageNextStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
+        blockMenu.replaceExistingItem(
+                getPagePrevious(),
+                Icon.getPageStack(getPagePreviousStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
+        blockMenu.replaceExistingItem(
+                getPageNext(),
+                Icon.getPageStack(getPageNextStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
 
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
@@ -402,7 +418,11 @@ public class DrawerManager extends NetworkObject {
         List<String> list = new ArrayList<>();
         list.add("");
         list.add(String.format(Lang.getString("messages.normal-operation.manager.id"), data.getId()));
-        list.add(String.format(Lang.getString("messages.normal-operation.manager.location"), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
+        list.add(String.format(
+                Lang.getString("messages.normal-operation.manager.location"),
+                loc.getBlockX(),
+                loc.getBlockY(),
+                loc.getBlockZ()));
         list.add(getAmountLore(data.getTotalAmountLong()));
         list.add("");
         list.addAll(Lang.getStringList("messages.normal-operation.manager.drawer-manager-click-behavior"));
@@ -428,8 +448,10 @@ public class DrawerManager extends NetworkObject {
 
             @Override
             public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return player.hasPermission("slimefun.inventory.bypass") || (ExpansionItems.NETWORK_GRID_NEW_STYLE.canUse(player, false)
-                        && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
+                return player.hasPermission("slimefun.inventory.bypass")
+                        || (ExpansionItems.NETWORK_GRID_NEW_STYLE.canUse(player, false)
+                                && Slimefun.getProtectionManager()
+                                        .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override
@@ -453,7 +475,10 @@ public class DrawerManager extends NetworkObject {
                 menu.replaceExistingItem(getPageNext(), getPageNextStack());
                 menu.addMenuClickHandler(getPageNext(), (p, slot, item, action) -> {
                     GridCache gridCache = getCacheMap().get(menu.getLocation());
-                    gridCache.setPage(gridCache.getPage() >= gridCache.getMaxPages() ? gridCache.getMaxPages() : gridCache.getPage() + 1);
+                    gridCache.setPage(
+                            gridCache.getPage() >= gridCache.getMaxPages()
+                                    ? gridCache.getMaxPages()
+                                    : gridCache.getPage() + 1);
                     getCacheMap().put(menu.getLocation(), gridCache);
                     updateDisplay(menu);
                     return false;
@@ -518,7 +543,12 @@ public class DrawerManager extends NetworkObject {
         return FILTER;
     }
 
-    protected void setFilter(@Nonnull Player player, @Nonnull BlockMenu blockMenu, @Nonnull GridCache gridCache, @Nonnull ClickAction action) {
+    @SuppressWarnings("deprecation")
+    protected void setFilter(
+            @Nonnull Player player,
+            @Nonnull BlockMenu blockMenu,
+            @Nonnull GridCache gridCache,
+            @Nonnull ClickAction action) {
         if (action.isRightClicked()) {
             gridCache.setFilter(null);
         } else {

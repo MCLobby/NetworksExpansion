@@ -32,6 +32,20 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.blocks.ChunkPosition;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.Bukkit;
@@ -53,40 +67,34 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.StringUtil;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentSkipListSet;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Consumer;
-
-
+@SuppressWarnings("deprecation")
 public class NetworksMain implements TabExecutor {
     @Deprecated
     private static final Set<UUID> requesters = new ConcurrentSkipListSet<>();
+
     @Deprecated
     private static final Networks javaPlugin = Networks.getInstance();
+
     @Deprecated
     private static final Map<UUID, Pair<Location, Location>> SELECTED_POS = new HashMap<>();
 
     public NetworksMain() {
-        javaPlugin.getServer().getScheduler().runTaskTimerAsynchronously(javaPlugin, () -> {
-            for (UUID uuid : requesters) {
-                Player player = Bukkit.getPlayer(uuid);
-                if (player == null) {
-                    continue;
-                }
-                handleSelectedAreaOutlineShowRequest(player);
-            }
-        }, 0, Slimefun.getTickerTask().getTickRate());
+        javaPlugin
+                .getServer()
+                .getScheduler()
+                .runTaskTimerAsynchronously(
+                        javaPlugin,
+                        () -> {
+                            for (UUID uuid : requesters) {
+                                Player player = Bukkit.getPlayer(uuid);
+                                if (player == null) {
+                                    continue;
+                                }
+                                handleSelectedAreaOutlineShowRequest(player);
+                            }
+                        },
+                        0,
+                        Slimefun.getTickerTask().getTickRate());
     }
 
     @Deprecated
@@ -141,7 +149,13 @@ public class NetworksMain implements TabExecutor {
             return;
         }
 
-        javaPlugin.getServer().getScheduler().runTaskLaterAsynchronously(javaPlugin, () -> ParticleUtil.drawRegionOutline(javaPlugin, Particle.WAX_OFF, 0, pos1, pos2), Slimefun.getTickerTask().getTickRate());
+        javaPlugin
+                .getServer()
+                .getScheduler()
+                .runTaskLaterAsynchronously(
+                        javaPlugin,
+                        () -> ParticleUtil.drawRegionOutline(javaPlugin, Particle.WAX_OFF, 0, pos1, pos2),
+                        Slimefun.getTickerTask().getTickRate());
     }
 
     @Deprecated
@@ -376,9 +390,9 @@ public class NetworksMain implements TabExecutor {
 
         player.sendMessage(Lang.getString("messages.commands.wait-for-data"));
         NetworksDrawer.requestData(location, containerId);
-        player.sendMessage(String.format(Lang.getString("messages.commands.set-container-id"), locationToString(location), containerId));
+        player.sendMessage(String.format(
+                Lang.getString("messages.commands.set-container-id"), locationToString(location), containerId));
     }
-
 
     @Deprecated
     public static void worldeditPos1(Player player) {
@@ -394,9 +408,13 @@ public class NetworksMain implements TabExecutor {
     public static void worldeditPos1(Player player, Location location) {
         setPos1(player, location);
         if (getPos2(player) == null) {
-            player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.set-pos1"), locationToString(getPos1(player))));
+            player.sendMessage(String.format(
+                    Lang.getString("messages.commands.worldedit.set-pos1"), locationToString(getPos1(player))));
         } else {
-            player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.set-pos1-with-blocks"), locationToString(getPos1(player)), locationRange(getPos1(player), getPos2(player))));
+            player.sendMessage(String.format(
+                    Lang.getString("messages.commands.worldedit.set-pos1-with-blocks"),
+                    locationToString(getPos1(player)),
+                    locationRange(getPos1(player), getPos2(player))));
         }
     }
 
@@ -414,9 +432,13 @@ public class NetworksMain implements TabExecutor {
     public static void worldeditPos2(Player player, Location location) {
         setPos2(player, location);
         if (getPos1(player) == null) {
-            player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.set-pos2"), locationToString(getPos2(player))));
+            player.sendMessage(String.format(
+                    Lang.getString("messages.commands.worldedit.set-pos2"), locationToString(getPos2(player))));
         } else {
-            player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.set-pos2-with-blocks"), locationToString(getPos1(player)), locationRange(getPos1(player), getPos2(player))));
+            player.sendMessage(String.format(
+                    Lang.getString("messages.commands.worldedit.set-pos2-with-blocks"),
+                    locationToString(getPos1(player)),
+                    locationRange(getPos1(player), getPos2(player))));
         }
     }
 
@@ -426,35 +448,53 @@ public class NetworksMain implements TabExecutor {
     }
 
     @Deprecated
+    @SuppressWarnings("UnstableApiUsage")
     public static void worldeditClone(Player player, boolean overrideData) {
-        if (getPos1(player) == null || getPos2(player) == null) {
+        var pos1 = getPos1(player);
+        var pos2 = getPos2(player);
+        if (pos1 == null || pos2 == null) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
         }
 
-        if (!Objects.equals(getPos1(player).getWorld().getUID(), getPos2(player).getWorld().getUID())) {
+        var w1 = pos1.getWorld();
+        var w2 = pos2.getWorld();
+        if (w1 == null || w2 == null) {
+            player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
+            return;
+        }
+
+        if (!Objects.equals(w1.getUID(), w2.getUID())) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-same-world"));
             return;
         }
 
-        player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.pasting-block"), locationToString(getPos1(player)), locationToString(getPos2(player))));
+        player.sendMessage(String.format(
+                Lang.getString("messages.commands.worldedit.pasting-block"),
+                locationToString(getPos1(player)),
+                locationToString(getPos2(player))));
         final long currentMillSeconds = System.currentTimeMillis();
 
         final AtomicInteger count = new AtomicInteger();
         final Location playerLocation = player.getLocation();
         final ItemStack itemInHand = player.getItemInHand();
 
-        final Location pos1 = getPos1(player);
         final int dx = playerLocation.getBlockX() - pos1.getBlockX();
         final int dy = playerLocation.getBlockY() - pos1.getBlockY();
         final int dz = playerLocation.getBlockZ() - pos1.getBlockZ();
 
-        final Map<ChunkPosition, Set<Location>> tickingBlocks = Slimefun.getTickerTask().getLocations();
+        final Map<ChunkPosition, Set<Location>> tickingBlocks =
+                Slimefun.getTickerTask().getLocations();
 
         Bukkit.getScheduler().runTask(Networks.getInstance(), () -> {
             doWorldEdit(getPos1(player), getPos2(player), (fromLocation -> {
                 final Block fromBlock = fromLocation.getBlock();
-                final Block toBlock = playerLocation.getWorld().getBlockAt(fromLocation.getBlockX() + dx, fromLocation.getBlockY() + dy, fromLocation.getBlockZ() + dz);
+                final Block toBlock = playerLocation
+                        .getWorld()
+                        .getBlockAt(
+                                fromLocation.getBlockX() + dx,
+                                fromLocation.getBlockY() + dy,
+                                fromLocation.getBlockZ() + dz);
                 final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(fromLocation);
                 final Location toLocation = toBlock.getLocation();
 
@@ -470,19 +510,19 @@ public class NetworksMain implements TabExecutor {
                 }
 
                 // Call Handler
-                slimefunItem.callItemHandler(BlockPlaceHandler.class, handler -> handler.onPlayerPlace(
-                        new BlockPlaceEvent(
+                slimefunItem.callItemHandler(
+                        BlockPlaceHandler.class,
+                        handler -> handler.onPlayerPlace(new BlockPlaceEvent(
                                 toBlock,
                                 toBlock.getState(),
                                 toBlock.getRelative(BlockFace.SOUTH),
                                 itemInHand,
                                 player,
                                 true,
-                                EquipmentSlot.HAND
-                        )
-                ));
+                                EquipmentSlot.HAND)));
 
-                SlimefunBlockData fromSlimefunBlockData = Slimefun.getDatabaseManager().getBlockDataController().getBlockData(fromLocation);
+                SlimefunBlockData fromSlimefunBlockData =
+                        Slimefun.getDatabaseManager().getBlockDataController().getBlockData(fromLocation);
                 if (overrideData) {
                     Slimefun.getDatabaseManager().getBlockDataController().removeBlock(toLocation);
                 }
@@ -501,7 +541,8 @@ public class NetworksMain implements TabExecutor {
 
                 // Slimefun Block
                 Slimefun.getDatabaseManager().getBlockDataController().createBlock(toLocation, slimefunItem.getId());
-                SlimefunBlockData toSlimefunBlockData = Slimefun.getDatabaseManager().getBlockDataController().getBlockData(toLocation);
+                SlimefunBlockData toSlimefunBlockData =
+                        Slimefun.getDatabaseManager().getBlockDataController().getBlockData(toLocation);
 
                 // SlimefunBlockData
                 if (fromSlimefunBlockData == null || toSlimefunBlockData == null) {
@@ -533,7 +574,10 @@ public class NetworksMain implements TabExecutor {
                     Slimefun.getTickerTask().disableTicker(toLocation);
                 }
             }));
-            player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.paste-done"), count, System.currentTimeMillis() - currentMillSeconds));
+            player.sendMessage(String.format(
+                    Lang.getString("messages.commands.worldedit.paste-done"),
+                    count,
+                    System.currentTimeMillis() - currentMillSeconds));
         });
     }
 
@@ -548,6 +592,7 @@ public class NetworksMain implements TabExecutor {
     }
 
     @Deprecated
+    @SuppressWarnings("UnstableApiUsage")
     public static void worldeditPaste(Player player, String sfid, boolean overrideData, boolean force) {
         final SlimefunItem sfItem = SlimefunItem.getById(sfid);
 
@@ -556,7 +601,8 @@ public class NetworksMain implements TabExecutor {
             return;
         }
 
-        if (!Objects.equals(getPos1(player).getWorld().getUID(), getPos2(player).getWorld().getUID())) {
+        if (!Objects.equals(
+                getPos1(player).getWorld().getUID(), getPos2(player).getWorld().getUID())) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-same-world"));
             return;
         }
@@ -581,7 +627,10 @@ public class NetworksMain implements TabExecutor {
             return;
         }
 
-        player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.pasting-block"), locationToString(getPos1(player)), locationToString(getPos2(player))));
+        player.sendMessage(String.format(
+                Lang.getString("messages.commands.worldedit.pasting-block"),
+                locationToString(getPos1(player)),
+                locationToString(getPos2(player))));
         final long currentMillSeconds = System.currentTimeMillis();
 
         final AtomicInteger count = new AtomicInteger();
@@ -605,17 +654,16 @@ public class NetworksMain implements TabExecutor {
 
         doWorldEdit(getPos1(player), getPos2(player), (location -> {
             final Block targetBlock = location.getBlock();
-            sfItem.callItemHandler(BlockPlaceHandler.class, h -> h.onPlayerPlace(
-                    new BlockPlaceEvent(
+            sfItem.callItemHandler(
+                    BlockPlaceHandler.class,
+                    h -> h.onPlayerPlace(new BlockPlaceEvent(
                             targetBlock,
                             targetBlock.getState(),
                             targetBlock.getRelative(BlockFace.DOWN),
                             itemStack,
                             player,
                             true,
-                            EquipmentSlot.HAND
-                    )
-            ));
+                            EquipmentSlot.HAND)));
             if (overrideData) {
                 Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);
             }
@@ -629,7 +677,10 @@ public class NetworksMain implements TabExecutor {
             count.addAndGet(1);
         }));
 
-        player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.paste-done"), count, System.currentTimeMillis() - currentMillSeconds));
+        player.sendMessage(String.format(
+                Lang.getString("messages.commands.worldedit.paste-done"),
+                count,
+                System.currentTimeMillis() - currentMillSeconds));
     }
 
     @Deprecated
@@ -639,12 +690,16 @@ public class NetworksMain implements TabExecutor {
             return;
         }
 
-        if (!Objects.equals(getPos1(player).getWorld().getUID(), getPos2(player).getWorld().getUID())) {
+        if (!Objects.equals(
+                getPos1(player).getWorld().getUID(), getPos2(player).getWorld().getUID())) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-same-world"));
             return;
         }
 
-        player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.clearing-area"), locationToString(getPos1(player)), locationToString(getPos2(player))));
+        player.sendMessage(String.format(
+                Lang.getString("messages.commands.worldedit.clearing-area"),
+                locationToString(getPos1(player)),
+                locationToString(getPos2(player))));
         final long currentMillSeconds = System.currentTimeMillis();
 
         final AtomicInteger count = new AtomicInteger();
@@ -653,11 +708,12 @@ public class NetworksMain implements TabExecutor {
             if (StorageCacheUtils.hasBlock(location)) {
                 SlimefunItem item = StorageCacheUtils.getSfItem(location);
                 if (callHandler) {
-                    item.callItemHandler(BlockBreakHandler.class, handler -> handler.onPlayerBreak(
-                            new BlockBreakEvent(targetBlock, player),
-                            new ItemStack(Material.AIR),
-                            new ArrayList<>()
-                    ));
+                    item.callItemHandler(
+                            BlockBreakHandler.class,
+                            handler -> handler.onPlayerBreak(
+                                    new BlockBreakEvent(targetBlock, player),
+                                    new ItemStack(Material.AIR),
+                                    new ArrayList<>()));
                 }
                 targetBlock.setType(Material.AIR);
             }
@@ -668,7 +724,10 @@ public class NetworksMain implements TabExecutor {
             count.addAndGet(1);
         }));
 
-        player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.clear-done"), count, System.currentTimeMillis() - currentMillSeconds));
+        player.sendMessage(String.format(
+                Lang.getString("messages.commands.worldedit.clear-done"),
+                count,
+                System.currentTimeMillis() - currentMillSeconds));
     }
 
     @Deprecated
@@ -678,7 +737,8 @@ public class NetworksMain implements TabExecutor {
             return;
         }
 
-        if (!Objects.equals(getPos1(player).getWorld().getUID(), getPos2(player).getWorld().getUID())) {
+        if (!Objects.equals(
+                getPos1(player).getWorld().getUID(), getPos2(player).getWorld().getUID())) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-same-world"));
             return;
         }
@@ -690,7 +750,8 @@ public class NetworksMain implements TabExecutor {
 
         final ItemStack hand = player.getInventory().getItemInMainHand();
 
-        player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.set-slot"), slot, ItemStackHelper.getDisplayName(hand)));
+        player.sendMessage(String.format(
+                Lang.getString("messages.commands.worldedit.set-slot"), slot, ItemStackHelper.getDisplayName(hand)));
         final long currentMillSeconds = System.currentTimeMillis();
 
         final AtomicInteger count = new AtomicInteger();
@@ -703,7 +764,11 @@ public class NetworksMain implements TabExecutor {
         }));
 
         final String itemName = ItemStackHelper.getDisplayName(hand);
-        player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.set-slot-done"), slot, itemName, System.currentTimeMillis() - currentMillSeconds));
+        player.sendMessage(String.format(
+                Lang.getString("messages.commands.worldedit.set-slot-done"),
+                slot,
+                itemName,
+                System.currentTimeMillis() - currentMillSeconds));
     }
 
     @Deprecated
@@ -713,7 +778,8 @@ public class NetworksMain implements TabExecutor {
             return;
         }
 
-        if (!Objects.equals(getPos1(player).getWorld().getUID(), getPos2(player).getWorld().getUID())) {
+        if (!Objects.equals(
+                getPos1(player).getWorld().getUID(), getPos2(player).getWorld().getUID())) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-same-world"));
             return;
         }
@@ -729,7 +795,11 @@ public class NetworksMain implements TabExecutor {
             }
         }));
 
-        player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.set-info-done"), key, value, System.currentTimeMillis() - currentMillSeconds));
+        player.sendMessage(String.format(
+                Lang.getString("messages.commands.worldedit.set-info-done"),
+                key,
+                value,
+                System.currentTimeMillis() - currentMillSeconds));
     }
 
     @Deprecated
@@ -739,7 +809,8 @@ public class NetworksMain implements TabExecutor {
             return;
         }
 
-        if (!Objects.equals(getPos1(player).getWorld().getUID(), getPos2(player).getWorld().getUID())) {
+        if (!Objects.equals(
+                getPos1(player).getWorld().getUID(), getPos2(player).getWorld().getUID())) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-same-world"));
             return;
         }
@@ -754,7 +825,10 @@ public class NetworksMain implements TabExecutor {
                 count.addAndGet(1);
             }
         }));
-        player.sendMessage(String.format(Lang.getString("messages.commands.worldedit.removing-info"), key, System.currentTimeMillis() - currentMillSeconds));
+        player.sendMessage(String.format(
+                Lang.getString("messages.commands.worldedit.removing-info"),
+                key,
+                System.currentTimeMillis() - currentMillSeconds));
     }
 
     private static void updateItem(Player player) {
@@ -770,26 +844,17 @@ public class NetworksMain implements TabExecutor {
             player.sendMessage(Lang.getString("messages.commands.cannot-update-cargo-storage-unit"));
         } else if (slimefunItem instanceof NetworkQuantumStorage) {
             final ItemMeta meta = itemInHand.getItemMeta();
-            QuantumCache quantumCache = DataTypeMethods.getCustom(
-                    meta,
-                    Keys.QUANTUM_STORAGE_INSTANCE,
-                    PersistentQuantumStorageType.TYPE
-            );
+            QuantumCache quantumCache =
+                    DataTypeMethods.getCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE);
 
             if (quantumCache == null) {
                 quantumCache = DataTypeMethods.getCustom(
-                        meta,
-                        Keys.QUANTUM_STORAGE_INSTANCE2,
-                        PersistentQuantumStorageType.TYPE
-                );
+                        meta, Keys.QUANTUM_STORAGE_INSTANCE2, PersistentQuantumStorageType.TYPE);
             }
 
             if (quantumCache == null) {
                 quantumCache = DataTypeMethods.getCustom(
-                        meta,
-                        Keys.QUANTUM_STORAGE_INSTANCE3,
-                        PersistentQuantumStorageType.TYPE
-                );
+                        meta, Keys.QUANTUM_STORAGE_INSTANCE3, PersistentQuantumStorageType.TYPE);
             }
 
             if (quantumCache == null || quantumCache.getItemStack() == null) {
@@ -802,10 +867,12 @@ public class NetworksMain implements TabExecutor {
             final SlimefunItem sfi = SlimefunItem.getByItem(stored);
             if (sfi != null) {
                 final String quantumStoredId = sfi.getId();
-                stored.setItemMeta(SlimefunItem.getById(quantumStoredId).getItem().getItemMeta());
+                stored.setItemMeta(
+                        SlimefunItem.getById(quantumStoredId).getItem().getItemMeta());
                 player.sendMessage(Lang.getString("messages.commands.updated-item-in-quantum-storage"));
             }
-            DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
+            DataTypeMethods.setCustom(
+                    meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
             quantumCache.updateMetaLore(meta);
             itemInHand.setItemMeta(meta);
             player.sendMessage(Lang.getString("messages.commands.updated-item"));
@@ -932,50 +999,52 @@ public class NetworksMain implements TabExecutor {
     }
 
     @Override
-    public boolean onCommand(@Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
+    public boolean onCommand(
+            @Nonnull CommandSender sender, @Nonnull Command command, @Nonnull String label, @Nonnull String[] args) {
         if (args.length == 0) {
             help(sender, null);
             return true;
         }
         switch (args[0]) {
-            case "fillquantum", "fixblueprint", "addstorageitem", "reducestorageitem", "setquantum",
-                 "setcontainerid" -> {
+            case "fillquantum",
+                    "fixblueprint",
+                    "addstorageitem",
+                    "reducestorageitem",
+                    "setquantum",
+                    "setcontainerid" -> {
                 if (!(sender instanceof Player)) {
                     sender.sendMessage(getErrorMessage(ErrorType.MUST_BE_PLAYER));
                     return false;
                 }
             }
-            case "help" -> {
-
-            }
+            case "help" -> {}
         }
 
         // Player or console
-        switch (args[0].toLowerCase(Locale.ROOT)) {
-            case "help" -> {
-                if (sender.isOp()) {
-                    if (args.length >= 2) {
-                        help(sender, args[1]);
-                    } else {
-                        help(sender, null);
-                    }
+        if (args[0].toLowerCase(Locale.ROOT).equals("help")) {
+            if (sender.isOp()) {
+                if (args.length >= 2) {
+                    help(sender, args[1]);
                 } else {
-                    sender.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
+                    help(sender, null);
                 }
-                return true;
+            } else {
+                sender.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
             }
+            return true;
         }
 
         // Player only
         if (sender instanceof Player player) {
             switch (args[0].toLowerCase(Locale.ROOT)) {
                 case "fillquantum" -> {
-                    if (!player.hasPermission("networks.admin") && !player.hasPermission("networks.commands.fillquantum")) {
+                    if (!player.hasPermission("networks.admin")
+                            && !player.hasPermission("networks.commands.fillquantum")) {
                         player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                         return true;
                     }
 
-                    if (args.length <= 1) {
+                    if (args.length == 1) {
                         player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "amount"));
                         return true;
                     }
@@ -991,12 +1060,13 @@ public class NetworksMain implements TabExecutor {
                 }
 
                 case "fixblueprint" -> {
-                    if (!player.hasPermission("networks.admin") && !player.hasPermission("networks.commands.fixblueprint")) {
+                    if (!player.hasPermission("networks.admin")
+                            && !player.hasPermission("networks.commands.fixblueprint")) {
                         player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                         return true;
                     }
 
-                    if (args.length <= 1) {
+                    if (args.length == 1) {
                         player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "keyInMeta"));
                         return true;
                     }
@@ -1007,12 +1077,13 @@ public class NetworksMain implements TabExecutor {
                 }
 
                 case "setquantum" -> {
-                    if (!player.hasPermission("networks.admin") && !player.hasPermission("networks.commands.setquantum")) {
+                    if (!player.hasPermission("networks.admin")
+                            && !player.hasPermission("networks.commands.setquantum")) {
                         player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                         return true;
                     }
 
-                    if (args.length <= 1) {
+                    if (args.length == 1) {
                         player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "amount"));
                         return true;
                     }
@@ -1027,12 +1098,13 @@ public class NetworksMain implements TabExecutor {
                     return true;
                 }
                 case "addstorageitem" -> {
-                    if (!player.hasPermission("networks.admin") && !player.hasPermission("networks.commands.addstorageitem")) {
+                    if (!player.hasPermission("networks.admin")
+                            && !player.hasPermission("networks.commands.addstorageitem")) {
                         player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                         return true;
                     }
 
-                    if (args.length <= 1) {
+                    if (args.length == 1) {
                         player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "amount"));
                         return true;
                     }
@@ -1048,12 +1120,13 @@ public class NetworksMain implements TabExecutor {
                 }
 
                 case "reducestorageitem" -> {
-                    if (!player.hasPermission("networks.admin") && !player.hasPermission("networks.commands.reducestorageitem")) {
+                    if (!player.hasPermission("networks.admin")
+                            && !player.hasPermission("networks.commands.reducestorageitem")) {
                         player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                         return true;
                     }
 
-                    if (args.length <= 1) {
+                    if (args.length == 1) {
                         player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "amount"));
                         return true;
                     }
@@ -1069,12 +1142,13 @@ public class NetworksMain implements TabExecutor {
                 }
 
                 case "setcontainerid" -> {
-                    if (!player.hasPermission("networks.admin") && !player.hasPermission("networks.commands.setcontainerid")) {
+                    if (!player.hasPermission("networks.admin")
+                            && !player.hasPermission("networks.commands.setcontainerid")) {
                         player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                         return true;
                     }
 
-                    if (args.length <= 1) {
+                    if (args.length == 1) {
                         player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "containerId"));
                         return true;
                     }
@@ -1090,12 +1164,13 @@ public class NetworksMain implements TabExecutor {
                 }
 
                 case "worldedit" -> {
-                    if (!player.hasPermission("networks.admin") && !player.hasPermission("networks.commands.worldedit.*")) {
+                    if (!player.hasPermission("networks.admin")
+                            && !player.hasPermission("networks.commands.worldedit.*")) {
                         player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                         return true;
                     }
 
-                    if (args.length <= 1) {
+                    if (args.length == 1) {
                         player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "subCommand"));
                         return true;
                     }
@@ -1112,7 +1187,8 @@ public class NetworksMain implements TabExecutor {
                                         boolean skipVanilla = Boolean.parseBoolean(args[3]);
                                         worldeditClear(player, callHandler, skipVanilla);
                                     } catch (NumberFormatException e) {
-                                        player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "callHandler / skipVanilla"));
+                                        player.sendMessage(getErrorMessage(
+                                                ErrorType.INVALID_REQUIRED_ARGUMENT, "callHandler / skipVanilla"));
                                     }
                                 }
                                 case 3 -> {
@@ -1120,7 +1196,8 @@ public class NetworksMain implements TabExecutor {
                                         boolean callHandler = Boolean.parseBoolean(args[2]);
                                         worldeditClear(player, callHandler, true);
                                     } catch (NumberFormatException e) {
-                                        player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "callHandler"));
+                                        player.sendMessage(
+                                                getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "callHandler"));
                                     }
                                 }
                                 default -> worldeditClear(player, true, true);
@@ -1128,15 +1205,15 @@ public class NetworksMain implements TabExecutor {
                         }
 
                         case "clone" -> {
-                            if (args.length <= 2) {
+                            if (args.length == 2) {
                                 worldeditClone(player);
-                            } else if (args.length <= 3) {
+                            } else if (args.length == 3) {
                                 worldeditClone(player, "override".equalsIgnoreCase(args[2]));
                             }
                         }
 
                         case "paste" -> {
-                            if (args.length <= 2) {
+                            if (args.length == 2) {
                                 player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "sfId"));
                                 return true;
                             }
@@ -1159,33 +1236,30 @@ public class NetworksMain implements TabExecutor {
                         }
 
                         case "blockmenu" -> {
-                            if (args.length <= 2) {
+                            if (args.length == 2) {
                                 player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "subCommand"));
                                 return true;
                             }
 
-                            switch (args[2].toLowerCase(Locale.ROOT)) {
-                                case "setslot" -> {
-                                    if (args.length <= 3) {
-                                        player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "slot"));
-                                        return true;
-                                    }
-
-                                    try {
-                                        int slot = Integer.parseInt(args[3]);
-                                        worldeditBlockMenuSetSlot(player, slot);
-                                    } catch (NumberFormatException e) {
-                                        player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "slot"));
-                                    }
+                            if (args[2].toLowerCase(Locale.ROOT).equals("setslot")) {
+                                if (args.length == 3) {
+                                    player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "slot"));
+                                    return true;
                                 }
 
-                                default ->
-                                        player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "subCommand"));
+                                try {
+                                    int slot = Integer.parseInt(args[3]);
+                                    worldeditBlockMenuSetSlot(player, slot);
+                                } catch (NumberFormatException e) {
+                                    player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "slot"));
+                                }
+                            } else {
+                                player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "subCommand"));
                             }
                         }
 
                         case "blockinfo" -> {
-                            if (args.length <= 2) {
+                            if (args.length == 2) {
                                 player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "subCommand"));
                                 return true;
                             }
@@ -1193,10 +1267,10 @@ public class NetworksMain implements TabExecutor {
                             switch (args[2].toLowerCase(Locale.ROOT)) {
                                 case "add", "set" -> {
                                     switch (args.length) {
-                                        case 3 ->
-                                                player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "key"));
-                                        case 4 ->
-                                                player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "value"));
+                                        case 3 -> player.sendMessage(
+                                                getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "key"));
+                                        case 4 -> player.sendMessage(
+                                                getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "value"));
                                         case 5 -> {
                                             String key = args[3];
                                             String value = args[4];
@@ -1205,8 +1279,9 @@ public class NetworksMain implements TabExecutor {
                                     }
                                 }
                                 case "remove" -> {
-                                    if (args.length <= 3) {
-                                        player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "value"));
+                                    if (args.length == 3) {
+                                        player.sendMessage(
+                                                getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "value"));
                                         return true;
                                     }
 
@@ -1214,12 +1289,13 @@ public class NetworksMain implements TabExecutor {
                                     worldeditBlockInfoRemove(player, value);
                                 }
 
-                                default ->
-                                        player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "subCommand"));
+                                default -> player.sendMessage(
+                                        getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "subCommand"));
                             }
                         }
                         case "clearpos" -> {
-                            if (!player.hasPermission("networks.admin") && !player.hasPermission("networks.commands.worldedit.clearpos")) {
+                            if (!player.hasPermission("networks.admin")
+                                    && !player.hasPermission("networks.commands.worldedit.clearpos")) {
                                 player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                                 return true;
                             }
@@ -1228,7 +1304,8 @@ public class NetworksMain implements TabExecutor {
                         }
 
                         case "showareaoutline" -> {
-                            if (!player.hasPermission("networks.admin") && !player.hasPermission("networks.commands.worldedit.showAreaOutline")) {
+                            if (!player.hasPermission("networks.admin")
+                                    && !player.hasPermission("networks.commands.worldedit.showAreaOutline")) {
                                 player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                                 return true;
                             }
@@ -1239,7 +1316,8 @@ public class NetworksMain implements TabExecutor {
                 }
 
                 case "updateitem" -> {
-                    if (!player.hasPermission("networks.admin") && !player.hasPermission("networks.commands.updateitem")) {
+                    if (!player.hasPermission("networks.admin")
+                            && !player.hasPermission("networks.commands.updateitem")) {
                         player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                         return true;
                     }
@@ -1249,7 +1327,8 @@ public class NetworksMain implements TabExecutor {
                 }
 
                 case "getstorageitem" -> {
-                    if (!player.hasPermission("networks.admin") && !player.hasPermission("networks.commands.getstorageitem")) {
+                    if (!player.hasPermission("networks.admin")
+                            && !player.hasPermission("networks.commands.getstorageitem")) {
                         player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
                         return true;
                     }
@@ -1301,11 +1380,8 @@ public class NetworksMain implements TabExecutor {
         }
 
         ItemMeta meta = itemStack.getItemMeta();
-        final QuantumCache quantumCache = DataTypeMethods.getCustom(
-                meta,
-                Keys.QUANTUM_STORAGE_INSTANCE,
-                PersistentQuantumStorageType.TYPE
-        );
+        final QuantumCache quantumCache =
+                DataTypeMethods.getCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE);
 
         if (quantumCache == null || quantumCache.getItemStack() == null) {
             player.sendMessage(Lang.getString("messages.commands.no-set-item"));
@@ -1339,8 +1415,7 @@ public class NetworksMain implements TabExecutor {
         final Optional<BlueprintInstance> optional = DataTypeMethods.getOptionalCustom(
                 blueprintMeta,
                 new NamespacedKey(before, Keys.BLUEPRINT_INSTANCE.getKey()),
-                PersistentCraftingBlueprintType.TYPE
-        );
+                PersistentCraftingBlueprintType.TYPE);
 
         if (optional.isEmpty()) {
             player.sendMessage(Lang.getString("messages.commands.invalid-blueprint"));
@@ -1355,7 +1430,6 @@ public class NetworksMain implements TabExecutor {
         blueprint.setItemMeta(fix.getItemMeta());
 
         player.sendMessage(Lang.getString("messages.commands.fixed-blueprint"));
-
     }
 
     @Override
@@ -1379,27 +1453,33 @@ public class NetworksMain implements TabExecutor {
                         "setQuantum",
                         "updateItem",
                         "viewLog",
-                        "worldedit"
-                );
+                        "worldedit");
             }
             case 2 -> {
                 return switch (args[0].toLowerCase(Locale.ROOT)) {
-                    // case "help", "updateitem" -> List.of();
+                        // case "help", "updateitem" -> List.of();
                     case "getstorageitem" -> List.of("<slot>");
                     case "fillquantum", "addstorageitem", "reducestorageitem", "setquantum" -> List.of("<amount>");
                     case "fixblueprint" -> List.of("<keyInMeta>");
                     case "setcontainerid" -> List.of("<containerId>");
-                    case "worldedit" ->
-                            List.of("pos1", "pos2", "paste", "clear", "clone", "blockmenu", "blockinfo", "clearpos", "showareaoutline");
+                    case "worldedit" -> List.of(
+                            "pos1",
+                            "pos2",
+                            "paste",
+                            "clear",
+                            "clone",
+                            "blockmenu",
+                            "blockinfo",
+                            "clearpos",
+                            "showareaoutline");
                     default -> List.of();
                 };
             }
             case 3 -> {
                 if (args[0].equalsIgnoreCase("worldedit")) {
                     return switch (args[1]) {
-                        // case "pos1", "pos2" -> List.of();
-                        case "paste" -> Slimefun.getRegistry().getAllSlimefunItems()
-                                .stream()
+                            // case "pos1", "pos2" -> List.of();
+                        case "paste" -> Slimefun.getRegistry().getAllSlimefunItems().stream()
                                 .filter(sfItem -> sfItem.getItem().getType().isBlock())
                                 .map(SlimefunItem::getId)
                                 .toList();
@@ -1414,11 +1494,13 @@ public class NetworksMain implements TabExecutor {
                 if (args[0].equalsIgnoreCase("worldedit")) {
                     return switch (args[1].toLowerCase(Locale.ROOT)) {
                         case "paste" -> List.of("override", "keep");
-                        case "blockmenu" -> switch (args[2].toLowerCase(Locale.ROOT)) {
-                            case "setslot" ->
-                                    List.of("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53");
-                            default -> List.of();
-                        };
+                        case "blockmenu" -> "setslot".equals(args[2].toLowerCase(Locale.ROOT))
+                                ? List.of(
+                                        "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
+                                        "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27",
+                                        "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40",
+                                        "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53")
+                                : List.of();
                         case "clear" -> List.of("true", "false");
                         default -> List.of();
                     };
@@ -1444,10 +1526,10 @@ public class NetworksMain implements TabExecutor {
         return switch (errorType) {
             case NO_PERMISSION -> Lang.getString("messages.commands.no-permission");
             case NO_ITEM_IN_HAND -> Lang.getString("messages.commands.no-item-in-hand");
-            case MISSING_REQUIRED_ARGUMENT ->
-                    String.format(Lang.getString("messages.commands.missing-required-argument"), argument);
-            case INVALID_REQUIRED_ARGUMENT ->
-                    String.format(Lang.getString("messages.commands.invalid-required-argument"), argument);
+            case MISSING_REQUIRED_ARGUMENT -> String.format(
+                    Lang.getString("messages.commands.missing-required-argument"), argument);
+            case INVALID_REQUIRED_ARGUMENT -> String.format(
+                    Lang.getString("messages.commands.invalid-required-argument"), argument);
             case MUST_BE_PLAYER -> Lang.getString("messages.commands.must-be-player");
             default -> Lang.getString("messages.commands.unknown-error");
         };

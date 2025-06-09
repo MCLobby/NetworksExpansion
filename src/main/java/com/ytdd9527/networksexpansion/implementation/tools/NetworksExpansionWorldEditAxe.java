@@ -8,23 +8,23 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
+import java.util.Optional;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Optional;
-
 @Deprecated
 public class NetworksExpansionWorldEditAxe extends SpecialSlimefunItem {
 
     public NetworksExpansionWorldEditAxe(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, RecipeType.NULL, new ItemStack[]{});
+        super(itemGroup, item, RecipeType.NULL, new ItemStack[] {});
         addItemHandler(
                 (ItemUseHandler) e -> {
                     final Player player = e.getPlayer();
                     if (!player.isOp()) {
-                        player.sendMessage(Lang.getString("messages.unsupported-operation.comprehensive.no-permission"));
+                        player.sendMessage(
+                                Lang.getString("messages.unsupported-operation.comprehensive.no-permission"));
                         return;
                     }
                     final Optional<Block> optional = e.getClickedBlock();
@@ -45,7 +45,6 @@ public class NetworksExpansionWorldEditAxe extends SpecialSlimefunItem {
                     NetworksMain.worldeditPos1(player, location);
 
                     e.setCancelled(true);
-                }
-        );
+                });
     }
 }

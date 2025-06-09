@@ -1,13 +1,13 @@
 package com.balugaq.netex.api.data;
 
+import com.balugaq.netex.utils.Debug;
 import com.google.common.base.Preconditions;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.File;
 import java.io.IOException;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 public final class Language {
     private final @Nonnull String lang;
@@ -46,9 +46,8 @@ public final class Language {
     public void save() {
         try {
             this.currentConfig.save(this.currentFile);
-        } catch (IOException var2) {
-            var2.printStackTrace();
+        } catch (IOException e) {
+            Debug.trace(e);
         }
-
     }
 }

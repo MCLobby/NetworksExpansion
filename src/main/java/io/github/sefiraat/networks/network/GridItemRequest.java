@@ -14,5 +14,4 @@ public class GridItemRequest extends ItemRequest {
         super(itemStack, amount);
         this.player = player;
     }
-
 }
