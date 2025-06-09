@@ -46,7 +46,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-@SuppressWarnings("unused")
+
 public class LocalizationService {
     private static final Map<String, String> CACHE = new HashMap<>();
     private static final String KEY_NAME = ".name";

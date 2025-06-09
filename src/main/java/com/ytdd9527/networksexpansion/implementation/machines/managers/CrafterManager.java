@@ -61,7 +61,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-@SuppressWarnings("deprecation")
+
 public class CrafterManager extends NetworkObject {
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
     private static final int[] BACKGROUND_SLOTS = new int[]{

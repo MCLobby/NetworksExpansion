@@ -49,7 +49,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@SuppressWarnings("unused")
+
 public abstract class AdvancedDirectional extends NetworkDirectional {
 
     protected static final String DIRECTION = "direction";

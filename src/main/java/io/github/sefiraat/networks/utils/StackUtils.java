@@ -44,7 +44,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @UtilityClass
-@SuppressWarnings("deprecation")
+
 public class StackUtils {
     private static final boolean FORCE_CHECK_LORE = Networks.getConfigManager().isForceCheckLore();
     private static final MinecraftVersion MC_VERSION = Networks.getInstance().getMCVersion();

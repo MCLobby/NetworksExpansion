@@ -51,7 +51,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
-@SuppressWarnings("deprecation")
+
 public abstract class AbstractGridNewStyle extends NetworkObject {
     public static final String BS_FILTER_KEY = "filter";
     private static final Map<GridCache.SortOrder, Comparator<? super Entry<ItemStack, Long>>> SORT_MAP = new HashMap<>();

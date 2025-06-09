@@ -51,7 +51,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@SuppressWarnings("deprecation")
+
 public abstract class NetworkDirectional extends NetworkObject {
 
     public static final String DIRECTION = "direction";

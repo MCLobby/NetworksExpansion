@@ -14,7 +14,7 @@ import java.util.Comparator;
 import java.util.Locale;
 import java.util.Map;
 
-@SuppressWarnings("deprecation")
+
 public class Sorters {
     public static final String NO_ITEM = ItemStackHelper.getDisplayName(Icon.QUANTUM_STORAGE_NO_ITEM);
 

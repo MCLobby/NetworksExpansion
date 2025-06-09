@@ -55,7 +55,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-@SuppressWarnings("deprecation")
+
 public class ItemFlowViewer extends NetworkObject {
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
 

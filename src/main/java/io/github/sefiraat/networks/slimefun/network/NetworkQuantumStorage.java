@@ -52,7 +52,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SuppressWarnings("deprecation")
+
 public class NetworkQuantumStorage extends SpecialSlimefunItem implements DistinctiveItem {
     public static final String BS_AMOUNT = "stored_amount";
     public static final String BS_VOID = "void_excess";

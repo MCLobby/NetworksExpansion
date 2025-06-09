@@ -68,7 +68,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 
-@SuppressWarnings("unused")
+
 public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveItem, ModelledItem, Configurable {
     private static final boolean DEFAULT_USE_SPECIAL_MODEL = false;
     private static final Map<Location, StorageUnitData> storages = new HashMap<>();

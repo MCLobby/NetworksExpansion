@@ -36,7 +36,6 @@ import java.util.Set;
  * @since 2.0
  */
 @UtilityClass
-@SuppressWarnings({"unchecked", "unused", "deprecation"})
 public class RecipeUtil {
     public static Map<ItemStack[], ItemStack> getRecipesBySlimefunId(@Nonnull String slimefunId) {
         final SlimefunItem slimefunItem = SlimefunItem.getById(slimefunId);

@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 @Data
 @Getter
 @ToString
-@SuppressWarnings("unused")
+
 public class SuperRecipe {
     private final ItemStack[] input;
     private final ItemStack[] output;

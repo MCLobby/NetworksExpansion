@@ -46,7 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@SuppressWarnings("unused")
+
 public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
     @Nonnull
     public static final Interaction[] CHECK_INTERACTIONS = new Interaction[]{

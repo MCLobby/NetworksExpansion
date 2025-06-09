@@ -9,7 +9,6 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.text.MessageFormat;
 import java.util.List;
 
 @UtilityClass

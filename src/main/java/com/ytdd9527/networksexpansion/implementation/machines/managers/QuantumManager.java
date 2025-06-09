@@ -57,7 +57,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
-@SuppressWarnings("deprecation")
+
 public class QuantumManager extends NetworkObject {
     public static final String MANAGER_TAG = "quantum-manager";
     public static final NetworkRootLocateStorageEvent.Strategy MANAGER_STRATEGY = NetworkRootLocateStorageEvent.Strategy.custom(MANAGER_TAG);
@@ -257,7 +257,7 @@ public class QuantumManager extends NetworkObject {
         return format.format(new Object[]{Theme.CLICK_INFO.getColor(), Theme.PASSIVE.getColor(), long1}, new StringBuffer(), null).toString();
     }
 
-    @SuppressWarnings("deprecation")
+
     public void handleClick(@Nonnull NetworkRoot root, @Nonnull BlockMenu blockMenu, @Nonnull Location barrelLocation, @Nonnull Player player, @Range(from = 0, to = 53) int slot, @Nonnull ItemStack item, @Nonnull ClickAction action) {
         BarrelIdentity barrel = NetworkRoot.getBarrel(barrelLocation, true);
         if (barrel == null) {

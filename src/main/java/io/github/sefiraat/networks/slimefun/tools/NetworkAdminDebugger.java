@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Optional;
 
-@SuppressWarnings("deprecation")
+
 public class NetworkAdminDebugger extends SpecialSlimefunItem {
 
     public NetworkAdminDebugger(ItemGroup itemGroup,
