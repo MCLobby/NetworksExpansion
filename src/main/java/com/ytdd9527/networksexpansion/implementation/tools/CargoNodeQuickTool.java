@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
+import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -23,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -196,8 +196,8 @@ public class CargoNodeQuickTool extends SpecialSlimefunItem {
                                         "messages.unsupported-operation.cargo_node_quick_tool.not_enough_items"));
                                 for (ItemStack item : itemList.keySet()) {
                                     if (!itemList.get(item)) {
-                                        p.sendMessage("- " + ChatColor.YELLOW + ItemStackHelper.getDisplayName(item)
-                                                + "x" + item.getAmount());
+                                        p.sendMessage(TextUtil.color("- &e" + ItemStackHelper.getDisplayName(item) + "x"
+                                                + item.getAmount()));
                                     } else {
                                         for (int slot : listSlots) {
                                             inv.replaceExistingItem(slot, null);

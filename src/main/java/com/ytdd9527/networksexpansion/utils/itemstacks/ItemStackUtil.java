@@ -4,6 +4,7 @@ import com.balugaq.netex.api.data.ItemAmountWrapper;
 import com.balugaq.netex.api.data.ItemWrapper;
 import com.balugaq.netex.utils.Debug;
 import com.balugaq.netex.utils.NetworksVersionedEnchantment;
+import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.nms.ItemNameAdapter;
@@ -16,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
@@ -995,7 +995,7 @@ public final class ItemStackUtil {
         if (str == null) {
             return null;
         }
-        return ChatColor.translateAlternateColorCodes('&', str);
+        return TextUtil.color(str);
     }
 
     public static void giveOrDropItem(@NotNull Player p, @NotNull ItemStack toGive) {
@@ -1014,7 +1014,8 @@ public final class ItemStackUtil {
     }
 
     public static void send(@NotNull CommandSender p, String message) {
-        p.sendMessage(color("&7[&6NetworksExpansion&7] &r" + message));
+        p.sendMessage(color(TextUtil.GRAY + "[" + TextUtil.GOLD + "NetworksExpansion" + TextUtil.GRAY + "] "
+                + TextUtil.RESET + message));
     }
 
     public static @NotNull ItemStack getPreEnchantedItemStack(@NotNull Material material) {

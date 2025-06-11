@@ -3,6 +3,7 @@ package com.ytdd9527.networksexpansion.implementation.tools;
 import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
+import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
@@ -12,7 +13,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import java.util.Optional;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -40,30 +40,30 @@ public class NetworksInfoTool extends SpecialSlimefunItem {
                 if (sfi instanceof NetworkObject) {
                     final NodeDefinition nodeDefinition = NetworkStorage.getNode(location);
                     if (nodeDefinition == null) {
-                        player.sendMessage(ChatColor.GREEN + "nodeDefinition = null");
+                        player.sendMessage(TextUtil.GREEN + "nodeDefinition = null");
                         return;
                     }
 
-                    player.sendMessage(ChatColor.GREEN + "nodeDefinition.Charge = " + nodeDefinition.getCharge());
-                    player.sendMessage(ChatColor.GREEN + "nodeDefinition.Type = " + nodeDefinition.getType());
+                    player.sendMessage(TextUtil.GREEN + "nodeDefinition.Charge = " + nodeDefinition.getCharge());
+                    player.sendMessage(TextUtil.GREEN + "nodeDefinition.Type = " + nodeDefinition.getType());
 
                     if (nodeDefinition.getNode() == null) {
-                        player.sendMessage(ChatColor.GREEN + "nodeDefinition.Node = null");
+                        player.sendMessage(TextUtil.GREEN + "nodeDefinition.Node = null");
                         return;
                     }
 
-                    player.sendMessage(ChatColor.GREEN + "nodeDefinition.Node.NodePosition = "
+                    player.sendMessage(TextUtil.GREEN + "nodeDefinition.Node.NodePosition = "
                             + nodeDefinition.getNode().getNodePosition());
 
                     if (nodeDefinition.getNode().getRoot() == null) {
-                        player.sendMessage(ChatColor.GREEN + "nodeDefinition.Node.Root = null");
+                        player.sendMessage(TextUtil.GREEN + "nodeDefinition.Node.Root = null");
                         return;
                     }
 
-                    player.sendMessage(ChatColor.GREEN + "nodeDefinition.Node.Root.NodePosition = "
+                    player.sendMessage(TextUtil.GREEN + "nodeDefinition.Node.Root.NodePosition = "
                             + nodeDefinition.getNode().getRoot().getNodePosition());
                 } else {
-                    player.sendMessage(ChatColor.RED + "Not a NetworkObject");
+                    player.sendMessage(TextUtil.RED + "Not a NetworkObject");
                 }
             }
         });

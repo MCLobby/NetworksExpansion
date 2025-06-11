@@ -82,7 +82,7 @@ public class Keys {
         if (SupportedPluginManager.getInstance().isInfinityExpansion()) {
             INFINITY_DISPLAY = InfinityExpansion.createKey("display");
         } else {
-            INFINITY_DISPLAY = Keys.customNewKey("InfinityExpansion", "display");
+            INFINITY_DISPLAY = Keys.customNewKey("infinityexpansion", "display");
         }
     }
 

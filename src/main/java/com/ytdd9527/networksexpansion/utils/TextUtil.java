@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import lombok.experimental.UtilityClass;
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
  * @author Final_ROOT
  * @since 2.0
  */
+@SuppressWarnings("deprecation")
 @UtilityClass
 public class TextUtil {
     public static final String PLACEHOLDER = "†";
@@ -26,6 +28,30 @@ public class TextUtil {
     public static final String COLOR_CONCEAL = "§x§8§8§8§8§8§8";
     public static final String COLOR_INPUT = "§9";
     public static final String COLOR_OUTPUT = "§6";
+    public static final String BLACK = color("&0");
+    public static final String DARK_BLUE = color("&1");
+    public static final String DARK_GREEN = color("&2");
+    public static final String DARK_AQUA = color("&3");
+    public static final String DARK_RED = color("&4");
+    public static final String DARK_PURPLE = color("&5");
+    public static final String GOLD = color("&6");
+    public static final String GRAY = color("&7");
+    public static final String DARK_GRAY = color("&8");
+    public static final String BLUE = color("&9");
+    public static final String GREEN = color("&a");
+    public static final String AQUA = color("&b");
+    public static final String RED = color("&c");
+    public static final String LIGHT_PURPLE = color("&d");
+    public static final String YELLOW = color("&e");
+    public static final String WHITE = color("&f");
+    public static final String OBFUSCATED = color("&k");
+    public static final String BOLD = color("&l");
+    public static final String STRIKETHROUGH = color("&m");
+    public static final String UNDERLINE = color("&n");
+    public static final String ITALIC = color("&o");
+    public static final String RESET = color("&r");
+    public static final String MAGIC = OBFUSCATED;
+
     public static final Color WHITE_COLOR = Color.fromRGB(255, 255, 255);
 
     private static long COUNT = 0;
@@ -201,5 +227,13 @@ public class TextUtil {
             result[i] = Color.fromRGB(r, g, b);
         }
         return result;
+    }
+
+    public static @NotNull String color(String s) {
+        return ChatColor.translateAlternateColorCodes('&', s);
+    }
+
+    public static @NotNull String stripColor(String s) {
+        return ChatColor.stripColor(s);
     }
 }
