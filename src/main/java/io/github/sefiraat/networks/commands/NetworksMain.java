@@ -3,6 +3,7 @@ package io.github.sefiraat.networks.commands;
 import com.balugaq.netex.api.data.ItemContainer;
 import com.balugaq.netex.api.data.StorageUnitData;
 import com.balugaq.netex.api.enums.ErrorType;
+import com.balugaq.netex.api.texture.MapImageGenerator;
 import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -63,6 +64,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.map.MapView;
 import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -1374,6 +1376,16 @@ public class NetworksMain implements TabExecutor {
 
                     viewLog(player);
                     return true;
+                }
+
+                // for test
+                case "map" -> {
+                    if (!player.isOp()) {
+                        String filePath = args[1];
+                        Pair<ItemStack, MapView> pair = MapImageGenerator.getImageItem(filePath);
+                        player.getInventory().addItem(pair.getFirstValue());
+                        player.sendMap(pair.getSecondValue());
+                    }
                 }
 
                 default -> help(player, null);
