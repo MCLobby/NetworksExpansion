@@ -1,6 +1,7 @@
 package com.ytdd9527.networksexpansion.implementation.machines.networks.advanced;
 
 import com.balugaq.netex.api.interfaces.HangingBlock;
+import com.balugaq.netex.utils.Debug;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
@@ -30,28 +31,38 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
 
     @Override
     public void onInteract(Location placeholder, PlayerItemFrameChangeEvent event) {
+        Debug.log("SwitchingMonitor.onInteract");
+
+        Debug.log("placeholder: " + placeholder);
         Player player = event.getPlayer();
 
-        if (!Slimefun.getProtectionManager().hasPermission(player, placeholder, Interaction.INTERACT_ENTITY)) {
+        if (!player.isOp() && !Slimefun.getProtectionManager().hasPermission(player, placeholder, Interaction.INTERACT_ENTITY)) {
+            Debug.log("no permission");
             event.setCancelled(true);
             return;
         }
 
+        Debug.log("action: " + event.getAction());
         if (event.getAction() == PlayerItemFrameChangeEvent.ItemFrameChangeAction.ROTATE) {
+            Debug.log("rotate action");
             event.setCancelled(true);
             handleItemsAction(placeholder, player, event);
         }
     }
 
     private void handleItemsAction(Location placeholder, Player player, PlayerItemFrameChangeEvent event) {
+        Debug.log("handleItemsAction");
+
         NodeDefinition definition = NetworkStorage.getNode(placeholder);
         if (definition == null || definition.getNode() == null) {
+            Debug.log("no node");
             return;
         }
 
         NetworkRoot root = definition.getNode().getRoot();
         ItemStack template = event.getItemFrame().getItem();
         if (template == null || template.getType() == Material.AIR) {
+            Debug.log("no item");
             return;
         }
 
@@ -59,9 +70,11 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
         boolean takeItem = hand == null || hand.getType() == Material.AIR;
         boolean shift = player.isSneaking();
         if (!takeItem && !StackUtils.itemsMatch(hand, template, true, false)) {
+            Debug.log("no match");
             return;
         }
 
+        Debug.log("takeItem: " + takeItem);
         if (takeItem) {
             if (shift) {
                 int stacks = calculateSpace(player, template);

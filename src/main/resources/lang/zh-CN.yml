@@ -3556,6 +3556,11 @@ items:
       - ""
       - "<click_info>网络电力消耗: <passive>100J/粘液刻"
 
+  NTW_EXPANSION_SWITCHING_MONITOR:
+    name: "交换监视器"
+    lore:
+      - "交换物品"
+
 displays:
   quantum_storage:
     void_excess: "<click_info>满载清空输入: <passive>%s"

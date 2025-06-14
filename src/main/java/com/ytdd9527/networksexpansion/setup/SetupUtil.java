@@ -239,8 +239,6 @@ public class SetupUtil {
                 ExpansionItems.NTW_EXPANSION_ANNOUNCE_8.registerThis(),
                 ExpansionItems.NTW_EXPANSION_ANNOUNCE_9.registerThis(),
                 ExpansionItems.NTW_EXPANSION_ANNOUNCE_10.registerThis());
-
-        ExpansionItems.HANGING_PLACEHOLDER_BLOCK.registerThis();
     }
 
     private static void setupMenu() {

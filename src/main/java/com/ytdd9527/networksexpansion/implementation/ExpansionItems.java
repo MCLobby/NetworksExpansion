@@ -1,7 +1,6 @@
 package com.ytdd9527.networksexpansion.implementation;
 
 import com.balugaq.netex.api.enums.StorageUnitType;
-import com.balugaq.netex.api.hanging.HangingPlaceholderBlock;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.core.items.unusable.AuthorHead;
 import com.ytdd9527.networksexpansion.core.items.unusable.UnusableSlimefunItem;
@@ -1411,15 +1410,8 @@ public class ExpansionItems {
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.CRAFTER_MANAGER);
 
-    public static final HangingPlaceholderBlock HANGING_PLACEHOLDER_BLOCK = new HangingPlaceholderBlock(
-            NetworksItemGroups.DISABLED_ITEMS,
-            ExpansionItemStacks.HANGING_PLACEHOLDER_BLOCK,
-            RecipeType.NULL,
-            ExpansionRecipes.NULL
-    );
-
     public static final SwitchingMonitor SWITCHING_MONITOR = new SwitchingMonitor(
-            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.SWITCHING_MONITOR,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.SWITCHING_MONITOR);

@@ -480,9 +480,6 @@ public class ExpansionItemStacks {
             Lang.getItem("NTW_EXPANSION_ADVANCED_VACUUM", Material.PINK_GLAZED_TERRACOTTA), Theme.MACHINE);
     public static final SlimefunItemStack SWITCHING_MONITOR = Theme.themedSlimefunItemStack(
             Lang.getItem("NTW_EXPANSION_SWITCHING_MONITOR", Material.ITEM_FRAME), Theme.MACHINE);
-    public static final SlimefunItemStack HANGING_PLACEHOLDER_BLOCK = Theme.themedSlimefunItemStack(
-            Lang.getItem(HangingBlock.HANGING_PLACEHOLDER_BLOCK_ID, Material.LIGHT), Theme.MACHINE);
-
     public static @NotNull ItemStack enchanted(@NotNull Material material) {
         return ItemStackUtil.getPreEnchantedItemStack(material);
     }
