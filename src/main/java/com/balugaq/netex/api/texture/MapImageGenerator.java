@@ -1,8 +1,9 @@
 package com.balugaq.netex.api.texture;
 
 import io.github.bakedlibs.dough.collections.Pair;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -11,9 +12,6 @@ import org.bukkit.map.MapCanvas;
 import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
 import org.jetbrains.annotations.NotNull;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class MapImageGenerator {
     public static Pair<ItemStack, MapView> getImageItem(@NotNull String imagePath) {
@@ -34,12 +32,11 @@ public class MapImageGenerator {
                 }
             }
 
-            BufferedImage image = resizeImage(ImageUtil.getImage(imagePath), 128, 128);
-            BufferedImage finalImage = image;
+            BufferedImage finalImage = resizeImage(ImageUtil.getImage(imagePath), 128, 128);
             view.addRenderer(new MapRenderer() {
                 @Override
                 public void render(@NotNull MapView mapView, @NotNull MapCanvas mapCanvas, @NotNull Player player) {
-                    mapCanvas.setPixel(0, 0, (byte) 14);
+                    // mapCanvas.setPixelColor(0, 0, Color.red);
                     mapCanvas.drawImage(0, 0, finalImage);
                 }
             });
@@ -47,7 +44,7 @@ public class MapImageGenerator {
             view.setLocked(true);
             meta.setMapView(view);
             meta.setScaling(true);
-            meta.setColor(Color.GREEN);
+            meta.setColor(org.bukkit.Color.GREEN);
             map.setItemMeta(meta);
             return view;
         }

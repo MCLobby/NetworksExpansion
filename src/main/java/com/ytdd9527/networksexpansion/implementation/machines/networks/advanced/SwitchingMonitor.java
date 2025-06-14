@@ -24,45 +24,40 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class SwitchingMonitor extends NetworkObject implements HangingBlock, Placeable {
-    public SwitchingMonitor(@NotNull ItemGroup itemGroup, @NotNull SlimefunItemStack item, @NotNull RecipeType recipeType, ItemStack[] recipe) {
+    public SwitchingMonitor(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.SWITCHING_MONITOR);
         HangingBlock.registerHangingBlock(this);
     }
 
     @Override
     public void onInteract(Location placeholder, PlayerItemFrameChangeEvent event) {
-        Debug.log("SwitchingMonitor.onInteract");
-
-        Debug.log("placeholder: " + placeholder);
         Player player = event.getPlayer();
 
-        if (!player.isOp() && !Slimefun.getProtectionManager().hasPermission(player, placeholder, Interaction.INTERACT_ENTITY)) {
-            Debug.log("no permission");
+        if (!player.isOp()
+                && !Slimefun.getProtectionManager().hasPermission(player, placeholder, Interaction.INTERACT_ENTITY)) {
             event.setCancelled(true);
             return;
         }
 
-        Debug.log("action: " + event.getAction());
         if (event.getAction() == PlayerItemFrameChangeEvent.ItemFrameChangeAction.ROTATE) {
-            Debug.log("rotate action");
             event.setCancelled(true);
             handleItemsAction(placeholder, player, event);
         }
     }
 
     private void handleItemsAction(Location placeholder, Player player, PlayerItemFrameChangeEvent event) {
-        Debug.log("handleItemsAction");
-
         NodeDefinition definition = NetworkStorage.getNode(placeholder);
         if (definition == null || definition.getNode() == null) {
-            Debug.log("no node");
             return;
         }
 
         NetworkRoot root = definition.getNode().getRoot();
         ItemStack template = event.getItemFrame().getItem();
         if (template == null || template.getType() == Material.AIR) {
-            Debug.log("no item");
             return;
         }
 
@@ -70,21 +65,21 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
         boolean takeItem = hand == null || hand.getType() == Material.AIR;
         boolean shift = player.isSneaking();
         if (!takeItem && !StackUtils.itemsMatch(hand, template, true, false)) {
-            Debug.log("no match");
             return;
         }
 
-        Debug.log("takeItem: " + takeItem);
         if (takeItem) {
             if (shift) {
                 int stacks = calculateSpace(player, template);
-                ItemStack result = root.getItemStack0(placeholder, new ItemRequest(template, stacks * template.getMaxStackSize()));
+                ItemStack result =
+                        root.getItemStack0(placeholder, new ItemRequest(template, stacks * template.getMaxStackSize()));
                 if (result != null) {
                     player.getInventory().addItem(result);
                     player.updateInventory();
                 }
             } else {
-                ItemStack result = root.getItemStack0(placeholder, new ItemRequest(template, template.getMaxStackSize()));
+                ItemStack result =
+                        root.getItemStack0(placeholder, new ItemRequest(template, template.getMaxStackSize()));
                 if (result != null) {
                     player.getInventory().addItem(result);
                     player.updateInventory();
@@ -93,7 +88,9 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
         } else {
             if (shift) {
                 for (var item : player.getInventory().getStorageContents()) {
-                    if (item != null && item.getType() != Material.AIR && StackUtils.itemsMatch(item, template, true, false)) {
+                    if (item != null
+                            && item.getType() != Material.AIR
+                            && StackUtils.itemsMatch(item, template, true, false)) {
                         int before = item.getAmount();
                         root.addItemStack0(placeholder, item);
                         int after = item.getAmount();
@@ -112,13 +109,12 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
         int stacks = 0;
         for (var item : player.getInventory().getStorageContents()) {
             if (item == null || item.getType() == Material.AIR) {
-                stacks ++;
+                stacks++;
             }
         }
         return stacks;
     }
 
     @Override
-    public void onTick(Location placeholder, ItemFrame entityBlock) {
-    }
+    public void onTick(Location placeholder, ItemFrame entityBlock) {}
 }

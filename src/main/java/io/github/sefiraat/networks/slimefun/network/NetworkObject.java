@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import lombok.Getter;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -76,9 +75,7 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
                     public void tick(@NotNull Block b, SlimefunItem item, SlimefunBlockData data) {
                         if (!firstTickLocations.contains(b.getLocation())) {
                             // Netex - Hanging patch start
-                            Bukkit.getScheduler().runTask(Networks.getInstance(), () -> {
-                                HangingBlock.loadHangingBlocks(data);
-                            });
+                            Bukkit.getScheduler().runTask(Networks.getInstance(), () -> HangingBlock.loadHangingBlocks(data));
                             // Netex - Hanging patch end
                             firstTickLocations.add(b.getLocation());
                             return;
@@ -88,8 +85,7 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
                     }
 
                     @Override
-                    @NotNull
-                    public Optional<IncompatibleItemHandlerException> validate(@NotNull SlimefunItem slimefunItem) {
+                    @NotNull public Optional<IncompatibleItemHandlerException> validate(@NotNull SlimefunItem slimefunItem) {
                         return Optional.empty();
                     }
                 },

@@ -9,6 +9,11 @@ import io.github.sefiraat.networks.utils.Keys;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.papermc.paper.event.player.PlayerItemFrameChangeEvent;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import javax.annotation.OverridingMethodsMustInvokeSuper;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.BlockFace;
@@ -19,12 +24,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import javax.annotation.OverridingMethodsMustInvokeSuper;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 
 public interface HangingBlock {
     Map<String, HangingBlock> REGISTRY = new HashMap<>();
@@ -56,7 +55,8 @@ public interface HangingBlock {
     }
 
     static HangingBlock getByItemFrame(ItemFrame itemFrame) {
-        return getHangingBlock(itemFrame.getPersistentDataContainer().get(NETEX_HANGING_KEY, PersistentDataType.STRING));
+        return getHangingBlock(
+                itemFrame.getPersistentDataContainer().get(NETEX_HANGING_KEY, PersistentDataType.STRING));
     }
 
     static void loadHangingBlocks(SlimefunBlockData placeholder) {
@@ -94,7 +94,8 @@ public interface HangingBlock {
         };
     }
 
-    static void placeHangingBlock(SlimefunBlockData placeholder, ItemFrame entityBlock, BlockFace attachSide, HangingBlock hangingBlock) {
+    static void placeHangingBlock(
+            SlimefunBlockData placeholder, ItemFrame entityBlock, BlockFace attachSide, HangingBlock hangingBlock) {
         switch (attachSide) {
             case NORTH -> placeholder.setData(BS_NORTH, hangingBlock.getId());
             case SOUTH -> placeholder.setData(BS_SOUTH, hangingBlock.getId());
@@ -129,8 +130,7 @@ public interface HangingBlock {
         location.getWorld().dropItemNaturally(location, ExpansionItems.SWITCHING_MONITOR.getItem());
     }
 
-    @NotNull
-    static Map<BlockFace, HangingBlock> getHangingBlocks(Location placeholder) {
+    @NotNull static Map<BlockFace, HangingBlock> getHangingBlocks(Location placeholder) {
         return Optional.ofNullable(hangingBlocks.get(placeholder)).orElse(new HashMap<>());
     }
 
@@ -160,8 +160,7 @@ public interface HangingBlock {
 
     void onTick(Location placeholder, ItemFrame entityBlock);
 
-    @Nullable
-    static ItemFrame getItemFrame(Location placeholder, BlockFace attachSide) {
+    @Nullable static ItemFrame getItemFrame(Location placeholder, BlockFace attachSide) {
         var center = placeholder.toBlockLocation().add(0.5, 0.5, 0.5);
         var es = center.getWorld().getNearbyEntities(center, 0.5, 0.5, 0.5);
         for (var e : es) {

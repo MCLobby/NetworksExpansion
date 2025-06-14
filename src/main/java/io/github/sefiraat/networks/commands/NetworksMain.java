@@ -1378,13 +1378,19 @@ public class NetworksMain implements TabExecutor {
                     return true;
                 }
 
-                // for test
+                    // for test
                 case "map" -> {
                     if (!player.isOp()) {
                         String filePath = args[1];
                         Pair<ItemStack, MapView> pair = MapImageGenerator.getImageItem(filePath);
-                        player.getInventory().addItem(pair.getFirstValue());
-                        player.sendMap(pair.getSecondValue());
+                        if (pair != null) {
+                            var first = pair.getFirstValue();
+                            var second = pair.getSecondValue();
+                            if (first != null && second != null) {
+                                player.getInventory().addItem(first);
+                                player.sendMap(second);
+                            }
+                        }
                     }
                 }
 

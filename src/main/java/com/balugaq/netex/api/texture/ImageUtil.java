@@ -1,16 +1,15 @@
 package com.balugaq.netex.api.texture;
 
-import lombok.SneakyThrows;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import javax.imageio.ImageIO;
+import lombok.SneakyThrows;
 
 public class ImageUtil {
-    public static final List<String> allowedImageExtensions = List.of("bmp", "gif", "jpeg", "jpg", "png", "tiff", "wbmp");
+    public static final List<String> allowedImageExtensions =
+            List.of("bmp", "gif", "jpeg", "jpg", "png", "tiff", "wbmp");
     // ex: resourcePath = "/textures/logo.png"
 
     @SneakyThrows(IOException.class)
