@@ -3,7 +3,7 @@ package io.github.sefiraat.networks.commands;
 import com.balugaq.netex.api.data.ItemContainer;
 import com.balugaq.netex.api.data.StorageUnitData;
 import com.balugaq.netex.api.enums.ErrorType;
-import com.balugaq.netex.api.texture.MapImageGenerator;
+import com.balugaq.netex.utils.MapUtil;
 import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -1382,7 +1382,7 @@ public class NetworksMain implements TabExecutor {
                 case "map" -> {
                     if (!player.isOp()) {
                         String filePath = args[1];
-                        Pair<ItemStack, MapView> pair = MapImageGenerator.getImageItem(filePath);
+                        Pair<ItemStack, MapView> pair = MapUtil.getImageItem(filePath);
                         if (pair != null) {
                             var first = pair.getFirstValue();
                             var second = pair.getSecondValue();

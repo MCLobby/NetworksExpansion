@@ -1,4 +1,4 @@
-package com.balugaq.netex.api.texture;
+package com.balugaq.netex.utils;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

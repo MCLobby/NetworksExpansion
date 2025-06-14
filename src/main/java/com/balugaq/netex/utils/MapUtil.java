@@ -1,8 +1,11 @@
-package com.balugaq.netex.api.texture;
+package com.balugaq.netex.utils;
 
 import io.github.bakedlibs.dough.collections.Pair;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -13,7 +16,9 @@ import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
 import org.jetbrains.annotations.NotNull;
 
-public class MapImageGenerator {
+public class MapUtil {
+    public static final Map<String, MapView> mapViews = new HashMap<>();
+
     public static Pair<ItemStack, MapView> getImageItem(@NotNull String imagePath) {
         ItemStack map = new ItemStack(Material.FILLED_MAP);
         MapView view = apply(map, imagePath);
@@ -22,6 +27,13 @@ public class MapImageGenerator {
 
     public static MapView apply(@NotNull ItemStack map, @NotNull String imagePath) {
         if (map.getItemMeta() instanceof MapMeta meta) {
+            if (mapViews.containsKey(imagePath)) {
+                MapView view = mapViews.get(imagePath);
+                meta.setMapView(view);
+                map.setItemMeta(meta);
+                return view;
+            }
+
             MapView view;
             if (!meta.hasMapView()) {
                 view = Bukkit.createMap(Bukkit.getWorlds().get(0));
@@ -43,6 +55,7 @@ public class MapImageGenerator {
             view.setScale(MapView.Scale.FARTHEST);
             view.setLocked(true);
             meta.setMapView(view);
+            mapViews.put(imagePath, view);
             meta.setScaling(true);
             meta.setColor(org.bukkit.Color.GREEN);
             map.setItemMeta(meta);
