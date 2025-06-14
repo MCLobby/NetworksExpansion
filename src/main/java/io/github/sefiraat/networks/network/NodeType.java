@@ -42,6 +42,10 @@ public enum NodeType {
     CRAFTER_MANAGER,
     FLOW_VIEWER,
     ADVANCED_VACUUM,
+
+    // Hanging blocks
+    HANGING_PLACEHOLDER,
+    // will NOT count as a node
     SWITCHING_MONITOR, // todo: not finish yet
 
     // from foreign addons

@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.papermc.paper.event.player.PlayerItemFrameChangeEvent;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.ItemFrame;
@@ -49,6 +50,7 @@ public interface HangingBlock {
         var data = StorageCacheUtils.getBlock(placeholder);;
         if (data == null) {
             // spawn placeholder block
+            placeholder.getBlock().setType(HangingPlaceholderBlock.PLACEHOLDER_MATERIAL);
             return Slimefun.getDatabaseManager().getBlockDataController().createBlock(placeholder, HANGING_PLACEHOLDER_BLOCK_ID);
         }
 
@@ -77,10 +79,11 @@ public interface HangingBlock {
 
     @OverridingMethodsMustInvokeSuper
     default void onBreak(Location placeholder, ItemFrame entityBlock) {
-        HangingPlaceholderBlock.breakHangingBlock(placeholder, entityBlock.getAttachedFace());
+        HangingPlaceholderBlock.breakHangingBlock(placeholder, entityBlock);
     }
 
     void onInteract(Location placeholder, PlayerItemFrameChangeEvent event);
+
     void onTick(Location placeholder, ItemFrame entityBlock);
 
     @Nullable
@@ -89,7 +92,7 @@ public interface HangingBlock {
         var es = center.getWorld().getNearbyEntities(center, 0.5, 0.5, 0.5);
         for (var e : es) {
             if (e instanceof ItemFrame itemFrame) {
-                if (itemFrame.getAttachedFace() == attachSide.getOppositeFace()) {
+                if (itemFrame.getAttachedFace() == attachSide) {
                     return itemFrame;
                 }
             }

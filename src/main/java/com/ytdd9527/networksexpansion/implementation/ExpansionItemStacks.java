@@ -1,6 +1,7 @@
 package com.ytdd9527.networksexpansion.implementation;
 
 import com.balugaq.netex.api.enums.Skins;
+import com.balugaq.netex.api.interfaces.HangingBlock;
 import com.balugaq.netex.utils.Lang;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.utils.Theme;
@@ -477,6 +478,10 @@ public class ExpansionItemStacks {
             Lang.getItem("NTW_EXPANSION_CRAFTER_MANAGER", Material.CRAFTING_TABLE), Theme.MACHINE);
     public static final SlimefunItemStack ADVANCED_VACUUM = Theme.themedSlimefunItemStack(
             Lang.getItem("NTW_EXPANSION_ADVANCED_VACUUM", Material.PINK_GLAZED_TERRACOTTA), Theme.MACHINE);
+    public static final SlimefunItemStack SWITCHING_MONITOR = Theme.themedSlimefunItemStack(
+            Lang.getItem("NTW_EXPANSION_SWITCHING_MONITOR", Material.ITEM_FRAME), Theme.MACHINE);
+    public static final SlimefunItemStack HANGING_PLACEHOLDER_BLOCK = Theme.themedSlimefunItemStack(
+            Lang.getItem(HangingBlock.HANGING_PLACEHOLDER_BLOCK_ID, Material.LIGHT), Theme.MACHINE);
 
     public static @NotNull ItemStack enchanted(@NotNull Material material) {
         return ItemStackUtil.getPreEnchantedItemStack(material);

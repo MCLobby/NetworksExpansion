@@ -1,6 +1,7 @@
 package com.ytdd9527.networksexpansion.implementation;
 
 import com.balugaq.netex.api.enums.StorageUnitType;
+import com.balugaq.netex.api.hanging.HangingPlaceholderBlock;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.core.items.unusable.AuthorHead;
 import com.ytdd9527.networksexpansion.core.items.unusable.UnusableSlimefunItem;
@@ -93,6 +94,7 @@ import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.Offsetter;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.SmartGrabber;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.SmartPusher;
+import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.SwitchingMonitor;
 import com.ytdd9527.networksexpansion.implementation.machines.unit.NetworksDrawer;
 import com.ytdd9527.networksexpansion.implementation.machines.viewer.ItemFlowViewer;
 import com.ytdd9527.networksexpansion.implementation.tools.CargoNodeQuickTool;
@@ -101,6 +103,7 @@ import com.ytdd9527.networksexpansion.implementation.tools.ItemMover;
 import com.ytdd9527.networksexpansion.implementation.tools.NetworksExpansionWorldEditAxe;
 import com.ytdd9527.networksexpansion.implementation.tools.NetworksInfoTool;
 import com.ytdd9527.networksexpansion.implementation.tools.StatusViewer;
+import io.github.sefiraat.networks.slimefun.NetworksItemGroups;
 import io.github.sefiraat.networks.slimefun.network.NetworkBridge;
 import io.github.sefiraat.networks.slimefun.network.NetworkPowerNode;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
@@ -1407,4 +1410,17 @@ public class ExpansionItems {
             ExpansionItemStacks.CRAFTER_MANAGER,
             ExpansionWorkbench.TYPE,
             ExpansionRecipes.CRAFTER_MANAGER);
+
+    public static final HangingPlaceholderBlock HANGING_PLACEHOLDER_BLOCK = new HangingPlaceholderBlock(
+            NetworksItemGroups.DISABLED_ITEMS,
+            ExpansionItemStacks.HANGING_PLACEHOLDER_BLOCK,
+            RecipeType.NULL,
+            ExpansionRecipes.NULL
+    );
+
+    public static final SwitchingMonitor SWITCHING_MONITOR = new SwitchingMonitor(
+            ExpansionItemsMenus.MENU_CARGO_SYSTEM,
+            ExpansionItemStacks.SWITCHING_MONITOR,
+            ExpansionWorkbench.TYPE,
+            ExpansionRecipes.SWITCHING_MONITOR);
 }
