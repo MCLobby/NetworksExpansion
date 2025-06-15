@@ -29,6 +29,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,6 +38,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import javax.annotation.ParametersAreNonnullByDefault;
+
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -59,7 +61,7 @@ public class ItemFlowViewer extends NetworkObject {
     private static final int BACK_SLOT = 8;
     private static final int FORCE_CLEAN_SLOT = 17;
     // ! DO NOT REMOVE THIS
-    private static final int[] BACKGROUND_SLOTS = new int[] {8, 17, 35};
+    private static final int[] BACKGROUND_SLOTS = new int[]{8, 17, 35};
     private static final int[] DISPLAY_SLOTS = {
         0, 1, 2, 3, 4, 5, 6, 7,
         9, 10, 11, 12, 13, 14, 15, 16,
@@ -77,10 +79,10 @@ public class ItemFlowViewer extends NetworkObject {
     private final @NotNull IntRangeSetting tickRate;
 
     public ItemFlowViewer(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.FLOW_VIEWER);
 
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
@@ -118,17 +120,17 @@ public class ItemFlowViewer extends NetworkObject {
             @ParametersAreNonnullByDefault
             public void onPlayerBreak(BlockBreakEvent blockBreakEvent, ItemStack itemStack, List<ItemStack> list) {
                 NodeDefinition definition =
-                        NetworkStorage.getNode(blockBreakEvent.getBlock().getLocation());
+                    NetworkStorage.getNode(blockBreakEvent.getBlock().getLocation());
                 if (definition != null && definition.getNode() != null) {
                     NetworkController.disableRecord(
-                            definition.getNode().getRoot().getController());
+                        definition.getNode().getRoot().getController());
                 }
             }
         });
     }
 
     public static @NotNull String serializeIcon(@NotNull ItemStack itemStack) {
-        var sf = SlimefunItem.getByItem(itemStack);
+        SlimefunItem sf = SlimefunItem.getByItem(itemStack);
         if (sf != null) {
             return NAMESPACE_SF + ":" + sf.getId();
         } else {
@@ -136,15 +138,16 @@ public class ItemFlowViewer extends NetworkObject {
         }
     }
 
-    @Nullable public static ItemStack deserializeIcon(@NotNull String icon) {
+    @Nullable
+    public static ItemStack deserializeIcon(@NotNull String icon) {
         if (icon.startsWith(NAMESPACE_SF)) {
-            var id = icon.split(":")[1];
-            var sf = SlimefunItem.getById(id);
+            String id = icon.split(":")[1];
+            SlimefunItem sf = SlimefunItem.getById(id);
             if (sf != null) {
                 return sf.getItem();
             }
         } else if (icon.startsWith(NAMESPACE_MC)) {
-            var type = Material.valueOf(icon.split(":")[1]);
+            Material type = Material.valueOf(icon.split(":")[1]);
             return new ItemStack(type);
         }
 
@@ -156,105 +159,103 @@ public class ItemFlowViewer extends NetworkObject {
         ParticleUtil.highlightBlock(barrelLocation);
     }
 
-    @SuppressWarnings("deprecation")
-    @NotNull public static List<DisplayEntry> getRecords(@NotNull NetworkRoot root, @NotNull GridCache cache) {
+    @NotNull
+    public static List<DisplayEntry> getRecords(@NotNull NetworkRoot root, @NotNull GridCache cache) {
         if (!root.isRecordFlow() || root.getItemFlowRecord() == null) {
             return new ArrayList<>();
         }
 
         return root.getItemFlowRecord().getActions().entrySet().stream()
-                .filter(entry -> {
-                    if (cache.getFilter() == null) {
-                        return true;
-                    }
+            .filter(entry -> {
+                if (cache.getFilter() == null) {
+                    return true;
+                }
 
-                    var itemStack = entry.getKey();
-                    if (itemStack == null) {
-                        return false;
-                    }
+                ItemStack itemStack = entry.getKey();
+                if (itemStack == null) {
+                    return false;
+                }
 
-                    String name = TextUtil.stripColor(
-                            ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
-                    if (cache.getFilter().matches("^[a-zA-Z]+$")) {
-                        final String pinyinName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
-                        final String pinyinFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
-                        return name.contains(cache.getFilter())
-                                || pinyinName.contains(cache.getFilter())
-                                || pinyinFirstLetter.contains(cache.getFilter());
-                    } else {
-                        return name.contains(cache.getFilter());
-                    }
-                })
-                .map(entry -> new DisplayEntry(entry.getKey(), entry.getValue()))
-                .toList();
+                String name = TextUtil.stripColor(
+                    ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
+                if (cache.getFilter().matches("^[a-zA-Z]+$")) {
+                    final String pinyinName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
+                    final String pinyinFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
+                    return name.contains(cache.getFilter())
+                        || pinyinName.contains(cache.getFilter())
+                        || pinyinFirstLetter.contains(cache.getFilter());
+                } else {
+                    return name.contains(cache.getFilter());
+                }
+            })
+            .map(entry -> new DisplayEntry(entry.getKey(), entry.getValue()))
+            .toList();
     }
 
-    @SuppressWarnings("deprecation")
-    @NotNull public static List<ItemFlowRecord.TransportAction> getSubMenu(
-            @NotNull NetworkRoot root, @NotNull GridCache cache, @Nullable ItemStack itemStack) {
+    @NotNull
+    public static List<ItemFlowRecord.TransportAction> getSubMenu(
+        @NotNull NetworkRoot root, @NotNull GridCache cache, @Nullable ItemStack itemStack) {
         if (!root.isRecordFlow() || root.getItemFlowRecord() == null) {
             return new ArrayList<>();
         }
 
         return root.getItemFlowRecord().getActions().getOrDefault(itemStack, new ArrayList<>()).stream()
-                .filter(action -> {
-                    if (cache.getFilter() == null) {
-                        return true;
-                    }
+            .filter(action -> {
+                if (cache.getFilter() == null) {
+                    return true;
+                }
 
-                    if (itemStack == null) {
-                        return false;
-                    }
+                if (itemStack == null) {
+                    return false;
+                }
 
-                    String name = TextUtil.stripColor(
-                            ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
-                    if (cache.getFilter().matches("^[a-zA-Z]+$")) {
-                        final String pinyinName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
-                        final String pinyinFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
-                        return name.contains(cache.getFilter())
-                                || pinyinName.contains(cache.getFilter())
-                                || pinyinFirstLetter.contains(cache.getFilter());
-                    } else {
-                        return name.contains(cache.getFilter());
-                    }
-                })
-                .toList();
+                String name = TextUtil.stripColor(
+                    ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
+                if (cache.getFilter().matches("^[a-zA-Z]+$")) {
+                    final String pinyinName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
+                    final String pinyinFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
+                    return name.contains(cache.getFilter())
+                        || pinyinName.contains(cache.getFilter())
+                        || pinyinFirstLetter.contains(cache.getFilter());
+                } else {
+                    return name.contains(cache.getFilter());
+                }
+            })
+            .toList();
     }
 
-    @SuppressWarnings("deprecation")
     public static @NotNull List<String> getLoreAddition(@NotNull DisplayEntry entry) {
         long change = entry.actions().stream()
-                .map(ItemFlowRecord.TransportAction::amount)
-                .mapToLong(i -> i)
-                .sum();
+            .map(ItemFlowRecord.TransportAction::amount)
+            .mapToLong(i -> i)
+            .sum();
 
         List<String> list = new ArrayList<>();
         list.add("");
         list.add((change > 0 ? TextUtil.GREEN : change < 0 ? TextUtil.RED : TextUtil.GRAY)
-                + String.format(
-                        Lang.getString("messages.normal-operation.viewer.change"), change > 0 ? "+" + change : change));
+            + String.format(
+            Lang.getString("messages.normal-operation.viewer.change"), change > 0 ? "+" + change : change));
         list.add("");
         list.addAll(Lang.getStringList("messages.normal-operation.viewer.item-flow-viewer-click-behavior"));
 
         return list;
     }
 
-    @SuppressWarnings("deprecation")
     public static @NotNull List<String> getLoreAddition(ItemFlowRecord.@NotNull TransportAction entry) {
-        var loc = entry.accessor();
+        Location loc = entry.accessor();
         long change = entry.amount();
         List<String> list = new ArrayList<>();
         list.add("");
         list.add(String.format(
-                Lang.getString("messages.normal-operation.viewer.location"),
-                loc.getBlockX(),
-                loc.getBlockY(),
-                loc.getBlockZ()));
+            Lang.getString("messages.normal-operation.viewer.location"),
+            loc.getBlockX(),
+            loc.getBlockY(),
+            loc.getBlockZ()));
         list.add(String.format(
-                Lang.getString("messages.normal-operation.viewer.when"), humanizeTime(entry.milliSecond())));
+            Lang.getString("messages.normal-operation.viewer.when"), humanizeTime(entry.milliSecond())));
         list.add((change > 0 ? TextUtil.GREEN : change < 0 ? TextUtil.RED : TextUtil.GRAY)
-                + String.format(
-                        Lang.getString("messages.normal-operation.viewer.change"), change > 0 ? "+" + change : change));
+            + String.format(
+            Lang.getString("messages.normal-operation.viewer.change"), change > 0 ? "+" + change : change));
         list.add("");
         list.addAll(Lang.getStringList("messages.normal-operation.viewer.item-flow-viewer-sub-click-behavior"));
 
@@ -268,8 +269,9 @@ public class ItemFlowViewer extends NetworkObject {
         return DATE_FORMAT.format(date);
     }
 
-    @NotNull public static ItemStack getIcon(ItemFlowRecord.@NotNull TransportAction action) {
-        var sf = StorageCacheUtils.getSfItem(action.accessor());
+    @NotNull
+    public static ItemStack getIcon(ItemFlowRecord.@NotNull TransportAction action) {
+        SlimefunItem sf = StorageCacheUtils.getSfItem(action.accessor());
         if (sf == null) {
             return Icon.UNKNOWN_ITEM.clone();
         } else {
@@ -278,7 +280,7 @@ public class ItemFlowViewer extends NetworkObject {
     }
 
     public void setSubMenu(@NotNull BlockMenu menu, @NotNull GridCache cache, @Nullable ItemStack itemStack) {
-        var data = StorageCacheUtils.getBlock(menu.getLocation());
+        SlimefunBlockData data = StorageCacheUtils.getBlock(menu.getLocation());
         if (data == null) {
             return;
         }
@@ -292,7 +294,7 @@ public class ItemFlowViewer extends NetworkObject {
     }
 
     public @Nullable String getSubMenu(@NotNull BlockMenu menu) {
-        var data = StorageCacheUtils.getBlock(menu.getLocation());
+        SlimefunBlockData data = StorageCacheUtils.getBlock(menu.getLocation());
         if (data == null) {
             return null;
         }
@@ -312,10 +314,10 @@ public class ItemFlowViewer extends NetworkObject {
             return;
         }
 
-        var root = definition.getNode().getRoot();
+        NetworkRoot root = definition.getNode().getRoot();
 
         if (!blockMenu.hasViewer()) {
-            var flow = root.getItemFlowRecord();
+            ItemFlowRecord flow = root.getItemFlowRecord();
             if (flow != null) {
                 if (System.currentTimeMillis() - flow.getLastChangeTime() > ItemFlowRecord.DEADLINE) {
                     NetworkController.disableRecord(root.getController());
@@ -329,7 +331,7 @@ public class ItemFlowViewer extends NetworkObject {
 
         final GridCache gridCache = getCacheMap().get(location);
 
-        var subMenu = getSubMenu(blockMenu);
+        String subMenu = getSubMenu(blockMenu);
         if (subMenu != null) {
             subMenu(root, blockMenu, gridCache, subMenu);
         } else {
@@ -339,11 +341,11 @@ public class ItemFlowViewer extends NetworkObject {
 
     @SuppressWarnings("deprecation")
     public void subMenu(
-            @NotNull NetworkRoot root,
-            @NotNull BlockMenu blockMenu,
-            @NotNull GridCache gridCache,
-            @NotNull String subMenu) {
-        var entries = getSubMenu(root, gridCache, deserializeIcon(subMenu));
+        @NotNull NetworkRoot root,
+        @NotNull BlockMenu blockMenu,
+        @NotNull GridCache gridCache,
+        @NotNull String subMenu) {
+        List<ItemFlowRecord.TransportAction> entries = getSubMenu(root, gridCache, deserializeIcon(subMenu));
 
         final int pages = (int) Math.ceil(entries.size() / (double) getDisplaySlots().length) - 1;
 
@@ -375,7 +377,7 @@ public class ItemFlowViewer extends NetworkObject {
                 final ItemFlowRecord.TransportAction action = validActions.get(i);
                 final ItemStack displayItemStack = getIcon(action);
                 ItemStack displayStack = new CustomItemStack(
-                        displayItemStack.clone(), TextUtil.GRAY + ItemStackHelper.getDisplayName(displayItemStack));
+                    displayItemStack.clone(), TextUtil.GRAY + ItemStackHelper.getDisplayName(displayItemStack));
 
                 final ItemMeta itemMeta = displayStack.getItemMeta();
                 if (itemMeta == null) {
@@ -398,18 +400,18 @@ public class ItemFlowViewer extends NetworkObject {
         }
 
         blockMenu.replaceExistingItem(
-                getPagePrevious(),
-                Icon.getPageStack(getPagePreviousStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
+            getPagePrevious(),
+            Icon.getPageStack(getPagePreviousStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
         blockMenu.replaceExistingItem(
-                getPageNext(),
-                Icon.getPageStack(getPageNextStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
+            getPageNext(),
+            Icon.getPageStack(getPageNextStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
 
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
 
     @SuppressWarnings("deprecation")
     public void mainMenu(@NotNull NetworkRoot root, @NotNull BlockMenu blockMenu, @NotNull GridCache gridCache) {
-        var entries = getRecords(root, gridCache);
+        List<DisplayEntry> entries = getRecords(root, gridCache);
 
         final int pages = (int) Math.ceil(entries.size() / (double) getDisplaySlots().length) - 1;
 
@@ -454,7 +456,7 @@ public class ItemFlowViewer extends NetworkObject {
                 }
 
                 displayStack = new CustomItemStack(
-                        displayStack, TextUtil.GRAY + ItemStackHelper.getDisplayName(displayItemStack));
+                    displayStack, TextUtil.GRAY + ItemStackHelper.getDisplayName(displayItemStack));
 
                 final ItemMeta itemMeta = displayStack.getItemMeta();
                 if (itemMeta == null) {
@@ -477,11 +479,11 @@ public class ItemFlowViewer extends NetworkObject {
         }
 
         blockMenu.replaceExistingItem(
-                getPagePrevious(),
-                Icon.getPageStack(getPagePreviousStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
+            getPagePrevious(),
+            Icon.getPageStack(getPagePreviousStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
         blockMenu.replaceExistingItem(
-                getPageNext(),
-                Icon.getPageStack(getPageNextStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
+            getPageNext(),
+            Icon.getPageStack(getPageNextStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
 
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
@@ -491,7 +493,8 @@ public class ItemFlowViewer extends NetworkObject {
         getPreset();
     }
 
-    @NotNull protected BlockMenuPreset getPreset() {
+    @NotNull
+    protected BlockMenuPreset getPreset() {
         return new BlockMenuPreset(this.getId(), this.getItemName()) {
 
             @Override
@@ -504,9 +507,9 @@ public class ItemFlowViewer extends NetworkObject {
             @Override
             public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
-                        || (ExpansionItems.NETWORK_GRID_NEW_STYLE.canUse(player, false)
-                                && Slimefun.getProtectionManager()
-                                        .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
+                    || (ExpansionItems.NETWORK_GRID_NEW_STYLE.canUse(player, false)
+                    && Slimefun.getProtectionManager()
+                    .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override
@@ -531,9 +534,9 @@ public class ItemFlowViewer extends NetworkObject {
                 menu.addMenuClickHandler(getPageNext(), (p, slot, item, action) -> {
                     GridCache gridCache = getCacheMap().get(menu.getLocation());
                     gridCache.setPage(
-                            gridCache.getPage() >= gridCache.getMaxPages()
-                                    ? gridCache.getMaxPages()
-                                    : gridCache.getPage() + 1);
+                        gridCache.getPage() >= gridCache.getMaxPages()
+                            ? gridCache.getMaxPages()
+                            : gridCache.getPage() + 1);
                     getCacheMap().put(menu.getLocation(), gridCache);
                     updateDisplay(menu);
                     return false;
@@ -572,7 +575,7 @@ public class ItemFlowViewer extends NetworkObject {
                     NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
                     if (definition != null && definition.getNode() != null) {
                         NetworkController.disableRecord(
-                                definition.getNode().getRoot().getController());
+                            definition.getNode().getRoot().getController());
                     }
                 });
 
@@ -580,14 +583,15 @@ public class ItemFlowViewer extends NetworkObject {
                     NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
                     if (definition != null && definition.getNode() != null) {
                         NetworkController.enableRecord(
-                                definition.getNode().getRoot().getController());
+                            definition.getNode().getRoot().getController());
                     }
                 });
             }
         };
     }
 
-    @NotNull public Map<Location, GridCache> getCacheMap() {
+    @NotNull
+    public Map<Location, GridCache> getCacheMap() {
         return CACHE_MAP;
     }
 
@@ -613,10 +617,10 @@ public class ItemFlowViewer extends NetworkObject {
 
     @SuppressWarnings("deprecation")
     protected void setFilter(
-            @NotNull Player player,
-            @NotNull BlockMenu blockMenu,
-            @NotNull GridCache gridCache,
-            @NotNull ClickAction action) {
+        @NotNull Player player,
+        @NotNull BlockMenu blockMenu,
+        @NotNull GridCache gridCache,
+        @NotNull ClickAction action) {
         if (action.isRightClicked()) {
             gridCache.setFilter(null);
         } else {
@@ -671,7 +675,7 @@ public class ItemFlowViewer extends NetworkObject {
     }
 
     public void forceCleanHistory(@NotNull NetworkRoot root) {
-        var r = NetworkController.getRecords().get(root.getController());
+        ItemFlowRecord r = NetworkController.getRecords().get(root.getController());
         if (r == null) {
             return;
         }
@@ -679,5 +683,6 @@ public class ItemFlowViewer extends NetworkObject {
         r.forceGC();
     }
 
-    public record DisplayEntry(ItemStack itemStack, List<ItemFlowRecord.TransportAction> actions) {}
+    public record DisplayEntry(ItemStack itemStack, List<ItemFlowRecord.TransportAction> actions) {
+    }
 }

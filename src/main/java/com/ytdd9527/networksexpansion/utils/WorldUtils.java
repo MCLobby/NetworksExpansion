@@ -1,6 +1,8 @@
 package com.ytdd9527.networksexpansion.utils;
 
 import java.lang.reflect.Field;
+
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -22,7 +24,7 @@ public class WorldUtils {
             World sampleWorld = Bukkit.getWorlds().get(0);
             BlockState blockstate = sampleWorld.getBlockAt(0, 0, 0).getState();
             boolean fail = false;
-            var result = ReflectionUtil.getDeclaredFieldsRecursively(blockstate.getClass(), "data");
+            Pair<Field, Class<?>> result = ReflectionUtil.getDeclaredFieldsRecursively(blockstate.getClass(), "data");
             if (result != null) {
                 interfaceBlockDataField = result.getFirstValue();
                 if (interfaceBlockDataField != null) {
@@ -32,7 +34,7 @@ public class WorldUtils {
                 }
                 craftBlockStateClass = result.getSecondValue();
                 if (craftBlockStateClass != null) {
-                    var r2 = ReflectionUtil.getDeclaredFieldsRecursively(craftBlockStateClass, "position");
+                    Pair<Field, Class<?>> r2 = ReflectionUtil.getDeclaredFieldsRecursively(craftBlockStateClass, "position");
                     if (r2 != null) {
                         blockPositionField = r2.getFirstValue();
                         if (blockPositionField != null) {
@@ -44,7 +46,7 @@ public class WorldUtils {
                         fail = true;
                     }
 
-                    var r3 = ReflectionUtil.getDeclaredFieldsRecursively(craftBlockStateClass, "world");
+                    Pair<Field, Class<?>> r3 = ReflectionUtil.getDeclaredFieldsRecursively(craftBlockStateClass, "world");
                     if (r3 != null) {
                         worldField = r3.getFirstValue();
                         if (worldField != null) {
@@ -56,7 +58,7 @@ public class WorldUtils {
                         fail = true;
                     }
 
-                    var r4 = ReflectionUtil.getDeclaredFieldsRecursively(craftBlockStateClass, "weakWorld");
+                    Pair<Field, Class<?>> r4 = ReflectionUtil.getDeclaredFieldsRecursively(craftBlockStateClass, "weakWorld");
                     if (r4 != null) {
                         weakWorldField = r4.getFirstValue();
                         if (weakWorldField != null) {
@@ -84,7 +86,7 @@ public class WorldUtils {
 
         BlockState toState = toBlock.getState();
         if (craftBlockStateClass != null
-                && (!craftBlockStateClass.isInstance(toState) || !craftBlockStateClass.isInstance(fromBlockState))) {
+            && (!craftBlockStateClass.isInstance(toState) || !craftBlockStateClass.isInstance(fromBlockState))) {
             return false;
         }
 

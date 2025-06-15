@@ -86,15 +86,18 @@ public class Keys {
         }
     }
 
-    @NotNull public static NamespacedKey newKey(@NotNull String key) {
+    @NotNull
+    public static NamespacedKey newKey(@NotNull String key) {
         return new NamespacedKey(Networks.getInstance(), key);
     }
 
-    @NotNull public static NamespacedKey customNewKey(@NotNull String namespace, @NotNull String key) {
+    @NotNull
+    public static NamespacedKey customNewKey(@NotNull String namespace, @NotNull String key) {
         return new NamespacedKey(namespace, key);
     }
 
-    @NotNull public static NamespacedKey customNewKey(@NotNull Plugin plugin, @NotNull String key) {
+    @NotNull
+    public static NamespacedKey customNewKey(@NotNull Plugin plugin, @NotNull String key) {
         return new NamespacedKey(plugin, key);
     }
 }

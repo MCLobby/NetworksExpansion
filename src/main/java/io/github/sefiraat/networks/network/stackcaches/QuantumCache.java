@@ -1,8 +1,10 @@
 package io.github.sefiraat.networks.network.stackcaches;
 
 import com.balugaq.netex.utils.Lang;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
@@ -14,7 +16,8 @@ import org.jetbrains.annotations.Nullable;
 @SuppressWarnings("deprecation")
 public class QuantumCache extends ItemStackCache {
 
-    @Nullable private final ItemMeta storedItemMeta;
+    @Nullable
+    private final ItemMeta storedItemMeta;
 
     private final boolean supportsCustomMaxAmount;
 
@@ -30,11 +33,11 @@ public class QuantumCache extends ItemStackCache {
     private boolean voidExcess;
 
     public QuantumCache(
-            @Nullable ItemStack storedItem,
-            long amount,
-            int limit,
-            boolean voidExcess,
-            boolean supportsCustomMaxAmount) {
+        @Nullable ItemStack storedItem,
+        long amount,
+        int limit,
+        boolean voidExcess,
+        boolean supportsCustomMaxAmount) {
         super(storedItem);
         this.storedItemMeta = storedItem == null ? null : storedItem.getItemMeta();
         this.amount = amount;
@@ -43,7 +46,8 @@ public class QuantumCache extends ItemStackCache {
         this.supportsCustomMaxAmount = supportsCustomMaxAmount;
     }
 
-    @Nullable public ItemMeta getStoredItemMeta() {
+    @Nullable
+    public ItemMeta getStoredItemMeta() {
         return this.storedItemMeta;
     }
 
@@ -72,7 +76,8 @@ public class QuantumCache extends ItemStackCache {
         this.amount = this.amount - amount;
     }
 
-    @Nullable public ItemStack withdrawItem(int amount) {
+    @Nullable
+    public ItemStack withdrawItem(int amount) {
         if (this.getItemStack() == null) {
             return null;
         }
@@ -82,7 +87,8 @@ public class QuantumCache extends ItemStackCache {
         return clone;
     }
 
-    @Nullable public ItemStack withdrawItem() {
+    @Nullable
+    public ItemStack withdrawItem() {
         if (this.getItemStack() == null) {
             return null;
         }
@@ -90,7 +96,7 @@ public class QuantumCache extends ItemStackCache {
     }
 
     public void addMetaLore(@NotNull ItemMeta itemMeta) {
-        var old = itemMeta.getLore();
+        List<String> old = itemMeta.getLore();
         final List<String> lore = old != null ? new ArrayList<>(old) : new ArrayList<>();
         String itemName = Lang.getString("messages.normal-operation.quantum_cache.empty");
         if (getItemStack() != null) {
@@ -99,10 +105,10 @@ public class QuantumCache extends ItemStackCache {
         lore.add("");
         lore.add(String.format(Lang.getString("messages.normal-operation.quantum_cache.stored_item"), itemName));
         lore.add(String.format(
-                Lang.getString("messages.normal-operation.quantum_cache.stored_amount"), this.getAmount()));
+            Lang.getString("messages.normal-operation.quantum_cache.stored_amount"), this.getAmount()));
         if (this.supportsCustomMaxAmount) {
             lore.add(String.format(
-                    Lang.getString("messages.normal-operation.quantum_cache.custom_max_limit"), this.getLimit()));
+                Lang.getString("messages.normal-operation.quantum_cache.custom_max_limit"), this.getLimit()));
         }
 
         itemMeta.setLore(lore);
@@ -119,18 +125,18 @@ public class QuantumCache extends ItemStackCache {
         }
         final int loreIndexModifier = this.supportsCustomMaxAmount ? 1 : 0;
         lore.set(
-                lore.size() - 2 - loreIndexModifier,
-                String.format(Lang.getString("messages.normal-operation.quantum_cache.stored_item"), itemName));
+            lore.size() - 2 - loreIndexModifier,
+            String.format(Lang.getString("messages.normal-operation.quantum_cache.stored_item"), itemName));
         lore.set(
-                lore.size() - 1 - loreIndexModifier,
-                String.format(
-                        Lang.getString("messages.normal-operation.quantum_cache.stored_amount"), this.getAmount()));
+            lore.size() - 1 - loreIndexModifier,
+            String.format(
+                Lang.getString("messages.normal-operation.quantum_cache.stored_amount"), this.getAmount()));
         if (this.supportsCustomMaxAmount) {
             lore.set(
-                    lore.size() - loreIndexModifier,
-                    String.format(
-                            Lang.getString("messages.normal-operation.quantum_cache.custom_max_limit"),
-                            this.getLimit()));
+                lore.size() - loreIndexModifier,
+                String.format(
+                    Lang.getString("messages.normal-operation.quantum_cache.custom_max_limit"),
+                    this.getLimit()));
         }
 
         itemMeta.setLore(lore);
