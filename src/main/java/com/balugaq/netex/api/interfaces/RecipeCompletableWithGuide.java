@@ -15,6 +15,11 @@ import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -24,16 +29,12 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public interface RecipeCompletableWithGuide {
-    default void addJEGButton(@Nonnull BlockMenu blockMenu, @Range(from = 0, to = 53) int slot) {
+    default void addJEGButton(@NotNull BlockMenu blockMenu, @Range(from = 0, to = 53) int slot) {
         if (Networks.getSupportedPluginManager().isJustEnoughGuide()) {
             blockMenu.replaceExistingItem(slot, Icon.JEG_BUTTON);
             blockMenu.addMenuClickHandler(slot, (player, slot1, item, action) -> {
@@ -43,7 +44,7 @@ public interface RecipeCompletableWithGuide {
         }
     }
 
-    default void openGuide(@Nonnull BlockMenu blockMenu, @Nonnull Player player) {
+    default void openGuide(@NotNull BlockMenu blockMenu, @NotNull Player player) {
         NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
         if (definition == null || definition.getNode() == null) {
             return;
@@ -75,7 +76,8 @@ public interface RecipeCompletableWithGuide {
         JEGCompatibleListener.tagGuideOpen(player);
     }
 
-    default void completeRecipeWithGuide(@Nonnull BlockMenu blockMenu, @Nonnull NetworkRoot root, GuideEvents.ItemButtonClickEvent event) {
+    default void completeRecipeWithGuide(
+        @NotNull BlockMenu blockMenu, @NotNull NetworkRoot root, GuideEvents.@NotNull ItemButtonClickEvent event) {
         Player player = event.getPlayer();
 
         ItemStack clickedItem = event.getClickedItem();
@@ -115,7 +117,8 @@ public interface RecipeCompletableWithGuide {
             }
 
             if (choice instanceof RecipeChoice.MaterialChoice materialChoice) {
-                List<ItemStack> itemStacks = materialChoice.getChoices().stream().map(ItemStack::new).toList();
+                List<ItemStack> itemStacks =
+                    materialChoice.getChoices().stream().map(ItemStack::new).toList();
                 for (ItemStack itemStack : itemStacks) {
                     ItemStack received = getItemStack(root, player, itemStack);
                     if (received != null && received.getType() != Material.AIR) {
@@ -138,10 +141,12 @@ public interface RecipeCompletableWithGuide {
     int[] getIngredientSlots();
 
     @Nullable
-    default List<RecipeChoice> getRecipe(@Nonnull ItemStack itemStack) {
+    default List<RecipeChoice> getRecipe(@NotNull ItemStack itemStack) {
         SlimefunItem sf = SlimefunItem.getByItem(itemStack);
         if (sf != null) {
-            List<RecipeChoice> raw = new ArrayList<>(Arrays.stream(sf.getRecipe()).map(item -> item == null ? null : new SimpleRecipeChoice(item)).toList());
+            List<RecipeChoice> raw = new ArrayList<>(Arrays.stream(sf.getRecipe())
+                .map(item -> item == null ? null : new SimpleRecipeChoice(item))
+                .toList());
             if (raw.size() < 9) {
                 for (int i = raw.size(); i < 9; i++) {
                     raw.add(null);
@@ -190,8 +195,9 @@ public interface RecipeCompletableWithGuide {
         return null;
     }
 
+    @SuppressWarnings("deprecation")
     @Nullable
-    default ItemStack getItemStack(@Nonnull NetworkRoot root, @Nonnull Player player, @Nonnull ItemStack itemStack) {
+    default ItemStack getItemStack(@NotNull NetworkRoot root, @NotNull Player player, @NotNull ItemStack itemStack) {
         // get from root
         ItemStack item = root.getItemStack0(player.getLocation(), new ItemRequest(itemStack, 1));
         if (item != null) {
@@ -202,7 +208,7 @@ public interface RecipeCompletableWithGuide {
         for (ItemStack itemStack1 : player.getInventory().getContents()) {
             if (itemStack1 != null && itemStack1.getType() != Material.AIR) {
                 if (StackUtils.itemsMatch(itemStack1, itemStack, true, false)) {
-                    var clone = StackUtils.getAsQuantity(itemStack1, 1);
+                    ItemStack clone = StackUtils.getAsQuantity(itemStack1, 1);
                     int newAmount = itemStack1.getAmount() - 1;
 
                     itemStack1.setAmount(newAmount);

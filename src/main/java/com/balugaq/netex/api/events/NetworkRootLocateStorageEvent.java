@@ -6,8 +6,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class NetworkRootLocateStorageEvent extends Event {
@@ -18,7 +17,8 @@ public class NetworkRootLocateStorageEvent extends Event {
     private final boolean outputAble;
     private final Strategy strategy;
 
-    public NetworkRootLocateStorageEvent(NetworkRoot root, StorageType storageType, boolean inputAble, boolean outputAble, boolean isSync) {
+    public NetworkRootLocateStorageEvent(
+        NetworkRoot root, StorageType storageType, boolean inputAble, boolean outputAble, boolean isSync) {
         super(!isSync);
         this.root = root;
         this.storageType = storageType;
@@ -36,11 +36,11 @@ public class NetworkRootLocateStorageEvent extends Event {
         this.strategy = strategy;
     }
 
-    public static @Nonnull HandlerList getHandlerList() {
+    public static @NotNull HandlerList getHandlerList() {
         return handlers;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public HandlerList getHandlers() {
         return handlers;
@@ -50,15 +50,13 @@ public class NetworkRootLocateStorageEvent extends Event {
         Strategy DEFAULT = new StrategyImpl();
         String DEFAULT_TAG = "default";
 
-        static Strategy custom(String tag) {
-            return new StrategyImpl().custom(tag);
+        static @NotNull Strategy custom(String tag) {
+            return StrategyImpl.custom(tag);
         }
 
-        @Nonnull
-        String getTag();
+        @NotNull String getTag();
 
-        @Nonnull
-        Strategy setTag(String tag);
+        @NotNull Strategy setTag(String tag);
 
         class StrategyImpl implements Strategy {
             private String tag;
@@ -68,18 +66,18 @@ public class NetworkRootLocateStorageEvent extends Event {
             }
 
             @SneakyThrows
-            @Nonnull
+            @NotNull
             public static Strategy custom(String tag) {
                 return new StrategyImpl().setTag(tag);
             }
 
-            @Nonnull
+            @NotNull
             @Override
             public String getTag() {
                 return tag;
             }
 
-            @Nonnull
+            @NotNull
             @Override
             public Strategy setTag(String tag) {
                 this.tag = tag;
@@ -87,7 +85,7 @@ public class NetworkRootLocateStorageEvent extends Event {
             }
 
             @Override
-            public Strategy clone() {
+            public @NotNull Strategy clone() {
                 return new StrategyImpl().setTag(tag);
             }
         }

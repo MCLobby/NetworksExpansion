@@ -1,12 +1,11 @@
 package com.balugaq.netex.api.enums;
 
-import io.github.sefiraat.networks.Networks;
+import com.balugaq.netex.utils.Lang;
 import io.github.sefiraat.networks.utils.Keys;
 import lombok.Getter;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 public enum FeedbackType implements Keyed {
@@ -57,20 +56,20 @@ public enum FeedbackType implements Keyed {
     WORKING,
     NOT_ALLOWED_ITEM;
 
-    private final @Nonnull NamespacedKey key;
-    private final @Nonnull String message;
+    private final @NotNull NamespacedKey key;
+    private final @NotNull String message;
 
     FeedbackType() {
         this.key = Keys.newKey(name().toLowerCase());
-        this.message = Networks.getLocalizationService().getString("messages.feedback." + this.key.getKey());
+        this.message = Lang.getString("messages.feedback." + this.key.getKey());
     }
 
-    FeedbackType(@Nonnull String key) {
+    FeedbackType(@NotNull String key) {
         this.key = Keys.newKey(key);
-        this.message = Networks.getLocalizationService().getString("messages.feedback." + this.key.getKey());
+        this.message = Lang.getString("messages.feedback." + this.key.getKey());
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public NamespacedKey getKey() {
         return this.key;

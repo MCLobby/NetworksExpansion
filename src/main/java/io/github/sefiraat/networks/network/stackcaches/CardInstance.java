@@ -1,22 +1,24 @@
 package io.github.sefiraat.networks.network.stackcaches;
 
-import io.github.sefiraat.networks.Networks;
+import com.balugaq.netex.utils.Lang;
+import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.sefiraat.networks.utils.Theme;
+
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
-import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @Getter
 public class CardInstance extends ItemStackCache {
 
     private final int limit;
+
     @Setter
     private int amount;
 
@@ -37,6 +39,7 @@ public class CardInstance extends ItemStackCache {
         return clone;
     }
 
+    @SuppressWarnings("unused")
     @Nullable
     public ItemStack withdrawItem() {
         if (this.getItemStack() == null) {
@@ -45,6 +48,7 @@ public class CardInstance extends ItemStackCache {
         return withdrawItem(this.getItemStack().getMaxStackSize());
     }
 
+    @SuppressWarnings("unused")
     public void increaseAmount(int amount) {
         long total = (long) this.amount + (long) amount;
         if (total > this.limit) {
@@ -58,17 +62,21 @@ public class CardInstance extends ItemStackCache {
         this.amount = this.amount - amount;
     }
 
-    public void updateLore(@Nonnull ItemMeta itemMeta) {
+    @SuppressWarnings("deprecation")
+    public void updateLore(@NotNull ItemMeta itemMeta) {
         List<String> lore = itemMeta.getLore();
+        if (lore == null) {
+            return;
+        }
         lore.set(10, getLoreLine());
         itemMeta.setLore(lore);
     }
 
-    public String getLoreLine() {
+    public @NotNull String getLoreLine() {
         if (this.getItemStack() == null) {
-            return Networks.getLocalizationService().getString("messages.normal-operation.memory_card.empty");
+            return Lang.getString("messages.normal-operation.memory_card.empty");
         }
-        String name = ChatColor.stripColor(ItemStackHelper.getDisplayName(getItemStack()));
+        String name = TextUtil.stripColor(ItemStackHelper.getDisplayName(getItemStack()));
         return Theme.CLICK_INFO + name + ": " + Theme.PASSIVE + this.amount;
     }
 }

@@ -2,14 +2,15 @@ package com.balugaq.netex.api.data;
 
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Final_ROOT
@@ -17,8 +18,10 @@ import java.util.List;
  */
 public class ItemWrapper {
     public static final ItemStack AIR = new ItemStack(Material.AIR);
-    @Nonnull
+
+    @NotNull
     private ItemStack itemStack;
+
     @Nullable
     private ItemMeta itemMeta;
 
@@ -26,18 +29,18 @@ public class ItemWrapper {
         this.itemStack = AIR;
     }
 
-    public ItemWrapper(@Nonnull ItemStack itemStack) {
+    public ItemWrapper(@NotNull ItemStack itemStack) {
         this.itemStack = itemStack;
         this.itemMeta = this.itemStack.hasItemMeta() ? this.itemStack.getItemMeta() : null;
     }
 
-    public ItemWrapper(@Nonnull ItemStack itemStack, @Nullable ItemMeta itemMeta) {
+    public ItemWrapper(@NotNull ItemStack itemStack, @Nullable ItemMeta itemMeta) {
         this.itemStack = itemStack;
         this.itemMeta = itemMeta;
     }
 
-    @Nonnull
-    public static ItemStack[] getItemArray(@Nonnull ItemWrapper[] itemWrappers) {
+    @NotNull
+    public static ItemStack @NotNull [] getItemArray(@NotNull ItemWrapper @NotNull [] itemWrappers) {
         ItemStack[] itemStacks = new ItemStack[itemWrappers.length];
         for (int i = 0, length = itemStacks.length; i < length; i++) {
             itemStacks[i] = itemWrappers[i].getItemStack();
@@ -45,8 +48,8 @@ public class ItemWrapper {
         return itemStacks;
     }
 
-    @Nonnull
-    public static ItemStack[] getItemArray(@Nonnull List<? extends ItemWrapper> itemWrapperList) {
+    @NotNull
+    public static ItemStack @NotNull [] getItemArray(@NotNull List<? extends ItemWrapper> itemWrapperList) {
         ItemStack[] itemStacks = new ItemStack[itemWrapperList.size()];
         for (int i = 0, length = itemStacks.length; i < length; i++) {
             itemStacks[i] = itemWrapperList.get(i).getItemStack();
@@ -54,8 +57,8 @@ public class ItemWrapper {
         return itemStacks;
     }
 
-    @Nonnull
-    public static ItemStack[] getCopiedItemArray(@Nonnull List<? extends ItemWrapper> itemWrapperList) {
+    @NotNull
+    public static ItemStack @NotNull [] getCopiedItemArray(@NotNull List<? extends ItemWrapper> itemWrapperList) {
         ItemStack[] itemStacks = new ItemStack[itemWrapperList.size()];
         for (int i = 0, length = itemStacks.length; i < length; i++) {
             itemStacks[i] = ItemStackUtil.cloneItem(itemWrapperList.get(i).getItemStack());
@@ -63,8 +66,8 @@ public class ItemWrapper {
         return itemStacks;
     }
 
-    @Nonnull
-    public static List<ItemStack> getItemList(@Nonnull ItemWrapper[] itemWrappers) {
+    @NotNull
+    public static List<ItemStack> getItemList(@NotNull ItemWrapper @NotNull [] itemWrappers) {
         List<ItemStack> itemStackList = new ArrayList<>(itemWrappers.length);
         for (ItemWrapper itemWrapper : itemWrappers) {
             itemStackList.add(itemWrapper.getItemStack());
@@ -72,8 +75,8 @@ public class ItemWrapper {
         return itemStackList;
     }
 
-    @Nonnull
-    public static List<ItemStack> getItemList(@Nonnull List<? extends ItemWrapper> itemWrapperList) {
+    @NotNull
+    public static List<ItemStack> getItemList(@NotNull List<? extends ItemWrapper> itemWrapperList) {
         List<ItemStack> itemStackList = new ArrayList<>(itemWrapperList.size());
         for (ItemWrapper itemWrapper : itemWrapperList) {
             itemStackList.add(itemWrapper.getItemStack());
@@ -81,12 +84,12 @@ public class ItemWrapper {
         return itemStackList;
     }
 
-    @Nonnull
+    @NotNull
     public ItemStack getItemStack() {
         return this.itemStack;
     }
 
-    public void setItemStack(@Nonnull ItemStack itemStack) {
+    public void setItemStack(@NotNull ItemStack itemStack) {
         this.itemStack = itemStack;
     }
 
@@ -107,26 +110,27 @@ public class ItemWrapper {
         this.itemMeta = this.itemStack.hasItemMeta() ? this.itemStack.getItemMeta() : null;
     }
 
-    public void newWrap(@Nonnull ItemStack itemStack) {
+    public void newWrap(@NotNull ItemStack itemStack) {
         this.itemStack = itemStack;
         this.itemMeta = this.itemStack.hasItemMeta() ? this.itemStack.getItemMeta() : null;
     }
 
-    public void newWrap(@Nonnull ItemStack itemStack, @Nullable ItemMeta itemMeta) {
+    public void newWrap(@NotNull ItemStack itemStack, @Nullable ItemMeta itemMeta) {
         this.itemStack = itemStack;
         this.itemMeta = itemMeta;
     }
 
-    @Nonnull
+    @NotNull
     public ItemWrapper shallowClone() {
         return new ItemWrapper(this.itemStack, this.itemMeta);
     }
 
-    @Nonnull
+    @NotNull
     public ItemWrapper deepClone() {
         return new ItemWrapper(ItemStackUtil.getCleanItem(this.itemStack));
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public int hashCode() {
         int hash = 31 + this.itemStack.getType().hashCode();
@@ -137,7 +141,7 @@ public class ItemWrapper {
     }
 
     @Override
-    public boolean equals(@Nonnull Object obj) {
+    public boolean equals(@NotNull Object obj) {
         if (this.itemStack instanceof ItemStackWrapper) {
             return ItemStackUtil.getCleanItem(this.itemStack).equals(obj);
         } else {

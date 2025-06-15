@@ -4,13 +4,12 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class NetworkMorePusher extends AbstractNetworkPusher {
 
     private static final int[] BACKGROUND_SLOTS = new int[]{
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 17, 18, 20, 22, 23, 27, 28, 30, 31, 36, 37, 38, 39, 40, 41
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 17, 18, 20, 22, 23, 27, 28, 30, 31, 36, 37, 38, 39, 40, 41
     };
     private static final int[] TEMPLATE_BACKGROUND = new int[]{16};
     private static final int[] TEMPLATE_SLOTS = new int[]{24, 25, 26, 33, 34, 35, 42, 43, 44};
@@ -20,20 +19,17 @@ public class NetworkMorePusher extends AbstractNetworkPusher {
     }
 
     @Override
-    @Nonnull
-    public int[] getBackgroundSlots() {
+    public int @NotNull [] getBackgroundSlots() {
         return BACKGROUND_SLOTS;
     }
 
-    @Nonnull
     @Override
-    public int[] getOtherBackgroundSlots() {
+    public int @NotNull [] getOtherBackgroundSlots() {
         return TEMPLATE_BACKGROUND;
     }
 
-    @Nonnull
     @Override
-    public int[] getItemSlots() {
+    public int @NotNull [] getItemSlots() {
         return TEMPLATE_SLOTS;
     }
 }

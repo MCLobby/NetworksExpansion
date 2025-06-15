@@ -1,44 +1,49 @@
 package io.github.sefiraat.networks.slimefun.network.grid;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 public class GridCache {
 
-    @Nonnull
+    @NotNull
     private final List<ItemStack> pullItemHistory = new ArrayList<>();
+
     @Setter
     @Getter
     private int page;
+
     @Setter
     @Getter
     private int maxPages;
-    @Nonnull
+
+    @NotNull
     private DisplayMode displayMode;
-    @Nonnull
+
+    @NotNull
     private SortOrder sortOrder;
+
     @Nullable
     private String filter;
 
-    public GridCache(int page, int maxPages, @Nonnull SortOrder sortOrder) {
+    public GridCache(int page, int maxPages, @NotNull SortOrder sortOrder) {
         this.page = page;
         this.maxPages = maxPages;
         this.sortOrder = sortOrder;
         this.displayMode = DisplayMode.DISPLAY;
     }
 
-    @Nonnull
+    @NotNull
     public SortOrder getSortOrder() {
         return this.sortOrder;
     }
 
-    public void setSortOrder(@Nonnull SortOrder sortOrder) {
+    public void setSortOrder(@NotNull SortOrder sortOrder) {
         this.sortOrder = sortOrder;
     }
 
@@ -51,7 +56,7 @@ public class GridCache {
         this.filter = filter;
     }
 
-    @Nonnull
+    @NotNull
     public List<ItemStack> getPullItemHistory() {
         return this.pullItemHistory;
     }
@@ -64,7 +69,7 @@ public class GridCache {
         }
     }
 
-    public @Nonnull DisplayMode getDisplayMode() {
+    public @NotNull DisplayMode getDisplayMode() {
         return this.displayMode;
     }
 
@@ -82,23 +87,21 @@ public class GridCache {
         NUMBER_REVERSE,
         ADDON;
 
-        public SortOrder next() {
+        public @NotNull SortOrder next() {
             return switch (this) {
                 case ALPHABETICAL -> NUMBER;
                 case NUMBER -> NUMBER_REVERSE;
                 case NUMBER_REVERSE -> ADDON;
                 case ADDON -> ALPHABETICAL;
-                default -> ALPHABETICAL;
             };
         }
 
-        public SortOrder previous() {
+        public @NotNull SortOrder previous() {
             return switch (this) {
                 case ALPHABETICAL -> ADDON;
                 case NUMBER -> ALPHABETICAL;
                 case NUMBER_REVERSE -> NUMBER;
                 case ADDON -> NUMBER_REVERSE;
-                default -> ALPHABETICAL;
             };
         }
     }

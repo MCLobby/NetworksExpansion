@@ -23,7 +23,7 @@ public enum NodeType {
     WIRELESS_TRANSMITTER,
     WIRELESS_RECEIVER,
 
-    // from networks expansion
+    // from NetworksExpansion
     ADVANCED_GREEDY_BLOCK,
     ADVANCED_IMPORT,
     ADVANCED_EXPORT,
@@ -39,7 +39,16 @@ public enum NodeType {
     LINE_POWER_OUTLET,
     QUANTUM_MANAGER,
     DRAWER_MANAGER,
-    CRAFTER_MANAGER,     // todo: not finish yet
+    CRAFTER_MANAGER,
     FLOW_VIEWER,
-    ADVANCED_VACUUM
+    ADVANCED_VACUUM,
+
+    // Hanging blocks
+    HANGING_PLACEHOLDER,
+    // will NOT count as a node
+    SWITCHING_MONITOR, // todo: not finish yet
+
+    // from foreign addons
+    // For SlimeAEPlugin
+    AE_SWITCHER
 }

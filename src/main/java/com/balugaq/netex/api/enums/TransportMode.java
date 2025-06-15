@@ -1,9 +1,8 @@
 package com.balugaq.netex.api.enums;
 
+import com.balugaq.netex.utils.Lang;
 import com.ytdd9527.networksexpansion.utils.TextUtil;
-import io.github.sefiraat.networks.Networks;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public enum TransportMode {
     NONE,
@@ -14,19 +13,19 @@ public enum TransportMode {
     FIRST_STOP,
     LAZY;
 
-    public @Nonnull String getName() {
+    public @NotNull String getName() {
         return TextUtil.colorRandomString(getRawName());
     }
 
-    public @Nonnull String getRawName() {
+    public @NotNull String getRawName() {
         return switch (this) {
-            case NONE -> Networks.getLocalizationService().getString("icons.transport_mode.none");
-            case NULL_ONLY -> Networks.getLocalizationService().getString("icons.transport_mode.null_only");
-            case NONNULL_ONLY -> Networks.getLocalizationService().getString("icons.transport_mode.nonnull_only");
-            case FIRST_ONLY -> Networks.getLocalizationService().getString("icons.transport_mode.first_only");
-            case LAST_ONLY -> Networks.getLocalizationService().getString("icons.transport_mode.last_only");
-            case FIRST_STOP -> Networks.getLocalizationService().getString("icons.transport_mode.first_stop");
-            case LAZY -> Networks.getLocalizationService().getString("icons.transport_mode.lazy");
+            case NONE -> Lang.getString("icons.transport_mode.none");
+            case NULL_ONLY -> Lang.getString("icons.transport_mode.null_only");
+            case NONNULL_ONLY -> Lang.getString("icons.transport_mode.nonnull_only");
+            case FIRST_ONLY -> Lang.getString("icons.transport_mode.first_only");
+            case LAST_ONLY -> Lang.getString("icons.transport_mode.last_only");
+            case FIRST_STOP -> Lang.getString("icons.transport_mode.first_stop");
+            case LAZY -> Lang.getString("icons.transport_mode.lazy");
         };
     }
 

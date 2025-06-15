@@ -17,5 +17,4 @@ public interface QueuedTask {
     default boolean callback() {
         return false;
     }
-
 }

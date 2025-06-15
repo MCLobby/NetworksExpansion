@@ -10,6 +10,11 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import lombok.Setter;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -20,12 +25,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @Setter
 public class NetworkCell extends NetworkObject {
@@ -58,9 +59,11 @@ public class NetworkCell extends NetworkObject {
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return player.hasPermission("slimefun.inventory.bypass") || (NetworkSlimefunItems.NETWORK_CELL.canUse(player, false)
-                        && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
+                return player.hasPermission("slimefun.inventory.bypass")
+                    || (NetworkSlimefunItems.NETWORK_CELL.canUse(player, false)
+                    && Slimefun.getProtectionManager()
+                    .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override
@@ -71,7 +74,7 @@ public class NetworkCell extends NetworkObject {
     }
 
     @Override
-    public void onPlace(@Nonnull BlockPlaceEvent e) {
+    public void onPlace(@NotNull BlockPlaceEvent e) {
         super.onPlace(e);
         if (useSpecialModel) {
             e.getBlock().setType(Material.BARRIER);
@@ -80,19 +83,21 @@ public class NetworkCell extends NetworkObject {
     }
 
     @Override
-    public void postBreak(@Nonnull BlockBreakEvent e) {
+    public void postBreak(@NotNull BlockBreakEvent e) {
         super.postBreak(e);
         Location location = e.getBlock().getLocation();
         removeDisplay(location);
         e.getBlock().setType(Material.AIR);
     }
 
-    private void setupDisplay(@Nonnull Location location) {
-        DisplayGroup displayGroup = DisplayGroupGenerators.generateCell(location.clone().add(0.5, 0, 0.5));
-        StorageCacheUtils.setData(location, KEY_UUID, displayGroup.getParentUUID().toString());
+    private void setupDisplay(@NotNull Location location) {
+        DisplayGroup displayGroup =
+            DisplayGroupGenerators.generateCell(location.clone().add(0.5, 0, 0.5));
+        StorageCacheUtils.setData(
+            location, KEY_UUID, displayGroup.getParentUUID().toString());
     }
 
-    private void removeDisplay(@Nonnull Location location) {
+    private void removeDisplay(@NotNull Location location) {
         DisplayGroup group = getDisplayGroup(location);
         if (group != null) {
             group.remove();
@@ -100,7 +105,7 @@ public class NetworkCell extends NetworkObject {
     }
 
     @Nullable
-    private UUID getDisplayGroupUUID(@Nonnull Location location) {
+    private UUID getDisplayGroupUUID(@NotNull Location location) {
         String uuid = StorageCacheUtils.getData(location, KEY_UUID);
         if (uuid == null) {
             return null;
@@ -109,7 +114,7 @@ public class NetworkCell extends NetworkObject {
     }
 
     @Nullable
-    private DisplayGroup getDisplayGroup(@Nonnull Location location) {
+    private DisplayGroup getDisplayGroup(@NotNull Location location) {
         UUID uuid = getDisplayGroupUUID(location);
         if (uuid == null) {
             return null;

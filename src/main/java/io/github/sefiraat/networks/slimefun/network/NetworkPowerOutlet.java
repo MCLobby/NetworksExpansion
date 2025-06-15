@@ -1,6 +1,7 @@
 package io.github.sefiraat.networks.slimefun.network;
 
 import com.balugaq.netex.api.enums.FeedbackType;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
@@ -15,26 +16,25 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class NetworkPowerOutlet extends NetworkDirectional {
 
     private final int rate;
 
-    public NetworkPowerOutlet(ItemGroup itemGroup,
-                              SlimefunItemStack item,
-                              RecipeType recipeType,
-                              ItemStack[] recipe,
-                              int rate
-    ) {
+    public NetworkPowerOutlet(
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack[] recipe,
+        int rate) {
         super(itemGroup, item, recipeType, recipe, NodeType.POWER_OUTLET);
         this.rate = rate;
     }
 
     @Override
-    public void onTick(@Nullable BlockMenu menu, @Nonnull Block b) {
+    public void onTick(@Nullable BlockMenu menu, @NotNull Block b) {
         super.onTick(menu, b);
         if (menu == null) {
             sendFeedback(b.getLocation(), FeedbackType.INVALID_BLOCK);
@@ -51,7 +51,7 @@ public class NetworkPowerOutlet extends NetworkDirectional {
         final BlockFace blockFace = getCurrentDirection(menu);
         final Block targetBlock = b.getRelative(blockFace);
 
-        var blockData = StorageCacheUtils.getBlock(targetBlock.getLocation());
+        SlimefunBlockData blockData = StorageCacheUtils.getBlock(targetBlock.getLocation());
         if (blockData == null) {
             sendFeedback(menu.getLocation(), FeedbackType.INVALID_BLOCK);
             return;

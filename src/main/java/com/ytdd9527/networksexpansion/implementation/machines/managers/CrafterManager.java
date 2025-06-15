@@ -1,9 +1,9 @@
 package com.ytdd9527.networksexpansion.implementation.machines.managers;
 
 import com.balugaq.netex.api.algorithm.Sorters;
-import com.balugaq.netex.api.data.StorageUnitData;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.utils.Lang;
 import com.balugaq.netex.utils.LocationUtil;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -12,8 +12,8 @@ import com.ytdd9527.networksexpansion.core.items.machines.AbstractAutoCrafter;
 import com.ytdd9527.networksexpansion.core.items.unusable.AbstractBlueprint;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
 import com.ytdd9527.networksexpansion.utils.ParticleUtil;
+import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.sefiraat.networks.NetworkStorage;
-import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
@@ -34,26 +34,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.jetbrains.annotations.Range;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -61,20 +42,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-@SuppressWarnings("deprecation")
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Range;
+
 public class CrafterManager extends NetworkObject {
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
-    private static final int[] BACKGROUND_SLOTS = new int[]{
-            8, 17, 26, 35
-    };
+    private static final int[] BACKGROUND_SLOTS = new int[]{8, 17, 26, 35};
     private static final int[] DISPLAY_SLOTS = {
-            0, 1, 2, 3, 4, 5, 6, 7,
-            9, 10, 11, 12, 13, 14, 15, 16,
-            18, 19, 20, 21, 22, 23, 24, 25,
-            27, 28, 29, 30, 31, 32, 33, 34,
-            36, 37, 38, 39, 40, 41, 42, 43,
-            45, 46, 47, 48, 49, 50, 51, 52,
+        0, 1, 2, 3, 4, 5, 6, 7,
+        9, 10, 11, 12, 13, 14, 15, 16,
+        18, 19, 20, 21, 22, 23, 24, 25,
+        27, 28, 29, 30, 31, 32, 33, 34,
+        36, 37, 38, 39, 40, 41, 42, 43,
+        45, 46, 47, 48, 49, 50, 51, 52,
     };
     private static final int PAGE_PREVIOUS = 44;
     private static final int PAGE_NEXT = 53;
@@ -86,54 +81,57 @@ public class CrafterManager extends NetworkObject {
     private static final String NAMESPACE_SF = "sf";
     private static final String NAMESPACE_MC = "mc";
 
-    private final IntRangeSetting tickRate;
+    private final @NotNull IntRangeSetting tickRate;
 
-    public CrafterManager(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public CrafterManager(
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.CRAFTER_MANAGER);
 
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
         addItemSetting(this.tickRate);
 
-        addItemHandler(
-                new BlockTicker() {
+        addItemHandler(new BlockTicker() {
 
-                    private int tick = 1;
+            private int tick = 1;
 
-                    @Override
-                    public boolean isSynchronized() {
-                        return false;
+            @Override
+            public boolean isSynchronized() {
+                return false;
+            }
+
+            @Override
+            public void tick(@NotNull Block block, SlimefunItem item, @NotNull SlimefunBlockData data) {
+                if (tick <= 1) {
+                    final BlockMenu blockMenu = data.getBlockMenu();
+                    if (blockMenu == null) {
+                        return;
                     }
-
-                    @Override
-                    public void tick(Block block, SlimefunItem item, SlimefunBlockData data) {
-                        if (tick <= 1) {
-                            final BlockMenu blockMenu = data.getBlockMenu();
-                            if (blockMenu == null) {
-                                return;
-                            }
-                            addToRegistry(block);
-                            updateDisplay(blockMenu);
-                        }
-                    }
-
-                    @Override
-                    public void uniqueTick() {
-                        tick = tick <= 1 ? tickRate.getValue() : tick - 1;
-                    }
+                    addToRegistry(block);
+                    updateDisplay(blockMenu);
                 }
-        );
+            }
+
+            @Override
+            public void uniqueTick() {
+                tick = tick <= 1 ? tickRate.getValue() : tick - 1;
+            }
+        });
     }
 
-    public static String getCrafterName(@Nonnull Location crafterLocation) {
+    public static @Nullable String getCrafterName(@NotNull Location crafterLocation) {
         return StorageCacheUtils.getData(crafterLocation, BS_NAME);
     }
 
-    public static void setCrafterIcon(@Nonnull Player player, @Nonnull Location crafterLocation, @Nonnull ItemStack cursor) {
+    public static void setCrafterIcon(
+        @NotNull Player player, @NotNull Location crafterLocation, @NotNull ItemStack cursor) {
         StorageCacheUtils.setData(crafterLocation, BS_ICON, serializeIcon(cursor));
-        player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.manager.set_icon"));
+        player.sendMessage(Lang.getString("messages.completed-operation.manager.set_icon"));
     }
 
-    public static ItemStack getCrafterIcon(@Nonnull Location crafterLocation) {
+    public static @Nullable ItemStack getCrafterIcon(@NotNull Location crafterLocation) {
         String icon = StorageCacheUtils.getData(crafterLocation, BS_ICON);
         if (icon == null) {
             return null;
@@ -141,8 +139,8 @@ public class CrafterManager extends NetworkObject {
         return deserializeIcon(icon);
     }
 
-    public static String serializeIcon(@Nonnull ItemStack itemStack) {
-        var sf = SlimefunItem.getByItem(itemStack);
+    public static @NotNull String serializeIcon(@NotNull ItemStack itemStack) {
+        SlimefunItem sf = SlimefunItem.getByItem(itemStack);
         if (sf != null) {
             return NAMESPACE_SF + ":" + sf.getId();
         } else {
@@ -151,51 +149,64 @@ public class CrafterManager extends NetworkObject {
     }
 
     @Nullable
-    public static ItemStack deserializeIcon(@Nonnull String icon) {
+    public static ItemStack deserializeIcon(@NotNull String icon) {
         if (icon.startsWith(NAMESPACE_SF)) {
-            var id = icon.split(":")[1];
-            var sf = SlimefunItem.getById(id);
+            String id = icon.split(":")[1];
+            SlimefunItem sf = SlimefunItem.getById(id);
             if (sf != null) {
                 return sf.getItem();
             }
         } else if (icon.startsWith(NAMESPACE_MC)) {
-            var type = Material.valueOf(icon.split(":")[1]);
+            Material type = Material.valueOf(icon.split(":")[1]);
             return new ItemStack(type);
         }
 
         return null;
     }
 
-    public static void topOrUntopCrafter(@Nonnull Player player, @Nonnull Location crafterLocation) {
+    public static void topOrUntopCrafter(@NotNull Player player, @NotNull Location crafterLocation) {
         if (Objects.equals(StorageCacheUtils.getData(crafterLocation, BS_TOP), BS_TOP_1B)) {
             StorageCacheUtils.setData(crafterLocation, BS_TOP, BS_TOP_0B);
-            player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.manager.top_storage_off"));
+            player.sendMessage(Lang.getString("messages.completed-operation.manager.top_storage_off"));
         } else {
             StorageCacheUtils.setData(crafterLocation, BS_TOP, BS_TOP_1B);
-            player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.manager.top_storage_on"));
+            player.sendMessage(Lang.getString("messages.completed-operation.manager.top_storage_on"));
         }
     }
 
-    public static boolean isTopCrafter(@Nonnull Location crafterLocation) {
+    public static boolean isTopCrafter(@NotNull Location crafterLocation) {
         String top = StorageCacheUtils.getData(crafterLocation, BS_TOP);
         return top != null && top.equals(BS_TOP_1B);
     }
 
-    public static void highlightBlock(@Nonnull Player player, @Nonnull Location crafterLocation) {
+    public static void highlightBlock(@NotNull Player player, @NotNull Location crafterLocation) {
         ParticleUtil.drawLineFrom(player.getEyeLocation().clone().add(0D, -0.5D, 0D), crafterLocation);
         ParticleUtil.highlightBlock(crafterLocation);
     }
 
-    public void tryInsertBlueprint(@Nonnull BlockMenu managerMenu, @Nonnull ItemStack blueprint, @Nonnull BlueprintInstance instance) {
+    public static @NotNull ItemStack getItemStack(@NotNull CrafterMetaData data) {
+        ItemStack raw = null;
+        if (data.instance() != null) {
+            raw = data.instance().getItemStack();
+        }
+        if (raw == null) {
+            return Icon.BLANK_SLOT_STACK;
+        }
+
+        return StackUtils.getAsQuantity(raw, Math.min(raw.getAmount() * data.blueprintAmount(), raw.getMaxStackSize()));
+    }
+
+    public void tryInsertBlueprint(
+        @NotNull BlockMenu managerMenu, @NotNull ItemStack blueprint, @NotNull BlueprintInstance instance) {
         Location location = managerMenu.getLocation();
         final GridCache gridCache = getCacheMap().get(location);
-        var definition = NetworkStorage.getNode(location);
+        NodeDefinition definition = NetworkStorage.getNode(location);
         if (definition == null || definition.getNode() == null) {
             return;
         }
 
-        var root = definition.getNode().getRoot();
-        var datas = CrafterMetaData.getMetaDatas(root);
+        NetworkRoot root = definition.getNode().getRoot();
+        List<CrafterMetaData> datas = CrafterMetaData.getMetaDatas(root);
 
         final int pages = (int) Math.ceil(datas.size() / (double) getDisplaySlots().length) - 1;
 
@@ -218,34 +229,40 @@ public class CrafterManager extends NetworkObject {
         }
         final int end = Math.min(start + getDisplaySlots().length, datas.size());
 
-        datas = datas.stream().sorted((a, b) ->
-                isTopCrafter(a.getLocation()) ? -1 : isTopCrafter(b.getLocation()) ? 1 : 0
-        ).toList();
+        datas = datas.stream()
+            .sorted((a, b) -> isTopCrafter(a.location()) ? -1 : isTopCrafter(b.location()) ? 1 : 0)
+            .toList();
 
         final List<CrafterMetaData> validdatas = datas.subList(start, end);
         CrafterMetaData empty = null;
-        for (var data : validdatas) {
-            if (data.getInstance() != null) {
-                ItemStack output = data.getInstance().getItemStack();
+        for (CrafterMetaData data : validdatas) {
+            if (data.instance() != null) {
+                ItemStack output = data.instance().getItemStack();
                 if (output == null) {
                     continue;
                 }
                 if (StackUtils.itemsMatch(output, instance.getItemStack(), true, false)) {
-                    var blockData = StorageCacheUtils.getBlock(data.getLocation());
+                    SlimefunBlockData blockData = StorageCacheUtils.getBlock(data.location());
                     if (blockData == null) {
                         continue;
                     }
-                    var crafterMenu = blockData.getBlockMenu();
+                    BlockMenu crafterMenu = blockData.getBlockMenu();
                     if (crafterMenu == null) {
                         continue;
                     }
-                    var sf = SlimefunItem.getById(blockData.getSfId());
-                    var existing = crafterMenu.getItemInSlot(AbstractAutoCrafter.BLUEPRINT_SLOT);
+                    SlimefunItem sf = SlimefunItem.getById(blockData.getSfId());
+                    ItemStack existing = crafterMenu.getItemInSlot(AbstractAutoCrafter.BLUEPRINT_SLOT);
                     if (sf instanceof AbstractAutoCrafter && (existing == null || existing.getType() == Material.AIR)) {
                         tryInsertBlueprint(crafterMenu, blueprint, 1);
                         return;
-                    } else if (sf instanceof AbstractAdvancedAutoCrafter && (existing == null || existing.getType() == Material.AIR || existing.getAmount() < output.getMaxStackSize() / output.getAmount())) {
-                        tryInsertBlueprint(crafterMenu, blueprint, Math.min(output.getMaxStackSize() / output.getAmount(), blueprint.getAmount()));
+                    } else if (sf instanceof AbstractAdvancedAutoCrafter
+                        && (existing == null
+                        || existing.getType() == Material.AIR
+                        || existing.getAmount() < output.getMaxStackSize() / output.getAmount())) {
+                        tryInsertBlueprint(
+                            crafterMenu,
+                            blueprint,
+                            Math.min(output.getMaxStackSize() / output.getAmount(), blueprint.getAmount()));
                         return;
                     }
                 }
@@ -255,32 +272,34 @@ public class CrafterManager extends NetworkObject {
         }
 
         if (empty != null) {
-            var blockData = StorageCacheUtils.getBlock(empty.getLocation());
+            SlimefunBlockData blockData = StorageCacheUtils.getBlock(empty.location());
             if (blockData == null) {
                 return;
             }
-            var crafterMenu = blockData.getBlockMenu();
+            BlockMenu crafterMenu = blockData.getBlockMenu();
             if (crafterMenu == null) {
                 return;
             }
 
-            var sf = SlimefunItem.getById(blockData.getSfId());
+            SlimefunItem sf = SlimefunItem.getById(blockData.getSfId());
             if (sf instanceof AbstractAutoCrafter) {
                 tryInsertBlueprint(crafterMenu, blueprint, 1);
-                return;
             } else if (sf instanceof AbstractAdvancedAutoCrafter) {
-                BlueprintInstance instance2 = null;
+                BlueprintInstance instance2;
 
                 final ItemMeta blueprintMeta = blueprint.getItemMeta();
                 Optional<BlueprintInstance> optional;
-                optional = DataTypeMethods.getOptionalCustom(blueprintMeta, Keys.BLUEPRINT_INSTANCE, PersistentCraftingBlueprintType.TYPE);
+                optional = DataTypeMethods.getOptionalCustom(
+                    blueprintMeta, Keys.BLUEPRINT_INSTANCE, PersistentCraftingBlueprintType.TYPE);
 
                 if (optional.isEmpty()) {
-                    optional = DataTypeMethods.getOptionalCustom(blueprintMeta, Keys.BLUEPRINT_INSTANCE2, PersistentCraftingBlueprintType.TYPE);
+                    optional = DataTypeMethods.getOptionalCustom(
+                        blueprintMeta, Keys.BLUEPRINT_INSTANCE2, PersistentCraftingBlueprintType.TYPE);
                 }
 
                 if (optional.isEmpty()) {
-                    optional = DataTypeMethods.getOptionalCustom(blueprintMeta, Keys.BLUEPRINT_INSTANCE3, PersistentCraftingBlueprintType.TYPE);
+                    optional = DataTypeMethods.getOptionalCustom(
+                        blueprintMeta, Keys.BLUEPRINT_INSTANCE3, PersistentCraftingBlueprintType.TYPE);
                 }
 
                 instance2 = optional.orElse(null);
@@ -288,45 +307,40 @@ public class CrafterManager extends NetworkObject {
                 if (instance2 != null) {
                     ItemStack output = instance.getItemStack();
                     if (output != null) {
-                        tryInsertBlueprint(crafterMenu, blueprint, Math.min(output.getMaxStackSize() / output.getAmount(), blueprint.getAmount()));
+                        tryInsertBlueprint(
+                            crafterMenu,
+                            blueprint,
+                            Math.min(output.getMaxStackSize() / output.getAmount(), blueprint.getAmount()));
                     } else {
                         tryInsertBlueprint(crafterMenu, blueprint, blueprint.getAmount());
                     }
                 } else {
                     tryInsertBlueprint(crafterMenu, blueprint, blueprint.getAmount());
                 }
-                return;
             }
         }
     }
 
-    public void tryInsertBlueprint(@Nonnull BlockMenu crafterMenu, @Nonnull ItemStack blueprint, int maxAmount) {
-        var existingBlueprint = crafterMenu.getItemInSlot(AbstractAutoCrafter.BLUEPRINT_SLOT);
+    public void tryInsertBlueprint(@NotNull BlockMenu crafterMenu, @NotNull ItemStack blueprint, int maxAmount) {
+        ItemStack existingBlueprint = crafterMenu.getItemInSlot(AbstractAutoCrafter.BLUEPRINT_SLOT);
         int v;
         if (existingBlueprint == null || existingBlueprint.getType() == Material.AIR) {
             v = Math.min(maxAmount, blueprint.getAmount());
             crafterMenu.replaceExistingItem(AbstractAutoCrafter.BLUEPRINT_SLOT, StackUtils.getAsQuantity(blueprint, v));
         } else {
-            v = Math.max(0, Math.min(existingBlueprint.getMaxStackSize() - existingBlueprint.getAmount(), Math.min(maxAmount, blueprint.getAmount())));
+            v = Math.max(
+                0,
+                Math.min(
+                    existingBlueprint.getMaxStackSize() - existingBlueprint.getAmount(),
+                    Math.min(maxAmount, blueprint.getAmount())));
             existingBlueprint.setAmount(existingBlueprint.getAmount() + v);
         }
 
         blueprint.setAmount(blueprint.getAmount() - v);
     }
 
-    public static ItemStack getItemStack(@Nonnull CrafterMetaData data) {
-        ItemStack raw = null;
-        if (data.getInstance() != null) {
-            raw = data.getInstance().getItemStack();
-        }
-        if (raw == null) {
-            return Icon.BLANK_SLOT_STACK;
-        }
-
-        return StackUtils.getAsQuantity(raw, Math.min(raw.getAmount() * data.getBlueprintAmount(), raw.getMaxStackSize()));
-    }
-
-    public void updateDisplay(BlockMenu managerMenu) {
+    @SuppressWarnings("deprecation")
+    public void updateDisplay(@Nullable BlockMenu managerMenu) {
         if (managerMenu == null) {
             return;
         }
@@ -344,8 +358,8 @@ public class CrafterManager extends NetworkObject {
         }
 
         final GridCache gridCache = getCacheMap().get(location);
-        var root = definition.getNode().getRoot();
-        var datas = CrafterMetaData.getMetaDatas(root);
+        NetworkRoot root = definition.getNode().getRoot();
+        List<CrafterMetaData> datas = CrafterMetaData.getMetaDatas(root);
 
         final int pages = (int) Math.ceil(datas.size() / (double) getDisplaySlots().length) - 1;
 
@@ -368,9 +382,9 @@ public class CrafterManager extends NetworkObject {
         }
         final int end = Math.min(start + getDisplaySlots().length, datas.size());
 
-        datas = datas.stream().sorted((a, b) ->
-                isTopCrafter(a.getLocation()) ? -1 : isTopCrafter(b.getLocation()) ? 1 : 0
-        ).toList();
+        datas = datas.stream()
+            .sorted((a, b) -> isTopCrafter(a.location()) ? -1 : isTopCrafter(b.location()) ? 1 : 0)
+            .toList();
 
         final List<CrafterMetaData> validdatas = datas.subList(start, end);
 
@@ -387,7 +401,7 @@ public class CrafterManager extends NetworkObject {
                     isEmpty = true;
                 }
 
-                var crafterLocation = data.getLocation();
+                Location crafterLocation = data.location();
 
                 final ItemStack custom = getCrafterIcon(crafterLocation);
                 if (custom != null) {
@@ -396,11 +410,12 @@ public class CrafterManager extends NetworkObject {
                     displayStack = rawDisplayStack.clone();
                 }
 
-                var name = getCrafterName(crafterLocation);
+                String name = getCrafterName(crafterLocation);
                 if (name != null) {
-                    displayStack = new CustomItemStack(displayStack, ChatColor.translateAlternateColorCodes('&', name));
+                    displayStack = new CustomItemStack(displayStack, TextUtil.color(name));
                 } else if (!isEmpty) {
-                    displayStack = new CustomItemStack(displayStack, ChatColor.GRAY + ItemStackHelper.getDisplayName(rawDisplayStack));
+                    displayStack = new CustomItemStack(
+                        displayStack, TextUtil.GRAY + ItemStackHelper.getDisplayName(rawDisplayStack));
                 } else {
                     displayStack = new CustomItemStack(displayStack, Sorters.NO_ITEM);
                 }
@@ -425,19 +440,27 @@ public class CrafterManager extends NetworkObject {
             }
         }
 
-        managerMenu.replaceExistingItem(getPagePrevious(), Icon.getPageStack(getPagePreviousStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
-        managerMenu.replaceExistingItem(getPageNext(), Icon.getPageStack(getPageNextStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
+        managerMenu.replaceExistingItem(
+            getPagePrevious(),
+            Icon.getPageStack(getPagePreviousStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
+        managerMenu.replaceExistingItem(
+            getPageNext(),
+            Icon.getPageStack(getPageNextStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
 
         sendFeedback(managerMenu.getLocation(), FeedbackType.WORKING);
     }
 
-    public List<String> getLoreAddition(CrafterMetaData data) {
-        var loc = data.getLocation();
+    public @NotNull List<String> getLoreAddition(@NotNull CrafterMetaData data) {
+        Location loc = data.location();
         List<String> list = new ArrayList<>();
         list.add("");
-        list.add(String.format(Networks.getLocalizationService().getString("messages.normal-operation.manager.location"), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
+        list.add(String.format(
+            Lang.getString("messages.normal-operation.manager.location"),
+            loc.getBlockX(),
+            loc.getBlockY(),
+            loc.getBlockZ()));
         list.add("");
-        list.addAll(Networks.getLocalizationService().getStringList("messages.normal-operation.manager.drawer-manager-click-behavior"));
+        list.addAll(Lang.getStringList("messages.normal-operation.manager.crafter-manager-click-behavior"));
 
         return list;
     }
@@ -447,7 +470,7 @@ public class CrafterManager extends NetworkObject {
         getPreset();
     }
 
-    @Nonnull
+    @NotNull
     protected BlockMenuPreset getPreset() {
         return new BlockMenuPreset(this.getId(), this.getItemName()) {
 
@@ -459,9 +482,11 @@ public class CrafterManager extends NetworkObject {
             }
 
             @Override
-            public boolean canOpen(@Nonnull Block block, @Nonnull Player player) {
-                return player.hasPermission("slimefun.inventory.bypass") || (ExpansionItems.NETWORK_GRID_NEW_STYLE.canUse(player, false)
-                        && Slimefun.getProtectionManager().hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
+                return player.hasPermission("slimefun.inventory.bypass")
+                    || (ExpansionItems.NETWORK_GRID_NEW_STYLE.canUse(player, false)
+                    && Slimefun.getProtectionManager()
+                    .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override
@@ -470,7 +495,7 @@ public class CrafterManager extends NetworkObject {
             }
 
             @Override
-            public void newInstance(@Nonnull BlockMenu menu, @Nonnull Block b) {
+            public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
                 getCacheMap().put(menu.getLocation(), new GridCache(0, 0, GridCache.SortOrder.ALPHABETICAL));
 
                 menu.replaceExistingItem(getPagePrevious(), getPagePreviousStack());
@@ -485,7 +510,10 @@ public class CrafterManager extends NetworkObject {
                 menu.replaceExistingItem(getPageNext(), getPageNextStack());
                 menu.addMenuClickHandler(getPageNext(), (p, slot, item, action) -> {
                     GridCache gridCache = getCacheMap().get(menu.getLocation());
-                    gridCache.setPage(gridCache.getPage() >= gridCache.getMaxPages() ? gridCache.getMaxPages() : gridCache.getPage() + 1);
+                    gridCache.setPage(
+                        gridCache.getPage() >= gridCache.getMaxPages()
+                            ? gridCache.getMaxPages()
+                            : gridCache.getPage() + 1);
                     getCacheMap().put(menu.getLocation(), gridCache);
                     updateDisplay(menu);
                     return false;
@@ -507,14 +535,17 @@ public class CrafterManager extends NetworkObject {
 
                     final ItemMeta blueprintMeta = blueprint.getItemMeta();
                     Optional<BlueprintInstance> optional;
-                    optional = DataTypeMethods.getOptionalCustom(blueprintMeta, Keys.BLUEPRINT_INSTANCE, PersistentCraftingBlueprintType.TYPE);
+                    optional = DataTypeMethods.getOptionalCustom(
+                        blueprintMeta, Keys.BLUEPRINT_INSTANCE, PersistentCraftingBlueprintType.TYPE);
 
                     if (optional.isEmpty()) {
-                        optional = DataTypeMethods.getOptionalCustom(blueprintMeta, Keys.BLUEPRINT_INSTANCE2, PersistentCraftingBlueprintType.TYPE);
+                        optional = DataTypeMethods.getOptionalCustom(
+                            blueprintMeta, Keys.BLUEPRINT_INSTANCE2, PersistentCraftingBlueprintType.TYPE);
                     }
 
                     if (optional.isEmpty()) {
-                        optional = DataTypeMethods.getOptionalCustom(blueprintMeta, Keys.BLUEPRINT_INSTANCE3, PersistentCraftingBlueprintType.TYPE);
+                        optional = DataTypeMethods.getOptionalCustom(
+                            blueprintMeta, Keys.BLUEPRINT_INSTANCE3, PersistentCraftingBlueprintType.TYPE);
                     }
 
                     BlueprintInstance instance = optional.orElse(null);
@@ -529,7 +560,7 @@ public class CrafterManager extends NetworkObject {
         };
     }
 
-    @Nonnull
+    @NotNull
     public Map<Location, GridCache> getCacheMap() {
         return CACHE_MAP;
     }
@@ -550,89 +581,28 @@ public class CrafterManager extends NetworkObject {
         return PAGE_NEXT;
     }
 
-    protected ItemStack getBlankSlotStack() {
+    protected @NotNull ItemStack getBlankSlotStack() {
         return Icon.DARK_BLANK_SLOT_STACK;
     }
 
-    protected ItemStack getPagePreviousStack() {
+    protected @NotNull ItemStack getPagePreviousStack() {
         return Icon.PAGE_PREVIOUS_STACK;
     }
 
-    protected ItemStack getPageNextStack() {
+    protected @NotNull ItemStack getPageNextStack() {
         return Icon.PAGE_NEXT_STACK;
     }
 
-    protected void clearDisplay(BlockMenu blockMenu) {
+    protected void clearDisplay(@NotNull BlockMenu blockMenu) {
         for (int displaySlot : getDisplaySlots()) {
             blockMenu.replaceExistingItem(displaySlot, getBlankSlotStack());
             blockMenu.addMenuClickHandler(displaySlot, (p, slot, item, action) -> false);
         }
     }
 
-    @Data
-    @AllArgsConstructor
-    public static class CrafterMetaData {
-        @Nonnull
-        private final Location location;
-        @Nullable
-        private final BlueprintInstance instance;
-        @Range(from = 0, to = 64)
-        private final int blueprintAmount;
-
-        @Nonnull
-        public static List<CrafterMetaData> getMetaDatas(@Nonnull NetworkRoot root) {
-            List<CrafterMetaData> metaDataList = new ArrayList<>();
-            for (BlockMenu blockMenu : root.getCrafterOutputs()) {
-                metaDataList.add(getMetaData(root, blockMenu));
-            }
-            metaDataList = metaDataList.stream().sorted(Comparator.comparingLong(d -> LocationUtil.toStableHash(d.getLocation()))).toList();
-
-            return metaDataList;
-        }
-
-        @Nonnull
-        @ParametersAreNonnullByDefault
-        public static CrafterMetaData getMetaData(NetworkRoot root, BlockMenu crafterMenu) {
-            Location location = crafterMenu.getLocation();
-            ItemStack blueprint = crafterMenu.getItemInSlot(AbstractAutoCrafter.BLUEPRINT_SLOT);
-            if (blueprint == null || blueprint.getType() == Material.AIR) {
-                return new CrafterMetaData(location, null, 0);
-            }
-
-            BlueprintInstance instance = AbstractAutoCrafter.INSTANCE_MAP.get(crafterMenu.getLocation());
-
-            if (instance == null) {
-                final ItemMeta blueprintMeta = blueprint.getItemMeta();
-                Optional<BlueprintInstance> optional;
-                optional = DataTypeMethods.getOptionalCustom(blueprintMeta, Keys.BLUEPRINT_INSTANCE, PersistentCraftingBlueprintType.TYPE);
-
-                if (optional.isEmpty()) {
-                    optional = DataTypeMethods.getOptionalCustom(blueprintMeta, Keys.BLUEPRINT_INSTANCE2, PersistentCraftingBlueprintType.TYPE);
-                }
-
-                if (optional.isEmpty()) {
-                    optional = DataTypeMethods.getOptionalCustom(blueprintMeta, Keys.BLUEPRINT_INSTANCE3, PersistentCraftingBlueprintType.TYPE);
-                }
-
-                instance = optional.orElse(null);
-            }
-
-            if (instance != null) {
-                SlimefunItem sf = StorageCacheUtils.getSfItem(location);
-                if (sf instanceof AbstractAdvancedAutoCrafter) {
-                    return new CrafterMetaData(location, instance, blueprint.getAmount());
-                } else {
-                    return new CrafterMetaData(location, instance, 1);
-                }
-            } else {
-               return new CrafterMetaData(location, null, 0);
-            }
-        }
-    }
-
-    public void swapItem(@Nonnull BlockMenu crafterMenu, @Nonnull Player player) {
-        var cursor = player.getItemOnCursor();
-        var existing = crafterMenu.getItemInSlot(AbstractAutoCrafter.BLUEPRINT_SLOT);
+    public void swapItem(@NotNull BlockMenu crafterMenu, @NotNull Player player) {
+        ItemStack cursor = player.getItemOnCursor();
+        ItemStack existing = crafterMenu.getItemInSlot(AbstractAutoCrafter.BLUEPRINT_SLOT);
         existing = existing == null ? null : existing.clone();
         crafterMenu.replaceExistingItem(AbstractAutoCrafter.BLUEPRINT_SLOT, cursor);
         player.setItemOnCursor(existing);
@@ -640,12 +610,13 @@ public class CrafterManager extends NetworkObject {
         AbstractAutoCrafter.updateCache(crafterMenu);
     }
 
-    public void setCrafterName(@Nonnull BlockMenu managerMenu, @Nonnull Player player, @Nonnull Location crafterLocation) {
-        player.sendMessage(Networks.getLocalizationService().getString("messages.normal-operation.manager.set_name"));
+    public void setCrafterName(
+        @NotNull BlockMenu managerMenu, @NotNull Player player, @NotNull Location crafterLocation) {
+        player.sendMessage(Lang.getString("messages.normal-operation.manager.set_name"));
         player.closeInventory();
         ChatUtils.awaitInput(player, s -> {
             StorageCacheUtils.setData(crafterLocation, BS_NAME, s);
-            player.sendMessage(Networks.getLocalizationService().getString("messages.completed-operation.manager.set_name"));
+            player.sendMessage(Lang.getString("messages.completed-operation.manager.set_name"));
 
             SlimefunBlockData data = StorageCacheUtils.getBlock(managerMenu.getLocation());
             if (data == null) {
@@ -662,8 +633,16 @@ public class CrafterManager extends NetworkObject {
         });
     }
 
+    @SuppressWarnings({"deprecation", "unused"})
     @ParametersAreNonnullByDefault
-    public void handleClick(NetworkRoot root, BlockMenu managerMenu, Location crafterLocation, Player player, int clickedSlot, ItemStack clickedItemStack, ClickAction clickAction) {
+    public void handleClick(
+        NetworkRoot root,
+        BlockMenu managerMenu,
+        Location crafterLocation,
+        Player player,
+        int clickedSlot,
+        ItemStack clickedItemStack,
+        ClickAction clickAction) {
         BlockMenu crafterMenu = StorageCacheUtils.getMenu(crafterLocation);
         if (crafterMenu == null) {
             return;
@@ -688,12 +667,73 @@ public class CrafterManager extends NetworkObject {
         } else {
             if (clickAction.isShiftClicked()) {
                 if (cursor == null || cursor.getType() == Material.AIR) {
-                    setCrafterName(managerMenu, player, data.getLocation());
+                    setCrafterName(managerMenu, player, data.location());
                 } else {
-                    setCrafterIcon(player, data.getLocation(), cursor);
+                    setCrafterIcon(player, data.location(), cursor);
                 }
             } else {
-                highlightBlock(player, data.getLocation());
+                highlightBlock(player, data.location());
+            }
+        }
+    }
+
+    public record CrafterMetaData(
+        @NotNull Location location,
+        @Nullable BlueprintInstance instance,
+        @Range(from = 0, to = 64) int blueprintAmount) {
+        @NotNull
+        public static List<CrafterMetaData> getMetaDatas(@NotNull NetworkRoot root) {
+            List<CrafterMetaData> metaDataList = new ArrayList<>();
+            for (BlockMenu blockMenu : root.getCrafterOutputs()) {
+                metaDataList.add(getMetaData(root, blockMenu));
+            }
+            metaDataList = metaDataList.stream()
+                .sorted(Comparator.comparingLong(d -> LocationUtil.toStableHash(d.location())))
+                .toList();
+
+            return metaDataList;
+        }
+
+        @SuppressWarnings("unused")
+        @NotNull
+        @ParametersAreNonnullByDefault
+        public static CrafterMetaData getMetaData(NetworkRoot root, BlockMenu crafterMenu) {
+            Location location = crafterMenu.getLocation();
+            ItemStack blueprint = crafterMenu.getItemInSlot(AbstractAutoCrafter.BLUEPRINT_SLOT);
+            if (blueprint == null || blueprint.getType() == Material.AIR) {
+                return new CrafterMetaData(location, null, 0);
+            }
+
+            BlueprintInstance instance = AbstractAutoCrafter.INSTANCE_MAP.get(crafterMenu.getLocation());
+
+            if (instance == null) {
+                final ItemMeta blueprintMeta = blueprint.getItemMeta();
+                Optional<BlueprintInstance> optional;
+                optional = DataTypeMethods.getOptionalCustom(
+                    blueprintMeta, Keys.BLUEPRINT_INSTANCE, PersistentCraftingBlueprintType.TYPE);
+
+                if (optional.isEmpty()) {
+                    optional = DataTypeMethods.getOptionalCustom(
+                        blueprintMeta, Keys.BLUEPRINT_INSTANCE2, PersistentCraftingBlueprintType.TYPE);
+                }
+
+                if (optional.isEmpty()) {
+                    optional = DataTypeMethods.getOptionalCustom(
+                        blueprintMeta, Keys.BLUEPRINT_INSTANCE3, PersistentCraftingBlueprintType.TYPE);
+                }
+
+                instance = optional.orElse(null);
+            }
+
+            if (instance != null) {
+                SlimefunItem sf = StorageCacheUtils.getSfItem(location);
+                if (sf instanceof AbstractAdvancedAutoCrafter) {
+                    return new CrafterMetaData(location, instance, blueprint.getAmount());
+                } else {
+                    return new CrafterMetaData(location, instance, 1);
+                }
+            } else {
+                return new CrafterMetaData(location, null, 0);
             }
         }
     }

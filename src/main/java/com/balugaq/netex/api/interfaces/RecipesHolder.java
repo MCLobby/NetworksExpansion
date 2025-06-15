@@ -1,14 +1,14 @@
 package com.balugaq.netex.api.interfaces;
 
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+
 public interface RecipesHolder {
     @Deprecated
-    static @Nonnull Map<ItemStack[], ItemStack> getRecipes() {
+    static @NotNull Map<ItemStack[], ItemStack> getRecipes() {
         return new HashMap<>();
     }
 }

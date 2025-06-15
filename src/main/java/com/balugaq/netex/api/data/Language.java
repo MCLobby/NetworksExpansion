@@ -1,18 +1,20 @@
 package com.balugaq.netex.api.data;
 
+import com.balugaq.netex.utils.Debug;
 import com.google.common.base.Preconditions;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.File;
 import java.io.IOException;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 public final class Language {
-    private final @Nonnull String lang;
-    private final @Nonnull File currentFile;
-    private final @Nonnull FileConfiguration currentConfig;
+    private final @NotNull String lang;
+    private final @NotNull File currentFile;
+    private final @NotNull FileConfiguration currentConfig;
 
     @ParametersAreNonnullByDefault
     public Language(String lang, File currentFile, FileConfiguration defaultConfig) {
@@ -33,12 +35,12 @@ public final class Language {
         this.save();
     }
 
-    @Nonnull
+    @NotNull
     public String getName() {
         return this.lang;
     }
 
-    @Nonnull
+    @NotNull
     public FileConfiguration getLang() {
         return this.currentConfig;
     }
@@ -46,9 +48,8 @@ public final class Language {
     public void save() {
         try {
             this.currentConfig.save(this.currentFile);
-        } catch (IOException var2) {
-            var2.printStackTrace();
+        } catch (IOException e) {
+            Debug.trace(e);
         }
-
     }
 }

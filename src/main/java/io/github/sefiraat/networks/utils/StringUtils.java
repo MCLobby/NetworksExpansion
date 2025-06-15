@@ -1,11 +1,11 @@
 package io.github.sefiraat.networks.utils;
 
-import lombok.experimental.UtilityClass;
-
-import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+
+import lombok.experimental.UtilityClass;
+import org.jetbrains.annotations.NotNull;
 
 @UtilityClass
 public final class StringUtils {
@@ -13,50 +13,49 @@ public final class StringUtils {
     /**
      * List of names to be given to ArmourStands, invisible but mods and Minimaps can see them :)
      */
-    @Nonnull
+    @NotNull
     private static final List<String> EGG_NAMES = Arrays.asList(
-            "TheBusyBiscuit",
-            "Alessio",
-            "Walshy",
-            "Jeff",
-            "Seggan",
-            "BOOMER_1",
-            "svr333",
-            "variananora",
-            "ProfElements",
-            "Riley",
-            "FluffyBear",
-            "GallowsDove",
-            "Apeiros",
-            "Martin",
-            "Bunnky",
-            "ReasonFoundDecoy",
-            "Oah",
-            "Azak",
-            "andrewandy",
-            "EpicPlayer10",
-            "GentlemanCheesy",
-            "ybw0014",
-            "Ashian",
-            "R.I.P",
-            "OOOOMAGAAA",
-            "TerslenK",
-            "FN_FAL",
-            "supertechxter"
-    );
+        "TheBusyBiscuit",
+        "Alessio",
+        "Walshy",
+        "Jeff",
+        "Seggan",
+        "BOOMER_1",
+        "svr333",
+        "variananora",
+        "ProfElements",
+        "Riley",
+        "FluffyBear",
+        "GallowsDove",
+        "Apeiros",
+        "Martin",
+        "Bunnky",
+        "ReasonFoundDecoy",
+        "Oah",
+        "Azak",
+        "andrewandy",
+        "EpicPlayer10",
+        "GentlemanCheesy",
+        "ybw0014",
+        "Ashian",
+        "R.I.P",
+        "OOOOMAGAAA",
+        "TerslenK",
+        "FN_FAL",
+        "supertechxter");
 
-    @Nonnull
-    public static String toTitleCase(@Nonnull String string) {
+    @NotNull
+    public static String toTitleCase(@NotNull String string) {
         return toTitleCase(string, true);
     }
 
-    @Nonnull
-    public static String toTitleCase(@Nonnull String string, boolean delimiterToSpace) {
+    @NotNull
+    public static String toTitleCase(@NotNull String string, boolean delimiterToSpace) {
         return toTitleCase(string, delimiterToSpace, " _'-/");
     }
 
-    @Nonnull
-    public static String toTitleCase(@Nonnull String string, boolean delimiterToSpace, @Nonnull String delimiters) {
+    @NotNull
+    public static String toTitleCase(@NotNull String string, boolean delimiterToSpace, @NotNull String delimiters) {
         final StringBuilder builder = new StringBuilder();
         boolean capNext = true;
 
@@ -77,15 +76,14 @@ public final class StringUtils {
         return built;
     }
 
-    @Nonnull
+    @NotNull
     public static String getRandomEggName() {
         int rnd = ThreadLocalRandom.current().nextInt(0, EGG_NAMES.size());
         return EGG_NAMES.get(rnd);
     }
 
-    @Nonnull
+    @NotNull
     public static List<String> getEggNames() {
         return EGG_NAMES;
     }
-
 }
