@@ -203,6 +203,8 @@ messages:
       set-pos2-with-blocks: "&aSet pos2 to %s (%s Blocks)"
       invalid-slot: "&c槽位号必须在0-53之间!"
   normal-operation:
+    common:
+      page: "页"
     quantum_cache:
       empty: "空"
       stored_item: "<click_info>物品: %s"

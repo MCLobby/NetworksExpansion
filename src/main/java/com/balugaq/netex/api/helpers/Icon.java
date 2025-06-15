@@ -155,7 +155,7 @@ public class Icon {
         ItemMeta meta = clone.getItemMeta();
         if (meta != null) {
             List<String> lore = Optional.ofNullable(meta.getLore()).orElse(new ArrayList<>());
-            lore.add(TextUtil.GRAY + "页 " + TextUtil.GREEN + currentPage + " / " + maxPage); // todo: add to lang
+            lore.add(TextUtil.GRAY + Lang.getString("messages.normal-operation.common.page") + " " + TextUtil.GREEN + currentPage + " / " + maxPage);
             meta.setLore(lore);
             clone.setItemMeta(meta);
         }
