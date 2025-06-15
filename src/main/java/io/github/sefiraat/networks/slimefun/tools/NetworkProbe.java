@@ -1,6 +1,7 @@
 package io.github.sefiraat.networks.slimefun.tools;
 
 import com.balugaq.netex.utils.Lang;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItemStacks;
@@ -208,12 +209,12 @@ public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
             final Block block = optional.get();
             final Player player = e.getPlayer();
             if (canBeUsed(player, e.getItem())) {
-                var blockData = StorageCacheUtils.getBlock(block.getLocation());
+                SlimefunBlockData blockData = StorageCacheUtils.getBlock(block.getLocation());
                 if (blockData == null) {
                     return;
                 }
 
-                var slimefunItem = SlimefunItem.getById(blockData.getSfId());
+                SlimefunItem slimefunItem = SlimefunItem.getById(blockData.getSfId());
                 if (slimefunItem instanceof NetworkController) {
                     e.cancel();
                     displayToPlayer(block, player);

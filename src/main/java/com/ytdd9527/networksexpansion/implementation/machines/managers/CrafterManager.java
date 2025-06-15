@@ -138,7 +138,7 @@ public class CrafterManager extends NetworkObject {
     }
 
     public static @NotNull String serializeIcon(@NotNull ItemStack itemStack) {
-        var sf = SlimefunItem.getByItem(itemStack);
+        SlimefunItem sf = SlimefunItem.getByItem(itemStack);
         if (sf != null) {
             return NAMESPACE_SF + ":" + sf.getId();
         } else {
@@ -148,13 +148,13 @@ public class CrafterManager extends NetworkObject {
 
     @Nullable public static ItemStack deserializeIcon(@NotNull String icon) {
         if (icon.startsWith(NAMESPACE_SF)) {
-            var id = icon.split(":")[1];
-            var sf = SlimefunItem.getById(id);
+            String id = icon.split(":")[1];
+            SlimefunItem sf = SlimefunItem.getById(id);
             if (sf != null) {
                 return sf.getItem();
             }
         } else if (icon.startsWith(NAMESPACE_MC)) {
-            var type = Material.valueOf(icon.split(":")[1]);
+            Material type = Material.valueOf(icon.split(":")[1]);
             return new ItemStack(type);
         }
 
@@ -197,13 +197,13 @@ public class CrafterManager extends NetworkObject {
             @NotNull BlockMenu managerMenu, @NotNull ItemStack blueprint, @NotNull BlueprintInstance instance) {
         Location location = managerMenu.getLocation();
         final GridCache gridCache = getCacheMap().get(location);
-        var definition = NetworkStorage.getNode(location);
+        NodeDefinition definition = NetworkStorage.getNode(location);
         if (definition == null || definition.getNode() == null) {
             return;
         }
 
-        var root = definition.getNode().getRoot();
-        var datas = CrafterMetaData.getMetaDatas(root);
+        NetworkRoot root = definition.getNode().getRoot();
+        List<CrafterMetaData> datas = CrafterMetaData.getMetaDatas(root);
 
         final int pages = (int) Math.ceil(datas.size() / (double) getDisplaySlots().length) - 1;
 
@@ -232,23 +232,23 @@ public class CrafterManager extends NetworkObject {
 
         final List<CrafterMetaData> validdatas = datas.subList(start, end);
         CrafterMetaData empty = null;
-        for (var data : validdatas) {
+        for (CrafterMetaData data : validdatas) {
             if (data.instance() != null) {
                 ItemStack output = data.instance().getItemStack();
                 if (output == null) {
                     continue;
                 }
                 if (StackUtils.itemsMatch(output, instance.getItemStack(), true, false)) {
-                    var blockData = StorageCacheUtils.getBlock(data.location());
+                    SlimefunBlockData blockData = StorageCacheUtils.getBlock(data.location());
                     if (blockData == null) {
                         continue;
                     }
-                    var crafterMenu = blockData.getBlockMenu();
+                    BlockMenu crafterMenu = blockData.getBlockMenu();
                     if (crafterMenu == null) {
                         continue;
                     }
-                    var sf = SlimefunItem.getById(blockData.getSfId());
-                    var existing = crafterMenu.getItemInSlot(AbstractAutoCrafter.BLUEPRINT_SLOT);
+                    SlimefunItem sf = SlimefunItem.getById(blockData.getSfId());
+                    ItemStack existing = crafterMenu.getItemInSlot(AbstractAutoCrafter.BLUEPRINT_SLOT);
                     if (sf instanceof AbstractAutoCrafter && (existing == null || existing.getType() == Material.AIR)) {
                         tryInsertBlueprint(crafterMenu, blueprint, 1);
                         return;
@@ -269,16 +269,16 @@ public class CrafterManager extends NetworkObject {
         }
 
         if (empty != null) {
-            var blockData = StorageCacheUtils.getBlock(empty.location());
+            SlimefunBlockData blockData = StorageCacheUtils.getBlock(empty.location());
             if (blockData == null) {
                 return;
             }
-            var crafterMenu = blockData.getBlockMenu();
+            BlockMenu crafterMenu = blockData.getBlockMenu();
             if (crafterMenu == null) {
                 return;
             }
 
-            var sf = SlimefunItem.getById(blockData.getSfId());
+            SlimefunItem sf = SlimefunItem.getById(blockData.getSfId());
             if (sf instanceof AbstractAutoCrafter) {
                 tryInsertBlueprint(crafterMenu, blueprint, 1);
             } else if (sf instanceof AbstractAdvancedAutoCrafter) {
@@ -319,7 +319,7 @@ public class CrafterManager extends NetworkObject {
     }
 
     public void tryInsertBlueprint(@NotNull BlockMenu crafterMenu, @NotNull ItemStack blueprint, int maxAmount) {
-        var existingBlueprint = crafterMenu.getItemInSlot(AbstractAutoCrafter.BLUEPRINT_SLOT);
+        ItemStack existingBlueprint = crafterMenu.getItemInSlot(AbstractAutoCrafter.BLUEPRINT_SLOT);
         int v;
         if (existingBlueprint == null || existingBlueprint.getType() == Material.AIR) {
             v = Math.min(maxAmount, blueprint.getAmount());
@@ -355,8 +355,8 @@ public class CrafterManager extends NetworkObject {
         }
 
         final GridCache gridCache = getCacheMap().get(location);
-        var root = definition.getNode().getRoot();
-        var datas = CrafterMetaData.getMetaDatas(root);
+        NetworkRoot root = definition.getNode().getRoot();
+        List<CrafterMetaData> datas = CrafterMetaData.getMetaDatas(root);
 
         final int pages = (int) Math.ceil(datas.size() / (double) getDisplaySlots().length) - 1;
 
@@ -398,7 +398,7 @@ public class CrafterManager extends NetworkObject {
                     isEmpty = true;
                 }
 
-                var crafterLocation = data.location();
+                Location crafterLocation = data.location();
 
                 final ItemStack custom = getCrafterIcon(crafterLocation);
                 if (custom != null) {
@@ -407,7 +407,7 @@ public class CrafterManager extends NetworkObject {
                     displayStack = rawDisplayStack.clone();
                 }
 
-                var name = getCrafterName(crafterLocation);
+                String name = getCrafterName(crafterLocation);
                 if (name != null) {
                     displayStack = new CustomItemStack(displayStack, TextUtil.color(name));
                 } else if (!isEmpty) {
@@ -448,7 +448,7 @@ public class CrafterManager extends NetworkObject {
     }
 
     public @NotNull List<String> getLoreAddition(@NotNull CrafterMetaData data) {
-        var loc = data.location();
+        Location loc = data.location();
         List<String> list = new ArrayList<>();
         list.add("");
         list.add(String.format(
@@ -596,8 +596,8 @@ public class CrafterManager extends NetworkObject {
     }
 
     public void swapItem(@NotNull BlockMenu crafterMenu, @NotNull Player player) {
-        var cursor = player.getItemOnCursor();
-        var existing = crafterMenu.getItemInSlot(AbstractAutoCrafter.BLUEPRINT_SLOT);
+        ItemStack cursor = player.getItemOnCursor();
+        ItemStack existing = crafterMenu.getItemInSlot(AbstractAutoCrafter.BLUEPRINT_SLOT);
         existing = existing == null ? null : existing.clone();
         crafterMenu.replaceExistingItem(AbstractAutoCrafter.BLUEPRINT_SLOT, cursor);
         player.setItemOnCursor(existing);

@@ -39,11 +39,10 @@ public class ItemFlowRecord {
         lastChangeTime = System.currentTimeMillis();
         actionsCount++;
 
-        var key = StackUtils.getAsQuantity(before, 1);
+        ItemStack key = StackUtils.getAsQuantity(before, 1);
+        List<TransportAction> list = actions.computeIfAbsent(key, k -> new ArrayList<>());
 
-        var list = actions.computeIfAbsent(key, k -> new ArrayList<>());
-
-        var action = new TransportAction(accessor, change, System.currentTimeMillis());
+        TransportAction action = new TransportAction(accessor, change, System.currentTimeMillis());
         list.add(action);
     }
 
@@ -55,10 +54,10 @@ public class ItemFlowRecord {
         lastChangeTime = System.currentTimeMillis();
         actionsCount++;
 
-        var key = StackUtils.getAsQuantity(request.getItemStack(), 1);
-        var list = actions.computeIfAbsent(key, k -> new ArrayList<>());
+        ItemStack key = StackUtils.getAsQuantity(request.getItemStack(), 1);
+        List<TransportAction> list = actions.computeIfAbsent(key, k -> new ArrayList<>());
 
-        var action = new TransportAction(accessor, -request.getReceivedAmount(), System.currentTimeMillis());
+        TransportAction action = new TransportAction(accessor, -request.getReceivedAmount(), System.currentTimeMillis());
         list.add(action);
     }
 

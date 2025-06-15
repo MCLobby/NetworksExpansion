@@ -201,7 +201,7 @@ public class NetworkWirelessTransmitter extends NetworkObject {
 
     public void addLinkedLocation(@NotNull Block block, @NotNull Location linkedLocation) {
         linkedLocations.put(block.getLocation(), linkedLocation);
-        var blockData = StorageCacheUtils.getBlock(block.getLocation());
+        SlimefunBlockData blockData = StorageCacheUtils.getBlock(block.getLocation());
         if (blockData == null) {
             return;
         }

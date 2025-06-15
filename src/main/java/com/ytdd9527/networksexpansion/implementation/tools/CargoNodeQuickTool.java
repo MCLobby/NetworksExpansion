@@ -101,7 +101,7 @@ public class CargoNodeQuickTool extends SpecialSlimefunItem {
                         if (lore == null) {
                             lore = new ArrayList<>(1);
                         }
-                        var sf = SlimefunItem.getById(blockData.getSfId());
+                        SlimefunItem sf = SlimefunItem.getById(blockData.getSfId());
                         if (sf != null) {
                             lore.set(
                                     lore.size() - 1,
@@ -248,7 +248,7 @@ public class CargoNodeQuickTool extends SpecialSlimefunItem {
 
     private boolean isTool(@Nullable ItemStack tool) {
         if (tool != null && tool.getItemMeta() != null) {
-            var sf = Slimefun.instance();
+            Slimefun sf = Slimefun.instance();
             if (sf != null) {
                 NamespacedKey idKey = Keys.customNewKey(sf, "slimefun_item");
                 PersistentDataContainer container = tool.getItemMeta().getPersistentDataContainer();

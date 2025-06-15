@@ -90,7 +90,7 @@ public class QuantumCache extends ItemStackCache {
     }
 
     public void addMetaLore(@NotNull ItemMeta itemMeta) {
-        var old = itemMeta.getLore();
+        List<String> old = itemMeta.getLore();
         final List<String> lore = old != null ? new ArrayList<>(old) : new ArrayList<>();
         String itemName = Lang.getString("messages.normal-operation.quantum_cache.empty");
         if (getItemStack() != null) {

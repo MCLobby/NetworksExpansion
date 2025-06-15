@@ -3,8 +3,8 @@ package io.github.sefiraat.networks.commands;
 import com.balugaq.netex.api.data.ItemContainer;
 import com.balugaq.netex.api.data.StorageUnitData;
 import com.balugaq.netex.api.enums.ErrorType;
-import com.balugaq.netex.utils.MapUtil;
 import com.balugaq.netex.utils.Lang;
+import com.balugaq.netex.utils.MapUtil;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.unusable.AbstractBlueprint;
@@ -53,6 +53,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
@@ -453,15 +454,15 @@ public class NetworksMain implements TabExecutor {
     @Deprecated
     @SuppressWarnings("UnstableApiUsage")
     public static void worldeditClone(@NotNull Player player, boolean overrideData) {
-        var pos1 = getPos1(player);
-        var pos2 = getPos2(player);
+        Location pos1 = getPos1(player);
+        Location pos2 = getPos2(player);
         if (pos1 == null || pos2 == null) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
         }
 
-        var w1 = pos1.getWorld();
-        var w2 = pos2.getWorld();
+        World w1 = pos1.getWorld();
+        World w2 = pos2.getWorld();
         if (w1 == null || w2 == null) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
@@ -600,8 +601,8 @@ public class NetworksMain implements TabExecutor {
             @NotNull Player player, @NotNull String sfid, boolean overrideData, boolean force) {
         final SlimefunItem sfItem = SlimefunItem.getById(sfid);
 
-        var pos1 = getPos1(player);
-        var pos2 = getPos2(player);
+        Location pos1 = getPos1(player);
+        Location pos2 = getPos2(player);
         if (pos1 == null || pos2 == null) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
@@ -690,8 +691,8 @@ public class NetworksMain implements TabExecutor {
 
     @Deprecated
     public static void worldeditClear(@NotNull Player player, boolean callHandler, boolean skipVanilla) {
-        var pos1 = getPos1(player);
-        var pos2 = getPos2(player);
+        Location pos1 = getPos1(player);
+        Location pos2 = getPos2(player);
         if (pos1 == null || pos2 == null) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
@@ -738,8 +739,8 @@ public class NetworksMain implements TabExecutor {
 
     @Deprecated
     public static void worldeditBlockMenuSetSlot(@NotNull Player player, int slot) {
-        var pos1 = getPos1(player);
-        var pos2 = getPos2(player);
+        Location pos1 = getPos1(player);
+        Location pos2 = getPos2(player);
         if (pos1 == null || pos2 == null) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
@@ -780,8 +781,8 @@ public class NetworksMain implements TabExecutor {
 
     @Deprecated
     public static void worldeditBlockInfoAdd(@NotNull Player player, @NotNull String key, @NotNull String value) {
-        var pos1 = getPos1(player);
-        var pos2 = getPos2(player);
+        Location pos1 = getPos1(player);
+        Location pos2 = getPos2(player);
         if (pos1 == null || pos2 == null) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
@@ -812,8 +813,8 @@ public class NetworksMain implements TabExecutor {
 
     @Deprecated
     public static void worldeditBlockInfoRemove(@NotNull Player player, @NotNull String key) {
-        var pos1 = getPos1(player);
-        var pos2 = getPos2(player);
+        Location pos1 = getPos1(player);
+        Location pos2 = getPos2(player);
         if (pos1 == null || pos2 == null) {
             player.sendMessage(Lang.getString("messages.commands.worldedit.must-select-range"));
             return;
@@ -867,7 +868,7 @@ public class NetworksMain implements TabExecutor {
             }
 
             if (quantumCache == null || quantumCache.getItemStack() == null) {
-                var sf = SlimefunItem.getById(currentId);
+                SlimefunItem sf = SlimefunItem.getById(currentId);
                 if (sf != null) {
                     itemInHand.setItemMeta(sf.getItem().getItemMeta());
                 }
@@ -879,7 +880,7 @@ public class NetworksMain implements TabExecutor {
             final SlimefunItem sfi = SlimefunItem.getByItem(stored);
             if (sfi != null) {
                 final String quantumStoredId = sfi.getId();
-                var sf = SlimefunItem.getById(quantumStoredId);
+                SlimefunItem sf = SlimefunItem.getById(quantumStoredId);
                 if (sf != null) {
                     stored.setItemMeta(sf.getItem().getItemMeta());
                 }
@@ -891,7 +892,7 @@ public class NetworksMain implements TabExecutor {
             itemInHand.setItemMeta(meta);
             player.sendMessage(Lang.getString("messages.commands.updated-item"));
         } else {
-            var sf = SlimefunItem.getById(currentId);
+            SlimefunItem sf = SlimefunItem.getById(currentId);
             if (sf != null) {
                 itemInHand.setItemMeta(sf.getItem().getItemMeta());
             }
@@ -1384,8 +1385,8 @@ public class NetworksMain implements TabExecutor {
                         String filePath = args[1];
                         Pair<ItemStack, MapView> pair = MapUtil.getImageItem(filePath);
                         if (pair != null) {
-                            var first = pair.getFirstValue();
-                            var second = pair.getSecondValue();
+                            ItemStack first = pair.getFirstValue();
+                            MapView second = pair.getSecondValue();
                             if (first != null && second != null) {
                                 player.getInventory().addItem(first);
                                 player.sendMap(second);
@@ -1461,7 +1462,7 @@ public class NetworksMain implements TabExecutor {
         BlueprintInstance instance = optional.get();
 
         ItemStack fix = NetworksSlimefunItemStacks.CRAFTING_BLUEPRINT.clone();
-        var item2 = instance.getItemStack();
+        ItemStack item2 = instance.getItemStack();
         if (item2 != null) {
             AbstractBlueprint.setBlueprint(fix, instance.getRecipeItems(), item2);
         }

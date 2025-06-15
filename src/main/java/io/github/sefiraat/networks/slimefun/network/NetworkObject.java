@@ -1,6 +1,7 @@
 package io.github.sefiraat.networks.slimefun.network;
 
 import com.balugaq.netex.api.interfaces.HangingBlock;
+import com.balugaq.netex.utils.Debug;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
@@ -22,7 +23,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import javax.annotation.ParametersAreNonnullByDefault;
 import lombok.Getter;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -38,9 +41,25 @@ import org.jetbrains.annotations.NotNull;
 
 @Getter
 public abstract class NetworkObject extends SpecialSlimefunItem implements AdminDebuggable {
-
+    public static final Queue<Location> scheduledHangingTick = new ConcurrentLinkedQueue<>();
     protected static final Set<BlockFace> CHECK_FACES =
             Set.of(BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST);
+
+    static {
+        Bukkit.getScheduler()
+                .runTaskTimer(
+                        Networks.getInstance(),
+                        () -> {
+                            while (!scheduledHangingTick.isEmpty()) {
+                                final Location location = scheduledHangingTick.poll();
+                                final Block block = location.getBlock();
+                                HangingBlock.tickHangingBlocks(block);
+                            }
+                        },
+                        1L,
+                        Slimefun.getTickerTask().getTickRate());
+    }
+
     private final NodeType nodeType;
     private final List<Integer> slotsToDrop = new ArrayList<>();
     private final Set<Location> firstTickLocations = new HashSet<>();
@@ -75,13 +94,15 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
                     public void tick(@NotNull Block b, SlimefunItem item, SlimefunBlockData data) {
                         if (!firstTickLocations.contains(b.getLocation())) {
                             // Netex - Hanging patch start
-                            Bukkit.getScheduler().runTask(Networks.getInstance(), () -> HangingBlock.loadHangingBlocks(data));
+                            Bukkit.getScheduler()
+                                    .runTask(Networks.getInstance(), () -> HangingBlock.loadHangingBlocks(data));
                             // Netex - Hanging patch end
                             firstTickLocations.add(b.getLocation());
                             return;
                         }
 
                         addToRegistry(b);
+                        tickHangingBlocks(b);
                     }
 
                     @Override
@@ -114,6 +135,10 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
             final NodeDefinition nodeDefinition = new NodeDefinition(nodeType);
             NetworkStorage.registerNode(block.getLocation(), nodeDefinition);
         }
+    }
+
+    protected void tickHangingBlocks(@NotNull Block block) {
+        scheduledHangingTick.add(block.getLocation());
     }
 
     protected void preBreak(@NotNull BlockBreakEvent event) {

@@ -37,6 +37,7 @@ import org.bstats.bukkit.Metrics;
 import org.bstats.charts.AdvancedPie;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -162,7 +163,7 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
         getLogger().info(getLocalizationService().getString("messages.startup.registering-listeners"));
         this.listenerManager = new ListenerManager();
         getLogger().info(getLocalizationService().getString("messages.startup.registering-commands"));
-        var c = this.getCommand("networks");
+        PluginCommand c = this.getCommand("networks");
         if (c != null) {
             c.setExecutor(new NetworksMain());
         }

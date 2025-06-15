@@ -204,7 +204,7 @@ public interface RecipeCompletableWithGuide {
         for (ItemStack itemStack1 : player.getInventory().getContents()) {
             if (itemStack1 != null && itemStack1.getType() != Material.AIR) {
                 if (StackUtils.itemsMatch(itemStack1, itemStack, true, false)) {
-                    var clone = StackUtils.getAsQuantity(itemStack1, 1);
+                    ItemStack clone = StackUtils.getAsQuantity(itemStack1, 1);
                     int newAmount = itemStack1.getAmount() - 1;
 
                     itemStack1.setAmount(newAmount);

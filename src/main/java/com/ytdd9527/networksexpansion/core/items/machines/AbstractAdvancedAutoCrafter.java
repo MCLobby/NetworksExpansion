@@ -150,7 +150,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject {
             final ItemStack output = blockMenu.getItemInSlot(OUTPUT_SLOT);
             int blueprintAmount = blueprint.getAmount();
 
-            var targetOutput = instance.getItemStack();
+            ItemStack targetOutput = instance.getItemStack();
             if (output != null
                     && output.getType() != Material.AIR
                     && targetOutput != null

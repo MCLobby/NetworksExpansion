@@ -1,6 +1,7 @@
 package com.ytdd9527.networksexpansion.implementation.machines.managers;
 
 import com.balugaq.netex.api.algorithm.Sorters;
+import com.balugaq.netex.api.data.ItemContainer;
 import com.balugaq.netex.api.data.StorageUnitData;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.events.NetworkRootLocateStorageEvent;
@@ -146,7 +147,7 @@ public class DrawerManager extends NetworkObject {
     }
 
     public static @NotNull String serializeIcon(@NotNull ItemStack itemStack) {
-        var sf = SlimefunItem.getByItem(itemStack);
+        SlimefunItem sf = SlimefunItem.getByItem(itemStack);
         if (sf != null) {
             return NAMESPACE_SF + ":" + sf.getId();
         } else {
@@ -156,13 +157,13 @@ public class DrawerManager extends NetworkObject {
 
     @Nullable public static ItemStack deserializeIcon(@NotNull String icon) {
         if (icon.startsWith(NAMESPACE_SF)) {
-            var id = icon.split(":")[1];
-            var sf = SlimefunItem.getById(id);
+            String id = icon.split(":")[1];
+            SlimefunItem sf = SlimefunItem.getById(id);
             if (sf != null) {
                 return sf.getItem();
             }
         } else if (icon.startsWith(NAMESPACE_MC)) {
-            var type = Material.valueOf(icon.split(":")[1]);
+            Material type = Material.valueOf(icon.split(":")[1]);
             return new ItemStack(type);
         }
 
@@ -200,7 +201,7 @@ public class DrawerManager extends NetworkObject {
 
     @SuppressWarnings("deprecation")
     public static @Nullable ItemStack getItemStack(@NotNull StorageUnitData entry) {
-        var itemContainers = entry.getStoredItems();
+        List<ItemContainer> itemContainers = entry.getStoredItems();
         if (itemContainers.isEmpty()) {
             return null;
         } else {
@@ -324,8 +325,8 @@ public class DrawerManager extends NetworkObject {
         }
 
         final GridCache gridCache = getCacheMap().get(location);
-        var root = definition.getNode().getRoot();
-        var datas = getStorageUnitDatas(root, gridCache);
+        NetworkRoot root = definition.getNode().getRoot();
+        List<StorageUnitData> datas = getStorageUnitDatas(root, gridCache);
 
         final int pages = (int) Math.ceil(datas.size() / (double) getDisplaySlots().length) - 1;
 
@@ -367,7 +368,7 @@ public class DrawerManager extends NetworkObject {
                     isEmpty = true;
                 }
 
-                var dataLocation = data.getLastLocation();
+                Location dataLocation = data.getLastLocation();
 
                 final ItemStack custom = getStorageIcon(dataLocation);
                 if (custom != null) {
@@ -376,7 +377,7 @@ public class DrawerManager extends NetworkObject {
                     displayStack = dataItemStack.clone();
                 }
 
-                var name = getStorageName(dataLocation);
+                String name = getStorageName(dataLocation);
                 if (name != null) {
                     displayStack = new CustomItemStack(displayStack, TextUtil.color(name));
                 } else if (!isEmpty) {
@@ -417,7 +418,7 @@ public class DrawerManager extends NetworkObject {
     }
 
     public @NotNull List<String> getLoreAddition(@NotNull StorageUnitData data) {
-        var loc = data.getLastLocation();
+        Location loc = data.getLastLocation();
         List<String> list = new ArrayList<>();
         list.add("");
         list.add(String.format(Lang.getString("messages.normal-operation.manager.id"), data.getId()));

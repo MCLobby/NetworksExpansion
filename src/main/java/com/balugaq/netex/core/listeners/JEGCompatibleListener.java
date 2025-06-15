@@ -41,7 +41,7 @@ public class JEGCompatibleListener implements Listener {
             return;
         }
 
-        var profile = getPlayerProfile(player);
+        PlayerProfile profile = getPlayerProfile(player);
         saveOriginGuideHistory(profile);
         clearGuideHistory(profile);
     }
@@ -50,7 +50,7 @@ public class JEGCompatibleListener implements Listener {
         GuideHistory oldHistory = profile.getGuideHistory();
         GuideHistory newHistory = new GuideHistory(profile);
         ReflectionUtil.setValue(newHistory, "mainMenuPage", oldHistory.getMainMenuPage());
-        var queue = ReflectionUtil.getValue(oldHistory, "queue", LinkedList.class);
+        LinkedList<?> queue = ReflectionUtil.getValue(oldHistory, "queue", LinkedList.class);
         ReflectionUtil.setValue(newHistory, "queue", queue != null ? queue.clone() : new LinkedList<>());
         GUIDE_HISTORY.put(profile.getUUID(), newHistory);
     }
@@ -61,19 +61,19 @@ public class JEGCompatibleListener implements Listener {
 
     @EventHandler
     public void onJEGItemClick(GuideEvents.@NotNull ItemButtonClickEvent event) {
-        var player = event.getPlayer();
+        Player player = event.getPlayer();
         if (!PROFILE_CALLBACKS.containsKey(player.getUniqueId())) {
             return;
         }
 
-        var profile = getPlayerProfile(player);
+        PlayerProfile profile = getPlayerProfile(player);
         rollbackGuideHistory(profile);
         PROFILE_CALLBACKS.get(player.getUniqueId()).accept(event, profile);
         PROFILE_CALLBACKS.remove(player.getUniqueId());
     }
 
     private void rollbackGuideHistory(@NotNull PlayerProfile profile) {
-        var originHistory = GUIDE_HISTORY.get(profile.getUUID());
+        GuideHistory originHistory = GUIDE_HISTORY.get(profile.getUUID());
         if (originHistory == null) {
             return;
         }

@@ -11,6 +11,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import java.io.File;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
@@ -148,7 +149,7 @@ public class LocalizationService {
         }
 
         this.languages.add(langFilename);
-        var resource = this.plugin.getResource(resourcePath);
+        InputStream resource = this.plugin.getResource(resourcePath);
         if (resource == null) {
             throw new IllegalArgumentException(
                     "The default language file " + resourcePath + " does not exist in jar file!");

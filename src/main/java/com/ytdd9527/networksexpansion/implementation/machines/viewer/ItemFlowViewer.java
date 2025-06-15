@@ -128,7 +128,7 @@ public class ItemFlowViewer extends NetworkObject {
     }
 
     public static @NotNull String serializeIcon(@NotNull ItemStack itemStack) {
-        var sf = SlimefunItem.getByItem(itemStack);
+        SlimefunItem sf = SlimefunItem.getByItem(itemStack);
         if (sf != null) {
             return NAMESPACE_SF + ":" + sf.getId();
         } else {
@@ -138,13 +138,13 @@ public class ItemFlowViewer extends NetworkObject {
 
     @Nullable public static ItemStack deserializeIcon(@NotNull String icon) {
         if (icon.startsWith(NAMESPACE_SF)) {
-            var id = icon.split(":")[1];
-            var sf = SlimefunItem.getById(id);
+            String id = icon.split(":")[1];
+            SlimefunItem sf = SlimefunItem.getById(id);
             if (sf != null) {
                 return sf.getItem();
             }
         } else if (icon.startsWith(NAMESPACE_MC)) {
-            var type = Material.valueOf(icon.split(":")[1]);
+            Material type = Material.valueOf(icon.split(":")[1]);
             return new ItemStack(type);
         }
 
@@ -167,7 +167,7 @@ public class ItemFlowViewer extends NetworkObject {
                         return true;
                     }
 
-                    var itemStack = entry.getKey();
+                    ItemStack itemStack = entry.getKey();
                     if (itemStack == null) {
                         return false;
                     }
@@ -237,7 +237,7 @@ public class ItemFlowViewer extends NetworkObject {
     }
 
     public static @NotNull List<String> getLoreAddition(ItemFlowRecord.@NotNull TransportAction entry) {
-        var loc = entry.accessor();
+        Location loc = entry.accessor();
         long change = entry.amount();
         List<String> list = new ArrayList<>();
         list.add("");
@@ -265,7 +265,7 @@ public class ItemFlowViewer extends NetworkObject {
     }
 
     @NotNull public static ItemStack getIcon(ItemFlowRecord.@NotNull TransportAction action) {
-        var sf = StorageCacheUtils.getSfItem(action.accessor());
+        SlimefunItem sf = StorageCacheUtils.getSfItem(action.accessor());
         if (sf == null) {
             return Icon.UNKNOWN_ITEM.clone();
         } else {
@@ -274,7 +274,7 @@ public class ItemFlowViewer extends NetworkObject {
     }
 
     public void setSubMenu(@NotNull BlockMenu menu, @NotNull GridCache cache, @Nullable ItemStack itemStack) {
-        var data = StorageCacheUtils.getBlock(menu.getLocation());
+        SlimefunBlockData data = StorageCacheUtils.getBlock(menu.getLocation());
         if (data == null) {
             return;
         }
@@ -288,7 +288,7 @@ public class ItemFlowViewer extends NetworkObject {
     }
 
     public @Nullable String getSubMenu(@NotNull BlockMenu menu) {
-        var data = StorageCacheUtils.getBlock(menu.getLocation());
+        SlimefunBlockData data = StorageCacheUtils.getBlock(menu.getLocation());
         if (data == null) {
             return null;
         }
@@ -308,10 +308,10 @@ public class ItemFlowViewer extends NetworkObject {
             return;
         }
 
-        var root = definition.getNode().getRoot();
+        NetworkRoot root = definition.getNode().getRoot();
 
         if (!blockMenu.hasViewer()) {
-            var flow = root.getItemFlowRecord();
+            ItemFlowRecord flow = root.getItemFlowRecord();
             if (flow != null) {
                 if (System.currentTimeMillis() - flow.getLastChangeTime() > ItemFlowRecord.DEADLINE) {
                     NetworkController.disableRecord(root.getController());
@@ -325,7 +325,7 @@ public class ItemFlowViewer extends NetworkObject {
 
         final GridCache gridCache = getCacheMap().get(location);
 
-        var subMenu = getSubMenu(blockMenu);
+        String subMenu = getSubMenu(blockMenu);
         if (subMenu != null) {
             subMenu(root, blockMenu, gridCache, subMenu);
         } else {
@@ -339,7 +339,7 @@ public class ItemFlowViewer extends NetworkObject {
             @NotNull BlockMenu blockMenu,
             @NotNull GridCache gridCache,
             @NotNull String subMenu) {
-        var entries = getSubMenu(root, gridCache, deserializeIcon(subMenu));
+        List<ItemFlowRecord.TransportAction> entries = getSubMenu(root, gridCache, deserializeIcon(subMenu));
 
         final int pages = (int) Math.ceil(entries.size() / (double) getDisplaySlots().length) - 1;
 
@@ -405,7 +405,7 @@ public class ItemFlowViewer extends NetworkObject {
 
     @SuppressWarnings("deprecation")
     public void mainMenu(@NotNull NetworkRoot root, @NotNull BlockMenu blockMenu, @NotNull GridCache gridCache) {
-        var entries = getRecords(root, gridCache);
+        List<DisplayEntry> entries = getRecords(root, gridCache);
 
         final int pages = (int) Math.ceil(entries.size() / (double) getDisplaySlots().length) - 1;
 
@@ -667,7 +667,7 @@ public class ItemFlowViewer extends NetworkObject {
     }
 
     public void forceCleanHistory(@NotNull NetworkRoot root) {
-        var r = NetworkController.getRecords().get(root.getController());
+        ItemFlowRecord r = NetworkController.getRecords().get(root.getController());
         if (r == null) {
             return;
         }

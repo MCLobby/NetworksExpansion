@@ -1032,8 +1032,8 @@ public final class ItemStackUtil {
         ItemStack itemStack = new ItemStack(material);
         ItemMeta itemMeta = itemStack.getItemMeta();
         for (Pair<Enchantment, Integer> pair : enchantments) {
-            var v1 = pair.getFirstValue();
-            var v2 = pair.getSecondValue();
+            Enchantment v1 = pair.getFirstValue();
+            Integer v2 = pair.getSecondValue();
             if (v1 == null || v2 == null) {
                 continue;
             }

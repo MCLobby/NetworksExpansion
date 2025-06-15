@@ -40,6 +40,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -188,7 +189,7 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
                                 break;
                             }
                         } else {
-                            var bpd = potionMeta.getBasePotionData();
+                            PotionData bpd = potionMeta.getBasePotionData();
                             if (bpd != null && bpd.getType() != PotionType.WATER) {
                                 grabItem(root, blockMenu, stack);
                                 break;

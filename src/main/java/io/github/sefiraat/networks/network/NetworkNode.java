@@ -122,7 +122,7 @@ public class NetworkNode {
     }
 
     private void killAdditionalController(@NotNull Location location) {
-        var sfItem = StorageCacheUtils.getSfItem(location);
+        SlimefunItem sfItem = StorageCacheUtils.getSfItem(location);
         if (sfItem != null) {
             Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);
             BukkitRunnable runnable = new BukkitRunnable() {

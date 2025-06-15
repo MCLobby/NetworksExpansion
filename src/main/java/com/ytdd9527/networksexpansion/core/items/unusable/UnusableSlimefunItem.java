@@ -18,7 +18,6 @@ import org.jetbrains.annotations.Nullable;
  * @author Final_ROOT
  * @since 2.0
  */
-// TODO: Optimization
 public class UnusableSlimefunItem extends SpecialSlimefunItem {
     public UnusableSlimefunItem(
             @NotNull ItemGroup itemGroup,

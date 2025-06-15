@@ -27,8 +27,8 @@ public interface AdminDebuggable {
                             while (!DEBUG_QUEUE.isEmpty()) {
                                 final Pair<Location, String> pair = DEBUG_QUEUE.poll();
                                 if (pair != null) {
-                                    var v1 = pair.getFirstValue();
-                                    var v2 = pair.getSecondValue();
+                                    Location v1 = pair.getFirstValue();
+                                    String v2 = pair.getSecondValue();
                                     if (v1 == null || v2 == null) {
                                         continue;
                                     }

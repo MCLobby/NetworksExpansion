@@ -1,6 +1,7 @@
 package io.github.sefiraat.networks.slimefun.network;
 
 import com.balugaq.netex.api.enums.FeedbackType;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
@@ -50,7 +51,7 @@ public class NetworkPowerOutlet extends NetworkDirectional {
         final BlockFace blockFace = getCurrentDirection(menu);
         final Block targetBlock = b.getRelative(blockFace);
 
-        var blockData = StorageCacheUtils.getBlock(targetBlock.getLocation());
+        SlimefunBlockData blockData = StorageCacheUtils.getBlock(targetBlock.getLocation());
         if (blockData == null) {
             sendFeedback(menu.getLocation(), FeedbackType.INVALID_BLOCK);
             return;

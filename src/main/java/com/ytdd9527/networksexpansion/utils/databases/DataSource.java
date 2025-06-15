@@ -335,7 +335,7 @@ public class DataSource {
     }
 
     @SuppressWarnings("deprecation")
-    private @NotNull String getBase64String(ItemStack item) throws IOException {
+    public static @NotNull String getBase64String(ItemStack item) throws IOException {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         BukkitObjectOutputStream bs = new BukkitObjectOutputStream(stream);
         bs.writeObject(item);
@@ -345,7 +345,7 @@ public class DataSource {
     }
 
     @SuppressWarnings("deprecation")
-    private ItemStack getItemStack(@NotNull String base64Str) throws IOException, ClassNotFoundException {
+    public static ItemStack getItemStack(@NotNull String base64Str) throws IOException, ClassNotFoundException {
         ByteArrayInputStream stream = new ByteArrayInputStream(Base64Coder.decodeLines(base64Str));
         BukkitObjectInputStream bs = new BukkitObjectInputStream(stream);
         ItemStack re = (ItemStack) bs.readObject();

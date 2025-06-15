@@ -7,9 +7,11 @@ import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -146,10 +148,10 @@ public class Icon {
     // pages are 1-based
     @SuppressWarnings("deprecation")
     @NotNull public static ItemStack getPageStack(@NotNull ItemStack origin, int currentPage, int maxPage) {
-        var clone = origin.clone();
-        var meta = clone.getItemMeta();
+        ItemStack clone = origin.clone();
+        ItemMeta meta = clone.getItemMeta();
         if (meta != null) {
-            var lore = Optional.ofNullable(meta.getLore()).orElse(new ArrayList<>());
+            List<String> lore = Optional.ofNullable(meta.getLore()).orElse(new ArrayList<>());
             lore.add(TextUtil.GRAY + "页 " + TextUtil.GREEN + currentPage + " / " + maxPage); // todo: add to lang
             meta.setLore(lore);
             clone.setItemMeta(meta);

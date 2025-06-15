@@ -162,7 +162,7 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements Admi
                 // fire craft event
                 ItemStack[] inputs = new ItemStack[inputSlots.length];
                 for (int i = 0; i < inputSlots.length; i++) {
-                    var itemStack = menu.getItemInSlot(inputSlots[i]);
+                    ItemStack itemStack = menu.getItemInSlot(inputSlots[i]);
                     if (itemStack == null) {
                         inputs[i] = null;
                     } else {

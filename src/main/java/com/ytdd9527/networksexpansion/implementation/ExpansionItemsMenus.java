@@ -19,8 +19,6 @@ import org.jetbrains.annotations.NotNull;
  * @author Final_ROOT
  */
 public final class ExpansionItemsMenus {
-    // TODO head texture
-
     /* Slimefun item group */
     public static final NestedItemGroup MAIN_MENU =
             new NestedItemGroup(

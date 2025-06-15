@@ -427,11 +427,11 @@ public class StorageUnitData {
 
         int amount = itemRequest.getAmount();
 
-        var stored = getStoredItems();
+        List<ItemContainer> stored = getStoredItems();
 
-        var m = getPersistentAccessHistory(accessor);
+        Map<Integer, Integer> m = getPersistentAccessHistory(accessor);
         if (m != null) {
-            for (var i : m.keySet()) {
+            for (Integer i : m.keySet()) {
                 // Netex - Cache start
                 if (i >= stored.size()) {
                     removePersistentAccessHistory(accessor, i);
@@ -439,7 +439,7 @@ public class StorageUnitData {
                 }
                 // Netex - Cache end
 
-                var itemContainer = stored.get(i);
+                ItemContainer itemContainer = stored.get(i);
                 int containerAmount = itemContainer.getAmount();
                 if (StackUtils.itemsMatch(itemContainer.getSampleDirectly(), item)) {
                     int take = Math.min(amount, containerAmount);
@@ -469,7 +469,7 @@ public class StorageUnitData {
         }
 
         for (int i = 0; i < stored.size(); i++) {
-            var itemContainer = stored.get(i);
+            ItemContainer itemContainer = stored.get(i);
             int containerAmount = itemContainer.getAmount();
             if (StackUtils.itemsMatch(itemContainer.getSampleDirectly(), item)) {
                 int take = Math.min(amount, containerAmount);
@@ -563,11 +563,11 @@ public class StorageUnitData {
             Location accessor, @NotNull ItemStack item, int amount, boolean contentLocked, boolean force) {
         int add = 0;
         boolean isVoidExcess = NetworksDrawer.isVoidExcess(getLastLocation());
-        var stored = getStoredItems();
+        List<ItemContainer> stored = getStoredItems();
 
-        var m = getPersistentAccessHistory(accessor);
+        Map<Integer, Integer> m = getPersistentAccessHistory(accessor);
         if (m != null) {
-            for (var i : m.keySet()) {
+            for (Integer i : m.keySet()) {
                 // Netex - Cache start
                 if (i >= stored.size()) {
                     removePersistentAccessHistory(accessor, i);
@@ -575,7 +575,7 @@ public class StorageUnitData {
                 }
                 // Netex - Cache end
 
-                var each = stored.get(i);
+                ItemContainer each = stored.get(i);
                 if (each.isSimilar(item)) {
                     // Found existing one, add amount
                     int raw = sizeType.getEachMaxSize() - each.getAmount();
@@ -610,7 +610,7 @@ public class StorageUnitData {
         }
 
         for (int i = 0; i < stored.size(); i++) {
-            var each = stored.get(i);
+            ItemContainer each = stored.get(i);
             if (each.isSimilar(item)) {
                 // Found existing one, add amount
                 int raw = sizeType.getEachMaxSize() - each.getAmount();

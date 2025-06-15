@@ -769,7 +769,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
             return null;
         }
 
-        var meta = itemStack.getItemMeta();
+        ItemMeta meta = itemStack.getItemMeta();
         if (meta == null) {
             return null;
         }
@@ -825,7 +825,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         }
         boolean a = false;
         boolean b = false;
-        var suuid = getServerUUID(itemInHand);
+        UUID suuid = getServerUUID(itemInHand);
         if (Networks.getSupportedPluginManager().isGuguSlimefunLib()) {
             if (suuid != null && !p.isOp() && !suuid.equals(GuguSlimefunLib.getServerUUID())) {
                 p.sendMessage(String.format(

@@ -56,6 +56,8 @@ public abstract class NetworkDirectional extends NetworkObject {
 
     public static final String DIRECTION = "direction";
     public static final String OWNER_KEY = "uuid";
+    public static final Set<BlockFace> VALID_FACES =
+            EnumSet.of(BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
     private static final int NORTH_SLOT = 12;
     private static final int SOUTH_SLOT = 30;
     private static final int EAST_SLOT = 22;
@@ -63,9 +65,6 @@ public abstract class NetworkDirectional extends NetworkObject {
     private static final int UP_SLOT = 15;
     private static final int DOWN_SLOT = 33;
     private static final Set<Location> locked = new HashSet<>();
-    public static final Set<BlockFace> VALID_FACES =
-            EnumSet.of(BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
-
     private static final Map<Location, BlockFace> SELECTED_DIRECTION_MAP = new HashMap<>();
 
     private final @NotNull ItemSetting<Integer> tickRate;
@@ -232,13 +231,13 @@ public abstract class NetworkDirectional extends NetworkObject {
     @Override
     public void onPlace(@NotNull BlockPlaceEvent event) {
         NetworkStorage.removeNode(event.getBlock().getLocation());
-        var blockData = StorageCacheUtils.getBlock(event.getBlock().getLocation());
+        SlimefunBlockData blockData = StorageCacheUtils.getBlock(event.getBlock().getLocation());
         if (blockData == null) {
             return;
         }
         blockData.setData(OWNER_KEY, event.getPlayer().getUniqueId().toString());
         blockData.setData(DIRECTION, BlockFace.SELF.name());
-        var blockMenu = blockData.getBlockMenu();
+        BlockMenu blockMenu = blockData.getBlockMenu();
         if (blockMenu != null) {
             NetworkUtils.applyConfig(NetworkDirectional.this, blockMenu, event.getPlayer());
         }

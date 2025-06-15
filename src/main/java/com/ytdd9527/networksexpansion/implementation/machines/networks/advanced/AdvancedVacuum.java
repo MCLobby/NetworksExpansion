@@ -121,7 +121,7 @@ public class AdvancedVacuum extends NetworkObject {
             @Override
             public void onPlayerPlace(@NotNull BlockPlaceEvent event) {
                 NetworkStorage.removeNode(event.getBlock().getLocation());
-                var blockData = StorageCacheUtils.getBlock(event.getBlock().getLocation());
+                SlimefunBlockData blockData = StorageCacheUtils.getBlock(event.getBlock().getLocation());
                 if (blockData == null) {
                     return;
                 }

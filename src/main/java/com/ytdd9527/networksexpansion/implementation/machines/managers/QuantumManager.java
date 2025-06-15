@@ -149,7 +149,7 @@ public class QuantumManager extends NetworkObject {
     }
 
     public static @NotNull String serializeIcon(@NotNull ItemStack itemStack) {
-        var sf = SlimefunItem.getByItem(itemStack);
+        SlimefunItem sf = SlimefunItem.getByItem(itemStack);
         if (sf != null) {
             return NAMESPACE_SF + ":" + sf.getId();
         } else {
@@ -159,13 +159,13 @@ public class QuantumManager extends NetworkObject {
 
     @Nullable public static ItemStack deserializeIcon(@NotNull String icon) {
         if (icon.startsWith(NAMESPACE_SF)) {
-            var id = icon.split(":")[1];
-            var sf = SlimefunItem.getById(id);
+            String id = icon.split(":")[1];
+            SlimefunItem sf = SlimefunItem.getById(id);
             if (sf != null) {
                 return sf.getItem();
             }
         } else if (icon.startsWith(NAMESPACE_MC)) {
-            var type = Material.valueOf(icon.split(":")[1]);
+            Material type = Material.valueOf(icon.split(":")[1]);
             return new ItemStack(type);
         }
 
@@ -346,8 +346,8 @@ public class QuantumManager extends NetworkObject {
         }
 
         final GridCache gridCache = getCacheMap().get(location);
-        var root = definition.getNode().getRoot();
-        var barrels = getBarrels(root, gridCache);
+        NetworkRoot root = definition.getNode().getRoot();
+        List<BarrelIdentity> barrels = getBarrels(root, gridCache);
 
         final int pages = (int) Math.ceil(barrels.size() / (double) getDisplaySlots().length) - 1;
 
@@ -389,7 +389,7 @@ public class QuantumManager extends NetworkObject {
                     isEmpty = true;
                 }
 
-                var barrelLocation = barrel.getLocation();
+                Location barrelLocation = barrel.getLocation();
 
                 final ItemStack custom = getStorageIcon(barrelLocation);
                 if (custom != null) {
@@ -398,7 +398,7 @@ public class QuantumManager extends NetworkObject {
                     displayStack = barrelItemStack.clone();
                 }
 
-                var name = getStorageName(barrelLocation);
+                String name = getStorageName(barrelLocation);
                 if (name != null) {
                     displayStack = new CustomItemStack(displayStack, TextUtil.color(name));
                 } else if (!isEmpty) {
@@ -439,7 +439,7 @@ public class QuantumManager extends NetworkObject {
     }
 
     public @NotNull List<String> getLoreAddition(@NotNull BarrelIdentity barrel) {
-        var loc = barrel.getLocation();
+        Location loc = barrel.getLocation();
         List<String> list = new ArrayList<>();
         list.add("");
         list.add(String.format(

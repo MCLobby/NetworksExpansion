@@ -235,7 +235,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     @Override
     public void onPlace(@NotNull BlockPlaceEvent event) {
         NetworkStorage.removeNode(event.getBlock().getLocation());
-        var blockData = StorageCacheUtils.getBlock(event.getBlock().getLocation());
+        SlimefunBlockData blockData = StorageCacheUtils.getBlock(event.getBlock().getLocation());
         if (blockData == null) {
             return;
         }
@@ -511,7 +511,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     public int getLimitQuantity(@NotNull Location location) {
         Integer quantity = NETWORK_LIMIT_QUANTITY_MAP.get(location.clone());
         if (quantity == null) {
-            var squantity = StorageCacheUtils.getData(location, LIMIT_KEY);
+            String squantity = StorageCacheUtils.getData(location, LIMIT_KEY);
             if (squantity == null) {
                 quantity = 64;
             } else {
@@ -581,7 +581,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     public void updateShowIcon(@NotNull Location location) {
         ItemMeta itemMeta = this.showIconClone.getItemMeta();
         List<String> lore = new ArrayList<>();
-        var old = itemMeta.getLore();
+        List<String> old = itemMeta.getLore();
         if (old != null) {
             lore.addAll(old);
         }
@@ -603,7 +603,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     public void updateTransportModeIcon(@NotNull Location location) {
         ItemMeta itemMeta = this.transportModeIconClone.getItemMeta();
         List<String> lore = new ArrayList<>();
-        var old = itemMeta.getLore();
+        List<String> old = itemMeta.getLore();
         if (old != null) {
             lore.addAll(old);
         }

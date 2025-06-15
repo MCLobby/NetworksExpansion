@@ -219,7 +219,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
     }
 
     public static void syncBlock(@NotNull Location location, @NotNull QuantumCache cache) {
-        var blockData = StorageCacheUtils.getBlock(location);
+        SlimefunBlockData blockData = StorageCacheUtils.getBlock(location);
         if (blockData == null) {
             return;
         }
@@ -541,7 +541,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
 
     private @NotNull QuantumCache addCache(@NotNull BlockMenu blockMenu) {
         final Location location = blockMenu.getLocation();
-        var blockData = StorageCacheUtils.getBlock(location);
+        SlimefunBlockData blockData = StorageCacheUtils.getBlock(location);
         if (blockData == null) {
             return new QuantumCache(null, 0, this.maxAmount, false, this.supportsCustomMaxAmount);
         }

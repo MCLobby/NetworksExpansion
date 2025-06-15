@@ -7,6 +7,7 @@ import com.balugaq.netex.api.enums.StorageType;
 import com.balugaq.netex.api.events.NetworkRootLocateStorageEvent;
 import com.balugaq.netex.utils.BlockMenuUtil;
 import com.balugaq.netex.utils.NetworksVersionedParticle;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.AdvancedGreedyBlock;
 import com.ytdd9527.networksexpansion.implementation.machines.unit.NetworksDrawer;
@@ -323,7 +324,7 @@ public class NetworkRoot extends NetworkNode {
     @Nullable public static InfinityBarrel getInfinityBarrel(
             @NotNull BlockMenu blockMenu, @NotNull StorageUnit storageUnit, boolean includeEmpty) {
         final ItemStack itemStack = blockMenu.getItemInSlot(16);
-        final var data = StorageCacheUtils.getBlock(blockMenu.getLocation());
+        final SlimefunBlockData data = StorageCacheUtils.getBlock(blockMenu.getLocation());
         if (data == null) {
             return null;
         }
@@ -1986,9 +1987,9 @@ public class NetworkRoot extends NetworkNode {
             return null;
         }
 
-        var m = getPersistentAccessHistory(accessor);
+        Map<Location, Integer> m = getPersistentAccessHistory(accessor);
         if (m != null) {
-            for (var entry : m.entrySet()) {
+            for (Map.Entry<Location, Integer> entry : m.entrySet()) {
                 // try cache first
                 BarrelIdentity barrelIdentity = accessOutputAbleBarrel(entry.getKey());
                 if (barrelIdentity != null) {
@@ -2336,9 +2337,9 @@ public class NetworkRoot extends NetworkNode {
 
         int before = incoming.getAmount();
 
-        var m = getPersistentAccessHistory(accessor);
+        Map<Location, Integer> m = getPersistentAccessHistory(accessor);
         if (m != null) {
-            for (var entry : m.entrySet()) {
+            for (Map.Entry<Location, Integer> entry : m.entrySet()) {
                 BarrelIdentity barrelIdentity = accessInputAbleBarrel(entry.getKey());
                 if (barrelIdentity != null) {
                     // <editor-fold desc="do barrel">
@@ -2522,7 +2523,7 @@ public class NetworkRoot extends NetworkNode {
         }
 
         this.mapInputAbleBarrels = new HashMap<>();
-        for (var barrel : getInputAbleBarrels()) {
+        for (BarrelIdentity barrel : getInputAbleBarrels()) {
             this.mapInputAbleBarrels.put(barrel.getLocation(), barrel);
         }
         return this.mapInputAbleBarrels;
@@ -2534,7 +2535,7 @@ public class NetworkRoot extends NetworkNode {
         }
 
         this.mapOutputAbleBarrels = new HashMap<>();
-        for (var barrel : getOutputAbleBarrels()) {
+        for (BarrelIdentity barrel : getOutputAbleBarrels()) {
             this.mapOutputAbleBarrels.put(barrel.getLocation(), barrel);
         }
         return this.mapOutputAbleBarrels;
@@ -2545,7 +2546,7 @@ public class NetworkRoot extends NetworkNode {
             return this.mapInputAbleCargoStorageUnits;
         }
 
-        for (var entry : getInputAbleCargoStorageUnitDatas().entrySet()) {
+        for (Map.Entry<StorageUnitData, Location> entry : getInputAbleCargoStorageUnitDatas().entrySet()) {
             this.mapInputAbleCargoStorageUnits.put(entry.getValue(), entry.getKey());
         }
 
@@ -2557,7 +2558,7 @@ public class NetworkRoot extends NetworkNode {
             return this.mapOutputAbleCargoStorageUnits;
         }
 
-        for (var entry : getOutputAbleCargoStorageUnitDatas().entrySet()) {
+        for (Map.Entry<StorageUnitData, Location> entry : getOutputAbleCargoStorageUnitDatas().entrySet()) {
             this.mapOutputAbleCargoStorageUnits.put(entry.getValue(), entry.getKey());
         }
 
@@ -2565,7 +2566,7 @@ public class NetworkRoot extends NetworkNode {
     }
 
     public boolean allowAccessInput(@NotNull Location accessor) {
-        var lastTime = reducedAccessOutputHistory.get(accessor);
+        Long lastTime = reducedAccessOutputHistory.get(accessor);
         if (lastTime == null) {
             return true;
         } else {
@@ -2574,7 +2575,7 @@ public class NetworkRoot extends NetworkNode {
     }
 
     public boolean allowAccessOutput(@NotNull Location accessor) {
-        var lastTime = reducedAccessInputHistory.get(accessor);
+        Long lastTime = reducedAccessInputHistory.get(accessor);
         if (lastTime == null) {
             return true;
         } else {

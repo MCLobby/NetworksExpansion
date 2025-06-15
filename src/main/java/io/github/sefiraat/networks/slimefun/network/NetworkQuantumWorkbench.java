@@ -147,7 +147,7 @@ public class NetworkQuantumWorkbench extends SpecialSlimefunItem {
                 }
 
                 if (oldCache != null) {
-                    var itemStack = oldCache.getItemStack();
+                    ItemStack itemStack = oldCache.getItemStack();
                     final QuantumCache newCache = new QuantumCache(
                             itemStack != null ? itemStack.clone() : null,
                             oldCache.getAmount(),
