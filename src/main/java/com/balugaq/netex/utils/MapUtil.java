@@ -1,10 +1,12 @@
 package com.balugaq.netex.utils;
 
 import io.github.bakedlibs.dough.collections.Pair;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

@@ -1,6 +1,7 @@
 package com.ytdd9527.networksexpansion.implementation.machines.networks.advanced;
 
 import com.balugaq.netex.api.interfaces.HangingBlock;
+import com.balugaq.netex.utils.Debug;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
 import com.ytdd9527.networksexpansion.utils.TextUtil;
 import com.ytdd9527.networksexpansion.utils.databases.DataSource;
@@ -46,12 +47,13 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
     public static final long B = M * K;
     public static final long T = B * K;
     public static final long Q = T * K;
+    public static final double FIX_OFFSET = HangingBlock.ITEM_FRAME_OFFSET - HangingBlock.CENTER_OFFSET;
 
     public SwitchingMonitor(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.SWITCHING_MONITOR);
         HangingBlock.registerHangingBlock(this);
     }
@@ -159,7 +161,7 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
         Player player = event.getPlayer();
 
         if (!player.isOp()
-                && !Slimefun.getProtectionManager().hasPermission(player, attachon, Interaction.INTERACT_ENTITY)) {
+            && !Slimefun.getProtectionManager().hasPermission(player, attachon, Interaction.INTERACT_ENTITY)) {
             event.setCancelled(true);
             return;
         }
@@ -168,10 +170,28 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
             event.setCancelled(true);
             handleItemsAction(attachon, player, event);
         }
+
+        else if (event.getAction() == PlayerItemFrameChangeEvent.ItemFrameChangeAction.REMOVE) {
+            event.setCancelled(true);
+            ItemFrame itemFrame = event.getItemFrame();
+            ItemStack template = itemFrame.getItem();
+            itemFrame.setItem(null, false);
+            Location fixedLocation = itemFrame.getLocation().clone();
+            BlockFace attachedFace = itemFrame.getAttachedFace();
+            switch (attachedFace.getOppositeFace()) {
+                case NORTH -> fixedLocation.add(0D, 0D, -FIX_OFFSET);
+                case SOUTH -> fixedLocation.add(0D, 0D, FIX_OFFSET);
+                case EAST -> fixedLocation.add(FIX_OFFSET, 0D, 0D);
+                case WEST -> fixedLocation.add(-FIX_OFFSET, 0D, 0D);
+                case UP -> fixedLocation.add(0D, FIX_OFFSET, 0D);
+                case DOWN -> fixedLocation.add(0D, -FIX_OFFSET, 0D);
+            }
+            fixedLocation.getWorld().dropItemNaturally(fixedLocation, uniconize(template));
+        }
     }
 
     private void handleItemsAction(
-            @NotNull Location attachon, @NotNull Player player, @NotNull PlayerItemFrameChangeEvent event) {
+        @NotNull Location attachon, @NotNull Player player, @NotNull PlayerItemFrameChangeEvent event) {
         NodeDefinition definition = NetworkStorage.getNode(attachon);
         if (definition == null || definition.getNode() == null) {
             return;
@@ -183,6 +203,8 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
             return;
         }
 
+        template = uniconize(template);
+
         ItemStack hand = player.getInventory().getItemInMainHand();
         boolean takeItem = hand == null || hand.getType() == Material.AIR;
         boolean shift = player.isSneaking();
@@ -191,17 +213,17 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
         }
 
         if (takeItem) {
+            int stacks = calculateSpace(player, template);
             if (shift) {
-                int stacks = calculateSpace(player, template);
                 ItemStack result =
-                        root.getItemStack0(attachon, new ItemRequest(template, stacks * template.getMaxStackSize()));
+                    root.getItemStack0(attachon, new ItemRequest(template, stacks * template.getMaxStackSize()));
                 if (result != null) {
                     player.getInventory().addItem(result);
                     player.updateInventory();
                 }
             } else {
                 ItemStack result =
-                        root.getItemStack0(attachon, new ItemRequest(template, template.getMaxStackSize()));
+                    root.getItemStack0(attachon, new ItemRequest(template, Math.min(stacks, template.getMaxStackSize())));
                 if (result != null) {
                     player.getInventory().addItem(result);
                     player.updateInventory();
@@ -211,8 +233,8 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
             if (shift) {
                 for (ItemStack item : player.getInventory().getStorageContents()) {
                     if (item != null
-                            && item.getType() != Material.AIR
-                            && StackUtils.itemsMatch(item, template, true, false)) {
+                        && item.getType() != Material.AIR
+                        && StackUtils.itemsMatch(item, template, true, false)) {
                         int before = item.getAmount();
                         root.addItemStack0(attachon, item);
                         int after = item.getAmount();
@@ -250,7 +272,9 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
             return;
         }
 
+        template = uniconize(template);
+
         long amount = root.getAllNetworkItemsLongType().getOrDefault(template, 0L);
-        entityBlock.setItem(iconize(template, amount));
+        entityBlock.setItem(iconize(template, amount), false);
     }
 }

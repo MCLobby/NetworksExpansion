@@ -31,7 +31,8 @@ public class FluffyBarrel extends BarrelIdentity {
         }
     }
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public ItemStack requestItem(@NotNull ItemRequest itemRequest) {
         BlockMenu menu = StorageCacheUtils.getMenu(getLocation());
         if (menu == null) {

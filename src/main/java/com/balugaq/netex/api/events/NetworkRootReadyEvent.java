@@ -20,7 +20,8 @@ public class NetworkRootReadyEvent extends Event {
         return handlers;
     }
 
-    @NotNull @Override
+    @NotNull
+    @Override
     public HandlerList getHandlers() {
         return handlers;
     }

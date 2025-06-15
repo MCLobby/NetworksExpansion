@@ -2,7 +2,9 @@ package com.balugaq.netex.api.enums;
 
 import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerHead;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerSkin;
+
 import javax.annotation.ParametersAreNonnullByDefault;
+
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;

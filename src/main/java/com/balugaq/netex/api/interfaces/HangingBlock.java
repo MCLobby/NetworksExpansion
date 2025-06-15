@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
+
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -38,6 +39,8 @@ public interface HangingBlock {
     String BS_DOWN = "netex-hanging-down";
     String HANGING_attachon_BLOCK_ID = "NTW_EXPANSION_HANGING_attachon_BLOCK";
     NamespacedKey NETEX_HANGING_KEY = Keys.newKey("netex_hanging");
+    double CENTER_OFFSET = 0.5D;
+    double ITEM_FRAME_OFFSET = 0.675D;
 
     static <T extends HangingBlock> void registerHangingBlock(@NotNull T block) {
         REGISTRY.put(block.getId(), block);
@@ -57,7 +60,7 @@ public interface HangingBlock {
 
     static @Nullable HangingBlock getByItemFrame(@NotNull ItemFrame itemFrame) {
         return getHangingBlock(
-                itemFrame.getPersistentDataContainer().get(NETEX_HANGING_KEY, PersistentDataType.STRING));
+            itemFrame.getPersistentDataContainer().get(NETEX_HANGING_KEY, PersistentDataType.STRING));
     }
 
     static void tickHangingBlocks(@NotNull Block attachon) {
@@ -83,7 +86,7 @@ public interface HangingBlock {
     }
 
     static @NotNull Map<BlockFace, ItemFrame> getHangingBlocks(
-            @NotNull Location attachon, @NotNull Set<BlockFace> attachSides) {
+        @NotNull Location attachon, @NotNull Set<BlockFace> attachSides) {
         Map<BlockFace, ItemFrame> hangingBlocks = new HashMap<>();
         for (BlockFace attachSide : attachSides) {
             ItemFrame v = getItemFrame(attachon, attachSide);
@@ -92,7 +95,6 @@ public interface HangingBlock {
             }
         }
 
-        Debug.log("hangingBlocks: " + hangingBlocks.size());
         return hangingBlocks;
     }
 
@@ -113,10 +115,10 @@ public interface HangingBlock {
     }
 
     static <T extends HangingBlock> void placeHangingBlock(
-            @NotNull SlimefunBlockData attachon,
-            @NotNull ItemFrame entityBlock,
-            @NotNull BlockFace attachSide,
-            @NotNull T hangingBlock) {
+        @NotNull SlimefunBlockData attachon,
+        @NotNull ItemFrame entityBlock,
+        @NotNull BlockFace attachSide,
+        @NotNull T hangingBlock) {
         switch (attachSide) {
             case NORTH -> attachon.setData(BS_NORTH, hangingBlock.getId());
             case SOUTH -> attachon.setData(BS_SOUTH, hangingBlock.getId());
@@ -135,14 +137,13 @@ public interface HangingBlock {
         tagItemFrame(entityBlock, hangingBlock.getId());
     }
 
-    @NotNull static Map<BlockFace, HangingBlock> getHangingBlocks(Location attachon) {
+    @NotNull
+    static Map<BlockFace, HangingBlock> getHangingBlocks(Location attachon) {
         return Optional.ofNullable(hangingBlocks.get(attachon)).orElse(new HashMap<>());
     }
 
-    double CENTER_OFFSET = 0.5D;
-    double ITEM_FRAME_OFFSET = 0.675D;
-
-    @Nullable static ItemFrame getItemFrame(@NotNull Location attachon, BlockFace attachSide) {
+    @Nullable
+    static ItemFrame getItemFrame(@NotNull Location attachon, BlockFace attachSide) {
         Location center = attachon.toBlockLocation().add(CENTER_OFFSET, CENTER_OFFSET, CENTER_OFFSET);
         Collection<Entity> es = center.getWorld().getNearbyEntities(center, ITEM_FRAME_OFFSET, ITEM_FRAME_OFFSET, ITEM_FRAME_OFFSET);
         for (Entity e : es) {
@@ -158,10 +159,10 @@ public interface HangingBlock {
 
     @OverridingMethodsMustInvokeSuper
     default void onPlace(
-            @NotNull HangingPlaceEvent event,
-            @NotNull Location attachon,
-            @NotNull ItemFrame entityBlock,
-            @NotNull BlockFace attachSide) {
+        @NotNull HangingPlaceEvent event,
+        @NotNull Location attachon,
+        @NotNull ItemFrame entityBlock,
+        @NotNull BlockFace attachSide) {
         SlimefunBlockData data = StorageCacheUtils.getBlock(attachon);
         if (data == null) {
             event.setCancelled(true);

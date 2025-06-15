@@ -2,8 +2,10 @@ package com.ytdd9527.networksexpansion.utils;
 
 import com.balugaq.netex.utils.Debug;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -65,7 +67,7 @@ public class ReflectionUtil {
 
     @SuppressWarnings("unchecked")
     public static <T, V> @Nullable T getProperty(Object o, @NotNull Class<V> clazz, String fieldName)
-            throws IllegalAccessException {
+        throws IllegalAccessException {
         Field field = getField(clazz, fieldName);
         if (field != null) {
             boolean b = field.canAccess(o);
@@ -79,7 +81,7 @@ public class ReflectionUtil {
     }
 
     public static @Nullable Pair<Field, Class<?>> getDeclaredFieldsRecursively(
-            @NotNull Class<?> clazz, @NotNull String fieldName) {
+        @NotNull Class<?> clazz, @NotNull String fieldName) {
         try {
             Field field = clazz.getDeclaredField(fieldName);
             field.setAccessible(true);
