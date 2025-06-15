@@ -213,23 +213,23 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
         }
 
         if (takeItem) {
-            int stacks = calculateSpace(player, template);
-            if (stacks == 0) {
+            int amount = calculateSpace(player, template);
+            if (amount == 0) {
                 return;
             }
 
             if (shift) {
                 ItemStack result =
-                    root.getItemStack0(attachon, new ItemRequest(template, stacks * template.getMaxStackSize()));
+                    root.getItemStack0(attachon, new ItemRequest(template, amount));
                 if (result != null) {
-                    player.getInventory().addItem(result);
+                    player.getInventory().addItem(result).values().forEach(item -> root.addItemStack0(attachon, item));
                     player.updateInventory();
                 }
             } else {
                 ItemStack result =
-                    root.getItemStack0(attachon, new ItemRequest(template, template.getMaxStackSize()));
+                    root.getItemStack0(attachon, new ItemRequest(template, Math.min(amount, template.getMaxStackSize())));
                 if (result != null) {
-                    player.getInventory().addItem(result);
+                    player.getInventory().addItem(result).values().forEach(item -> root.addItemStack0(attachon, item));
                     player.updateInventory();
                 }
             }
@@ -254,13 +254,15 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
     }
 
     public int calculateSpace(@NotNull Player player, ItemStack template) {
-        int stacks = 0;
+        int amount = 0;
         for (ItemStack item : player.getInventory().getStorageContents()) {
             if (item == null || item.getType() == Material.AIR) {
-                stacks++;
+                amount += template.getMaxStackSize();
+            } else if (StackUtils.itemsMatch(item, template, true, false)) {
+                amount += Math.max(0, template.getMaxStackSize() - item.getAmount());
             }
         }
-        return stacks;
+        return amount;
     }
 
     @Override

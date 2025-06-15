@@ -1384,7 +1384,7 @@ public class NetworksMain implements TabExecutor {
 
                 // for test
                 case "map" -> {
-                    if (!player.isOp()) {
+                    if (player.isOp()) {
                         String filePath = args[1];
                         Pair<ItemStack, MapView> pair = MapUtil.getImageItem(filePath);
                         if (pair != null) {

@@ -67,7 +67,7 @@ public class MapUtil {
     }
 
     public static BufferedImage resizeImage(BufferedImage original, int targetWidth, int targetHeight) {
-        BufferedImage resized = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage resized = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = resized.createGraphics();
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         g2d.drawImage(original, 0, 0, targetWidth, targetHeight, null);
