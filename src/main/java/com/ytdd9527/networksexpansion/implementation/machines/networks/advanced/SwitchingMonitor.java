@@ -214,6 +214,10 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
 
         if (takeItem) {
             int stacks = calculateSpace(player, template);
+            if (stacks == 0) {
+                return;
+            }
+
             if (shift) {
                 ItemStack result =
                     root.getItemStack0(attachon, new ItemRequest(template, stacks * template.getMaxStackSize()));
@@ -223,7 +227,7 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
                 }
             } else {
                 ItemStack result =
-                    root.getItemStack0(attachon, new ItemRequest(template, Math.min(stacks, template.getMaxStackSize())));
+                    root.getItemStack0(attachon, new ItemRequest(template, template.getMaxStackSize()));
                 if (result != null) {
                     player.getInventory().addItem(result);
                     player.updateInventory();
