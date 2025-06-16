@@ -15,8 +15,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class JEGCompatibleListener implements Listener {
+    public static final Map<UUID, GuideEvents.ItemButtonClickEvent> LAST_EVENTS = new ConcurrentHashMap<>();
     public static final Map<UUID, GuideHistory> GUIDE_HISTORY = new ConcurrentHashMap<>();
     public static final Map<UUID, BiConsumer<GuideEvents.ItemButtonClickEvent, PlayerProfile>> PROFILE_CALLBACKS =
             new ConcurrentHashMap<>();
@@ -70,6 +72,16 @@ public class JEGCompatibleListener implements Listener {
         rollbackGuideHistory(profile);
         PROFILE_CALLBACKS.get(player.getUniqueId()).accept(event, profile);
         PROFILE_CALLBACKS.remove(player.getUniqueId());
+        LAST_EVENTS.put(player.getUniqueId(), event);
+    }
+
+    @Nullable
+    public static GuideEvents.ItemButtonClickEvent getLastEvent(@NotNull UUID playerUUID) {
+        return LAST_EVENTS.get(playerUUID);
+    }
+
+    public static void clearLastEvent(@NotNull UUID playerUUID) {
+        LAST_EVENTS.remove(playerUUID);
     }
 
     private void rollbackGuideHistory(@NotNull PlayerProfile profile) {

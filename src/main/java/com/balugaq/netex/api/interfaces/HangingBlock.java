@@ -226,7 +226,10 @@ public interface HangingBlock {
         entityBlock.remove();
         SlimefunBlockData data = StorageCacheUtils.getBlock(attachon);
         if (data != null) {
-            data.removeData(getHangingBlockKey(entityBlock.getAttachedFace()));
+            String key = getHangingBlockKey(entityBlock.getAttachedFace());
+            if (key != null) {
+                data.removeData(key);
+            }
         }
     }
 

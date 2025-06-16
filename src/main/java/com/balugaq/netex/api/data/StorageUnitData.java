@@ -431,6 +431,10 @@ public class StorageUnitData {
 
         Map<Integer, Integer> m = getPersistentAccessHistory(accessor);
         if (m != null) {
+            // Netex - Cache start
+            boolean found = false;
+            List<Integer> misses = new ArrayList<>();
+            // Netex - Cache end
             for (Integer i : m.keySet()) {
                 // Netex - Cache start
                 if (i >= stored.size()) {
@@ -455,6 +459,7 @@ public class StorageUnitData {
                     DataStorage.setStoredAmount(id, itemContainer.getId(), itemContainer.getAmount());
                     // Netex - Cache start
                     minusCacheMiss(accessor, i);
+                    found = true;
                     // Netex - Cache end
 
                     ItemStack clone = item.clone();
@@ -462,10 +467,18 @@ public class StorageUnitData {
                     return clone;
                 } else {
                     // Netex - Cache start
-                    addCacheMiss(accessor, i);
+                    misses.add(i);
                     // Netex - Cache end
                 }
             }
+
+            // Netex - Cache start
+            if (!found) {
+                for (int miss : misses) {
+                    minusCacheMiss(accessor, miss);
+                }
+            }
+            // Netex - Cache end
         }
 
         for (int i = 0; i < stored.size(); i++) {
@@ -567,6 +580,8 @@ public class StorageUnitData {
 
         Map<Integer, Integer> m = getPersistentAccessHistory(accessor);
         if (m != null) {
+            boolean found = false;
+            List<Integer> misses = new ArrayList<>();
             for (Integer i : m.keySet()) {
                 // Netex - Cache start
                 if (i >= stored.size()) {
@@ -599,12 +614,19 @@ public class StorageUnitData {
 
                     // Netex - Cache start
                     minusCacheMiss(accessor, i);
+                    found = true;
                     // Netex - Cache end
                     return add;
                 } else {
                     // Netex - Cache start
-                    addCacheMiss(accessor, i);
+                    misses.add(i);
                     // Netex - Cache end
+                }
+            }
+
+            if (!found) {
+                for (int i : misses) {
+                    addCacheMiss(accessor, i);
                 }
             }
         }

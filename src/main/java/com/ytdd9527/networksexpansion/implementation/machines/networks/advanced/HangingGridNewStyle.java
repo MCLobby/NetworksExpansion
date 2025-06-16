@@ -112,7 +112,7 @@ public class HangingGridNewStyle extends NetworkGridNewStyle implements HangingB
     @ParametersAreNonnullByDefault
     public void onFirstTick0(Location attachon, ItemFrame entityBlock) {
         // Set image
-        entityBlock.setItem(MapUtil.getImageItem(layer).getFirstValue());
+        entityBlock.setItem(MapUtil.getImageItem(layer).getFirstValue(), false);
         // grid cache
         getCacheMap()
                 .put(

@@ -1989,6 +1989,10 @@ public class NetworkRoot extends NetworkNode {
 
         Map<Location, Integer> m = getPersistentAccessHistory(accessor);
         if (m != null) {
+            // Netex - Cache start
+            boolean found = false;
+            List<Location> misses = new ArrayList<>();
+            // Netex - Cache end
             for (Map.Entry<Location, Integer> entry : m.entrySet()) {
                 // try cache first
                 BarrelIdentity barrelIdentity = accessOutputAbleBarrel(entry.getKey());
@@ -1998,13 +2002,14 @@ public class NetworkRoot extends NetworkNode {
 
                     if (itemStack == null || !StackUtils.itemsMatch(request, itemStack)) {
                         // Netex - Cache start
-                        addCacheMiss(accessor, entry.getKey());
+                        misses.add(entry.getKey());
                         // Netex - Cache end
                         continue;
                     }
 
                     // Netex - Cache start
                     minusCacheMiss(accessor, entry.getKey());
+                    found = true;
                     // Netex - Cache end
 
                     boolean infinity = barrelIdentity instanceof InfinityBarrel;
@@ -2047,6 +2052,7 @@ public class NetworkRoot extends NetworkNode {
                         if (take != null) {
                             // Netex - Cache start
                             minusCacheMiss(accessor, entry.getKey());
+                            found = true;
                             // Netex - Cache end
 
                             if (stackToReturn == null) {
@@ -2067,17 +2073,25 @@ public class NetworkRoot extends NetworkNode {
                             }
                         } else {
                             // Netex - Cache start
-                            addCacheMiss(accessor, entry.getKey());
+                            misses.add(entry.getKey());
                             // Netex - Cache end
                         }
                         // </editor-fold>
                     } else {
                         // Netex - Cache start
-                        addCacheMiss(accessor, entry.getKey());
+                        misses.add(entry.getKey());
                         // Netex - Cache end
                     }
                 }
             }
+
+            // Netex - Cache start
+            if (!found) {
+                for (Location miss : misses) {
+                    minusCacheMiss(accessor, miss);
+                }
+            }
+            // Netex - Cache end
         }
 
         // Barrels first
@@ -2339,6 +2353,10 @@ public class NetworkRoot extends NetworkNode {
 
         Map<Location, Integer> m = getPersistentAccessHistory(accessor);
         if (m != null) {
+            // Netex - Cache start
+            boolean found = false;
+            List<Location> misses = new ArrayList<>();
+            // Netex - Cache end
             for (Map.Entry<Location, Integer> entry : m.entrySet()) {
                 BarrelIdentity barrelIdentity = accessInputAbleBarrel(entry.getKey());
                 if (barrelIdentity != null) {
@@ -2346,6 +2364,7 @@ public class NetworkRoot extends NetworkNode {
                     if (StackUtils.itemsMatch(barrelIdentity, incoming)) {
                         // Netex - Cache start
                         minusCacheMiss(accessor, entry.getKey());
+                        found = true;
                         // Netex - Cache end
 
                         barrelIdentity.depositItemStack(incoming);
@@ -2362,7 +2381,7 @@ public class NetworkRoot extends NetworkNode {
                         }
                     } else {
                         // Netex - Cache start
-                        addCacheMiss(accessor, barrelIdentity.getLocation());
+                        misses.add(entry.getKey());
                         // Netex - Cache end
                     }
                     // </editor-fold>
@@ -2375,10 +2394,11 @@ public class NetworkRoot extends NetworkNode {
                         data.depositItemStack0(accessor, incoming, true);
 
                         // Netex - Cache start
-                        if (incoming.getAmount() == before2) {
-                            addCacheMiss(accessor, entry.getKey());
-                        } else {
+                        if (incoming.getAmount() != before2) {
                             minusCacheMiss(accessor, entry.getKey());
+                            found = true;
+                        } else {
+                            misses.add(entry.getKey());
                         }
                         // Netex - Cache end
 
@@ -2391,13 +2411,17 @@ public class NetworkRoot extends NetworkNode {
                             // Netex - Record end
                             return;
                         }
-                    } else {
-                        // Netex - Cache start
-                        addCacheMiss(accessor, entry.getKey());
-                        // Netex - Cache end
                     }
                 }
             }
+
+            // Netex - Cache start
+            if (!found) {
+                for (Location miss : misses) {
+                    addCacheMiss(accessor, miss);
+                }
+            }
+            // Netex - Cache end
         }
 
         for (BlockMenu blockMenu : getAdvancedGreedyBlockMenus()) {

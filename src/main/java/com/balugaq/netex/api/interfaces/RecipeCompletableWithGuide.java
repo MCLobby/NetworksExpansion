@@ -18,6 +18,8 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -36,15 +38,38 @@ public interface RecipeCompletableWithGuide {
         if (Networks.getSupportedPluginManager().isJustEnoughGuide()) {
             blockMenu.replaceExistingItem(slot, Icon.JEG_BUTTON);
             blockMenu.addMenuClickHandler(slot, (player, slot1, item, action) -> {
-                openGuide(blockMenu, player);
+                openGuide(blockMenu, player, action);
                 return false;
             });
         }
     }
 
-    default void openGuide(@NotNull BlockMenu blockMenu, @NotNull Player player) {
+    @SuppressWarnings("deprecation")
+    default void openGuide(@NotNull BlockMenu blockMenu, @NotNull Player player, @NotNull ClickAction clickAction) {
         NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
         if (definition == null || definition.getNode() == null) {
+            return;
+        }
+
+        GuideEvents.ItemButtonClickEvent lastEvent = JEGCompatibleListener.getLastEvent(player.getUniqueId());
+        if (clickAction.isRightClicked() && lastEvent != null) {
+            int times = 1;
+            if (clickAction.isRightClicked()) {
+                times = 64;
+            }
+
+            BlockMenu actualMenu = StorageCacheUtils.getMenu(blockMenu.getLocation());
+            if (actualMenu == null) {
+                return;
+            }
+
+            if (!actualMenu.getPreset().getID().equals(blockMenu.getPreset().getID())) {
+                return;
+            }
+
+            for (int i = 0; i < times; i++) {
+                completeRecipeWithGuide(actualMenu, definition.getNode().getRoot(), lastEvent);
+            }
             return;
         }
 
