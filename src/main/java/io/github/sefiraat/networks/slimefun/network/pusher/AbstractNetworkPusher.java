@@ -2,6 +2,7 @@ package io.github.sefiraat.networks.slimefun.network.pusher;
 
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.api.interfaces.SoftCellBannable;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NodeDefinition;
@@ -23,7 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractNetworkPusher extends NetworkDirectional {
+public abstract class AbstractNetworkPusher extends NetworkDirectional implements SoftCellBannable {
     private static final int NORTH_SLOT = 11;
     private static final int SOUTH_SLOT = 29;
     private static final int EAST_SLOT = 21;
@@ -52,6 +53,10 @@ public abstract class AbstractNetworkPusher extends NetworkDirectional {
 
         if (definition == null || definition.getNode() == null) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NO_NETWORK_FOUND);
+            return;
+        }
+
+        if (checkSoftCellBan(blockMenu.getLocation(), definition.getNode().getRoot())) {
             return;
         }
 

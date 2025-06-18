@@ -17,7 +17,8 @@ import org.jetbrains.annotations.Nullable;
 public class BlockMenuUtil {
     @Nullable public static ItemStack pushItem(@NotNull BlockMenu blockMenu, @NotNull ItemStack item, int @NotNull ... slots) {
         if (item == null || item.getType() == Material.AIR) {
-            throw new IllegalArgumentException("Cannot push null or AIR");
+            return null;
+            // throw new IllegalArgumentException("Cannot push null or AIR");
         }
 
         int leftAmount = item.getAmount();
@@ -61,7 +62,8 @@ public class BlockMenuUtil {
     @NotNull public static Map<ItemStack, Integer> pushItem(
             @NotNull BlockMenu blockMenu, @NotNull ItemStack @NotNull [] items, int... slots) {
         if (items == null || items.length == 0) {
-            throw new IllegalArgumentException("Cannot push null or empty array");
+            return new HashMap<>();
+            // throw new IllegalArgumentException("Cannot push null or empty array");
         }
 
         List<ItemStack> listItems = new ArrayList<>();
@@ -77,7 +79,8 @@ public class BlockMenuUtil {
     @NotNull public static Map<ItemStack, Integer> pushItem(
             @NotNull BlockMenu blockMenu, @NotNull List<ItemStack> items, int... slots) {
         if (items == null || items.isEmpty()) {
-            throw new IllegalArgumentException("Cannot push null or empty list");
+            return new HashMap<>();
+            // throw new IllegalArgumentException("Cannot push null or empty list");
         }
 
         Map<ItemStack, Integer> itemMap = new HashMap<>();

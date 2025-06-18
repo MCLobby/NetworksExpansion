@@ -4,6 +4,7 @@ import com.balugaq.netex.api.algorithm.Sorters;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.utils.Lang;
+import com.balugaq.netex.utils.InventoryUtil;
 import com.github.houbb.pinyin.constant.enums.PinyinStyleEnum;
 import com.github.houbb.pinyin.util.PinyinHelper;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
@@ -462,7 +463,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
             return;
         }
 
-        HashMap<Integer, ItemStack> remnant = player.getInventory().addItem(requestingStack);
+        HashMap<Integer, ItemStack> remnant = InventoryUtil.addItem(player, requestingStack);
         requestingStack = remnant.values().stream().findFirst().orElse(null);
         if (requestingStack != null) {
             definition.getNode().getRoot().addItemStack0(menu.getLocation(), requestingStack);

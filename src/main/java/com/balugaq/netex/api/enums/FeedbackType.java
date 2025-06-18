@@ -54,7 +54,8 @@ public enum FeedbackType implements Keyed {
     RESULT_IS_TOO_LARGE,
     SUCCESS,
     WORKING,
-    NOT_ALLOWED_ITEM;
+    NOT_ALLOWED_ITEM,
+    SOFT_CELL_BANNED;
 
     private final @NotNull NamespacedKey key;
     private final @NotNull String message;

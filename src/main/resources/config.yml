@@ -18,6 +18,8 @@ rpg-fix:
 speed-up:
   persistent-threshold: 15
   cache-miss-threshold: 15
+  soft-cell-ban: false
+  soft-cell-ban-threshold: 0
 
 speed-down:
   transport-miss-threshold: 120

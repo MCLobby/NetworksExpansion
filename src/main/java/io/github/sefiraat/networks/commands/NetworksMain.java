@@ -3,6 +3,7 @@ package io.github.sefiraat.networks.commands;
 import com.balugaq.netex.api.data.ItemContainer;
 import com.balugaq.netex.api.data.StorageUnitData;
 import com.balugaq.netex.api.enums.ErrorType;
+import com.balugaq.netex.utils.InventoryUtil;
 import com.balugaq.netex.utils.Lang;
 import com.balugaq.netex.utils.MapUtil;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
@@ -941,7 +942,7 @@ public class NetworksMain implements TabExecutor {
                 return;
             }
 
-            player.getInventory().addItem(StackUtils.getAsQuantity(stack, 1));
+            InventoryUtil.addItem(player, StackUtils.getAsQuantity(stack, 1));
         }
     }
 
@@ -1388,7 +1389,7 @@ public class NetworksMain implements TabExecutor {
                             ItemStack first = pair.getFirstValue();
                             MapView second = pair.getSecondValue();
                             if (first != null && second != null) {
-                                player.getInventory().addItem(first);
+                                InventoryUtil.addItem(player, first);
                                 player.sendMap(second);
                             }
                         }

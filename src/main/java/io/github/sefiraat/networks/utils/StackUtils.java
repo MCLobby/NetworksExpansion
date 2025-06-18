@@ -284,9 +284,11 @@ public class StackUtils {
                 || FORCE_CHECK_LORE
                 || itemStack.getMaxStackSize() == 1 // Fix RPG weapons
                 || itemStack.getType()
-                        == Material.PLAYER_HEAD // Fix Soul jars in SoulJars & Number Components in MomoTech
+                        == Material.PLAYER_HEAD // Fix Soul jars in SoulJars & Number Components in MomoTech & Backpacks like items in Slimefun & DynaTech & MerakTech & TsingshanTechnology
                 || itemStack.getType() == Material.SPAWNER // Fix Reinforced Spawner in Slimefun4
                 || itemStack.getType() == Material.SUGAR // Fix Symbols in MomoTech
+                || itemStack.getType() == Material.MINECART // Fix Dolly(possible) in FluffyMachines
+                || itemStack.getType() == Material.CHEST_MINECART // Fix Packed Dolly(possible) in FluffyMachines
         ) {
             if (itemMeta.hasLore() && cachedMeta.hasLore()) {
                 if (!Objects.equals(itemMeta.getLore(), cachedMeta.getLore())) {
