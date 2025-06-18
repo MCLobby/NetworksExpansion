@@ -3,6 +3,8 @@ package com.balugaq.netex.utils;
 import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.sefiraat.networks.Networks;
 import java.util.Arrays;
+
+import lombok.experimental.UtilityClass;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -11,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * @author balugaq
  */
+@UtilityClass
 public class Debug {
     private static final String debugPrefix = "[Debug] ";
     private static JavaPlugin plugin;

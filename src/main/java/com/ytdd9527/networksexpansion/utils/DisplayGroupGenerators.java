@@ -12,10 +12,12 @@ import org.bukkit.Location;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
+@Deprecated
 @UtilityClass
 public final class DisplayGroupGenerators {
-
+    @Deprecated
     public static final CustomItemStack BRIDGE_STACK = new CustomItemStack(Skins.BRIDGE1.getPlayerHead(), "");
+    @Deprecated
     public static final CustomItemStack BRIDGE_CORNER_RIM_STACK =
             new CustomItemStack(Skins.BRIDGE2.getPlayerHead(), "");
 
