@@ -1,14 +1,13 @@
 package com.balugaq.netex.utils;
 
 import io.github.sefiraat.networks.utils.StackUtils;
+import java.util.HashMap;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.HashMap;
 
 @SuppressWarnings("deprecation")
 @UtilityClass

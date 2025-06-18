@@ -75,8 +75,7 @@ public class JEGCompatibleListener implements Listener {
         LAST_EVENTS.put(player.getUniqueId(), event);
     }
 
-    @Nullable
-    public static GuideEvents.ItemButtonClickEvent getLastEvent(@NotNull UUID playerUUID) {
+    @Nullable public static GuideEvents.ItemButtonClickEvent getLastEvent(@NotNull UUID playerUUID) {
         return LAST_EVENTS.get(playerUUID);
     }
 

@@ -40,7 +40,8 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class AdvancedTransferGrabber extends AdvancedDirectional implements RecipeDisplayItem, Configurable, SoftCellBannable {
+public class AdvancedTransferGrabber extends AdvancedDirectional
+        implements RecipeDisplayItem, Configurable, SoftCellBannable {
     private static final int DEFAULT_GRAB_ITEM_TICK = 1;
     private static final boolean DEFAULT_USE_SPECIAL_MODEL = false;
 

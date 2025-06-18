@@ -3,16 +3,15 @@ package com.balugaq.netex.api.interfaces;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.utils.Lang;
 import com.balugaq.netex.utils.LocationUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public interface FeedbackSendable {
     Map<UUID, Set<Location>> SUBSCRIBED_LOCATIONS = new HashMap<>();
@@ -53,6 +52,6 @@ public interface FeedbackSendable {
 
     default void sendFeedback(@NotNull Player player, @NotNull Location location, String message) {
         player.sendMessage(String.format(
-            Lang.getString("messages.debug.status_view"), LocationUtil.humanizeBlock(location), message));
+                Lang.getString("messages.debug.status_view"), LocationUtil.humanizeBlock(location), message));
     }
 }

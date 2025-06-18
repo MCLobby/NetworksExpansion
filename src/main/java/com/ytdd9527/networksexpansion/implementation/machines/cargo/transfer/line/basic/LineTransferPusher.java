@@ -42,7 +42,8 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class LineTransferPusher extends NetworkDirectional implements RecipeDisplayItem, Configurable, SoftCellBannable {
+public class LineTransferPusher extends NetworkDirectional
+        implements RecipeDisplayItem, Configurable, SoftCellBannable {
     private static final int DEFAULT_MAX_DISTANCE = 32;
     private static final int DEFAULT_PUSH_ITEM_TICK = 1;
     private static final boolean DEFAULT_USE_SPECIAL_MODEL = false;

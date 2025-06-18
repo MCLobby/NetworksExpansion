@@ -49,7 +49,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("ALL")
-public class LineTransferVanillaPusher extends NetworkDirectional implements RecipeDisplayItem, Configurable, SoftCellBannable {
+public class LineTransferVanillaPusher extends NetworkDirectional
+        implements RecipeDisplayItem, Configurable, SoftCellBannable {
     private static final int DEFAULT_MAX_DISTANCE = 32;
     private static final int DEFAULT_GRAB_ITEM_TICK = 1;
 

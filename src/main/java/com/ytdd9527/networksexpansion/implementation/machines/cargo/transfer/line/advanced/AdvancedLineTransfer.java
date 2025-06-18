@@ -40,7 +40,8 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class AdvancedLineTransfer extends AdvancedDirectional implements RecipeDisplayItem, Configurable, SoftCellBannable {
+public class AdvancedLineTransfer extends AdvancedDirectional
+        implements RecipeDisplayItem, Configurable, SoftCellBannable {
     private static final int DEFAULT_MAX_DISTANCE = 64;
     private static final int DEFAULT_PUSH_ITEM_TICK = 1;
     private static final int DEFAULT_GRAB_ITEM_TICK = 1;

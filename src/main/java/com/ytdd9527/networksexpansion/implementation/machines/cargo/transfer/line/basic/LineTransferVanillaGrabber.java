@@ -46,7 +46,8 @@ import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class LineTransferVanillaGrabber extends NetworkDirectional implements RecipeDisplayItem, Configurable, SoftCellBannable {
+public class LineTransferVanillaGrabber extends NetworkDirectional
+        implements RecipeDisplayItem, Configurable, SoftCellBannable {
     private static final int DEFAULT_MAX_DISTANCE = 32;
     private static final int DEFAULT_GRAB_ITEM_TICK = 1;
     private static final int[] BACKGROUND_SLOTS = new int[] {
