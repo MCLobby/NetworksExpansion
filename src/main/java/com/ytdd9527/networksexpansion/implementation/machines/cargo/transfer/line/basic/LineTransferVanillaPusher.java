@@ -3,6 +3,8 @@ package com.ytdd9527.networksexpansion.implementation.machines.cargo.transfer.li
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.enums.MinecraftVersion;
 import com.balugaq.netex.api.interfaces.Configurable;
+import com.balugaq.netex.api.interfaces.SoftCellBannable;
+import com.balugaq.netex.utils.InventoryUtil;
 import com.balugaq.netex.utils.Lang;
 import com.bgsoftware.wildchests.api.WildChestsAPI;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -47,7 +49,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("ALL")
-public class LineTransferVanillaPusher extends NetworkDirectional implements RecipeDisplayItem, Configurable {
+public class LineTransferVanillaPusher extends NetworkDirectional
+        implements RecipeDisplayItem, Configurable, SoftCellBannable {
     private static final int DEFAULT_MAX_DISTANCE = 32;
     private static final int DEFAULT_GRAB_ITEM_TICK = 1;
 
@@ -133,6 +136,10 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
         }
 
         final NetworkRoot root = definition.getNode().getRoot();
+        if (checkSoftCellBan(blockMenu.getLocation(), root)) {
+            return;
+        }
+
         final BlockFace direction = getCurrentDirection(blockMenu);
 
         // Fix for early vanilla pusher release
@@ -201,7 +208,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
                             if (stack == null) {
                                 break;
                             }
-                            holder.getInventory().addItem(stack);
+                            InventoryUtil.addItem(holder.getInventory(), stack);
                             break;
                         } else if (StackUtils.itemsMatch(targetItem, template)) {
                             int canAdd = template.getMaxStackSize() - targetItem.getAmount();
@@ -211,7 +218,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
                                 if (stack == null) {
                                     break;
                                 }
-                                holder.getInventory().addItem(stack);
+                                InventoryUtil.addItem(holder.getInventory(), stack);
                                 break;
                             }
                         }

@@ -3,6 +3,7 @@ package com.ytdd9527.networksexpansion.implementation.machines.cargo.transfer.li
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.enums.MinecraftVersion;
 import com.balugaq.netex.api.interfaces.Configurable;
+import com.balugaq.netex.api.interfaces.SoftCellBannable;
 import com.balugaq.netex.utils.Lang;
 import com.bgsoftware.wildchests.api.WildChestsAPI;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -45,7 +46,8 @@ import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class LineTransferVanillaGrabber extends NetworkDirectional implements RecipeDisplayItem, Configurable {
+public class LineTransferVanillaGrabber extends NetworkDirectional
+        implements RecipeDisplayItem, Configurable, SoftCellBannable {
     private static final int DEFAULT_MAX_DISTANCE = 32;
     private static final int DEFAULT_GRAB_ITEM_TICK = 1;
     private static final int[] BACKGROUND_SLOTS = new int[] {
@@ -126,6 +128,10 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
         }
 
         final NetworkRoot root = definition.getNode().getRoot();
+        if (checkSoftCellBan(blockMenu.getLocation(), root)) {
+            return;
+        }
+
         final BlockFace direction = getCurrentDirection(blockMenu);
 
         // Fix for early vanilla pusher release

@@ -4,6 +4,7 @@ import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.enums.TransportMode;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.api.interfaces.Configurable;
+import com.balugaq.netex.api.interfaces.SoftCellBannable;
 import com.balugaq.netex.utils.Lang;
 import com.balugaq.netex.utils.LineOperationUtil;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -41,7 +42,8 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class TransferBestPusher extends NetworkDirectional implements RecipeDisplayItem, Configurable {
+public class TransferBestPusher extends NetworkDirectional
+        implements RecipeDisplayItem, Configurable, SoftCellBannable {
     private static final int DEFAULT_PUSH_ITEM_TICK = 1;
     private static final boolean DEFAULT_USE_SPECIAL_MODEL = false;
     private static final String KEY_UUID = "display-uuid";
@@ -148,6 +150,9 @@ public class TransferBestPusher extends NetworkDirectional implements RecipeDisp
         }
 
         final NetworkRoot root = definition.getNode().getRoot();
+        if (checkSoftCellBan(blockMenu.getLocation(), root)) {
+            return;
+        }
 
         List<ItemStack> templates = new ArrayList<>();
         for (int slot : this.getItemSlots()) {

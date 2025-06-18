@@ -1,6 +1,7 @@
 package com.ytdd9527.networksexpansion.implementation.machines.networks.advanced;
 
 import com.balugaq.netex.api.interfaces.HangingBlock;
+import com.balugaq.netex.utils.InventoryUtil;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
 import com.ytdd9527.networksexpansion.utils.TextUtil;
 import com.ytdd9527.networksexpansion.utils.databases.DataSource;
@@ -199,15 +200,13 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
             if (shift) {
                 ItemStack result = root.getItemStack0(attachon, new ItemRequest(template, amount));
                 if (result != null) {
-                    player.getInventory().addItem(result).values().forEach(item -> root.addItemStack0(attachon, item));
-                    player.updateInventory();
+                    InventoryUtil.addItem(player, result).values().forEach(item -> root.addItemStack0(attachon, item));
                 }
             } else {
                 ItemStack result = root.getItemStack0(
                         attachon, new ItemRequest(template, Math.min(amount, template.getMaxStackSize())));
                 if (result != null) {
-                    player.getInventory().addItem(result).values().forEach(item -> root.addItemStack0(attachon, item));
-                    player.updateInventory();
+                    InventoryUtil.addItem(player, result).values().forEach(item -> root.addItemStack0(attachon, item));
                 }
             }
         } else {

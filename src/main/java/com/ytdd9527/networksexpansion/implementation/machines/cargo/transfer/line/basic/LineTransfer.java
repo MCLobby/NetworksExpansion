@@ -4,6 +4,7 @@ import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.enums.TransportMode;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.api.interfaces.Configurable;
+import com.balugaq.netex.api.interfaces.SoftCellBannable;
 import com.balugaq.netex.utils.Lang;
 import com.balugaq.netex.utils.LineOperationUtil;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -39,7 +40,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class LineTransfer extends NetworkDirectional implements RecipeDisplayItem, Configurable {
+public class LineTransfer extends NetworkDirectional implements RecipeDisplayItem, Configurable, SoftCellBannable {
     public static final int DEFAULT_MAX_DISTANCE = 32;
     public static final int DEFAULT_PUSH_ITEM_TICK = 1;
     public static final int DEFAULT_GRAB_ITEM_TICK = 1;
@@ -195,6 +196,10 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
         }
 
         final NetworkRoot root = definition.getNode().getRoot();
+        if (checkSoftCellBan(blockMenu.getLocation(), root)) {
+            return;
+        }
+
         if (root.getRootPower() < requiredPower) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NOT_ENOUGH_POWER);
             return;
@@ -229,6 +234,10 @@ public class LineTransfer extends NetworkDirectional implements RecipeDisplayIte
         }
 
         final NetworkRoot root = definition.getNode().getRoot();
+        if (checkSoftCellBan(blockMenu.getLocation(), root)) {
+            return;
+        }
+
         if (root.getRootPower() < requiredPower) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NOT_ENOUGH_POWER);
             return;

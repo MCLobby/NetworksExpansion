@@ -6,7 +6,9 @@ import java.io.InputStream;
 import java.util.List;
 import javax.imageio.ImageIO;
 import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class ImageUtil {
     public static final List<String> allowedImageExtensions =
             List.of("bmp", "gif", "jpeg", "jpg", "png", "tiff", "wbmp");

@@ -3,6 +3,7 @@ package com.ytdd9527.networksexpansion.utils.itemstacks;
 import com.balugaq.netex.api.data.ItemAmountWrapper;
 import com.balugaq.netex.api.data.ItemWrapper;
 import com.balugaq.netex.utils.Debug;
+import com.balugaq.netex.utils.InventoryUtil;
 import com.balugaq.netex.utils.NetworksVersionedEnchantment;
 import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.sefiraat.networks.utils.StackUtils;
@@ -1006,7 +1007,7 @@ public final class ItemStackUtil {
             ItemStack incoming = toGive.clone();
             incoming.setAmount(Math.min(toGive.getMaxStackSize(), toGive.getAmount()));
             toGive.setAmount(toGive.getAmount() - incoming.getAmount());
-            Collection<ItemStack> leftover = p.getInventory().addItem(incoming).values();
+            Collection<ItemStack> leftover = InventoryUtil.addItem(p, incoming).values();
             for (ItemStack itemStack : leftover) {
                 p.getWorld().dropItemNaturally(p.getLocation(), itemStack);
             }

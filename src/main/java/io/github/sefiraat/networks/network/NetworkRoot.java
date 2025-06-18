@@ -53,6 +53,7 @@ import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
 public class NetworkRoot extends NetworkNode {
+    private int cellsSize = -1;
     public static final int persistentThreshold = Networks.getConfigManager().getPersistentThreshold();
     public static final int cacheMissThreshold = Networks.getConfigManager().getCacheMissThreshold();
     public static final int reduceMs = Networks.getConfigManager().getReduceMs();
@@ -65,14 +66,14 @@ public class NetworkRoot extends NetworkNode {
             new ConcurrentHashMap<>();
     public static final Map<Location, Integer /* Transport miss times */> transportMissOutputHistory =
             new ConcurrentHashMap<>();
-    public static final Map<Location, Long> reducedAccessInputHistory = new ConcurrentHashMap<>();
-    public static final Map<Location, Long> reducedAccessOutputHistory = new ConcurrentHashMap<>();
+    public static final Map<Location, Long> controlledAccessInputHistory = new ConcurrentHashMap<>();
+    public static final Map<Location, Long> controlledAccessOutputHistory = new ConcurrentHashMap<>();
 
     @Getter
     private final long CREATED_TIME = System.currentTimeMillis();
 
     @Getter
-    private final Set<Location> nodeLocations = new HashSet<>();
+    private final Set<Location> nodeLocations = ConcurrentHashMap.newKeySet();
 
     private final int[] CELL_AVAILABLE_SLOTS =
             NetworkCell.SLOTS.stream().mapToInt(i -> i).toArray();
@@ -919,7 +920,7 @@ public class NetworkRoot extends NetworkNode {
         }
 
         final Set<Location> addedLocations = ConcurrentHashMap.newKeySet();
-        final Map<StorageUnitData, Location> dataSet = new HashMap<>();
+        final Map<StorageUnitData, Location> dataSet = new ConcurrentHashMap<>();
 
         for (Location cellLocation : this.monitors) {
             final BlockFace face = NetworkDirectional.getSelectedFace(cellLocation);
@@ -1742,7 +1743,7 @@ public class NetworkRoot extends NetworkNode {
         }
 
         this.inputAbleBarrels = barrelSet;
-        this.mapInputAbleBarrels = new HashMap<>();
+        this.mapInputAbleBarrels = new ConcurrentHashMap<>();
         for (BarrelIdentity storage : barrelSet) {
             this.mapInputAbleBarrels.put(storage.getLocation(), storage);
         }
@@ -1817,7 +1818,7 @@ public class NetworkRoot extends NetworkNode {
         }
 
         this.outputAbleBarrels = barrelSet;
-        this.mapOutputAbleBarrels = new HashMap<>();
+        this.mapOutputAbleBarrels = new ConcurrentHashMap<>();
         for (BarrelIdentity storage : barrelSet) {
             this.mapOutputAbleBarrels.put(storage.getLocation(), storage);
         }
@@ -1833,7 +1834,7 @@ public class NetworkRoot extends NetworkNode {
         }
 
         final Set<Location> addedLocations = ConcurrentHashMap.newKeySet();
-        final Map<StorageUnitData, Location> dataSet = new HashMap<>();
+        final Map<StorageUnitData, Location> dataSet = new ConcurrentHashMap<>();
 
         final Set<Location> monitor = new HashSet<>();
         monitor.addAll(this.inputOnlyMonitors);
@@ -1864,7 +1865,7 @@ public class NetworkRoot extends NetworkNode {
         }
 
         this.inputAbleCargoStorageUnitDatas = dataSet;
-        this.mapInputAbleCargoStorageUnits = new HashMap<>();
+        this.mapInputAbleCargoStorageUnits = new ConcurrentHashMap<>();
         for (Map.Entry<StorageUnitData, Location> entry : dataSet.entrySet()) {
             mapInputAbleCargoStorageUnits.put(entry.getValue(), entry.getKey());
         }
@@ -1880,7 +1881,7 @@ public class NetworkRoot extends NetworkNode {
         }
 
         final Set<Location> addedLocations = ConcurrentHashMap.newKeySet();
-        final Map<StorageUnitData, Location> dataSet = new HashMap<>();
+        final Map<StorageUnitData, Location> dataSet = new ConcurrentHashMap<>();
 
         final Set<Location> monitor = new HashSet<>();
         monitor.addAll(this.outputOnlyMonitors);
@@ -1911,7 +1912,7 @@ public class NetworkRoot extends NetworkNode {
         }
 
         this.outputAbleCargoStorageUnitDatas = dataSet;
-        this.mapOutputAbleCargoStorageUnits = new HashMap<>();
+        this.mapOutputAbleCargoStorageUnits = new ConcurrentHashMap<>();
         for (Map.Entry<StorageUnitData, Location> entry : dataSet.entrySet()) {
             mapOutputAbleCargoStorageUnits.put(entry.getValue(), entry.getKey());
         }
@@ -2030,7 +2031,7 @@ public class NetworkRoot extends NetworkNode {
 
                     if (request.getAmount() <= preserveAmount) {
                         // Netex - Reduce start
-                        unreduceAccessOutput(accessor);
+                        uncontrolAccessOutput(accessor);
                         // Netex - Reduce end
                         stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
                         fetched.setAmount(fetched.getAmount() - request.getAmount());
@@ -2064,7 +2065,7 @@ public class NetworkRoot extends NetworkNode {
 
                             if (request.getAmount() <= 0) {
                                 // Netex - Reduce start
-                                unreduceAccessOutput(accessor);
+                                uncontrolAccessOutput(accessor);
                                 // Netex - Reduce end
                                 // Netex - Record start
                                 tryRecord(accessor, request);
@@ -2123,7 +2124,7 @@ public class NetworkRoot extends NetworkNode {
 
             if (request.getAmount() <= preserveAmount) {
                 // Netex - Reduce start
-                unreduceAccessOutput(accessor);
+                uncontrolAccessOutput(accessor);
                 // Netex - Reduce end
                 stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
                 fetched.setAmount(fetched.getAmount() - request.getAmount());
@@ -2156,7 +2157,7 @@ public class NetworkRoot extends NetworkNode {
 
                 if (request.getAmount() <= 0) {
                     // Netex - Reduce start
-                    unreduceAccessOutput(accessor);
+                    uncontrolAccessOutput(accessor);
                     // Netex - Reduce end
                     // Netex - Record start
                     tryRecord(accessor, request);
@@ -2189,7 +2190,7 @@ public class NetworkRoot extends NetworkNode {
 
                 if (request.getAmount() <= itemStack.getAmount()) {
                     // Netex - Reduce start
-                    unreduceAccessOutput(accessor);
+                    uncontrolAccessOutput(accessor);
                     // Netex - Reduce end
                     // We can't take more than this stack. Level to request amount, remove items and then return
                     stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
@@ -2226,7 +2227,7 @@ public class NetworkRoot extends NetworkNode {
 
                 if (request.getAmount() <= itemStack.getAmount()) {
                     // Netex - Reduce start
-                    unreduceAccessOutput(accessor);
+                    uncontrolAccessOutput(accessor);
                     // Netex - Reduce end
                     stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
                     itemStack.setAmount(itemStack.getAmount() - request.getAmount());
@@ -2260,7 +2261,7 @@ public class NetworkRoot extends NetworkNode {
 
                 if (request.getAmount() <= itemStack.getAmount()) {
                     // Netex - Reduce start
-                    unreduceAccessOutput(accessor);
+                    uncontrolAccessOutput(accessor);
                     // Netex - Reduce end
                     stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
                     itemStack.setAmount(itemStack.getAmount() - request.getAmount());
@@ -2297,7 +2298,7 @@ public class NetworkRoot extends NetworkNode {
 
             if (request.getAmount() <= itemStack.getAmount()) {
                 // Netex - Reduce start
-                unreduceAccessOutput(accessor);
+                uncontrolAccessOutput(accessor);
                 // Netex - Reduce end
                 // We can't take more than this stack. Level to request amount, remove items and then return
                 stackToReturn.setAmount(stackToReturn.getAmount() + request.getAmount());
@@ -2320,7 +2321,7 @@ public class NetworkRoot extends NetworkNode {
         }
 
         // Netex - Reduce start
-        unreduceAccessOutput(accessor);
+        uncontrolAccessOutput(accessor);
         // Netex - Reduce end
         // Netex - Record start
         tryRecord(accessor, request);
@@ -2372,7 +2373,7 @@ public class NetworkRoot extends NetworkNode {
                         // All distributed, can escape
                         if (incoming.getAmount() == 0) {
                             // Netex - Reduce start
-                            unreduceAccessInput(accessor);
+                            uncontrolAccessInput(accessor);
                             // Netex - Reduce end
                             // Netex - Record start
                             tryRecord(accessor, beforeItemStack, 0);
@@ -2404,7 +2405,7 @@ public class NetworkRoot extends NetworkNode {
 
                         if (incoming.getAmount() == 0) {
                             // Netex - Reduce start
-                            unreduceAccessInput(accessor);
+                            uncontrolAccessInput(accessor);
                             // Netex - Reduce end
                             // Netex - Record start
                             tryRecord(accessor, beforeItemStack, 0);
@@ -2434,7 +2435,7 @@ public class NetworkRoot extends NetworkNode {
             blockMenu.markDirty();
             BlockMenuUtil.pushItem(blockMenu, incoming, ADVANCED_GREEDY_BLOCK_AVAILABLE_SLOTS);
             // Netex - Reduce start
-            unreduceAccessInput(accessor);
+            uncontrolAccessInput(accessor);
             // Netex - Reduce end
             // Netex - Record start
             tryRecord(accessor, beforeItemStack, incoming.getAmount());
@@ -2454,7 +2455,7 @@ public class NetworkRoot extends NetworkNode {
             blockMenu.markDirty();
             BlockMenuUtil.pushItem(blockMenu, incoming, GREEDY_BLOCK_AVAILABLE_SLOTS[0]);
             // Netex - Reduce start
-            unreduceAccessInput(accessor);
+            uncontrolAccessInput(accessor);
             // Netex - Reduce end
             // Netex - Record start
             tryRecord(accessor, beforeItemStack, incoming.getAmount());
@@ -2476,7 +2477,7 @@ public class NetworkRoot extends NetworkNode {
                 // All distributed, can escape
                 if (incoming.getAmount() == 0) {
                     // Netex - Reduce start
-                    unreduceAccessInput(accessor);
+                    uncontrolAccessInput(accessor);
                     // Netex - Reduce end
                     // Netex - Record start
                     tryRecord(accessor, beforeItemStack, 0);
@@ -2497,7 +2498,7 @@ public class NetworkRoot extends NetworkNode {
             // Netex - Cache start
             if (incoming.getAmount() != before2) {
                 // Netex - Reduce start
-                unreduceAccessInput(accessor);
+                uncontrolAccessInput(accessor);
                 // Netex - Reduce end
                 addCountObservingAccessHistory(accessor, cache.getLastLocation());
             }
@@ -2505,7 +2506,7 @@ public class NetworkRoot extends NetworkNode {
 
             if (incoming.getAmount() == 0) {
                 // Netex - Reduce start
-                unreduceAccessInput(accessor);
+                uncontrolAccessInput(accessor);
                 // Netex - Reduce end
                 // Netex - Record start
                 tryRecord(accessor, beforeItemStack, 0);
@@ -2519,7 +2520,7 @@ public class NetworkRoot extends NetworkNode {
             BlockMenuUtil.pushItem(blockMenu, incoming, CELL_AVAILABLE_SLOTS);
             if (incoming.getAmount() == 0) {
                 // Netex - Reduce start
-                unreduceAccessInput(accessor);
+                uncontrolAccessInput(accessor);
                 // Netex - Reduce end
                 // Netex - Record start
                 tryRecord(accessor, beforeItemStack, 0);
@@ -2533,7 +2534,7 @@ public class NetworkRoot extends NetworkNode {
             // No item moved, limit the accessor
             addTransportInputMiss(accessor);
         } else {
-            unreduceAccessInput(accessor);
+            uncontrolAccessInput(accessor);
         }
         // Netex - Reduce end
         // Netex - Record start
@@ -2546,7 +2547,7 @@ public class NetworkRoot extends NetworkNode {
             return this.mapInputAbleBarrels;
         }
 
-        this.mapInputAbleBarrels = new HashMap<>();
+        this.mapInputAbleBarrels = new ConcurrentHashMap<>();
         for (BarrelIdentity barrel : getInputAbleBarrels()) {
             this.mapInputAbleBarrels.put(barrel.getLocation(), barrel);
         }
@@ -2558,7 +2559,7 @@ public class NetworkRoot extends NetworkNode {
             return this.mapOutputAbleBarrels;
         }
 
-        this.mapOutputAbleBarrels = new HashMap<>();
+        this.mapOutputAbleBarrels = new ConcurrentHashMap<>();
         for (BarrelIdentity barrel : getOutputAbleBarrels()) {
             this.mapOutputAbleBarrels.put(barrel.getLocation(), barrel);
         }
@@ -2592,7 +2593,7 @@ public class NetworkRoot extends NetworkNode {
     }
 
     public boolean allowAccessInput(@NotNull Location accessor) {
-        Long lastTime = reducedAccessOutputHistory.get(accessor);
+        Long lastTime = controlledAccessInputHistory.get(accessor);
         if (lastTime == null) {
             return true;
         } else {
@@ -2601,7 +2602,7 @@ public class NetworkRoot extends NetworkNode {
     }
 
     public boolean allowAccessOutput(@NotNull Location accessor) {
-        Long lastTime = reducedAccessInputHistory.get(accessor);
+        Long lastTime = controlledAccessOutputHistory.get(accessor);
         if (lastTime == null) {
             return true;
         } else {
@@ -2612,8 +2613,8 @@ public class NetworkRoot extends NetworkNode {
     public void addTransportInputMiss(@NotNull Location location) {
         transportMissInputHistory.merge(location, 1, (a, b) -> {
             if (a + b > transportMissThreshold) {
-                reduceAccessInput(location);
-                return null;
+                controlAccessInput(location);
+                return transportMissThreshold;
             } else {
                 return a + b;
             }
@@ -2623,27 +2624,46 @@ public class NetworkRoot extends NetworkNode {
     public void addTransportOutputMiss(@NotNull Location location) {
         transportMissOutputHistory.merge(location, 1, (a, b) -> {
             if (a + b > transportMissThreshold) {
-                reduceAccessOutput(location);
-                return null;
+                controlAccessOutput(location);
+                return transportMissThreshold;
             } else {
                 return a + b;
             }
         });
     }
 
-    public void reduceAccessInput(@NotNull Location accessor) {
-        reducedAccessInputHistory.put(accessor, System.currentTimeMillis());
+    public void reduceTransportInputMiss(@NotNull Location location) {
+        transportMissInputHistory.merge(location, -1, (a, b) -> Math.max(a + b, 0));
     }
 
-    public void reduceAccessOutput(@NotNull Location accessor) {
-        reducedAccessOutputHistory.put(accessor, System.currentTimeMillis());
+    public void reduceTransportOutputMiss(@NotNull Location location) {
+        transportMissOutputHistory.merge(location, -1, (a, b) -> Math.max(a + b, 0));
     }
 
-    public void unreduceAccessInput(@NotNull Location accessor) {
-        reducedAccessInputHistory.remove(accessor);
+    public void controlAccessInput(@NotNull Location accessor) {
+        controlledAccessInputHistory.put(accessor, System.currentTimeMillis());
     }
 
-    public void unreduceAccessOutput(@NotNull Location accessor) {
-        reducedAccessOutputHistory.remove(accessor);
+    public void controlAccessOutput(@NotNull Location accessor) {
+        controlledAccessOutputHistory.put(accessor, System.currentTimeMillis());
+    }
+
+    public void uncontrolAccessInput(@NotNull Location accessor) {
+        controlledAccessInputHistory.remove(accessor);
+        reduceTransportInputMiss(accessor);
+    }
+
+    public void uncontrolAccessOutput(@NotNull Location accessor) {
+        controlledAccessOutputHistory.remove(accessor);
+        reduceTransportOutputMiss(accessor);
+    }
+
+    public int getCellsSize() {
+        if (cellsSize != -1) {
+            return cellsSize;
+        }
+
+        cellsSize = getCells().size();
+        return cellsSize;
     }
 }

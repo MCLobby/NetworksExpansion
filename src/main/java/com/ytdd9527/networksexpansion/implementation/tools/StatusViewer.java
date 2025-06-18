@@ -1,5 +1,6 @@
 package com.ytdd9527.networksexpansion.implementation.tools;
 
+import com.balugaq.netex.api.interfaces.FeedbackSendable;
 import com.balugaq.netex.utils.Lang;
 import com.balugaq.netex.utils.LocationUtil;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -42,13 +43,13 @@ public class StatusViewer extends SpecialSlimefunItem {
             final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(block.getLocation());
             final Location location = block.getLocation();
             if (slimefunItem != null) {
-                if (SpecialSlimefunItem.hasSubscribed(player, location)) {
-                    SpecialSlimefunItem.unsubscribe(player, location);
+                if (FeedbackSendable.hasSubscribed(player, location)) {
+                    FeedbackSendable.unsubscribe(player, location);
                     player.sendMessage(String.format(
                             Lang.getString("messages.completed-operation.status_viewer.unsubscribed"),
                             LocationUtil.humanizeBlock(location)));
                 } else {
-                    SpecialSlimefunItem.subscribe(player, location);
+                    FeedbackSendable.subscribe(player, location);
                     if (slimefunItem instanceof NetworkObject) {
                         player.sendMessage(
                                 Lang.getString("messages.completed-operation.status_viewer.is_networks_object"));

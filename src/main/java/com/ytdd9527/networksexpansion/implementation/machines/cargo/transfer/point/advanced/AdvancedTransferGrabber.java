@@ -3,6 +3,7 @@ package com.ytdd9527.networksexpansion.implementation.machines.cargo.transfer.po
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.enums.TransportMode;
 import com.balugaq.netex.api.interfaces.Configurable;
+import com.balugaq.netex.api.interfaces.SoftCellBannable;
 import com.balugaq.netex.utils.Lang;
 import com.balugaq.netex.utils.LineOperationUtil;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -39,7 +40,8 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class AdvancedTransferGrabber extends AdvancedDirectional implements RecipeDisplayItem, Configurable {
+public class AdvancedTransferGrabber extends AdvancedDirectional
+        implements RecipeDisplayItem, Configurable, SoftCellBannable {
     private static final int DEFAULT_GRAB_ITEM_TICK = 1;
     private static final boolean DEFAULT_USE_SPECIAL_MODEL = false;
 
@@ -153,6 +155,10 @@ public class AdvancedTransferGrabber extends AdvancedDirectional implements Reci
         }
 
         final NetworkRoot root = definition.getNode().getRoot();
+        if (checkSoftCellBan(blockMenu.getLocation(), root)) {
+            return;
+        }
+
         final int limitQuantity = getLimitQuantity(blockMenu.getLocation());
         final TransportMode mode = getCurrentTransportMode(blockMenu.getLocation());
 

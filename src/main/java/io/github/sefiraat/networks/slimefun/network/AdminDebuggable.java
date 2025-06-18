@@ -93,7 +93,7 @@ public interface AdminDebuggable {
         final boolean isDebug = isDebug(location);
         final boolean nextState = !isDebug;
         setDebug(location, nextState);
-        player.sendMessage(String.format(Lang.getString("messages.debug.toggleDebugMode-debug"), nextState));
+        player.sendMessage(String.format(Lang.getString("messages.debug.toggle-debug"), nextState));
         if (nextState) {
             player.sendMessage(Lang.getString("messages.debug.enabled-debug"));
         }

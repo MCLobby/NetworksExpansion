@@ -324,7 +324,7 @@ public class LineOperationUtil {
                     final ItemStack retrieved = root.getItemStack0(accessor, itemRequest);
                     if (retrieved != null && retrieved.getType() != Material.AIR) {
                         free -= retrieved.getAmount();
-                        blockMenu.pushItem(retrieved, slot);
+                        blockMenu.pushItem(retrieved, slot); // todo: use util
                         if (free <= 0) {
                             break;
                         }
@@ -357,7 +357,7 @@ public class LineOperationUtil {
                     final ItemStack retrieved = root.getItemStack0(accessor, itemRequest);
                     if (retrieved != null && retrieved.getType() != Material.AIR) {
                         free -= retrieved.getAmount();
-                        blockMenu.pushItem(retrieved, slot);
+                        blockMenu.pushItem(retrieved, slot); // todo: use util
                         if (free <= 0) {
                             break;
                         }
@@ -392,7 +392,7 @@ public class LineOperationUtil {
                 final ItemStack retrieved = root.getItemStack0(accessor, itemRequest);
                 if (retrieved != null && retrieved.getType() != Material.AIR) {
                     retrieved.getAmount();
-                    blockMenu.pushItem(retrieved, slot);
+                    blockMenu.pushItem(retrieved, slot); // todo: use util
                 }
             }
             case LAST_ONLY -> {
@@ -423,7 +423,7 @@ public class LineOperationUtil {
                 final ItemStack retrieved = root.getItemStack0(accessor, itemRequest);
                 if (retrieved != null && retrieved.getType() != Material.AIR) {
                     retrieved.getAmount();
-                    blockMenu.pushItem(retrieved, slot);
+                    blockMenu.pushItem(retrieved, slot); // todo: use util
                 }
             }
             case FIRST_STOP -> {
