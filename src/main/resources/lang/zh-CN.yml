@@ -95,6 +95,7 @@ messages:
     no-permission: "&c你没有权限执行该指令!"
     no-item-in-hand: "&c你必须在手上持有物品!"
     missing-required-argument: "&c缺少必要参数: <%s>"
+    invalid-required-argument: "&c无效的必要参数: <%s>"
     invalid-argument: "&c无效的参数: <%s>"
     must-be-player: "&c此命令只能由玩家执行!"
     unknown-error: "&c未知错误!"
