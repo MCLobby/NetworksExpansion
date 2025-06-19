@@ -1617,9 +1617,9 @@ public class ExpansionRecipes {
     };
 
     public static final ItemStack[] STATUS_VIEWER = new ItemStack[] {
-        NETWORK_BRIDGE.getItem(), OPTIC_CABLE.getItem(), NETWORK_BRIDGE.getItem(),
-        NETWORK_BRIDGE.getItem(), NETWORK_GRID.getItem(), NETWORK_BRIDGE.getItem(),
-        NETWORK_BRIDGE.getItem(), OPTIC_CABLE.getItem(), NETWORK_BRIDGE.getItem()
+        SYNTHETIC_EMERALD_SHARD.getItem(), OPTIC_CABLE.getItem(), SYNTHETIC_EMERALD_SHARD.getItem(),
+        NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(),
+        SYNTHETIC_EMERALD_SHARD.getItem(), OPTIC_CABLE.getItem(), SYNTHETIC_EMERALD_SHARD.getItem()
     };
 
     public static final ItemStack[] QUANTUM_MANAGER = new ItemStack[] {
