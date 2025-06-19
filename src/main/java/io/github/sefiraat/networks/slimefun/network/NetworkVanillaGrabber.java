@@ -126,12 +126,12 @@ public class NetworkVanillaGrabber extends NetworkDirectional implements SoftCel
         sendDebugMessage(block.getLocation(), String.format(Lang.getString("messages.debug.ischest"), isChest));
 
         if (wildChests && isChest) {
-            sendDebugMessage(block.getLocation(), Lang.getString("messages.debug.wildchests_test_failed"));
+            sendDebugMessage(block.getLocation(), Lang.getString("messages.debug.wildchests-test-failed"));
             sendFeedback(block.getLocation(), FeedbackType.PROTECTED_BLOCK);
             return;
         }
 
-        sendDebugMessage(block.getLocation(), Lang.getString("messages.debug.wildchests_test_success"));
+        sendDebugMessage(block.getLocation(), Lang.getString("messages.debug.wildchests-test-success"));
         final Inventory inventory = holder.getInventory();
 
         if (inventory instanceof FurnaceInventory furnaceInventory) {

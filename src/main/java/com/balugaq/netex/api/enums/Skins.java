@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public enum Skins {
+    @Deprecated
     // https://minecraft-heads.com/custom-heads/head/15044-arcane-workbench
     STORAGE_UNIT_UPGRADE_TABLE_MODEL("abb84e348ab58be0435f61e027fa6dfe557bee8893f1c10c3c2bebd2025da"),
     // https://minecraft-heads.com/custom-heads/head/95800-silver-chest
@@ -36,21 +37,30 @@ public enum Skins {
     CARGO_STORAGE_UNIT_12_MODEL("2544b09d559cebb406b722700f3bd37cb16d28d2f6814b583c64270084bc68b3"),
     // https://minecraft-heads.com/custom-heads/head/95986-rainbow-chest
     CARGO_STORAGE_UNIT_13_MODEL("e7bc251a6cb0d6d9f05c5711911a6ec24b209dbe64267901a4b03761debcf738"),
+    @Deprecated
     AUTHOR_SEFIRAAT("bb2725924e09d6b0bdf5ab864e63f80eb880bfa6fe1fa17f9fdb61bc1ae110db"),
+    @Deprecated
     AUTHOR_YBW0014("82a5c8de37d1a48f41053b8cc2abaec79ffbf0fc11464b290b057dd1d1d3837e"),
+    @Deprecated
     AUTHOR_TINALNESS("73112785f64d814103931505ace00048c087337785550c99a67449c392b39772"),
 
+    @Deprecated
     // https://minecraft-heads.com/custom-heads/head/62847-rainbow-crate
     NE_MODEL_CELL("bdca3f370bfc0cadee7fd014579b64271649b6e7c0290d8e1acdd6f27b476bf2"),
 
+    @Deprecated
     // https://minecraft-heads.com/custom-heads/head/46444-cargo-node
     NE_MODEL_CONTROLLER("64aeb99a68c671a03bb7415f5801960b739a98e43b1ae4e1bacd958a8b94227d"),
 
+    @Deprecated
     // https://minecraft-heads.com/custom-heads/head/46959-copper-pipe-double-rim
     BRIDGE1("7b7c9b6a23f21cca2b362b85b36dece3d8389e363014defe5b92ff6ee64f1ae"),
+    @Deprecated
     BRIDGE2("7b7c9b6a23f21cca2b362b85b36dece3d8389e363014defe5b92ff6ee64f1ae"),
+    @Deprecated
     // https://minecraft-heads.com/custom-heads/head/46960-copper-pipe-corner-rim
     BRIDGE_CORNER_RIM("59f37f1cbd47c3504511bf33c58c3a252b60713ec5fc5433d887d4a0d996210"),
+    @Deprecated
     // https://minecraft-heads.com/custom-heads/head/45398-mithril-infused-drill-tank
     NE_MODEL_CAPACITOR_5("ecb316f7a227a8c59d58ae0dd6768fe4fa546d55b9cfdd56cfe40b6586d81c24");
 

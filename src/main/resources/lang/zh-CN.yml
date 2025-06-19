@@ -67,19 +67,32 @@ messages:
     error-occurred-when-loading-environment-var: "环境加载发生异常："
     error-occurred-when-loading-storage: "读取存储物品时发生异常："
     error-occurred-when-executing-query: "数据请求发生异常："
-  guide:
+  guide: # Deprecated
+    # Deprecated
     locked-in: "&f需要在 %s 中解锁"
+    # Deprecated
     no-permission: "&f无权限"
+    # Deprecated
     cost-vault: " 游戏币"
+    # Deprecated
     cost-level: " 级经验"
+    # Deprecated
     click-to-research: "&a> 单击解锁"
+    # Deprecated
     cost: "&7需要 &b"
+    # Deprecated
     searching: "你正在搜索: %item%"
+    # Deprecated
     back: "&f左键: &7返回上一页"
+    # Deprecated
     super-back: "&fShift + 左键: &7返回主菜单"
+    # Deprecated
     survival: "网络拓展指南 (生存模式)"
+    # Deprecated
     creative: "网络拓展指南 (作弊模式)"
+    # Deprecated
     internal-error: "&4服务器发生了一个内部错误. 请联系管理员处理."
+    # Deprecated
     error-occurred: "在打开指南书里的 Slimefun 物品时发生了意外!"
   debug:
     info: "%s - %s"
@@ -88,8 +101,8 @@ messages:
     enabled-debug: "<success>该模式将持续至服务器关闭，或者手动关闭。"
     wildchests: "WildChests 已安装：%s"
     ischest: "该方块是否被 WildChest 判断为方块：%s"
-    wildchests_test_success: "WildChests 测试成功！"
-    wildchests_test_failed: "WildChests 测试失败！"
+    wildchests-test-success: "WildChests 测试成功！"
+    wildchests-test-failed: "WildChests 测试失败！"
     status_view: "位置 %s 反馈了信息: %s"
   commands:
     no-permission: "&c你没有权限执行该指令!"
@@ -1006,9 +1019,9 @@ items:
       - "<warning> 网络拓展开发版不接受 GitHub Issues"
       - "<warning> 网络拓展开发版不接受 GitHub PR"
       - "<passive> 版本信息:"
-      - "<passive> 网络拓展版本: Special-Version-27"
+      - "<passive> 网络拓展版本: Special-Version-28"
       - "<passive> 版本状态: 稳定版"
-      - "<passive> 版本更新时间: 2025-6-18 22:31:53"
+      - "<passive> 版本更新时间: 2025-6-19 21:09:39"
       - "<passive> 开发状态: 更新中"
       - "<passive> 开发者（们）: ytdd9527, balugaq"
       - "<passive> 开发者 GitHub 页面: <click_info>https://github.com/ytdd9527"
