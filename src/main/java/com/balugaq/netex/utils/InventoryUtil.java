@@ -49,10 +49,22 @@ public class InventoryUtil {
                 ItemStack exist = storage[index];
                 int existing = exist.getAmount();
                 int maxStack = exist.getMaxStackSize();
-                if (existing < maxStack) {
+                if (existing == maxStack) {
+                    index = firstEmpty(storage);
+                    if (index == -1) {
+                        leftover.put(inventory.firstEmpty(), toAdd);
+                        continue;
+                    }
+                    storage[index] = toAdd.clone();
+                    toAdd.setAmount(0);
+                    toAdd.setType(Material.AIR);
+                } else if (existing < maxStack) {
                     int handled = Math.min(maxStack - existing, toAdd.getAmount());
                     exist.setAmount(existing + handled);
                     toAdd.setAmount(toAdd.getAmount() - handled);
+                    if (toAdd.getAmount() != 0) {
+                        leftover.put(index, toAdd);
+                    }
                 } else {
                     leftover.put(index, toAdd);
                 }
