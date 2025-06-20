@@ -189,7 +189,7 @@ public class AdvancedTransferMorePusher extends AdvancedDirectional
                 false,
                 false,
                 (targetMenu) -> LineOperationUtil.pushItem(
-                        blockMenu.getLocation(), root, targetMenu, templates, currentTransportMode, limitQuantity));
+                        targetMenu.getLocation(), root, targetMenu, templates, currentTransportMode, limitQuantity));
     }
 
     @Override

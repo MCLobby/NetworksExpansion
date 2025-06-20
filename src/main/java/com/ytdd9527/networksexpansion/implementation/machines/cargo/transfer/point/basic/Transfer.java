@@ -208,7 +208,7 @@ public class Transfer extends NetworkDirectional implements RecipeDisplayItem, C
                 false,
                 false,
                 (targetMenu) -> LineOperationUtil.pushItem(
-                        blockMenu.getLocation(), root, targetMenu, templates, TransportMode.FIRST_STOP, 64));
+                        targetMenu.getLocation(), root, targetMenu, templates, TransportMode.FIRST_STOP, 64));
 
         root.removeRootPower(requiredPower);
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
@@ -245,7 +245,7 @@ public class Transfer extends NetworkDirectional implements RecipeDisplayItem, C
                 false,
                 false,
                 (targetMenu) -> LineOperationUtil.grabItem(
-                        blockMenu.getLocation(), root, targetMenu, TransportMode.FIRST_STOP, 64));
+                        targetMenu.getLocation(), root, targetMenu, TransportMode.FIRST_STOP, 64));
 
         root.removeRootPower(requiredPower);
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
