@@ -151,7 +151,7 @@ public class LineTransferGrabber extends NetworkDirectional
                 false,
                 true,
                 (targetMenu) -> LineOperationUtil.grabItem(
-                        blockMenu.getLocation(), root, targetMenu, TransportMode.FIRST_STOP, 64));
+                        targetMenu.getLocation(), root, targetMenu, TransportMode.FIRST_STOP, 64));
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
 

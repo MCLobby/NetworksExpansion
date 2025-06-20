@@ -147,7 +147,7 @@ public class TransferGrabber extends NetworkDirectional implements RecipeDisplay
                 false,
                 false,
                 (targetMenu) -> LineOperationUtil.grabItem(
-                        blockMenu.getLocation(), root, targetMenu, TransportMode.FIRST_STOP, 64));
+                        targetMenu.getLocation(), root, targetMenu, TransportMode.FIRST_STOP, 64));
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
 

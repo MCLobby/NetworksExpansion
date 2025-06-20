@@ -234,7 +234,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional
                 false,
                 false,
                 (targetMenu) -> LineOperationUtil.pushItem(
-                        blockMenu.getLocation(), root, targetMenu, templates, currentTransportMode, limitQuantity));
+                        targetMenu.getLocation(), root, targetMenu, templates, currentTransportMode, limitQuantity));
 
         root.removeRootPower(requiredPower);
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
@@ -272,7 +272,7 @@ public class AdvancedLineTransfer extends AdvancedDirectional
                 false,
                 false,
                 (targetMenu) ->
-                        LineOperationUtil.grabItem(blockMenu.getLocation(), root, targetMenu, mode, limitQuantity));
+                        LineOperationUtil.grabItem(targetMenu.getLocation(), root, targetMenu, mode, limitQuantity));
 
         root.removeRootPower(requiredPower);
     }

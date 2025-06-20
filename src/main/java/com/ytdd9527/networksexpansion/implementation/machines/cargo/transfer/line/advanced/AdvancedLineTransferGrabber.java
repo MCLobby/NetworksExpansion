@@ -172,7 +172,7 @@ public class AdvancedLineTransferGrabber extends AdvancedDirectional
                 false,
                 true,
                 (targetMenu) ->
-                        LineOperationUtil.grabItem(blockMenu.getLocation(), root, targetMenu, mode, limitQuantity));
+                        LineOperationUtil.grabItem(targetMenu.getLocation(), root, targetMenu, mode, limitQuantity));
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
 
