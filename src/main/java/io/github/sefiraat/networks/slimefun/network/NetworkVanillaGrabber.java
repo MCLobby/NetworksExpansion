@@ -54,7 +54,7 @@ public class NetworkVanillaGrabber extends NetworkDirectional implements SoftCel
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+            ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.PUSHER);
         this.getSlotsToDrop().add(OUTPUT_SLOT);
     }

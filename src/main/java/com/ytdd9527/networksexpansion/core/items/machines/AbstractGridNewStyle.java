@@ -28,7 +28,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -72,7 +71,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+            ItemStack @NotNull [] recipe) {
         this(itemGroup, item, recipeType, recipe, NodeType.GRID);
     }
 
@@ -80,7 +79,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe,
+            ItemStack @NotNull [] recipe,
             NodeType type) {
         super(itemGroup, item, recipeType, recipe, type);
 
@@ -560,7 +559,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         return Icon.FILTER_STACK;
     }
 
-    public ItemStack getModeStack(@NotNull GridCache gridCache) {
+    public @NotNull ItemStack getModeStack(@NotNull GridCache gridCache) {
         return getModeStack(gridCache.getDisplayMode());
     }
 

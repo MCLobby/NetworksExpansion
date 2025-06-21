@@ -8,21 +8,23 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("deprecation")
 @UtilityClass
 public class InventoryUtil {
-    public static HashMap<Integer, ItemStack> addItem(Player player, ItemStack... toAdd) {
+    public static @NotNull HashMap<Integer, ItemStack> addItem(@NotNull Player player, ItemStack... toAdd) {
         HashMap<Integer, ItemStack> result = addItem(player.getInventory(), toAdd);
         player.updateInventory();
         return result;
     }
 
-    public static HashMap<Integer, ItemStack> addItem(InventoryHolder holder, ItemStack... toAdds) {
+    public static @NotNull HashMap<Integer, ItemStack> addItem(@NotNull InventoryHolder holder, ItemStack... toAdds) {
         return addItem(holder.getInventory(), toAdds);
     }
 
-    public static HashMap<Integer, ItemStack> addItem(Inventory inventory, ItemStack... toAdds) {
+    public static @NotNull HashMap<Integer, ItemStack> addItem(
+            @NotNull Inventory inventory, ItemStack @NotNull ... toAdds) {
         HashMap<Integer, ItemStack> leftover = new HashMap<>();
         ItemStack[] storage = inventory.getStorageContents();
         if (storage == null) {
@@ -75,11 +77,11 @@ public class InventoryUtil {
         return leftover;
     }
 
-    public static int firstSimilar(ItemStack[] storage, ItemStack item) {
+    public static int firstSimilar(ItemStack @NotNull [] storage, ItemStack item) {
         return firstSimilar(storage, item, true);
     }
 
-    public static int firstSimilar(ItemStack[] storage, ItemStack item, boolean withoutAmount) {
+    public static int firstSimilar(ItemStack @NotNull [] storage, ItemStack item, boolean withoutAmount) {
         for (int i = 0; i < storage.length; i++) {
             if (StackUtils.itemsMatch(storage[i], item, true, !withoutAmount)) {
                 return i;
@@ -89,7 +91,7 @@ public class InventoryUtil {
         return -1;
     }
 
-    public static int firstEmpty(ItemStack[] storage) {
+    public static int firstEmpty(ItemStack @NotNull [] storage) {
         for (int i = 0; i < storage.length; i++) {
             if (storage[i] == null || storage[i].getType() == Material.AIR) {
                 return i;

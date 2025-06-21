@@ -48,7 +48,7 @@ public class NetworkController extends NetworkObject {
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+            ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.CONTROLLER);
 
         maxNodes = new IntRangeSetting(this, "max_nodes", 10, 8000, 50000);
@@ -137,6 +137,7 @@ public class NetworkController extends NetworkObject {
         }
     }
 
+    @SuppressWarnings("unused")
     @Override
     protected void cancelPlace(@NotNull BlockPlaceEvent event) {
         event.getPlayer().sendMessage(Theme.ERROR.getColor() + "This network already has a controller!");

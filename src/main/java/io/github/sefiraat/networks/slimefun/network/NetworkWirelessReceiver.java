@@ -36,7 +36,7 @@ public class NetworkWirelessReceiver extends NetworkObject {
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+            ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.WIRELESS_RECEIVER);
         this.getSlotsToDrop().add(RECEIVED_SLOT);
 

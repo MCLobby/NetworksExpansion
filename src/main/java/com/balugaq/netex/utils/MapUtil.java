@@ -15,18 +15,19 @@ import org.bukkit.map.MapCanvas;
 import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @UtilityClass
 public class MapUtil {
     public static final Map<String, MapView> mapViews = new HashMap<>();
 
-    public static Pair<ItemStack, MapView> getImageItem(@NotNull String imagePath) {
+    public static @NotNull Pair<ItemStack, MapView> getImageItem(@NotNull String imagePath) {
         ItemStack map = new ItemStack(Material.FILLED_MAP);
         MapView view = apply(map, imagePath);
         return new Pair<>(map, view);
     }
 
-    public static MapView apply(@NotNull ItemStack map, @NotNull String imagePath) {
+    public static @Nullable MapView apply(@NotNull ItemStack map, @NotNull String imagePath) {
         if (map.getItemMeta() instanceof MapMeta meta) {
             if (mapViews.containsKey(imagePath)) {
                 MapView view = mapViews.get(imagePath);
@@ -65,7 +66,7 @@ public class MapUtil {
         return null;
     }
 
-    public static BufferedImage resizeImage(BufferedImage original, int targetWidth, int targetHeight) {
+    public static @NotNull BufferedImage resizeImage(BufferedImage original, int targetWidth, int targetHeight) {
         BufferedImage resized = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = resized.createGraphics();
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);

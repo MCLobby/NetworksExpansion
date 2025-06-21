@@ -14,7 +14,7 @@ public class NetworkInputOnlyMonitor extends NetworkDirectional {
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+            ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.INPUT_ONLY_MONITOR);
     }
 }

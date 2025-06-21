@@ -73,7 +73,7 @@ public abstract class NetworkDirectional extends NetworkObject {
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe,
+            ItemStack @NotNull [] recipe,
             NodeType type) {
         super(itemGroup, item, recipeType, recipe, type);
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);

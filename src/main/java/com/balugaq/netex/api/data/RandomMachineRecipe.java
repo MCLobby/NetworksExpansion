@@ -69,7 +69,7 @@ public class RandomMachineRecipe extends MachineRecipe {
         return this.randomOutputs[CompareUtil.getIntSmallFuzzyIndex(this.weightBeginValues, r)].outputItem;
     }
 
-    @NotNull public ItemStack[] getAllOutput() {
+    @NotNull public ItemStack @NotNull [] getAllOutput() {
         List<ItemStack> itemList = new ArrayList<>();
         for (RandomOutput randomOutput : this.randomOutputs) {
             itemList.addAll(Arrays.asList(randomOutput.outputItem));

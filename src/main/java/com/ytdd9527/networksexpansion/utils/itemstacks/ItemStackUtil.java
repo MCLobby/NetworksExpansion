@@ -243,7 +243,7 @@ public final class ItemStackUtil {
     /**
      * @return Same #{@link ItemStack} but nonnull.
      */
-    @NotNull public static ItemStack[] getNoNullItemArray(@NotNull List<ItemStack> itemList) {
+    @NotNull public static ItemStack @NotNull [] getNoNullItemArray(@NotNull List<ItemStack> itemList) {
         List<ItemStack> noNullItemList = new ArrayList<>(itemList.size());
         for (ItemStack item : itemList) {
             if (!ItemStackUtil.isItemNull(item)) {
@@ -316,7 +316,7 @@ public final class ItemStackUtil {
     /**
      * Merge item to a new Array.
      */
-    @NotNull public static ItemStack[] calMergeItems(@NotNull ItemStack @NotNull [] items) {
+    @NotNull public static ItemStack @NotNull [] calMergeItems(@NotNull ItemStack @NotNull [] items) {
         List<ItemWrapper> itemWrapperList = new ArrayList<>(items.length);
         ItemWrapper itemWrapper = new ItemWrapper();
         int amount;

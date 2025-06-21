@@ -27,7 +27,7 @@ public class NetworkPowerOutlet extends NetworkDirectional {
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe,
+            ItemStack @NotNull [] recipe,
             int rate) {
         super(itemGroup, item, recipeType, recipe, NodeType.POWER_OUTLET);
         this.rate = rate;

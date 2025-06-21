@@ -3,23 +3,22 @@ package com.balugaq.netex.api.interfaces;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.utils.Lang;
 import com.balugaq.netex.utils.LocationUtil;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public interface FeedbackSendable {
-    Map<UUID, Set<Location>> SUBSCRIBED_LOCATIONS = new HashMap<>();
+    Map<UUID, Set<Location>> SUBSCRIBED_LOCATIONS = new ConcurrentHashMap<>();
 
     static void subscribe(@NotNull Player player, Location location) {
         UUID key = player.getUniqueId();
         if (!SUBSCRIBED_LOCATIONS.containsKey(key)) {
-            SUBSCRIBED_LOCATIONS.put(key, new HashSet<>());
+            SUBSCRIBED_LOCATIONS.put(key, ConcurrentHashMap.newKeySet());
         }
         SUBSCRIBED_LOCATIONS.get(key).add(location);
     }

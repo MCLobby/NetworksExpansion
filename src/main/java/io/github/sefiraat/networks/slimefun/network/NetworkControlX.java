@@ -54,7 +54,11 @@ public class NetworkControlX extends NetworkDirectional implements SoftCellBanna
     private static final Particle.DustOptions DUST_OPTIONS = new Particle.DustOptions(Color.GRAY, 1);
     private final Set<BlockPosition> blockCache = new HashSet<>();
 
-    public NetworkControlX(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public NetworkControlX(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.CUTTER);
     }
 

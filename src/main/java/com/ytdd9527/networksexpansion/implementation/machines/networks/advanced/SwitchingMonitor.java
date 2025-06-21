@@ -52,7 +52,7 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+            ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.SWITCHING_MONITOR);
         HangingBlock.registerHangingBlock(this);
     }
@@ -229,7 +229,7 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
         }
     }
 
-    public int calculateSpace(@NotNull Player player, ItemStack template) {
+    public int calculateSpace(@NotNull Player player, @NotNull ItemStack template) {
         int amount = 0;
         for (ItemStack item : player.getInventory().getStorageContents()) {
             if (item == null || item.getType() == Material.AIR) {

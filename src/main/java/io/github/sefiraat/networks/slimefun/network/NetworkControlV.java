@@ -53,7 +53,11 @@ public class NetworkControlV extends NetworkDirectional implements SoftCellBanna
     private static final int REQUIRED_POWER = 100;
     private final Set<BlockPosition> blockCache = new HashSet<>();
 
-    public NetworkControlV(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public NetworkControlV(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.PASTER);
         this.getSlotsToDrop().add(TEMPLATE_SLOT);
     }

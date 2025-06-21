@@ -3,7 +3,6 @@ package com.balugaq.netex.utils;
 import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.sefiraat.networks.Networks;
 import java.util.Arrays;
-
 import lombok.experimental.UtilityClass;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;

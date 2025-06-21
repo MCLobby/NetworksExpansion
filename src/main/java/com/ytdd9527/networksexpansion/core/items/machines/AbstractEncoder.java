@@ -46,7 +46,7 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+            ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.ENCODER);
         for (int recipeSlot : RECIPE_SLOTS) {
             this.getSlotsToDrop().add(recipeSlot);

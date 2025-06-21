@@ -21,7 +21,11 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractBlueprint extends UnusableSlimefunItem implements DistinctiveItem {
 
-    public AbstractBlueprint(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public AbstractBlueprint(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 

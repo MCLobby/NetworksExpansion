@@ -2,8 +2,10 @@ package com.ytdd9527.networksexpansion.implementation.machines.cargo.transfer.li
 
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.enums.MinecraftVersion;
-import com.balugaq.netex.api.interfaces.Configurable;
+import com.balugaq.netex.api.enums.TransferType;
+import com.balugaq.netex.api.factories.TransferConfigFactory;
 import com.balugaq.netex.api.interfaces.SoftCellBannable;
+import com.balugaq.netex.api.transfer.TransferConfiguration;
 import com.balugaq.netex.utils.Lang;
 import com.bgsoftware.wildchests.api.WildChestsAPI;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -34,7 +36,6 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.FurnaceInventory;
 import org.bukkit.inventory.Inventory;
@@ -46,8 +47,7 @@ import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class LineTransferVanillaGrabber extends NetworkDirectional
-        implements RecipeDisplayItem, Configurable, SoftCellBannable {
+public class LineTransferVanillaGrabber extends NetworkDirectional implements RecipeDisplayItem, SoftCellBannable {
     private static final int DEFAULT_MAX_DISTANCE = 32;
     private static final int DEFAULT_GRAB_ITEM_TICK = 1;
     private static final int[] BACKGROUND_SLOTS = new int[] {
@@ -61,25 +61,18 @@ public class LineTransferVanillaGrabber extends NetworkDirectional
     private static final int UP_SLOT = 14;
     private static final int DOWN_SLOT = 32;
 
-    private static int maxDistance;
-    private static int grabItemTick;
+    private static final TransferConfiguration config =
+            TransferConfigFactory.getTransferConfiguration(TransferType.LINE_TRANSFER_VANILLA_GRABBER);
+    private static final int maxDistance = config.maxDistance;
+    private static final int grabItemTick = config.defaultGrabTick;
     private final HashMap<Location, Integer> TICKER_MAP = new HashMap<>();
 
     public LineTransferVanillaGrabber(
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+            ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSFER_VANILLA_GRABBER);
-        loadConfigurations();
-    }
-
-    public void loadConfigurations() {
-        String configKey = getId();
-        FileConfiguration config = Networks.getInstance().getConfig();
-
-        maxDistance = config.getInt("items." + configKey + ".max-distance", DEFAULT_MAX_DISTANCE);
-        grabItemTick = config.getInt("items." + configKey + ".grabitem-tick", DEFAULT_GRAB_ITEM_TICK);
     }
 
     @Override

@@ -229,7 +229,7 @@ public class TextUtil {
         return result;
     }
 
-    public static @NotNull String color(String s) {
+    public static @NotNull String color(@NotNull String s) {
         return ChatColor.translateAlternateColorCodes('&', s);
     }
 

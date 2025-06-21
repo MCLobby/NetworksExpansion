@@ -54,7 +54,11 @@ public class NetworkCraftingGrid extends AbstractGrid {
 
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
 
-    public NetworkCraftingGrid(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public NetworkCraftingGrid(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
         for (int craftItem : CRAFT_ITEMS) {
             this.getSlotsToDrop().add(craftItem);
