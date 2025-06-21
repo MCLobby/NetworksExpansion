@@ -76,7 +76,7 @@ public class Keys {
     public static final NamespacedKey EXPANSION_WORKBENCH = newKey("expansion_workbench");
     public static final NamespacedKey EXPANSION_WORKBENCH_6x6 = newKey("expansion_workbench_6x6");
 
-    public static final NamespacedKey INFINITY_DISPLAY;
+    public static final @NotNull NamespacedKey INFINITY_DISPLAY;
 
     static {
         if (SupportedPluginManager.getInstance().isInfinityExpansion()) {

@@ -131,6 +131,14 @@ public class LineOperationUtil {
         grabItem(UNKNOWN_LOCATION, root, blockMenu, transportMode, limitQuantity);
     }
 
+    /**
+     *
+     * @param accessor the target menu's location
+     * @param root the root
+     * @param blockMenu the target menu
+     * @param transportMode the transport mode
+     * @param limitQuantity the max amount to transport
+     */
     public static void grabItem(
             @NotNull Location accessor,
             @NotNull NetworkRoot root,
@@ -247,6 +255,14 @@ public class LineOperationUtil {
         pushItem(UNKNOWN_LOCATION, root, blockMenu, clones, transportMode, limitQuantity);
     }
 
+    /**
+     *
+     * @param accessor the target menu's location
+     * @param root the root
+     * @param blockMenu the target menu
+     * @param transportMode the transport mode
+     * @param limitQuantity the max amount to transport
+     */
     public static void pushItem(
             @NotNull Location accessor,
             @NotNull NetworkRoot root,

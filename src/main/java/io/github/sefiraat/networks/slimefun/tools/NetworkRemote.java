@@ -44,7 +44,7 @@ public class NetworkRemote extends SpecialSlimefunItem {
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe,
+            ItemStack @NotNull [] recipe,
             int range) {
         super(itemGroup, item, recipeType, recipe);
         this.range = range;

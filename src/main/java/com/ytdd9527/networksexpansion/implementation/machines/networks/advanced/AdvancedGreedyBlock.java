@@ -28,7 +28,7 @@ public class AdvancedGreedyBlock extends NetworkObject {
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+            ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.ADVANCED_GREEDY_BLOCK);
         for (int slot : INPUT_SLOTS) {
             this.getSlotsToDrop().add(slot);

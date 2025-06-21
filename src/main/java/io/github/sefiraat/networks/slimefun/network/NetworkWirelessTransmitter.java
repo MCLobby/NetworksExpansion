@@ -52,7 +52,7 @@ public class NetworkWirelessTransmitter extends NetworkObject {
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+            ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.WIRELESS_TRANSMITTER);
         this.getSlotsToDrop().add(TEMPLATE_SLOT);
 

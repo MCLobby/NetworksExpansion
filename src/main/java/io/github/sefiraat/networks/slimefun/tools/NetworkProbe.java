@@ -35,7 +35,7 @@ public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+            ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 

@@ -36,7 +36,7 @@ public class NetworkPowerDisplay extends NetworkObject {
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+            ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.POWER_DISPLAY);
         addItemHandler(new BlockTicker() {
             @Override

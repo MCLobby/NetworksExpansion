@@ -192,14 +192,14 @@ public interface HangingBlock {
         placeHangingBlock(data, entityBlock, attachSide, this);
     }
 
-    default void breakBlock(Location attachon, @NotNull ItemFrame entityBlock) {
+    default void breakBlock(@NotNull Location attachon, @NotNull ItemFrame entityBlock) {
         HangingBlock hangingBlock = getByItemFrame(entityBlock);
         if (hangingBlock != null) {
             hangingBlock.onBreak(attachon, entityBlock, hangingBlock);
         }
     }
 
-    static void doFirstTick(SlimefunBlockData attachon) {
+    static void doFirstTick(@NotNull SlimefunBlockData attachon) {
         Location loc = attachon.getLocation();
         Map<BlockFace, HangingBlock> hs = getHangingBlocks(loc);
         getHangingBlocks(loc, hs.keySet()).forEach((attachSide, itemFrame) -> {

@@ -53,7 +53,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe,
+            ItemStack @NotNull [] recipe,
             int chargePerCraft,
             boolean withholding) {
         super(itemGroup, item, recipeType, recipe, NodeType.CRAFTER);

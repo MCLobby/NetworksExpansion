@@ -51,7 +51,7 @@ public class Lang {
         return get().getStringList(key);
     }
 
-    @NotNull public static String[] getStringArray(@NotNull String key) {
+    @NotNull public static String @NotNull [] getStringArray(@NotNull String key) {
         return get().getStringArray(key);
     }
 }

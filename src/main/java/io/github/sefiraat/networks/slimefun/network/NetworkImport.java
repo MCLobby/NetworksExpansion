@@ -30,7 +30,11 @@ public class NetworkImport extends NetworkObject {
 
     private final @NotNull ItemSetting<Integer> tickRate;
 
-    public NetworkImport(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public NetworkImport(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.IMPORT);
 
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);

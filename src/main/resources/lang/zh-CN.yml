@@ -1019,9 +1019,9 @@ items:
       - "<warning> 网络拓展开发版不接受 GitHub Issues"
       - "<warning> 网络拓展开发版不接受 GitHub PR"
       - "<passive> 版本信息:"
-      - "<passive> 网络拓展版本: Special-Version-29"
+      - "<passive> 网络拓展版本: Special-Version-31"
       - "<passive> 版本状态: 稳定版"
-      - "<passive> 版本更新时间: 2025-6-20 21:25:28"
+      - "<passive> 版本更新时间: 2025-6-21 22:40:04"
       - "<passive> 开发状态: 更新中"
       - "<passive> 开发者（们）: ytdd9527, balugaq"
       - "<passive> 开发者 GitHub 页面: <click_info>https://github.com/ytdd9527"
@@ -1657,13 +1657,13 @@ items:
     name: "智能抓取器"
     lore:
       - "即放即用"
-      - "&7对准机器放置，在另一端放置网桥"
+      - "&7对准机器放置，在另一端放置任意网络机器"
 
   NTW_EXPANSION_SMART_PUSHER:
     name: "智能推送器"
     lore:
       - "即放即用"
-      - "&7对准机器放置，在另一端放置网桥"
+      - "&7对准机器放置，在另一端放置任意网络机器"
 
   NTW_EXPANSION_GRID_NEW_STYLE:
     name: "高级网格"
@@ -3576,12 +3576,14 @@ items:
   NTW_EXPANSION_SWITCHING_MONITOR:
     name: "交换监视器"
     lore:
+      - "&c需要对准网络机器放置"
       - "交换物品"
 
   NTW_EXPANSION_HANGING_GRID_NEW_STYLE:
     name: "贴图版高级网格"
     lore:
-      - "高级网格允许你查看网络中所有的物品"
+      - "&c需要对准网络机器放置"
+      - "贴图版高级网格允许你查看网络中所有的物品"
       - "你也可以直接放入或取出物品"
       - "排序方式: "
       - "&eAZ&7: &e按字母顺序排序"

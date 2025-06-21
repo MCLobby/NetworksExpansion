@@ -71,7 +71,7 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle implements
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+            ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 

@@ -1562,7 +1562,7 @@ public class NetworksMain implements TabExecutor {
         return new ArrayList<>();
     }
 
-    public String getErrorMessage(@NotNull ErrorType errorType) {
+    public @NotNull String getErrorMessage(@NotNull ErrorType errorType) {
         return getErrorMessage(errorType, null);
     }
 

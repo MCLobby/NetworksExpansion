@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import javax.annotation.OverridingMethodsMustInvokeSuper;
 import javax.annotation.ParametersAreNonnullByDefault;
 import lombok.Getter;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
@@ -67,7 +68,7 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe,
+            ItemStack @NotNull [] recipe,
             NodeType type) {
         this(itemGroup, item, recipeType, recipe, null, type);
     }
@@ -76,7 +77,7 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe,
+            ItemStack @NotNull [] recipe,
             ItemStack recipeOutput,
             NodeType type) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
@@ -90,7 +91,7 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
                     }
 
                     @Override
-                    public void tick(@NotNull Block b, SlimefunItem item, SlimefunBlockData data) {
+                    public void tick(@NotNull Block b, SlimefunItem item, @NotNull SlimefunBlockData data) {
                         if (!firstTickLocations.contains(b.getLocation())) {
                             // Netex - Hanging patch start
                             Bukkit.getScheduler().runTask(Networks.getInstance(), () -> {
@@ -142,11 +143,13 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
         scheduledHangingTick.add(block.getLocation());
     }
 
+    @OverridingMethodsMustInvokeSuper
     protected void preBreak(@NotNull BlockBreakEvent event) {
         NetworkRoot.removePersistentAccessHistory(event.getBlock().getLocation());
         NetworkRoot.removeCountObservingAccessHistory(event.getBlock().getLocation());
     }
 
+    @OverridingMethodsMustInvokeSuper
     protected void onBreak(@NotNull BlockBreakEvent event) {
         final Location location = event.getBlock().getLocation();
         final BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
@@ -160,18 +163,23 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
         Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);
     }
 
+    @OverridingMethodsMustInvokeSuper
     protected void postBreak(@NotNull BlockBreakEvent event) {}
 
+    @OverridingMethodsMustInvokeSuper
     @SuppressWarnings("unused")
     protected void prePlace(@NotNull BlockPlaceEvent event) {}
 
+    @SuppressWarnings("unused")
     protected void cancelPlace(@NotNull BlockPlaceEvent event) {
         event.getPlayer().sendMessage(Theme.ERROR.getColor() + "This placement would connect two controllers!");
         event.setCancelled(true);
     }
 
+    @OverridingMethodsMustInvokeSuper
     protected void onPlace(@NotNull BlockPlaceEvent event) {}
 
+    @OverridingMethodsMustInvokeSuper
     @SuppressWarnings("unused")
     protected void postPlace(@NotNull BlockPlaceEvent event) {}
 

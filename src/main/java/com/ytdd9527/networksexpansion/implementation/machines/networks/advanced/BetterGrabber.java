@@ -44,7 +44,7 @@ public class BetterGrabber extends NetworkDirectional implements SoftCellBannabl
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+            ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.GRABBER);
         for (int slot : getItemSlots()) {
             this.getSlotsToDrop().add(slot);

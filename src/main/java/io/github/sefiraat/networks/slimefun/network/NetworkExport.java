@@ -42,7 +42,11 @@ public class NetworkExport extends NetworkObject {
 
     private final @NotNull ItemSetting<Integer> tickRate;
 
-    public NetworkExport(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public NetworkExport(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.EXPORT);
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
         addItemSetting(this.tickRate);

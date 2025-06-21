@@ -61,7 +61,11 @@ public abstract class AbstractGrid extends NetworkObject {
 
     private final @NotNull ItemSetting<Integer> tickRate;
 
-    protected AbstractGrid(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    protected AbstractGrid(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.GRID);
 
         this.getSlotsToDrop().add(getInputSlot());
@@ -490,6 +494,21 @@ public abstract class AbstractGrid extends NetworkObject {
             @NotNull BlockMenu blockMenu) {
         if (itemStack != null && itemStack.getType() != Material.AIR) {
             root.addItemStack0(blockMenu.getLocation(), itemStack);
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    public void receiveItem(
+        @NotNull NetworkRoot root,
+        Player player,
+        @Nullable ItemStack itemStack,
+        ClickAction action,
+        @NotNull BlockMenu blockMenu,
+        boolean doubleClick) {
+        if (doubleClick) {
+
+        } else {
+            receiveItem(root, player, itemStack, action, blockMenu);
         }
     }
 }

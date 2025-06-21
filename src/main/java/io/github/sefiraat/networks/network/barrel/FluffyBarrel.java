@@ -61,7 +61,7 @@ public class FluffyBarrel extends BarrelIdentity {
     }
 
     @Override
-    public void depositItemStack(ItemStack[] itemsToDeposit) {
+    public void depositItemStack(ItemStack @NotNull [] itemsToDeposit) {
         BlockMenu menu = StorageCacheUtils.getMenu(getLocation());
         if (menu == null) {
             return;

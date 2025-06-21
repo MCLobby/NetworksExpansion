@@ -106,6 +106,14 @@ public class ConfigManager {
         return Networks.getInstance().getConfig().getInt("speed-up.soft-cell-ban-threshold", 0);
     }
 
+    public int getInt(@NotNull String path) {
+        return getInt(path, 0);
+    }
+
+    public int getInt(@NotNull String path, int defaultValue) {
+        return Networks.getInstance().getConfig().getInt(path, defaultValue);
+    }
+
     public void saveAll() {
         Networks.getInstance().getLogger().info(Lang.getString("messages.save-all"));
     }

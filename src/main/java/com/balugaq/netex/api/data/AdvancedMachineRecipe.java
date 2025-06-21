@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 public class AdvancedMachineRecipe {
     @NotNull private final ItemAmountWrapper[] inputs;
 
-    @NotNull private final AdvancedRandomOutput[] randomOutputs;
+    @NotNull private final AdvancedRandomOutput @NotNull [] randomOutputs;
 
     private final int @NotNull [] weightBeginValues;
 

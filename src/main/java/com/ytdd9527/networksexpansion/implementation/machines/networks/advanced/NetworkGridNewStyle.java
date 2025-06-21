@@ -52,7 +52,7 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+            ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -60,7 +60,7 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe,
+            ItemStack @NotNull [] recipe,
             NodeType type) {
         super(itemGroup, item, recipeType, recipe, type);
     }

@@ -24,6 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings("UnusedAssignment")
 @ToString
 public class StorageUnitData {
     public static final Map<Location, Map<Integer, Integer /* Access times */>> observingAccessHistory =
@@ -247,14 +248,14 @@ public class StorageUnitData {
         }
     }
 
-    public synchronized void setSizeType(StorageUnitType sizeType) {
+    public synchronized void setSizeType(@NotNull StorageUnitType sizeType) {
         if (this.sizeType != sizeType) {
             this.sizeType = sizeType;
             DataStorage.setContainerSizeType(id, sizeType);
         }
     }
 
-    public synchronized void setLastLocation(Location lastLocation) {
+    public synchronized void setLastLocation(@NotNull Location lastLocation) {
         if (this.lastLocation != lastLocation) {
             this.lastLocation = lastLocation;
             DataStorage.setContainerLocation(id, lastLocation);

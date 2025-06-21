@@ -89,7 +89,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe,
+            ItemStack @NotNull [] recipe,
             int maxAmount) {
         super(itemGroup, item, recipeType, recipe);
         this.maxAmount = maxAmount;

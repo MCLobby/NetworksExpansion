@@ -1977,7 +1977,7 @@ public class NetworkRoot extends NetworkNode {
         }
     }
 
-    @Nullable public ItemStack getItemStack0(@NotNull Location accessor, @NotNull ItemRequest request) {
+    public ItemStack getItemStack0(@NotNull Location accessor, @NotNull ItemRequest request) {
         ItemStack stackToReturn = null;
 
         if (request.getAmount() <= 0) {

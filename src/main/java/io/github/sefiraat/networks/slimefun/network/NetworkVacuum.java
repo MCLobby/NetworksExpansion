@@ -52,7 +52,7 @@ public class NetworkVacuum extends NetworkObject {
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+            ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.VACUUM);
 
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);

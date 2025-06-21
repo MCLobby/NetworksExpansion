@@ -17,7 +17,7 @@ public class AutoCompressor extends AbstractAutoCrafter {
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe,
+            ItemStack @NotNull [] recipe,
             int chargePerCraft,
             boolean withholding) {
         super(itemGroup, item, recipeType, recipe, chargePerCraft, withholding);

@@ -2,7 +2,6 @@ package com.ytdd9527.networksexpansion.implementation.machines.cargo.transfer.li
 
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.enums.MinecraftVersion;
-import com.balugaq.netex.api.interfaces.Configurable;
 import com.balugaq.netex.api.interfaces.SoftCellBannable;
 import com.balugaq.netex.utils.InventoryUtil;
 import com.balugaq.netex.utils.Lang;
@@ -49,8 +48,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("ALL")
-public class LineTransferVanillaPusher extends NetworkDirectional
-        implements RecipeDisplayItem, Configurable, SoftCellBannable {
+public class LineTransferVanillaPusher extends NetworkDirectional implements RecipeDisplayItem, SoftCellBannable {
     private static final int DEFAULT_MAX_DISTANCE = 32;
     private static final int DEFAULT_GRAB_ITEM_TICK = 1;
 
@@ -74,7 +72,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional
             @NotNull ItemGroup itemGroup,
             @NotNull SlimefunItemStack item,
             @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+            ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSFER_VANILLA_PUSHER);
         for (int slot : getInputSlots()) {
             this.getSlotsToDrop().add(slot);
@@ -309,7 +307,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional
     }
 
     @NotNull @Override
-    protected int[] getBackgroundSlots() {
+    protected int @NotNull [] getBackgroundSlots() {
         return BACKGROUND_SLOTS;
     }
 

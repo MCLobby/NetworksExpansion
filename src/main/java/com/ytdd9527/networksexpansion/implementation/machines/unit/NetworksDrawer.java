@@ -5,7 +5,6 @@ import com.balugaq.netex.api.data.StorageUnitData;
 import com.balugaq.netex.api.enums.QuickTransferMode;
 import com.balugaq.netex.api.enums.StorageUnitType;
 import com.balugaq.netex.api.helpers.Icon;
-import com.balugaq.netex.api.interfaces.Configurable;
 import com.balugaq.netex.api.interfaces.ModelledItem;
 import com.balugaq.netex.utils.InventoryUtil;
 import com.balugaq.netex.utils.Lang;
@@ -69,7 +68,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
-public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveItem, ModelledItem, Configurable {
+public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveItem, ModelledItem {
     private static final boolean DEFAULT_USE_SPECIAL_MODEL = false;
     private static final Map<Location, StorageUnitData> storages = new HashMap<>();
     private static final Map<Location, QuickTransferMode> quickTransferModes = new HashMap<>();

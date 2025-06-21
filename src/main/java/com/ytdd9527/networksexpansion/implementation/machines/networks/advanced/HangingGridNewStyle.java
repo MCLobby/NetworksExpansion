@@ -52,7 +52,7 @@ public class HangingGridNewStyle extends NetworkGridNewStyle implements HangingB
     public static final String layer = "/textures/layer/terminal.png";
     public static final Map<Location, BlockMenu> menus = new HashMap<>();
 
-    public BlockMenu getOrCreateMenu(@NotNull Location fixedLocation) {
+    public @NotNull BlockMenu getOrCreateMenu(@NotNull Location fixedLocation) {
         BlockMenu menu = menus.get(fixedLocation);
         if (menu != null) {
             return menu;
@@ -322,11 +322,11 @@ public class HangingGridNewStyle extends NetworkGridNewStyle implements HangingB
         }
     }
 
-    public static String fixedKey(String key, BlockFace attachSide) {
+    public static @NotNull String fixedKey(String key, @NotNull BlockFace attachSide) {
         return "netex-hanging-" + attachSide.name().toLowerCase() + "-" + key;
     }
 
-    public BlockMenuPreset preset = null;
+    public @Nullable BlockMenuPreset preset = null;
 
     @Override
     @NotNull protected BlockMenuPreset getPreset() {
@@ -560,7 +560,7 @@ public class HangingGridNewStyle extends NetworkGridNewStyle implements HangingB
             @NotNull Player player,
             ClickAction action,
             @NotNull BlockMenu blockMenu,
-            Location attachon,
+            @NotNull Location attachon,
             BlockFace attachSide) {
         NodeDefinition definition = NetworkStorage.getNode(attachon);
         if (definition == null || definition.getNode() == null) {

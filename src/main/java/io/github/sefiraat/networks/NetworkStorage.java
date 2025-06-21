@@ -80,7 +80,7 @@ public class NetworkStorage {
         }
     }
 
-    public static Map<Location, NodeDefinition> getAllNetworkObjects() {
+    public static @NotNull Map<Location, NodeDefinition> getAllNetworkObjects() {
         return new HashMap<>(ALL_NETWORK_OBJECTS);
     }
 }

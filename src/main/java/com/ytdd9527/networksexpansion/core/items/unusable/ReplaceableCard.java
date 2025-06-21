@@ -31,9 +31,9 @@ public class ReplaceableCard extends UnusableSlimefunItem implements RecipeItem,
     @Nullable private final Material extraSourceMaterial;
 
     public ReplaceableCard(
-            ItemGroup itemGroup,
-            SlimefunItemStack item,
-            RecipeType recipeType,
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
             ItemStack[] recipe,
             @NotNull Material targetMaterial,
             @Nullable Material extraSourceMaterial) {

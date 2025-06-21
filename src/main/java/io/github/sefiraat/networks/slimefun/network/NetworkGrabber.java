@@ -22,7 +22,11 @@ import org.jetbrains.annotations.Nullable;
 
 public class NetworkGrabber extends NetworkDirectional implements SoftCellBannable {
 
-    public NetworkGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public NetworkGrabber(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.GRABBER);
     }
 
