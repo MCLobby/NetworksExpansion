@@ -3,6 +3,7 @@ package com.ytdd9527.networksexpansion.core.items.machines;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.api.interfaces.RecipeCompletableWithGuide;
+import com.balugaq.netex.utils.BlockMenuUtil;
 import com.balugaq.netex.utils.Lang;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.NetworkStorage;
@@ -183,7 +184,7 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
         final ItemStack blueprintClone = StackUtils.getAsQuantity(blueprint, 1);
 
         blueprintSetter(blueprintClone, inp, crafted);
-        if (blockMenu.fits(blueprintClone, OUTPUT_SLOT)) {
+        if (BlockMenuUtil.fits(blockMenu, blueprintClone, OUTPUT_SLOT)) {
             blueprint.setAmount(blueprint.getAmount() - 1);
             int j = 0;
             for (int recipeSlot : RECIPE_SLOTS) {
@@ -193,7 +194,7 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
                 }
                 j++;
             }
-            blockMenu.pushItem(blueprintClone, OUTPUT_SLOT);
+            BlockMenuUtil.pushItem(blockMenu, blueprintClone, OUTPUT_SLOT);
             sendFeedback(blockMenu.getLocation(), FeedbackType.SUCCESS);
         } else {
             player.sendMessage(Lang.getString("messages.unsupported-operation.encoder.output_full"));

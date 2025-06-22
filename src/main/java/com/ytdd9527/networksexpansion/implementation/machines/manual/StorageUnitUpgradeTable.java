@@ -4,6 +4,7 @@ import com.balugaq.netex.api.data.StorageUnitData;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.enums.StorageUnitType;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.utils.BlockMenuUtil;
 import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
@@ -188,7 +189,7 @@ public class StorageUnitUpgradeTable extends SpecialSlimefunItem implements Admi
                     return;
                 }
                 for (int slot : inputSlots) {
-                    menu.consumeItem(slot);
+                    BlockMenuUtil.consumeItem(menu, slot);
                 }
                 sendFeedback(menu.getLocation(), FeedbackType.SUCCESS);
 

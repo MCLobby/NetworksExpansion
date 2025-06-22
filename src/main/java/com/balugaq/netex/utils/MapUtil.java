@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 @UtilityClass
 public class MapUtil {
-    public static final Map<String, MapView> mapViews = new HashMap<>();
+    public static final Map<String, MapView> MAP_VIEWS = new HashMap<>();
 
     public static @NotNull Pair<ItemStack, MapView> getImageItem(@NotNull String imagePath) {
         ItemStack map = new ItemStack(Material.FILLED_MAP);
@@ -29,8 +29,8 @@ public class MapUtil {
 
     public static @Nullable MapView apply(@NotNull ItemStack map, @NotNull String imagePath) {
         if (map.getItemMeta() instanceof MapMeta meta) {
-            if (mapViews.containsKey(imagePath)) {
-                MapView view = mapViews.get(imagePath);
+            if (MAP_VIEWS.containsKey(imagePath)) {
+                MapView view = MAP_VIEWS.get(imagePath);
                 meta.setMapView(view);
                 map.setItemMeta(meta);
                 return view;
@@ -56,7 +56,7 @@ public class MapUtil {
             view.setScale(MapView.Scale.FARTHEST);
             view.setLocked(true);
             meta.setMapView(view);
-            mapViews.put(imagePath, view);
+            MAP_VIEWS.put(imagePath, view);
             meta.setScaling(true);
             meta.setColor(org.bukkit.Color.GREEN);
             map.setItemMeta(meta);

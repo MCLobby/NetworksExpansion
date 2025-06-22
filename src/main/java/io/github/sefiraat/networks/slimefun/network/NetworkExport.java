@@ -2,6 +2,7 @@ package io.github.sefiraat.networks.slimefun.network;
 
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.utils.BlockMenuUtil;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.NetworkStorage;
@@ -117,7 +118,7 @@ public class NetworkExport extends NetworkObject {
         ItemRequest itemRequest = new ItemRequest(clone, clone.getMaxStackSize());
         ItemStack retrieved = definition.getNode().getRoot().getItemStack0(blockMenu.getLocation(), itemRequest);
         if (retrieved != null) {
-            blockMenu.pushItem(retrieved, OUTPUT_ITEM_SLOT);
+            BlockMenuUtil.pushItem(blockMenu, retrieved, OUTPUT_ITEM_SLOT);
         }
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
