@@ -1,6 +1,7 @@
 package io.github.sefiraat.networks.slimefun.network;
 
 import com.balugaq.netex.api.interfaces.HangingBlock;
+import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
@@ -172,7 +173,7 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
 
     @SuppressWarnings("unused")
     protected void cancelPlace(@NotNull BlockPlaceEvent event) {
-        event.getPlayer().sendMessage(Theme.ERROR.getColor() + "This placement would connect two controllers!");
+        event.getPlayer().sendMessage(Lang.getString("messages.unsupported-operation.comprehensive.cancel_place"));
         event.setCancelled(true);
     }
 

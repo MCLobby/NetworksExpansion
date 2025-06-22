@@ -55,7 +55,7 @@ public class NetworkWirelessConfigurator extends SpecialSlimefunItem {
                                 "messages.unsupported-operation.wireless_configurator.not_network_wireless_block"));
                     }
                 } else {
-                    player.sendMessage(Lang.getString("messages.unsupported-operation.comprehensive.no-permission"));
+                    player.sendMessage(Lang.getString("messages.unsupported-operation.comprehensive.no_permission"));
                 }
             }
             e.cancel();

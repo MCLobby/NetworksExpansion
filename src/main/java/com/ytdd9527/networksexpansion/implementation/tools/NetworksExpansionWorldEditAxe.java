@@ -25,7 +25,7 @@ public class NetworksExpansionWorldEditAxe extends SpecialSlimefunItem {
                     final Player player = e.getPlayer();
                     if (!player.isOp()) {
                         player.sendMessage(
-                                Lang.getString("messages.unsupported-operation.comprehensive.no-permission"));
+                                Lang.getString("messages.unsupported-operation.comprehensive.no_permission"));
                         return;
                     }
                     final Optional<Block> optional = e.getClickedBlock();
