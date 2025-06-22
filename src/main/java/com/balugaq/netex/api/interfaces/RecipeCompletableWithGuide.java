@@ -224,12 +224,6 @@ public interface RecipeCompletableWithGuide {
 
     @SuppressWarnings("deprecation")
     @Nullable default ItemStack getItemStack(@NotNull NetworkRoot root, @NotNull Player player, @NotNull ItemStack itemStack) {
-        // get from root
-        ItemStack item = root.getItemStack0(player.getLocation(), new ItemRequest(itemStack, 1));
-        if (item != null) {
-            return item;
-        }
-
         // get from player inventory
         for (ItemStack itemStack1 : player.getInventory().getContents()) {
             if (itemStack1 != null && itemStack1.getType() != Material.AIR) {
@@ -245,6 +239,12 @@ public interface RecipeCompletableWithGuide {
                     return clone;
                 }
             }
+        }
+
+        // get from root
+        ItemStack item = root.getItemStack0(player.getLocation(), new ItemRequest(itemStack, 1));
+        if (item != null) {
+            return item;
         }
 
         return null;

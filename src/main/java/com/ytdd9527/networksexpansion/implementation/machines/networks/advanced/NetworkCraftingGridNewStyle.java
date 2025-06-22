@@ -248,6 +248,15 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle implements
         root.refreshRootItems();
 
         if (!action.isRightClicked() && action.isShiftClicked()) {
+            for (int recipeSlot : INTEGRATION_SLOTS) {
+                final ItemStack stack = menu.getItemInSlot(recipeSlot);
+
+                if (stack == null || stack.getType() == Material.AIR) {
+                    continue;
+                }
+                root.addItemStack0(menu.getLocation(), stack);
+            }
+
             ItemStack output = menu.getItemInSlot(OUTPUT_SLOT);
             if (output != null && output.getType() != Material.AIR) {
                 root.addItemStack0(menu.getLocation(), output);

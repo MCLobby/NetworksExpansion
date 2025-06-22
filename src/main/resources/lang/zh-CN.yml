@@ -3530,6 +3530,8 @@ items:
       - "&e数量倒序&7: &e按物品数量倒序排序"
       - "&e附属&7: &e按物品所属附属字母顺序排序"
       - "支持拼音搜索"
+      - "右上角合成槽仅作为合成模板"
+      - "实际材料均只能从网络中获取"
 
   # debugger for player
   NTW_EXPANSION_STATUS_VIEWER:
