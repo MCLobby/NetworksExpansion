@@ -57,7 +57,7 @@ public interface RecipeCompletableWithGuide {
         GuideEvents.ItemButtonClickEvent lastEvent = JEGCompatibleListener.getLastEvent(player.getUniqueId());
         if (clickAction.isRightClicked() && lastEvent != null) {
             int times = 1;
-            if (clickAction.isRightClicked()) {
+            if (clickAction.isShiftClicked()) {
                 times = 64;
             }
 
