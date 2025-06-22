@@ -82,7 +82,7 @@ public class DueMachine extends SpecialSlimefunItem implements AdminDebuggable {
             }
             if (StackUtils.itemsMatch(inputItem, dueItem, false, true)) {
                 if (BlockMenuUtil.fits(blockMenu, dueItem, outputSlot)) {
-                    blockMenu.consumeItem(inputSlot, dueItem.getAmount());
+                    BlockMenuUtil.consumeItem(blockMenu, inputSlot, dueItem.getAmount());
                     BlockMenuUtil.pushItem(blockMenu, dueItem.clone(), outputSlot);
                 }
             }

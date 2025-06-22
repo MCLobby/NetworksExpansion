@@ -2,6 +2,7 @@ package io.github.sefiraat.networks.slimefun.network;
 
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.utils.BlockMenuUtil;
 import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -326,7 +327,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
         }
 
         if (fetched != null && fetched.getType() != Material.AIR) {
-            blockMenu.pushItem(fetched, OUTPUT_SLOT);
+            BlockMenuUtil.pushItem(blockMenu, fetched, OUTPUT_SLOT);
             blockMenu.markDirty();
             syncBlock(blockMenu.getLocation(), cache);
         }

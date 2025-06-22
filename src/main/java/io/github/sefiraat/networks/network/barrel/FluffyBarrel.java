@@ -48,7 +48,7 @@ public class FluffyBarrel extends BarrelIdentity {
 
             if (StackUtils.itemsMatch(item, targetItem)) {
                 int max = Math.min(item.getAmount(), itemRequest.getAmount() - received);
-                menu.consumeItem(slot, max);
+                BlockMenuUtil.consumeItem(menu, slot, max);
                 received += max;
             }
         }

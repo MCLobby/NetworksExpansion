@@ -499,12 +499,12 @@ public abstract class AbstractGrid extends NetworkObject {
 
     @SuppressWarnings("deprecation")
     public void receiveItem(
-        @NotNull NetworkRoot root,
-        Player player,
-        @Nullable ItemStack itemStack,
-        ClickAction action,
-        @NotNull BlockMenu blockMenu,
-        boolean doubleClick) {
+            @NotNull NetworkRoot root,
+            Player player,
+            @Nullable ItemStack itemStack,
+            ClickAction action,
+            @NotNull BlockMenu blockMenu,
+            boolean doubleClick) {
         if (doubleClick) {
 
         } else {

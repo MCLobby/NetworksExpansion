@@ -1382,16 +1382,29 @@ public class NetworksMain implements TabExecutor {
 
                     // for test
                 case "map" -> {
-                    if (player.isOp()) {
-                        String filePath = args[1];
-                        Pair<ItemStack, MapView> pair = MapUtil.getImageItem(filePath);
-                        if (pair != null) {
-                            ItemStack first = pair.getFirstValue();
-                            MapView second = pair.getSecondValue();
-                            if (first != null && second != null) {
-                                InventoryUtil.addItem(player, first);
-                                player.sendMap(second);
-                            }
+                    if (!player.hasPermission("networks.admin") && !player.hasPermission("networks.commands.map")) {
+                        player.sendMessage(getErrorMessage(ErrorType.NO_PERMISSION));
+                        return true;
+                    }
+
+                    if (args.length == 1) {
+                        player.sendMessage(getErrorMessage(ErrorType.MISSING_REQUIRED_ARGUMENT, "filePath"));
+                        return true;
+                    }
+
+                    String filePath = args[1];
+                    Pair<ItemStack, MapView> pair = MapUtil.getImageItem(filePath);
+                    if (pair != null) {
+                        ItemStack first = pair.getFirstValue();
+                        MapView second = pair.getSecondValue();
+                        if (second == null) {
+                            player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "filePath"));
+                            return true;
+                        }
+
+                        if (first != null) {
+                            InventoryUtil.addItem(player, first);
+                            player.sendMap(second);
                         }
                     }
                 }

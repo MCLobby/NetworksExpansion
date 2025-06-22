@@ -12,10 +12,14 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Range;
 
 @UtilityClass
 public class BlockMenuUtil {
-    @Nullable public static ItemStack pushItem(@NotNull BlockMenu blockMenu, @NotNull ItemStack item, int @NotNull ... slots) {
+    @Nullable public static ItemStack pushItem(
+            @NotNull final BlockMenu blockMenu,
+            @Nullable final ItemStack item,
+            @Range(from = 0, to = 53) final int @NotNull ... slots) {
         if (item == null || item.getType() == Material.AIR) {
             return null;
             // throw new IllegalArgumentException("Cannot push null or AIR");
@@ -23,20 +27,20 @@ public class BlockMenuUtil {
 
         int leftAmount = item.getAmount();
 
-        for (int slot : slots) {
+        for (final int slot : slots) {
             if (leftAmount <= 0) {
                 break;
             }
 
-            ItemStack existing = blockMenu.getItemInSlot(slot);
+            final ItemStack existing = blockMenu.getItemInSlot(slot);
 
             if (existing == null || existing.getType() == Material.AIR) {
-                int received = Math.min(leftAmount, item.getMaxStackSize());
+                final int received = Math.min(leftAmount, item.getMaxStackSize());
                 blockMenu.replaceExistingItem(slot, StackUtils.getAsQuantity(item, received));
                 leftAmount -= received;
                 item.setAmount(Math.max(0, leftAmount));
             } else {
-                int existingAmount = existing.getAmount();
+                final int existingAmount = existing.getAmount();
                 if (existingAmount >= item.getMaxStackSize()) {
                     continue;
                 }
@@ -45,7 +49,7 @@ public class BlockMenuUtil {
                     continue;
                 }
 
-                int received = Math.max(0, Math.min(item.getMaxStackSize() - existingAmount, leftAmount));
+                final int received = Math.max(0, Math.min(item.getMaxStackSize() - existingAmount, leftAmount));
                 leftAmount -= received;
                 existing.setAmount(existingAmount + received);
                 item.setAmount(leftAmount);
@@ -60,14 +64,16 @@ public class BlockMenuUtil {
     }
 
     @NotNull public static Map<ItemStack, Integer> pushItem(
-            @NotNull BlockMenu blockMenu, @NotNull ItemStack @NotNull [] items, int... slots) {
+            @NotNull final BlockMenu blockMenu,
+            @Nullable final ItemStack @NotNull [] items,
+            @Range(from = 0, to = 53) final int @NotNull ... slots) {
         if (items == null || items.length == 0) {
             return new HashMap<>();
             // throw new IllegalArgumentException("Cannot push null or empty array");
         }
 
-        List<ItemStack> listItems = new ArrayList<>();
-        for (ItemStack item : items) {
+        final List<ItemStack> listItems = new ArrayList<>();
+        for (final ItemStack item : items) {
             if (item != null && item.getType() != Material.AIR) {
                 listItems.add(item);
             }
@@ -77,16 +83,18 @@ public class BlockMenuUtil {
     }
 
     @NotNull public static Map<ItemStack, Integer> pushItem(
-            @NotNull BlockMenu blockMenu, @NotNull List<ItemStack> items, int... slots) {
+            @NotNull final BlockMenu blockMenu,
+            @Nullable final List<ItemStack> items,
+            @Range(from = 0, to = 53) final int @NotNull ... slots) {
         if (items == null || items.isEmpty()) {
             return new HashMap<>();
             // throw new IllegalArgumentException("Cannot push null or empty list");
         }
 
-        Map<ItemStack, Integer> itemMap = new HashMap<>();
-        for (ItemStack item : items) {
+        final Map<ItemStack, Integer> itemMap = new HashMap<>();
+        for (final ItemStack item : items) {
             if (item != null && item.getType() != Material.AIR) {
-                ItemStack leftOver = pushItem(blockMenu, item, slots);
+                final ItemStack leftOver = pushItem(blockMenu, item, slots);
                 if (leftOver != null) {
                     itemMap.put(leftOver, itemMap.getOrDefault(leftOver, 0) + leftOver.getAmount());
                 }
@@ -96,14 +104,17 @@ public class BlockMenuUtil {
         return itemMap;
     }
 
-    public static boolean fits(@NotNull BlockMenu blockMenu, @NotNull ItemStack item, int @NotNull ... slots) {
+    public static boolean fits(
+            @NotNull final BlockMenu blockMenu,
+            @Nullable final ItemStack item,
+            @Range(from = 0, to = 53) final int @NotNull ... slots) {
         if (item == null || item.getType() == Material.AIR) {
             return true;
         }
 
         int incoming = item.getAmount();
-        for (int slot : slots) {
-            ItemStack stack = blockMenu.getItemInSlot(slot);
+        for (final int slot : slots) {
+            final ItemStack stack = blockMenu.getItemInSlot(slot);
 
             if (stack == null || stack.getType() == Material.AIR) {
                 incoming -= item.getMaxStackSize();
@@ -119,13 +130,16 @@ public class BlockMenuUtil {
         return false;
     }
 
-    public static boolean fits(@NotNull BlockMenu blockMenu, ItemStack @Nullable [] items, int... slots) {
+    public static boolean fits(
+            @NotNull final BlockMenu blockMenu,
+            @Nullable final ItemStack @Nullable [] items,
+            @Range(from = 0, to = 53) final int @NotNull ... slots) {
         if (items == null || items.length == 0) {
             return false;
         }
 
-        List<ItemStack> listItems = new ArrayList<>();
-        for (ItemStack item : items) {
+        final List<ItemStack> listItems = new ArrayList<>();
+        for (final ItemStack item : items) {
             if (item != null && item.getType() != Material.AIR) {
                 listItems.add(item.clone());
             }
@@ -134,18 +148,21 @@ public class BlockMenuUtil {
         return fits(blockMenu, listItems, slots);
     }
 
-    public static boolean fits(@NotNull BlockMenu blockMenu, @NotNull List<ItemStack> items, int @NotNull ... slots) {
+    public static boolean fits(
+            @NotNull final BlockMenu blockMenu,
+            @Nullable final List<ItemStack> items,
+            @Range(from = 0, to = 53) final int @NotNull ... slots) {
         if (items == null || items.isEmpty()) {
             return false;
         }
 
-        List<ItemStack> cloneMenu = new ArrayList<>();
+        final List<ItemStack> cloneMenu = new ArrayList<>();
         for (int i = 0; i < 54; i++) {
             cloneMenu.add(null);
         }
 
-        for (int slot : slots) {
-            ItemStack stack = blockMenu.getItemInSlot(slot);
+        for (final int slot : slots) {
+            final ItemStack stack = blockMenu.getItemInSlot(slot);
             if (stack != null && stack.getType() != Material.AIR) {
                 cloneMenu.set(slot, stack.clone());
             } else {
@@ -153,23 +170,23 @@ public class BlockMenuUtil {
             }
         }
 
-        for (ItemStack rawItem : items) {
-            ItemStack item = rawItem.clone();
+        for (final ItemStack rawItem : items) {
+            final ItemStack item = rawItem.clone();
             int leftAmount = item.getAmount();
             for (int slot : slots) {
                 if (leftAmount <= 0) {
                     break;
                 }
 
-                ItemStack existing = cloneMenu.get(slot);
+                final ItemStack existing = cloneMenu.get(slot);
 
                 if (existing == null || existing.getType() == Material.AIR) {
-                    int received = Math.min(leftAmount, item.getMaxStackSize());
+                    final int received = Math.min(leftAmount, item.getMaxStackSize());
                     cloneMenu.set(slot, StackUtils.getAsQuantity(item, leftAmount));
                     leftAmount -= received;
                     item.setAmount(Math.max(0, leftAmount));
                 } else {
-                    int existingAmount = existing.getAmount();
+                    final int existingAmount = existing.getAmount();
                     if (existingAmount >= item.getMaxStackSize()) {
                         continue;
                     }
@@ -178,7 +195,7 @@ public class BlockMenuUtil {
                         continue;
                     }
 
-                    int received = Math.max(0, Math.min(item.getMaxStackSize() - existingAmount, leftAmount));
+                    final int received = Math.max(0, Math.min(item.getMaxStackSize() - existingAmount, leftAmount));
                     leftAmount -= received;
                     existing.setAmount(existingAmount + received);
                     item.setAmount(leftAmount);
@@ -191,5 +208,63 @@ public class BlockMenuUtil {
         }
 
         return true;
+    }
+
+    public static void consumeItem(@NotNull final BlockMenu blockMenu, @Range(from = 0, to = 64) final int slot) {
+        consumeItem(blockMenu, slot, 1);
+    }
+
+    public static void consumeItem(
+            @NotNull final BlockMenu blockMenu,
+            @Range(from = 0, to = 53) final int slot,
+            final boolean replaceConsumables) {
+        consumeItem(blockMenu, slot, 1, replaceConsumables);
+    }
+
+    public static void consumeItem(
+            @NotNull final BlockMenu blockMenu,
+            @Range(from = 0, to = 53) final int slot,
+            @Range(from = 0, to = 64) final int amount) {
+        consumeItem(blockMenu, slot, amount, false);
+    }
+
+    @SuppressWarnings("deprecation")
+    public static void consumeItem(
+            @NotNull final BlockMenu blockMenu,
+            @Range(from = 0, to = 53) final int slot,
+            @Range(from = 0, to = 64) final int amount,
+            final boolean replaceConsumables) {
+        if (amount == 0) {
+            return;
+        }
+
+        final ItemStack item = blockMenu.getItemInSlot(slot);
+        if (item != null && item.getType() != Material.AIR) {
+            if (replaceConsumables
+                    && item.getAmount() == 1
+                    && StackUtils.itemsMatch(item, new ItemStack(item.getType()))) {
+                switch (item.getType()) {
+                    case WATER_BUCKET,
+                            LAVA_BUCKET,
+                            MILK_BUCKET,
+                            COD_BUCKET,
+                            SALMON_BUCKET,
+                            PUFFERFISH_BUCKET,
+                            TROPICAL_FISH_BUCKET,
+                            AXOLOTL_BUCKET,
+                            POWDER_SNOW_BUCKET,
+                            TADPOLE_BUCKET -> item.setType(Material.BUCKET);
+                    case POTION, SPLASH_POTION, LINGERING_POTION, HONEY_BOTTLE, DRAGON_BREATH -> item.setType(
+                            Material.GLASS_BOTTLE);
+                    case MUSHROOM_STEW, BEETROOT_SOUP, RABBIT_STEW, SUSPICIOUS_STEW -> item.setType(Material.BOWL);
+                }
+            } else {
+                if (item.getAmount() <= amount) {
+                    item.setAmount(0);
+                } else {
+                    item.setAmount(item.getAmount() - amount);
+                }
+            }
+        }
     }
 }

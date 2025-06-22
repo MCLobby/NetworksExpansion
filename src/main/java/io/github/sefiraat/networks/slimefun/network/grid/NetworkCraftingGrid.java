@@ -249,7 +249,7 @@ public class NetworkCraftingGrid extends AbstractGrid {
         }
 
         // If no item crafted OR result doesn't fit, escape
-        if (crafted.getType() == Material.AIR || !menu.fits(crafted, CRAFT_OUTPUT_SLOT)) {
+        if (crafted.getType() == Material.AIR || !BlockMenuUtil.fits(menu, crafted, CRAFT_OUTPUT_SLOT)) {
             return;
         }
 

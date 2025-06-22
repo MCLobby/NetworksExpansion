@@ -2,6 +2,7 @@ package io.github.sefiraat.networks.slimefun.network;
 
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.utils.BlockMenuUtil;
 import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
@@ -161,10 +162,10 @@ public class NetworkQuantumWorkbench extends SpecialSlimefunItem {
                 }
             }
 
-            if (menu.fits(crafted, OUTPUT_SLOT)) {
+            if (BlockMenuUtil.fits(menu, crafted, OUTPUT_SLOT)) {
                 for (int recipeSlot : RECIPE_SLOTS) {
                     if (menu.getItemInSlot(recipeSlot) != null) {
-                        menu.consumeItem(recipeSlot, 1, true);
+                        BlockMenuUtil.consumeItem(menu, recipeSlot, 1, true);
                     }
                 }
 
@@ -176,7 +177,7 @@ public class NetworkQuantumWorkbench extends SpecialSlimefunItem {
                 }
                 crafted = event.getOutput();
 
-                menu.pushItem(crafted, OUTPUT_SLOT);
+                BlockMenuUtil.pushItem(menu, crafted, OUTPUT_SLOT);
                 sendFeedback(menu.getLocation(), FeedbackType.SUCCESS);
             } else {
                 player.sendMessage(Lang.getString("messages.unsupported-operation.quantum_workbench.output_slot_full"));
