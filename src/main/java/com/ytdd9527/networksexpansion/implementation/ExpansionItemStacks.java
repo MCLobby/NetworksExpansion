@@ -464,7 +464,7 @@ public class ExpansionItemStacks {
     public static final SlimefunItemStack NETWORK_CRAFTING_GRID_NEW_STYLE = Theme.themedSlimefunItemStack(
             Lang.getItem("NTW_EXPANSION_CRAFTING_GRID_NEW_STYLE", Material.CRAFTING_TABLE), Theme.MACHINE);
     public static final SlimefunItemStack STATUS_VIEWER =
-            Theme.themedSlimefunItemStack(Lang.getItem("NTW_EXPANSION_STATUS_VIEWER", Material.COMPASS), Theme.TOOL);
+            Theme.themedSlimefunItemStack(Lang.getItem("NTW_EXPANSION_STATUS_VIEWER", Material.CLOCK), Theme.TOOL);
     public static final SlimefunItemStack DRAWER_TIPS =
             Theme.themedSlimefunItemStack(Lang.getItem("NTW_EXPANSION_DRAWER_TIPS", Material.BOOK), Theme.GUIDE);
     public static final SlimefunItemStack QUANTUM_MANAGER = Theme.themedSlimefunItemStack(
