@@ -53,4 +53,20 @@ public interface FeedbackSendable {
         player.sendMessage(String.format(
                 Lang.getString("messages.debug.status_view"), LocationUtil.humanizeBlock(location), message));
     }
+
+    static void sendFeedback0(@NotNull Location location, @NotNull FeedbackType type) {
+        for (UUID uuid : SUBSCRIBED_LOCATIONS.keySet()) {
+            if (SUBSCRIBED_LOCATIONS.get(uuid).contains(location)) {
+                Player player = Bukkit.getServer().getPlayer(uuid);
+                if (player != null) {
+                    sendFeedback0(player, location, type.getMessage());
+                }
+            }
+        }
+    }
+
+    static void sendFeedback0(@NotNull Player player, @NotNull Location location, String message) {
+        player.sendMessage(String.format(
+            Lang.getString("messages.debug.status_view"), LocationUtil.humanizeBlock(location), message));
+    }
 }

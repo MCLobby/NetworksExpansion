@@ -3,6 +3,7 @@ package com.ytdd9527.networksexpansion.core.items.machines;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.api.interfaces.SoftCellBannable;
+import com.balugaq.netex.utils.BlockMenuUtil;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
@@ -254,7 +255,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
         if (root.isDisplayParticles()) {
             location.getWorld().spawnParticle(Particle.WAX_OFF, location, 0, 0, 4, 0);
         }
-        blockMenu.pushItem(crafted, OUTPUT_SLOT);
+        BlockMenuUtil.pushItem(blockMenu, crafted, OUTPUT_SLOT);
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
         return true;
     }

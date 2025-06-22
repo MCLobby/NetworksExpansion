@@ -68,3 +68,6 @@ permissions:
   networks.commands.worldedit.*: # Deprecated
     description: Allows you to use all Networks WorldEdit commands
     default: op
+  networks.commands.map:
+    description: Allows you to use the /networks map command
+    default: op

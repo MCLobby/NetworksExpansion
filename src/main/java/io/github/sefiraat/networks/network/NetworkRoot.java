@@ -3,8 +3,10 @@ package io.github.sefiraat.networks.network;
 import com.balugaq.netex.api.data.ItemContainer;
 import com.balugaq.netex.api.data.ItemFlowRecord;
 import com.balugaq.netex.api.data.StorageUnitData;
+import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.enums.StorageType;
 import com.balugaq.netex.api.events.NetworkRootLocateStorageEvent;
+import com.balugaq.netex.api.interfaces.FeedbackSendable;
 import com.balugaq.netex.utils.BlockMenuUtil;
 import com.balugaq.netex.utils.NetworksVersionedParticle;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
@@ -1518,6 +1520,10 @@ public class NetworkRoot extends NetworkNode {
     }
 
     public void removeRootPower(long power) {
+        if (power <= 0) {
+            return;
+        }
+
         int removed = 0;
         for (Location node : powerNodes) {
             final SlimefunItem item = StorageCacheUtils.getSfItem(node);
@@ -1981,10 +1987,12 @@ public class NetworkRoot extends NetworkNode {
         ItemStack stackToReturn = null;
 
         if (request.getAmount() <= 0) {
+            FeedbackSendable.sendFeedback0(accessor, FeedbackType.ROOT_REQUEST_0);
             return null;
         }
 
         if (!allowAccessOutput(accessor)) {
+            FeedbackSendable.sendFeedback0(accessor, FeedbackType.ROOT_LIMITING_ACCESS_OUTPUT);
             return null;
         }
 
@@ -2342,6 +2350,7 @@ public class NetworkRoot extends NetworkNode {
 
     public void addItemStack0(@NotNull Location accessor, @NotNull ItemStack incoming) {
         if (!allowAccessInput(accessor)) {
+            FeedbackSendable.sendFeedback0(accessor, FeedbackType.ROOT_LIMITING_ACCESS_INPUT);
             return;
         }
 

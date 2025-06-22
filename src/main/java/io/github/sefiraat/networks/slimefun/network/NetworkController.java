@@ -2,6 +2,7 @@ package io.github.sefiraat.networks.slimefun.network;
 
 import com.balugaq.netex.api.data.ItemFlowRecord;
 import com.balugaq.netex.api.events.NetworkRootReadyEvent;
+import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.NetworkStorage;
@@ -9,7 +10,6 @@ import io.github.sefiraat.networks.network.NetworkNode;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
-import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -140,7 +140,7 @@ public class NetworkController extends NetworkObject {
     @SuppressWarnings("unused")
     @Override
     protected void cancelPlace(@NotNull BlockPlaceEvent event) {
-        event.getPlayer().sendMessage(Theme.ERROR.getColor() + "This network already has a controller!");
+        event.getPlayer().sendMessage(Lang.getString("messages.unsupported-operation.controller.cancel_place"));
         event.setCancelled(true);
     }
 

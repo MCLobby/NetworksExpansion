@@ -167,7 +167,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
                 continue;
             }
 
-            blockMenu.consumeItem(getInputSlots()[i], recipe.getInput()[i].getAmount());
+            BlockMenuUtil.consumeItem(blockMenu, getInputSlots()[i], recipe.getInput()[i].getAmount());
         }
 
         for (ItemStack item : recipe.getOutput()) {
@@ -262,7 +262,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
 
                 if (StackUtils.itemsMatch(itemInSlot, entry.getKey())) {
                     int amount = Math.min(entry.getValue(), itemInSlot.getAmount());
-                    blockMenu.consumeItem(slot, amount);
+                    BlockMenuUtil.consumeItem(blockMenu, slot, amount);
 
                     wanted.put(entry.getKey(), wanted.get(entry.getKey()) - amount);
                 }

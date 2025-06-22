@@ -158,6 +158,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         return SELECTED_DIRECTION_MAP.get(location);
     }
 
+    @Override
     public void updateGui(@Nullable BlockMenu blockMenu) {
         if (blockMenu == null || !blockMenu.hasViewer()) {
             return;
@@ -215,13 +216,6 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
             SELECTED_DIRECTION_MAP.put(blockMenu.getLocation().clone(), direction);
         }
         return direction;
-    }
-
-    @OverridingMethodsMustInvokeSuper
-    protected void onTick(@Nullable BlockMenu blockMenu, @NotNull Block block) {
-        super.onTick(blockMenu, block);
-        addToRegistry(block);
-        updateGui(blockMenu);
     }
 
     protected void onUniqueTick() {

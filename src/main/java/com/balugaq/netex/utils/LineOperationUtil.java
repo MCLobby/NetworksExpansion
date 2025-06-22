@@ -340,7 +340,7 @@ public class LineOperationUtil {
                     final ItemStack retrieved = root.getItemStack0(accessor, itemRequest);
                     if (retrieved != null && retrieved.getType() != Material.AIR) {
                         free -= retrieved.getAmount();
-                        blockMenu.pushItem(retrieved, slot); // todo: use util
+                        BlockMenuUtil.pushItem(blockMenu, retrieved, slot);
                         if (free <= 0) {
                             break;
                         }
@@ -373,7 +373,7 @@ public class LineOperationUtil {
                     final ItemStack retrieved = root.getItemStack0(accessor, itemRequest);
                     if (retrieved != null && retrieved.getType() != Material.AIR) {
                         free -= retrieved.getAmount();
-                        blockMenu.pushItem(retrieved, slot); // todo: use util
+                        BlockMenuUtil.pushItem(blockMenu, retrieved, slot);
                         if (free <= 0) {
                             break;
                         }
@@ -408,7 +408,7 @@ public class LineOperationUtil {
                 final ItemStack retrieved = root.getItemStack0(accessor, itemRequest);
                 if (retrieved != null && retrieved.getType() != Material.AIR) {
                     retrieved.getAmount();
-                    blockMenu.pushItem(retrieved, slot); // todo: use util
+                    BlockMenuUtil.pushItem(blockMenu, retrieved, slot);
                 }
             }
             case LAST_ONLY -> {
@@ -439,7 +439,7 @@ public class LineOperationUtil {
                 final ItemStack retrieved = root.getItemStack0(accessor, itemRequest);
                 if (retrieved != null && retrieved.getType() != Material.AIR) {
                     retrieved.getAmount();
-                    blockMenu.pushItem(retrieved, slot); // todo: use util
+                    BlockMenuUtil.pushItem(blockMenu, retrieved, slot);
                 }
             }
             case FIRST_STOP -> {

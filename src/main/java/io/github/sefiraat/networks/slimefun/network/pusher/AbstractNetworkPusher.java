@@ -3,6 +3,7 @@ package io.github.sefiraat.networks.slimefun.network.pusher;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.api.interfaces.SoftCellBannable;
+import com.balugaq.netex.utils.BlockMenuUtil;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NodeDefinition;
@@ -101,7 +102,7 @@ public abstract class AbstractNetworkPusher extends NetworkDirectional implement
                 ItemStack retrieved =
                         definition.getNode().getRoot().getItemStack0(blockMenu.getLocation(), itemRequest);
                 if (retrieved != null) {
-                    targetMenu.pushItem(retrieved, slots);
+                    BlockMenuUtil.pushItem(targetMenu, retrieved, slots);
                     sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
                     if (definition.getNode().getRoot().isDisplayParticles()) {
                         showParticle(blockMenu.getLocation(), direction);

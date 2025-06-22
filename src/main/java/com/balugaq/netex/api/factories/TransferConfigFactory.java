@@ -19,7 +19,8 @@ public class TransferConfigFactory {
         return getTransferConfiguration(transferType, null);
     }
 
-    @NotNull public static TransferConfiguration getTransferConfiguration(@NotNull TransferType transferType, @Nullable String id) {
+    @NotNull public static TransferConfiguration getTransferConfiguration(
+            @NotNull TransferType transferType, @Nullable String id) {
         return new TransferConfiguration(
                 transferType.config(id, MAX_DISTANCE, 1),
                 transferType.config(id, PUSHITEM_TICK, 1),

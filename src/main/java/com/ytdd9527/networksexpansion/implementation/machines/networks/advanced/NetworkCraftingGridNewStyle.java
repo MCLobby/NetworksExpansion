@@ -7,7 +7,6 @@ import com.balugaq.netex.utils.BlockMenuUtil;
 import com.balugaq.netex.utils.Lang;
 import com.ytdd9527.networksexpansion.core.items.machines.AbstractGridNewStyle;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
-import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.events.NetworkCraftEvent;
 import io.github.sefiraat.networks.network.GridItemRequest;
@@ -21,17 +20,15 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.items.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -238,165 +235,91 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle implements
 
     @SuppressWarnings("deprecation")
     private synchronized void tryCraft(@NotNull BlockMenu menu, @NotNull Player player, @NotNull ClickAction action) {
-        // Get node and, if it doesn't exist - escape
-        final NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
-        if (definition == null || definition.getNode() == null) {
-            return;
+        int times = 1;
+        if (action.isRightClicked()) {
+            times = 64;
         }
 
-        NetworkRoot root = definition.getNode().getRoot();
-        root.refreshRootItems();
-
-        if (!action.isRightClicked() && action.isShiftClicked()) {
-            ItemStack output = menu.getItemInSlot(OUTPUT_SLOT);
-            if (output != null && output.getType() != Material.AIR) {
-                root.addItemStack0(menu.getLocation(), output);
-            }
-            return;
-        }
-
-        // Get the recipe input
-        final ItemStack[] inputs = new ItemStack[INTEGRATION_SLOTS.length];
-        int i = 0;
-        for (int recipeSlot : INTEGRATION_SLOTS) {
-            ItemStack stack = menu.getItemInSlot(recipeSlot);
-            inputs[i] = stack;
-            i++;
-        }
-
-        ItemStack crafted = null;
-        Map.Entry<ItemStack[], ItemStack> matched = null;
-
-        // Go through each slimefun recipe, test and set the ItemStack if found
-        for (Map.Entry<ItemStack[], ItemStack> entry :
-                SupportedCraftingTableRecipes.getRecipes().entrySet()) {
-            if (SupportedCraftingTableRecipes.testRecipe(inputs, entry.getKey())) {
-                crafted = entry.getValue().clone();
-                matched = entry;
-                break;
-            }
-        }
-
-        // If no slimefun recipe found, try a vanilla one
-        if (crafted == null) {
-            ItemStack[] _inputs = Arrays.stream(inputs.clone())
-                    .map(itemStack -> itemStack != null ? StackUtils.getAsQuantity(itemStack, 1) : null)
-                    .toArray(ItemStack[]::new);
-            crafted = Bukkit.craftItem(_inputs.clone(), player.getWorld(), player);
-            Map<ItemStack[], ItemStack> v = new HashMap<>();
-            v.put(_inputs, crafted);
-            matched = v.entrySet().stream().findFirst().get();
-        }
-
-        // If no item crafted OR result doesn't fit, escape
-        if (crafted.getType() == Material.AIR || !menu.fits(crafted, OUTPUT_SLOT)) {
-            return;
-        }
-
-        if (crafted != null) {
-            final SlimefunItem sfi2 = SlimefunItem.getByItem(crafted);
-            if (sfi2 != null && sfi2.isDisabled()) {
-                player.sendMessage(Lang.getString("messages.unsupported-operation.encoder.disabled_output"));
+        for (int k = 0; k < times; k++) {
+            // Get node and, if it doesn't exist - escape
+            final NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
+            if (definition.getNode() == null) {
                 return;
             }
-        }
 
-        ItemStack output = menu.getItemInSlot(OUTPUT_SLOT);
-        if (output != null && output.getType() != Material.AIR) {
-            root.addItemStack0(menu.getLocation(), output);
-        }
-
-        if (!BlockMenuUtil.fits(menu, crafted, OUTPUT_SLOT)) {
-            return;
-        }
-
-        int maxAmount = action.isRightClicked() ? 64 : 1;
-
-        if (output != null && output.getType() != Material.AIR) {
-            maxAmount = Math.min(maxAmount, (output.getMaxStackSize() - output.getAmount()) / crafted.getAmount());
-        }
-
-        Map<ItemStack, Integer> requiredItems = new HashMap<>();
-        for (ItemStack input : matched.getKey()) {
-            if (input != null && input.getType() != Material.AIR) {
-                requiredItems.merge(input, input.getAmount(), Integer::sum);
+            // Get the recipe input
+            final ItemStack[] inputs = new ItemStack[INTEGRATION_SLOTS.length];
+            int i = 0;
+            for (int recipeSlot : INTEGRATION_SLOTS) {
+                ItemStack stack = menu.getItemInSlot(recipeSlot);
+                inputs[i] = stack;
+                i++;
             }
-        }
 
-        maxAmount = Math.min(maxAmount, crafted.getMaxStackSize() / crafted.getAmount());
+            ItemStack crafted = null;
 
-        Map<ItemStack, Long> currentItems = root.getAllNetworkItemsLongType();
-
-        // calculate the max amount can be crafted
-        for (Map.Entry<ItemStack, Integer> entry : requiredItems.entrySet()) {
-            ItemStack is = entry.getKey();
-            if (is == null || is.getType() == Material.AIR) {
-                continue;
-            }
-            int required = entry.getValue();
-            Long current = currentItems.get(is);
-            if (current == null) {
-                maxAmount = 0;
-                break;
-            }
-            maxAmount = Math.min(maxAmount, (int) (current / required));
-        }
-
-        Map<ItemStack, Integer> need = new HashMap<>();
-        for (Map.Entry<ItemStack, Integer> entry : requiredItems.entrySet()) {
-            int required = entry.getValue();
-            int amount = maxAmount * required;
-            need.put(entry.getKey(), amount);
-        }
-
-        // consume items
-        for (Map.Entry<ItemStack, Integer> entry : need.entrySet()) {
-            ItemStack itemStack = entry.getKey();
-            GridItemRequest request = new GridItemRequest(itemStack, entry.getValue(), player);
-            root.getItemStack0(menu.getLocation(), request);
-            if (StackUtils.itemsMatch(itemStack, new ItemStack(itemStack.getType()))) {
-                switch (itemStack.getType()) {
-                    case WATER_BUCKET,
-                            LAVA_BUCKET,
-                            MILK_BUCKET,
-                            COD_BUCKET,
-                            SALMON_BUCKET,
-                            PUFFERFISH_BUCKET,
-                            TROPICAL_FISH_BUCKET,
-                            AXOLOTL_BUCKET,
-                            POWDER_SNOW_BUCKET,
-                            TADPOLE_BUCKET -> root.addItemStack0(
-                            menu.getLocation(), new ItemStack(Material.BUCKET, entry.getValue()));
-                    case POTION, SPLASH_POTION, LINGERING_POTION, HONEY_BOTTLE, DRAGON_BREATH -> root.addItemStack0(
-                            menu.getLocation(), new ItemStack(Material.GLASS_BOTTLE, entry.getValue()));
-                    case MUSHROOM_STEW, BEETROOT_SOUP, RABBIT_STEW, SUSPICIOUS_STEW -> root.addItemStack0(
-                            menu.getLocation(), new ItemStack(Material.BOWL, entry.getValue()));
+            // Go through each slimefun recipe, test and set the ItemStack if found
+            for (Map.Entry<ItemStack[], ItemStack> entry :
+                    SupportedCraftingTableRecipes.getRecipes().entrySet()) {
+                if (SupportedCraftingTableRecipes.testRecipe(inputs, entry.getKey())) {
+                    crafted = entry.getValue().clone();
+                    break;
                 }
             }
-        }
 
-        // push items
-        int outputAmount = crafted.getAmount() * maxAmount;
-        crafted = StackUtils.getAsQuantity(crafted, outputAmount);
+            if (crafted != null) {
+                final SlimefunItem sfi2 = SlimefunItem.getByItem(crafted);
+                if (sfi2 != null && sfi2.isDisabled()) {
+                    player.sendMessage(Lang.getString("messages.unsupported-operation.encoder.disabled_output"));
+                    return;
+                }
+            }
 
-        // fire craft event
-        NetworkCraftEvent event = new NetworkCraftEvent(player, this, inputs, crafted);
-        Bukkit.getPluginManager().callEvent(event);
-        if (event.isCancelled()) {
-            return;
-        }
-        crafted = event.getOutput();
+            // If no slimefun recipe found, try a vanilla one
+            if (crafted == null) {
+                crafted = Bukkit.craftItem(inputs, player.getWorld(), player);
+            }
 
-        if (crafted != null) {
-            BlockMenuUtil.pushItem(menu, crafted, OUTPUT_SLOT);
-            menu.replaceExistingItem(
-                    CRAFT_BUTTON_SLOT,
-                    ItemStackUtil.getCleanItem(new CustomItemStack(
-                            Icon.CRAFT_BUTTON_NEW_STYLE,
-                            String.format(
-                                    Lang.getString("messages.normal-operation.grid_new_style.crafted"),
-                                    ItemStackHelper.getDisplayName(crafted),
-                                    outputAmount))));
+            // If no item crafted OR result doesn't fit, escape
+            if (crafted.getType() == Material.AIR || !BlockMenuUtil.fits(menu, crafted, OUTPUT_SLOT)) {
+                return;
+            }
+
+            // fire craft event
+            NetworkCraftEvent event = new NetworkCraftEvent(player, this, inputs, crafted);
+            Bukkit.getPluginManager().callEvent(event);
+            if (event.isCancelled()) {
+                return;
+            }
+            crafted = event.getOutput();
+
+            // Push item
+            if (crafted != null) {
+                BlockMenuUtil.pushItem(menu, crafted, OUTPUT_SLOT);
+            }
+
+            NetworkRoot root = definition.getNode().getRoot();
+            root.refreshRootItems();
+
+            // Let's clear down all the items
+            for (int recipeSlot : INTEGRATION_SLOTS) {
+                final ItemStack itemInSlot = menu.getItemInSlot(recipeSlot);
+                if (itemInSlot != null) {
+                    // Grab a clone for potential retrieval
+                    final ItemStack itemInSlotClone = itemInSlot.clone();
+                    itemInSlotClone.setAmount(1);
+                    ItemUtils.consumeItem(menu.getItemInSlot(recipeSlot), 1, true);
+                    // We have consumed a slot item and now the slot is empty - try to refill
+                    if (menu.getItemInSlot(recipeSlot) == null) {
+                        // Process item request
+                        final GridItemRequest request = new GridItemRequest(itemInSlotClone, 1, player);
+                        final ItemStack requestingStack = root.getItemStack0(menu.getLocation(), request);
+                        if (requestingStack != null) {
+                            menu.replaceExistingItem(recipeSlot, requestingStack);
+                        }
+                    }
+                }
+            }
         }
     }
 
