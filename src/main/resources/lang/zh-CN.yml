@@ -47,6 +47,7 @@ messages:
     success: "成功"
     working: "工作中"
     not_allowed_item: "不被允许的物品"
+    soft_cell_banned: "因网络中存在网络单元，此次执行被限制"
   blueprint:
     title: "<click_info>已指定配方"
     empty: "<passive>空"
@@ -66,19 +67,32 @@ messages:
     error-occurred-when-loading-environment-var: "环境加载发生异常："
     error-occurred-when-loading-storage: "读取存储物品时发生异常："
     error-occurred-when-executing-query: "数据请求发生异常："
-  guide:
+  guide: # Deprecated
+    # Deprecated
     locked-in: "&f需要在 %s 中解锁"
+    # Deprecated
     no-permission: "&f无权限"
+    # Deprecated
     cost-vault: " 游戏币"
+    # Deprecated
     cost-level: " 级经验"
+    # Deprecated
     click-to-research: "&a> 单击解锁"
+    # Deprecated
     cost: "&7需要 &b"
+    # Deprecated
     searching: "你正在搜索: %item%"
+    # Deprecated
     back: "&f左键: &7返回上一页"
+    # Deprecated
     super-back: "&fShift + 左键: &7返回主菜单"
+    # Deprecated
     survival: "网络拓展指南 (生存模式)"
+    # Deprecated
     creative: "网络拓展指南 (作弊模式)"
+    # Deprecated
     internal-error: "&4服务器发生了一个内部错误. 请联系管理员处理."
+    # Deprecated
     error-occurred: "在打开指南书里的 Slimefun 物品时发生了意外!"
   debug:
     info: "%s - %s"
@@ -87,13 +101,14 @@ messages:
     enabled-debug: "<success>该模式将持续至服务器关闭，或者手动关闭。"
     wildchests: "WildChests 已安装：%s"
     ischest: "该方块是否被 WildChest 判断为方块：%s"
-    wildchests_test_success: "WildChests 测试成功！"
-    wildchests_test_failed: "WildChests 测试失败！"
+    wildchests-test-success: "WildChests 测试成功！"
+    wildchests-test-failed: "WildChests 测试失败！"
     status_view: "位置 %s 反馈了信息: %s"
   commands:
     no-permission: "&c你没有权限执行该指令!"
     no-item-in-hand: "&c你必须在手上持有物品!"
     missing-required-argument: "&c缺少必要参数: <%s>"
+    invalid-required-argument: "&c无效的必要参数: <%s>"
     invalid-argument: "&c无效的参数: <%s>"
     must-be-player: "&c此命令只能由玩家执行!"
     unknown-error: "&c未知错误!"
@@ -203,6 +218,8 @@ messages:
       set-pos2-with-blocks: "&aSet pos2 to %s (%s Blocks)"
       invalid-slot: "&c槽位号必须在0-53之间!"
   normal-operation:
+    common:
+      page: "页"
     quantum_cache:
       empty: "空"
       stored_item: "<click_info>物品: %s"
@@ -1002,9 +1019,9 @@ items:
       - "<warning> 网络拓展开发版不接受 GitHub Issues"
       - "<warning> 网络拓展开发版不接受 GitHub PR"
       - "<passive> 版本信息:"
-      - "<passive> 网络拓展版本: Special-Version-23"
+      - "<passive> 网络拓展版本: Special-Version-31"
       - "<passive> 版本状态: 稳定版"
-      - "<passive> 版本更新时间: 2025-6-14 16:32:55"
+      - "<passive> 版本更新时间: 2025-6-21 22:40:04"
       - "<passive> 开发状态: 更新中"
       - "<passive> 开发者（们）: ytdd9527, balugaq"
       - "<passive> 开发者 GitHub 页面: <click_info>https://github.com/ytdd9527"
@@ -1640,13 +1657,13 @@ items:
     name: "智能抓取器"
     lore:
       - "即放即用"
-      - "&7对准机器放置，在另一端放置网桥"
+      - "&7对准机器放置，在另一端放置任意网络机器"
 
   NTW_EXPANSION_SMART_PUSHER:
     name: "智能推送器"
     lore:
       - "即放即用"
-      - "&7对准机器放置，在另一端放置网桥"
+      - "&7对准机器放置，在另一端放置任意网络机器"
 
   NTW_EXPANSION_GRID_NEW_STYLE:
     name: "高级网格"
@@ -3559,7 +3576,21 @@ items:
   NTW_EXPANSION_SWITCHING_MONITOR:
     name: "交换监视器"
     lore:
+      - "&c需要对准网络机器放置"
       - "交换物品"
+
+  NTW_EXPANSION_HANGING_GRID_NEW_STYLE:
+    name: "贴图版高级网格"
+    lore:
+      - "&c需要对准网络机器放置"
+      - "贴图版高级网格允许你查看网络中所有的物品"
+      - "你也可以直接放入或取出物品"
+      - "排序方式: "
+      - "&eAZ&7: &e按字母顺序排序"
+      - "&e数量&7: &e按物品数量排序"
+      - "&e数量倒序&7: &e按物品数量倒序排序"
+      - "&e附属&7: &e按物品所属附属字母顺序排序"
+      - "支持拼音搜索"
 
 displays:
   quantum_storage:

@@ -2,6 +2,7 @@ package io.github.sefiraat.networks.slimefun.network.pusher;
 
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.api.interfaces.SoftCellBannable;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NodeDefinition;
@@ -23,7 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractNetworkPusher extends NetworkDirectional {
+public abstract class AbstractNetworkPusher extends NetworkDirectional implements SoftCellBannable {
     private static final int NORTH_SLOT = 11;
     private static final int SOUTH_SLOT = 29;
     private static final int EAST_SLOT = 21;
@@ -32,7 +33,10 @@ public abstract class AbstractNetworkPusher extends NetworkDirectional {
     private static final int DOWN_SLOT = 32;
 
     public AbstractNetworkPusher(
-        ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.PUSHER);
         for (int slot : getItemSlots()) {
             this.getSlotsToDrop().add(slot);
@@ -55,9 +59,13 @@ public abstract class AbstractNetworkPusher extends NetworkDirectional {
             return;
         }
 
+        if (checkSoftCellBan(blockMenu.getLocation(), definition.getNode().getRoot())) {
+            return;
+        }
+
         final BlockFace direction = getCurrentDirection(blockMenu);
         final BlockMenu targetMenu = StorageCacheUtils.getMenu(
-            blockMenu.getBlock().getRelative(direction).getLocation());
+                blockMenu.getBlock().getRelative(direction).getLocation());
 
         if (targetMenu == null) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NO_TARGET_BLOCK);
@@ -76,7 +84,7 @@ public abstract class AbstractNetworkPusher extends NetworkDirectional {
             final ItemRequest itemRequest = new ItemRequest(clone, clone.getMaxStackSize());
 
             int[] slots =
-                targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.INSERT, clone);
+                    targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.INSERT, clone);
 
             for (int slot : slots) {
                 final ItemStack itemStack = targetMenu.getItemInSlot(slot);
@@ -91,7 +99,7 @@ public abstract class AbstractNetworkPusher extends NetworkDirectional {
                 }
 
                 ItemStack retrieved =
-                    definition.getNode().getRoot().getItemStack0(blockMenu.getLocation(), itemRequest);
+                        definition.getNode().getRoot().getItemStack0(blockMenu.getLocation(), itemRequest);
                 if (retrieved != null) {
                     targetMenu.pushItem(retrieved, slots);
                     sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
@@ -141,8 +149,7 @@ public abstract class AbstractNetworkPusher extends NetworkDirectional {
         return new Particle.DustOptions(Color.MAROON, 1);
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     protected ItemStack getOtherBackgroundStack() {
         return Icon.PUSHER_TEMPLATE_BACKGROUND_STACK;
     }

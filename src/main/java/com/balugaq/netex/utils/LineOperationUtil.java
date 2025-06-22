@@ -9,10 +9,8 @@ import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
-
 import java.util.List;
 import java.util.function.Consumer;
-
 import lombok.experimental.UtilityClass;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -27,29 +25,29 @@ public class LineOperationUtil {
     public static final Location UNKNOWN_LOCATION = new Location(null, 0, 0, 0);
 
     public static void doOperation(
-        @NotNull Location startLocation,
-        @NotNull BlockFace direction,
-        int limit,
-        @NotNull Consumer<BlockMenu> consumer) {
+            @NotNull Location startLocation,
+            @NotNull BlockFace direction,
+            int limit,
+            @NotNull Consumer<BlockMenu> consumer) {
         doOperation(startLocation, direction, limit, false, true, consumer);
     }
 
     public static void doOperation(
-        @NotNull Location startLocation,
-        @NotNull BlockFace direction,
-        int limit,
-        boolean skipNoMenu,
-        @NotNull Consumer<BlockMenu> consumer) {
+            @NotNull Location startLocation,
+            @NotNull BlockFace direction,
+            int limit,
+            boolean skipNoMenu,
+            @NotNull Consumer<BlockMenu> consumer) {
         doOperation(startLocation, direction, limit, skipNoMenu, true, consumer);
     }
 
     public static void doOperation(
-        @NotNull Location startLocation,
-        @NotNull BlockFace direction,
-        int limit,
-        boolean skipNoMenu,
-        boolean optimizeExperience,
-        @NotNull Consumer<BlockMenu> consumer) {
+            @NotNull Location startLocation,
+            @NotNull BlockFace direction,
+            int limit,
+            boolean skipNoMenu,
+            boolean optimizeExperience,
+            @NotNull Consumer<BlockMenu> consumer) {
         Location location = startLocation.clone();
         int finalLimit = limit;
         if (optimizeExperience) {
@@ -77,29 +75,29 @@ public class LineOperationUtil {
     }
 
     public static void doEnergyOperation(
-        @NotNull Location startLocation,
-        @NotNull BlockFace direction,
-        int limit,
-        @NotNull Consumer<Location> consumer) {
+            @NotNull Location startLocation,
+            @NotNull BlockFace direction,
+            int limit,
+            @NotNull Consumer<Location> consumer) {
         doEnergyOperation(startLocation, direction, limit, true, true, consumer);
     }
 
     public static void doEnergyOperation(
-        @NotNull Location startLocation,
-        @NotNull BlockFace direction,
-        int limit,
-        boolean allowNoMenu,
-        @NotNull Consumer<Location> consumer) {
+            @NotNull Location startLocation,
+            @NotNull BlockFace direction,
+            int limit,
+            boolean allowNoMenu,
+            @NotNull Consumer<Location> consumer) {
         doEnergyOperation(startLocation, direction, limit, allowNoMenu, true, consumer);
     }
 
     public static void doEnergyOperation(
-        @NotNull Location startLocation,
-        @NotNull BlockFace direction,
-        int limit,
-        boolean allowNoMenu,
-        boolean optimizeExperience,
-        @NotNull Consumer<Location> consumer) {
+            @NotNull Location startLocation,
+            @NotNull BlockFace direction,
+            int limit,
+            boolean allowNoMenu,
+            boolean optimizeExperience,
+            @NotNull Consumer<Location> consumer) {
         Location location = startLocation.clone();
         int finalLimit = limit;
         if (optimizeExperience) {
@@ -126,21 +124,29 @@ public class LineOperationUtil {
 
     @Deprecated
     public static void grabItem(
-        @NotNull NetworkRoot root,
-        @NotNull BlockMenu blockMenu,
-        @NotNull TransportMode transportMode,
-        int limitQuantity) {
+            @NotNull NetworkRoot root,
+            @NotNull BlockMenu blockMenu,
+            @NotNull TransportMode transportMode,
+            int limitQuantity) {
         grabItem(UNKNOWN_LOCATION, root, blockMenu, transportMode, limitQuantity);
     }
 
+    /**
+     *
+     * @param accessor the target menu's location
+     * @param root the root
+     * @param blockMenu the target menu
+     * @param transportMode the transport mode
+     * @param limitQuantity the max amount to transport
+     */
     public static void grabItem(
-        @NotNull Location accessor,
-        @NotNull NetworkRoot root,
-        @NotNull BlockMenu blockMenu,
-        @NotNull TransportMode transportMode,
-        int limitQuantity) {
+            @NotNull Location accessor,
+            @NotNull NetworkRoot root,
+            @NotNull BlockMenu blockMenu,
+            @NotNull TransportMode transportMode,
+            int limitQuantity) {
         final int[] slots =
-            blockMenu.getPreset().getSlotsAccessedByItemTransport(blockMenu, ItemTransportFlow.WITHDRAW, null);
+                blockMenu.getPreset().getSlotsAccessedByItemTransport(blockMenu, ItemTransportFlow.WITHDRAW, null);
 
         int limit = limitQuantity;
         switch (transportMode) {
@@ -241,21 +247,29 @@ public class LineOperationUtil {
 
     @Deprecated
     public static void pushItem(
-        @NotNull NetworkRoot root,
-        @NotNull BlockMenu blockMenu,
-        @NotNull List<ItemStack> clones,
-        @NotNull TransportMode transportMode,
-        int limitQuantity) {
+            @NotNull NetworkRoot root,
+            @NotNull BlockMenu blockMenu,
+            @NotNull List<ItemStack> clones,
+            @NotNull TransportMode transportMode,
+            int limitQuantity) {
         pushItem(UNKNOWN_LOCATION, root, blockMenu, clones, transportMode, limitQuantity);
     }
 
+    /**
+     *
+     * @param accessor the target menu's location
+     * @param root the root
+     * @param blockMenu the target menu
+     * @param transportMode the transport mode
+     * @param limitQuantity the max amount to transport
+     */
     public static void pushItem(
-        @NotNull Location accessor,
-        @NotNull NetworkRoot root,
-        @NotNull BlockMenu blockMenu,
-        @NotNull List<ItemStack> clones,
-        @NotNull TransportMode transportMode,
-        int limitQuantity) {
+            @NotNull Location accessor,
+            @NotNull NetworkRoot root,
+            @NotNull BlockMenu blockMenu,
+            @NotNull List<ItemStack> clones,
+            @NotNull TransportMode transportMode,
+            int limitQuantity) {
         for (ItemStack clone : clones) {
             pushItem(accessor, root, blockMenu, clone, transportMode, limitQuantity);
         }
@@ -263,25 +277,25 @@ public class LineOperationUtil {
 
     @Deprecated
     public static void pushItem(
-        @NotNull NetworkRoot root,
-        @NotNull BlockMenu blockMenu,
-        @NotNull ItemStack clone,
-        @NotNull TransportMode transportMode,
-        int limitQuantity) {
+            @NotNull NetworkRoot root,
+            @NotNull BlockMenu blockMenu,
+            @NotNull ItemStack clone,
+            @NotNull TransportMode transportMode,
+            int limitQuantity) {
         pushItem(UNKNOWN_LOCATION, root, blockMenu, clone, transportMode, limitQuantity);
     }
 
     public static void pushItem(
-        @NotNull Location accessor,
-        @NotNull NetworkRoot root,
-        @NotNull BlockMenu blockMenu,
-        @NotNull ItemStack clone,
-        @NotNull TransportMode transportMode,
-        int limitQuantity) {
+            @NotNull Location accessor,
+            @NotNull NetworkRoot root,
+            @NotNull BlockMenu blockMenu,
+            @NotNull ItemStack clone,
+            @NotNull TransportMode transportMode,
+            int limitQuantity) {
         final ItemRequest itemRequest = new ItemRequest(clone, clone.getMaxStackSize());
 
         final int[] slots =
-            blockMenu.getPreset().getSlotsAccessedByItemTransport(blockMenu, ItemTransportFlow.INSERT, clone);
+                blockMenu.getPreset().getSlotsAccessedByItemTransport(blockMenu, ItemTransportFlow.INSERT, clone);
         switch (transportMode) {
             case NONE -> {
                 int freeSpace = 0;
@@ -326,7 +340,7 @@ public class LineOperationUtil {
                     final ItemStack retrieved = root.getItemStack0(accessor, itemRequest);
                     if (retrieved != null && retrieved.getType() != Material.AIR) {
                         free -= retrieved.getAmount();
-                        blockMenu.pushItem(retrieved, slot);
+                        blockMenu.pushItem(retrieved, slot); // todo: use util
                         if (free <= 0) {
                             break;
                         }
@@ -359,7 +373,7 @@ public class LineOperationUtil {
                     final ItemStack retrieved = root.getItemStack0(accessor, itemRequest);
                     if (retrieved != null && retrieved.getType() != Material.AIR) {
                         free -= retrieved.getAmount();
-                        blockMenu.pushItem(retrieved, slot);
+                        blockMenu.pushItem(retrieved, slot); // todo: use util
                         if (free <= 0) {
                             break;
                         }
@@ -394,7 +408,7 @@ public class LineOperationUtil {
                 final ItemStack retrieved = root.getItemStack0(accessor, itemRequest);
                 if (retrieved != null && retrieved.getType() != Material.AIR) {
                     retrieved.getAmount();
-                    blockMenu.pushItem(retrieved, slot);
+                    blockMenu.pushItem(retrieved, slot); // todo: use util
                 }
             }
             case LAST_ONLY -> {
@@ -425,7 +439,7 @@ public class LineOperationUtil {
                 final ItemStack retrieved = root.getItemStack0(accessor, itemRequest);
                 if (retrieved != null && retrieved.getType() != Material.AIR) {
                     retrieved.getAmount();
-                    blockMenu.pushItem(retrieved, slot);
+                    blockMenu.pushItem(retrieved, slot); // todo: use util
                 }
             }
             case FIRST_STOP -> {

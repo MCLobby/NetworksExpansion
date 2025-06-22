@@ -1,6 +1,7 @@
 package io.github.sefiraat.networks.slimefun.network;
 
 import com.balugaq.netex.api.enums.FeedbackType;
+import com.balugaq.netex.api.interfaces.SoftCellBannable;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NodeDefinition;
@@ -19,9 +20,13 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class NetworkGrabber extends NetworkDirectional {
+public class NetworkGrabber extends NetworkDirectional implements SoftCellBannable {
 
-    public NetworkGrabber(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public NetworkGrabber(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.GRABBER);
     }
 
@@ -41,9 +46,13 @@ public class NetworkGrabber extends NetworkDirectional {
             return;
         }
 
+        if (checkSoftCellBan(blockMenu.getLocation(), definition.getNode().getRoot())) {
+            return;
+        }
+
         final BlockFace direction = this.getCurrentDirection(blockMenu);
         final BlockMenu targetMenu = StorageCacheUtils.getMenu(
-            blockMenu.getBlock().getRelative(direction).getLocation());
+                blockMenu.getBlock().getRelative(direction).getLocation());
 
         if (targetMenu == null) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NO_TARGET_BLOCK);
@@ -51,7 +60,7 @@ public class NetworkGrabber extends NetworkDirectional {
         }
 
         int[] slots =
-            targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
+                targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
 
         for (int slot : slots) {
             final ItemStack itemStack = targetMenu.getItemInSlot(slot);

@@ -76,7 +76,7 @@ public class Keys {
     public static final NamespacedKey EXPANSION_WORKBENCH = newKey("expansion_workbench");
     public static final NamespacedKey EXPANSION_WORKBENCH_6x6 = newKey("expansion_workbench_6x6");
 
-    public static final NamespacedKey INFINITY_DISPLAY;
+    public static final @NotNull NamespacedKey INFINITY_DISPLAY;
 
     static {
         if (SupportedPluginManager.getInstance().isInfinityExpansion()) {
@@ -86,18 +86,15 @@ public class Keys {
         }
     }
 
-    @NotNull
-    public static NamespacedKey newKey(@NotNull String key) {
+    @NotNull public static NamespacedKey newKey(@NotNull String key) {
         return new NamespacedKey(Networks.getInstance(), key);
     }
 
-    @NotNull
-    public static NamespacedKey customNewKey(@NotNull String namespace, @NotNull String key) {
+    @NotNull public static NamespacedKey customNewKey(@NotNull String namespace, @NotNull String key) {
         return new NamespacedKey(namespace, key);
     }
 
-    @NotNull
-    public static NamespacedKey customNewKey(@NotNull Plugin plugin, @NotNull String key) {
+    @NotNull public static NamespacedKey customNewKey(@NotNull Plugin plugin, @NotNull String key) {
         return new NamespacedKey(plugin, key);
     }
 }

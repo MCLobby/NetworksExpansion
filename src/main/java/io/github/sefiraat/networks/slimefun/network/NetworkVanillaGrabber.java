@@ -2,6 +2,7 @@ package io.github.sefiraat.networks.slimefun.network;
 
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.enums.MinecraftVersion;
+import com.balugaq.netex.api.interfaces.SoftCellBannable;
 import com.balugaq.netex.utils.Lang;
 import com.bgsoftware.wildchests.api.WildChestsAPI;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -14,9 +15,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
-
 import java.util.UUID;
-
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -37,9 +36,9 @@ import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class NetworkVanillaGrabber extends NetworkDirectional {
+public class NetworkVanillaGrabber extends NetworkDirectional implements SoftCellBannable {
 
-    private static final int[] BACKGROUND_SLOTS = new int[]{
+    private static final int[] BACKGROUND_SLOTS = new int[] {
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 16, 17, 18, 20, 22, 23, 24, 26, 27, 28, 30, 31, 33, 34, 35, 36,
         37, 38, 39, 40, 41, 42, 43, 44
     };
@@ -52,10 +51,10 @@ public class NetworkVanillaGrabber extends NetworkDirectional {
     private static final int DOWN_SLOT = 32;
 
     public NetworkVanillaGrabber(
-        @NotNull ItemGroup itemGroup,
-        @NotNull SlimefunItemStack item,
-        @NotNull RecipeType recipeType,
-        ItemStack[] recipe) {
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.PUSHER);
         this.getSlotsToDrop().add(OUTPUT_SLOT);
     }
@@ -85,6 +84,10 @@ public class NetworkVanillaGrabber extends NetworkDirectional {
             return;
         }
 
+        if (checkSoftCellBan(blockMenu.getLocation(), definition.getNode().getRoot())) {
+            return;
+        }
+
         final BlockFace direction = getCurrentDirection(blockMenu);
         final Block block = blockMenu.getBlock();
         final Block targetBlock = block.getRelative(direction);
@@ -100,7 +103,7 @@ public class NetworkVanillaGrabber extends NetworkDirectional {
         // dirty fix
         try {
             if (!Slimefun.getProtectionManager()
-                .hasPermission(offlinePlayer, targetBlock, Interaction.INTERACT_BLOCK)) {
+                    .hasPermission(offlinePlayer, targetBlock, Interaction.INTERACT_BLOCK)) {
                 sendFeedback(block.getLocation(), FeedbackType.NO_PERMISSION);
                 return;
             }
@@ -123,12 +126,12 @@ public class NetworkVanillaGrabber extends NetworkDirectional {
         sendDebugMessage(block.getLocation(), String.format(Lang.getString("messages.debug.ischest"), isChest));
 
         if (wildChests && isChest) {
-            sendDebugMessage(block.getLocation(), Lang.getString("messages.debug.wildchests_test_failed"));
+            sendDebugMessage(block.getLocation(), Lang.getString("messages.debug.wildchests-test-failed"));
             sendFeedback(block.getLocation(), FeedbackType.PROTECTED_BLOCK);
             return;
         }
 
-        sendDebugMessage(block.getLocation(), Lang.getString("messages.debug.wildchests_test_success"));
+        sendDebugMessage(block.getLocation(), Lang.getString("messages.debug.wildchests-test-success"));
         final Inventory inventory = holder.getInventory();
 
         if (inventory instanceof FurnaceInventory furnaceInventory) {
@@ -220,7 +223,7 @@ public class NetworkVanillaGrabber extends NetworkDirectional {
 
     @Override
     public int[] getOutputSlots() {
-        return new int[]{OUTPUT_SLOT};
+        return new int[] {OUTPUT_SLOT};
     }
 
     @Override

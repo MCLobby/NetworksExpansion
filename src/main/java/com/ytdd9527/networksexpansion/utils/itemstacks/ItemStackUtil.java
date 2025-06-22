@@ -3,13 +3,13 @@ package com.ytdd9527.networksexpansion.utils.itemstacks;
 import com.balugaq.netex.api.data.ItemAmountWrapper;
 import com.balugaq.netex.api.data.ItemWrapper;
 import com.balugaq.netex.utils.Debug;
+import com.balugaq.netex.utils.InventoryUtil;
 import com.balugaq.netex.utils.NetworksVersionedEnchantment;
 import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.nms.ItemNameAdapter;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
@@ -215,8 +214,8 @@ public final class ItemStackUtil {
                 return false;
             }
             if (!Objects.equals(
-                persistentDataContainer1.get(namespacedKey, PersistentDataType.STRING),
-                persistentDataContainer2.get(namespacedKey, PersistentDataType.STRING))) {
+                    persistentDataContainer1.get(namespacedKey, PersistentDataType.STRING),
+                    persistentDataContainer2.get(namespacedKey, PersistentDataType.STRING))) {
                 return false;
             }
         }
@@ -234,7 +233,7 @@ public final class ItemStackUtil {
         }
         for (Map.Entry<Enchantment, Integer> entry : enchantments1.entrySet()) {
             if (!enchantments2.containsKey(entry.getKey())
-                || !Objects.equals(enchantments2.get(entry.getKey()), entry.getValue())) {
+                    || !Objects.equals(enchantments2.get(entry.getKey()), entry.getValue())) {
                 return false;
             }
         }
@@ -244,8 +243,7 @@ public final class ItemStackUtil {
     /**
      * @return Same #{@link ItemStack} but nonnull.
      */
-    @NotNull
-    public static ItemStack[] getNoNullItemArray(@NotNull List<ItemStack> itemList) {
+    @NotNull public static ItemStack @NotNull [] getNoNullItemArray(@NotNull List<ItemStack> itemList) {
         List<ItemStack> noNullItemList = new ArrayList<>(itemList.size());
         for (ItemStack item : itemList) {
             if (!ItemStackUtil.isItemNull(item)) {
@@ -258,8 +256,7 @@ public final class ItemStackUtil {
     /**
      * @return Same #{@link ItemStack} but in array.
      */
-    @NotNull
-    public static ItemStack @NotNull [] getItemArray(@NotNull List<ItemStack> itemList) {
+    @NotNull public static ItemStack @NotNull [] getItemArray(@NotNull List<ItemStack> itemList) {
         ItemStack[] items = new ItemStack[itemList.size()];
         for (int i = 0; i < items.length; i++) {
             items[i] = itemList.get(i);
@@ -270,8 +267,7 @@ public final class ItemStackUtil {
     /**
      * @return Same #{@link ItemStack} but nonnull.
      */
-    @NotNull
-    public static List<ItemStack> getNoNullItemList(@NotNull ItemStack @NotNull [] items) {
+    @NotNull public static List<ItemStack> getNoNullItemList(@NotNull ItemStack @NotNull [] items) {
         List<ItemStack> itemList = new ArrayList<>(items.length);
         for (ItemStack item : items) {
             if (!ItemStackUtil.isItemNull(item)) {
@@ -284,8 +280,7 @@ public final class ItemStackUtil {
     /**
      * Merge item to a new List.
      */
-    @NotNull
-    public static List<ItemStack> calMergeItems(@NotNull List<ItemStack> itemList) {
+    @NotNull public static List<ItemStack> calMergeItems(@NotNull List<ItemStack> itemList) {
         List<ItemWrapper> itemWrapperList = new ArrayList<>(itemList.size());
         ItemWrapper itemWrapper = new ItemWrapper();
         int amount;
@@ -321,8 +316,7 @@ public final class ItemStackUtil {
     /**
      * Merge item to a new Array.
      */
-    @NotNull
-    public static ItemStack[] calMergeItems(@NotNull ItemStack @NotNull [] items) {
+    @NotNull public static ItemStack @NotNull [] calMergeItems(@NotNull ItemStack @NotNull [] items) {
         List<ItemWrapper> itemWrapperList = new ArrayList<>(items.length);
         ItemWrapper itemWrapper = new ItemWrapper();
         int amount;
@@ -360,8 +354,7 @@ public final class ItemStackUtil {
      * @param amount The amount that the #{@link ItemStack} will be enlarged.
      * @return A new array that multiply the amount to the items.
      */
-    @NotNull
-    public static ItemStack @NotNull [] calEnlargeItemArray(@NotNull ItemStack @NotNull [] items, int amount) {
+    @NotNull public static ItemStack @NotNull [] calEnlargeItemArray(@NotNull ItemStack @NotNull [] items, int amount) {
         int slot = 0;
         for (ItemStack item : items) {
             slot = slot + 1 + item.getAmount() * amount / item.getMaxStackSize();
@@ -391,20 +384,19 @@ public final class ItemStackUtil {
      * @param amount                The amount that the #{@link ItemStack} will be enlarged.
      * @return A new array that multiply the amount to the items.
      */
-    @NotNull
-    public static ItemStack @NotNull [] calEnlargeItemArray(
-        @NotNull List<ItemAmountWrapper> itemAmountWrapperList, int amount) {
+    @NotNull public static ItemStack @NotNull [] calEnlargeItemArray(
+            @NotNull List<ItemAmountWrapper> itemAmountWrapperList, int amount) {
         int slot = 0;
         for (ItemAmountWrapper itemAmountWrapper : itemAmountWrapperList) {
             slot = slot
-                + 1
-                + itemAmountWrapper.getAmount()
-                * amount
-                / itemAmountWrapper.getItemStack().getMaxStackSize();
+                    + 1
+                    + itemAmountWrapper.getAmount()
+                            * amount
+                            / itemAmountWrapper.getItemStack().getMaxStackSize();
             if (itemAmountWrapper.getAmount()
-                * amount
-                % itemAmountWrapper.getItemStack().getMaxStackSize()
-                == 0) {
+                            * amount
+                            % itemAmountWrapper.getItemStack().getMaxStackSize()
+                    == 0) {
                 slot--;
             }
         }
@@ -430,20 +422,19 @@ public final class ItemStackUtil {
      * @param amount                The amount that the #{@link ItemStack} will be enlarged.
      * @return A new array that multiply the amount to the items.
      */
-    @NotNull
-    public static ItemStack @NotNull [] calEnlargeItemArray(
-        @NotNull ItemAmountWrapper @NotNull [] itemAmountWrapperList, int amount) {
+    @NotNull public static ItemStack @NotNull [] calEnlargeItemArray(
+            @NotNull ItemAmountWrapper @NotNull [] itemAmountWrapperList, int amount) {
         int slot = 0;
         for (ItemAmountWrapper itemAmountWrapper : itemAmountWrapperList) {
             slot = slot
-                + 1
-                + itemAmountWrapper.getAmount()
-                * amount
-                / itemAmountWrapper.getItemStack().getMaxStackSize();
+                    + 1
+                    + itemAmountWrapper.getAmount()
+                            * amount
+                            / itemAmountWrapper.getItemStack().getMaxStackSize();
             if (itemAmountWrapper.getAmount()
-                * amount
-                % itemAmountWrapper.getItemStack().getMaxStackSize()
-                == 0) {
+                            * amount
+                            % itemAmountWrapper.getItemStack().getMaxStackSize()
+                    == 0) {
                 slot--;
             }
         }
@@ -468,8 +459,7 @@ public final class ItemStackUtil {
      * Transfer #{@link ItemStack} to A List of #{@link ItemAmountWrapper}.
      * All returned #{@link ItemAmountWrapper} will contain different #{@link ItemStack} with its amount in items.
      */
-    @NotNull
-    public static List<ItemAmountWrapper> calItemListWithAmount(@NotNull ItemStack @NotNull [] items) {
+    @NotNull public static List<ItemAmountWrapper> calItemListWithAmount(@NotNull ItemStack @NotNull [] items) {
         List<ItemAmountWrapper> itemWithWrapperList = new ArrayList<>(items.length);
         ItemAmountWrapper itemAmountWrapper = new ItemAmountWrapper();
         for (ItemStack item : items) {
@@ -496,8 +486,7 @@ public final class ItemStackUtil {
      * Transfer #{@link ItemStack} to A List of #{@link ItemAmountWrapper}.
      * All returned #{@link ItemAmountWrapper} will contain different #{@link ItemStack} with its amount in items.
      */
-    @NotNull
-    public static List<ItemAmountWrapper> calItemListWithAmount(@NotNull List<ItemStack> itemList) {
+    @NotNull public static List<ItemAmountWrapper> calItemListWithAmount(@NotNull List<ItemStack> itemList) {
         List<ItemAmountWrapper> itemWithWrapperList = new ArrayList<>(itemList.size());
         ItemAmountWrapper itemAmountWrapper = new ItemAmountWrapper();
         for (ItemStack item : itemList) {
@@ -524,8 +513,7 @@ public final class ItemStackUtil {
      * Transfer #{@link ItemStack} to A List of #{@link ItemAmountWrapper}.
      * All returned #{@link ItemAmountWrapper} will contain different #{@link ItemStack} with its amount in items.
      */
-    @NotNull
-    public static ItemAmountWrapper @NotNull [] calItemArrayWithAmount(@NotNull ItemStack @NotNull [] items) {
+    @NotNull public static ItemAmountWrapper @NotNull [] calItemArrayWithAmount(@NotNull ItemStack @NotNull [] items) {
         return ItemStackUtil.calItemListWithAmount(items).toArray(new ItemAmountWrapper[0]);
     }
 
@@ -533,8 +521,7 @@ public final class ItemStackUtil {
      * Transfer #{@link ItemStack} to A List of #{@link ItemAmountWrapper}.
      * All returned #{@link ItemAmountWrapper} will contain different #{@link ItemStack} with its amount in items.
      */
-    @NotNull
-    public static ItemAmountWrapper @NotNull [] calItemArrayWithAmount(@NotNull List<ItemStack> itemList) {
+    @NotNull public static ItemAmountWrapper @NotNull [] calItemArrayWithAmount(@NotNull List<ItemStack> itemList) {
         return ItemStackUtil.calItemListWithAmount(itemList).toArray(new ItemAmountWrapper[0]);
     }
 
@@ -547,8 +534,8 @@ public final class ItemStackUtil {
      */
     public static int stack(@Nullable ItemStack input, @Nullable ItemStack output) {
         if (!ItemStackUtil.isItemNull(output)
-            && output.getAmount() < output.getMaxStackSize()
-            && StackUtils.itemsMatch(input, output)) {
+                && output.getAmount() < output.getMaxStackSize()
+                && StackUtils.itemsMatch(input, output)) {
             if (input == null) {
                 return output.getAmount();
             }
@@ -562,8 +549,8 @@ public final class ItemStackUtil {
 
     public static int stack(@NotNull ItemWrapper input, @Nullable ItemStack output) {
         if (!ItemStackUtil.isItemNull(output)
-            && output.getAmount() < output.getMaxStackSize()
-            && StackUtils.itemsMatch(input.getItemStack(), output)) {
+                && output.getAmount() < output.getMaxStackSize()
+                && StackUtils.itemsMatch(input.getItemStack(), output)) {
             int amount = Math.min(input.getItemStack().getAmount(), output.getMaxStackSize() - output.getAmount());
             input.getItemStack().setAmount(input.getItemStack().getAmount() - amount);
             output.setAmount(output.getAmount() + amount);
@@ -574,12 +561,12 @@ public final class ItemStackUtil {
 
     public static int stack(@Nullable ItemStack input, @NotNull ItemWrapper output) {
         if (!ItemStackUtil.isItemNull(input)
-            && output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize()
-            && StackUtils.itemsMatch(input, output.getItemStack())) {
+                && output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize()
+                && StackUtils.itemsMatch(input, output.getItemStack())) {
             int amount = Math.min(
-                input.getAmount(),
-                output.getItemStack().getMaxStackSize()
-                    - output.getItemStack().getAmount());
+                    input.getAmount(),
+                    output.getItemStack().getMaxStackSize()
+                            - output.getItemStack().getAmount());
             input.setAmount(input.getAmount() - amount);
             output.getItemStack().setAmount(output.getItemStack().getAmount() + amount);
             return amount;
@@ -589,11 +576,11 @@ public final class ItemStackUtil {
 
     public static int stack(@NotNull ItemWrapper input, @NotNull ItemWrapper output) {
         if (output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize()
-            && StackUtils.itemsMatch(input.getItemStack(), output.getItemStack())) {
+                && StackUtils.itemsMatch(input.getItemStack(), output.getItemStack())) {
             int amount = Math.min(
-                input.getItemStack().getAmount(),
-                output.getItemStack().getMaxStackSize()
-                    - output.getItemStack().getAmount());
+                    input.getItemStack().getAmount(),
+                    output.getItemStack().getMaxStackSize()
+                            - output.getItemStack().getAmount());
             input.getItemStack().setAmount(input.getItemStack().getAmount() - amount);
             output.getItemStack().setAmount(output.getItemStack().getAmount() + amount);
             return amount;
@@ -611,13 +598,13 @@ public final class ItemStackUtil {
      */
     public static int stack(@Nullable ItemStack input, @Nullable ItemStack output, int maxAmount) {
         if (!ItemStackUtil.isItemNull(output)
-            && output.getMaxStackSize() > output.getAmount()
-            && StackUtils.itemsMatch(input, output)) {
+                && output.getMaxStackSize() > output.getAmount()
+                && StackUtils.itemsMatch(input, output)) {
             if (input == null) {
                 return output.getAmount();
             }
             int amount =
-                Math.min(maxAmount, Math.min(input.getAmount(), output.getMaxStackSize() - output.getAmount()));
+                    Math.min(maxAmount, Math.min(input.getAmount(), output.getMaxStackSize() - output.getAmount()));
             input.setAmount(input.getAmount() - amount);
             output.setAmount(output.getAmount() + amount);
             return amount;
@@ -627,11 +614,11 @@ public final class ItemStackUtil {
 
     public static int stack(@NotNull ItemWrapper input, @Nullable ItemStack output, int maxAmount) {
         if (!ItemStackUtil.isItemNull(output)
-            && output.getAmount() < output.getMaxStackSize()
-            && StackUtils.itemsMatch(input.getItemStack(), output)) {
+                && output.getAmount() < output.getMaxStackSize()
+                && StackUtils.itemsMatch(input.getItemStack(), output)) {
             int amount = Math.min(
-                maxAmount,
-                Math.min(input.getItemStack().getAmount(), output.getMaxStackSize() - output.getAmount()));
+                    maxAmount,
+                    Math.min(input.getItemStack().getAmount(), output.getMaxStackSize() - output.getAmount()));
             input.getItemStack().setAmount(input.getItemStack().getAmount() - amount);
             output.setAmount(output.getAmount() + amount);
             return amount;
@@ -641,14 +628,14 @@ public final class ItemStackUtil {
 
     public static int stack(@Nullable ItemStack input, @NotNull ItemWrapper output, int maxAmount) {
         if (!ItemStackUtil.isItemNull(input)
-            && output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize()
-            && StackUtils.itemsMatch(input, output.getItemStack())) {
+                && output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize()
+                && StackUtils.itemsMatch(input, output.getItemStack())) {
             int amount = Math.min(
-                maxAmount,
-                Math.min(
-                    input.getAmount(),
-                    output.getItemStack().getMaxStackSize()
-                        - output.getItemStack().getAmount()));
+                    maxAmount,
+                    Math.min(
+                            input.getAmount(),
+                            output.getItemStack().getMaxStackSize()
+                                    - output.getItemStack().getAmount()));
             input.setAmount(input.getAmount() - amount);
             output.getItemStack().setAmount(output.getItemStack().getAmount() + amount);
             return amount;
@@ -658,13 +645,13 @@ public final class ItemStackUtil {
 
     public static int stack(@NotNull ItemWrapper input, @NotNull ItemWrapper output, int maxAmount) {
         if (output.getItemStack().getAmount() < output.getItemStack().getMaxStackSize()
-            && StackUtils.itemsMatch(input.getItemStack(), output.getItemStack())) {
+                && StackUtils.itemsMatch(input.getItemStack(), output.getItemStack())) {
             int amount = Math.min(
-                maxAmount,
-                Math.min(
-                    input.getItemStack().getAmount(),
-                    output.getItemStack().getMaxStackSize()
-                        - output.getItemStack().getAmount()));
+                    maxAmount,
+                    Math.min(
+                            input.getItemStack().getAmount(),
+                            output.getItemStack().getMaxStackSize()
+                                    - output.getItemStack().getAmount()));
             input.getItemStack().setAmount(input.getItemStack().getAmount() - amount);
             output.getItemStack().setAmount(output.getItemStack().getAmount() + amount);
             return amount;
@@ -675,8 +662,7 @@ public final class ItemStackUtil {
     /**
      * @return Name of the given #{@link ItemStack}.
      */
-    @NotNull
-    public static String getItemName(@Nullable ItemStack item) {
+    @NotNull public static String getItemName(@Nullable ItemStack item) {
         if (ItemStackUtil.isItemNull(item)) {
             return "null";
         }
@@ -826,8 +812,7 @@ public final class ItemStackUtil {
         itemMeta.setLore(lore);
     }
 
-    @Nullable
-    public static String getLastLore(@NotNull ItemStack item) {
+    @Nullable public static String getLastLore(@NotNull ItemStack item) {
         if (ItemStackUtil.isItemNull(item)) {
             return null;
         }
@@ -839,8 +824,7 @@ public final class ItemStackUtil {
         return lore.get(lore.size() - 1);
     }
 
-    @Nullable
-    public static String getLastLore(@NotNull ItemMeta itemMeta) {
+    @Nullable public static String getLastLore(@NotNull ItemMeta itemMeta) {
         List<String> lore = itemMeta.getLore();
         if (lore == null || lore.isEmpty()) {
             return null;
@@ -963,8 +947,7 @@ public final class ItemStackUtil {
         itemStack.setItemMeta(itemMeta);
     }
 
-    @Nullable
-    public static ItemStack cloneWithoutNBT(@Nullable ItemStack itemStack) {
+    @Nullable public static ItemStack cloneWithoutNBT(@Nullable ItemStack itemStack) {
         if (itemStack == null) {
             return null;
         }
@@ -990,8 +973,7 @@ public final class ItemStackUtil {
     /**
      * Transfer #{@link ItemStack} to #{@link String}
      */
-    @NotNull
-    public static String itemStackToString(@NotNull ItemStack itemStack) {
+    @NotNull public static String itemStackToString(@NotNull ItemStack itemStack) {
         YamlConfiguration yamlConfiguration = new YamlConfiguration();
         yamlConfiguration.set("item", itemStack);
         return yamlConfiguration.saveToString();
@@ -1000,8 +982,7 @@ public final class ItemStackUtil {
     /**
      * Transfer #{@link String} to #{@link ItemStack}
      */
-    @Nullable
-    public static ItemStack stringToItemStack(@NotNull String local) {
+    @Nullable public static ItemStack stringToItemStack(@NotNull String local) {
         YamlConfiguration yamlConfiguration = new YamlConfiguration();
         try {
             yamlConfiguration.loadFromString(local);
@@ -1026,7 +1007,7 @@ public final class ItemStackUtil {
             ItemStack incoming = toGive.clone();
             incoming.setAmount(Math.min(toGive.getMaxStackSize(), toGive.getAmount()));
             toGive.setAmount(toGive.getAmount() - incoming.getAmount());
-            Collection<ItemStack> leftover = p.getInventory().addItem(incoming).values();
+            Collection<ItemStack> leftover = InventoryUtil.addItem(p, incoming).values();
             for (ItemStack itemStack : leftover) {
                 p.getWorld().dropItemNaturally(p.getLocation(), itemStack);
             }
@@ -1035,7 +1016,7 @@ public final class ItemStackUtil {
 
     public static void send(@NotNull CommandSender p, String message) {
         p.sendMessage(color(TextUtil.GRAY + "[" + TextUtil.GOLD + "NetworksExpansion" + TextUtil.GRAY + "] "
-            + TextUtil.RESET + message));
+                + TextUtil.RESET + message));
     }
 
     public static @NotNull ItemStack getPreEnchantedItemStack(@NotNull Material material) {
@@ -1046,10 +1027,9 @@ public final class ItemStackUtil {
         return getPreEnchantedItemStack(material, hide, new Pair<>(NetworksVersionedEnchantment.GLOW, 1));
     }
 
-    @NotNull
-    @SafeVarargs
+    @NotNull @SafeVarargs
     public static ItemStack getPreEnchantedItemStack(
-        @NotNull Material material, boolean hide, @NotNull Pair<Enchantment, Integer> @NotNull ... enchantments) {
+            @NotNull Material material, boolean hide, @NotNull Pair<Enchantment, Integer> @NotNull ... enchantments) {
         ItemStack itemStack = new ItemStack(material);
         ItemMeta itemMeta = itemStack.getItemMeta();
         for (Pair<Enchantment, Integer> pair : enchantments) {

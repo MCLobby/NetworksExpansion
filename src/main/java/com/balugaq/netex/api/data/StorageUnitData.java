@@ -6,7 +6,6 @@ import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.utils.StackUtils;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -14,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-
 import lombok.Getter;
 import lombok.ToString;
 import org.bukkit.Bukkit;
@@ -26,12 +24,13 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings("UnusedAssignment")
 @ToString
 public class StorageUnitData {
     public static final Map<Location, Map<Integer, Integer /* Access times */>> observingAccessHistory =
-        new ConcurrentHashMap<>();
+            new ConcurrentHashMap<>();
     public static final Map<Location, Map<Integer, Integer /* Cache miss times */>> persistentAccessHistory =
-        new ConcurrentHashMap<>();
+            new ConcurrentHashMap<>();
 
     @Getter
     private final int id;
@@ -49,33 +48,33 @@ public class StorageUnitData {
     private Location lastLocation;
 
     public StorageUnitData(
-        int id, @NotNull String ownerUUID, StorageUnitType sizeType, boolean isPlaced, Location lastLocation) {
+            int id, @NotNull String ownerUUID, StorageUnitType sizeType, boolean isPlaced, Location lastLocation) {
         this(
-            id,
-            Bukkit.getOfflinePlayer(UUID.fromString(ownerUUID)),
-            sizeType,
-            isPlaced,
-            lastLocation,
-            new HashMap<>());
+                id,
+                Bukkit.getOfflinePlayer(UUID.fromString(ownerUUID)),
+                sizeType,
+                isPlaced,
+                lastLocation,
+                new HashMap<>());
     }
 
     public StorageUnitData(
-        int id,
-        @NotNull String ownerUUID,
-        StorageUnitType sizeType,
-        boolean isPlaced,
-        Location lastLocation,
-        Map<Integer, ItemContainer> storedItems) {
+            int id,
+            @NotNull String ownerUUID,
+            StorageUnitType sizeType,
+            boolean isPlaced,
+            Location lastLocation,
+            Map<Integer, ItemContainer> storedItems) {
         this(id, Bukkit.getOfflinePlayer(UUID.fromString(ownerUUID)), sizeType, isPlaced, lastLocation, storedItems);
     }
 
     public StorageUnitData(
-        int id,
-        OfflinePlayer owner,
-        StorageUnitType sizeType,
-        boolean isPlaced,
-        Location lastLocation,
-        Map<Integer, ItemContainer> storedItems) {
+            int id,
+            OfflinePlayer owner,
+            StorageUnitType sizeType,
+            boolean isPlaced,
+            Location lastLocation,
+            Map<Integer, ItemContainer> storedItems) {
         this.id = id;
         this.owner = owner;
         this.sizeType = sizeType;
@@ -249,14 +248,14 @@ public class StorageUnitData {
         }
     }
 
-    public synchronized void setSizeType(StorageUnitType sizeType) {
+    public synchronized void setSizeType(@NotNull StorageUnitType sizeType) {
         if (this.sizeType != sizeType) {
             this.sizeType = sizeType;
             DataStorage.setContainerSizeType(id, sizeType);
         }
     }
 
-    public synchronized void setLastLocation(Location lastLocation) {
+    public synchronized void setLastLocation(@NotNull Location lastLocation) {
         if (this.lastLocation != lastLocation) {
             this.lastLocation = lastLocation;
             DataStorage.setContainerLocation(id, lastLocation);
@@ -336,8 +335,7 @@ public class StorageUnitData {
     }
 
     @Deprecated
-    @Nullable
-    public ItemStack requestItem(@NotNull ItemRequest itemRequest) {
+    @Nullable public ItemStack requestItem(@NotNull ItemRequest itemRequest) {
         ItemStack item = itemRequest.getItemStack();
         if (item == null) {
             return null;
@@ -418,13 +416,11 @@ public class StorageUnitData {
         depositItemStack(item, contentLocked, false);
     }
 
-    @Nullable
-    public ItemStack requestItem0(@NotNull Location accessor, @NotNull ItemRequest itemRequest) {
+    @Nullable public ItemStack requestItem0(@NotNull Location accessor, @NotNull ItemRequest itemRequest) {
         return requestItem0(accessor, itemRequest, true);
     }
 
-    @Nullable
-    public ItemStack requestItem0(@NotNull Location accessor, @NotNull ItemRequest itemRequest, boolean contentLocked) {
+    @Nullable public ItemStack requestItem0(@NotNull Location accessor, @NotNull ItemRequest itemRequest, boolean contentLocked) {
         ItemStack item = itemRequest.getItemStack();
         if (item == null) {
             return null;
@@ -436,6 +432,10 @@ public class StorageUnitData {
 
         Map<Integer, Integer> m = getPersistentAccessHistory(accessor);
         if (m != null) {
+            // Netex - Cache start
+            boolean found = false;
+            List<Integer> misses = new ArrayList<>();
+            // Netex - Cache end
             for (Integer i : m.keySet()) {
                 // Netex - Cache start
                 if (i >= stored.size()) {
@@ -460,6 +460,7 @@ public class StorageUnitData {
                     DataStorage.setStoredAmount(id, itemContainer.getId(), itemContainer.getAmount());
                     // Netex - Cache start
                     minusCacheMiss(accessor, i);
+                    found = true;
                     // Netex - Cache end
 
                     ItemStack clone = item.clone();
@@ -467,10 +468,18 @@ public class StorageUnitData {
                     return clone;
                 } else {
                     // Netex - Cache start
-                    addCacheMiss(accessor, i);
+                    misses.add(i);
                     // Netex - Cache end
                 }
             }
+
+            // Netex - Cache start
+            if (!found) {
+                for (int miss : misses) {
+                    minusCacheMiss(accessor, miss);
+                }
+            }
+            // Netex - Cache end
         }
 
         for (int i = 0; i < stored.size(); i++) {
@@ -501,7 +510,7 @@ public class StorageUnitData {
     }
 
     public void depositItemStacks0(
-        @NotNull Location accessor, @NotNull Map<ItemStack, Long> itemsToDeposit, boolean contentLocked) {
+            @NotNull Location accessor, @NotNull Map<ItemStack, Long> itemsToDeposit, boolean contentLocked) {
         for (Map.Entry<ItemStack, Long> entry : itemsToDeposit.entrySet()) {
             if (entry.getValue() > Integer.MAX_VALUE) {
                 // rollback to MAX_VALUE
@@ -520,7 +529,7 @@ public class StorageUnitData {
     }
 
     public void depositItemStack0(
-        @NotNull Location accessor, @NotNull Map.Entry<ItemStack, Integer> entry, boolean contentLocked) {
+            @NotNull Location accessor, @NotNull Map.Entry<ItemStack, Integer> entry, boolean contentLocked) {
         ItemStack item = StackUtils.getAsQuantity(entry.getKey(), entry.getValue());
         depositItemStack0(accessor, item, contentLocked);
         int leftover = item.getAmount();
@@ -528,21 +537,21 @@ public class StorageUnitData {
     }
 
     public void depositItemStack0(
-        @NotNull Location accessor, @NotNull Map<ItemStack, Integer> itemsToDeposit, boolean contentLocked) {
+            @NotNull Location accessor, @NotNull Map<ItemStack, Integer> itemsToDeposit, boolean contentLocked) {
         for (Map.Entry<ItemStack, Integer> entry : itemsToDeposit.entrySet()) {
             depositItemStack0(accessor, entry, contentLocked);
         }
     }
 
     public void depositItemStack0(
-        @NotNull Location accessor, @NotNull ItemStack @NotNull [] itemsToDeposit, boolean contentLocked) {
+            @NotNull Location accessor, @NotNull ItemStack @NotNull [] itemsToDeposit, boolean contentLocked) {
         for (ItemStack item : itemsToDeposit) {
             depositItemStack0(accessor, item, contentLocked);
         }
     }
 
     public void depositItemStack0(
-        @NotNull Location accessor, @Nullable ItemStack itemsToDeposit, boolean contentLocked, boolean force) {
+            @NotNull Location accessor, @Nullable ItemStack itemsToDeposit, boolean contentLocked, boolean force) {
         if (itemsToDeposit == null || isBlacklisted(itemsToDeposit)) {
             return;
         }
@@ -565,13 +574,15 @@ public class StorageUnitData {
      * @return the amount actual added
      */
     public int addStoredItem0(
-        Location accessor, @NotNull ItemStack item, int amount, boolean contentLocked, boolean force) {
+            Location accessor, @NotNull ItemStack item, int amount, boolean contentLocked, boolean force) {
         int add = 0;
         boolean isVoidExcess = NetworksDrawer.isVoidExcess(getLastLocation());
         List<ItemContainer> stored = getStoredItems();
 
         Map<Integer, Integer> m = getPersistentAccessHistory(accessor);
         if (m != null) {
+            boolean found = false;
+            List<Integer> misses = new ArrayList<>();
             for (Integer i : m.keySet()) {
                 // Netex - Cache start
                 if (i >= stored.size()) {
@@ -604,12 +615,19 @@ public class StorageUnitData {
 
                     // Netex - Cache start
                     minusCacheMiss(accessor, i);
+                    found = true;
                     // Netex - Cache end
                     return add;
                 } else {
                     // Netex - Cache start
-                    addCacheMiss(accessor, i);
+                    misses.add(i);
                     // Netex - Cache end
+                }
+            }
+
+            if (!found) {
+                for (int i : misses) {
+                    addCacheMiss(accessor, i);
                 }
             }
         }

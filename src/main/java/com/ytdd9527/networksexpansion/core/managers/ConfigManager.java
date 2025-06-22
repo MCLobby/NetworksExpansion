@@ -3,14 +3,12 @@ package com.ytdd9527.networksexpansion.core.managers;
 import com.balugaq.netex.utils.Debug;
 import com.balugaq.netex.utils.Lang;
 import io.github.sefiraat.networks.Networks;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -98,6 +96,22 @@ public class ConfigManager {
 
     public long getRecordGCDeadline() {
         return Networks.getInstance().getConfig().getLong("record-gc.deadline", 120000);
+    }
+
+    public boolean getSoftCellBan() {
+        return Networks.getInstance().getConfig().getBoolean("speed-up.soft-cell-ban", false);
+    }
+
+    public int getSoftCellBanThreshold() {
+        return Networks.getInstance().getConfig().getInt("speed-up.soft-cell-ban-threshold", 0);
+    }
+
+    public int getInt(@NotNull String path) {
+        return getInt(path, 0);
+    }
+
+    public int getInt(@NotNull String path, int defaultValue) {
+        return Networks.getInstance().getConfig().getInt(path, defaultValue);
     }
 
     public void saveAll() {

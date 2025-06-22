@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ytdd9527.networksexpansion</groupId>
     <artifactId>NetworksExpansion</artifactId>
-    <version>Special-Version-23</version>
+    <version>Special-Version-31</version>
 
     <distributionManagement>
         <repository>
@@ -117,6 +117,9 @@
                 <version>2.44.5</version>
                 <configuration>
                     <java>
+                        <excludes>
+                            <exclude>src/main/java/com/balugaq/netex/api/transfer/GUIs.java</exclude>
+                        </excludes>
                         <palantirJavaFormat>
                             <version>2.38.0</version>
                             <style>PALANTIR</style>

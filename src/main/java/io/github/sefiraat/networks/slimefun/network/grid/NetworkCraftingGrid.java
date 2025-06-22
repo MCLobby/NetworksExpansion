@@ -18,10 +18,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -56,7 +54,11 @@ public class NetworkCraftingGrid extends AbstractGrid {
 
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
 
-    public NetworkCraftingGrid(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public NetworkCraftingGrid(
+            @NotNull ItemGroup itemGroup,
+            @NotNull SlimefunItemStack item,
+            @NotNull RecipeType recipeType,
+            ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
         for (int craftItem : CRAFT_ITEMS) {
             this.getSlotsToDrop().add(craftItem);
@@ -69,8 +71,7 @@ public class NetworkCraftingGrid extends AbstractGrid {
         getPreset();
     }
 
-    @NotNull
-    @Override
+    @NotNull @Override
     public BlockMenuPreset getPreset() {
         return new BlockMenuPreset(this.getId(), this.getItemName()) {
 
@@ -84,9 +85,9 @@ public class NetworkCraftingGrid extends AbstractGrid {
             @Override
             public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
-                    || (NetworkSlimefunItems.NETWORK_CRAFTING_GRID.canUse(player, false)
-                    && Slimefun.getProtectionManager()
-                    .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
+                        || (NetworkSlimefunItems.NETWORK_CRAFTING_GRID.canUse(player, false)
+                                && Slimefun.getProtectionManager()
+                                        .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override
@@ -111,9 +112,9 @@ public class NetworkCraftingGrid extends AbstractGrid {
                 menu.addMenuClickHandler(getPageNext(), (p, slot, item, action) -> {
                     GridCache gridCache = getCacheMap().get(menu.getLocation());
                     gridCache.setPage(
-                        gridCache.getPage() >= gridCache.getMaxPages()
-                            ? gridCache.getMaxPages()
-                            : gridCache.getPage() + 1);
+                            gridCache.getPage() >= gridCache.getMaxPages()
+                                    ? gridCache.getMaxPages()
+                                    : gridCache.getPage() + 1);
                     getCacheMap().put(menu.getLocation(), gridCache);
                     updateDisplay(menu);
                     return false;
@@ -167,8 +168,7 @@ public class NetworkCraftingGrid extends AbstractGrid {
         };
     }
 
-    @NotNull
-    @Override
+    @NotNull @Override
     protected Map<Location, GridCache> getCacheMap() {
         return CACHE_MAP;
     }
@@ -228,7 +228,7 @@ public class NetworkCraftingGrid extends AbstractGrid {
 
         // Go through each slimefun recipe, test and set the ItemStack if found
         for (Map.Entry<ItemStack[], ItemStack> entry :
-            SupportedCraftingTableRecipes.getRecipes().entrySet()) {
+                SupportedCraftingTableRecipes.getRecipes().entrySet()) {
             if (SupportedCraftingTableRecipes.testRecipe(inputs, entry.getKey())) {
                 crafted = entry.getValue().clone();
                 break;

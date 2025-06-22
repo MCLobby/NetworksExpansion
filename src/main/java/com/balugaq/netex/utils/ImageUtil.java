@@ -5,16 +5,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import javax.imageio.ImageIO;
-
 import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
+import org.jetbrains.annotations.NotNull;
 
+@UtilityClass
 public class ImageUtil {
     public static final List<String> allowedImageExtensions =
-        List.of("bmp", "gif", "jpeg", "jpg", "png", "tiff", "wbmp");
+            List.of("bmp", "gif", "jpeg", "jpg", "png", "tiff", "wbmp");
     // ex: resourcePath = "/textures/logo.png"
 
     @SneakyThrows(IOException.class)
-    public static BufferedImage getImage(String resourcePath) {
+    public static BufferedImage getImage(@NotNull String resourcePath) {
         if (!allowedImageExtensions.contains(resourcePath.substring(resourcePath.lastIndexOf('.') + 1))) {
             throw new IOException("Invalid image extension: " + resourcePath);
         }
