@@ -55,7 +55,17 @@ public enum FeedbackType implements Keyed {
     SUCCESS,
     WORKING,
     NOT_ALLOWED_ITEM,
-    SOFT_CELL_BANNED;
+    SOFT_CELL_BANNED,
+
+    TICKING,
+    TRANSFER_TICKING,
+    TRANSFER_TRY_PUSH_ITEM_WITH_COUNTER,
+    TRANSFER_TRY_PUSH_ITEM,
+    TRANSFER_TRY_GRAB_ITEM_WITH_COUNTER,
+    TRANSFER_TRY_GRAB_ITEM,
+    ROOT_REQUEST_0,
+    ROOT_LIMITING_ACCESS_OUTPUT,
+    ROOT_LIMITING_ACCESS_INPUT;
 
     private final @NotNull NamespacedKey key;
     private final @NotNull String message;

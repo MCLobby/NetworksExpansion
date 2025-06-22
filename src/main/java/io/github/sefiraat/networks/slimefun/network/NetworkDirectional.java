@@ -1,5 +1,6 @@
 package io.github.sefiraat.networks.slimefun.network;
 
+import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.utils.Lang;
 import com.balugaq.netex.utils.NetworksVersionedEnchantment;
 import com.balugaq.netex.utils.NetworksVersionedParticle;
@@ -169,7 +170,7 @@ public abstract class NetworkDirectional extends NetworkObject {
         return SELECTED_DIRECTION_MAP.get(location);
     }
 
-    private void updateGui(@Nullable BlockMenu blockMenu) {
+    public void updateGui(@Nullable BlockMenu blockMenu) {
         if (blockMenu == null || !blockMenu.hasViewer()) {
             return;
         }
@@ -246,6 +247,7 @@ public abstract class NetworkDirectional extends NetworkObject {
 
     @OverridingMethodsMustInvokeSuper
     protected void onTick(@Nullable BlockMenu blockMenu, @NotNull Block block) {
+        sendFeedback(block.getLocation(), FeedbackType.TICKING);
         addToRegistry(block);
         updateGui(blockMenu);
     }

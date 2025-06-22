@@ -76,6 +76,7 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
     protected void onTick(@Nullable BlockMenu blockMenu, @NotNull Block block) {
         super.onTick(blockMenu, block);
         final Location location = block.getLocation();
+        sendFeedback(location, FeedbackType.TRANSFER_TICKING);
 
         if (blockMenu == null) {
             sendFeedback(block.getLocation(), FeedbackType.INVALID_BLOCK);
@@ -107,6 +108,7 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
 
         if (!(this instanceof GrabTickOnly)) {
             if (config.defaultPushTick > 1) {
+                sendFeedback(location, FeedbackType.TRANSFER_TRY_PUSH_ITEM_WITH_COUNTER);
                 int currentPushTick = getPushTickCounter(location);
                 if (currentPushTick == 0) {
                     tryPushItem(blockMenu, root, direction, currentTransportMode, limitQuantity);
@@ -114,12 +116,14 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
                 currentPushTick = (currentPushTick + 1) % config.defaultPushTick;
                 updatePushTickCounter(location, currentPushTick);
             } else {
+                sendFeedback(location, FeedbackType.TRANSFER_TRY_PUSH_ITEM);
                 tryPushItem(blockMenu, root, direction, currentTransportMode, limitQuantity);
             }
         }
 
         if (!(this instanceof PushTickOnly)) {
             if (config.defaultGrabTick > 1) {
+                sendFeedback(location, FeedbackType.TRANSFER_TRY_GRAB_ITEM_WITH_COUNTER);
                 int currentGrabTick = getGrabTickCounter(location);
                 if (currentGrabTick == 0) {
                     tryGrabItem(blockMenu, root, direction, currentTransportMode, limitQuantity);
@@ -127,6 +131,7 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
                 currentGrabTick = (currentGrabTick + 1) % config.defaultGrabTick;
                 updateGrabTickCounter(location, currentGrabTick);
             } else {
+                sendFeedback(location, FeedbackType.TRANSFER_TRY_GRAB_ITEM);
                 tryGrabItem(blockMenu, root, direction, currentTransportMode, limitQuantity);
             }
         }
@@ -179,7 +184,6 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
             }
         }
 
-        final boolean drawParticle = blockMenu.hasViewer();
         LineOperationUtil.doOperation(
                 blockMenu.getLocation(),
                 direction,
@@ -201,7 +205,6 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
             return;
         }
 
-        final boolean drawParticle = blockMenu.hasViewer();
         LineOperationUtil.doOperation(
                 blockMenu.getLocation(),
                 direction,
