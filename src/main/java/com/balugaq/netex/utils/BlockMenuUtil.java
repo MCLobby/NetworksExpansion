@@ -257,6 +257,7 @@ public class BlockMenuUtil {
                     case POTION, SPLASH_POTION, LINGERING_POTION, HONEY_BOTTLE, DRAGON_BREATH -> item.setType(
                             Material.GLASS_BOTTLE);
                     case MUSHROOM_STEW, BEETROOT_SOUP, RABBIT_STEW, SUSPICIOUS_STEW -> item.setType(Material.BOWL);
+                    default -> item.setAmount(0);
                 }
             } else {
                 if (item.getAmount() <= amount) {

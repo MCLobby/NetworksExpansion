@@ -7,6 +7,7 @@ import com.balugaq.netex.api.data.SimpleRecipeChoice;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.core.listeners.JEGCompatibleListener;
 import com.balugaq.netex.utils.BlockMenuUtil;
+import com.balugaq.netex.utils.Debug;
 import com.balugaq.netex.utils.GuideUtil;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.NetworkStorage;
@@ -20,10 +21,11 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import lombok.SneakyThrows;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -181,7 +183,7 @@ public interface RecipeCompletableWithGuide {
 
             return raw;
         } else {
-            List<Recipe> recipes = Bukkit.getRecipesFor(itemStack);
+            Recipe[] recipes = Slimefun.getMinecraftRecipeService().getRecipesFor(itemStack);
             for (Recipe recipe : recipes) {
                 if (recipe instanceof ShapedRecipe shapedRecipe) {
                     List<RecipeChoice> choices = new ArrayList<>(9);
@@ -242,11 +244,7 @@ public interface RecipeCompletableWithGuide {
 
         // get from root
         ItemStack item = root.getItemStack0(player.getLocation(), new ItemRequest(itemStack, 1));
-        if (item != null) {
-            return item;
-        }
-
-        return null;
+        return item;
     }
 
     @SneakyThrows

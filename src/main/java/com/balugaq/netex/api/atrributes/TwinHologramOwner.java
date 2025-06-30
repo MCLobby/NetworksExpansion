@@ -16,11 +16,19 @@ public interface TwinHologramOwner extends ItemAttribute {
     }
 
     default void updateTopHologram(@NotNull Block block, @Nullable String topText) {
+        if (topText == null) {
+            removeTopHologram(block);
+            return;
+        }
         Location locTop = block.getLocation().add(this.getTopHologramOffset(block));
         Slimefun.getHologramsService().setHologramLabel(locTop, TextUtil.color(topText));
     }
 
     default void updateBottomHologram(@NotNull Block block, @Nullable String bottomText) {
+        if (bottomText == null) {
+            removeBottomHologram(block);
+            return;
+        }
         Location locBot = block.getLocation().add(this.getBottomHologramOffset(block));
         Slimefun.getHologramsService().setHologramLabel(locBot, TextUtil.color(bottomText));
     }

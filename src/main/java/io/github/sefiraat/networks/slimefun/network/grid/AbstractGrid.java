@@ -505,9 +505,7 @@ public abstract class AbstractGrid extends NetworkObject {
             ClickAction action,
             @NotNull BlockMenu blockMenu,
             boolean doubleClick) {
-        if (doubleClick) {
-
-        } else {
+        if (!doubleClick) {
             receiveItem(root, player, itemStack, action, blockMenu);
         }
     }
