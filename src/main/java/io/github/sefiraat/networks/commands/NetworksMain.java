@@ -1442,7 +1442,7 @@ public class NetworksMain implements TabExecutor {
 
                     Location lookingAt = targetBlock.getLocation();
                     String cchName = args[1];
-                    Map map;
+                    Map<Location, ?> map;
                     switch (cchName) {
                         case "l" -> {
                             // list all
@@ -1468,8 +1468,14 @@ public class NetworksMain implements TabExecutor {
 
                     if (value instanceof Map<?,?>) {
                         player.sendMessage("缓存: " + cchName);
-                        Map<Location, Integer> locations = (Map<Location, Integer>) value;
-                        Map<String, Integer> formatted = locations.entrySet().stream().map(e -> Map.entry(ChatColor.translateAlternateColorCodes('&', StorageCacheUtils.getSfItem(e.getKey()).getItemName()), e.getValue())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                        @SuppressWarnings("unchecked") Map<Location, Integer> locations = (Map<Location, Integer>) value;
+                        Map<String, Integer> formatted = locations.entrySet().stream().map(e -> {
+                            SlimefunItem sf = StorageCacheUtils.getSfItem(e.getKey());
+                            if (sf == null) {
+                                return Map.entry(e.getKey().toString(), e.getValue());
+                            }
+                            return Map.entry(ChatColor.translateAlternateColorCodes('&', sf.getItemName()), e.getValue());
+                        }).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
                         for (Map.Entry<String, Integer> entry : formatted.entrySet()) {
                             player.sendMessage(entry.getKey() + ": " + entry.getValue());
                         }
