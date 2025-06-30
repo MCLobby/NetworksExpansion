@@ -170,9 +170,7 @@ public interface RecipeCompletableWithGuide {
     int[] getIngredientSlots();
 
     @Nullable default List<RecipeChoice> getRecipe(@NotNull ItemStack itemStack) {
-        Debug.log("ItemStack: " + itemStack);
         SlimefunItem sf = SlimefunItem.getByItem(itemStack);
-        Debug.log("SlimefunItem: " + sf);
         if (sf != null) {
             List<RecipeChoice> raw = new ArrayList<>(Arrays.stream(sf.getRecipe())
                     .map(item -> item == null ? null : new SimpleRecipeChoice(item))
@@ -186,7 +184,6 @@ public interface RecipeCompletableWithGuide {
             return raw;
         } else {
             Recipe[] recipes = Slimefun.getMinecraftRecipeService().getRecipesFor(itemStack);
-            Debug.log("Recipes: " + Arrays.toString(recipes));
             for (Recipe recipe : recipes) {
                 if (recipe instanceof ShapedRecipe shapedRecipe) {
                     List<RecipeChoice> choices = new ArrayList<>(9);
