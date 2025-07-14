@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface SoftCellBannable extends FeedbackSendable {
-    boolean SOFT_CELL_BAN = Networks.getConfigManager().getSoftCellBan();
+    boolean SOFT_CELL_BAN = Networks.getConfigManager().isSoftCellBan();
     int SOFT_CELL_BAN_THRESHOLD = Networks.getConfigManager().getSoftCellBanThreshold();
 
     default boolean checkSoftCellBan(@NotNull BlockMenu blockMenu, NodeDefinition definition) {

@@ -98,12 +98,16 @@ public class ConfigManager {
         return Networks.getInstance().getConfig().getLong("record-gc.deadline", 120000);
     }
 
-    public boolean getSoftCellBan() {
+    public boolean isSoftCellBan() {
         return Networks.getInstance().getConfig().getBoolean("speed-up.soft-cell-ban", false);
     }
 
     public int getSoftCellBanThreshold() {
         return Networks.getInstance().getConfig().getInt("speed-up.soft-cell-ban-threshold", 0);
+    }
+
+    public boolean isBanQuantumInQuantum() {
+        return Networks.getInstance().getConfig().getBoolean("ban-quantum-in-quantum", false);
     }
 
     public int getInt(@NotNull String path) {

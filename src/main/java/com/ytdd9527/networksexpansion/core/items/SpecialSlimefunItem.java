@@ -9,6 +9,8 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotConfigurable;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -69,6 +71,13 @@ public abstract class SpecialSlimefunItem extends SlimefunItem implements Feedba
                 (recipeItem).registerDefaultRecipes();
                 MachineRecipeFactory.getInstance().initAdvancedRecipeMap(this.getId());
             }
+        }
+
+        this.enchantable = false;
+        this.disenchantable = true;
+        if (!(this instanceof NotConfigurable)) {
+            Slimefun.getItemCfg().setDefaultValue(getId() + ".allow-enchanting", this.enchantable);
+            Slimefun.getItemCfg().setDefaultValue(getId() + ".allow-disenchanting", this.disenchantable);
         }
     }
 
