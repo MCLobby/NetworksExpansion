@@ -80,7 +80,8 @@ public enum FeedbackType implements Keyed {
         this.message = Lang.getString("messages.feedback." + this.key.getKey());
     }
 
-    @NotNull @Override
+    @NotNull
+    @Override
     public NamespacedKey getKey() {
         return this.key;
     }

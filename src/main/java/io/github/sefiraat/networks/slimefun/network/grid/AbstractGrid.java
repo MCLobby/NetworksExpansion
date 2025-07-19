@@ -26,13 +26,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
-import java.text.MessageFormat;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -47,10 +40,18 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.text.MessageFormat;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
 public abstract class AbstractGrid extends NetworkObject {
 
     private static final Map<GridCache.SortOrder, Comparator<? super Map.Entry<ItemStack, Long>>> SORT_MAP =
-            new HashMap<>();
+        new HashMap<>();
 
     static {
         SORT_MAP.put(GridCache.SortOrder.ALPHABETICAL, Sorters.ITEMSTACK_ALPHABETICAL_SORT);
@@ -62,10 +63,10 @@ public abstract class AbstractGrid extends NetworkObject {
     private final @NotNull ItemSetting<Integer> tickRate;
 
     protected AbstractGrid(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.GRID);
 
         this.getSlotsToDrop().add(getInputSlot());
@@ -102,16 +103,17 @@ public abstract class AbstractGrid extends NetworkObject {
         });
     }
 
-    @NotNull private static List<String> getLoreAddition(long amount) {
+    @NotNull
+    private static List<String> getLoreAddition(long amount) {
         final MessageFormat format =
-                new MessageFormat(Lang.getString("messages.normal-operation.grid.item_amount"), Locale.ROOT);
+            new MessageFormat(Lang.getString("messages.normal-operation.grid.item_amount"), Locale.ROOT);
         return List.of(
-                "",
-                format.format(
-                                new Object[] {Theme.CLICK_INFO.getColor(), Theme.PASSIVE.getColor(), amount},
-                                new StringBuffer(),
-                                null)
-                        .toString());
+            "",
+            format.format(
+                    new Object[]{Theme.CLICK_INFO.getColor(), Theme.PASSIVE.getColor(), amount},
+                    new StringBuffer(),
+                    null)
+                .toString());
     }
 
     protected void tryAddItem(@NotNull BlockMenu blockMenu) {
@@ -207,11 +209,11 @@ public abstract class AbstractGrid extends NetworkObject {
             }
         }
         blockMenu.replaceExistingItem(
-                getPagePrevious(),
-                Icon.getPageStack(getPagePreviousStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
+            getPagePrevious(),
+            Icon.getPageStack(getPagePreviousStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
         blockMenu.replaceExistingItem(
-                getPageNext(),
-                Icon.getPageStack(getPageNextStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
+            getPageNext(),
+            Icon.getPageStack(getPageNextStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
 
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
@@ -223,36 +225,37 @@ public abstract class AbstractGrid extends NetworkObject {
         }
     }
 
-    @NotNull protected List<Map.Entry<ItemStack, Long>> getEntries(@NotNull NetworkRoot networkRoot, @NotNull GridCache cache) {
+    @NotNull
+    protected List<Map.Entry<ItemStack, Long>> getEntries(@NotNull NetworkRoot networkRoot, @NotNull GridCache cache) {
         return networkRoot.getAllNetworkItemsLongType().entrySet().stream()
-                .filter(entry -> {
-                    if (cache.getFilter() == null) {
-                        return true;
-                    }
+            .filter(entry -> {
+                if (cache.getFilter() == null) {
+                    return true;
+                }
 
-                    final ItemStack itemStack = entry.getKey();
-                    String name = TextUtil.stripColor(
-                            ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
-                    if (cache.getFilter().matches("^[a-zA-Z]+$")) {
-                        final String pinyinName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
-                        final String pinyinFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
-                        return name.contains(cache.getFilter())
-                                || pinyinName.contains(cache.getFilter())
-                                || pinyinFirstLetter.contains(cache.getFilter());
-                    } else {
-                        return name.contains(cache.getFilter());
-                    }
-                })
-                .sorted(SORT_MAP.get(cache.getSortOrder()))
-                .toList();
+                final ItemStack itemStack = entry.getKey();
+                String name = TextUtil.stripColor(
+                    ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
+                if (cache.getFilter().matches("^[a-zA-Z]+$")) {
+                    final String pinyinName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
+                    final String pinyinFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
+                    return name.contains(cache.getFilter())
+                        || pinyinName.contains(cache.getFilter())
+                        || pinyinFirstLetter.contains(cache.getFilter());
+                } else {
+                    return name.contains(cache.getFilter());
+                }
+            })
+            .sorted(SORT_MAP.get(cache.getSortOrder()))
+            .toList();
     }
 
     @SuppressWarnings("deprecation")
     protected void setFilter(
-            @NotNull Player player,
-            @NotNull BlockMenu blockMenu,
-            @NotNull GridCache gridCache,
-            @NotNull ClickAction action) {
+        @NotNull Player player,
+        @NotNull BlockMenu blockMenu,
+        @NotNull GridCache gridCache,
+        @NotNull ClickAction action) {
         if (action.isRightClicked()) {
             gridCache.setFilter(null);
         } else {
@@ -285,17 +288,17 @@ public abstract class AbstractGrid extends NetworkObject {
     @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     protected synchronized void retrieveItem(
-            Player player, @Nullable ItemStack itemStack, ClickAction action, BlockMenu blockMenu) {
+        Player player, @Nullable ItemStack itemStack, ClickAction action, BlockMenu blockMenu) {
         NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
         if (definition == null || definition.getNode() == null) {
             clearDisplay(blockMenu);
             blockMenu.close();
             Networks.getInstance()
-                    .getLogger()
-                    .warning(String.format(
-                            Lang.getString("messages.unsupported-operation.grid.may_duping"),
-                            player.getName(),
-                            blockMenu.getLocation()));
+                .getLogger()
+                .warning(String.format(
+                    Lang.getString("messages.unsupported-operation.grid.may_duping"),
+                    player.getName(),
+                    blockMenu.getLocation()));
             return;
         }
 
@@ -327,7 +330,7 @@ public abstract class AbstractGrid extends NetworkObject {
 
         final ItemStack cursor = player.getItemOnCursor();
         if (cursor.getType() != Material.AIR
-                && !StackUtils.itemsMatch(clone, StackUtils.getAsQuantity(player.getItemOnCursor(), 1))) {
+            && !StackUtils.itemsMatch(clone, StackUtils.getAsQuantity(player.getItemOnCursor(), 1))) {
             root.addItemStack0(blockMenu.getLocation(), player.getItemOnCursor());
             return;
         }
@@ -352,7 +355,7 @@ public abstract class AbstractGrid extends NetworkObject {
     @SuppressWarnings({"deprecation", "unused"})
     @ParametersAreNonnullByDefault
     private void addToInventory(
-            Player player, NodeDefinition definition, GridItemRequest request, ClickAction action, BlockMenu menu) {
+        Player player, NodeDefinition definition, GridItemRequest request, ClickAction action, BlockMenu menu) {
         ItemStack requestingStack = definition.getNode().getRoot().getItemStack0(menu.getLocation(), request);
 
         if (requestingStack == null) {
@@ -369,11 +372,11 @@ public abstract class AbstractGrid extends NetworkObject {
     @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     private void addToCursor(
-            Player player,
-            NodeDefinition definition,
-            GridItemRequest request,
-            ClickAction action,
-            @NotNull BlockMenu menu) {
+        Player player,
+        NodeDefinition definition,
+        GridItemRequest request,
+        ClickAction action,
+        @NotNull BlockMenu menu) {
         final ItemStack cursor = player.getItemOnCursor();
 
         // Quickly check if the cursor has an item and if we can add more to it
@@ -396,11 +399,11 @@ public abstract class AbstractGrid extends NetworkObject {
 
     @SuppressWarnings("deprecation")
     private boolean canAddMore(
-            @NotNull ClickAction action, @NotNull ItemStack cursor, @NotNull GridItemRequest request) {
+        @NotNull ClickAction action, @NotNull ItemStack cursor, @NotNull GridItemRequest request) {
         return !action.isRightClicked()
-                && request.getAmount() == 1
-                && cursor.getAmount() < cursor.getMaxStackSize()
-                && StackUtils.itemsMatch(request, cursor);
+            && request.getAmount() == 1
+            && cursor.getAmount() < cursor.getMaxStackSize()
+            && StackUtils.itemsMatch(request, cursor);
     }
 
     @Override
@@ -408,9 +411,11 @@ public abstract class AbstractGrid extends NetworkObject {
         getPreset();
     }
 
-    @NotNull protected abstract BlockMenuPreset getPreset();
+    @NotNull
+    protected abstract BlockMenuPreset getPreset();
 
-    @NotNull protected abstract Map<Location, GridCache> getCacheMap();
+    @NotNull
+    protected abstract Map<Location, GridCache> getCacheMap();
 
     protected abstract int[] getBackgroundSlots();
 
@@ -454,11 +459,11 @@ public abstract class AbstractGrid extends NetworkObject {
             clearDisplay(blockMenu);
             blockMenu.close();
             Networks.getInstance()
-                    .getLogger()
-                    .warning(String.format(
-                            Lang.getString("messages.unsupported-operation.grid.may_duping"),
-                            player.getName(),
-                            blockMenu.getLocation()));
+                .getLogger()
+                .warning(String.format(
+                    Lang.getString("messages.unsupported-operation.grid.may_duping"),
+                    player.getName(),
+                    blockMenu.getLocation()));
             return;
         }
 
@@ -468,17 +473,17 @@ public abstract class AbstractGrid extends NetworkObject {
 
     @SuppressWarnings("deprecation")
     public void receiveItem(
-            @NotNull Player player, ItemStack itemStack, ClickAction action, @NotNull BlockMenu blockMenu) {
+        @NotNull Player player, ItemStack itemStack, ClickAction action, @NotNull BlockMenu blockMenu) {
         NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
         if (definition == null || definition.getNode() == null) {
             clearDisplay(blockMenu);
             blockMenu.close();
             Networks.getInstance()
-                    .getLogger()
-                    .warning(String.format(
-                            Lang.getString("messages.unsupported-operation.grid.may_duping"),
-                            player.getName(),
-                            blockMenu.getLocation()));
+                .getLogger()
+                .warning(String.format(
+                    Lang.getString("messages.unsupported-operation.grid.may_duping"),
+                    player.getName(),
+                    blockMenu.getLocation()));
             return;
         }
 
@@ -487,11 +492,11 @@ public abstract class AbstractGrid extends NetworkObject {
 
     @SuppressWarnings({"deprecation", "unused"})
     public void receiveItem(
-            @NotNull NetworkRoot root,
-            Player player,
-            @Nullable ItemStack itemStack,
-            ClickAction action,
-            @NotNull BlockMenu blockMenu) {
+        @NotNull NetworkRoot root,
+        Player player,
+        @Nullable ItemStack itemStack,
+        ClickAction action,
+        @NotNull BlockMenu blockMenu) {
         if (itemStack != null && itemStack.getType() != Material.AIR) {
             root.addItemStack0(blockMenu.getLocation(), itemStack);
         }
@@ -499,12 +504,12 @@ public abstract class AbstractGrid extends NetworkObject {
 
     @SuppressWarnings("deprecation")
     public void receiveItem(
-            @NotNull NetworkRoot root,
-            Player player,
-            @Nullable ItemStack itemStack,
-            ClickAction action,
-            @NotNull BlockMenu blockMenu,
-            boolean doubleClick) {
+        @NotNull NetworkRoot root,
+        Player player,
+        @Nullable ItemStack itemStack,
+        ClickAction action,
+        @NotNull BlockMenu blockMenu,
+        boolean doubleClick) {
         if (!doubleClick) {
             receiveItem(root, player, itemStack, action, blockMenu);
         }

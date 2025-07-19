@@ -8,14 +8,6 @@ import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.papermc.paper.event.player.PlayerItemFrameChangeEvent;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.Function;
-import javax.annotation.OverridingMethodsMustInvokeSuper;
-import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -29,6 +21,15 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
+
 public interface HangingBlock {
     Map<BlockFace, Function<Location, Location>> locationFixer = new HashMap<>() {
         {
@@ -40,11 +41,6 @@ public interface HangingBlock {
             put(BlockFace.DOWN, loc -> loc.clone().setDirection(BlockFace.DOWN.getDirection()));
         }
     };
-
-    default Location getFixedLocation(@NotNull Location location, @NotNull BlockFace attachSide) {
-        return locationFixer.get(attachSide).apply(location);
-    }
-
     Map<String, HangingBlock> REGISTRY = new HashMap<>();
     Map<Location, Map<BlockFace, HangingBlock>> hangingBlocks = new HashMap<>();
     String BS_NORTH = "netex-hanging-north";
@@ -75,7 +71,7 @@ public interface HangingBlock {
 
     static @Nullable HangingBlock getByItemFrame(@NotNull ItemFrame itemFrame) {
         return getHangingBlock(
-                itemFrame.getPersistentDataContainer().get(NETEX_HANGING_KEY, PersistentDataType.STRING));
+            itemFrame.getPersistentDataContainer().get(NETEX_HANGING_KEY, PersistentDataType.STRING));
     }
 
     static void tickHangingBlocks(@NotNull Block attachon) {
@@ -101,7 +97,7 @@ public interface HangingBlock {
     }
 
     static @NotNull Map<BlockFace, ItemFrame> getHangingBlocks(
-            @NotNull Location attachon, @NotNull Set<BlockFace> attachSides) {
+        @NotNull Location attachon, @NotNull Set<BlockFace> attachSides) {
         Map<BlockFace, ItemFrame> hangingBlocks = new HashMap<>();
         for (BlockFace attachSide : attachSides) {
             ItemFrame v = getItemFrame(attachon, attachSide);
@@ -130,10 +126,10 @@ public interface HangingBlock {
     }
 
     static <T extends HangingBlock> void placeHangingBlock(
-            @NotNull SlimefunBlockData attachon,
-            @NotNull ItemFrame entityBlock,
-            @NotNull BlockFace attachSide,
-            @NotNull T hangingBlock) {
+        @NotNull SlimefunBlockData attachon,
+        @NotNull ItemFrame entityBlock,
+        @NotNull BlockFace attachSide,
+        @NotNull T hangingBlock) {
         switch (attachSide) {
             case NORTH -> attachon.setData(BS_NORTH, hangingBlock.getId());
             case SOUTH -> attachon.setData(BS_SOUTH, hangingBlock.getId());
@@ -152,14 +148,16 @@ public interface HangingBlock {
         tagItemFrame(entityBlock, hangingBlock.getId());
     }
 
-    @NotNull static Map<BlockFace, HangingBlock> getHangingBlocks(Location attachon) {
+    @NotNull
+    static Map<BlockFace, HangingBlock> getHangingBlocks(Location attachon) {
         return Optional.ofNullable(hangingBlocks.get(attachon)).orElse(new HashMap<>());
     }
 
-    @Nullable static ItemFrame getItemFrame(@NotNull Location attachon, BlockFace attachSide) {
+    @Nullable
+    static ItemFrame getItemFrame(@NotNull Location attachon, BlockFace attachSide) {
         Location center = attachon.toBlockLocation().add(CENTER_OFFSET, CENTER_OFFSET, CENTER_OFFSET);
         Collection<Entity> es =
-                center.getWorld().getNearbyEntities(center, ITEM_FRAME_OFFSET, ITEM_FRAME_OFFSET, ITEM_FRAME_OFFSET);
+            center.getWorld().getNearbyEntities(center, ITEM_FRAME_OFFSET, ITEM_FRAME_OFFSET, ITEM_FRAME_OFFSET);
         for (Entity e : es) {
             if (e instanceof ItemFrame itemFrame) {
                 if (itemFrame.getAttachedFace() == attachSide) {
@@ -171,12 +169,28 @@ public interface HangingBlock {
         return null;
     }
 
+    static void doFirstTick(@NotNull SlimefunBlockData attachon) {
+        Location loc = attachon.getLocation();
+        Map<BlockFace, HangingBlock> hs = getHangingBlocks(loc);
+        getHangingBlocks(loc, hs.keySet()).forEach((attachSide, itemFrame) -> {
+            try {
+                hs.get(attachSide).onFirstTick(loc, attachon, attachSide, itemFrame);
+            } catch (Exception e) {
+                Debug.trace(e);
+            }
+        });
+    }
+
+    default Location getFixedLocation(@NotNull Location location, @NotNull BlockFace attachSide) {
+        return locationFixer.get(attachSide).apply(location);
+    }
+
     @OverridingMethodsMustInvokeSuper
     default void onPlace(
-            @NotNull HangingPlaceEvent event,
-            @NotNull Location attachon,
-            @NotNull ItemFrame entityBlock,
-            @NotNull BlockFace attachSide) {
+        @NotNull HangingPlaceEvent event,
+        @NotNull Location attachon,
+        @NotNull ItemFrame entityBlock,
+        @NotNull BlockFace attachSide) {
         SlimefunBlockData data = StorageCacheUtils.getBlock(attachon);
         if (data == null) {
             event.setCancelled(true);
@@ -197,18 +211,6 @@ public interface HangingBlock {
         if (hangingBlock != null) {
             hangingBlock.onBreak(attachon, entityBlock, hangingBlock);
         }
-    }
-
-    static void doFirstTick(@NotNull SlimefunBlockData attachon) {
-        Location loc = attachon.getLocation();
-        Map<BlockFace, HangingBlock> hs = getHangingBlocks(loc);
-        getHangingBlocks(loc, hs.keySet()).forEach((attachSide, itemFrame) -> {
-            try {
-                hs.get(attachSide).onFirstTick(loc, attachon, attachSide, itemFrame);
-            } catch (Exception e) {
-                Debug.trace(e);
-            }
-        });
     }
 
     @OverridingMethodsMustInvokeSuper
@@ -241,7 +243,8 @@ public interface HangingBlock {
 
     @ParametersAreNonnullByDefault
     default void onFirstTick(
-            Location attachon, SlimefunBlockData attachonData, BlockFace attachSide, ItemFrame entityBlock) {}
+        Location attachon, SlimefunBlockData attachonData, BlockFace attachSide, ItemFrame entityBlock) {
+    }
 
     @NotNull String getId();
 }

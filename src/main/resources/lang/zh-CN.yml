@@ -3604,6 +3604,46 @@ items:
       - "&e附属&7: &e按物品所属附属字母顺序排序"
       - "支持拼音搜索"
 
+  NTW_EXPANSION_WHITELISTED_TRANSFER_GRABBER:
+    name: "白名单网络抓取器"
+    lore:
+      - "白名单网络抓取器会尝试从"
+      - "指定的机器中抓取第一个物品"
+
+  NTW_EXPANSION_WHITELISTED_TRANSFER_VANILLA_GRABBER:
+    name: "白名单原版网络抓取器"
+    lore:
+      - "白名单原版网络抓取器会尝试从"
+      - "指定的机器中抓取第一个物品"
+
+  NTW_EXPANSION_WHITELISTED_LINE_TRANSFER_GRABBER:
+    name: "链式白名单传输器 [抓取]"
+    lore:
+      - "&c仅支持粘液容器"
+      - "&6运输距离: 32 格"
+      - "&7默认运输模式: &6首位阻断"
+      - "&c不可调整运输模式"
+      - "&7默认运输数量: &664"
+      - "&c不可调整运输数量"
+      - "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续抓取的功能"
+      - "&c而不是连续转移物品！"
+      - "&7运输模式解释: "
+      - "&6首位阻断&7: &e仅抓取第一个有物品的槽位"
+
+  NTW_EXPANSION_WHITELISTED_LINE_TRANSFER_VANILLA_GRABBER:
+    name: "链式白名单原版传输器 [抓取]"
+    lore:
+      - "&c仅支持原版容器"
+      - "&6运输距离: 32 格"
+      - "&7默认运输模式: &6首位阻断"
+      - "&c不可调整运输模式"
+      - "&7默认运输数量: &664"
+      - "&c不可调整运输数量"
+      - "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续抓取的功能"
+      - "&c而不是连续转移物品！"
+      - "&7运输模式解释: "
+      - "&6首位阻断&7: &e仅抓取第一个有物品的槽位"
+
 displays:
   quantum_storage:
     void_excess: "<click_info>满载清空输入: <passive>%s"

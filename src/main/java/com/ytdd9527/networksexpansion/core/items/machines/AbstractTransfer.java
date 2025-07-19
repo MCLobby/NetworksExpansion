@@ -19,11 +19,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -34,17 +29,23 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public abstract class AbstractTransfer extends AdvancedDirectional implements RecipeDisplayItem {
     private static final Map<Location, Integer> PUSH_TICKER_MAP = new HashMap<>();
     private static final Map<Location, Integer> GRAB_TICKER_MAP = new HashMap<>();
     private final TransferConfiguration config;
 
     protected AbstractTransfer(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack[] recipe,
-            NodeType type) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack[] recipe,
+        NodeType type) {
         super(itemGroup, item, recipeType, recipe, type);
         this.config = TransferConfigFactory.getTransferConfiguration(getTransferType(), checkPlus(item.getItemId()));
     }
@@ -166,11 +167,11 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
     }
 
     private void tryPushItem(
-            @NotNull BlockMenu blockMenu,
-            @NotNull NetworkRoot root,
-            @NotNull BlockFace direction,
-            @NotNull TransportMode mode,
-            int limitQuantity) {
+        @NotNull BlockMenu blockMenu,
+        @NotNull NetworkRoot root,
+        @NotNull BlockFace direction,
+        @NotNull TransportMode mode,
+        int limitQuantity) {
         if (root.getRootPower() < config.defaultRequiredPower) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NOT_ENOUGH_POWER);
             return;
@@ -185,13 +186,13 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
         }
 
         LineOperationUtil.doOperation(
-                blockMenu.getLocation(),
-                direction,
-                config.maxDistance,
-                false,
-                false,
-                (targetMenu) -> LineOperationUtil.pushItem(
-                        targetMenu.getLocation(), root, targetMenu, templates, mode, limitQuantity));
+            blockMenu.getLocation(),
+            direction,
+            config.maxDistance,
+            false,
+            false,
+            (targetMenu) -> LineOperationUtil.pushItem(
+                targetMenu.getLocation(), root, targetMenu, templates, mode, limitQuantity));
 
         root.removeRootPower(config.defaultRequiredPower);
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
@@ -199,20 +200,20 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
 
     @ParametersAreNonnullByDefault
     private void tryGrabItem(
-            BlockMenu blockMenu, NetworkRoot root, BlockFace direction, TransportMode mode, int limitQuantity) {
+        BlockMenu blockMenu, NetworkRoot root, BlockFace direction, TransportMode mode, int limitQuantity) {
         if (root.getRootPower() < config.defaultRequiredPower) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NOT_ENOUGH_POWER);
             return;
         }
 
         LineOperationUtil.doOperation(
-                blockMenu.getLocation(),
-                direction,
-                config.maxDistance,
-                false,
-                false,
-                (targetMenu) ->
-                        LineOperationUtil.grabItem(targetMenu.getLocation(), root, targetMenu, mode, limitQuantity));
+            blockMenu.getLocation(),
+            direction,
+            config.maxDistance,
+            false,
+            false,
+            (targetMenu) ->
+                LineOperationUtil.grabItem(targetMenu.getLocation(), root, targetMenu, mode, limitQuantity));
 
         root.removeRootPower(config.defaultRequiredPower);
     }
@@ -227,7 +228,8 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
         return config.templateBackgroundSlots;
     }
 
-    @Nullable @Override
+    @Nullable
+    @Override
     protected ItemStack getOtherBackgroundStack() {
         return Icon.PUSHER_TEMPLATE_BACKGROUND_STACK;
     }

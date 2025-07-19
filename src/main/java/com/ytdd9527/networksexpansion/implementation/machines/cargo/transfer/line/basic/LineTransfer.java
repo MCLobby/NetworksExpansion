@@ -12,10 +12,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class LineTransfer extends AbstractTransfer implements SoftCellBannable {
     public LineTransfer(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.TRANSFER);
     }
 

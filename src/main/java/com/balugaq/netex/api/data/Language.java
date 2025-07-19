@@ -2,12 +2,13 @@ package com.balugaq.netex.api.data;
 
 import com.balugaq.netex.utils.Debug;
 import com.google.common.base.Preconditions;
-import java.io.File;
-import java.io.IOException;
-import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.io.File;
+import java.io.IOException;
 
 public final class Language {
     private final @NotNull String lang;
@@ -33,11 +34,13 @@ public final class Language {
         this.save();
     }
 
-    @NotNull public String getName() {
+    @NotNull
+    public String getName() {
         return this.lang;
     }
 
-    @NotNull public FileConfiguration getLang() {
+    @NotNull
+    public FileConfiguration getLang() {
         return this.currentConfig;
     }
 

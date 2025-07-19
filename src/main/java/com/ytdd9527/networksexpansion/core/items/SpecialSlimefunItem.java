@@ -25,28 +25,28 @@ import org.jetbrains.annotations.Nullable;
  */
 public abstract class SpecialSlimefunItem extends SlimefunItem implements FeedbackSendable {
     public SpecialSlimefunItem(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            @NotNull ItemStack @NotNull [] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        @NotNull ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
     public SpecialSlimefunItem(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            @NotNull ItemStack @NotNull [] recipe,
-            @Nullable ItemStack recipeOutput) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        @NotNull ItemStack @NotNull [] recipe,
+        @Nullable ItemStack recipeOutput) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
     }
 
     protected SpecialSlimefunItem(
-            @NotNull ItemGroup itemGroup,
-            @NotNull ItemStack item,
-            @NotNull String id,
-            @NotNull RecipeType recipeType,
-            @NotNull ItemStack @NotNull [] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull ItemStack item,
+        @NotNull String id,
+        @NotNull RecipeType recipeType,
+        @NotNull ItemStack @NotNull [] recipe) {
         super(itemGroup, item, id, recipeType, recipe);
     }
 
@@ -57,16 +57,16 @@ public abstract class SpecialSlimefunItem extends SlimefunItem implements Feedba
             int delay = recipeItem.getRegisterRecipeDelay();
             if (delay > 0) {
                 this.getAddon()
-                        .getJavaPlugin()
-                        .getServer()
-                        .getScheduler()
-                        .runTaskLater(
-                                (Plugin) addon,
-                                () -> {
-                                    (recipeItem).registerDefaultRecipes();
-                                    MachineRecipeFactory.getInstance().initAdvancedRecipeMap(this.getId());
-                                },
-                                delay);
+                    .getJavaPlugin()
+                    .getServer()
+                    .getScheduler()
+                    .runTaskLater(
+                        (Plugin) addon,
+                        () -> {
+                            (recipeItem).registerDefaultRecipes();
+                            MachineRecipeFactory.getInstance().initAdvancedRecipeMap(this.getId());
+                        },
+                        delay);
             } else {
                 (recipeItem).registerDefaultRecipes();
                 MachineRecipeFactory.getInstance().initAdvancedRecipeMap(this.getId());
@@ -81,7 +81,8 @@ public abstract class SpecialSlimefunItem extends SlimefunItem implements Feedba
         }
     }
 
-    @NotNull public SpecialSlimefunItem registerThis() {
+    @NotNull
+    public SpecialSlimefunItem registerThis() {
         this.register(Networks.getInstance());
         return this;
     }

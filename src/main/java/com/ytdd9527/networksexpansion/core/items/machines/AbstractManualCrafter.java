@@ -20,9 +20,6 @@ import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponen
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -37,12 +34,16 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public abstract class AbstractManualCrafter extends SpecialSlimefunItem implements AdminDebuggable, EnergyNetComponent {
     public AbstractManualCrafter(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            @NotNull ItemStack @NotNull [] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        @NotNull ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -77,9 +78,9 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
             @Override
             public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
-                        || (this.getSlimefunItem().canUse(player, false)
-                                && Slimefun.getProtectionManager()
-                                        .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
+                    || (this.getSlimefunItem().canUse(player, false)
+                    && Slimefun.getProtectionManager()
+                    .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override
@@ -176,7 +177,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
                 if (sfi != null) {
                     if (sfi.isDisabled() || sfi.isDisabledIn(world)) {
                         player.sendMessage(
-                                Lang.getString("messages.unsupported-operation.manual_crafter.disabled-output"));
+                            Lang.getString("messages.unsupported-operation.manual_crafter.disabled-output"));
                         sendFeedback(blockMenu.getLocation(), FeedbackType.DISABLED_OUTPUT);
                         continue;
                     }
@@ -282,7 +283,7 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
                 if (sfi != null) {
                     if (sfi.isDisabled() || sfi.isDisabledIn(world)) {
                         player.sendMessage(
-                                Lang.getString("messages.unsupported-operation.manual_crafter.disabled-output"));
+                            Lang.getString("messages.unsupported-operation.manual_crafter.disabled-output"));
                         sendFeedback(blockMenu.getLocation(), FeedbackType.DISABLED_OUTPUT);
                         continue;
                     }
@@ -305,7 +306,8 @@ public abstract class AbstractManualCrafter extends SpecialSlimefunItem implemen
     }
 
     @Override
-    @NotNull public EnergyNetComponentType getEnergyComponentType() {
+    @NotNull
+    public EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.CONSUMER;
     }
 

@@ -17,11 +17,6 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -36,6 +31,12 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * not a {@link NetworkObject} and has no {@link BlockMenu}
  *
@@ -44,17 +45,18 @@ import org.jetbrains.annotations.Nullable;
 public class SmartGrabber extends SpecialSlimefunItem implements AdminDebuggable {
     private static final Map<Location, BlockFace> DIRECTIONS = new HashMap<>();
     private static final Set<BlockFace> VALID_FACES =
-            EnumSet.of(BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
+        EnumSet.of(BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
 
     public SmartGrabber(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            @NotNull ItemStack @NotNull [] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        @NotNull ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
-    @Nullable public static BlockFace getDirection(Location location) {
+    @Nullable
+    public static BlockFace getDirection(Location location) {
         return DIRECTIONS.get(location);
     }
 
@@ -69,49 +71,49 @@ public class SmartGrabber extends SpecialSlimefunItem implements AdminDebuggable
     @Override
     public void preRegister() {
         addItemHandler(
-                new BlockTicker() {
-                    @Override
-                    public boolean isSynchronized() {
-                        return false;
-                    }
+            new BlockTicker() {
+                @Override
+                public boolean isSynchronized() {
+                    return false;
+                }
 
-                    @Override
-                    public void tick(
-                            @NotNull Block block, SlimefunItem slimefunItem, SlimefunBlockData slimefunBlockData) {
-                        final Location location = block.getLocation();
-                        final BlockFace cachedFace = getDirection(location);
-                        if (cachedFace != null && VALID_FACES.contains(cachedFace)) {
-                            onTick(block, cachedFace);
-                        } else if (block.getBlockData() instanceof Directional directional) {
-                            final BlockFace bridgeFace = directional.getFacing();
-                            setDirection(location, bridgeFace);
-                            sendFeedback(block.getLocation(), FeedbackType.INITIALIZATION);
-                        } else {
-                            Slimefun.getDatabaseManager()
-                                    .getBlockDataController()
-                                    .removeBlock(location);
-                            sendFeedback(block.getLocation(), FeedbackType.INVALID_BLOCK);
-                        }
+                @Override
+                public void tick(
+                    @NotNull Block block, SlimefunItem slimefunItem, SlimefunBlockData slimefunBlockData) {
+                    final Location location = block.getLocation();
+                    final BlockFace cachedFace = getDirection(location);
+                    if (cachedFace != null && VALID_FACES.contains(cachedFace)) {
+                        onTick(block, cachedFace);
+                    } else if (block.getBlockData() instanceof Directional directional) {
+                        final BlockFace bridgeFace = directional.getFacing();
+                        setDirection(location, bridgeFace);
+                        sendFeedback(block.getLocation(), FeedbackType.INITIALIZATION);
+                    } else {
+                        Slimefun.getDatabaseManager()
+                            .getBlockDataController()
+                            .removeBlock(location);
+                        sendFeedback(block.getLocation(), FeedbackType.INVALID_BLOCK);
                     }
-                },
-                new BlockBreakHandler(false, false) {
-                    @Override
-                    public void onPlayerBreak(
-                            @NotNull BlockBreakEvent blockBreakEvent,
-                            @NotNull ItemStack itemStack,
-                            @NotNull List<ItemStack> list) {
-                        removeDirection(blockBreakEvent.getBlock().getLocation());
+                }
+            },
+            new BlockBreakHandler(false, false) {
+                @Override
+                public void onPlayerBreak(
+                    @NotNull BlockBreakEvent blockBreakEvent,
+                    @NotNull ItemStack itemStack,
+                    @NotNull List<ItemStack> list) {
+                    removeDirection(blockBreakEvent.getBlock().getLocation());
+                }
+            },
+            new BlockPlaceHandler(false) {
+                @Override
+                public void onPlayerPlace(@NotNull BlockPlaceEvent blockPlaceEvent) {
+                    if (blockPlaceEvent.getBlock().getBlockData() instanceof Directional directional) {
+                        final BlockFace face = directional.getFacing();
+                        setDirection(blockPlaceEvent.getBlock().getLocation(), face);
                     }
-                },
-                new BlockPlaceHandler(false) {
-                    @Override
-                    public void onPlayerPlace(@NotNull BlockPlaceEvent blockPlaceEvent) {
-                        if (blockPlaceEvent.getBlock().getBlockData() instanceof Directional directional) {
-                            final BlockFace face = directional.getFacing();
-                            setDirection(blockPlaceEvent.getBlock().getLocation(), face);
-                        }
-                    }
-                });
+                }
+            });
     }
 
     public void onTick(@NotNull Block thisBlock, @NotNull BlockFace bridgeFace) {
@@ -124,8 +126,8 @@ public class SmartGrabber extends SpecialSlimefunItem implements AdminDebuggable
             if (targetMenu != null) {
                 final NetworkRoot root = definition.getNode().getRoot();
                 final int[] slots = targetMenu
-                        .getPreset()
-                        .getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
+                    .getPreset()
+                    .getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
                 int limit = getLimitQuantity();
                 if (slots.length > 0) {
                     final ItemStack delta = targetMenu.getItemInSlot(slots[0]);

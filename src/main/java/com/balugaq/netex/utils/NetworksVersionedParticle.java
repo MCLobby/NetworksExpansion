@@ -2,10 +2,11 @@ package com.balugaq.netex.utils;
 
 import com.balugaq.netex.api.enums.MinecraftVersion;
 import io.github.sefiraat.networks.Networks;
-import java.lang.reflect.Field;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Particle;
 import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.Field;
 
 @UtilityClass
 public class NetworksVersionedParticle {
@@ -20,7 +21,8 @@ public class NetworksVersionedParticle {
         SMOKE = version.isAtLeast(MinecraftVersion.MC1_20_5) ? Particle.SMOKE : getKey("SMOKE_NORMAL");
     }
 
-    @NotNull private static Particle getKey(@NotNull String key) {
+    @NotNull
+    private static Particle getKey(@NotNull String key) {
         try {
             Field field = Particle.class.getDeclaredField(key);
             return (Particle) field.get(null);

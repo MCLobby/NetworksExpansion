@@ -5,13 +5,14 @@ import com.balugaq.netex.api.interfaces.GrabTickOnly;
 import com.balugaq.netex.api.interfaces.PushTickOnly;
 import com.balugaq.netex.utils.Lang;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Data;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("ClassCanBeRecord")
 @Data
@@ -64,7 +65,8 @@ public class TransferConfiguration {
         return defaultGrabTick;
     }
 
-    @NotNull public TransportMode dtm() {
+    @NotNull
+    public TransportMode dtm() {
         return defaultTransportMode;
     }
 

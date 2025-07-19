@@ -10,10 +10,10 @@ import org.jetbrains.annotations.NotNull;
 public class OreCrusherBlueprint extends AbstractBlueprint {
 
     public OreCrusherBlueprint(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 }

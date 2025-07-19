@@ -22,10 +22,6 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -47,10 +43,15 @@ import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+
 public class LineTransferVanillaGrabber extends NetworkDirectional implements RecipeDisplayItem, SoftCellBannable {
     private static final int DEFAULT_MAX_DISTANCE = 32;
     private static final int DEFAULT_GRAB_ITEM_TICK = 1;
-    private static final int[] BACKGROUND_SLOTS = new int[] {
+    private static final int[] BACKGROUND_SLOTS = new int[]{
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 16, 17, 18, 20, 22, 23, 24, 25, 26, 27, 28, 30, 31, 33, 34, 35,
         36, 37, 38, 39, 40, 41, 42, 43, 44
     };
@@ -62,16 +63,16 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
     private static final int DOWN_SLOT = 32;
 
     private static final TransferConfiguration config =
-            TransferConfigFactory.getTransferConfiguration(TransferType.LINE_TRANSFER_VANILLA_GRABBER);
+        TransferConfigFactory.getTransferConfiguration(TransferType.LINE_TRANSFER_VANILLA_GRABBER);
     private static final int maxDistance = config.maxDistance;
     private static final int grabItemTick = config.defaultGrabTick;
     private final HashMap<Location, Integer> TICKER_MAP = new HashMap<>();
 
     public LineTransferVanillaGrabber(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack @NotNull [] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSFER_VANILLA_GRABBER);
     }
 
@@ -142,7 +143,7 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
         for (int d = 0; d <= maxDistance; d++) {
             try {
                 if (!Slimefun.getProtectionManager()
-                        .hasPermission(offlinePlayer, targetBlock, Interaction.INTERACT_BLOCK)) {
+                    .hasPermission(offlinePlayer, targetBlock, Interaction.INTERACT_BLOCK)) {
                     sendFeedback(blockMenu.getLocation(), FeedbackType.NO_PERMISSION);
                     break;
                 }
@@ -265,11 +266,11 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
     public @NotNull List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);
         displayRecipes.add(new CustomItemStack(
-                Material.BOOK,
-                Lang.getString("icons.mechanism.transfers.data_title"),
-                "",
-                String.format(Lang.getString("icons.mechanism.transfers.max_distance"), maxDistance),
-                String.format(Lang.getString("icons.mechanism.transfers.grab_item_tick"), grabItemTick)));
+            Material.BOOK,
+            Lang.getString("icons.mechanism.transfers.data_title"),
+            "",
+            String.format(Lang.getString("icons.mechanism.transfers.max_distance"), maxDistance),
+            String.format(Lang.getString("icons.mechanism.transfers.grab_item_tick"), grabItemTick)));
         return displayRecipes;
     }
 }

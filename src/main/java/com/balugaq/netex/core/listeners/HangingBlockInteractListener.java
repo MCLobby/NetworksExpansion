@@ -25,12 +25,12 @@ public class HangingBlockInteractListener implements Listener {
         HangingBlock hangingBlock = HangingBlock.getByItemFrame(event.getItemFrame());
         if (hangingBlock != null) {
             hangingBlock.onInteract(
-                    toBlockLocation(event.getItemFrame()
-                            .getLocation()
-                            .getBlock()
-                            .getRelative(event.getItemFrame().getAttachedFace())
-                            .getLocation()),
-                    event);
+                toBlockLocation(event.getItemFrame()
+                    .getLocation()
+                    .getBlock()
+                    .getRelative(event.getItemFrame().getAttachedFace())
+                    .getLocation()),
+                event);
         }
     }
 
@@ -49,14 +49,14 @@ public class HangingBlockInteractListener implements Listener {
         SlimefunItem sf = SlimefunItem.getByItem(event.getItemStack());
         if (sf instanceof HangingBlock hangingBlock && event.getEntity() instanceof ItemFrame itemFrame) {
             hangingBlock.onPlace(
-                    event,
-                    toBlockLocation(itemFrame
-                            .getLocation()
-                            .getBlock()
-                            .getRelative(itemFrame.getAttachedFace())
-                            .getLocation()),
-                    itemFrame,
-                    itemFrame.getAttachedFace());
+                event,
+                toBlockLocation(itemFrame
+                    .getLocation()
+                    .getBlock()
+                    .getRelative(itemFrame.getAttachedFace())
+                    .getLocation()),
+                itemFrame,
+                itemFrame.getAttachedFace());
         }
     }
 

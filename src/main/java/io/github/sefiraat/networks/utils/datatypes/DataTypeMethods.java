@@ -1,7 +1,6 @@
 package io.github.sefiraat.networks.utils.datatypes;
 
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
-import java.util.Optional;
 import lombok.experimental.UtilityClass;
 import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -9,6 +8,8 @@ import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 @UtilityClass
 public class DataTypeMethods {
@@ -20,8 +21,9 @@ public class DataTypeMethods {
      * @param key    The key of the data to retrieve
      * @return An object associated with this key or null if it doesn't exist
      */
-    @Nullable public static <T, Z> Z getCustom(
-            @NotNull PersistentDataHolder holder, @NotNull NamespacedKey key, @NotNull PersistentDataType<T, Z> type) {
+    @Nullable
+    public static <T, Z> Z getCustom(
+        @NotNull PersistentDataHolder holder, @NotNull NamespacedKey key, @NotNull PersistentDataType<T, Z> type) {
         return holder.getPersistentDataContainer().get(key, type);
     }
 
@@ -34,8 +36,9 @@ public class DataTypeMethods {
      * @return An {@link Optional} describing the result
      * @see PersistentDataAPI#get(PersistentDataHolder, NamespacedKey, PersistentDataType)
      */
-    @NotNull public static <T, Z> Optional<Z> getOptionalCustom(
-            @NotNull PersistentDataHolder holder, @NotNull NamespacedKey key, @NotNull PersistentDataType<T, Z> type) {
+    @NotNull
+    public static <T, Z> Optional<Z> getOptionalCustom(
+        @NotNull PersistentDataHolder holder, @NotNull NamespacedKey key, @NotNull PersistentDataType<T, Z> type) {
         return Optional.ofNullable(getCustom(holder, key, type));
     }
 
@@ -48,10 +51,10 @@ public class DataTypeMethods {
      * @return The object associated with this key or the default value if it doesn't exist
      */
     public static <T, Z> @NotNull Z getCustom(
-            @NotNull PersistentDataHolder holder,
-            @NotNull NamespacedKey key,
-            @NotNull PersistentDataType<T, Z> type,
-            @NotNull Z defaultVal) {
+        @NotNull PersistentDataHolder holder,
+        @NotNull NamespacedKey key,
+        @NotNull PersistentDataType<T, Z> type,
+        @NotNull Z defaultVal) {
         return holder.getPersistentDataContainer().getOrDefault(key, type, defaultVal);
     }
 
@@ -64,7 +67,7 @@ public class DataTypeMethods {
      * @return {@code true} if the holder has a {@link PersistentDataContainer} with the specified key.
      */
     public static <T, Z> boolean hasCustom(
-            @NotNull PersistentDataHolder holder, @NotNull NamespacedKey key, @NotNull PersistentDataType<T, Z> type) {
+        @NotNull PersistentDataHolder holder, @NotNull NamespacedKey key, @NotNull PersistentDataType<T, Z> type) {
         return holder.getPersistentDataContainer().has(key, type);
     }
 
@@ -77,10 +80,10 @@ public class DataTypeMethods {
      * @param obj    The object to put in the container
      */
     public static <T, Z> void setCustom(
-            @NotNull PersistentDataHolder holder,
-            @NotNull NamespacedKey key,
-            @NotNull PersistentDataType<T, Z> type,
-            @NotNull Z obj) {
+        @NotNull PersistentDataHolder holder,
+        @NotNull NamespacedKey key,
+        @NotNull PersistentDataType<T, Z> type,
+        @NotNull Z obj) {
         holder.getPersistentDataContainer().set(key, type, obj);
     }
 

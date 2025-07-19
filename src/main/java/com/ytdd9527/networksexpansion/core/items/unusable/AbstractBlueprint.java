@@ -11,21 +11,22 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.ParametersAreNonnullByDefault;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class AbstractBlueprint extends UnusableSlimefunItem implements DistinctiveItem {
 
     public AbstractBlueprint(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -34,10 +35,10 @@ public abstract class AbstractBlueprint extends UnusableSlimefunItem implements 
     public static void setBlueprint(ItemStack blueprint, ItemStack[] recipe, ItemStack output) {
         final ItemMeta itemMeta = blueprint.getItemMeta();
         DataTypeMethods.setCustom(
-                itemMeta,
-                Keys.BLUEPRINT_INSTANCE,
-                PersistentCraftingBlueprintType.TYPE,
-                new BlueprintInstance(recipe, output));
+            itemMeta,
+            Keys.BLUEPRINT_INSTANCE,
+            PersistentCraftingBlueprintType.TYPE,
+            new BlueprintInstance(recipe, output));
         List<String> lore = new ArrayList<>();
 
         lore.add(Lang.getString("messages.blueprint.title"));

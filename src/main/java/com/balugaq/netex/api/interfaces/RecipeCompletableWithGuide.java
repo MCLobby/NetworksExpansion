@@ -7,7 +7,6 @@ import com.balugaq.netex.api.data.SimpleRecipeChoice;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.core.listeners.JEGCompatibleListener;
 import com.balugaq.netex.utils.BlockMenuUtil;
-import com.balugaq.netex.utils.Debug;
 import com.balugaq.netex.utils.GuideUtil;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.NetworkStorage;
@@ -18,10 +17,6 @@ import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import lombok.SneakyThrows;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
@@ -37,7 +32,22 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public interface RecipeCompletableWithGuide {
+    @SneakyThrows
+    static void tryCallJEGVanillaItemGroupDisplayable(@NotNull Player player, boolean displayable) {
+        try {
+            var method = ReflectionUtil.getMethod(JustEnoughGuide.class, "vanillaItemsGroupDisplayableFor");
+            if (method != null) {
+                method.invoke(null, player, displayable);
+            }
+        } catch (Throwable ignored) {
+        }
+    }
+
     default void addJEGButton(@NotNull BlockMenu blockMenu, @Range(from = 0, to = 53) int slot) {
         if (Networks.getSupportedPluginManager().isJustEnoughGuide()) {
             blockMenu.replaceExistingItem(slot, Icon.JEG_BUTTON);
@@ -106,7 +116,7 @@ public interface RecipeCompletableWithGuide {
     }
 
     default void completeRecipeWithGuide(
-            @NotNull BlockMenu blockMenu, @NotNull NetworkRoot root, GuideEvents.@NotNull ItemButtonClickEvent event) {
+        @NotNull BlockMenu blockMenu, @NotNull NetworkRoot root, GuideEvents.@NotNull ItemButtonClickEvent event) {
         Player player = event.getPlayer();
 
         ItemStack clickedItem = event.getClickedItem();
@@ -147,7 +157,7 @@ public interface RecipeCompletableWithGuide {
 
             if (choice instanceof RecipeChoice.MaterialChoice materialChoice) {
                 List<ItemStack> itemStacks =
-                        materialChoice.getChoices().stream().map(ItemStack::new).toList();
+                    materialChoice.getChoices().stream().map(ItemStack::new).toList();
                 for (ItemStack itemStack : itemStacks) {
                     ItemStack received = getItemStack(root, player, itemStack);
                     if (received != null && received.getType() != Material.AIR) {
@@ -169,12 +179,13 @@ public interface RecipeCompletableWithGuide {
 
     int[] getIngredientSlots();
 
-    @Nullable default List<RecipeChoice> getRecipe(@NotNull ItemStack itemStack) {
+    @Nullable
+    default List<RecipeChoice> getRecipe(@NotNull ItemStack itemStack) {
         SlimefunItem sf = SlimefunItem.getByItem(itemStack);
         if (sf != null) {
             List<RecipeChoice> raw = new ArrayList<>(Arrays.stream(sf.getRecipe())
-                    .map(item -> item == null ? null : new SimpleRecipeChoice(item))
-                    .toList());
+                .map(item -> item == null ? null : new SimpleRecipeChoice(item))
+                .toList());
             if (raw.size() < 9) {
                 for (int i = raw.size(); i < 9; i++) {
                     raw.add(null);
@@ -224,7 +235,8 @@ public interface RecipeCompletableWithGuide {
     }
 
     @SuppressWarnings("deprecation")
-    @Nullable default ItemStack getItemStack(@NotNull NetworkRoot root, @NotNull Player player, @NotNull ItemStack itemStack) {
+    @Nullable
+    default ItemStack getItemStack(@NotNull NetworkRoot root, @NotNull Player player, @NotNull ItemStack itemStack) {
         // get from player inventory
         for (ItemStack itemStack1 : player.getInventory().getContents()) {
             if (itemStack1 != null && itemStack1.getType() != Material.AIR) {
@@ -245,16 +257,5 @@ public interface RecipeCompletableWithGuide {
         // get from root
         ItemStack item = root.getItemStack0(player.getLocation(), new ItemRequest(itemStack, 1));
         return item;
-    }
-
-    @SneakyThrows
-    static void tryCallJEGVanillaItemGroupDisplayable(@NotNull Player player, boolean displayable) {
-        try {
-            var method = ReflectionUtil.getMethod(JustEnoughGuide.class, "vanillaItemsGroupDisplayableFor");
-            if (method != null) {
-                method.invoke(null, player, displayable);
-            }
-        } catch (Throwable ignored) {
-        }
     }
 }
