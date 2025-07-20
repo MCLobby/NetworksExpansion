@@ -48,14 +48,6 @@ public class SupportedPluginManager {
 
         this.wildStacker = Bukkit.getPluginManager().isPluginEnabled("WildStacker");
         this.guguSlimefunLib = Bukkit.getPluginManager().isPluginEnabled("GuguSlimefunLib");
-        this.justEnoughGuide = Bukkit.getPluginManager().isPluginEnabled("JustEnoughGuide");
-        if (this.justEnoughGuide) {
-            try {
-                Class.forName("com.balugaq.jeg.api.objects.events.GuideEvents");
-            } catch (ClassNotFoundException ignored) {
-                this.justEnoughGuide = false;
-            }
-        }
 
         Networks.getInstance()
             .getServer()
@@ -90,5 +82,13 @@ public class SupportedPluginManager {
     private void firstTickRegistrations() {
         this.wildChests = Bukkit.getPluginManager().isPluginEnabled("WildChests");
         this.mcMMO = Bukkit.getPluginManager().isPluginEnabled("mcMMO");
+        this.justEnoughGuide = Bukkit.getPluginManager().isPluginEnabled("JustEnoughGuide");
+        if (this.justEnoughGuide) {
+            try {
+                Class.forName("com.balugaq.jeg.api.objects.events.GuideEvents");
+            } catch (ClassNotFoundException ignored) {
+                this.justEnoughGuide = false;
+            }
+        }
     }
 }

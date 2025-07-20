@@ -1,8 +1,6 @@
 package com.balugaq.netex.api.interfaces;
 
 import com.balugaq.jeg.api.objects.events.GuideEvents;
-import com.balugaq.jeg.implementation.JustEnoughGuide;
-import com.balugaq.jeg.utils.ReflectionUtil;
 import com.balugaq.netex.api.data.SimpleRecipeChoice;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.core.listeners.JEGCompatibleListener;
@@ -18,7 +16,6 @@ import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import lombok.SneakyThrows;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
@@ -37,17 +34,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public interface RecipeCompletableWithGuide {
-    @SneakyThrows
-    static void tryCallJEGVanillaItemGroupDisplayable(@NotNull Player player, boolean displayable) {
-        try {
-            var method = ReflectionUtil.getMethod(JustEnoughGuide.class, "vanillaItemsGroupDisplayableFor");
-            if (method != null) {
-                method.invoke(null, player, displayable);
-            }
-        } catch (Throwable ignored) {
-        }
-    }
-
     default void addJEGButton(@NotNull BlockMenu blockMenu, @Range(from = 0, to = 53) int slot) {
         if (Networks.getSupportedPluginManager().isJustEnoughGuide()) {
             blockMenu.replaceExistingItem(slot, Icon.JEG_BUTTON);
@@ -87,10 +73,8 @@ public interface RecipeCompletableWithGuide {
             return;
         }
 
-        tryCallJEGVanillaItemGroupDisplayable(player, true);
         GuideUtil.openMainMenuAsync(player, SlimefunGuideMode.SURVIVAL_MODE, 1);
         JEGCompatibleListener.addCallback(player.getUniqueId(), ((event, profile) -> {
-            tryCallJEGVanillaItemGroupDisplayable(player, false);
             BlockMenu actualMenu = StorageCacheUtils.getMenu(blockMenu.getLocation());
             if (actualMenu == null) {
                 return;
