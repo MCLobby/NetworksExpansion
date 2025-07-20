@@ -1,7 +1,6 @@
 package com.balugaq.netex.utils;
 
 import io.github.sefiraat.networks.utils.StackUtils;
-import java.util.HashMap;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -9,6 +8,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
 
 @SuppressWarnings("deprecation")
 @UtilityClass
@@ -24,7 +25,7 @@ public class InventoryUtil {
     }
 
     public static @NotNull HashMap<Integer, ItemStack> addItem(
-            @NotNull Inventory inventory, ItemStack @NotNull ... toAdds) {
+        @NotNull Inventory inventory, ItemStack @NotNull ... toAdds) {
         HashMap<Integer, ItemStack> leftover = new HashMap<>();
         ItemStack[] storage = inventory.getStorageContents();
         if (storage == null) {

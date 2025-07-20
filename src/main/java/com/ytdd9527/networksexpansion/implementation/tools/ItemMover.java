@@ -29,9 +29,6 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.ncbpfluffybear.fluffymachines.items.Barrel;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.Location;
@@ -45,23 +42,29 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
-    @NotNull public static final Interaction[] CHECK_INTERACTIONS =
-            new Interaction[] {Interaction.PLACE_BLOCK, Interaction.BREAK_BLOCK, Interaction.INTERACT_BLOCK};
+    @NotNull
+    public static final Interaction[] CHECK_INTERACTIONS =
+        new Interaction[]{Interaction.PLACE_BLOCK, Interaction.BREAK_BLOCK, Interaction.INTERACT_BLOCK};
 
     @SuppressWarnings("deprecation")
-    @NotNull public static final List<String> DEFAULT_LORE = ExpansionItemStacks.ITEM_MOVER.getItemMeta() == null
-            ? new ArrayList<>()
-            : (ExpansionItemStacks.ITEM_MOVER.getItemMeta().hasLore()
-                            && ExpansionItemStacks.ITEM_MOVER.getItemMeta().getLore() != null
-                    ? ExpansionItemStacks.ITEM_MOVER.getItemMeta().getLore()
-                    : new ArrayList<>());
+    @NotNull
+    public static final List<String> DEFAULT_LORE = ExpansionItemStacks.ITEM_MOVER.getItemMeta() == null
+        ? new ArrayList<>()
+        : (ExpansionItemStacks.ITEM_MOVER.getItemMeta().hasLore()
+        && ExpansionItemStacks.ITEM_MOVER.getItemMeta().getLore() != null
+        ? ExpansionItemStacks.ITEM_MOVER.getItemMeta().getLore()
+        : new ArrayList<>());
 
     public ItemMover(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            @NotNull ItemStack @NotNull [] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        @NotNull ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
         addItemHandler((ItemUseHandler) e -> {
             final Player player = e.getPlayer();
@@ -74,12 +77,12 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
                 }
                 if (itemStack.getAmount() != 1) {
                     player.sendMessage(
-                            Lang.getString("messages.unsupported-operation.item_mover.invalid_item_mover_amount"));
+                        Lang.getString("messages.unsupported-operation.item_mover.invalid_item_mover_amount"));
                     return;
                 }
                 if (!itemStack.hasItemMeta() || itemStack.getItemMeta() == null) {
                     player.sendMessage(
-                            Lang.getString("messages.unsupported-operation.item_mover.invalid_item_mover_meta"));
+                        Lang.getString("messages.unsupported-operation.item_mover.invalid_item_mover_meta"));
                     return;
                 }
                 final Location location = optional.get().getLocation();
@@ -97,7 +100,8 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         });
     }
 
-    @Nullable public static ItemStack getStoredItemStack(@Nullable PersistentDataHolder holder) {
+    @Nullable
+    public static ItemStack getStoredItemStack(@Nullable PersistentDataHolder holder) {
         if (holder == null) {
             return null;
         }
@@ -105,7 +109,8 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         return DataTypeMethods.getCustom(holder, Keys.ITEM_MOVER_ITEM, DataType.ITEM_STACK);
     }
 
-    @Nullable public static ItemStack getStoredItemStack(@Nullable ItemStack mover) {
+    @Nullable
+    public static ItemStack getStoredItemStack(@Nullable ItemStack mover) {
         if (mover == null || mover.getType() == Material.AIR) {
             return null;
         }
@@ -237,8 +242,8 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         List<String> lore = cloneDefaultLore();
         if (storedItemStack != null && amount > 0) {
             lore.add(String.format(
-                    Lang.getString("messages.normal-operation.item_mover.stored_item"),
-                    ItemStackHelper.getDisplayName(storedItemStack)));
+                Lang.getString("messages.normal-operation.item_mover.stored_item"),
+                ItemStackHelper.getDisplayName(storedItemStack)));
             lore.add(String.format(Lang.getString("messages.normal-operation.item_mover.stored_amount"), amount));
         } else {
             clearPDC(itemStack);
@@ -247,7 +252,8 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         itemStack.setItemMeta(itemMeta);
     }
 
-    @Nullable public static BarrelIdentity getBarrel(@NotNull Player player, @NotNull Location location) {
+    @Nullable
+    public static BarrelIdentity getBarrel(@NotNull Player player, @NotNull Location location) {
         final SlimefunItem sfitem = StorageCacheUtils.getSfItem(location);
 
         if (sfitem == null) {
@@ -272,7 +278,8 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         return null;
     }
 
-    @Nullable public static InfinityBarrel getInfinityBarrel(@NotNull Location location, @NotNull StorageUnit unit) {
+    @Nullable
+    public static InfinityBarrel getInfinityBarrel(@NotNull Location location, @NotNull StorageUnit unit) {
         StorageCache cache = unit.getCache(location);
         if (cache == null) {
             return null;
@@ -325,7 +332,8 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         return new InfinityBarrel(location, displayItem, stored, cache);
     }
 
-    @Nullable private static FluffyBarrel getFluffyBarrel(@NotNull Location location, @NotNull Barrel barrel) {
+    @Nullable
+    private static FluffyBarrel getFluffyBarrel(@NotNull Location location, @NotNull Barrel barrel) {
         Block block = location.getBlock();
         ItemStack itemStack;
         try {
@@ -351,7 +359,8 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         return new FluffyBarrel(location, clone, stored, limit, voidExcess);
     }
 
-    @Nullable public static NetworkStorage getNetworkStorage(@NotNull Location location) {
+    @Nullable
+    public static NetworkStorage getNetworkStorage(@NotNull Location location) {
         QuantumCache cache = NetworkQuantumStorage.getCaches().get(location);
         if (cache == null) {
             return null;
@@ -371,7 +380,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
     }
 
     private static void tryDepositIntoMover(
-            @NotNull Player player, ItemStack mover, @NotNull Location clickedLocation) {
+        @NotNull Player player, ItemStack mover, @NotNull Location clickedLocation) {
         if (!hasPermission(player, clickedLocation)) {
             return;
         }
@@ -409,12 +418,12 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         depositItem(mover, fetched);
         int after = fetched.getAmount();
         player.sendMessage(String.format(
-                Lang.getString("messages.completed-operation.item_mover.deposit_success"), name, before - after));
+            Lang.getString("messages.completed-operation.item_mover.deposit_success"), name, before - after));
         updateLore(mover);
     }
 
     private static void tryWithdrawFromMover(
-            @NotNull Player player, ItemStack mover, @NotNull Location clickedLocation) {
+        @NotNull Player player, ItemStack mover, @NotNull Location clickedLocation) {
         if (!hasPermission(player, clickedLocation)) {
             return;
         }
@@ -445,7 +454,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         int after = clone.getAmount();
         setStoredAmount(mover, clone.getAmount());
         player.sendMessage(String.format(
-                Lang.getString("messages.completed-operation.item_mover.withdraw_success"), name, before - after));
+            Lang.getString("messages.completed-operation.item_mover.withdraw_success"), name, before - after));
         updateLore(mover);
     }
 

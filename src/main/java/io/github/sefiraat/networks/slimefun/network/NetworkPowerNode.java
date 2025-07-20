@@ -9,10 +9,6 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -21,6 +17,11 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 public class NetworkPowerNode extends NetworkObject implements EnergyNetComponent {
 
     private static final String KEY_UUID = "display-uuid";
@@ -28,16 +29,17 @@ public class NetworkPowerNode extends NetworkObject implements EnergyNetComponen
     private final Map<Block, Block> placedBlocks = new HashMap<>();
 
     public NetworkPowerNode(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack @NotNull [] recipe,
-            int capacity) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack @NotNull [] recipe,
+        int capacity) {
         super(itemGroup, item, recipeType, recipe, NodeType.POWER_NODE);
         this.capacity = capacity;
     }
 
-    @NotNull @Override
+    @NotNull
+    @Override
     public EnergyNetComponentType getEnergyComponentType() {
         return EnergyNetComponentType.CONSUMER;
     }
@@ -53,7 +55,7 @@ public class NetworkPowerNode extends NetworkObject implements EnergyNetComponen
         addItemHandler(new BlockBreakHandler(false, false) {
             @Override
             public void onPlayerBreak(
-                    @NotNull BlockBreakEvent e, @NotNull ItemStack item, @NotNull List<ItemStack> drops) {
+                @NotNull BlockBreakEvent e, @NotNull ItemStack item, @NotNull List<ItemStack> drops) {
                 Block brokenBlock = e.getBlock();
                 Block pairedBlock = placedBlocks.get(brokenBlock);
 
@@ -78,7 +80,8 @@ public class NetworkPowerNode extends NetworkObject implements EnergyNetComponen
         }
     }
 
-    @Nullable private UUID getDisplayGroupUUID(@NotNull Location location) {
+    @Nullable
+    private UUID getDisplayGroupUUID(@NotNull Location location) {
         String uuid = StorageCacheUtils.getData(location, KEY_UUID);
         if (uuid == null) {
             return null;
@@ -86,7 +89,8 @@ public class NetworkPowerNode extends NetworkObject implements EnergyNetComponen
         return UUID.fromString(uuid);
     }
 
-    @Nullable private DisplayGroup getDisplayGroup(@NotNull Location location) {
+    @Nullable
+    private DisplayGroup getDisplayGroup(@NotNull Location location) {
         UUID uuid = getDisplayGroupUUID(location);
         if (uuid == null) {
             return null;

@@ -2,10 +2,6 @@ package com.balugaq.netex.utils;
 
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import lombok.experimental.UtilityClass;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
@@ -14,12 +10,18 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @UtilityClass
 public class BlockMenuUtil {
-    @Nullable public static ItemStack pushItem(
-            @NotNull final BlockMenu blockMenu,
-            @Nullable final ItemStack item,
-            @Range(from = 0, to = 53) final int @NotNull ... slots) {
+    @Nullable
+    public static ItemStack pushItem(
+        @NotNull final BlockMenu blockMenu,
+        @Nullable final ItemStack item,
+        @Range(from = 0, to = 53) final int @NotNull ... slots) {
         if (item == null || item.getType() == Material.AIR) {
             return null;
             // throw new IllegalArgumentException("Cannot push null or AIR");
@@ -63,10 +65,11 @@ public class BlockMenuUtil {
         }
     }
 
-    @NotNull public static Map<ItemStack, Integer> pushItem(
-            @NotNull final BlockMenu blockMenu,
-            @Nullable final ItemStack @NotNull [] items,
-            @Range(from = 0, to = 53) final int @NotNull ... slots) {
+    @NotNull
+    public static Map<ItemStack, Integer> pushItem(
+        @NotNull final BlockMenu blockMenu,
+        @Nullable final ItemStack @NotNull [] items,
+        @Range(from = 0, to = 53) final int @NotNull ... slots) {
         if (items == null || items.length == 0) {
             return new HashMap<>();
             // throw new IllegalArgumentException("Cannot push null or empty array");
@@ -82,10 +85,11 @@ public class BlockMenuUtil {
         return pushItem(blockMenu, listItems, slots);
     }
 
-    @NotNull public static Map<ItemStack, Integer> pushItem(
-            @NotNull final BlockMenu blockMenu,
-            @Nullable final List<ItemStack> items,
-            @Range(from = 0, to = 53) final int @NotNull ... slots) {
+    @NotNull
+    public static Map<ItemStack, Integer> pushItem(
+        @NotNull final BlockMenu blockMenu,
+        @Nullable final List<ItemStack> items,
+        @Range(from = 0, to = 53) final int @NotNull ... slots) {
         if (items == null || items.isEmpty()) {
             return new HashMap<>();
             // throw new IllegalArgumentException("Cannot push null or empty list");
@@ -105,9 +109,9 @@ public class BlockMenuUtil {
     }
 
     public static boolean fits(
-            @NotNull final BlockMenu blockMenu,
-            @Nullable final ItemStack item,
-            @Range(from = 0, to = 53) final int @NotNull ... slots) {
+        @NotNull final BlockMenu blockMenu,
+        @Nullable final ItemStack item,
+        @Range(from = 0, to = 53) final int @NotNull ... slots) {
         if (item == null || item.getType() == Material.AIR) {
             return true;
         }
@@ -131,9 +135,9 @@ public class BlockMenuUtil {
     }
 
     public static boolean fits(
-            @NotNull final BlockMenu blockMenu,
-            @Nullable final ItemStack @Nullable [] items,
-            @Range(from = 0, to = 53) final int @NotNull ... slots) {
+        @NotNull final BlockMenu blockMenu,
+        @Nullable final ItemStack @Nullable [] items,
+        @Range(from = 0, to = 53) final int @NotNull ... slots) {
         if (items == null || items.length == 0) {
             return false;
         }
@@ -149,9 +153,9 @@ public class BlockMenuUtil {
     }
 
     public static boolean fits(
-            @NotNull final BlockMenu blockMenu,
-            @Nullable final List<ItemStack> items,
-            @Range(from = 0, to = 53) final int @NotNull ... slots) {
+        @NotNull final BlockMenu blockMenu,
+        @Nullable final List<ItemStack> items,
+        @Range(from = 0, to = 53) final int @NotNull ... slots) {
         if (items == null || items.isEmpty()) {
             return false;
         }
@@ -215,25 +219,25 @@ public class BlockMenuUtil {
     }
 
     public static void consumeItem(
-            @NotNull final BlockMenu blockMenu,
-            @Range(from = 0, to = 53) final int slot,
-            final boolean replaceConsumables) {
+        @NotNull final BlockMenu blockMenu,
+        @Range(from = 0, to = 53) final int slot,
+        final boolean replaceConsumables) {
         consumeItem(blockMenu, slot, 1, replaceConsumables);
     }
 
     public static void consumeItem(
-            @NotNull final BlockMenu blockMenu,
-            @Range(from = 0, to = 53) final int slot,
-            @Range(from = 0, to = 64) final int amount) {
+        @NotNull final BlockMenu blockMenu,
+        @Range(from = 0, to = 53) final int slot,
+        @Range(from = 0, to = 64) final int amount) {
         consumeItem(blockMenu, slot, amount, false);
     }
 
     @SuppressWarnings("deprecation")
     public static void consumeItem(
-            @NotNull final BlockMenu blockMenu,
-            @Range(from = 0, to = 53) final int slot,
-            @Range(from = 0, to = 64) final int amount,
-            final boolean replaceConsumables) {
+        @NotNull final BlockMenu blockMenu,
+        @Range(from = 0, to = 53) final int slot,
+        @Range(from = 0, to = 64) final int amount,
+        final boolean replaceConsumables) {
         if (amount == 0) {
             return;
         }
@@ -241,21 +245,21 @@ public class BlockMenuUtil {
         final ItemStack item = blockMenu.getItemInSlot(slot);
         if (item != null && item.getType() != Material.AIR) {
             if (replaceConsumables
-                    && item.getAmount() == 1
-                    && StackUtils.itemsMatch(item, new ItemStack(item.getType()))) {
+                && item.getAmount() == 1
+                && StackUtils.itemsMatch(item, new ItemStack(item.getType()))) {
                 switch (item.getType()) {
                     case WATER_BUCKET,
-                            LAVA_BUCKET,
-                            MILK_BUCKET,
-                            COD_BUCKET,
-                            SALMON_BUCKET,
-                            PUFFERFISH_BUCKET,
-                            TROPICAL_FISH_BUCKET,
-                            AXOLOTL_BUCKET,
-                            POWDER_SNOW_BUCKET,
-                            TADPOLE_BUCKET -> item.setType(Material.BUCKET);
+                         LAVA_BUCKET,
+                         MILK_BUCKET,
+                         COD_BUCKET,
+                         SALMON_BUCKET,
+                         PUFFERFISH_BUCKET,
+                         TROPICAL_FISH_BUCKET,
+                         AXOLOTL_BUCKET,
+                         POWDER_SNOW_BUCKET,
+                         TADPOLE_BUCKET -> item.setType(Material.BUCKET);
                     case POTION, SPLASH_POTION, LINGERING_POTION, HONEY_BOTTLE, DRAGON_BREATH -> item.setType(
-                            Material.GLASS_BOTTLE);
+                        Material.GLASS_BOTTLE);
                     case MUSHROOM_STEW, BEETROOT_SOUP, RABBIT_STEW, SUSPICIOUS_STEW -> item.setType(Material.BOWL);
                     default -> item.setAmount(0);
                 }

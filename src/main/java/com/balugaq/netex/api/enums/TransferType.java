@@ -3,11 +3,12 @@ package com.balugaq.netex.api.enums;
 import com.balugaq.netex.api.gui.GUI;
 import com.balugaq.netex.utils.GUIs;
 import io.github.sefiraat.networks.Networks;
-import java.util.HashMap;
-import java.util.Map;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter
 public enum TransferType {
@@ -32,10 +33,15 @@ public enum TransferType {
     TRANSFER_MORE_PUSHER(GUIs.TMP),
     TRANSFER_PUSHER(GUIs.TP),
     LINE_TRANSFER_VANILLA_GRABBER(GUIs.LTVG, false),
-    LINE_TRANSFER_VANILLA_PUSHER(GUIs.LTVP, false);
+    LINE_TRANSFER_VANILLA_PUSHER(GUIs.LTVP, false),
+    WHITELISTED_TRANSFER_GRABBER(GUIs.WTG, false),
+    WHITELISTED_LINE_TRANSFER_GRABBER(GUIs.WLTG, false),
+    WHITELISTED_TRANSFER_VANILLA_GRABBER(GUIs.WTVG, false),
+    WHITELISTED_LINE_TRANSFER_VANILLA_GRABBER(GUIs.WLTVG, false);
 
     private final @NotNull GUI gui;
     private final boolean advanced;
+    private final Map<String, Integer> config = new HashMap<>();
 
     TransferType(@NotNull GUI gui, boolean advanced) {
         this.gui = gui;
@@ -46,8 +52,6 @@ public enum TransferType {
         this.gui = gui;
         this.advanced = false;
     }
-
-    private final Map<String, Integer> config = new HashMap<>();
 
     public int config(@NotNull String key) {
         return config(key, 0);
@@ -92,5 +96,9 @@ public enum TransferType {
 
     public boolean isPusher() {
         return isTransfer() || name().endsWith("_PUSHER");
+    }
+
+    public boolean isWhitelisted() {
+        return name().startsWith("WHITELISTED_");
     }
 }

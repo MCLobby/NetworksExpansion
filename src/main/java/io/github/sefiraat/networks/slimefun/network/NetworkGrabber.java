@@ -23,10 +23,10 @@ import org.jetbrains.annotations.Nullable;
 public class NetworkGrabber extends NetworkDirectional implements SoftCellBannable {
 
     public NetworkGrabber(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.GRABBER);
     }
 
@@ -52,7 +52,7 @@ public class NetworkGrabber extends NetworkDirectional implements SoftCellBannab
 
         final BlockFace direction = this.getCurrentDirection(blockMenu);
         final BlockMenu targetMenu = StorageCacheUtils.getMenu(
-                blockMenu.getBlock().getRelative(direction).getLocation());
+            blockMenu.getBlock().getRelative(direction).getLocation());
 
         if (targetMenu == null) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NO_TARGET_BLOCK);
@@ -60,7 +60,7 @@ public class NetworkGrabber extends NetworkDirectional implements SoftCellBannab
         }
 
         int[] slots =
-                targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
+            targetMenu.getPreset().getSlotsAccessedByItemTransport(targetMenu, ItemTransportFlow.WITHDRAW, null);
 
         for (int slot : slots) {
             final ItemStack itemStack = targetMenu.getItemInSlot(slot);

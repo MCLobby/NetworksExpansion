@@ -15,7 +15,6 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
-import java.util.Optional;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -24,13 +23,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+
 public class NetworkWirelessConfigurator extends SpecialSlimefunItem {
 
     public NetworkWirelessConfigurator(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack @NotNull [] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
         addItemHandler((ItemUseHandler) e -> {
             final Player player = e.getPlayer();
@@ -43,7 +44,7 @@ public class NetworkWirelessConfigurator extends SpecialSlimefunItem {
                     final BlockMenu blockMenu = StorageCacheUtils.getMenu(block.getLocation());
                     if (blockMenu == null) {
                         player.sendMessage(Lang.getString(
-                                "messages.unsupported-operation.wireless_configurator.not_network_wireless_block"));
+                            "messages.unsupported-operation.wireless_configurator.not_network_wireless_block"));
                         return;
                     }
                     if (slimefunItem instanceof NetworkWirelessTransmitter transmitter && player.isSneaking()) {
@@ -52,7 +53,7 @@ public class NetworkWirelessConfigurator extends SpecialSlimefunItem {
                         setReceiver(heldItem, blockMenu, player);
                     } else {
                         player.sendMessage(Lang.getString(
-                                "messages.unsupported-operation.wireless_configurator.not_network_wireless_block"));
+                            "messages.unsupported-operation.wireless_configurator.not_network_wireless_block"));
                     }
                 } else {
                     player.sendMessage(Lang.getString("messages.unsupported-operation.comprehensive.no_permission"));
@@ -63,10 +64,10 @@ public class NetworkWirelessConfigurator extends SpecialSlimefunItem {
     }
 
     private void setTransmitter(
-            @NotNull NetworkWirelessTransmitter transmitter,
-            @NotNull ItemStack itemStack,
-            @NotNull BlockMenu blockMenu,
-            @NotNull Player player) {
+        @NotNull NetworkWirelessTransmitter transmitter,
+        @NotNull ItemStack itemStack,
+        @NotNull BlockMenu blockMenu,
+        @NotNull Player player) {
         final ItemMeta itemMeta = itemStack.getItemMeta();
         Location location = PersistentDataAPI.get(itemMeta, Keys.TARGET_LOCATION, DataType.LOCATION);
         if (location == null) {
@@ -79,7 +80,7 @@ public class NetworkWirelessConfigurator extends SpecialSlimefunItem {
 
         if (location == null) {
             player.sendMessage(
-                    Lang.getString("messages.unsupported-operation.wireless_configurator.no_target_location"));
+                Lang.getString("messages.unsupported-operation.wireless_configurator.no_target_location"));
             return;
         }
 

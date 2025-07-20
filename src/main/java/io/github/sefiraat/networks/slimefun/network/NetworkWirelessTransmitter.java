@@ -16,8 +16,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
-import java.util.HashMap;
-import java.util.Map;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -31,14 +29,17 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class NetworkWirelessTransmitter extends NetworkObject {
 
     public static final int TEMPLATE_SLOT = 13;
 
     private static final int[] BACKGROUND_SLOTS =
-            new int[] {0, 1, 2, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
+        new int[]{0, 1, 2, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 
-    private static final int[] BACKGROUND_SLOTS_TEMPLATE = new int[] {3, 4, 5, 12, 14, 21, 22, 23};
+    private static final int[] BACKGROUND_SLOTS_TEMPLATE = new int[]{3, 4, 5, 12, 14, 21, 22, 23};
 
     private static final String LINKED_LOCATION_KEY_X = "linked-location-x";
     private static final String LINKED_LOCATION_KEY_Y = "linked-location-y";
@@ -50,10 +51,10 @@ public class NetworkWirelessTransmitter extends NetworkObject {
     private final Map<Location, Location> linkedLocations = new HashMap<>();
 
     public NetworkWirelessTransmitter(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack @NotNull [] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.WIRELESS_TRANSMITTER);
         this.getSlotsToDrop().add(TEMPLATE_SLOT);
 
@@ -79,10 +80,10 @@ public class NetworkWirelessTransmitter extends NetworkObject {
                         final String zString = data.getData(LINKED_LOCATION_KEY_Z);
                         if (xString != null && yString != null && zString != null) {
                             final Location linkedLocation = new Location(
-                                    block.getWorld(),
-                                    Integer.parseInt(xString),
-                                    Integer.parseInt(yString),
-                                    Integer.parseInt(zString));
+                                block.getWorld(),
+                                Integer.parseInt(xString),
+                                Integer.parseInt(yString),
+                                Integer.parseInt(zString));
                             linkedLocations.put(block.getLocation(), linkedLocation);
                         }
                         firstTick.put(block.getLocation(), false);
@@ -147,11 +148,11 @@ public class NetworkWirelessTransmitter extends NetworkObject {
             }
 
             final ItemStack stackToPush = definition
-                    .getNode()
-                    .getRoot()
-                    .getItemStack0(
-                            blockMenu.getLocation(),
-                            new ItemRequest(templateStack.clone(), templateStack.getMaxStackSize()));
+                .getNode()
+                .getRoot()
+                .getItemStack0(
+                    blockMenu.getLocation(),
+                    new ItemRequest(templateStack.clone(), templateStack.getMaxStackSize()));
 
             if (stackToPush != null) {
                 definition.getNode().getRoot().removeRootPower(REQUIRED_POWER);
@@ -159,9 +160,9 @@ public class NetworkWirelessTransmitter extends NetworkObject {
                 sendFeedback(location, FeedbackType.WORKING);
                 if (definition.getNode().getRoot().isDisplayParticles()) {
                     final Location particleLocation =
-                            blockMenu.getLocation().clone().add(0.5, 1.1, 0.5);
+                        blockMenu.getLocation().clone().add(0.5, 1.1, 0.5);
                     final Location particleLocation2 =
-                            linkedBlockMenu.getLocation().clone().add(0.5, 2.1, 0.5);
+                        linkedBlockMenu.getLocation().clone().add(0.5, 2.1, 0.5);
                     particleLocation.getWorld().spawnParticle(Particle.WAX_ON, particleLocation, 0, 0, 4, 0);
                     particleLocation2.getWorld().spawnParticle(Particle.WAX_OFF, particleLocation2, 0, 0, -4, 0);
                 }
@@ -182,9 +183,9 @@ public class NetworkWirelessTransmitter extends NetworkObject {
             @Override
             public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
-                        || (NetworkSlimefunItems.NETWORK_WIRELESS_TRANSMITTER.canUse(player, false)
-                                && Slimefun.getProtectionManager()
-                                        .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
+                    || (NetworkSlimefunItems.NETWORK_WIRELESS_TRANSMITTER.canUse(player, false)
+                    && Slimefun.getProtectionManager()
+                    .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override

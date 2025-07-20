@@ -4,12 +4,13 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import javax.annotation.ParametersAreNonnullByDefault;
 import lombok.experimental.UtilityClass;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * @author Final_ROOT, balugaq
@@ -20,7 +21,7 @@ public class GuideUtil {
     @ParametersAreNonnullByDefault
     public static void openMainMenuAsync(Player player, SlimefunGuideMode mode, int selectedPage) {
         if (!PlayerProfile.get(
-                player, profile -> Slimefun.runSync(() -> openMainMenu(player, profile, mode, selectedPage)))) {
+            player, profile -> Slimefun.runSync(() -> openMainMenu(player, profile, mode, selectedPage)))) {
             Slimefun.getLocalization().sendMessage(player, "messages.opening-guide");
         }
     }

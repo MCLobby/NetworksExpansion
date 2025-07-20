@@ -16,9 +16,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import lombok.Getter;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import org.bukkit.Bukkit;
@@ -27,6 +24,10 @@ import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Getter
 public class NetworkController extends NetworkObject {
@@ -45,10 +46,10 @@ public class NetworkController extends NetworkObject {
     private final @NotNull ItemSetting<Integer> maxNodes;
 
     public NetworkController(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack @NotNull [] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.CONTROLLER);
 
         maxNodes = new IntRangeSetting(this, "max_nodes", 10, 8000, 50000);
@@ -69,11 +70,11 @@ public class NetworkController extends NetworkObject {
 
                 addToRegistry(block);
                 NetworkRoot networkRoot = new NetworkRoot(
-                        block.getLocation(),
-                        NodeType.CONTROLLER,
-                        maxNodes.getValue(),
-                        recordFlow.getOrDefault(block.getLocation(), false),
-                        records.get(block.getLocation()));
+                    block.getLocation(),
+                    NodeType.CONTROLLER,
+                    maxNodes.getValue(),
+                    recordFlow.getOrDefault(block.getLocation(), false),
+                    records.get(block.getLocation()));
                 networkRoot.addAllChildren();
 
                 boolean crayon = CRAYONS.contains(block.getLocation());

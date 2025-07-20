@@ -7,8 +7,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Setter;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -16,6 +14,9 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 public class NetworkCell extends NetworkObject {
@@ -32,10 +33,10 @@ public class NetworkCell extends NetworkObject {
     private boolean useSpecialModel = false;
 
     public NetworkCell(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.CELL);
         for (int slot : SLOTS) {
             this.getSlotsToDrop().add(slot);
@@ -54,9 +55,9 @@ public class NetworkCell extends NetworkObject {
             @Override
             public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
-                        || (NetworkSlimefunItems.NETWORK_CELL.canUse(player, false)
-                                && Slimefun.getProtectionManager()
-                                        .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
+                    || (NetworkSlimefunItems.NETWORK_CELL.canUse(player, false)
+                    && Slimefun.getProtectionManager()
+                    .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override

@@ -10,13 +10,14 @@ import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.slimefun.network.grid.AbstractGrid;
 import io.github.thebusybiscuit.slimefun4.api.events.ExplosiveToolBreakBlocksEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import java.util.ArrayList;
-import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExplosiveToolListener implements Listener {
 
@@ -32,7 +33,7 @@ public class ExplosiveToolListener implements Listener {
                 if (isAntiExplosiveBlock(item)) {
                     blocksToRemove.add(block);
                     Networks.getInstance()
-                            .debug("Disabled explosive block: " + NetworksMain.locationToString(block.getLocation()));
+                        .debug("Disabled explosive block: " + NetworksMain.locationToString(block.getLocation()));
                 }
             }
         }
@@ -41,9 +42,9 @@ public class ExplosiveToolListener implements Listener {
 
     private boolean isAntiExplosiveBlock(SlimefunItem item) {
         return item instanceof NetworksDrawer
-                || item instanceof NetworkQuantumStorage
-                || item instanceof NetworkCell
-                || item instanceof AbstractGrid
-                || item instanceof AbstractGridNewStyle;
+            || item instanceof NetworkQuantumStorage
+            || item instanceof NetworkCell
+            || item instanceof AbstractGrid
+            || item instanceof AbstractGridNewStyle;
     }
 }

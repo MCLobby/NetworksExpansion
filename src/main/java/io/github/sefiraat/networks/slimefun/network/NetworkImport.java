@@ -26,15 +26,15 @@ import org.jetbrains.annotations.NotNull;
 
 public class NetworkImport extends NetworkObject {
 
-    private static final int[] INPUT_SLOTS = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8};
+    private static final int[] INPUT_SLOTS = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8};
 
     private final @NotNull ItemSetting<Integer> tickRate;
 
     public NetworkImport(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.IMPORT);
 
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
@@ -103,9 +103,9 @@ public class NetworkImport extends NetworkObject {
             @Override
             public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
-                        || (NetworkSlimefunItems.NETWORK_IMPORT.canUse(player, false)
-                                && Slimefun.getProtectionManager()
-                                        .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
+                    || (NetworkSlimefunItems.NETWORK_IMPORT.canUse(player, false)
+                    && Slimefun.getProtectionManager()
+                    .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override

@@ -10,10 +10,10 @@ import org.jetbrains.annotations.NotNull;
 public class NetworkMonitor extends NetworkDirectional {
 
     public NetworkMonitor(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.STORAGE_MONITOR);
     }
 }

@@ -1031,9 +1031,9 @@ items:
       - "<warning> 网络拓展开发版不接受 GitHub Issues"
       - "<warning> 网络拓展开发版不接受 GitHub PR"
       - "<passive> 版本信息:"
-      - "<passive> 网络拓展版本: Special-Version-41"
+      - "<passive> 网络拓展版本: Special-Version-43"
       - "<passive> 版本状态: 稳定版"
-      - "<passive> 版本更新时间: 2025-7-14 23:40:13"
+      - "<passive> 版本更新时间: 2025-7-20 12:50:28"
       - "<passive> 开发状态: 更新中"
       - "<passive> 开发者（们）: ytdd9527, balugaq"
       - "<passive> 开发者 GitHub 页面: <click_info>https://github.com/ytdd9527"
@@ -3603,6 +3603,46 @@ items:
       - "&e数量倒序&7: &e按物品数量倒序排序"
       - "&e附属&7: &e按物品所属附属字母顺序排序"
       - "支持拼音搜索"
+
+  NTW_EXPANSION_WHITELISTED_TRANSFER_GRABBER:
+    name: "白名单网络抓取器"
+    lore:
+      - "白名单网络抓取器会尝试从"
+      - "指定的机器中抓取第一个物品"
+
+  NTW_EXPANSION_WHITELISTED_TRANSFER_VANILLA_GRABBER:
+    name: "白名单原版网络抓取器"
+    lore:
+      - "白名单原版网络抓取器会尝试从"
+      - "指定的机器中抓取第一个物品"
+
+  NTW_EXPANSION_WHITELISTED_LINE_TRANSFER_GRABBER:
+    name: "链式白名单传输器 [抓取]"
+    lore:
+      - "&c仅支持粘液容器"
+      - "&6运输距离: 32 格"
+      - "&7默认运输模式: &6首位阻断"
+      - "&c不可调整运输模式"
+      - "&7默认运输数量: &664"
+      - "&c不可调整运输数量"
+      - "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续抓取的功能"
+      - "&c而不是连续转移物品！"
+      - "&7运输模式解释: "
+      - "&6首位阻断&7: &e仅抓取第一个有物品的槽位"
+
+  NTW_EXPANSION_WHITELISTED_LINE_TRANSFER_VANILLA_GRABBER:
+    name: "链式白名单原版传输器 [抓取]"
+    lore:
+      - "&c仅支持原版容器"
+      - "&6运输距离: 32 格"
+      - "&7默认运输模式: &6首位阻断"
+      - "&c不可调整运输模式"
+      - "&7默认运输数量: &664"
+      - "&c不可调整运输数量"
+      - "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续抓取的功能"
+      - "&c而不是连续转移物品！"
+      - "&7运输模式解释: "
+      - "&6首位阻断&7: &e仅抓取第一个有物品的槽位"
 
 displays:
   quantum_storage:

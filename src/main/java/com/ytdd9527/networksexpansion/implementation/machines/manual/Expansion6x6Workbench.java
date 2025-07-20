@@ -11,12 +11,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -26,13 +20,20 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Deprecated
 public class Expansion6x6Workbench extends AbstractManualCrafter {
     public static final List<SuperRecipe> RECIPES = new ArrayList<>();
     public static final RecipeType TYPE = new RecipeType(
-            Keys.EXPANSION_WORKBENCH_6x6,
-            Icon.RECIPE_TYPE_ITEMSTACK_EXPANSION_WORKBENCH_6x6,
-            Expansion6x6Workbench::addRecipe);
+        Keys.EXPANSION_WORKBENCH_6x6,
+        Icon.RECIPE_TYPE_ITEMSTACK_EXPANSION_WORKBENCH_6x6,
+        Expansion6x6Workbench::addRecipe);
     public static final Map<Integer, ItemStack> BACKGROUNDS = new HashMap<>();
     private static final int[] BACKGROUND_SLOTS = {6, 7, 8, 15, 17, 24, 25, 26, 33, 34, 35, 42, 44, 51, 52, 53};
     private static final int[] RECIPE_SLOTS = {
@@ -56,7 +57,7 @@ public class Expansion6x6Workbench extends AbstractManualCrafter {
 
     @ParametersAreNonnullByDefault
     public Expansion6x6Workbench(
-            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -78,7 +79,7 @@ public class Expansion6x6Workbench extends AbstractManualCrafter {
 
     @Override
     public int[] getOutputSlots() {
-        return new int[] {OUTPUT_SLOT};
+        return new int[]{OUTPUT_SLOT};
     }
 
     @Override
@@ -105,7 +106,8 @@ public class Expansion6x6Workbench extends AbstractManualCrafter {
     public @NotNull BlockPlaceHandler getMachineBlockPlaceHandler() {
         return new BlockPlaceHandler(false) {
             @Override
-            public void onPlayerPlace(@NotNull BlockPlaceEvent e) {}
+            public void onPlayerPlace(@NotNull BlockPlaceEvent e) {
+            }
         };
     }
 
