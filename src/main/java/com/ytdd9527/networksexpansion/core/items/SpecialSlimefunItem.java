@@ -9,6 +9,8 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotConfigurable;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -23,28 +25,28 @@ import org.jetbrains.annotations.Nullable;
  */
 public abstract class SpecialSlimefunItem extends SlimefunItem implements FeedbackSendable {
     public SpecialSlimefunItem(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            @NotNull ItemStack @NotNull [] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        @NotNull ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
     public SpecialSlimefunItem(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            @NotNull ItemStack @NotNull [] recipe,
-            @Nullable ItemStack recipeOutput) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        @NotNull ItemStack @NotNull [] recipe,
+        @Nullable ItemStack recipeOutput) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
     }
 
     protected SpecialSlimefunItem(
-            @NotNull ItemGroup itemGroup,
-            @NotNull ItemStack item,
-            @NotNull String id,
-            @NotNull RecipeType recipeType,
-            @NotNull ItemStack @NotNull [] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull ItemStack item,
+        @NotNull String id,
+        @NotNull RecipeType recipeType,
+        @NotNull ItemStack @NotNull [] recipe) {
         super(itemGroup, item, id, recipeType, recipe);
     }
 
@@ -55,24 +57,32 @@ public abstract class SpecialSlimefunItem extends SlimefunItem implements Feedba
             int delay = recipeItem.getRegisterRecipeDelay();
             if (delay > 0) {
                 this.getAddon()
-                        .getJavaPlugin()
-                        .getServer()
-                        .getScheduler()
-                        .runTaskLater(
-                                (Plugin) addon,
-                                () -> {
-                                    (recipeItem).registerDefaultRecipes();
-                                    MachineRecipeFactory.getInstance().initAdvancedRecipeMap(this.getId());
-                                },
-                                delay);
+                    .getJavaPlugin()
+                    .getServer()
+                    .getScheduler()
+                    .runTaskLater(
+                        (Plugin) addon,
+                        () -> {
+                            (recipeItem).registerDefaultRecipes();
+                            MachineRecipeFactory.getInstance().initAdvancedRecipeMap(this.getId());
+                        },
+                        delay);
             } else {
                 (recipeItem).registerDefaultRecipes();
                 MachineRecipeFactory.getInstance().initAdvancedRecipeMap(this.getId());
             }
         }
+
+        this.enchantable = false;
+        this.disenchantable = true;
+        if (!(this instanceof NotConfigurable)) {
+            Slimefun.getItemCfg().setDefaultValue(getId() + ".allow-enchanting", this.enchantable);
+            Slimefun.getItemCfg().setDefaultValue(getId() + ".allow-disenchanting", this.disenchantable);
+        }
     }
 
-    @NotNull public SpecialSlimefunItem registerThis() {
+    @NotNull
+    public SpecialSlimefunItem registerThis() {
         this.register(Networks.getInstance());
         return this;
     }

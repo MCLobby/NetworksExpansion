@@ -1,9 +1,10 @@
 package com.balugaq.netex.api.gui;
 
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class GUI {

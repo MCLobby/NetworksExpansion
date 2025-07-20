@@ -13,10 +13,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class AdvancedTransferPusher extends AbstractTransfer implements SoftCellBannable, PushTickOnly {
     public AdvancedTransferPusher(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.TRANSFER_PUSHER);
     }
 

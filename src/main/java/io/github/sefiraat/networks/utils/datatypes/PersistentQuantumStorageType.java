@@ -20,21 +20,24 @@ import org.jetbrains.annotations.NotNull;
 public class PersistentQuantumStorageType implements PersistentDataType<PersistentDataContainer, QuantumCache> {
 
     public static final PersistentDataType<PersistentDataContainer, QuantumCache> TYPE =
-            new PersistentQuantumStorageType();
+        new PersistentQuantumStorageType();
 
     @Override
-    @NotNull public Class<PersistentDataContainer> getPrimitiveType() {
+    @NotNull
+    public Class<PersistentDataContainer> getPrimitiveType() {
         return PersistentDataContainer.class;
     }
 
     @Override
-    @NotNull public Class<QuantumCache> getComplexType() {
+    @NotNull
+    public Class<QuantumCache> getComplexType() {
         return QuantumCache.class;
     }
 
     @Override
-    @NotNull public PersistentDataContainer toPrimitive(
-            @NotNull QuantumCache complex, @NotNull PersistentDataAdapterContext context) {
+    @NotNull
+    public PersistentDataContainer toPrimitive(
+        @NotNull QuantumCache complex, @NotNull PersistentDataAdapterContext context) {
         final PersistentDataContainer container = context.newPersistentDataContainer();
 
         if (complex.getItemStack() != null) {
@@ -48,8 +51,9 @@ public class PersistentQuantumStorageType implements PersistentDataType<Persiste
     }
 
     @Override
-    @NotNull public QuantumCache fromPrimitive(
-            @NotNull PersistentDataContainer primitive, @NotNull PersistentDataAdapterContext context) {
+    @NotNull
+    public QuantumCache fromPrimitive(
+        @NotNull PersistentDataContainer primitive, @NotNull PersistentDataAdapterContext context) {
         ItemStack item = primitive.get(Keys.ITEM, DataType.ITEM_STACK);
         if (item == null) {
             item = primitive.get(Keys.ITEM2, DataType.ITEM_STACK);
@@ -96,7 +100,7 @@ public class PersistentQuantumStorageType implements PersistentDataType<Persiste
         }
 
         boolean supportsCustomMaxAmount =
-                primitive.getOrDefault(Keys.SUPPORTS_CUSTOM_MAX_AMOUNT, DataType.BOOLEAN, false);
+            primitive.getOrDefault(Keys.SUPPORTS_CUSTOM_MAX_AMOUNT, DataType.BOOLEAN, false);
 
         return new QuantumCache(item, amount, limit, voidExcess, supportsCustomMaxAmount);
     }

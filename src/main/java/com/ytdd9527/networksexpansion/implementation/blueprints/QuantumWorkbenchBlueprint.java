@@ -10,10 +10,10 @@ import org.jetbrains.annotations.NotNull;
 public class QuantumWorkbenchBlueprint extends AbstractBlueprint {
 
     public QuantumWorkbenchBlueprint(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack[] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 }

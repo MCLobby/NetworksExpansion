@@ -34,14 +34,6 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -58,9 +50,18 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+
 public class CrafterManager extends NetworkObject {
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
-    private static final int[] BACKGROUND_SLOTS = new int[] {8, 17, 26, 35};
+    private static final int[] BACKGROUND_SLOTS = new int[]{8, 17, 26, 35};
     private static final int[] DISPLAY_SLOTS = {
         0, 1, 2, 3, 4, 5, 6, 7,
         9, 10, 11, 12, 13, 14, 15, 16,
@@ -82,10 +83,10 @@ public class CrafterManager extends NetworkObject {
     private final @NotNull IntRangeSetting tickRate;
 
     public CrafterManager(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack @NotNull [] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.CRAFTER_MANAGER);
 
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
@@ -124,7 +125,7 @@ public class CrafterManager extends NetworkObject {
     }
 
     public static void setCrafterIcon(
-            @NotNull Player player, @NotNull Location crafterLocation, @NotNull ItemStack cursor) {
+        @NotNull Player player, @NotNull Location crafterLocation, @NotNull ItemStack cursor) {
         StorageCacheUtils.setData(crafterLocation, BS_ICON, serializeIcon(cursor));
         player.sendMessage(Lang.getString("messages.completed-operation.manager.set_icon"));
     }
@@ -146,7 +147,8 @@ public class CrafterManager extends NetworkObject {
         }
     }
 
-    @Nullable public static ItemStack deserializeIcon(@NotNull String icon) {
+    @Nullable
+    public static ItemStack deserializeIcon(@NotNull String icon) {
         if (icon.startsWith(NAMESPACE_SF)) {
             String id = icon.split(":")[1];
             SlimefunItem sf = SlimefunItem.getById(id);
@@ -194,7 +196,7 @@ public class CrafterManager extends NetworkObject {
     }
 
     public void tryInsertBlueprint(
-            @NotNull BlockMenu managerMenu, @NotNull ItemStack blueprint, @NotNull BlueprintInstance instance) {
+        @NotNull BlockMenu managerMenu, @NotNull ItemStack blueprint, @NotNull BlueprintInstance instance) {
         Location location = managerMenu.getLocation();
         final GridCache gridCache = getCacheMap().get(location);
         NodeDefinition definition = NetworkStorage.getNode(location);
@@ -227,8 +229,8 @@ public class CrafterManager extends NetworkObject {
         final int end = Math.min(start + getDisplaySlots().length, datas.size());
 
         datas = datas.stream()
-                .sorted((a, b) -> isTopCrafter(a.location()) ? -1 : isTopCrafter(b.location()) ? 1 : 0)
-                .toList();
+            .sorted((a, b) -> isTopCrafter(a.location()) ? -1 : isTopCrafter(b.location()) ? 1 : 0)
+            .toList();
 
         final List<CrafterMetaData> validdatas = datas.subList(start, end);
         CrafterMetaData empty = null;
@@ -253,13 +255,13 @@ public class CrafterManager extends NetworkObject {
                         tryInsertBlueprint(crafterMenu, blueprint, 1);
                         return;
                     } else if (sf instanceof AbstractAdvancedAutoCrafter
-                            && (existing == null
-                                    || existing.getType() == Material.AIR
-                                    || existing.getAmount() < output.getMaxStackSize() / output.getAmount())) {
+                        && (existing == null
+                        || existing.getType() == Material.AIR
+                        || existing.getAmount() < output.getMaxStackSize() / output.getAmount())) {
                         tryInsertBlueprint(
-                                crafterMenu,
-                                blueprint,
-                                Math.min(output.getMaxStackSize() / output.getAmount(), blueprint.getAmount()));
+                            crafterMenu,
+                            blueprint,
+                            Math.min(output.getMaxStackSize() / output.getAmount(), blueprint.getAmount()));
                         return;
                     }
                 }
@@ -287,16 +289,16 @@ public class CrafterManager extends NetworkObject {
                 final ItemMeta blueprintMeta = blueprint.getItemMeta();
                 Optional<BlueprintInstance> optional;
                 optional = DataTypeMethods.getOptionalCustom(
-                        blueprintMeta, Keys.BLUEPRINT_INSTANCE, PersistentCraftingBlueprintType.TYPE);
+                    blueprintMeta, Keys.BLUEPRINT_INSTANCE, PersistentCraftingBlueprintType.TYPE);
 
                 if (optional.isEmpty()) {
                     optional = DataTypeMethods.getOptionalCustom(
-                            blueprintMeta, Keys.BLUEPRINT_INSTANCE2, PersistentCraftingBlueprintType.TYPE);
+                        blueprintMeta, Keys.BLUEPRINT_INSTANCE2, PersistentCraftingBlueprintType.TYPE);
                 }
 
                 if (optional.isEmpty()) {
                     optional = DataTypeMethods.getOptionalCustom(
-                            blueprintMeta, Keys.BLUEPRINT_INSTANCE3, PersistentCraftingBlueprintType.TYPE);
+                        blueprintMeta, Keys.BLUEPRINT_INSTANCE3, PersistentCraftingBlueprintType.TYPE);
                 }
 
                 instance2 = optional.orElse(null);
@@ -305,9 +307,9 @@ public class CrafterManager extends NetworkObject {
                     ItemStack output = instance.getItemStack();
                     if (output != null) {
                         tryInsertBlueprint(
-                                crafterMenu,
-                                blueprint,
-                                Math.min(output.getMaxStackSize() / output.getAmount(), blueprint.getAmount()));
+                            crafterMenu,
+                            blueprint,
+                            Math.min(output.getMaxStackSize() / output.getAmount(), blueprint.getAmount()));
                     } else {
                         tryInsertBlueprint(crafterMenu, blueprint, blueprint.getAmount());
                     }
@@ -326,10 +328,10 @@ public class CrafterManager extends NetworkObject {
             crafterMenu.replaceExistingItem(AbstractAutoCrafter.BLUEPRINT_SLOT, StackUtils.getAsQuantity(blueprint, v));
         } else {
             v = Math.max(
-                    0,
-                    Math.min(
-                            existingBlueprint.getMaxStackSize() - existingBlueprint.getAmount(),
-                            Math.min(maxAmount, blueprint.getAmount())));
+                0,
+                Math.min(
+                    existingBlueprint.getMaxStackSize() - existingBlueprint.getAmount(),
+                    Math.min(maxAmount, blueprint.getAmount())));
             existingBlueprint.setAmount(existingBlueprint.getAmount() + v);
         }
 
@@ -380,8 +382,8 @@ public class CrafterManager extends NetworkObject {
         final int end = Math.min(start + getDisplaySlots().length, datas.size());
 
         datas = datas.stream()
-                .sorted((a, b) -> isTopCrafter(a.location()) ? -1 : isTopCrafter(b.location()) ? 1 : 0)
-                .toList();
+            .sorted((a, b) -> isTopCrafter(a.location()) ? -1 : isTopCrafter(b.location()) ? 1 : 0)
+            .toList();
 
         final List<CrafterMetaData> validdatas = datas.subList(start, end);
 
@@ -412,7 +414,7 @@ public class CrafterManager extends NetworkObject {
                     displayStack = new CustomItemStack(displayStack, TextUtil.color(name));
                 } else if (!isEmpty) {
                     displayStack = new CustomItemStack(
-                            displayStack, TextUtil.GRAY + ItemStackHelper.getDisplayName(rawDisplayStack));
+                        displayStack, TextUtil.GRAY + ItemStackHelper.getDisplayName(rawDisplayStack));
                 } else {
                     displayStack = new CustomItemStack(displayStack, Sorters.NO_ITEM);
                 }
@@ -438,11 +440,11 @@ public class CrafterManager extends NetworkObject {
         }
 
         managerMenu.replaceExistingItem(
-                getPagePrevious(),
-                Icon.getPageStack(getPagePreviousStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
+            getPagePrevious(),
+            Icon.getPageStack(getPagePreviousStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
         managerMenu.replaceExistingItem(
-                getPageNext(),
-                Icon.getPageStack(getPageNextStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
+            getPageNext(),
+            Icon.getPageStack(getPageNextStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
 
         sendFeedback(managerMenu.getLocation(), FeedbackType.WORKING);
     }
@@ -452,10 +454,10 @@ public class CrafterManager extends NetworkObject {
         List<String> list = new ArrayList<>();
         list.add("");
         list.add(String.format(
-                Lang.getString("messages.normal-operation.manager.location"),
-                loc.getBlockX(),
-                loc.getBlockY(),
-                loc.getBlockZ()));
+            Lang.getString("messages.normal-operation.manager.location"),
+            loc.getBlockX(),
+            loc.getBlockY(),
+            loc.getBlockZ()));
         list.add("");
         list.addAll(Lang.getStringList("messages.normal-operation.manager.crafter-manager-click-behavior"));
 
@@ -467,7 +469,8 @@ public class CrafterManager extends NetworkObject {
         getPreset();
     }
 
-    @NotNull protected BlockMenuPreset getPreset() {
+    @NotNull
+    protected BlockMenuPreset getPreset() {
         return new BlockMenuPreset(this.getId(), this.getItemName()) {
 
             @Override
@@ -480,9 +483,9 @@ public class CrafterManager extends NetworkObject {
             @Override
             public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
-                        || (ExpansionItems.CRAFTER_MANAGER.canUse(player, false)
-                                && Slimefun.getProtectionManager()
-                                        .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
+                    || (ExpansionItems.CRAFTER_MANAGER.canUse(player, false)
+                    && Slimefun.getProtectionManager()
+                    .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override
@@ -507,9 +510,9 @@ public class CrafterManager extends NetworkObject {
                 menu.addMenuClickHandler(getPageNext(), (p, slot, item, action) -> {
                     GridCache gridCache = getCacheMap().get(menu.getLocation());
                     gridCache.setPage(
-                            gridCache.getPage() >= gridCache.getMaxPages()
-                                    ? gridCache.getMaxPages()
-                                    : gridCache.getPage() + 1);
+                        gridCache.getPage() >= gridCache.getMaxPages()
+                            ? gridCache.getMaxPages()
+                            : gridCache.getPage() + 1);
                     getCacheMap().put(menu.getLocation(), gridCache);
                     updateDisplay(menu);
                     return false;
@@ -532,16 +535,16 @@ public class CrafterManager extends NetworkObject {
                     final ItemMeta blueprintMeta = blueprint.getItemMeta();
                     Optional<BlueprintInstance> optional;
                     optional = DataTypeMethods.getOptionalCustom(
-                            blueprintMeta, Keys.BLUEPRINT_INSTANCE, PersistentCraftingBlueprintType.TYPE);
+                        blueprintMeta, Keys.BLUEPRINT_INSTANCE, PersistentCraftingBlueprintType.TYPE);
 
                     if (optional.isEmpty()) {
                         optional = DataTypeMethods.getOptionalCustom(
-                                blueprintMeta, Keys.BLUEPRINT_INSTANCE2, PersistentCraftingBlueprintType.TYPE);
+                            blueprintMeta, Keys.BLUEPRINT_INSTANCE2, PersistentCraftingBlueprintType.TYPE);
                     }
 
                     if (optional.isEmpty()) {
                         optional = DataTypeMethods.getOptionalCustom(
-                                blueprintMeta, Keys.BLUEPRINT_INSTANCE3, PersistentCraftingBlueprintType.TYPE);
+                            blueprintMeta, Keys.BLUEPRINT_INSTANCE3, PersistentCraftingBlueprintType.TYPE);
                     }
 
                     BlueprintInstance instance = optional.orElse(null);
@@ -556,7 +559,8 @@ public class CrafterManager extends NetworkObject {
         };
     }
 
-    @NotNull public Map<Location, GridCache> getCacheMap() {
+    @NotNull
+    public Map<Location, GridCache> getCacheMap() {
         return CACHE_MAP;
     }
 
@@ -606,7 +610,7 @@ public class CrafterManager extends NetworkObject {
     }
 
     public void setCrafterName(
-            @NotNull BlockMenu managerMenu, @NotNull Player player, @NotNull Location crafterLocation) {
+        @NotNull BlockMenu managerMenu, @NotNull Player player, @NotNull Location crafterLocation) {
         player.sendMessage(Lang.getString("messages.normal-operation.manager.set_name"));
         player.closeInventory();
         ChatUtils.awaitInput(player, s -> {
@@ -631,13 +635,13 @@ public class CrafterManager extends NetworkObject {
     @SuppressWarnings({"deprecation", "unused"})
     @ParametersAreNonnullByDefault
     public void handleClick(
-            NetworkRoot root,
-            BlockMenu managerMenu,
-            Location crafterLocation,
-            Player player,
-            int clickedSlot,
-            ItemStack clickedItemStack,
-            ClickAction clickAction) {
+        NetworkRoot root,
+        BlockMenu managerMenu,
+        Location crafterLocation,
+        Player player,
+        int clickedSlot,
+        ItemStack clickedItemStack,
+        ClickAction clickAction) {
         BlockMenu crafterMenu = StorageCacheUtils.getMenu(crafterLocation);
         if (crafterMenu == null) {
             return;
@@ -673,23 +677,25 @@ public class CrafterManager extends NetworkObject {
     }
 
     public record CrafterMetaData(
-            @NotNull Location location,
-            @Nullable BlueprintInstance instance,
-            @Range(from = 0, to = 64) int blueprintAmount) {
-        @NotNull public static List<CrafterMetaData> getMetaDatas(@NotNull NetworkRoot root) {
+        @NotNull Location location,
+        @Nullable BlueprintInstance instance,
+        @Range(from = 0, to = 64) int blueprintAmount) {
+        @NotNull
+        public static List<CrafterMetaData> getMetaDatas(@NotNull NetworkRoot root) {
             List<CrafterMetaData> metaDataList = new ArrayList<>();
             for (BlockMenu blockMenu : root.getCrafterOutputs()) {
                 metaDataList.add(getMetaData(root, blockMenu));
             }
             metaDataList = metaDataList.stream()
-                    .sorted(Comparator.comparingLong(d -> LocationUtil.toStableHash(d.location())))
-                    .toList();
+                .sorted(Comparator.comparingLong(d -> LocationUtil.toStableHash(d.location())))
+                .toList();
 
             return metaDataList;
         }
 
         @SuppressWarnings("unused")
-        @NotNull @ParametersAreNonnullByDefault
+        @NotNull
+        @ParametersAreNonnullByDefault
         public static CrafterMetaData getMetaData(NetworkRoot root, BlockMenu crafterMenu) {
             Location location = crafterMenu.getLocation();
             ItemStack blueprint = crafterMenu.getItemInSlot(AbstractAutoCrafter.BLUEPRINT_SLOT);
@@ -703,16 +709,16 @@ public class CrafterManager extends NetworkObject {
                 final ItemMeta blueprintMeta = blueprint.getItemMeta();
                 Optional<BlueprintInstance> optional;
                 optional = DataTypeMethods.getOptionalCustom(
-                        blueprintMeta, Keys.BLUEPRINT_INSTANCE, PersistentCraftingBlueprintType.TYPE);
+                    blueprintMeta, Keys.BLUEPRINT_INSTANCE, PersistentCraftingBlueprintType.TYPE);
 
                 if (optional.isEmpty()) {
                     optional = DataTypeMethods.getOptionalCustom(
-                            blueprintMeta, Keys.BLUEPRINT_INSTANCE2, PersistentCraftingBlueprintType.TYPE);
+                        blueprintMeta, Keys.BLUEPRINT_INSTANCE2, PersistentCraftingBlueprintType.TYPE);
                 }
 
                 if (optional.isEmpty()) {
                     optional = DataTypeMethods.getOptionalCustom(
-                            blueprintMeta, Keys.BLUEPRINT_INSTANCE3, PersistentCraftingBlueprintType.TYPE);
+                        blueprintMeta, Keys.BLUEPRINT_INSTANCE3, PersistentCraftingBlueprintType.TYPE);
                 }
 
                 instance = optional.orElse(null);

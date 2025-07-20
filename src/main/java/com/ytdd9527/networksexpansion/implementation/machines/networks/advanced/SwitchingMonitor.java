@@ -20,7 +20,6 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.papermc.paper.event.player.PlayerItemFrameChangeEvent;
-import javax.annotation.ParametersAreNonnullByDefault;
 import lombok.SneakyThrows;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.Location;
@@ -37,6 +36,8 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @SuppressWarnings("deprecation")
 public class SwitchingMonitor extends NetworkObject implements HangingBlock, Placeable {
     public static final NamespacedKey ORIGINAL = Keys.newKey("switching-monitor-original");
@@ -49,10 +50,10 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
     public static final double FIX_OFFSET = HangingBlock.ITEM_FRAME_OFFSET - HangingBlock.CENTER_OFFSET;
 
     public SwitchingMonitor(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack @NotNull [] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.SWITCHING_MONITOR);
         HangingBlock.registerHangingBlock(this);
     }
@@ -142,7 +143,7 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
         Player player = event.getPlayer();
 
         if (!player.isOp()
-                && !Slimefun.getProtectionManager().hasPermission(player, attachon, Interaction.INTERACT_ENTITY)) {
+            && !Slimefun.getProtectionManager().hasPermission(player, attachon, Interaction.INTERACT_ENTITY)) {
             event.setCancelled(true);
             return;
         }
@@ -170,7 +171,7 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
     }
 
     private void handleItemsAction(
-            @NotNull Location attachon, @NotNull Player player, @NotNull PlayerItemFrameChangeEvent event) {
+        @NotNull Location attachon, @NotNull Player player, @NotNull PlayerItemFrameChangeEvent event) {
         NodeDefinition definition = NetworkStorage.getNode(attachon);
         if (definition == null || definition.getNode() == null) {
             return;
@@ -204,7 +205,7 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
                 }
             } else {
                 ItemStack result = root.getItemStack0(
-                        attachon, new ItemRequest(template, Math.min(amount, template.getMaxStackSize())));
+                    attachon, new ItemRequest(template, Math.min(amount, template.getMaxStackSize())));
                 if (result != null) {
                     InventoryUtil.addItem(player, result).values().forEach(item -> root.addItemStack0(attachon, item));
                 }
@@ -213,8 +214,8 @@ public class SwitchingMonitor extends NetworkObject implements HangingBlock, Pla
             if (shift) {
                 for (ItemStack item : player.getInventory().getStorageContents()) {
                     if (item != null
-                            && item.getType() != Material.AIR
-                            && StackUtils.itemsMatch(item, template, true, false)) {
+                        && item.getType() != Material.AIR
+                        && StackUtils.itemsMatch(item, template, true, false)) {
                         int before = item.getAmount();
                         root.addItemStack0(attachon, item);
                         int after = item.getAmount();

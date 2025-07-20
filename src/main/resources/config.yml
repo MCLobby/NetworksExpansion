@@ -5,10 +5,12 @@ auto-update: true
 language: zh-CN
 
 # Do not change this value unless you know what you are doing.
-config-version: Special-Version-33
+config-version: Special-Version-41
 
 # Do not change this value unless you know what you are doing.
 debug: false
+
+ban-quantum-in-quantum: false
 
 drawer-auto-save-period: 300
 

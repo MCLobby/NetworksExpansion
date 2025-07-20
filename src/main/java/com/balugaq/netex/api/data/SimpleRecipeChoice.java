@@ -1,10 +1,11 @@
 package com.balugaq.netex.api.data;
 
 import io.github.sefiraat.networks.utils.StackUtils;
-import java.util.List;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class SimpleRecipeChoice extends RecipeChoice.ExactChoice implements RecipeChoice {
     public SimpleRecipeChoice(@NotNull ItemStack choice) {

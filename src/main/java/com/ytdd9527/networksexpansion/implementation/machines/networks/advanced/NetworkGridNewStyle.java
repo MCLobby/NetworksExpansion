@@ -12,8 +12,6 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import java.util.HashMap;
-import java.util.Map;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -24,9 +22,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class NetworkGridNewStyle extends AbstractGridNewStyle {
 
-    private static final int[] BACKGROUND_SLOTS = new int[] {8};
+    private static final int[] BACKGROUND_SLOTS = new int[]{8};
 
     private static final int[] DISPLAY_SLOTS = {
         0, 1, 2, 3, 4, 5, 6, 7,
@@ -49,24 +50,25 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
 
     public NetworkGridNewStyle(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack @NotNull [] recipe) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
     public NetworkGridNewStyle(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack @NotNull [] recipe,
-            NodeType type) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack @NotNull [] recipe,
+        NodeType type) {
         super(itemGroup, item, recipeType, recipe, type);
     }
 
     @Override
-    @NotNull protected BlockMenuPreset getPreset() {
+    @NotNull
+    protected BlockMenuPreset getPreset() {
         return new BlockMenuPreset(this.getId(), this.getItemName()) {
 
             @Override
@@ -79,9 +81,9 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
             @Override
             public boolean canOpen(@NotNull Block block, @NotNull Player player) {
                 return player.hasPermission("slimefun.inventory.bypass")
-                        || (ExpansionItems.NETWORK_GRID_NEW_STYLE.canUse(player, false)
-                                && Slimefun.getProtectionManager()
-                                        .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
+                    || (ExpansionItems.NETWORK_GRID_NEW_STYLE.canUse(player, false)
+                    && Slimefun.getProtectionManager()
+                    .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
             }
 
             @Override
@@ -106,9 +108,9 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
                 menu.addMenuClickHandler(getPageNext(), (p, slot, item, action) -> {
                     GridCache gridCache = getCacheMap().get(menu.getLocation());
                     gridCache.setPage(
-                            gridCache.getPage() >= gridCache.getMaxPages()
-                                    ? gridCache.getMaxPages()
-                                    : gridCache.getPage() + 1);
+                        gridCache.getPage() >= gridCache.getMaxPages()
+                            ? gridCache.getMaxPages()
+                            : gridCache.getPage() + 1);
                     getCacheMap().put(menu.getLocation(), gridCache);
                     updateDisplay(menu);
                     return false;
@@ -148,8 +150,8 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
 
                 ItemStack exist = menu.getItemInSlot(getAutoFilterSlot());
                 if (exist != null
-                        && exist.getType() != Material.AIR
-                        && !StackUtils.itemsMatch(exist, ChestMenuUtils.getBackground())) {
+                    && exist.getType() != Material.AIR
+                    && !StackUtils.itemsMatch(exist, ChestMenuUtils.getBackground())) {
                     // drop item
                     menu.getLocation().getWorld().dropItemNaturally(menu.getLocation(), exist);
                 }
@@ -172,7 +174,8 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
         };
     }
 
-    @NotNull public Map<Location, GridCache> getCacheMap() {
+    @NotNull
+    public Map<Location, GridCache> getCacheMap() {
         return CACHE_MAP;
     }
 

@@ -21,7 +21,6 @@ softdepend:
   - WildStacker
   - mcMMO
   - GuguSlimefunLib
-  - JustEnoughGuide
 commands:
   networks:
     aliases: networksexpansion

@@ -6,8 +6,6 @@ import io.github.sefiraat.networks.network.NodeType;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import java.util.UUID;
-import java.util.function.Function;
 import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,6 +14,9 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.UUID;
+import java.util.function.Function;
 
 public class NetworkBridge extends NetworkObject {
 
@@ -27,21 +28,21 @@ public class NetworkBridge extends NetworkObject {
     private @Nullable Function<Location, DisplayGroup> displayGroupGenerator;
 
     public NetworkBridge(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack[] recipe,
-            ItemStack recipeOutput) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack[] recipe,
+        ItemStack recipeOutput) {
         super(itemGroup, item, recipeType, recipe, recipeOutput, NodeType.BRIDGE);
     }
 
     public NetworkBridge(
-            @NotNull ItemGroup itemGroup,
-            @NotNull SlimefunItemStack item,
-            @NotNull RecipeType recipeType,
-            ItemStack[] recipe,
-            ItemStack recipeOutput,
-            String itemId) {
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack[] recipe,
+        ItemStack recipeOutput,
+        String itemId) {
         super(itemGroup, item, recipeType, recipe, recipeOutput, NodeType.BRIDGE);
     }
 
@@ -61,9 +62,9 @@ public class NetworkBridge extends NetworkObject {
     private void setupDisplay(@NotNull Location location) {
         if (this.displayGroupGenerator != null) {
             DisplayGroup displayGroup =
-                    this.displayGroupGenerator.apply(location.clone().add(0.5, 0, 0.5));
+                this.displayGroupGenerator.apply(location.clone().add(0.5, 0, 0.5));
             StorageCacheUtils.setData(
-                    location, KEY_UUID, displayGroup.getParentUUID().toString());
+                location, KEY_UUID, displayGroup.getParentUUID().toString());
         }
     }
 
@@ -74,7 +75,8 @@ public class NetworkBridge extends NetworkObject {
         }
     }
 
-    @Nullable private UUID getDisplayGroupUUID(@NotNull Location location) {
+    @Nullable
+    private UUID getDisplayGroupUUID(@NotNull Location location) {
         String uuid = StorageCacheUtils.getData(location, KEY_UUID);
         if (uuid == null) {
             return null;
@@ -82,7 +84,8 @@ public class NetworkBridge extends NetworkObject {
         return UUID.fromString(uuid);
     }
 
-    @Nullable private DisplayGroup getDisplayGroup(@NotNull Location location) {
+    @Nullable
+    private DisplayGroup getDisplayGroup(@NotNull Location location) {
         UUID uuid = getDisplayGroupUUID(location);
         if (uuid == null) {
             return null;

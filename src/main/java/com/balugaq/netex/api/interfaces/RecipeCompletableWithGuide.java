@@ -1,8 +1,6 @@
 package com.balugaq.netex.api.interfaces;
 
 import com.balugaq.jeg.api.objects.events.GuideEvents;
-import com.balugaq.jeg.implementation.JustEnoughGuide;
-import com.balugaq.jeg.utils.ReflectionUtil;
 import com.balugaq.netex.api.data.SimpleRecipeChoice;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.core.listeners.JEGCompatibleListener;
@@ -17,13 +15,9 @@ import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import lombok.SneakyThrows;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -34,6 +28,10 @@ import org.bukkit.inventory.ShapelessRecipe;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public interface RecipeCompletableWithGuide {
     default void addJEGButton(@NotNull BlockMenu blockMenu, @Range(from = 0, to = 53) int slot) {
@@ -75,10 +73,8 @@ public interface RecipeCompletableWithGuide {
             return;
         }
 
-        tryCallJEGVanillaItemGroupDisplayable(player, true);
         GuideUtil.openMainMenuAsync(player, SlimefunGuideMode.SURVIVAL_MODE, 1);
         JEGCompatibleListener.addCallback(player.getUniqueId(), ((event, profile) -> {
-            tryCallJEGVanillaItemGroupDisplayable(player, false);
             BlockMenu actualMenu = StorageCacheUtils.getMenu(blockMenu.getLocation());
             if (actualMenu == null) {
                 return;
@@ -104,7 +100,7 @@ public interface RecipeCompletableWithGuide {
     }
 
     default void completeRecipeWithGuide(
-            @NotNull BlockMenu blockMenu, @NotNull NetworkRoot root, GuideEvents.@NotNull ItemButtonClickEvent event) {
+        @NotNull BlockMenu blockMenu, @NotNull NetworkRoot root, GuideEvents.@NotNull ItemButtonClickEvent event) {
         Player player = event.getPlayer();
 
         ItemStack clickedItem = event.getClickedItem();
@@ -145,7 +141,7 @@ public interface RecipeCompletableWithGuide {
 
             if (choice instanceof RecipeChoice.MaterialChoice materialChoice) {
                 List<ItemStack> itemStacks =
-                        materialChoice.getChoices().stream().map(ItemStack::new).toList();
+                    materialChoice.getChoices().stream().map(ItemStack::new).toList();
                 for (ItemStack itemStack : itemStacks) {
                     ItemStack received = getItemStack(root, player, itemStack);
                     if (received != null && received.getType() != Material.AIR) {
@@ -167,12 +163,13 @@ public interface RecipeCompletableWithGuide {
 
     int[] getIngredientSlots();
 
-    @Nullable default List<RecipeChoice> getRecipe(@NotNull ItemStack itemStack) {
+    @Nullable
+    default List<RecipeChoice> getRecipe(@NotNull ItemStack itemStack) {
         SlimefunItem sf = SlimefunItem.getByItem(itemStack);
         if (sf != null) {
             List<RecipeChoice> raw = new ArrayList<>(Arrays.stream(sf.getRecipe())
-                    .map(item -> item == null ? null : new SimpleRecipeChoice(item))
-                    .toList());
+                .map(item -> item == null ? null : new SimpleRecipeChoice(item))
+                .toList());
             if (raw.size() < 9) {
                 for (int i = raw.size(); i < 9; i++) {
                     raw.add(null);
@@ -181,7 +178,7 @@ public interface RecipeCompletableWithGuide {
 
             return raw;
         } else {
-            List<Recipe> recipes = Bukkit.getRecipesFor(itemStack);
+            Recipe[] recipes = Slimefun.getMinecraftRecipeService().getRecipesFor(itemStack);
             for (Recipe recipe : recipes) {
                 if (recipe instanceof ShapedRecipe shapedRecipe) {
                     List<RecipeChoice> choices = new ArrayList<>(9);
@@ -222,7 +219,8 @@ public interface RecipeCompletableWithGuide {
     }
 
     @SuppressWarnings("deprecation")
-    @Nullable default ItemStack getItemStack(@NotNull NetworkRoot root, @NotNull Player player, @NotNull ItemStack itemStack) {
+    @Nullable
+    default ItemStack getItemStack(@NotNull NetworkRoot root, @NotNull Player player, @NotNull ItemStack itemStack) {
         // get from player inventory
         for (ItemStack itemStack1 : player.getInventory().getContents()) {
             if (itemStack1 != null && itemStack1.getType() != Material.AIR) {
@@ -242,21 +240,6 @@ public interface RecipeCompletableWithGuide {
 
         // get from root
         ItemStack item = root.getItemStack0(player.getLocation(), new ItemRequest(itemStack, 1));
-        if (item != null) {
-            return item;
-        }
-
-        return null;
-    }
-
-    @SneakyThrows
-    static void tryCallJEGVanillaItemGroupDisplayable(@NotNull Player player, boolean displayable) {
-        try {
-            var method = ReflectionUtil.getMethod(JustEnoughGuide.class, "vanillaItemsGroupDisplayableFor");
-            if (method != null) {
-                method.invoke(null, player, displayable);
-            }
-        } catch (Throwable ignored) {
-        }
+        return item;
     }
 }
