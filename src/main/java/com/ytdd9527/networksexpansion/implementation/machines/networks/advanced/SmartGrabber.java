@@ -42,6 +42,7 @@ import java.util.Set;
  *
  * @author balugaq
  */
+@SuppressWarnings("DuplicatedCode")
 public class SmartGrabber extends SpecialSlimefunItem implements AdminDebuggable {
     private static final Map<Location, BlockFace> DIRECTIONS = new HashMap<>();
     private static final Set<BlockFace> VALID_FACES =

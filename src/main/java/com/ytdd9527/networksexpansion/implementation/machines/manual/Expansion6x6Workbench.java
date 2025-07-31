@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("DuplicatedCode")
 @Deprecated
 public class Expansion6x6Workbench extends AbstractManualCrafter {
     public static final List<SuperRecipe> RECIPES = new ArrayList<>();

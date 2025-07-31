@@ -38,6 +38,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("DuplicatedCode")
 public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle implements RecipeCompletableWithGuide {
 
     private static final int[] BACKGROUND_SLOTS = {5, 14, 23, 32, 41, 43, 50, 51};

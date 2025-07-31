@@ -29,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
+@SuppressWarnings("DuplicatedCode")
 public class NetworkConfigurator extends SpecialSlimefunItem {
 
     public NetworkConfigurator(

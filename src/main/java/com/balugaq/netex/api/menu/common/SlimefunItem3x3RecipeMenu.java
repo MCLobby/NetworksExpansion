@@ -28,7 +28,7 @@ import java.util.List;
  * @author Final_ROOT
  * @since 2.0
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "DuplicatedCode"})
 public class SlimefunItem3x3RecipeMenu extends ChestMenu {
     private final int BACK_SLOT = 1;
     private final int RECIPE_TYPE = 10;

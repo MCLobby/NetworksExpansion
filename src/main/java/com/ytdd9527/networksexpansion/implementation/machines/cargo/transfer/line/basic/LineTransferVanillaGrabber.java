@@ -48,6 +48,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+@SuppressWarnings("DuplicatedCode")
 public class LineTransferVanillaGrabber extends NetworkDirectional implements RecipeDisplayItem, SoftCellBannable {
     private static final int DEFAULT_MAX_DISTANCE = 32;
     private static final int DEFAULT_GRAB_ITEM_TICK = 1;

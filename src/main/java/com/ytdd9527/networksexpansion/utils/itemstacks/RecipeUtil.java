@@ -36,7 +36,7 @@ import java.util.Set;
  * @author Final_ROOT
  * @since 2.0
  */
-@SuppressWarnings({"deprecation", "unused", "unchecked"})
+@SuppressWarnings({"deprecation", "unused", "unchecked", "DuplicatedCode"})
 @UtilityClass
 public class RecipeUtil {
     public static @Nullable Map<ItemStack[], ItemStack> getRecipesBySlimefunId(@NotNull String slimefunId) {

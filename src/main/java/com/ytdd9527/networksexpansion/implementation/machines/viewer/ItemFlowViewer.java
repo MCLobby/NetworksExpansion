@@ -1,5 +1,6 @@
 package com.ytdd9527.networksexpansion.implementation.machines.viewer;
 
+import com.balugaq.jeg.implementation.JustEnoughGuide;
 import com.balugaq.netex.api.data.ItemFlowRecord;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
@@ -35,6 +36,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -54,6 +56,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+@SuppressWarnings({"JavaExistingMethodCanBeUsed", "DuplicatedCode"})
 public class ItemFlowViewer extends NetworkObject {
     public static final DateFormat DATE_FORMAT = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM);
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
@@ -154,8 +157,12 @@ public class ItemFlowViewer extends NetworkObject {
     }
 
     public static void highlightBlock(@NotNull Player player, @NotNull Location barrelLocation) {
-        ParticleUtil.drawLineFrom(player.getEyeLocation().clone().add(0D, -0.5D, 0D), barrelLocation);
-        ParticleUtil.highlightBlock(barrelLocation);
+        for (int i = 0; i < 10; i++) {
+            Bukkit.getScheduler().runTaskLaterAsynchronously(JustEnoughGuide.getInstance(), () -> {
+                ParticleUtil.drawLineFrom(player.getEyeLocation().clone().add(0D, -0.5D, 0D), barrelLocation);
+                ParticleUtil.highlightBlock(barrelLocation);
+            }, 20L * i);
+        }
     }
 
     @NotNull

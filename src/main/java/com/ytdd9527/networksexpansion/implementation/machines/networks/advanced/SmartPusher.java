@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@SuppressWarnings("DuplicatedCode")
 public class SmartPusher extends SpecialSlimefunItem implements AdminDebuggable {
     private static final Map<Location, BlockFace> DIRECTIONS = new HashMap<>();
     private static final Set<BlockFace> VALID_FACES =

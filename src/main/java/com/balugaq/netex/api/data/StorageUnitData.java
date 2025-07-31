@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-@SuppressWarnings("UnusedAssignment")
+@SuppressWarnings({"UnusedAssignment", "DuplicatedCode"})
 @ToString
 public class StorageUnitData {
     public static final Map<Location, Map<Integer, Integer /* Access times */>> observingAccessHistory =
@@ -40,6 +40,7 @@ public class StorageUnitData {
     private final OfflinePlayer owner;
 
     private final Map<Integer, ItemContainer> storedItems;
+    @Getter
     private boolean isPlaced;
 
     @Getter
@@ -236,10 +237,6 @@ public class StorageUnitData {
             return add;
         }
         return add;
-    }
-
-    public boolean isPlaced() {
-        return isPlaced;
     }
 
     public synchronized void setPlaced(boolean isPlaced) {

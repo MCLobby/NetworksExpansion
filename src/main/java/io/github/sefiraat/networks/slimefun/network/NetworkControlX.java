@@ -37,6 +37,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+@SuppressWarnings("DuplicatedCode")
 public class NetworkControlX extends NetworkDirectional implements SoftCellBannable {
 
     private static final int[] BACKGROUND_SLOTS = new int[]{

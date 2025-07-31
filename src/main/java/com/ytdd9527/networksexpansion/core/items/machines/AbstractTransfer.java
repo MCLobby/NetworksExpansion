@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("DuplicatedCode")
 public abstract class AbstractTransfer extends AdvancedDirectional implements RecipeDisplayItem {
     private static final Map<Location, Integer> PUSH_TICKER_MAP = new HashMap<>();
     private static final Map<Location, Integer> GRAB_TICKER_MAP = new HashMap<>();

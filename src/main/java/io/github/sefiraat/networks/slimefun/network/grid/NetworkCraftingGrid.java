@@ -32,6 +32,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("DuplicatedCode")
 public class NetworkCraftingGrid extends AbstractGrid {
 
     private static final int[] BACKGROUND_SLOTS = {

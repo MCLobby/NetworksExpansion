@@ -26,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
+@SuppressWarnings("DuplicatedCode")
 public class DueMachineConfigurator extends SpecialSlimefunItem {
     public DueMachineConfigurator(
         @NotNull ItemGroup itemGroup,

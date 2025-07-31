@@ -47,7 +47,6 @@ public interface RecipeCompletableWithGuide {
     }
 
     @Deprecated(forRemoval = true)
-    @SuppressWarnings("deprecation")
     default void openGuide(@NotNull BlockMenu blockMenu, @NotNull Player player, @NotNull ClickAction clickAction) {
         NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
         if (definition == null || definition.getNode() == null) {
@@ -225,7 +224,6 @@ public interface RecipeCompletableWithGuide {
     }
 
     @Deprecated(forRemoval = true)
-    @SuppressWarnings("deprecation")
     @Nullable
     default ItemStack getItemStack(@NotNull NetworkRoot root, @NotNull Player player, @NotNull ItemStack itemStack) {
         // get from player inventory
@@ -246,7 +244,6 @@ public interface RecipeCompletableWithGuide {
         }
 
         // get from root
-        ItemStack item = root.getItemStack0(player.getLocation(), new ItemRequest(itemStack, 1));
-        return item;
+        return root.getItemStack0(player.getLocation(), new ItemRequest(itemStack, 1));
     }
 }

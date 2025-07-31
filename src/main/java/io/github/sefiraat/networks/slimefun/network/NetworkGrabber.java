@@ -20,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings("DuplicatedCode")
 public class NetworkGrabber extends NetworkDirectional implements SoftCellBannable {
 
     public NetworkGrabber(
