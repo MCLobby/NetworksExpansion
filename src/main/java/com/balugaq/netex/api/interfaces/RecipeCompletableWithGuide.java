@@ -33,7 +33,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Deprecated(forRemoval = true)
 public interface RecipeCompletableWithGuide {
+    @Deprecated(forRemoval = true)
     default void addJEGButton(@NotNull BlockMenu blockMenu, @Range(from = 0, to = 53) int slot) {
         if (Networks.getSupportedPluginManager().isJustEnoughGuide()) {
             blockMenu.replaceExistingItem(slot, Icon.JEG_BUTTON);
@@ -44,6 +46,7 @@ public interface RecipeCompletableWithGuide {
         }
     }
 
+    @Deprecated(forRemoval = true)
     @SuppressWarnings("deprecation")
     default void openGuide(@NotNull BlockMenu blockMenu, @NotNull Player player, @NotNull ClickAction clickAction) {
         NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
@@ -99,6 +102,7 @@ public interface RecipeCompletableWithGuide {
         JEGCompatibleListener.tagGuideOpen(player);
     }
 
+    @Deprecated(forRemoval = true)
     default void completeRecipeWithGuide(
         @NotNull BlockMenu blockMenu, @NotNull NetworkRoot root, GuideEvents.@NotNull ItemButtonClickEvent event) {
         Player player = event.getPlayer();
@@ -161,8 +165,10 @@ public interface RecipeCompletableWithGuide {
         event.setCancelled(true);
     }
 
+    @Deprecated(forRemoval = true)
     int[] getIngredientSlots();
 
+    @Deprecated(forRemoval = true)
     @Nullable
     default List<RecipeChoice> getRecipe(@NotNull ItemStack itemStack) {
         SlimefunItem sf = SlimefunItem.getByItem(itemStack);
@@ -218,6 +224,7 @@ public interface RecipeCompletableWithGuide {
         return null;
     }
 
+    @Deprecated(forRemoval = true)
     @SuppressWarnings("deprecation")
     @Nullable
     default ItemStack getItemStack(@NotNull NetworkRoot root, @NotNull Player player, @NotNull ItemStack itemStack) {

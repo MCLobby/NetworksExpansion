@@ -192,7 +192,7 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle implements
                     return false;
                 });
 
-                addJEGButton(menu, JEG_SLOT);
+                //addJEGButton(menu, JEG_SLOT);
             }
         };
     }
