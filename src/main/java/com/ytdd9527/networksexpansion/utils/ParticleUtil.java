@@ -16,6 +16,7 @@ import java.util.List;
  * @author balugaq
  * @since 2.0
  */
+@SuppressWarnings("DuplicatedCode")
 public class ParticleUtil {
     private static final double[] BLOCK_CUBE_OFFSET_X = new double[]{0, 1, 0, 0, 1, 1, 0, 1};
     private static final double[] BLOCK_CUBE_OFFSET_Y = new double[]{0, 0, 1, 0, 1, 0, 1, 1};

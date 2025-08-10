@@ -13,6 +13,7 @@ import java.util.Arrays;
 /**
  * @author balugaq
  */
+@SuppressWarnings("DuplicatedCode")
 @UtilityClass
 public class Debug {
     private static final String debugPrefix = "[Debug] ";

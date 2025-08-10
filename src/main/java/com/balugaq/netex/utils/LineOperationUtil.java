@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.function.Consumer;
 
+@SuppressWarnings("DuplicatedCode")
 @UtilityClass
 public class LineOperationUtil {
     public static final Location UNKNOWN_LOCATION = new Location(null, 0, 0, 0);

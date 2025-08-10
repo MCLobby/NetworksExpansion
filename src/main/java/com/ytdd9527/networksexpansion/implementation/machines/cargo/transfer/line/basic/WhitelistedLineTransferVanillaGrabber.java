@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+@SuppressWarnings("DuplicatedCode")
 public class WhitelistedLineTransferVanillaGrabber extends NetworkDirectional implements RecipeDisplayItem, SoftCellBannable, WhitelistedVanillaGrabber {
     private static final TransferConfiguration config =
         TransferConfigFactory.getTransferConfiguration(TransferType.WHITELISTED_LINE_TRANSFER_VANILLA_GRABBER);
@@ -94,7 +95,6 @@ public class WhitelistedLineTransferVanillaGrabber extends NetworkDirectional im
         TICKER_MAP.put(location, tickCounter);
     }
 
-    @SuppressWarnings("removal")
     private void tryGrabItem(@NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 

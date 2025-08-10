@@ -37,6 +37,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
+@SuppressWarnings("DuplicatedCode")
 public class NetworkVanillaGrabber extends NetworkDirectional implements SoftCellBannable {
 
     private static final int[] BACKGROUND_SLOTS = new int[]{

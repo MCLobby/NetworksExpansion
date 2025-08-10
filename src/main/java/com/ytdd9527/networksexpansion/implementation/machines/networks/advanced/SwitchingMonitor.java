@@ -38,7 +38,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "DuplicatedCode"})
 public class SwitchingMonitor extends NetworkObject implements HangingBlock, Placeable {
     public static final NamespacedKey ORIGINAL = Keys.newKey("switching-monitor-original");
     public static final String SLASH = TextUtil.GRAY + " - " + TextUtil.GREEN + "x";

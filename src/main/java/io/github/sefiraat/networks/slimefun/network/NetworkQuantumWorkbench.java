@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("DuplicatedCode")
 public class NetworkQuantumWorkbench extends SpecialSlimefunItem {
 
     private static final int[] BACKGROUND_SLOTS = {

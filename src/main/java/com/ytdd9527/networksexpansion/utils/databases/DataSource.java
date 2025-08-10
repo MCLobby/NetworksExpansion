@@ -34,6 +34,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
+@SuppressWarnings("SqlSourceToSinkFlow")
 public class DataSource {
 
     private final String ITEM_ID_KEY = "NEXT_ITEM_ID";

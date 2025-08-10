@@ -75,7 +75,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "DuplicatedCode"})
 public class NetworksMain implements TabExecutor {
     @Deprecated
     private static final Set<UUID> requesters = new ConcurrentSkipListSet<>();

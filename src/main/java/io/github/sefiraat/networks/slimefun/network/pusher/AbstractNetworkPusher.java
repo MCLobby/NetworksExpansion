@@ -25,6 +25,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings("DuplicatedCode")
 public abstract class AbstractNetworkPusher extends NetworkDirectional implements SoftCellBannable {
     private static final int NORTH_SLOT = 11;
     private static final int SOUTH_SLOT = 29;

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 /**
  * @author Final_ROOT
  */
-@SuppressWarnings("GrazieInspection")
+@SuppressWarnings({"GrazieInspection", "JavaExistingMethodCanBeUsed"})
 public class JavaUtil {
 
     @SafeVarargs

@@ -261,6 +261,7 @@ messages:
       set_name: "<passive>输入名称: "
       id: "<passive>ID: %s"
       location: "<click_info>%s:%s:%s"
+      advance: "<passive>高级合成机: %s"
       quantum-manager-click-behavior:
         - "<click_info>左键点击: <passive>打开存储"
         - "<click_info>手持物品左键点击: <passive>将点击的存储所存储的物品设置为手持物品"
@@ -275,6 +276,7 @@ messages:
         - "<click_info>Shift+右键点击: <passive>设置存储的名字"
         - "<click_info>手持物品Shift+右键点击: <passive>设置存储在此管理器中显示的图标"
       crafter-manager-click-behavior:
+        - "<click_info>在蓝图上按Q: <passive>打开合成机"
         - "<click_info>左键点击: <passive>取出蓝图"
         - "<click_info>手持蓝图左键点击: <passive>交换蓝图"
         - "<click_info>右键点击: <passive>高亮合成机"
@@ -1031,9 +1033,9 @@ items:
       - "<warning> 网络拓展开发版不接受 GitHub Issues"
       - "<warning> 网络拓展开发版不接受 GitHub PR"
       - "<passive> 版本信息:"
-      - "<passive> 网络拓展版本: Special-Version-43"
+      - "<passive> 网络拓展版本: Special-Version-45"
       - "<passive> 版本状态: 稳定版"
-      - "<passive> 版本更新时间: 2025-7-20 12:50:28"
+      - "<passive> 版本更新时间: 2025-8-8 22:06:13"
       - "<passive> 开发状态: 更新中"
       - "<passive> 开发者（们）: ytdd9527, balugaq"
       - "<passive> 开发者 GitHub 页面: <click_info>https://github.com/ytdd9527"
