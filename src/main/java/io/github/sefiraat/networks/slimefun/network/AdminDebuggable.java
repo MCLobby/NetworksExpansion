@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 
+@SuppressWarnings("JavaExistingMethodCanBeUsed")
 public interface AdminDebuggable {
     Queue<Pair<Location, String>> DEBUG_QUEUE = new ConcurrentLinkedQueue<>();
     Set<Player> VIEWERS = new HashSet<>();

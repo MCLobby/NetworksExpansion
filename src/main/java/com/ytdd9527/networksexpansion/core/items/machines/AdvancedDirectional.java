@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@SuppressWarnings("DuplicatedCode")
 public abstract class AdvancedDirectional extends NetworkDirectional {
     public static final @NotNull TransportMode DEFAULT_TRANSPORT_MODE = TransportMode.FIRST_STOP;
     protected static final String DIRECTION = "direction";
@@ -480,10 +481,6 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     @Range(from = 0, to = 53)
     public int getDownSlot() {
         return DOWN_SLOT;
-    }
-
-    public int @NotNull [] getItemSlots() {
-        return new int[0];
     }
 
     public @NotNull ItemStack getCargoNumberIcon() {

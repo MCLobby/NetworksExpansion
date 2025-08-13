@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("JavaExistingMethodCanBeUsed")
 @UtilityClass
 public final class SupportedExpansionWorkbenchRecipes implements RecipesHolder, CanTestRecipe {
 

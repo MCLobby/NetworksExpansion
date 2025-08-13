@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+@SuppressWarnings("DuplicatedCode")
 public abstract class AbstractAutoCrafter extends NetworkObject implements SoftCellBannable {
     public static final int BLUEPRINT_SLOT = 10;
     public static final int OUTPUT_SLOT = 16;

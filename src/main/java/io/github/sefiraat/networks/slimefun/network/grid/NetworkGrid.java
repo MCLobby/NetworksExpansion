@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("DuplicatedCode")
 public class NetworkGrid extends AbstractGrid {
 
     private static final int[] BACKGROUND_SLOTS = {17, 26};

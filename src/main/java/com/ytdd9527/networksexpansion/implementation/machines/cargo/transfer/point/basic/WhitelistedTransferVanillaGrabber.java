@@ -36,6 +36,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
+@SuppressWarnings("DuplicatedCode")
 public class WhitelistedTransferVanillaGrabber extends NetworkDirectional implements SoftCellBannable, WhitelistedVanillaGrabber {
     private static final TransferConfiguration config = TransferConfigFactory
         .getTransferConfiguration(TransferType.WHITELISTED_TRANSFER_VANILLA_GRABBER);
@@ -59,7 +60,6 @@ public class WhitelistedTransferVanillaGrabber extends NetworkDirectional implem
         }
     }
 
-    @SuppressWarnings("removal")
     private void tryGrabItem(@NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 

@@ -24,6 +24,7 @@ import java.util.Map;
  * @author Final_ROOT
  * @since 2.0
  */
+@SuppressWarnings("DuplicatedCode")
 public class RecipeItemGroup extends FlexItemGroup {
     private static final Map<String, RecipeItemGroup> ID_MAP = new HashMap<>();
     private static final int SMALL_LIMIT = 9;

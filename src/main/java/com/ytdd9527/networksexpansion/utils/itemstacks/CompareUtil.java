@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Final_ROOT
  */
+@SuppressWarnings({"JavaExistingMethodCanBeUsed", "DuplicatedCode"})
 @UtilityClass
 public class CompareUtil {
     public static @NotNull SimpleComparator<Integer> INTEGER_SIMPLE_COMPARATOR =

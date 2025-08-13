@@ -37,7 +37,7 @@ import java.util.Set;
 /**
  * @author Final_ROOT
  */
-@SuppressWarnings({"deprecation", "unused"})
+@SuppressWarnings({"deprecation", "unused", "DuplicatedCode"})
 public final class ItemStackUtil {
     public static final ItemStack AIR = new ItemStack(Material.AIR);
     public static final @Nullable ItemNameAdapter itemNameAdapter = ItemNameAdapter.get();

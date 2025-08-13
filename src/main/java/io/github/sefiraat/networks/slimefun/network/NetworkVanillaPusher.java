@@ -37,6 +37,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
+@SuppressWarnings("DuplicatedCode")
 public class NetworkVanillaPusher extends NetworkDirectional implements SoftCellBannable {
 
     private static final int[] BACKGROUND_SLOTS = new int[]{
@@ -141,7 +142,6 @@ public class NetworkVanillaPusher extends NetworkDirectional implements SoftCell
         } else if (InvUtils.fits(holder.getInventory(), stack)) {
             sendDebugMessage(block.getLocation(), Lang.getString("messages.debug.wildchests-test-success"));
             InventoryUtil.addItem(holder.getInventory(), stack);
-            stack.setAmount(0);
         }
     }
 

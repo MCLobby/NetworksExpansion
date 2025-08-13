@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
  * @author Sfiguz7
  * @author Walshy
  */
+@SuppressWarnings("DuplicatedCode")
 @Deprecated
 public class PersistentCardInstanceType implements PersistentDataType<PersistentDataContainer, CardInstance> {
 

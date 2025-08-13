@@ -75,7 +75,7 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
                     tryEncode(player, menu);
                     return false;
                 });
-                addJEGButton(menu, JEG_SLOT);
+                //addJEGButton(menu, JEG_SLOT);
             }
 
             @Override

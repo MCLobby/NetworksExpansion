@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@SuppressWarnings("DuplicatedCode")
 public class WhitelistedLineTransferGrabber extends NetworkDirectional implements RecipeDisplayItem, SoftCellBannable, WhitelistedGrabber {
     private static final TransferConfiguration config =
         TransferConfigFactory.getTransferConfiguration(TransferType.WHITELISTED_LINE_TRANSFER_GRABBER);
@@ -85,7 +86,6 @@ public class WhitelistedLineTransferGrabber extends NetworkDirectional implement
         TICKER_MAP.put(location, tickCounter);
     }
 
-    @SuppressWarnings("removal")
     private void tryGrabItem(@NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 

@@ -42,6 +42,7 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
+@SuppressWarnings("DuplicatedCode")
 public class NetworkVacuum extends NetworkObject {
 
     private static final int[] INPUT_SLOTS = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8};

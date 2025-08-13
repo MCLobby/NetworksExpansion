@@ -56,6 +56,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+@SuppressWarnings("DuplicatedCode")
 public class AdvancedVacuum extends NetworkObject {
     public static final Map<Location, FilterMode> CACHE_FILTER_MODE = new HashMap<>();
     public static final Map<Location, MatchMode> CACHE_MATCH_MODE = new HashMap<>();

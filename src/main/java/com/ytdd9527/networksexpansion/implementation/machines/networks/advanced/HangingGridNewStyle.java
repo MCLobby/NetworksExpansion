@@ -49,6 +49,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+@SuppressWarnings("DuplicatedCode")
 public class HangingGridNewStyle extends NetworkGridNewStyle implements HangingBlock, Placeable {
     public static final String layer = "/textures/layer/terminal.png";
     public static final Map<Location, BlockMenu> menus = new HashMap<>();
