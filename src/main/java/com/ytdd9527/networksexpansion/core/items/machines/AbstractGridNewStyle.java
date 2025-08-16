@@ -1,5 +1,6 @@
 package com.ytdd9527.networksexpansion.core.items.machines;
 
+import com.balugaq.jeg.api.groups.SearchGroup;
 import com.balugaq.netex.api.algorithm.Sorters;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
@@ -34,6 +35,7 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -48,6 +50,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -312,23 +315,39 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
 
     @NotNull
     protected List<Entry<ItemStack, Long>> getEntries(@NotNull NetworkRoot networkRoot, @NotNull GridCache cache) {
+        HashSet<SlimefunItem> pass = new HashSet<>();
+        String searchTerm = cache.getFilter();
+        if (searchTerm != null && Networks.getSupportedPluginManager().isJustEnoughGuide()) {
+            Player player = Bukkit.getOnlinePlayers().stream().findFirst().orElse(null);
+            if (player != null) {
+                pass.addAll(new SearchGroup(null, player, searchTerm, false, false).slimefunItemList);
+            }
+        }
         return networkRoot.getAllNetworkItemsLongType().entrySet().stream()
             .filter(entry -> {
-                if (cache.getFilter() == null) {
+                if (searchTerm == null) {
                     return true;
                 }
 
                 final ItemStack itemStack = entry.getKey();
+                if (pass != null) {
+                    final SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
+                    if (slimefunItem != null) {
+                        if (pass.contains(slimefunItem)) {
+                            return true;
+                        }
+                    }
+                }
                 String name = TextUtil.stripColor(
                     ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
-                if (cache.getFilter().matches("^[a-zA-Z]+$")) {
+                if (searchTerm.matches("^[a-zA-Z]+$")) {
                     final String pinyinName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
                     final String pinyinFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
-                    return name.contains(cache.getFilter())
-                        || pinyinName.contains(cache.getFilter())
-                        || pinyinFirstLetter.contains(cache.getFilter());
+                    return name.contains(searchTerm)
+                        || pinyinName.contains(searchTerm)
+                        || pinyinFirstLetter.contains(searchTerm);
                 } else {
-                    return name.contains(cache.getFilter());
+                    return name.contains(searchTerm);
                 }
             })
             .sorted(SORT_MAP.get(cache.getSortOrder()))
