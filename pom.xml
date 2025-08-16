@@ -49,13 +49,13 @@
 
     <properties>
         <FluffyMachines-systemPath>C:\Users\11877\Documents\GitHub\NetworksExpansion\lib\FluffyMachines.jar</FluffyMachines-systemPath>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <build>
-        <finalName>${project.name} v${project.version}</finalName>
+        <finalName>[sf]${project.name} v${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -204,7 +204,7 @@
         <dependency>
             <groupId>com.github.SlimefunGuguProject</groupId>
             <artifactId>Slimefun4</artifactId>
-            <version>b39097e015</version>
+            <version>master-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
@@ -324,7 +324,7 @@
         <dependency>
             <groupId>net.guizhanss</groupId>
             <artifactId>GuizhanLibPlugin</artifactId>
-            <version>1.7.6</version>
+            <version>2.3.0</version>
             <scope>provided</scope>
         </dependency>
         <!-- Useful Library -->
