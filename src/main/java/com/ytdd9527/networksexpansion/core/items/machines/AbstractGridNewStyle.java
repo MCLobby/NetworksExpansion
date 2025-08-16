@@ -1,8 +1,6 @@
 package com.ytdd9527.networksexpansion.core.items.machines;
 
 import com.balugaq.jeg.api.groups.SearchGroup;
-import com.balugaq.jeg.api.objects.enums.FilterType;
-import com.balugaq.jeg.implementation.JustEnoughGuide;
 import com.balugaq.netex.api.algorithm.Sorters;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
@@ -50,7 +48,6 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -62,7 +59,6 @@ import java.util.Optional;
 
 @SuppressWarnings("DuplicatedCode")
 public abstract class AbstractGridNewStyle extends NetworkObject {
-    public static final String[] SYMBOLS = Arrays.stream(FilterType.values()).map(FilterType::getSymbol).toArray(String[]::new);
     public static final String BS_FILTER_KEY = "filter";
     private static final Map<GridCache.SortOrder, Comparator<? super Entry<ItemStack, Long>>> SORT_MAP =
         new HashMap<>();
@@ -649,14 +645,5 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         if (itemStack != null && itemStack.getType() != Material.AIR) {
             root.addItemStack0(blockMenu.getLocation(), itemStack);
         }
-    }
-
-    public static boolean containsAny(@NotNull String filter, @NotNull String[] filterSymbols) {
-        for (String symbol : filterSymbols) {
-            if (filter.contains(symbol)) {
-                return true;
-            }
-        }
-        return false;
     }
 }
