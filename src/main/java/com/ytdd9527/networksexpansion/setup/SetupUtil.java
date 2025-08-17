@@ -226,13 +226,16 @@ public class SetupUtil {
             ExpansionItems.ADVANCED_AUTO_PRESSURE_CHAMBER_WITHHOLDING.registerThis());
 
         /* authors */
+		/*
         ExpansionItemsMenus.SUB_MENU_AUTHOR.addTo(
             ExpansionItems.AUTHOR_SEFIRAAT.registerThis(),
             ExpansionItems.AUTHOR_YBW0014.registerThis(),
             ExpansionItems.AUTHOR_YITOUDAIDAI.registerThis(),
             ExpansionItems.AUTHOR_TINALNESS.registerThis());
+		*/
 
         /* announce */
+		/*
         ExpansionItemsMenus.SUB_MENU_ANNOUNCE.addTo(
             ExpansionItems.NTW_EXPANSION_ANNOUNCE_1.registerThis(),
             ExpansionItems.NTW_EXPANSION_ANNOUNCE_2.registerThis(),
@@ -244,6 +247,7 @@ public class SetupUtil {
             ExpansionItems.NTW_EXPANSION_ANNOUNCE_8.registerThis(),
             ExpansionItems.NTW_EXPANSION_ANNOUNCE_9.registerThis(),
             ExpansionItems.NTW_EXPANSION_ANNOUNCE_10.registerThis());
+		*/
 
         /* Deprecated */
         ExpansionItems.BETTER_GRABBER.registerThis(); // Not add to menu because it's deprecated, shit compatibility
