@@ -1307,6 +1307,7 @@ public class ExpansionItems {
         ExpansionWorkbench.TYPE,
         ExpansionRecipes.BETTER_GRABBER);
 
+    /*
     public static final UnusableSlimefunItem NTW_EXPANSION_ANNOUNCE_1 = new UnusableSlimefunItem(
         ExpansionItemsMenus.MENU_TROPHY,
         ExpansionItemStacks.NTW_EXPANSION_ANNOUNCE_1,
@@ -1365,6 +1366,7 @@ public class ExpansionItems {
         ExpansionItemStacks.NTW_EXPANSION_ANNOUNCE_10,
         RecipeType.NULL,
         ExpansionRecipes.NULL);
+    */
 
     public static final NetworkCraftingGridNewStyle NETWORK_CRAFTING_GRID_NEW_STYLE = new NetworkCraftingGridNewStyle(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,

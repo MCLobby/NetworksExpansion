@@ -113,6 +113,7 @@ public final class ExpansionItemsMenus {
         "NTW_EXPANSION_MAIN_MENU_TROPHY",
         Material.RAW_GOLD_BLOCK,
         Lang.getString("groups.expansion.custom.main_menu_trophy"));
+    /*
     public static final SubFlexItemGroup SUB_MENU_AUTHOR = GroupConfigUtil.getSubFlexItemGroup(
         "NTW_EXPANSION_SUB_MENU_AUTHOR",
         Material.PLAYER_HEAD,
@@ -121,6 +122,7 @@ public final class ExpansionItemsMenus {
         "NTW_EXPANSION_SUB_MENU_ANNOUNCE",
         Material.KNOWLEDGE_BOOK,
         Lang.getString("groups.expansion.custom.sub_menu_announce"));
+    */
 
     private static @NotNull NamespacedKey getKey(@NotNull String key) {
         return Keys.newKey(key);

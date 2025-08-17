@@ -226,13 +226,13 @@ public class SetupUtil {
             ExpansionItems.ADVANCED_AUTO_PRESSURE_CHAMBER_WITHHOLDING.registerThis());
 
         /* authors */
-		/*
-        ExpansionItemsMenus.SUB_MENU_AUTHOR.addTo(
+		
+        ExpansionItemsMenus.MAIN_MENU_TROPHY.addTo(
             ExpansionItems.AUTHOR_SEFIRAAT.registerThis(),
             ExpansionItems.AUTHOR_YBW0014.registerThis(),
             ExpansionItems.AUTHOR_YITOUDAIDAI.registerThis(),
             ExpansionItems.AUTHOR_TINALNESS.registerThis());
-		*/
+		
 
         /* announce */
 		/*
@@ -295,11 +295,12 @@ public class SetupUtil {
             ExpansionItemsMenus.SUB_MENU_CRAFTER_MACHINE);
 
         ExpansionItemsMenus.MAIN_ITEM_GROUP.addTo(
-            ExpansionItemsMenus.MAIN_MENU_TROPHY,
-            ExpansionItemsMenus.SUB_MENU_AUTHOR,
-            ExpansionItemsMenus.SUB_MENU_ANNOUNCE);
+            ExpansionItemsMenus.MAIN_MENU_TROPHY);
+
+        /*
         ExpansionItemsMenus.MAIN_MENU_TROPHY.addFrom(
             ExpansionItemsMenus.SUB_MENU_AUTHOR, ExpansionItemsMenus.SUB_MENU_ANNOUNCE);
+        */
 
         ExpansionItemsMenus.MAIN_ITEM_GROUP.setTier(0);
         ExpansionItemsMenus.MAIN_ITEM_GROUP.register(networks);

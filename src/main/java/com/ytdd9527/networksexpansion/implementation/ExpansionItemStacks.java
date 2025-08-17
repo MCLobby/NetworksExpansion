@@ -441,6 +441,7 @@ public class ExpansionItemStacks {
     public static final SlimefunItemStack BETTER_GRABBER = Theme.themedSlimefunItemStack(
         Lang.getItem("NTW_EXPANSION_BETTER_GRABBER", Material.PINK_STAINED_GLASS), Theme.MACHINE);
 
+    /*
     public static final SlimefunItemStack NTW_EXPANSION_ANNOUNCE_1 =
         Theme.themedSlimefunItemStack(Lang.getItem("NTW_EXPANSION_ANNOUNCE_1", Material.BOOK), Theme.GUIDE);
     public static final SlimefunItemStack NTW_EXPANSION_ANNOUNCE_2 =
@@ -462,6 +463,7 @@ public class ExpansionItemStacks {
 
     public static final SlimefunItemStack NTW_EXPANSION_ANNOUNCE_10 =
         Theme.themedSlimefunItemStack(Lang.getItem("NTW_EXPANSION_ANNOUNCE_10", Material.BOOK), Theme.GUIDE);
+    */
     public static final SlimefunItemStack NETWORK_CRAFTING_GRID_NEW_STYLE = Theme.themedSlimefunItemStack(
         Lang.getItem("NTW_EXPANSION_CRAFTING_GRID_NEW_STYLE", Material.CRAFTING_TABLE), Theme.MACHINE);
     public static final SlimefunItemStack STATUS_VIEWER =
