@@ -70,6 +70,24 @@ public class StorageUnitData {
         this(id, Bukkit.getOfflinePlayer(UUID.fromString(ownerUUID)), sizeType, isPlaced, lastLocation, storedItems);
     }
 
+    @Deprecated(forRemoval = true)
+    public StorageUnitData(
+        int id,
+        OfflinePlayer owner,
+        StorageUnitType sizeType,
+        boolean isPlaced,
+        Location lastLocation,
+        Map<Integer, ItemContainer> storedItems) {
+        this(id,
+            owner,
+            sizeType,
+            isPlaced,
+            lastLocation,
+            storedItems instanceof ConcurrentHashMap<Integer, ItemContainer> concurrent
+                ? concurrent
+                : throwUnsupportedOperationException("General Map is no longer allowed to be an argument in this method, you are supposed to use ConcurrentMap instead of Map"));
+    }
+
     public StorageUnitData(
         int id,
         OfflinePlayer owner,
@@ -82,7 +100,7 @@ public class StorageUnitData {
         this.sizeType = sizeType;
         this.isPlaced = isPlaced;
         this.lastLocation = lastLocation;
-        this.storedItems = storedItems;
+        this.storedItems = storedItems; //!! DO NOT USE `new` keyword to create a new ConcurrentHashMap, this will cause data lose!!
     }
 
     public static void addPersistentAccessHistory(Location location, Integer accessLocation) {
@@ -700,5 +718,9 @@ public class StorageUnitData {
 
     public int addStoredItem0(Location accessor, @NotNull ItemStack item, int amount, boolean contentLocked) {
         return addStoredItem0(accessor, item, amount, contentLocked, false);
+    }
+
+    private static ConcurrentHashMap<Integer, ItemContainer> throwUnsupportedOperationException(@NotNull String message) {
+        throw new UnsupportedOperationException(message);
     }
 }
