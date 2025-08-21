@@ -39,7 +39,7 @@ public class StorageUnitData {
     @Getter
     private final OfflinePlayer owner;
 
-    private final Map<Integer, ItemContainer> storedItems;
+    private final ConcurrentHashMap<Integer, ItemContainer> storedItems;
     @Getter
     private boolean isPlaced;
 
@@ -82,7 +82,7 @@ public class StorageUnitData {
         this.sizeType = sizeType;
         this.isPlaced = isPlaced;
         this.lastLocation = lastLocation;
-        this.storedItems = storedItems;
+        this.storedItems = new ConcurrentHashMap<>(storedItems);
     }
 
     public static void addPersistentAccessHistory(Location location, Integer accessLocation) {
@@ -229,12 +229,14 @@ public class StorageUnitData {
             if (contentLocked || NetworksDrawer.isLocked(getLastLocation())) return 0;
         }
         // Not found, new one
-        if (storedItems.size() < sizeType.getMaxItemCount()) {
-            add = Math.min(amount, sizeType.getEachMaxSize());
-            int itemId = DataStorage.getItemId(item);
-            storedItems.put(itemId, new ItemContainer(itemId, item, add));
-            DataStorage.addStoredItem(id, itemId, add);
-            return add;
+        synchronized (storedItems) {
+            if (storedItems.size() < sizeType.getMaxItemCount()) {
+                add = Math.min(amount, sizeType.getEachMaxSize());
+                int itemId = DataStorage.getItemId(item);
+                storedItems.put(itemId, new ItemContainer(itemId, item, add));
+                DataStorage.addStoredItem(id, itemId, add);
+                return add;
+            }
         }
         return add;
     }
@@ -325,7 +327,7 @@ public class StorageUnitData {
     }
 
     public @NotNull Map<Integer, ItemContainer> copyStoredItemsMap() {
-        return new HashMap<>(storedItems);
+        return new ConcurrentHashMap<>(storedItems);
     }
 
     public Map<Integer, ItemContainer> getStoredItemsMap() {
@@ -669,12 +671,14 @@ public class StorageUnitData {
             if (contentLocked || NetworksDrawer.isLocked(getLastLocation())) return 0;
         }
         // Not found, new one
-        if (storedItems.size() < sizeType.getMaxItemCount()) {
-            add = Math.min(amount, sizeType.getEachMaxSize());
-            int itemId = DataStorage.getItemId(item);
-            storedItems.put(itemId, new ItemContainer(itemId, item, add));
-            DataStorage.addStoredItem(id, itemId, add);
-            return add;
+        synchronized (storedItems) {
+            if (storedItems.size() < sizeType.getMaxItemCount()) {
+                add = Math.min(amount, sizeType.getEachMaxSize());
+                int itemId = DataStorage.getItemId(item);
+                storedItems.put(itemId, new ItemContainer(itemId, item, add));
+                DataStorage.addStoredItem(id, itemId, add);
+                return add;
+            }
         }
         return add;
     }
