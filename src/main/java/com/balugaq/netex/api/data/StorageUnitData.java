@@ -57,7 +57,7 @@ public class StorageUnitData {
             sizeType,
             isPlaced,
             lastLocation,
-            new HashMap<>());
+            new ConcurrentHashMap<>());
     }
 
     public StorageUnitData(
@@ -66,7 +66,7 @@ public class StorageUnitData {
         StorageUnitType sizeType,
         boolean isPlaced,
         Location lastLocation,
-        Map<Integer, ItemContainer> storedItems) {
+        ConcurrentHashMap<Integer, ItemContainer> storedItems) {
         this(id, Bukkit.getOfflinePlayer(UUID.fromString(ownerUUID)), sizeType, isPlaced, lastLocation, storedItems);
     }
 
@@ -76,13 +76,13 @@ public class StorageUnitData {
         StorageUnitType sizeType,
         boolean isPlaced,
         Location lastLocation,
-        Map<Integer, ItemContainer> storedItems) {
+        ConcurrentHashMap<Integer, ItemContainer> storedItems) {
         this.id = id;
         this.owner = owner;
         this.sizeType = sizeType;
         this.isPlaced = isPlaced;
         this.lastLocation = lastLocation;
-        this.storedItems = new ConcurrentHashMap<>(storedItems);
+        this.storedItems = storedItems;
     }
 
     public static void addPersistentAccessHistory(Location location, Integer accessLocation) {
