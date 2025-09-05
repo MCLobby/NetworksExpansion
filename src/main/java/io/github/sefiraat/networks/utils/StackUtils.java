@@ -147,7 +147,7 @@ public class StackUtils {
             return false;
         }
 
-        if (itemStack.getType() == Material.BUNDLE) {
+        if (itemStack.getType().name().endsWith("BUNDLE")) {
             return false;
         }
 
@@ -404,6 +404,9 @@ public class StackUtils {
 
         // Bundle
         if (metaOne instanceof BundleMeta instanceOne && metaTwo instanceof BundleMeta instanceTwo) {
+            // Patch start - No bundle allowed
+            if (true) return false;
+            // Patch end - No bundle allowed
             if (instanceOne.hasItems() != instanceTwo.hasItems()) {
                 return true;
             }
