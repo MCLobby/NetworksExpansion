@@ -39,7 +39,7 @@ public class StorageUnitData {
     @Getter
     private final OfflinePlayer owner;
 
-    private final Map<Integer, ItemContainer> storedItems;
+    private final ConcurrentHashMap<Integer, ItemContainer> storedItems;
     @Getter
     private boolean isPlaced;
 
@@ -57,7 +57,7 @@ public class StorageUnitData {
             sizeType,
             isPlaced,
             lastLocation,
-            new HashMap<>());
+            new ConcurrentHashMap<>());
     }
 
     public StorageUnitData(
@@ -66,8 +66,26 @@ public class StorageUnitData {
         StorageUnitType sizeType,
         boolean isPlaced,
         Location lastLocation,
-        Map<Integer, ItemContainer> storedItems) {
+        ConcurrentHashMap<Integer, ItemContainer> storedItems) {
         this(id, Bukkit.getOfflinePlayer(UUID.fromString(ownerUUID)), sizeType, isPlaced, lastLocation, storedItems);
+    }
+
+    @Deprecated(forRemoval = true)
+    public StorageUnitData(
+        int id,
+        OfflinePlayer owner,
+        StorageUnitType sizeType,
+        boolean isPlaced,
+        Location lastLocation,
+        Map<Integer, ItemContainer> storedItems) {
+        this(id,
+            owner,
+            sizeType,
+            isPlaced,
+            lastLocation,
+            storedItems instanceof ConcurrentHashMap<Integer, ItemContainer> concurrent
+                ? concurrent
+                : throwUnsupportedOperationException("General Map is no longer allowed to be an argument in this method, you are supposed to use ConcurrentMap instead of Map"));
     }
 
     public StorageUnitData(
@@ -76,13 +94,13 @@ public class StorageUnitData {
         StorageUnitType sizeType,
         boolean isPlaced,
         Location lastLocation,
-        Map<Integer, ItemContainer> storedItems) {
+        ConcurrentHashMap<Integer, ItemContainer> storedItems) {
         this.id = id;
         this.owner = owner;
         this.sizeType = sizeType;
         this.isPlaced = isPlaced;
         this.lastLocation = lastLocation;
-        this.storedItems = storedItems;
+        this.storedItems = storedItems; //!! DO NOT USE `new` keyword to create a new ConcurrentHashMap, this will cause data lose!!
     }
 
     public static void addPersistentAccessHistory(Location location, Integer accessLocation) {
@@ -229,12 +247,14 @@ public class StorageUnitData {
             if (contentLocked || NetworksDrawer.isLocked(getLastLocation())) return 0;
         }
         // Not found, new one
-        if (storedItems.size() < sizeType.getMaxItemCount()) {
-            add = Math.min(amount, sizeType.getEachMaxSize());
-            int itemId = DataStorage.getItemId(item);
-            storedItems.put(itemId, new ItemContainer(itemId, item, add));
-            DataStorage.addStoredItem(id, itemId, add);
-            return add;
+        synchronized (storedItems) {
+            if (storedItems.size() < sizeType.getMaxItemCount()) {
+                add = Math.min(amount, sizeType.getEachMaxSize());
+                int itemId = DataStorage.getItemId(item);
+                storedItems.put(itemId, new ItemContainer(itemId, item, add));
+                DataStorage.addStoredItem(id, itemId, add);
+                return add;
+            }
         }
         return add;
     }
@@ -325,7 +345,7 @@ public class StorageUnitData {
     }
 
     public @NotNull Map<Integer, ItemContainer> copyStoredItemsMap() {
-        return new HashMap<>(storedItems);
+        return new ConcurrentHashMap<>(storedItems);
     }
 
     public Map<Integer, ItemContainer> getStoredItemsMap() {
@@ -669,12 +689,14 @@ public class StorageUnitData {
             if (contentLocked || NetworksDrawer.isLocked(getLastLocation())) return 0;
         }
         // Not found, new one
-        if (storedItems.size() < sizeType.getMaxItemCount()) {
-            add = Math.min(amount, sizeType.getEachMaxSize());
-            int itemId = DataStorage.getItemId(item);
-            storedItems.put(itemId, new ItemContainer(itemId, item, add));
-            DataStorage.addStoredItem(id, itemId, add);
-            return add;
+        synchronized (storedItems) {
+            if (storedItems.size() < sizeType.getMaxItemCount()) {
+                add = Math.min(amount, sizeType.getEachMaxSize());
+                int itemId = DataStorage.getItemId(item);
+                storedItems.put(itemId, new ItemContainer(itemId, item, add));
+                DataStorage.addStoredItem(id, itemId, add);
+                return add;
+            }
         }
         return add;
     }
@@ -696,5 +718,9 @@ public class StorageUnitData {
 
     public int addStoredItem0(Location accessor, @NotNull ItemStack item, int amount, boolean contentLocked) {
         return addStoredItem0(accessor, item, amount, contentLocked, false);
+    }
+
+    private static ConcurrentHashMap<Integer, ItemContainer> throwUnsupportedOperationException(@NotNull String message) {
+        throw new UnsupportedOperationException(message);
     }
 }

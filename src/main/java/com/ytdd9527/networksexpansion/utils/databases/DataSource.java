@@ -31,6 +31,7 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
@@ -293,8 +294,8 @@ public class DataSource {
     }
 
     @NotNull
-    private Map<Integer, ItemContainer> getStoredItem(int id) {
-        Map<Integer, ItemContainer> re = new HashMap<>();
+    private ConcurrentHashMap<Integer, ItemContainer> getStoredItem(int id) {
+        ConcurrentHashMap<Integer, ItemContainer> re = new ConcurrentHashMap<>();
 
         // Schedule query
         Networks.getQueryQueue().scheduleQuery(new QueuedTask() {
