@@ -2416,9 +2416,12 @@ public class NetworkRoot extends NetworkNode {
 
             // Netex - Cache start
             if (!found) {
-                for (Location miss : misses) {
-                    addCacheMiss(accessor, miss);
-                }
+            	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+            		for (Location miss : misses) {
+                        addCacheMiss(accessor, miss);
+                    }
+            	});
+                
             }
             // Netex - Cache end
         }
@@ -2647,13 +2650,19 @@ public class NetworkRoot extends NetworkNode {
     }
 
     public void uncontrolAccessInput(@NotNull Location accessor) {
-        controlledAccessInputHistory.remove(accessor);
-        reduceTransportInputMiss(accessor);
+    	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+    		controlledAccessInputHistory.remove(accessor);
+            reduceTransportInputMiss(accessor);
+    	});
+        
     }
 
     public void uncontrolAccessOutput(@NotNull Location accessor) {
-        controlledAccessOutputHistory.remove(accessor);
-        reduceTransportOutputMiss(accessor);
+    	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+    		controlledAccessOutputHistory.remove(accessor);
+            reduceTransportOutputMiss(accessor);
+    	});
+        
     }
 
     public int getCellsSize() {

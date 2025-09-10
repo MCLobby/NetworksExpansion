@@ -93,8 +93,10 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
-            sendDebugMessage(blockMenu.getLocation(), "No network found");
-            sendFeedback(blockMenu.getLocation(), FeedbackType.NO_NETWORK_FOUND);
+        	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+        		sendDebugMessage(blockMenu.getLocation(), "No network found");
+                sendFeedback(blockMenu.getLocation(), FeedbackType.NO_NETWORK_FOUND);
+        	});
             return;
         }
 
@@ -105,17 +107,23 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
         }
 
         if (!this.withholding) {
-            final ItemStack stored = blockMenu.getItemInSlot(OUTPUT_SLOT);
-            if (stored != null && stored.getType() != Material.AIR) {
-                root.addItemStack0(blockMenu.getLocation(), stored);
-            }
+        	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+        		final ItemStack stored = blockMenu.getItemInSlot(OUTPUT_SLOT);
+                if (stored != null && stored.getType() != Material.AIR) {
+                    root.addItemStack0(blockMenu.getLocation(), stored);
+                }
+        	});
+            
         }
 
         final ItemStack blueprint = blockMenu.getItemInSlot(BLUEPRINT_SLOT);
 
         if (blueprint == null || blueprint.getType() == Material.AIR) {
-            sendDebugMessage(blockMenu.getLocation(), "No blueprint found");
-            sendFeedback(blockMenu.getLocation(), FeedbackType.NO_BLUEPRINT_FOUND);
+        	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+        		sendDebugMessage(blockMenu.getLocation(), "No blueprint found");
+                sendFeedback(blockMenu.getLocation(), FeedbackType.NO_BLUEPRINT_FOUND);
+        	});
+            
             return;
         }
 
@@ -125,14 +133,17 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
             final SlimefunItem item = SlimefunItem.getByItem(blueprint);
 
             if (!isValidBlueprint(item)) {
-                sendDebugMessage(blockMenu.getLocation(), "Invalid blueprint");
-                sendFeedback(blockMenu.getLocation(), FeedbackType.INVALID_BLUEPRINT);
+            	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+            		sendDebugMessage(blockMenu.getLocation(), "Invalid blueprint");
+                    sendFeedback(blockMenu.getLocation(), FeedbackType.INVALID_BLUEPRINT);
+            	});
                 return;
             }
 
             BlueprintInstance instance = AbstractAutoCrafter.INSTANCE_MAP.get(blockMenu.getLocation());
 
             if (instance == null) {
+            	
                 final ItemMeta blueprintMeta = blueprint.getItemMeta();
                 Optional<BlueprintInstance> optional;
                 optional = DataTypeMethods.getOptionalCustom(
@@ -149,8 +160,10 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
                 }
 
                 if (optional.isEmpty()) {
-                    sendDebugMessage(blockMenu.getLocation(), "No blueprint instance found");
-                    sendFeedback(blockMenu.getLocation(), FeedbackType.NO_BLUEPRINT_INSTANCE_FOUND);
+                	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+                		sendDebugMessage(blockMenu.getLocation(), "No blueprint instance found");
+                        sendFeedback(blockMenu.getLocation(), FeedbackType.NO_BLUEPRINT_INSTANCE_FOUND);
+                	});
                     return;
                 }
 
@@ -167,13 +180,18 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
                 && targetOutput != null
                 && (output.getAmount() + targetOutput.getAmount() * blueprintAmount > output.getMaxStackSize()
                 || !StackUtils.itemsMatch(targetOutput, output))) {
-                sendDebugMessage(blockMenu.getLocation(), "Output slot is full");
-                sendFeedback(blockMenu.getLocation(), FeedbackType.OUTPUT_FULL);
+            	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+            		sendDebugMessage(blockMenu.getLocation(), "Output slot is full");
+                    sendFeedback(blockMenu.getLocation(), FeedbackType.OUTPUT_FULL);
+            	});
                 return;
             }
 
             if (tryCraft(blockMenu, instance, root, blueprintAmount)) {
-                root.removeRootPower(this.chargePerCraft);
+            	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+            		root.removeRootPower(this.chargePerCraft);
+            	});
+                
             }
         } else {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NOT_ENOUGH_POWER);
@@ -195,44 +213,53 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
          * only need the one
          */
 
+        
         HashMap<ItemStack, Integer> requiredItems = new HashMap<>();
-        for (int i = 0; i < 9; i++) {
-            final ItemStack requested = instance.getRecipeItems()[i];
-            if (requested != null) {
-                requiredItems.merge(requested, requested.getAmount() * blueprintAmount, Integer::sum);
+        Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+        	for (int i = 0; i < 9; i++) {
+                final ItemStack requested = instance.getRecipeItems()[i];
+                if (requested != null) {
+                    requiredItems.merge(requested, requested.getAmount() * blueprintAmount, Integer::sum);
+                }
             }
-        }
+        });
+        
 
         for (Map.Entry<ItemStack, Integer> entry : requiredItems.entrySet()) {
             if (!root.contains(new ItemRequest(entry.getKey(), entry.getValue()))) {
-                sendDebugMessage(blockMenu.getLocation(), "Not enough items in network");
-                sendFeedback(blockMenu.getLocation(), FeedbackType.NOT_ENOUGH_ITEMS_IN_NETWORK);
+            	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+            		sendDebugMessage(blockMenu.getLocation(), "Not enough items in network");
+                    sendFeedback(blockMenu.getLocation(), FeedbackType.NOT_ENOUGH_ITEMS_IN_NETWORK);
+            	});
                 return false;
             }
         }
 
         // Then fetch the actual items
-        for (int i = 0; i < 9; i++) {
-            final ItemStack requested = instance.getRecipeItems()[i];
-            if (requested != null) {
-                final ItemStack fetched = root.getItemStack0(
-                    blockMenu.getLocation(), new ItemRequest(requested, requested.getAmount() * blueprintAmount));
-                if (fetched != null) {
-                    acutalInputs[i] = fetched;
-                    ItemStack fetchedClone = fetched.clone();
-                    fetchedClone.setAmount(fetched.getAmount() / blueprintAmount);
-                    inputs[i] = fetchedClone;
-                    if (fetchedClone.getAmount() != requested.getAmount()) {
-                        returnItems(root, acutalInputs, blockMenu);
+        Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+        	for (int i = 0; i < 9; i++) {
+                final ItemStack requested = instance.getRecipeItems()[i];
+                if (requested != null) {
+                    final ItemStack fetched = root.getItemStack0(
+                        blockMenu.getLocation(), new ItemRequest(requested, requested.getAmount() * blueprintAmount));
+                    if (fetched != null) {
+                        acutalInputs[i] = fetched;
+                        ItemStack fetchedClone = fetched.clone();
+                        fetchedClone.setAmount(fetched.getAmount() / blueprintAmount);
+                        inputs[i] = fetchedClone;
+                        if (fetchedClone.getAmount() != requested.getAmount()) {
+                            returnItems(root, acutalInputs, blockMenu);
+                        }
+                    } else {
+                        acutalInputs[i] = null;
+                        inputs[i] = null;
                     }
                 } else {
-                    acutalInputs[i] = null;
                     inputs[i] = null;
                 }
-            } else {
-                inputs[i] = null;
             }
-        }
+        });
+        
 
         ItemStack crafted = null;
 
@@ -248,22 +275,28 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
             // If no slimefun recipe found, try a vanilla one
             instance.generateVanillaRecipe(blockMenu.getLocation().getWorld());
             if (instance.getRecipe() == null) {
-                returnItems(root, inputs, blockMenu);
-                sendDebugMessage(blockMenu.getLocation(), "No vanilla recipe found");
-                sendFeedback(blockMenu.getLocation(), FeedbackType.NO_VANILLA_RECIPE_FOUND);
+            	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+            		returnItems(root, inputs, blockMenu);
+                    sendDebugMessage(blockMenu.getLocation(), "No vanilla recipe found");
+                    sendFeedback(blockMenu.getLocation(), FeedbackType.NO_VANILLA_RECIPE_FOUND);
+            	});
                 return false;
             } else if (Arrays.equals(instance.getRecipeItems(), inputs)) {
-                setCache(blockMenu, instance);
+            	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+            		setCache(blockMenu, instance);
+            	});
                 crafted = instance.getRecipe().getResult();
             }
         }
 
         // If no item crafted OR result doesn't fit, escape
         if (crafted == null || crafted.getType() == Material.AIR) {
-            sendDebugMessage(blockMenu.getLocation(), "No valid recipe found");
-            sendDebugMessage(blockMenu.getLocation(), "inputs: " + Arrays.toString(inputs));
-            returnItems(root, acutalInputs, blockMenu);
-            sendFeedback(blockMenu.getLocation(), FeedbackType.NO_VALID_RECIPE_FOUND);
+        	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+        		sendDebugMessage(blockMenu.getLocation(), "No valid recipe found");
+                sendDebugMessage(blockMenu.getLocation(), "inputs: " + Arrays.toString(inputs));
+                returnItems(root, acutalInputs, blockMenu);
+                sendFeedback(blockMenu.getLocation(), FeedbackType.NO_VALID_RECIPE_FOUND);
+        	});
             return false;
         }
 
@@ -276,11 +309,14 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
         crafted.setAmount(crafted.getAmount() * blueprintAmount);
 
         if (crafted.getAmount() > crafted.getMaxStackSize()) {
-        	returnItems(root, acutalInputs, blockMenu);
-            sendDebugMessage(blockMenu.getLocation(), "Result is too large");
-            sendFeedback(blockMenu.getLocation(), FeedbackType.RESULT_IS_TOO_LARGE);
+        	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+        		returnItems(root, acutalInputs, blockMenu);
+                sendDebugMessage(blockMenu.getLocation(), "Result is too large");
+                sendFeedback(blockMenu.getLocation(), FeedbackType.RESULT_IS_TOO_LARGE);
+        	});
             return false;
         }
+        
 
         BlockMenuUtil.pushItem(blockMenu, crafted, OUTPUT_SLOT);
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
@@ -300,15 +336,20 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
     }
 
     public void releaseCache(@NotNull BlockMenu blockMenu) {
-        if (blockMenu.hasViewer()) {
-            AbstractAutoCrafter.INSTANCE_MAP.remove(blockMenu.getLocation());
-        }
+    	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+    		if (blockMenu.hasViewer()) {
+                AbstractAutoCrafter.INSTANCE_MAP.remove(blockMenu.getLocation());
+            }
+    	});
     }
 
     public void setCache(@NotNull BlockMenu blockMenu, @NotNull BlueprintInstance blueprintInstance) {
-        if (!blockMenu.hasViewer()) {
-            AbstractAutoCrafter.INSTANCE_MAP.putIfAbsent(blockMenu.getLocation().clone(), blueprintInstance);
-        }
+    	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+    		if (!blockMenu.hasViewer()) {
+                AbstractAutoCrafter.INSTANCE_MAP.putIfAbsent(blockMenu.getLocation().clone(), blueprintInstance);
+            }
+    	});
+        
     }
 
     @Override
