@@ -6,6 +6,7 @@ import com.balugaq.netex.api.interfaces.SoftCellBannable;
 import com.balugaq.netex.utils.BlockMenuUtil;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import io.github.sefiraat.networks.NetworkStorage;
+import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
@@ -26,6 +27,8 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -178,6 +181,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
     }
 
     private boolean tryCraft(
+    	
         @NotNull BlockMenu blockMenu,
         @NotNull BlueprintInstance instance,
         @NotNull NetworkRoot root,
@@ -266,13 +270,13 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
         // Push item
         final Location location = blockMenu.getLocation().clone().add(0.5, 1.1, 0.5);
         if (root.isDisplayParticles()) {
-            location.getWorld().spawnParticle(Particle.WAX_OFF, location, 0, 0, 4, 0);
+        	location.getWorld().spawnParticle(Particle.WAX_OFF, location, 0, 0, 4, 0);
         }
 
         crafted.setAmount(crafted.getAmount() * blueprintAmount);
 
         if (crafted.getAmount() > crafted.getMaxStackSize()) {
-            returnItems(root, acutalInputs, blockMenu);
+        	returnItems(root, acutalInputs, blockMenu);
             sendDebugMessage(blockMenu.getLocation(), "Result is too large");
             sendFeedback(blockMenu.getLocation(), FeedbackType.RESULT_IS_TOO_LARGE);
             return false;
@@ -285,11 +289,14 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
 
     private void returnItems(
         @NotNull NetworkRoot root, @NotNull ItemStack @NotNull [] inputs, @NotNull BlockMenu blockMenu) {
-        for (ItemStack input : inputs) {
-            if (input != null) {
-                root.addItemStack0(blockMenu.getLocation(), input);
+    	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+    		for (ItemStack input : inputs) {
+                if (input != null) {
+                    root.addItemStack0(blockMenu.getLocation(), input);
+                }
             }
-        }
+    	});
+        
     }
 
     public void releaseCache(@NotNull BlockMenu blockMenu) {

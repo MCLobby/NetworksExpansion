@@ -3,6 +3,9 @@ package com.balugaq.netex.api.interfaces;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.utils.Lang;
 import com.balugaq.netex.utils.LocationUtil;
+
+import io.github.sefiraat.networks.Networks;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -40,14 +43,17 @@ public interface FeedbackSendable {
     }
 
     static void sendFeedback0(@NotNull Location location, @NotNull FeedbackType type) {
-        for (UUID uuid : SUBSCRIBED_LOCATIONS.keySet()) {
-            if (SUBSCRIBED_LOCATIONS.get(uuid).contains(location)) {
-                Player player = Bukkit.getServer().getPlayer(uuid);
-                if (player != null) {
-                    sendFeedback0(player, location, type.getMessage());
+    	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+    		for (UUID uuid : SUBSCRIBED_LOCATIONS.keySet()) {
+                if (SUBSCRIBED_LOCATIONS.get(uuid).contains(location)) {
+                    Player player = Bukkit.getServer().getPlayer(uuid);
+                    if (player != null) {
+                        sendFeedback0(player, location, type.getMessage());
+                    }
                 }
             }
-        }
+    	});
+        
     }
 
     static void sendFeedback0(@NotNull Player player, @NotNull Location location, String message) {
@@ -56,14 +62,17 @@ public interface FeedbackSendable {
     }
 
     default void sendFeedback(@NotNull Location location, @NotNull FeedbackType type) {
-        for (UUID uuid : SUBSCRIBED_LOCATIONS.keySet()) {
-            if (SUBSCRIBED_LOCATIONS.get(uuid).contains(location)) {
-                Player player = Bukkit.getServer().getPlayer(uuid);
-                if (player != null) {
-                    sendFeedback(player, location, type.getMessage());
+    	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+    		for (UUID uuid : SUBSCRIBED_LOCATIONS.keySet()) {
+                if (SUBSCRIBED_LOCATIONS.get(uuid).contains(location)) {
+                    Player player = Bukkit.getServer().getPlayer(uuid);
+                    if (player != null) {
+                        sendFeedback(player, location, type.getMessage());
+                    }
                 }
             }
-        }
+    	});
+        
     }
 
     default void sendFeedback(@NotNull Player player, @NotNull Location location, String message) {

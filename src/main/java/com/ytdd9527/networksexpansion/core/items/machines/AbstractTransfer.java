@@ -11,6 +11,7 @@ import com.balugaq.netex.api.interfaces.SoftCellBannable;
 import com.balugaq.netex.api.transfer.TransferConfiguration;
 import com.balugaq.netex.utils.LineOperationUtil;
 import io.github.sefiraat.networks.NetworkStorage;
+import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
@@ -20,6 +21,8 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -177,26 +180,30 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
             sendFeedback(blockMenu.getLocation(), FeedbackType.NOT_ENOUGH_POWER);
             return;
         }
-
-        List<ItemStack> templates = new ArrayList<>();
-        for (int slot : this.getItemSlots()) {
-            final ItemStack template = blockMenu.getItemInSlot(slot);
-            if (template != null && template.getType() != Material.AIR) {
-                templates.add(StackUtils.getAsQuantity(template, 1));
+        
+        Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+        	List<ItemStack> templates = new ArrayList<>();
+            for (int slot : this.getItemSlots()) {
+                final ItemStack template = blockMenu.getItemInSlot(slot);
+                if (template != null && template.getType() != Material.AIR) {
+                    templates.add(StackUtils.getAsQuantity(template, 1));
+                }
             }
-        }
 
-        LineOperationUtil.doOperation(
-            blockMenu.getLocation(),
-            direction,
-            config.maxDistance,
-            false,
-            false,
-            (targetMenu) -> LineOperationUtil.pushItem(
-                targetMenu.getLocation(), root, targetMenu, templates, mode, limitQuantity));
+            LineOperationUtil.doOperation(
+                blockMenu.getLocation(),
+                direction,
+                config.maxDistance,
+                false,
+                false,
+                (targetMenu) -> LineOperationUtil.pushItem(
+                    targetMenu.getLocation(), root, targetMenu, templates, mode, limitQuantity));
 
-        root.removeRootPower(config.defaultRequiredPower);
-        sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
+            root.removeRootPower(config.defaultRequiredPower);
+            sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
+        });
+
+        
     }
 
     @ParametersAreNonnullByDefault
@@ -206,17 +213,21 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
             sendFeedback(blockMenu.getLocation(), FeedbackType.NOT_ENOUGH_POWER);
             return;
         }
+        
+        Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+        	LineOperationUtil.doOperation(
+                    blockMenu.getLocation(),
+                    direction,
+                    config.maxDistance,
+                    false,
+                    false,
+                    (targetMenu) ->
+                        LineOperationUtil.grabItem(targetMenu.getLocation(), root, targetMenu, mode, limitQuantity));
 
-        LineOperationUtil.doOperation(
-            blockMenu.getLocation(),
-            direction,
-            config.maxDistance,
-            false,
-            false,
-            (targetMenu) ->
-                LineOperationUtil.grabItem(targetMenu.getLocation(), root, targetMenu, mode, limitQuantity));
+                root.removeRootPower(config.defaultRequiredPower);
+        });
 
-        root.removeRootPower(config.defaultRequiredPower);
+        
     }
 
     @Override
