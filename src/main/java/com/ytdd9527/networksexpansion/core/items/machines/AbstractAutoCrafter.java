@@ -34,6 +34,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -41,6 +43,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+@EnableAsync
 @SuppressWarnings("DuplicatedCode")
 public abstract class AbstractAutoCrafter extends NetworkObject implements SoftCellBannable {
     public static final int BLUEPRINT_SLOT = 10;
@@ -84,10 +87,12 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
         });
     }
 
+    @Async
     public static void updateCache(@NotNull BlockMenu blockMenu) {
         AbstractAutoCrafter.INSTANCE_MAP.remove(blockMenu.getLocation());
     }
 
+    @Async
     protected void craftPreFlight(@NotNull BlockMenu blockMenu) {
 
         releaseCache(blockMenu);
@@ -181,6 +186,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
         }
     }
 
+    @Async
     private boolean tryCraft(
         @NotNull BlockMenu blockMenu, @NotNull BlueprintInstance instance, @NotNull NetworkRoot root) {
         // Get the recipe input
@@ -262,6 +268,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
         return true;
     }
 
+    @Async
     private void returnItems(
         @NotNull NetworkRoot root, @NotNull ItemStack @NotNull [] inputs, @NotNull BlockMenu blockMenu) {
         for (ItemStack input : inputs) {
@@ -271,12 +278,14 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
         }
     }
 
+    @Async
     public void releaseCache(@NotNull BlockMenu blockMenu) {
         if (blockMenu.hasViewer()) {
             INSTANCE_MAP.remove(blockMenu.getLocation());
         }
     }
 
+    @Async
     public void setCache(@NotNull BlockMenu blockMenu, @NotNull BlueprintInstance blueprintInstance) {
         if (!blockMenu.hasViewer()) {
             INSTANCE_MAP.putIfAbsent(blockMenu.getLocation().clone(), blueprintInstance);
@@ -284,6 +293,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
     }
 
     @Override
+    @Async
     public void postRegister() {
         new BlockMenuPreset(this.getId(), this.getItemName()) {
 

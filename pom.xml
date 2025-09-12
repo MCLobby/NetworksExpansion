@@ -355,5 +355,10 @@
             <version>3840a709aa</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>5.3.27</version>
+        </dependency>
     </dependencies>
 </project>
