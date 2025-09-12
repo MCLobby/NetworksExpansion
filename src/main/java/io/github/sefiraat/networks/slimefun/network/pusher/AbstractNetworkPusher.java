@@ -24,7 +24,10 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 
+@EnableAsync
 @SuppressWarnings("DuplicatedCode")
 public abstract class AbstractNetworkPusher extends NetworkDirectional implements SoftCellBannable {
     private static final int NORTH_SLOT = 11;
@@ -46,6 +49,7 @@ public abstract class AbstractNetworkPusher extends NetworkDirectional implement
     }
 
     @Override
+    @Async
     protected void onTick(@Nullable BlockMenu blockMenu, @NotNull Block block) {
         super.onTick(blockMenu, block);
         if (blockMenu != null) {
@@ -53,6 +57,7 @@ public abstract class AbstractNetworkPusher extends NetworkDirectional implement
         }
     }
 
+    @Async
     private void tryPushItem(@NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
@@ -147,12 +152,14 @@ public abstract class AbstractNetworkPusher extends NetworkDirectional implement
     }
 
     @Override
+    @Async
     protected Particle.@NotNull DustOptions getDustOptions() {
         return new Particle.DustOptions(Color.MAROON, 1);
     }
 
     @Nullable
     @Override
+    @Async
     protected ItemStack getOtherBackgroundStack() {
         return Icon.PUSHER_TEMPLATE_BACKGROUND_STACK;
     }
