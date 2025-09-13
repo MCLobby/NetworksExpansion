@@ -31,6 +31,8 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
@@ -39,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("DuplicatedCode")
+@EnableAsync
 public abstract class AbstractTransfer extends AdvancedDirectional implements RecipeDisplayItem {
     private static final Map<Location, Integer> PUSH_TICKER_MAP = new HashMap<>();
     private static final Map<Location, Integer> GRAB_TICKER_MAP = new HashMap<>();
@@ -54,6 +57,7 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
         this.config = TransferConfigFactory.getTransferConfiguration(getTransferType(), checkPlus(item.getItemId()));
     }
 
+    @Async
     public String checkPlus(String id) {
         return id.contains("PLUS") ? id : null;
     }
@@ -61,6 +65,7 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
     public abstract TransferType getTransferType();
 
     @Override
+    @Async
     public void postPlace(@NotNull BlockPlaceEvent e) {
         for (int slot : config.templateSlots) {
             this.getSlotsToDrop().add(slot);
@@ -68,16 +73,19 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
     }
 
     @Override
+    @Async
     public boolean isExceedLimit(int quantity) {
         return quantity > config.maxTransportLimit;
     }
 
     @Override
+    @Async
     public int getMaxLimit() {
         return config.maxTransportLimit;
     }
 
     @Override
+    @Async
     protected void onTick(@Nullable BlockMenu blockMenu, @NotNull Block block) {
         super.onTick(blockMenu, block);
         final Location location = block.getLocation();
@@ -142,6 +150,7 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
         }
     }
 
+    @Async
     private int getPushTickCounter(Location location) {
         final Integer ticker = PUSH_TICKER_MAP.get(location);
         if (ticker != null) {
@@ -152,6 +161,7 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
         }
     }
 
+    @Async
     private int getGrabTickCounter(Location location) {
         final Integer ticker = GRAB_TICKER_MAP.get(location);
         if (ticker != null) {
@@ -170,6 +180,7 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
         GRAB_TICKER_MAP.put(location, grabTick);
     }
 
+    @Async
     private void tryPushItem(
         @NotNull BlockMenu blockMenu,
         @NotNull NetworkRoot root,
@@ -207,6 +218,7 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
     }
 
     @ParametersAreNonnullByDefault
+    @Async
     private void tryGrabItem(
         BlockMenu blockMenu, NetworkRoot root, BlockFace direction, TransportMode mode, int limitQuantity) {
         if (root.getRootPower() < config.defaultRequiredPower) {
@@ -231,57 +243,68 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
     }
 
     @Override
+    @Async
     protected int @NotNull [] getBackgroundSlots() {
         return config.backgroundSlots;
     }
 
     @Override
+    @Async
     protected int @Nullable [] getOtherBackgroundSlots() {
         return config.templateBackgroundSlots;
     }
 
     @Nullable
     @Override
+    @Async
     protected ItemStack getOtherBackgroundStack() {
         return Icon.PUSHER_TEMPLATE_BACKGROUND_STACK;
     }
 
     @Override
+    @Async
     public int getNorthSlot() {
         return config.northSlot;
     }
 
     @Override
+    @Async
     public int getSouthSlot() {
         return config.southSlot;
     }
 
     @Override
+    @Async
     public int getEastSlot() {
         return config.eastSlot;
     }
 
     @Override
+    @Async
     public int getWestSlot() {
         return config.westSlot;
     }
 
     @Override
+    @Async
     public int getUpSlot() {
         return config.upSlot;
     }
 
     @Override
+    @Async
     public int getDownSlot() {
         return config.downSlot;
     }
 
     @Override
+    @Async
     public int @NotNull [] getItemSlots() {
         return config.templateSlots;
     }
 
     @Override
+    @Async
     public @NotNull List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);
         displayRecipes.add(config.getInformationIcon());
@@ -289,21 +312,25 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
     }
 
     @Override
+    @Async
     protected int getMinusSlot() {
         return config.minusSlot;
     }
 
     @Override
+    @Async
     protected int getCargoNumberSlot() {
         return config.cargoNumberSlot;
     }
 
     @Override
+    @Async
     protected int getAddSlot() {
         return config.addSlot;
     }
 
     @Override
+    @Async
     protected int getTransportModeSlot() {
         return config.transportModeSlot;
     }

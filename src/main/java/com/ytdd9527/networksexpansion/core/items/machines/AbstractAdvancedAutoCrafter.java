@@ -37,6 +37,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -44,6 +46,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+@EnableAsync
 @SuppressWarnings("DuplicatedCode")
 public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implements SoftCellBannable {
     private static final int[] BACKGROUND_SLOTS = new int[]{3, 4, 5, 12, 13, 14, 21, 22, 23};
@@ -86,6 +89,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
         });
     }
 
+    @Async
     protected void craftPreFlight(@NotNull BlockMenu blockMenu) {
 
         releaseCache(blockMenu);
@@ -198,6 +202,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
         }
     }
 
+    @Async
     private boolean tryCraft(
     	
         @NotNull BlockMenu blockMenu,
@@ -323,6 +328,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
         return true;
     }
 
+    @Async
     private void returnItems(
         @NotNull NetworkRoot root, @NotNull ItemStack @NotNull [] inputs, @NotNull BlockMenu blockMenu) {
     	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
@@ -335,6 +341,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
         
     }
 
+    @Async
     public void releaseCache(@NotNull BlockMenu blockMenu) {
     	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
     		if (blockMenu.hasViewer()) {
@@ -353,6 +360,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
     }
 
     @Override
+    @Async
     public void postRegister() {
         new BlockMenuPreset(this.getId(), this.getItemName()) {
 

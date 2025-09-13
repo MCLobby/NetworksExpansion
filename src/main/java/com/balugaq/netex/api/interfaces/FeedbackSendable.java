@@ -10,15 +10,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+@EnableAsync
 public interface FeedbackSendable {
     Map<UUID, Set<Location>> SUBSCRIBED_LOCATIONS = new ConcurrentHashMap<>();
 
+    @Async
     static void subscribe(@NotNull Player player, Location location) {
         UUID key = player.getUniqueId();
         if (!SUBSCRIBED_LOCATIONS.containsKey(key)) {
@@ -27,6 +31,7 @@ public interface FeedbackSendable {
         SUBSCRIBED_LOCATIONS.get(key).add(location);
     }
 
+    @Async
     static void unsubscribe(@NotNull Player player, Location location) {
         UUID key = player.getUniqueId();
         if (SUBSCRIBED_LOCATIONS.containsKey(key)) {
@@ -34,6 +39,7 @@ public interface FeedbackSendable {
         }
     }
 
+    @Async
     static boolean hasSubscribed(@NotNull Player player, Location location) {
         UUID key = player.getUniqueId();
         if (SUBSCRIBED_LOCATIONS.containsKey(key)) {
@@ -42,6 +48,7 @@ public interface FeedbackSendable {
         return false;
     }
 
+    @Async
     static void sendFeedback0(@NotNull Location location, @NotNull FeedbackType type) {
     	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
     		for (UUID uuid : SUBSCRIBED_LOCATIONS.keySet()) {
@@ -56,11 +63,13 @@ public interface FeedbackSendable {
         
     }
 
+    @Async
     static void sendFeedback0(@NotNull Player player, @NotNull Location location, String message) {
         player.sendMessage(String.format(
             Lang.getString("messages.debug.status_view"), LocationUtil.humanizeBlock(location), message));
     }
 
+    @Async
     default void sendFeedback(@NotNull Location location, @NotNull FeedbackType type) {
     	Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
     		for (UUID uuid : SUBSCRIBED_LOCATIONS.keySet()) {
@@ -75,6 +84,7 @@ public interface FeedbackSendable {
         
     }
 
+    @Async
     default void sendFeedback(@NotNull Player player, @NotNull Location location, String message) {
         player.sendMessage(String.format(
             Lang.getString("messages.debug.status_view"), LocationUtil.humanizeBlock(location), message));

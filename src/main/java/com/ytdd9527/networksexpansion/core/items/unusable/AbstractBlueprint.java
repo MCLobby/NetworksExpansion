@@ -15,11 +15,14 @@ import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 
+@EnableAsync
 public abstract class AbstractBlueprint extends UnusableSlimefunItem implements DistinctiveItem {
 
     public AbstractBlueprint(
@@ -32,6 +35,7 @@ public abstract class AbstractBlueprint extends UnusableSlimefunItem implements 
 
     @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
+    @Async
     public static void setBlueprint(ItemStack blueprint, ItemStack[] recipe, ItemStack output) {
         final ItemMeta itemMeta = blueprint.getItemMeta();
         DataTypeMethods.setCustom(
@@ -65,6 +69,7 @@ public abstract class AbstractBlueprint extends UnusableSlimefunItem implements 
      * Fix https://github.com/Sefiraat/Networks/issues/201
      */
     @Override
+    @Async
     public boolean canStack(@NotNull ItemMeta meta1, @NotNull ItemMeta meta2) {
         return meta1.getPersistentDataContainer().equals(meta2.getPersistentDataContainer());
     }
