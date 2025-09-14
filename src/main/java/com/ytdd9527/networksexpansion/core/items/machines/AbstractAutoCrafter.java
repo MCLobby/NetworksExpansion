@@ -21,6 +21,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -46,6 +47,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
     public static final int BLUEPRINT_SLOT = 10;
     public static final int OUTPUT_SLOT = 16;
     public static final Map<Location, BlueprintInstance> INSTANCE_MAP = new HashMap<>();
+    public static final Map<Location, Pair<ItemStack[], ItemStack>> RECIPE_CACHE = new HashMap<>();
     private static final int[] BACKGROUND_SLOTS = new int[]{3, 4, 5, 12, 13, 14, 21, 22, 23};
     private static final int[] BLUEPRINT_BACKGROUND = new int[]{0, 1, 2, 9, 11, 18, 19, 20};
     private static final int[] OUTPUT_BACKGROUND = new int[]{6, 7, 8, 15, 17, 24, 25, 26};
@@ -89,9 +91,6 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
     }
 
     protected void craftPreFlight(@NotNull BlockMenu blockMenu) {
-
-        releaseCache(blockMenu);
-
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
@@ -187,7 +186,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
         final ItemStack[] inputs = new ItemStack[9];
 
         /* Make sure the network has the required items
-         * Needs to be revisited as matching is happening stacks 2x when I should
+         * Needs to be revisited as matching is happening stacks 2x when it should
          * only need the one
          */
         HashMap<ItemStack, Integer> requiredItems = new HashMap<>();
@@ -220,18 +219,28 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
 
         ItemStack crafted = null;
 
+        var cache = RECIPE_CACHE.get(blockMenu.getLocation());
+        if (cache != null) {
+            if (testRecipe(inputs, cache.getFirstValue())) {
+                crafted = cache.getSecondValue().clone();
+            }
+        }
+
         // Go through each slimefun recipe, test and set the ItemStack if found
-        for (Map.Entry<ItemStack[], ItemStack> entry : getRecipeEntries()) {
-            if (getRecipeTester(inputs, entry.getKey())) {
-                crafted = entry.getValue().clone();
-                break;
+        if (crafted == null) {
+            for (Map.Entry<ItemStack[], ItemStack> entry : getRecipeEntries()) {
+                if (testRecipe(inputs, entry.getKey())) {
+                    crafted = entry.getValue().clone();
+                    RECIPE_CACHE.put(blockMenu.getLocation(), new Pair<>(entry.getKey(), entry.getValue()));
+                    break;
+                }
             }
         }
 
         if (crafted == null && canTestVanillaRecipe()) {
             sendDebugMessage(blockMenu.getLocation(), "No slimefun recipe found, trying vanilla");
             // If no slimefun recipe found, try a vanilla one
-            instance.generateVanillaRecipe(blockMenu.getLocation().getWorld());
+            instance.generateVanillaRecipe(blockMenu.getLocation().getWorld()); // if generated, nothing will happen
             if (instance.getRecipe() == null) {
                 returnItems(root, inputs, blockMenu);
                 sendDebugMessage(blockMenu.getLocation(), "No vanilla recipe found");
@@ -239,7 +248,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
                 return false;
             } else if (Arrays.equals(instance.getRecipeItems(), inputs)) {
                 setCache(blockMenu, instance);
-                crafted = instance.getRecipe().getResult();
+                crafted = instance.getRecipe().getResult(); // cloned
             }
         }
 
@@ -272,9 +281,8 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
     }
 
     public void releaseCache(@NotNull BlockMenu blockMenu) {
-        if (blockMenu.hasViewer()) {
-            INSTANCE_MAP.remove(blockMenu.getLocation());
-        }
+        RECIPE_CACHE.remove(blockMenu.getLocation());
+        INSTANCE_MAP.remove(blockMenu.getLocation());
     }
 
     public void setCache(@NotNull BlockMenu blockMenu, @NotNull BlueprintInstance blueprintInstance) {
@@ -296,6 +304,8 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
 
             @Override
             public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
+                menu.addMenuOpeningHandler(p -> releaseCache(menu));
+                menu.addMenuCloseHandler(p -> releaseCache(menu));
                 menu.addMenuClickHandler(BLUEPRINT_SLOT, (player, slot, clickedItem, clickAction) -> {
                     releaseCache(menu);
                     return true;
@@ -324,7 +334,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
 
     public abstract Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries();
 
-    public abstract boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe);
+    public abstract boolean testRecipe(ItemStack[] inputs, ItemStack[] recipe);
 
     public boolean canTestVanillaRecipe() {
         return false;

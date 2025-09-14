@@ -28,7 +28,7 @@ public class AdvancedAutoJuicer extends AbstractAdvancedAutoCrafter {
         return SupportedJuicerRecipes.getRecipes().entrySet();
     }
 
-    public boolean getRecipeTester(ItemStack[] inputs, ItemStack @NotNull [] recipe) {
+    public boolean testRecipe(ItemStack[] inputs, ItemStack @NotNull [] recipe) {
         return SupportedJuicerRecipes.testRecipe(inputs, recipe);
     }
 

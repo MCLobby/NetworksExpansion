@@ -28,7 +28,7 @@ public class AdvancedAutoPressureChamber extends AbstractAdvancedAutoCrafter {
         return SupportedPressureChamberRecipes.getRecipes().entrySet();
     }
 
-    public boolean getRecipeTester(ItemStack[] inputs, ItemStack @NotNull [] recipe) {
+    public boolean testRecipe(ItemStack[] inputs, ItemStack @NotNull [] recipe) {
         return SupportedPressureChamberRecipes.testRecipe(inputs, recipe);
     }
 
