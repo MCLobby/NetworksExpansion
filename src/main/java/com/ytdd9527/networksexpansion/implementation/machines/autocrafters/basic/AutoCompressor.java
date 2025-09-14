@@ -28,7 +28,7 @@ public class AutoCompressor extends AbstractAutoCrafter {
         return SupportedCompressorRecipes.getRecipes().entrySet();
     }
 
-    public boolean getRecipeTester(ItemStack[] inputs, ItemStack @NotNull [] recipe) {
+    public boolean testRecipe(ItemStack[] inputs, ItemStack @NotNull [] recipe) {
         return SupportedCompressorRecipes.testRecipe(inputs, recipe);
     }
 

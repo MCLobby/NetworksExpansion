@@ -28,7 +28,7 @@ public class AutoExpansionWorkbench extends AbstractAutoCrafter {
         return SupportedExpansionWorkbenchRecipes.getRecipes().entrySet();
     }
 
-    public boolean getRecipeTester(ItemStack[] inputs, ItemStack @NotNull [] recipe) {
+    public boolean testRecipe(ItemStack[] inputs, ItemStack @NotNull [] recipe) {
         return SupportedExpansionWorkbenchRecipes.testRecipe(inputs, recipe);
     }
 

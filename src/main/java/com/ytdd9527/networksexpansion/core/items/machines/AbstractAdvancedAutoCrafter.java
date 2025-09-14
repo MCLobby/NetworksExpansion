@@ -21,6 +21,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -187,7 +188,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
         final ItemStack[] acutalInputs = new ItemStack[9];
 
         /* Make sure the network has the required items
-         * Needs to be revisited as matching is happening stacks 2x when I should
+         * Needs to be revisited as matching is happening stacks 2x when it should
          * only need the one
          */
 
@@ -232,17 +233,27 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
 
         ItemStack crafted = null;
 
+        var cache = AbstractAutoCrafter.RECIPE_CACHE.get(blockMenu.getLocation());
+        if (cache != null) {
+            if (testRecipe(inputs, cache.getFirstValue())) {
+                crafted = cache.getSecondValue().clone();
+            }
+        }
+
         // Go through each slimefun recipe, test and set the ItemStack if found
-        for (Map.Entry<ItemStack[], ItemStack> entry : getRecipeEntries()) {
-            if (getRecipeTester(inputs, entry.getKey())) {
-                crafted = entry.getValue().clone();
-                break;
+        if (crafted == null) {
+            for (Map.Entry<ItemStack[], ItemStack> entry : getRecipeEntries()) {
+                if (testRecipe(inputs, entry.getKey())) {
+                    crafted = entry.getValue().clone();
+                    AbstractAutoCrafter.RECIPE_CACHE.put(blockMenu.getLocation(), new Pair<>(entry.getKey(), entry.getValue()));
+                    break;
+                }
             }
         }
 
         if (crafted == null && canTestVanillaRecipe()) {
             // If no slimefun recipe found, try a vanilla one
-            instance.generateVanillaRecipe(blockMenu.getLocation().getWorld());
+            instance.generateVanillaRecipe(blockMenu.getLocation().getWorld()); // if generated, nothing will happen
             if (instance.getRecipe() == null) {
                 returnItems(root, inputs, blockMenu);
                 sendDebugMessage(blockMenu.getLocation(), "No vanilla recipe found");
@@ -345,7 +356,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
 
     public abstract Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries();
 
-    public abstract boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe);
+    public abstract boolean testRecipe(ItemStack[] inputs, ItemStack[] recipe);
 
     public boolean canTestVanillaRecipe() {
         return false;

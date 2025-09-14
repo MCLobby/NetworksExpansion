@@ -28,7 +28,7 @@ public class AdvancedAutoArmorForge extends AbstractAdvancedAutoCrafter {
         return SupportedArmorForgeRecipes.getRecipes().entrySet();
     }
 
-    public boolean getRecipeTester(ItemStack[] inputs, ItemStack @NotNull [] recipe) {
+    public boolean testRecipe(ItemStack[] inputs, ItemStack @NotNull [] recipe) {
         return SupportedArmorForgeRecipes.testRecipe(inputs, recipe);
     }
 
