@@ -1,27 +1,29 @@
 package com.balugaq.netex.utils;
 
-import io.github.sefiraat.networks.Networks;
-import io.github.sefiraat.networks.utils.StackUtils;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import lombok.experimental.UtilityClass;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.Range;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Range;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
+
+import io.github.sefiraat.networks.utils.StackUtils;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import lombok.experimental.UtilityClass;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+
 @SuppressWarnings("DuplicatedCode")
 @UtilityClass
+@EnableAsync
 public class BlockMenuUtil {
     @Nullable
+    @Async
     public static ItemStack pushItem(
         @NotNull final BlockMenu blockMenu,
         @Nullable final ItemStack item,
@@ -72,6 +74,7 @@ public class BlockMenuUtil {
     }
 
     @NotNull
+    @Async
     public static Map<ItemStack, Integer> pushItem(
         @NotNull final BlockMenu blockMenu,
         @Nullable final ItemStack @NotNull [] items,
@@ -92,6 +95,7 @@ public class BlockMenuUtil {
     }
 
     @NotNull
+    @Async
     public static Map<ItemStack, Integer> pushItem(
         @NotNull final BlockMenu blockMenu,
         @Nullable final List<ItemStack> items,
@@ -114,6 +118,7 @@ public class BlockMenuUtil {
         return itemMap;
     }
 
+    @Async
     public static boolean fits(
         @NotNull final BlockMenu blockMenu,
         @Nullable final ItemStack item,
@@ -140,6 +145,7 @@ public class BlockMenuUtil {
         return false;
     }
 
+    @Async
     public static boolean fits(
         @NotNull final BlockMenu blockMenu,
         @Nullable final ItemStack @Nullable [] items,
@@ -158,6 +164,7 @@ public class BlockMenuUtil {
         return fits(blockMenu, listItems, slots);
     }
 
+    @Async
     public static boolean fits(
         @NotNull final BlockMenu blockMenu,
         @Nullable final List<ItemStack> items,
@@ -220,10 +227,12 @@ public class BlockMenuUtil {
         return true;
     }
 
+    @Async
     public static void consumeItem(@NotNull final BlockMenu blockMenu, @Range(from = 0, to = 64) final int slot) {
         consumeItem(blockMenu, slot, 1);
     }
 
+    @Async
     public static void consumeItem(
         @NotNull final BlockMenu blockMenu,
         @Range(from = 0, to = 53) final int slot,
@@ -231,6 +240,7 @@ public class BlockMenuUtil {
         consumeItem(blockMenu, slot, 1, replaceConsumables);
     }
 
+    @Async
     public static void consumeItem(
         @NotNull final BlockMenu blockMenu,
         @Range(from = 0, to = 53) final int slot,
@@ -239,6 +249,7 @@ public class BlockMenuUtil {
     }
 
     @SuppressWarnings("deprecation")
+    @Async
     public static void consumeItem(
         @NotNull final BlockMenu blockMenu,
         @Range(from = 0, to = 53) final int slot,

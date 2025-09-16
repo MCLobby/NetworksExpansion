@@ -15,11 +15,14 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings("DuplicatedCode")
+@EnableAsync
 public class NetworkGrid extends AbstractGrid {
 
     private static final int[] BACKGROUND_SLOTS = {17, 26};
@@ -49,6 +52,7 @@ public class NetworkGrid extends AbstractGrid {
 
     @Override
     @NotNull
+    @Async
     protected BlockMenuPreset getPreset() {
         return new BlockMenuPreset(this.getId(), this.getItemName()) {
 

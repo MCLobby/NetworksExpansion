@@ -28,6 +28,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.scheduling.annotation.Async;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -212,6 +213,7 @@ public class NetworkCraftingGrid extends AbstractGrid {
         return FILTER;
     }
 
+    @Async
     private void tryCraft(@NotNull BlockMenu menu, @NotNull Player player) {
         // Get node and, if it doesn't exist - escape
         final NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
@@ -294,6 +296,7 @@ public class NetworkCraftingGrid extends AbstractGrid {
         }
     }
 
+    @Async
     private void tryReturnItems(@NotNull BlockMenu menu) {
         // Get node and, if it doesn't exist - escape
         final NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
