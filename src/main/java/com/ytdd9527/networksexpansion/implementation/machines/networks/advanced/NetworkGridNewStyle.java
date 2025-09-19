@@ -1,10 +1,15 @@
 package com.ytdd9527.networksexpansion.implementation.machines.networks.advanced;
 
+import com.balugaq.netex.api.keybind.Action;
+import com.balugaq.netex.api.keybind.Keybind;
+import com.balugaq.netex.api.keybind.Keybindable;
+import com.balugaq.netex.api.keybind.Keybinds;
 import com.ytdd9527.networksexpansion.core.items.machines.AbstractGridNewStyle;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache.DisplayMode;
+import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -12,6 +17,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -26,8 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings("DuplicatedCode")
-public class NetworkGridNewStyle extends AbstractGridNewStyle {
-
+public class NetworkGridNewStyle extends AbstractGridNewStyle implements Keybindable {
     private static final int[] BACKGROUND_SLOTS = new int[]{8};
 
     private static final int[] DISPLAY_SLOTS = {
@@ -49,6 +54,34 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
     private static final int TOGGLE_MODE_SLOT = 17;
 
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
+
+    public final Action storeItem = (player, slot, itemStack, clickAction, menu) -> {
+        receiveItem(player, itemStack, clickAction, menu);
+        return false;
+    };
+
+    private final Keybinds outsideKeybinds = Keybinds.create(Keys.newKey("outside-keybinds"), it -> {
+        it
+            .usableKeybinds(
+                Keybind.leftClick,
+                Keybind.rightClick,
+                Keybind.shiftLeftClick,
+                Keybind.shiftRightClick,
+                Keybind.shiftClick
+            );
+
+            Action storeItem = (p, s, i, a, menu) -> {
+                receiveItem(p, i, a, menu);
+                return false;
+            };
+
+            it.usableActions(storeItem);
+            it.defaultKeybinds(Map.of(
+                Keybind.shiftLeftClick, storeItem
+            ));
+            it.defaultValue(true);
+        })
+        .generate();
 
     public NetworkGridNewStyle(
         @NotNull ItemGroup itemGroup,
@@ -162,15 +195,7 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
                     menu.addMenuClickHandler(backgroundSlot, (p, slot, item, action) -> false);
                 }
 
-                menu.addPlayerInventoryClickHandler((p, s, i, a) -> {
-                    if (!a.isShiftClicked() || a.isRightClicked()) {
-                        return true;
-                    }
-
-                    // Shift+Left-click
-                    receiveItem(p, i, a, menu);
-                    return false;
-                });
+                menu.addPlayerInventoryClickHandler(outsideKeybinds.location(menu));
             }
         };
     }

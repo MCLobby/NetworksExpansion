@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
-@UtilityClass
 public class Lang {
     public static LocalizationService get() {
         return Networks.getLocalizationService();

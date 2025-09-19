@@ -4,6 +4,9 @@ import com.balugaq.jeg.api.groups.SearchGroup;
 import com.balugaq.netex.api.algorithm.Sorters;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.api.keybind.Action;
+import com.balugaq.netex.api.keybind.Keybind;
+import com.balugaq.netex.api.keybind.Keybinds;
 import com.balugaq.netex.utils.InventoryUtil;
 import com.balugaq.netex.utils.Lang;
 import com.github.houbb.pinyin.constant.enums.PinyinStyleEnum;
@@ -20,6 +23,7 @@ import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache.DisplayMode;
+import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
@@ -69,6 +73,29 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         SORT_MAP.put(GridCache.SortOrder.NUMBER_REVERSE, Sorters.ITEMSTACK_NUMERICAL_SORT);
         SORT_MAP.put(GridCache.SortOrder.ADDON, Sorters.ITEMSTACK_ADDON_SORT);
     }
+
+    private final Keybinds displayKeybinds = Keybinds.create(Keys.newKey("display-keybinds"), it -> {
+            it
+                .usableKeybinds(
+                    Keybind.leftClick,
+                    Keybind.rightClick,
+                    Keybind.shiftLeftClick,
+                    Keybind.shiftRightClick,
+                    Keybind.shiftClick
+                );
+
+            Action storeItem = (p, s, i, a, menu) -> {
+                receiveItem(p, i, a, menu);
+                return false;
+            };
+
+            it.usableActions(storeItem);
+            it.defaultKeybinds(Map.of(
+                Keybind.shiftLeftClick, storeItem
+            ));
+            it.defaultValue(false);
+        })
+        .generate();
 
     private final @NotNull ItemSetting<Integer> tickRate;
 
@@ -413,11 +440,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         }
     }
 
-    @SuppressWarnings("deprecation")
-    @ParametersAreNonnullByDefault
-    protected synchronized void retrieveItem(
-        Player player, @Nullable ItemStack itemStack, ClickAction action, BlockMenu blockMenu) {
-        NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
+    private ItemStack precheck(NodeDefinition definition, BlockMenu blockMenu, Player player, ItemStack itemStack) {
         if (definition == null || definition.getNode() == null) {
             clearDisplay(blockMenu);
             blockMenu.close();
@@ -427,23 +450,23 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
                     Lang.getString("messages.unsupported-operation.grid.may_duping"),
                     player.getName(),
                     blockMenu.getLocation()));
-            return;
+            return null;
         }
 
         if (itemStack == null || itemStack.getType() == Material.AIR) {
-            return;
+            return null;
         }
 
         final ItemStack clone = itemStack.clone();
 
         final ItemMeta cloneMeta = clone.getItemMeta();
         if (cloneMeta == null) {
-            return;
+            return null;
         }
         final List<String> cloneLore = cloneMeta.getLore();
 
         if (cloneLore == null || cloneLore.size() < 2) {
-            return;
+            return null;
         }
 
         cloneLore.remove(cloneLore.size() - 1);
@@ -454,8 +477,19 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         NetworkRoot root = definition.getNode().getRoot();
         boolean success = root.refreshRootItems();
         if (!success) {
-            return;
+            return null;
         }
+
+        return clone;
+    }
+
+    @SuppressWarnings("deprecation")
+    @ParametersAreNonnullByDefault
+    protected synchronized void retrieveItem(
+        Player player, @Nullable ItemStack itemStack, ClickAction action, BlockMenu blockMenu) {
+        NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
+        ItemStack clone = precheck(definition, blockMenu, player, itemStack);
+        if (clone == null) return;
 
         final ItemStack cursor = player.getItemOnCursor();
         if (cursor.getType() != Material.AIR
