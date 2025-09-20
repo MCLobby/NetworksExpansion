@@ -10,25 +10,23 @@ import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache.DisplayMode;
 import io.github.sefiraat.networks.utils.Keys;
-import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("DuplicatedCode")
@@ -55,30 +53,25 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle implements Keybind
 
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
 
-    public final Action storeItem = (player, slot, itemStack, clickAction, menu) -> {
-        receiveItem(player, itemStack, clickAction, menu);
+    Action storeItem = Action.of(Keys.newKey("store-item"), (p, s, i, a, menu) -> {
+        receiveItem(p, i, a, menu);
         return false;
-    };
+    });
 
-    private final Keybinds outsideKeybinds = Keybinds.create(Keys.newKey("outside-keybinds"), it -> {
-        it
-            .usableKeybinds(
-                Keybind.leftClick,
-                Keybind.rightClick,
-                Keybind.shiftLeftClick,
-                Keybind.shiftRightClick,
-                Keybind.shiftClick
-            );
-
-            Action storeItem = (p, s, i, a, menu) -> {
-                receiveItem(p, i, a, menu);
-                return false;
-            };
+    public final Keybinds outsideKeybinds = Keybinds.create(Keys.newKey("outside-keybinds"), it -> {
+            it
+                .usableKeybinds(
+                    Keybind.leftClick,
+                    Keybind.rightClick,
+                    Keybind.shiftLeftClick,
+                    Keybind.shiftRightClick,
+                    Keybind.shiftClick
+                );
 
             it.usableActions(storeItem);
-            it.defaultKeybinds(Map.of(
+            it.defaultKeybinds(
                 Keybind.shiftLeftClick, storeItem
-            ));
+            );
             it.defaultValue(true);
         })
         .generate();
@@ -182,20 +175,13 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle implements Keybind
                     menu.addMenuClickHandler(displaySlot, (p, slot, item, action) -> false);
                 }
 
-                ItemStack exist = menu.getItemInSlot(getAutoFilterSlot());
-                if (exist != null
-                    && exist.getType() != Material.AIR
-                    && !StackUtils.itemsMatch(exist, ChestMenuUtils.getBackground())) {
-                    // drop item
-                    menu.getLocation().getWorld().dropItemNaturally(menu.getLocation(), exist);
-                }
-
                 for (int backgroundSlot : getBackgroundSlots()) {
                     menu.replaceExistingItem(backgroundSlot, ChestMenuUtils.getBackground());
                     menu.addMenuClickHandler(backgroundSlot, (p, slot, item, action) -> false);
                 }
 
-                menu.addPlayerInventoryClickHandler(outsideKeybinds.location(menu));
+                menu.addPlayerInventoryClickHandler(outsideKeybinds);
+                addKeybindSettingsButton(menu, getKeybindButtonSlot());
             }
         };
     }
@@ -225,8 +211,8 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle implements Keybind
         return PAGE_NEXT;
     }
 
-    @Deprecated
-    public int getAutoFilterSlot() {
+    @Deprecated(forRemoval = true)
+    public int getKeybindButtonSlot() {
         return AUTO_FILTER_SLOT;
     }
 
@@ -237,5 +223,10 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle implements Keybind
     @Override
     protected int getFilterSlot() {
         return FILTER;
+    }
+
+    @Override
+    public @NotNull List<Keybinds> keybinds() {
+        return List.of(displayKeybinds, outsideKeybinds);
     }
 }

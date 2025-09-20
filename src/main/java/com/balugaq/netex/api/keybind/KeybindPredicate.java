@@ -1,6 +1,7 @@
 package com.balugaq.netex.api.keybind;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jspecify.annotations.NullMarked;
@@ -9,5 +10,5 @@ import org.jspecify.annotations.NullMarked;
 @FunctionalInterface
 @SuppressWarnings("deprecation")
 public interface KeybindPredicate {
-    boolean test(Player player, int slot, ItemStack itemStack, ClickAction clickAction);
+    boolean test(Player player, int slot, ItemStack itemStack, ClickAction clickAction, BlockMenu menu);
 }

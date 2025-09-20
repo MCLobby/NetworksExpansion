@@ -1,5 +1,9 @@
 # <click_info> = Theme.CLICK_INFO
 messages:
+  keybind:
+    title: "&a选择你要编辑的按键控制集"
+    sub-title: "&a点击你要修改的按键触发"
+    action-select-title: "&a点击选择你要修改的按键触发"
   feedback:
     afk: "等待被观察"
     already_has_item: "抓取槽已经有物品了"
@@ -530,6 +534,47 @@ messages:
           - "收获时将获得人造绿宝石碎片."
   save-all: "正在保存网络拓展数据."
 icons:
+  keybind-settings:
+    name: "&6按键控制设置"
+  light-gray-background:
+    name: "&7"
+  yellow-border:
+    name: "&7"
+  keybinds:
+    store-item:
+      name: "&6存入物品"
+    do-nothing:
+      name: "&6无操作"
+    display-keybinds:
+      name: "&6显示栏按键控制"
+    outside-keybinds:
+      name: "&6背包栏按键控制"
+    click-on-item-not-equals-to-cursor:
+      name: "&6左键点击背包物品与光标物品不一致时"
+    store-cursor:
+      name: "&6存入光标物品"
+    left-click:
+      name: "&6点击左键时"
+    right-click:
+      name: "&6点击右键时"
+    shift-click:
+      name: "&6按下Shift键点击时"
+    shift-left-click:
+      name: "&6按下Shift键点击左键时"
+    shift-right-click:
+      name: "&6按下Shift键点击右键时"
+    one-cursor:
+      name: "&6取出1个物品至光标"
+    stack-cursor:
+      name: "&6取出1组物品至光标"
+    stack-inv:
+      name: "&6取出1组物品至背包"
+    one-inv:
+      name: "&6取出1个物品至背包"
+    custom-cursor:
+      name: "&6取出自定义数量个物品至光标"
+    custom-inv:
+      name: "&6取出自定义数量个物品至背包"
   filter-mode-black-list:
     name: "&6黑名单模式"
     lore:
@@ -768,6 +813,10 @@ icons:
     lore:
       - ""
   background-stack-3x3:
+    name: "<passive> "
+    lore:
+      - ""
+  blue-background:
     name: "<passive> "
     lore:
       - ""
@@ -1033,9 +1082,9 @@ items:
       - "<warning> 网络拓展开发版不接受 GitHub Issues"
       - "<warning> 网络拓展开发版不接受 GitHub PR"
       - "<passive> 版本信息:"
-      - "<passive> 网络拓展版本: Special-Version-51"
+      - "<passive> 网络拓展版本: Special-Version-52"
       - "<passive> 版本状态: 稳定版"
-      - "<passive> 版本更新时间: 2025-9-13 16:59:49"
+      - "<passive> 版本更新时间: 2025-9-20 22:08:07"
       - "<passive> 开发状态: 更新中"
       - "<passive> 开发者（们）: ytdd9527, balugaq"
       - "<passive> 开发者 GitHub 页面: <click_info>https://github.com/ytdd9527"

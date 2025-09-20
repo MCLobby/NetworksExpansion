@@ -3,6 +3,7 @@ package com.ytdd9527.networksexpansion.implementation.machines.networks.advanced
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.api.helpers.SupportedCraftingTableRecipes;
 import com.balugaq.netex.api.interfaces.RecipeCompletableWithGuide;
+import com.balugaq.netex.api.keybind.Keybinds;
 import com.balugaq.netex.utils.BlockMenuUtil;
 import com.balugaq.netex.utils.Lang;
 import com.ytdd9527.networksexpansion.core.items.machines.AbstractGridNewStyle;
@@ -14,7 +15,6 @@ import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache.DisplayMode;
-import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -36,6 +36,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("DuplicatedCode")
@@ -52,8 +53,7 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle implements
         45, 46, 47, 48, 49
     };
 
-    @Deprecated
-    private static final int AUTO_FILTER_SLOT = 43;
+    private static final int KEYBIND_BUTTON_SLOT = 43;
 
     private static final int CHANGE_SORT = 35;
     private static final int FILTER = 42;
@@ -170,30 +170,13 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle implements
                     menu.addMenuClickHandler(displaySlot, (p, slot, item, action) -> false);
                 }
 
-                ItemStack exist = menu.getItemInSlot(getAutoFilterSlot());
-                if (exist != null
-                    && exist.getType() != Material.AIR
-                    && !StackUtils.itemsMatch(exist, ChestMenuUtils.getBackground())) {
-                    // drop item
-                    menu.getLocation().getWorld().dropItemNaturally(menu.getLocation(), exist);
-                }
-
                 for (int backgroundSlot : getBackgroundSlots()) {
                     menu.replaceExistingItem(backgroundSlot, ChestMenuUtils.getBackground());
                     menu.addMenuClickHandler(backgroundSlot, (p, slot, item, action) -> false);
                 }
 
-                menu.addPlayerInventoryClickHandler((p, s, i, a) -> {
-                    if (!a.isShiftClicked() || a.isRightClicked()) {
-                        return true;
-                    }
-
-                    // Shift+Left-click
-                    receiveItem(p, i, a, menu);
-                    return false;
-                });
-
-                //addJEGButton(menu, JEG_SLOT);
+                menu.addPlayerInventoryClickHandler(ExpansionItems.NETWORK_GRID_NEW_STYLE.outsideKeybinds);
+                addKeybindSettingsButton(menu, getKeybindButtonSlot());
             }
         };
     }
@@ -223,9 +206,9 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle implements
         return PAGE_NEXT;
     }
 
-    @Deprecated
-    public int getAutoFilterSlot() {
-        return AUTO_FILTER_SLOT;
+    @Override
+    public int getKeybindButtonSlot() {
+        return KEYBIND_BUTTON_SLOT;
     }
 
     public int getToggleModeSlot() {
@@ -330,5 +313,10 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle implements
     @Override
     public int[] getIngredientSlots() {
         return INTEGRATION_SLOTS;
+    }
+
+    @Override
+    public @NotNull List<Keybinds> keybinds() {
+        return List.of(displayKeybinds, ExpansionItems.NETWORK_GRID_NEW_STYLE.outsideKeybinds);
     }
 }

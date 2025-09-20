@@ -2,6 +2,7 @@ package io.github.sefiraat.networks;
 
 import com.balugaq.netex.api.data.ItemFlowRecord;
 import com.balugaq.netex.api.enums.MinecraftVersion;
+import com.balugaq.netex.core.guide.GridNewStyleCustomAmountGuideOption;
 import com.balugaq.netex.utils.Debug;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -21,6 +22,8 @@ import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
 import io.github.sefiraat.networks.slimefun.network.NetworkController;
 import io.github.sefiraat.networks.utils.NetworkUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideOption;
+import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import lombok.Getter;
@@ -212,6 +215,7 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
                 Slimefun.getTickerTask().getTickRate());
 
         AdminDebuggable.load();
+        SlimefunGuideSettings.addOption(GridNewStyleCustomAmountGuideOption.instance());
         getLogger().info(getLocalizationService().getString("messages.startup.enabled-successfully"));
     }
 

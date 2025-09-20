@@ -50,7 +50,7 @@ public class Lang {
 
     @ParametersAreNonnullByDefault
     @NotNull
-    public String getString(String key, Object... args) {
+    public static String getString(String key, Object... args) {
         return get().getString(key, args);
     }
 
