@@ -6,9 +6,11 @@ import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.api.interfaces.functions.Function3;
 import com.balugaq.netex.api.keybind.Action;
+import com.balugaq.netex.api.keybind.ActionResult;
 import com.balugaq.netex.api.keybind.Keybind;
 import com.balugaq.netex.api.keybind.Keybindable;
 import com.balugaq.netex.api.keybind.Keybinds;
+import com.balugaq.netex.api.keybind.MultiActionHandle;
 import com.balugaq.netex.utils.InventoryUtil;
 import com.balugaq.netex.utils.Lang;
 import com.github.houbb.pinyin.constant.enums.PinyinStyleEnum;
@@ -78,53 +80,53 @@ public abstract class AbstractGridNewStyle extends NetworkObject implements Keyb
         SORT_MAP.put(GridCache.SortOrder.ADDON, Sorters.ITEMSTACK_ADDON_SORT);
     }
 
-    Keybind clickOnWithCursor = Keybind.of(Keys.newKey("click-on-item-not-equals-to-cursor"), (player, s, i, a, menu) -> {
-        NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
-        if (definition == null || definition.getNode() == null) return false;
-        ItemStack clone = precheck(definition, menu, player, i);
-        if (clone == null) return false;
-        final ItemStack cursor = player.getItemOnCursor();
-        return cursor.getType() != Material.AIR
-            && StackUtils.itemsMatch(clone, StackUtils.getAsQuantity(player.getItemOnCursor(), 1));
-    });
-
-    Action storeCursor = Action.of(Keys.newKey("store-cursor"), (player, s, i, a, menu) -> {
-        NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
-        if (definition == null || definition.getNode() == null) return false;
-        definition.getNode().getRoot().addItemStack0(menu.getLocation(), player.getItemOnCursor());
-        return false;
-    });
-
-    Function3<NamespacedKey, AmountHandleStrategy, Boolean, Action> actionGenerate = (key, strategy, toInventory) -> Action.of(key, (player, s, i, a, menu) -> {
-        NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
-        if (definition == null || definition.getNode() == null) return false;
-        ItemStack clone = precheck(definition, menu, player, i);
-        if (clone == null) return false;
-
-        final GridItemRequest request = new GridItemRequest(clone, strategy.getAmount(player, clone), player);
-
-        if (toInventory) {
-            addToInventory(player, definition, request, menu);
-        } else {
-            addToCursor(player, definition, request, a.isRightClicked(), menu);
-        }
-        GridCache gridCache = getCacheMap().get(menu.getLocation());
-        if (gridCache.getDisplayMode() == DisplayMode.DISPLAY) {
-            gridCache.addPullItemHistory(clone);
-        }
-        updateDisplay(menu);
-        return false;
-    });
-
-    Action strategy1 = actionGenerate.apply(Keys.newKey("one-cursor"), AmountHandleStrategy.ONE, false);
-    Action strategy2 = actionGenerate.apply(Keys.newKey("stack-cursor"), AmountHandleStrategy.STACK, false);
-    Action strategy3 = actionGenerate.apply(Keys.newKey("stack-inv"), AmountHandleStrategy.STACK, true);
-    Action strategy4 = actionGenerate.apply(Keys.newKey("one-inv"), AmountHandleStrategy.ONE, true);
-    Action strategy5 = actionGenerate.apply(Keys.newKey("custom-cursor"), AmountHandleStrategy.CUSTOM, false);
-    Action strategy6 = actionGenerate.apply(Keys.newKey("custom-inv"), AmountHandleStrategy.CUSTOM, true);
-
     public final Keybinds displayKeybinds = Keybinds.create(Keys.newKey("display-keybinds"), it -> {
-        it.usableKeybinds(
+            Keybind clickOnWithCursor = Keybind.of(Keys.newKey("clicked-item-not-equals-to-cursor"), (player, s, i, a, menu) -> {
+                NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
+                if (definition == null || definition.getNode() == null) return false;
+                ItemStack clone = precheck(definition, menu, player, i);
+                if (clone == null) return false;
+                final ItemStack cursor = player.getItemOnCursor();
+                return cursor.getType() != Material.AIR
+                    && !StackUtils.itemsMatch(clone, player.getItemOnCursor(), true, false);
+            });
+
+            Action storeCursor = Action.of(Keys.newKey("store-cursor"), (player, s, i, a, menu) -> {
+                NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
+                if (definition == null || definition.getNode() == null) return ActionResult.of(MultiActionHandle.CONTINUE, false);
+                definition.getNode().getRoot().addItemStack0(menu.getLocation(), player.getItemOnCursor());
+                return ActionResult.of(MultiActionHandle.BREAK, false);
+            });
+
+            Function3<NamespacedKey, AmountHandleStrategy, Boolean, Action> actionGenerate = (key, strategy, toInventory) -> Action.of(key, (player, s, i, a, menu) -> {
+                NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
+                if (definition == null || definition.getNode() == null) return ActionResult.of(MultiActionHandle.CONTINUE, false);
+                ItemStack clone = precheck(definition, menu, player, i);
+                if (clone == null) return ActionResult.of(MultiActionHandle.CONTINUE, false);
+
+                final GridItemRequest request = new GridItemRequest(clone, strategy.getAmount(player, clone), player);
+
+                if (toInventory) {
+                    addToInventory(player, definition, request, menu);
+                } else {
+                    addToCursor(player, definition, request, a.isRightClicked(), menu);
+                }
+                GridCache gridCache = getCacheMap().get(menu.getLocation());
+                if (gridCache.getDisplayMode() == DisplayMode.DISPLAY) {
+                    gridCache.addPullItemHistory(clone);
+                }
+                updateDisplay(menu);
+                return ActionResult.of(MultiActionHandle.BREAK, false);
+            });
+
+            Action strategy1 = actionGenerate.apply(Keys.newKey("one-cursor"), AmountHandleStrategy.ONE, false);
+            Action strategy2 = actionGenerate.apply(Keys.newKey("stack-cursor"), AmountHandleStrategy.STACK, false);
+            Action strategy3 = actionGenerate.apply(Keys.newKey("stack-inv"), AmountHandleStrategy.STACK, true);
+            Action strategy4 = actionGenerate.apply(Keys.newKey("one-inv"), AmountHandleStrategy.ONE, true);
+            Action strategy5 = actionGenerate.apply(Keys.newKey("custom-cursor"), AmountHandleStrategy.CUSTOM, false);
+            Action strategy6 = actionGenerate.apply(Keys.newKey("custom-inv"), AmountHandleStrategy.CUSTOM, true);
+
+            it.usableKeybinds(
                 Keybind.leftClick,
                 Keybind.rightClick,
                 Keybind.shiftLeftClick,
@@ -140,7 +142,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject implements Keyb
                 Keybind.shiftLeftClick, strategy3,
                 Keybind.shiftRightClick, strategy4
             );
-            it.defaultValue(false);
+            it.defaultActionResult(ActionResult.of(MultiActionHandle.CONTINUE, false));
         })
         .generate();
 

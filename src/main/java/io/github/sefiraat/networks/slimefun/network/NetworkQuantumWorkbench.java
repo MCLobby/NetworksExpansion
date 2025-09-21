@@ -116,7 +116,7 @@ public class NetworkQuantumWorkbench extends SpecialSlimefunItem {
 
         ItemStack crafted = null;
 
-        // Go through each recipe, test and set the ItemStack if found
+        // Go through each recipe, trigger and set the ItemStack if found
         for (Map.Entry<ItemStack[], ItemStack> entry : RECIPES.entrySet()) {
             if (testRecipe(inputs, entry.getKey())) {
                 crafted = entry.getValue().clone();

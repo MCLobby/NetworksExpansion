@@ -158,6 +158,12 @@ public class Icon {
     public static final ItemStack YELLOW_BORDER =
         Lang.getIcon("yellow-border", Material.YELLOW_STAINED_GLASS_PANE);
 
+    public static final ItemStack UPLOAD_KEYBIND_SCRIPT =
+        Lang.getIcon("upload-keybind-script", Material.PAPER);
+
+    public static final ItemStack GRAY_BACKGROUND =
+        Lang.getIcon("gray-background", Material.GRAY_STAINED_GLASS_PANE);
+
     // pages are 1-based
     @SuppressWarnings("deprecation")
     @NotNull

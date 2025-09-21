@@ -1,9 +1,11 @@
 package com.ytdd9527.networksexpansion.implementation.machines.networks.advanced;
 
 import com.balugaq.netex.api.keybind.Action;
+import com.balugaq.netex.api.keybind.ActionResult;
 import com.balugaq.netex.api.keybind.Keybind;
 import com.balugaq.netex.api.keybind.Keybindable;
 import com.balugaq.netex.api.keybind.Keybinds;
+import com.balugaq.netex.api.keybind.MultiActionHandle;
 import com.ytdd9527.networksexpansion.core.items.machines.AbstractGridNewStyle;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
 import io.github.sefiraat.networks.network.NodeType;
@@ -55,7 +57,7 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle implements Keybind
 
     Action storeItem = Action.of(Keys.newKey("store-item"), (p, s, i, a, menu) -> {
         receiveItem(p, i, a, menu);
-        return false;
+        return ActionResult.of(MultiActionHandle.BREAK, false);
     });
 
     public final Keybinds outsideKeybinds = Keybinds.create(Keys.newKey("outside-keybinds"), it -> {
@@ -72,7 +74,7 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle implements Keybind
             it.defaultKeybinds(
                 Keybind.shiftLeftClick, storeItem
             );
-            it.defaultValue(true);
+            it.defaultActionResult(ActionResult.of(MultiActionHandle.CONTINUE, true));
         })
         .generate();
 

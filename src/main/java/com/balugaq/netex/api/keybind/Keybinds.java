@@ -4,7 +4,11 @@ import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.utils.ReflectionUtil;
+import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.utils.Keys;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import lombok.Data;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
@@ -20,6 +24,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,18 +43,55 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
     private static final Map<NamespacedKey, Set<Keybind>> usableKeybind = new HashMap<>();
     private static final Map<NamespacedKey, Set<Action>> usableAction = new HashMap<>();
 
-    private static final Map<String, Action> actionRegistry = new HashMap<>();
+    private static final Map<NamespacedKey, Keybinds> keybindsRegistry = new HashMap<>();
+    private static final Map<NamespacedKey, Keybind> keybindRegistry = new HashMap<>();
+    private static final Map<NamespacedKey, Action> actionRegistry = new HashMap<>();
+
+    @Nullable
+    public static Keybinds get(NamespacedKey key) {
+        return getKeybinds(key);
+    }
+
+    @Nullable
+    public static Keybind getKeybind(NamespacedKey key) {
+        return keybindRegistry.get(key);
+    }
+
+    @Nullable
+    public static Action getAction(NamespacedKey key) {
+        return actionRegistry.get(key);
+    }
+
+    @Nullable
+    public static Keybinds getKeybinds(NamespacedKey key) {
+        return keybindsRegistry.get(key);
+    }
+
+    public static Keybinds register(Keybinds keybinds) {
+        keybindsRegistry.put(keybinds.getKey(), keybinds);
+        return keybinds;
+    }
+
+    public static Keybind register(Keybind keybind) {
+        keybindRegistry.put(keybind.getKey(), keybind);
+        return keybind;
+    }
+
+    public Keybinds register() {
+        return register(this);
+    }
 
     private final NamespacedKey key;
-    private @Nullable Location location;
-    private boolean defaultValue = false;
+    private ActionResult defaultActionResult = ActionResult.of(MultiActionHandle.CONTINUE, false);
 
     public Keybinds(NamespacedKey key) {
         this.key = key;
+        register();
     }
 
-    public static void registerAction(Action action) {
-        actionRegistry.put(action.getKey().getKey(), action);
+    public static Action register(Action action) {
+        actionRegistry.put(action.getKey(), action);
+        return action;
     }
 
     public static Keybinds create(NamespacedKey item) {
@@ -88,6 +132,34 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
             }}
         );
         return this;
+    }
+
+    public static void distinctAll() {
+        for (Map.Entry<NamespacedKey, Set<Keybind>> entrySet : new HashSet<>(usableKeybind.entrySet())) {
+            Set<Keybind> set = entrySet.getValue();
+            Set<NamespacedKey> keys = new HashSet<>();
+            Set<Keybind> cleaned = new HashSet<>();
+            for (Keybind keybind : set) {
+                if (keys.contains(keybind.getKey())) continue;
+                keys.add(keybind.getKey());
+                cleaned.add(keybind);
+            }
+
+            usableKeybind.put(entrySet.getKey(), cleaned);
+        }
+
+        for (Map.Entry<NamespacedKey, Set<Action>> entrySet : new HashSet<>(usableAction.entrySet())) {
+            Set<Action> set = entrySet.getValue();
+            Set<NamespacedKey> keys = new HashSet<>();
+            Set<Action> cleaned = new HashSet<>();
+            for (Action action : set) {
+                if (keys.contains(action.getKey())) continue;
+                keys.add(action.getKey());
+                cleaned.add(action);
+            }
+
+            usableAction.put(entrySet.getKey(), cleaned);
+        }
     }
 
     public Set<Action> usableActions() {
@@ -134,7 +206,10 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
             String type = StorageCacheUtils.getData(location, keybindKey(keybind.getKey().getKey()));
             if (type == null) continue;
 
-            Action action = actionRegistry.get(type);
+            NamespacedKey key = NamespacedKey.fromString(type);
+            if (key == null) continue;
+
+            Action action = actionRegistry.get(key);
             if (action == null) continue;
 
             keybinds.put(keybind, action);
@@ -158,21 +233,24 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
         Location location = menu.getLocation();
         for (Map.Entry<Keybind, Action> entry : getKeybinds(location).entrySet()) {
             if (entry.getKey().test(player, i, itemStack, clickAction, menu)) {
-                if (entry.getValue().apply(player, i, itemStack, clickAction, menu) != defaultValue) {
-                    return !defaultValue;
+                ActionResult result = entry.getValue().apply(player, i, itemStack, clickAction, menu);
+                if (result.handle() == MultiActionHandle.BREAK) {
+                    return result.allowClick();
+                } else if (result.allowClick() != defaultActionResult.allowClick()) {
+                    return !defaultActionResult.allowClick();
                 }
             }
         }
 
-        return defaultValue;
+        return defaultActionResult.allowClick();
     }
 
-    public boolean defaultValue() {
-        return defaultValue;
+    public ActionResult defaultActionResult() {
+        return defaultActionResult;
     }
 
-    public Keybinds defaultValue(boolean defaultValue) {
-        this.defaultValue = defaultValue;
+    public Keybinds defaultActionResult(ActionResult actionResult) {
+        this.defaultActionResult = actionResult;
         return this;
     }
 
@@ -182,7 +260,7 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
     }
 
     public Keybinds generate() {
-        return usableActions(Action.of(Keys.newKey("do-nothing"), (p, s, i, a, m) -> defaultValue));
+        return usableActions(Action.of(Keys.newKey("do-nothing"), (p, s, i, a, m) -> defaultActionResult));
     }
 
     public ItemStack icon() {
@@ -220,9 +298,9 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
                 menu.addItem(keybindsSlots[slot], Lang.getIcon("keybinds." + keybind.getKey().getKey(), Material.OAK_WOOD), (p, s, i, a) -> false);
                 menu.addItem(bordersSlots[slot], Icon.YELLOW_BORDER, (p, s, i, a) -> false);
                 menu.addItem(actionsSlots[slot], Lang.getIcon("keybinds." + action.getKey().getKey(), Material.REDSTONE_TORCH), (p, s, i, a) -> {
-                    openActionSelectMenu(location, player, this, keybind, action, 1, p2 -> {
-                        openMenu(location, p2, page, back);
-                    });
+                    openActionSelectMenu(location, player, this, keybind, action, 1, p2 ->
+                        openMenu(location, p2, page, back)
+                    );
                     return false;
                 });
             }
@@ -262,6 +340,11 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
                 return false;
             });
         }
+        if (i < 45) {
+            for (int j = i; j < (i + 8) / 9 * 9; j++) {
+                menu.addItem(j, Icon.LIGHT_GRAY_BACKGROUND, (p, s, i1, a) -> false);
+            }
+        }
         i = (i + 8) / 9 * 9;
         int maxPage = (actions.size() - 1) / 45 + 1;
         for (int j = 0; j < 9; j++) {
@@ -288,5 +371,89 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
     @Override
     public @NotNull NamespacedKey getKey() {
         return key;
+    }
+
+    private static final Map<NamespacedKey, List<KeybindsScript>> keybindsScripts = new HashMap<>();
+
+    public void upload(Location location, Player p, String keybindsName) {
+        KeybindsScript script = KeybindsScript.warp(p, this, keybindsName, location);
+        script.save();
+
+        if (!keybindsScripts.containsKey(key)) {
+            keybindsScripts.put(key, new ArrayList<>());
+        }
+
+        keybindsScripts.get(key).add(script);
+    }
+
+    public List<KeybindsScript> getScripts() {
+        return keybindsScripts.getOrDefault(key, new ArrayList<>());
+    }
+
+    public static void fetchScripts() {
+        File keybindsFolder = new File(Networks.getInstance().getDataFolder(), "keybinds");
+        for (File file : keybindsFolder.listFiles()) {
+            if (file.isFile() && file.getName().endsWith(".nkb")) {
+                Config config =
+                    new Config("plugins/" + Networks.getInstance().getName() + "/keybinds/" + file.getName());
+                KeybindsScript script = KeybindsScript.fromConfig(config);
+                if (script != null) {
+                    if (!keybindsScripts.containsKey(script.getKeybinds().getKey())) {
+                        keybindsScripts.put(script.getKeybinds().getKey(), new ArrayList<>());
+                    }
+
+                    keybindsScripts.get(script.getKeybinds().getKey()).add(script);
+                }
+            }
+        }
+    }
+
+    public void openScriptsMenu(Location location, Player player, int page) {
+        ChestMenu menu = new ChestMenu(Lang.getString("messages.keybind.scripts-title"));
+        List<KeybindsScript> scripts = getScripts();
+        for (int i = 0; i < 45; i++) {
+            if (i >= scripts.size()) {
+                menu.addItem(i, Icon.LIGHT_GRAY_BACKGROUND, (p, s, i1, a) -> false);
+            } else {
+                KeybindsScript script = scripts.get(i);
+                menu.addItem(i, Lang.getIcon("keybinds.scripts." + script.getKeybindsName(), Material.PAPER), (p, s, i1, a) -> {
+                    copyScript(location, script);
+                    p.sendMessage(Lang.getString("messages.keybind.scripts.copied"));
+                    return false;
+                });
+            }
+        }
+
+        for (int i = 45; i < 54; i++) {
+            menu.addItem(i, Icon.GRAY_BACKGROUND, (p, s, i1, a) -> false);
+        }
+
+        int maxPage = (scripts.size() - 1) / 45 + 1;
+        menu.addItem(46, Icon.getPageStack(Icon.PAGE_PREVIOUS_STACK, page, maxPage), (p, s, i1, a) -> {
+            if (page <= 1) return false;
+            openScriptsMenu(location, p, page - 1);
+            return false;
+        });
+
+        menu.addItem(52, Icon.getPageStack(Icon.PAGE_NEXT_STACK, page, maxPage), (p, s, i1, a) -> {
+            if (page >= maxPage) return false;
+            openScriptsMenu(location, p, page + 1);
+            return false;
+        });
+
+        menu.addItem(49, Icon.UPLOAD_KEYBIND_SCRIPT, (p, s, i1, a) -> {
+            p.sendMessage(Lang.getString("messages.keybind.scripts.upload"));
+            ChatUtils.awaitInput(p, name -> {
+                upload(location, player, name);
+                openScriptsMenu(location, p, page);
+            });
+            return false;
+        });
+
+        menu.open(player);
+    }
+
+    public void copyScript(Location location, KeybindsScript script) {
+        script.getCode().forEach((key, value) -> key.set(location, script.getKeybinds(), value));
     }
 }

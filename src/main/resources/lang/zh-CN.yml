@@ -549,8 +549,8 @@ icons:
       name: "&6显示栏按键控制"
     outside-keybinds:
       name: "&6背包栏按键控制"
-    click-on-item-not-equals-to-cursor:
-      name: "&6左键点击背包物品与光标物品不一致时"
+    clicked-item-not-equals-to-cursor:
+      name: "&6点击的物品与光标物品不一致时"
     store-cursor:
       name: "&6存入光标物品"
     left-click:

@@ -138,9 +138,9 @@ public class NetworkVanillaPusher extends NetworkDirectional implements SoftCell
         } else if (inventory instanceof BrewerInventory brewer) {
             handleBrewingStand(blockMenu, stack, brewer);
         } else if (wildChests && isChest) {
-            sendDebugMessage(block.getLocation(), Lang.getString("messages.debug.wildchests-test-failed"));
+            sendDebugMessage(block.getLocation(), Lang.getString("messages.debug.wildchests-trigger-failed"));
         } else if (InvUtils.fits(holder.getInventory(), stack)) {
-            sendDebugMessage(block.getLocation(), Lang.getString("messages.debug.wildchests-test-success"));
+            sendDebugMessage(block.getLocation(), Lang.getString("messages.debug.wildchests-trigger-success"));
             InventoryUtil.addItem(holder.getInventory(), stack);
         }
     }

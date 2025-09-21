@@ -1,7 +1,10 @@
 package io.github.sefiraat.networks;
 
+import com.balugaq.netex.api.algorithm.ID;
 import com.balugaq.netex.api.data.ItemFlowRecord;
 import com.balugaq.netex.api.enums.MinecraftVersion;
+import com.balugaq.netex.api.keybind.Keybinds;
+import com.balugaq.netex.api.keybind.KeybindsScript;
 import com.balugaq.netex.core.guide.GridNewStyleCustomAmountGuideOption;
 import com.balugaq.netex.utils.Debug;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
@@ -216,14 +219,23 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
 
         AdminDebuggable.load();
         SlimefunGuideSettings.addOption(GridNewStyleCustomAmountGuideOption.instance());
+        Bukkit.getScheduler().runTaskLaterAsynchronously(this, Keybinds::distinctAll, 1L);
+        ID.fetchId();
+        Keybinds.fetchScripts();
         getLogger().info(getLocalizationService().getString("messages.startup.enabled-successfully"));
     }
 
     @Override
     public void onDisable() {
-        getLogger().info(getLocalizationService().getString("messages.shutdown.saving-config"));
-        this.configManager.saveAll();
-        getLogger().info(getLocalizationService().getString("messages.shutdown.disconnecting-database"));
+        try {
+            getLogger().info(getLocalizationService().getString("messages.shutdown.saving-config"));
+            ID.saveId();
+            this.configManager.saveAll();
+            getLogger().info(getLocalizationService().getString("messages.shutdown.disconnecting-database"));
+        } catch (Exception e) {
+            Debug.trace(e);
+        }
+
         if (autoSaveThread != null) {
             autoSaveThread.cancel();
         }

@@ -230,7 +230,7 @@ public class NetworkCraftingGrid extends AbstractGrid {
 
         ItemStack crafted = null;
 
-        // Go through each slimefun recipe, test and set the ItemStack if found
+        // Go through each slimefun recipe, trigger and set the ItemStack if found
         for (Map.Entry<ItemStack[], ItemStack> entry :
             SupportedCraftingTableRecipes.getRecipes().entrySet()) {
             if (SupportedCraftingTableRecipes.testRecipe(inputs, entry.getKey())) {

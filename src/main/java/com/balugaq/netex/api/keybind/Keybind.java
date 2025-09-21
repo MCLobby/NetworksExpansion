@@ -11,7 +11,9 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
@@ -43,11 +45,21 @@ public interface Keybind extends Keyed, Comparable<Keybind> {
     );
 
     static Keybind of(NamespacedKey key, KeybindPredicate predicate) {
-        return KeybindImpl.of(key, predicate);
+        return KeybindImpl.of(key, predicate).register();
     }
 
     default void set(Location location, Keybinds keybind, Action action) {
         StorageCacheUtils.setData(location, keybind.keybindKey(getKey().getKey()), action.getKey().getKey());
+    }
+
+    default Keybind register() {
+        Keybinds.register(this);
+        return this;
+    }
+
+    @Nullable
+    static Keybind get(NamespacedKey key) {
+        return Keybinds.getKeybind(key);
     }
 
     default int compareTo(@NotNull Keybind o) {

@@ -47,7 +47,7 @@ public interface Keybindable {
 
         for (int slot = 0; slot < keybindsSlots.length; slot++) {
             if (slot >= keybinds.size()) {
-                menu.addItem(keybindsSlots[slot], Icon.LIGHT_GRAY_BACKGROUND);
+                menu.addItem(keybindsSlots[slot], Icon.LIGHT_GRAY_BACKGROUND, (p, s, i, a) -> false);
             } else {
                 Keybinds keybind = keybinds.get(slot + (page - 1) * keybindsSlots.length);
                 menu.addItem(keybindsSlots[slot], keybind.icon(), (p, s, i, a) -> {
