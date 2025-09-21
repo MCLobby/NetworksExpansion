@@ -4,6 +4,10 @@ messages:
     title: "&a选择你要编辑的按键控制集"
     sub-title: "&a点击你要修改的按键触发"
     action-select-title: "&a点击选择你要修改的按键触发"
+    scripts:
+      upload: "&a输入你的按键控制脚本名"
+      copied: "&a已复制按键控制脚本"
+    scripts-title: "&a按键控制中心"
   feedback:
     afk: "等待被观察"
     already_has_item: "抓取槽已经有物品了"
@@ -540,7 +544,16 @@ icons:
     name: "&7"
   yellow-border:
     name: "&7"
+  upload-keybind-script:
+    name: "&6上传按键控制脚本"
+  gray-background:
+    name: "&7"
+  script-center:
+    name: "&6脚本中心"
   keybinds:
+    scripts:
+      display:
+        name: "&6%s的按键控制脚本%s (#%s)"
     store-item:
       name: "&6存入物品"
     do-nothing:

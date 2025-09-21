@@ -1,5 +1,6 @@
 package com.balugaq.netex.api.keybind;
 
+import com.balugaq.netex.api.algorithm.ID;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -8,6 +9,7 @@ import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import lombok.Data;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -274,7 +276,7 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
     public void openMenu(Location location, Player player, int page, Consumer<Player> back) {
         ChestMenu menu = new ChestMenu(Lang.getString("messages.keybind.sub-title"));
 
-        int[] backgroundSlots = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 13, 17, 18, 22, 26, 27, 31, 35, 36, 40, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
+        int[] backgroundSlots = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 13, 17, 18, 22, 26, 27, 31, 35, 36, 40, 44, 45, 46, 47, 48, 50, 51, 52, 53};
         int[] keybindsSlots = {10, 19, 28, 37, 14, 23, 32, 41};
         int[] bordersSlots = {11, 20, 29, 38, 15, 24, 33, 42};
         int[] actionsSlots = {12, 21, 30, 39, 16, 25, 34, 43};
@@ -323,6 +325,11 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
                 return false;
             });
         }
+
+        menu.addItem(49, Icon.SCRIPT_CENTER, (p, s, i, a) -> {
+            openScriptsMenu(location, player);
+            return false;
+        });
 
         menu.open(player);
     }
@@ -376,7 +383,7 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
     private static final Map<NamespacedKey, List<KeybindsScript>> keybindsScripts = new HashMap<>();
 
     public void upload(Location location, Player p, String keybindsName) {
-        KeybindsScript script = KeybindsScript.warp(p, this, keybindsName, location);
+        KeybindsScript script = KeybindsScript.warp(p, this, keybindsName, location, ID.nextId());
         script.save();
 
         if (!keybindsScripts.containsKey(key)) {
@@ -392,7 +399,9 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
 
     public static void fetchScripts() {
         File keybindsFolder = new File(Networks.getInstance().getDataFolder(), "keybinds");
-        for (File file : keybindsFolder.listFiles()) {
+        File[] files = keybindsFolder.listFiles();
+        if (files == null) return;
+        for (File file : files) {
             if (file.isFile() && file.getName().endsWith(".nkb")) {
                 Config config =
                     new Config("plugins/" + Networks.getInstance().getName() + "/keybinds/" + file.getName());
@@ -408,6 +417,10 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
         }
     }
 
+    public void openScriptsMenu(Location location, Player player) {
+        openScriptsMenu(location, player, 1);
+    }
+
     public void openScriptsMenu(Location location, Player player, int page) {
         ChestMenu menu = new ChestMenu(Lang.getString("messages.keybind.scripts-title"));
         List<KeybindsScript> scripts = getScripts();
@@ -416,7 +429,7 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
                 menu.addItem(i, Icon.LIGHT_GRAY_BACKGROUND, (p, s, i1, a) -> false);
             } else {
                 KeybindsScript script = scripts.get(i);
-                menu.addItem(i, Lang.getIcon("keybinds.scripts." + script.getKeybindsName(), Material.PAPER), (p, s, i1, a) -> {
+                menu.addItem(i, new CustomItemStack(Material.PAPER, String.format(Lang.getString("icons.keybinds.scripts.display.name"), script.getAuthorName(), script.getKeybindsName(), script.getId())), (p, s, i1, a) -> {
                     copyScript(location, script);
                     p.sendMessage(Lang.getString("messages.keybind.scripts.copied"));
                     return false;
@@ -442,6 +455,7 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
         });
 
         menu.addItem(49, Icon.UPLOAD_KEYBIND_SCRIPT, (p, s, i1, a) -> {
+            p.closeInventory();
             p.sendMessage(Lang.getString("messages.keybind.scripts.upload"));
             ChatUtils.awaitInput(p, name -> {
                 upload(location, player, name);

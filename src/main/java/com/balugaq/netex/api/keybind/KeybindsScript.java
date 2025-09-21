@@ -21,20 +21,22 @@ public @Data class KeybindsScript {
     private final Keybinds keybinds;
     private final String keybindsName;
     private final Map<Keybind, Action> code;
+    private final long id;
 
-    public KeybindsScript(OfflinePlayer player, Keybinds keybinds, String keybindsName,  Map<Keybind, Action> code) {
+    public KeybindsScript(OfflinePlayer player, Keybinds keybinds, String keybindsName,  Map<Keybind, Action> code, long id) {
         this.player = player;
         this.keybinds = keybinds;
         this.keybindsName = keybindsName;
         this.code = code;
+        this.id = id;
     }
 
-    public KeybindsScript(OfflinePlayer player, Keybinds keybinds, String keybindsName, Location location) {
-        this(player, keybinds, keybindsName, keybinds.getKeybinds(location));
+    public KeybindsScript(OfflinePlayer player, Keybinds keybinds, String keybindsName, Location location, long id) {
+        this(player, keybinds, keybindsName, keybinds.getKeybinds(location), id);
     }
 
-    public static KeybindsScript warp(Player player, Keybinds keybinds, String keybindsName, Location location) {
-        return new KeybindsScript(player, keybinds, keybindsName, location);
+    public static KeybindsScript warp(Player player, Keybinds keybinds, String keybindsName, Location location, long id) {
+        return new KeybindsScript(player, keybinds, keybindsName, location, id);
     }
 
     public String getAuthorName() {
@@ -60,6 +62,7 @@ public @Data class KeybindsScript {
         for (Map.Entry<Keybind, Action> entry : code.entrySet()) {
             config.setValue("keybinds." + entry.getKey().getKey(), entry.getValue().getKey().toString());
         }
+        config.setValue("id", id);
 
         config.save();
     }
@@ -73,7 +76,8 @@ public @Data class KeybindsScript {
             Bukkit.getOfflinePlayer(config.getString("author-name")),
             Keybinds.get(NamespacedKey.fromString(config.getString("keybinds-type"))),
             config.getString("keybinds-name"),
-            code
+            code,
+            config.getLong("id")
         );
     }
 }

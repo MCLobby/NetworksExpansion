@@ -164,6 +164,9 @@ public class Icon {
     public static final ItemStack GRAY_BACKGROUND =
         Lang.getIcon("gray-background", Material.GRAY_STAINED_GLASS_PANE);
 
+    public static final ItemStack SCRIPT_CENTER =
+        Lang.getIcon("script-center", Material.COMPASS);
+
     // pages are 1-based
     @SuppressWarnings("deprecation")
     @NotNull
