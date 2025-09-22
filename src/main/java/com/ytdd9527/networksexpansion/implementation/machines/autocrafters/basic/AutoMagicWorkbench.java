@@ -28,7 +28,7 @@ public class AutoMagicWorkbench extends AbstractAutoCrafter {
         return SupportedMagicWorkbenchRecipes.getRecipes().entrySet();
     }
 
-    public boolean getRecipeTester(ItemStack[] inputs, ItemStack @NotNull [] recipe) {
+    public boolean testRecipe(ItemStack[] inputs, ItemStack @NotNull [] recipe) {
         return SupportedMagicWorkbenchRecipes.testRecipe(inputs, recipe);
     }
 

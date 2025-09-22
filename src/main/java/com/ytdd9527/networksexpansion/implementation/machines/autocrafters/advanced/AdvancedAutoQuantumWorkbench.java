@@ -28,7 +28,7 @@ public class AdvancedAutoQuantumWorkbench extends AbstractAdvancedAutoCrafter {
         return SupportedQuantumWorkbenchRecipes.getRecipes().entrySet();
     }
 
-    public boolean getRecipeTester(ItemStack[] inputs, ItemStack @NotNull [] recipe) {
+    public boolean testRecipe(ItemStack[] inputs, ItemStack @NotNull [] recipe) {
         return SupportedQuantumWorkbenchRecipes.testRecipe(inputs, recipe);
     }
 
