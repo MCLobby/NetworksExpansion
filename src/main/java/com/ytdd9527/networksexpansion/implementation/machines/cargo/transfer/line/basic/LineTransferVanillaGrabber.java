@@ -22,6 +22,7 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -32,6 +33,8 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.BrewingStand;
+import org.bukkit.event.block.BrewingStartEvent;
 import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.FurnaceInventory;
 import org.bukkit.inventory.Inventory;
@@ -131,6 +134,8 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
 
         // Fix for early vanilla pusher release
         final Block block = blockMenu.getBlock();
+        /* Netex - #293
+        // No longer check permission
         final String ownerUUID = StorageCacheUtils.getData(block.getLocation(), OWNER_KEY);
         if (ownerUUID == null) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NO_OWNER_FOUND);
@@ -139,9 +144,13 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
         final UUID uuid = UUID.fromString(ownerUUID);
         final OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
 
+         */
+
         // dirty fix
         Block targetBlock = block.getRelative(direction);
         for (int d = 0; d <= maxDistance; d++) {
+            /* Netex - #293
+            // No longer check permission
             try {
                 if (!Slimefun.getProtectionManager()
                     .hasPermission(offlinePlayer, targetBlock, Interaction.INTERACT_BLOCK)) {
@@ -153,7 +162,9 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
                 break;
             }
 
-            final BlockState blockState = targetBlock.getState();
+                 */
+
+            final BlockState blockState = PaperLib.getBlockState(targetBlock, false).getState();
 
             if (!(blockState instanceof InventoryHolder holder)) {
                 sendFeedback(blockMenu.getLocation(), FeedbackType.NO_INVENTORY_FOUND);
@@ -180,9 +191,12 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
                 }
 
             } else if (inventory instanceof BrewerInventory brewerInventory) {
+                if (!(blockState instanceof BrewingStand brewingStand)) continue;
+                if (brewingStand.getBrewingTime() > 0) continue;
+
                 for (int i = 0; i < 3; i++) {
                     final ItemStack stack = brewerInventory.getContents()[i];
-                    if (stack != null && stack.getType() == Material.POTION) {
+                    if (stack != null && stack.getType() != Material.AIR) {
                         final PotionMeta potionMeta = (PotionMeta) stack.getItemMeta();
                         if (Networks.getInstance().getMCVersion().isAtLeast(MinecraftVersion.MC1_20_5)) {
                             if (potionMeta.getBasePotionType() != PotionType.WATER) {

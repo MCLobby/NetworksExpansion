@@ -26,6 +26,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -138,6 +139,8 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
 
         // Fix for early vanilla pusher release
         final Block block = blockMenu.getBlock();
+        /* Netex - #293
+        // No longer check permission
         final String ownerUUID = StorageCacheUtils.getData(block.getLocation(), OWNER_KEY);
         if (ownerUUID == null) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NO_OWNER_FOUND);
@@ -146,10 +149,12 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
         final UUID uuid = UUID.fromString(ownerUUID);
         final OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
 
+         */
+
         // dirty fix
         Block targetBlock = block.getRelative(direction);
         for (int d = 0; d <= maxDistance; d++) {
-            final BlockState blockState = targetBlock.getState();
+            final BlockState blockState = PaperLib.getBlockState(targetBlock, false).getState();
 
             if (!(blockState instanceof InventoryHolder holder)) {
                 sendFeedback(blockMenu.getLocation(), FeedbackType.NO_INVENTORY_FOUND);
@@ -172,6 +177,8 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
 
                 ItemStack template = StackUtils.getAsQuantity(templateItem, 1);
 
+                /* Netex - #293
+                // No longer check permission
                 // dirty fix
                 try {
                     if (!Slimefun.getProtectionManager()
@@ -183,6 +190,8 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
                     sendFeedback(blockMenu.getLocation(), FeedbackType.ERROR_OCCURRED);
                     return;
                 }
+
+                 */
 
                 final Inventory inventory = holder.getInventory();
 

@@ -253,6 +253,7 @@ messages:
     grid:
       waiting_for_filter: "<warning>请输入你想要过滤的物品名称(显示名)或类型"
       item_amount: "{0}数量: {1}{2}"
+      filter: "&a你正在搜索: %s"
     grid_new_style:
       click_to_withdraw: "<passive>点击取出物品"
       crafted: "<success>上次合成 <click_info>%s x%s"
@@ -554,6 +555,8 @@ icons:
     scripts:
       display:
         name: "&6%s的按键控制脚本%s (#%s)"
+        lore:
+          - "&a点击下载此按键控制脚本"
     store-item:
       name: "&6存入物品"
     do-nothing:
@@ -1095,9 +1098,9 @@ items:
       - "<warning> 网络拓展开发版不接受 GitHub Issues"
       - "<warning> 网络拓展开发版不接受 GitHub PR"
       - "<passive> 版本信息:"
-      - "<passive> 网络拓展版本: Special-Version-52"
+      - "<passive> 网络拓展版本: Special-Version-53"
       - "<passive> 版本状态: 稳定版"
-      - "<passive> 版本更新时间: 2025-9-20 22:08:07"
+      - "<passive> 版本更新时间: 2025-9-23 17:56:06"
       - "<passive> 开发状态: 更新中"
       - "<passive> 开发者（们）: ytdd9527, balugaq"
       - "<passive> 开发者 GitHub 页面: <click_info>https://github.com/ytdd9527"

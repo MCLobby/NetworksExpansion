@@ -17,6 +17,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -85,6 +86,8 @@ public class NetworkVanillaPusher extends NetworkDirectional implements SoftCell
         final Block block = blockMenu.getBlock();
         final Block targetBlock = blockMenu.getBlock().getRelative(direction);
         // Fix for early vanilla pusher release
+        /* Netex - #293
+        // No longer check permission
         final String ownerUUID = StorageCacheUtils.getData(block.getLocation(), OWNER_KEY);
         if (ownerUUID == null) {
             sendFeedback(block.getLocation(), FeedbackType.NO_OWNER_FOUND);
@@ -105,7 +108,9 @@ public class NetworkVanillaPusher extends NetworkDirectional implements SoftCell
             return;
         }
 
-        final BlockState blockState = targetBlock.getState();
+         */
+
+        final BlockState blockState = PaperLib.getBlockState(targetBlock, false).getState();
 
         if (!(blockState instanceof InventoryHolder holder)) {
             sendFeedback(block.getLocation(), FeedbackType.NO_INVENTORY_FOUND);

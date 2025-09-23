@@ -7,7 +7,6 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.utils.ReflectionUtil;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.utils.Keys;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
@@ -26,7 +25,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 
-import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -196,8 +194,8 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
         return this;
     }
 
-    public String keybindKey(String key) {
-        return "keybinds." + this.key.getKey() + "." + key;
+    public String keybindKey(NamespacedKey key) {
+        return "keybinds." + this.key + "." + key;
     }
 
     public LinkedHashMap<Keybind, Action> getKeybinds(Location location) {
@@ -205,7 +203,7 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
 
         // Remap actions
         for (Keybind keybind : keybinds.keySet()) {
-            String type = StorageCacheUtils.getData(location, keybindKey(keybind.getKey().getKey()));
+            String type = StorageCacheUtils.getData(location, keybindKey(keybind.getKey()));
             if (type == null) continue;
 
             NamespacedKey key = NamespacedKey.fromString(type);

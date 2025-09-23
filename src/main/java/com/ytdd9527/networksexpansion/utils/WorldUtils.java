@@ -1,6 +1,7 @@
 package com.ytdd9527.networksexpansion.utils;
 
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
+import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -87,7 +88,7 @@ public class WorldUtils {
             return false;
         }
 
-        BlockState toState = toBlock.getState();
+        BlockState toState = PaperLib.getBlockState(toBlock, false).getState();
         if (craftBlockStateClass != null
             && (!craftBlockStateClass.isInstance(toState) || !craftBlockStateClass.isInstance(fromBlockState))) {
             return false;

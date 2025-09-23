@@ -3,6 +3,8 @@ package com.balugaq.netex.api.atrributes;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.BrewingStand;
 import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.FurnaceInventory;
 import org.bukkit.inventory.Inventory;
@@ -13,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public interface WhitelistedVanillaGrabber extends WhitelistedGrabber {
-    default void grabInventory(@NotNull BlockMenu blockMenu, @NotNull Inventory inventory, @NotNull NetworkRoot root, @NotNull List<ItemStack> templates) {
+    default void grabInventory(@NotNull BlockMenu blockMenu, @NotNull BlockState blockState, @NotNull Inventory inventory, @NotNull NetworkRoot root, @NotNull List<ItemStack> templates) {
         if (inventory instanceof FurnaceInventory furnaceInventory) {
             final ItemStack furnaceInventoryResult = furnaceInventory.getResult();
             final ItemStack furnaceInventoryFuel = furnaceInventory.getFuel();
@@ -23,6 +25,9 @@ public interface WhitelistedVanillaGrabber extends WhitelistedGrabber {
                 grabItem(root, blockMenu, furnaceInventoryFuel);
             }
         } else if (inventory instanceof BrewerInventory brewerInventory) {
+            if (!(blockState instanceof BrewingStand brewingStand)) return;
+            if (brewingStand.getBrewingTime() > 0) return;
+
             if (inTemplates(templates, brewerInventory.getFuel())) {
                 grabItem(root, blockMenu, brewerInventory.getFuel());
                 return;

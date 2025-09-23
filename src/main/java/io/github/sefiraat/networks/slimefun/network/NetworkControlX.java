@@ -137,6 +137,8 @@ public class NetworkControlX extends NetworkDirectional implements SoftCellBanna
             return;
         }
 
+        /* Netex - #293
+        // No longer check permission
         final String owner = StorageCacheUtils.getData(blockMenu.getLocation(), OWNER_KEY);
         if (owner == null) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NO_OWNER_FOUND);
@@ -145,12 +147,17 @@ public class NetworkControlX extends NetworkDirectional implements SoftCellBanna
 
         final UUID uuid = UUID.fromString(owner);
         final OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
+         */
 
         Bukkit.getScheduler().runTask(Networks.getInstance(), bukkitTask -> {
+            /* Netex - #293
+            // No longer check permission
             if (!Slimefun.getProtectionManager().hasPermission(offlinePlayer, targetBlock, Interaction.BREAK_BLOCK)) {
                 sendFeedback(blockMenu.getLocation(), FeedbackType.NO_PERMISSION);
                 return;
             }
+
+             */
 
             final ItemStack resultStack = new ItemStack(material, 1);
 

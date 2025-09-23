@@ -110,6 +110,8 @@ public class NetworkControlV extends NetworkDirectional implements SoftCellBanna
             return;
         }
 
+        /* Netex - #293
+        // No longer check permission
         final String owner = StorageCacheUtils.getData(blockMenu.getLocation(), OWNER_KEY);
         if (owner == null) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NO_OWNER_FOUND);
@@ -123,6 +125,8 @@ public class NetworkControlV extends NetworkDirectional implements SoftCellBanna
             sendFeedback(blockMenu.getLocation(), FeedbackType.NO_PERMISSION);
             return;
         }
+
+         */
 
         final Material material = targetBlock.getType();
 

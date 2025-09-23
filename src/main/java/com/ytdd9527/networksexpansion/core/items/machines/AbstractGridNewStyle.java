@@ -94,7 +94,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject implements Keyb
             Action storeCursor = Action.of(Keys.newKey("store-cursor"), (player, s, i, a, menu) -> {
                 NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
                 if (definition == null || definition.getNode() == null) return ActionResult.of(MultiActionHandle.CONTINUE, false);
-                definition.getNode().getRoot().addItemStack0(menu.getLocation(), player.getItemOnCursor());
+                definition.getNode().getRoot().addItemStack(player.getItemOnCursor());
                 return ActionResult.of(MultiActionHandle.BREAK, false);
             });
 
@@ -253,6 +253,8 @@ public abstract class AbstractGridNewStyle extends NetworkObject implements Keyb
             gridCache.setFilter(filter);
         }
 
+        blockMenu.replaceExistingItem(getFilterSlot(), getFilterStack(gridCache.getFilter()));
+
         // Deprecated feature
         // autoSetFilter(blockMenu, gridCache);
 
@@ -388,10 +390,8 @@ public abstract class AbstractGridNewStyle extends NetworkObject implements Keyb
         HashSet<SlimefunItem> pass = new HashSet<>();
         String searchTerm = cache.getFilter();
         if (searchTerm != null && Networks.getSupportedPluginManager().isJustEnoughGuide()) {
-            Player player = Bukkit.getOnlinePlayers().stream().findFirst().orElse(null);
-            if (player != null) {
-                pass.addAll(new SearchGroup(null, player, searchTerm, false, false).slimefunItemList);
-            }
+            Bukkit.getOnlinePlayers().stream().findFirst().ifPresent(player ->
+                pass.addAll(new SearchGroup(null, player, searchTerm, false, false).slimefunItemList));
         }
         return networkRoot.getAllNetworkItemsLongType().entrySet().stream()
             .filter(entry -> {
@@ -523,7 +523,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject implements Keyb
         HashMap<Integer, ItemStack> remnant = InventoryUtil.addItem(player, requestingStack);
         requestingStack = remnant.values().stream().findFirst().orElse(null);
         if (requestingStack != null) {
-            definition.getNode().getRoot().addItemStack0(menu.getLocation(), requestingStack);
+            definition.getNode().getRoot().addItemStack(requestingStack);
         }
     }
 
@@ -667,7 +667,14 @@ public abstract class AbstractGridNewStyle extends NetworkObject implements Keyb
         ClickAction action,
         @NotNull BlockMenu blockMenu) {
         if (itemStack != null && itemStack.getType() != Material.AIR) {
-            root.addItemStack0(blockMenu.getLocation(), itemStack);
+            root.addItemStack(itemStack);
         }
+    }
+
+    public ItemStack getFilterStack(@Nullable String filter) {
+        if (filter == null) return getFilterStack();
+        ItemStack clone = getFilterStack().clone();
+        clone.setLore(List.of(String.format(Lang.getString("messages.normal-operation.grid.filter"), filter)));
+        return clone;
     }
 }

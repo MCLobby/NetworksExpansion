@@ -45,7 +45,7 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle implements Keybind
     };
 
     @Deprecated
-    private static final int AUTO_FILTER_SLOT = 8;
+    private static final int KEYBIND_BUTTON_SLOT = 8;
 
     private static final int CHANGE_SORT = 35;
     private static final int FILTER = 26;
@@ -213,9 +213,8 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle implements Keybind
         return PAGE_NEXT;
     }
 
-    @Deprecated(forRemoval = true)
     public int getKeybindButtonSlot() {
-        return AUTO_FILTER_SLOT;
+        return KEYBIND_BUTTON_SLOT;
     }
 
     public int getToggleModeSlot() {

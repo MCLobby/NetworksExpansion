@@ -129,7 +129,14 @@ public abstract class AbstractGrid extends NetworkObject {
             return;
         }
 
-        definition.getNode().getRoot().addItemStack0(blockMenu.getLocation(), itemStack);
+        definition.getNode().getRoot().addItemStack(itemStack);
+    }
+
+    public ItemStack getFilterStack(@Nullable String filter) {
+        if (filter == null) return getFilterStack();
+        ItemStack clone = getFilterStack().clone();
+        clone.setLore(List.of(String.format(Lang.getString("messages.normal-operation.grid.filter"), filter)));
+        return clone;
     }
 
     @SuppressWarnings("deprecation")
@@ -163,6 +170,8 @@ public abstract class AbstractGrid extends NetworkObject {
             clearDisplay(blockMenu);
             return;
         }
+
+        blockMenu.replaceExistingItem(getFilterSlot(), getFilterStack(gridCache.getFilter()));
 
         // Reset selected page if it no longer exists due to items being removed
         if (gridCache.getPage() > pages) {
@@ -332,7 +341,7 @@ public abstract class AbstractGrid extends NetworkObject {
         final ItemStack cursor = player.getItemOnCursor();
         if (cursor.getType() != Material.AIR
             && !StackUtils.itemsMatch(clone, StackUtils.getAsQuantity(player.getItemOnCursor(), 1))) {
-            root.addItemStack0(blockMenu.getLocation(), player.getItemOnCursor());
+            root.addItemStack(player.getItemOnCursor());
             return;
         }
 
@@ -366,7 +375,7 @@ public abstract class AbstractGrid extends NetworkObject {
         HashMap<Integer, ItemStack> remnant = InventoryUtil.addItem(player, requestingStack);
         requestingStack = remnant.values().stream().findFirst().orElse(null);
         if (requestingStack != null) {
-            definition.getNode().getRoot().addItemStack0(menu.getLocation(), requestingStack);
+            definition.getNode().getRoot().addItemStack(requestingStack);
         }
     }
 
@@ -499,7 +508,7 @@ public abstract class AbstractGrid extends NetworkObject {
         ClickAction action,
         @NotNull BlockMenu blockMenu) {
         if (itemStack != null && itemStack.getType() != Material.AIR) {
-            root.addItemStack0(blockMenu.getLocation(), itemStack);
+            root.addItemStack(itemStack);
         }
     }
 
