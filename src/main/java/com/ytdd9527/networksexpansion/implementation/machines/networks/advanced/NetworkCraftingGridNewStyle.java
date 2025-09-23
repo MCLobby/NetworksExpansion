@@ -295,7 +295,7 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle implements
                     // Grab a clone for potential retrieval
                     final ItemStack itemInSlotClone = itemInSlot.clone();
                     itemInSlotClone.setAmount(1);
-                    ItemUtils.consumeItem(menu.getItemInSlot(recipeSlot), 1, true);
+                    BlockMenuUtil.consumeItem(menu, recipeSlot, 1, true);
                     // We have consumed a slot item and now the slot is empty - try to refill
                     if (menu.getItemInSlot(recipeSlot) == null) {
                         // Process item request
