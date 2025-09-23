@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class ID {
     private static AtomicLong id = new AtomicLong(0);
+
     public static long nextId() {
         return id.incrementAndGet();
     }

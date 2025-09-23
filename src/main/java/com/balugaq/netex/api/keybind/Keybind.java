@@ -47,6 +47,11 @@ public interface Keybind extends Keyed, Comparable<Keybind> {
         return KeybindImpl.of(key, predicate).register();
     }
 
+    @Nullable
+    static Keybind get(NamespacedKey key) {
+        return Keybinds.getKeybind(key);
+    }
+
     default void set(Location location, Keybinds keybind, Action action) {
         StorageCacheUtils.setData(location, keybind.keybindKey(getKey()), action.getKey().toString());
     }
@@ -54,11 +59,6 @@ public interface Keybind extends Keyed, Comparable<Keybind> {
     default Keybind register() {
         Keybinds.register(this);
         return this;
-    }
-
-    @Nullable
-    static Keybind get(NamespacedKey key) {
-        return Keybinds.getKeybind(key);
     }
 
     default int compareTo(@NotNull Keybind o) {

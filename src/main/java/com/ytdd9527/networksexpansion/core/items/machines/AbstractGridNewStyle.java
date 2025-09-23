@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.core.items.machines;
 
 import com.balugaq.jeg.api.groups.SearchGroup;
 import com.balugaq.netex.api.algorithm.Sorters;
+import com.balugaq.netex.api.enums.AmountHandleStrategy;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.api.interfaces.functions.Function3;
@@ -53,7 +54,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.balugaq.netex.api.enums.AmountHandleStrategy;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.text.MessageFormat;
@@ -67,7 +67,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 
-@SuppressWarnings("DuplicatedCode")
+@SuppressWarnings({"deprecation", "DuplicatedCode"})
 public abstract class AbstractGridNewStyle extends NetworkObject implements Keybindable {
     public static final String BS_FILTER_KEY = "filter";
     private static final Map<GridCache.SortOrder, Comparator<? super Entry<ItemStack, Long>>> SORT_MAP =
@@ -80,7 +80,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject implements Keyb
         SORT_MAP.put(GridCache.SortOrder.ADDON, Sorters.ITEMSTACK_ADDON_SORT);
     }
 
-    public final Keybinds displayKeybinds = Keybinds.create(Keys.newKey("display-keybinds"), it -> {
+    private final @NotNull ItemSetting<Integer> tickRate;    public final Keybinds displayKeybinds = Keybinds.create(Keys.newKey("display-keybinds"), it -> {
             Keybind clickOnWithCursor = Keybind.of(Keys.newKey("clicked-item-not-equals-to-cursor"), (player, s, i, a, menu) -> {
                 NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
                 if (definition == null || definition.getNode() == null) return false;
@@ -93,14 +93,16 @@ public abstract class AbstractGridNewStyle extends NetworkObject implements Keyb
 
             Action storeCursor = Action.of(Keys.newKey("store-cursor"), (player, s, i, a, menu) -> {
                 NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
-                if (definition == null || definition.getNode() == null) return ActionResult.of(MultiActionHandle.CONTINUE, false);
+                if (definition == null || definition.getNode() == null)
+                    return ActionResult.of(MultiActionHandle.CONTINUE, false);
                 definition.getNode().getRoot().addItemStack(player.getItemOnCursor());
                 return ActionResult.of(MultiActionHandle.BREAK, false);
             });
 
             Function3<NamespacedKey, AmountHandleStrategy, Boolean, Action> actionGenerate = (key, strategy, toInventory) -> Action.of(key, (player, s, i, a, menu) -> {
                 NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
-                if (definition == null || definition.getNode() == null) return ActionResult.of(MultiActionHandle.CONTINUE, false);
+                if (definition == null || definition.getNode() == null)
+                    return ActionResult.of(MultiActionHandle.CONTINUE, false);
                 ItemStack clone = precheck(definition, menu, player, i);
                 if (clone == null) return ActionResult.of(MultiActionHandle.CONTINUE, false);
 
@@ -145,8 +147,6 @@ public abstract class AbstractGridNewStyle extends NetworkObject implements Keyb
             it.defaultActionResult(ActionResult.of(MultiActionHandle.CONTINUE, false));
         })
         .generate();
-
-    private final @NotNull ItemSetting<Integer> tickRate;
 
     protected AbstractGridNewStyle(
         @NotNull ItemGroup itemGroup,
@@ -677,4 +677,6 @@ public abstract class AbstractGridNewStyle extends NetworkObject implements Keyb
         clone.setLore(List.of(String.format(Lang.getString("messages.normal-operation.grid.filter"), filter)));
         return clone;
     }
+
+
 }

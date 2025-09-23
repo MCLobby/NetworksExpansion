@@ -46,6 +46,14 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
     private static final Map<NamespacedKey, Keybinds> keybindsRegistry = new HashMap<>();
     private static final Map<NamespacedKey, Keybind> keybindRegistry = new HashMap<>();
     private static final Map<NamespacedKey, Action> actionRegistry = new HashMap<>();
+    private static final Map<NamespacedKey, List<KeybindsScript>> keybindsScripts = new HashMap<>();
+    private final NamespacedKey key;
+    private ActionResult defaultActionResult = ActionResult.of(MultiActionHandle.CONTINUE, false);
+
+    public Keybinds(NamespacedKey key) {
+        this.key = key;
+        register();
+    }
 
     @Nullable
     public static Keybinds get(NamespacedKey key) {
@@ -77,18 +85,6 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
         return keybind;
     }
 
-    public Keybinds register() {
-        return register(this);
-    }
-
-    private final NamespacedKey key;
-    private ActionResult defaultActionResult = ActionResult.of(MultiActionHandle.CONTINUE, false);
-
-    public Keybinds(NamespacedKey key) {
-        this.key = key;
-        register();
-    }
-
     public static Action register(Action action) {
         actionRegistry.put(action.getKey(), action);
         return action;
@@ -100,6 +96,58 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
 
     public static Keybinds create(NamespacedKey item, Consumer<Keybinds> consumer) {
         return new Keybinds(item).set(consumer);
+    }
+
+    public static void distinctAll() {
+        for (Map.Entry<NamespacedKey, Set<Keybind>> entrySet : new HashSet<>(usableKeybind.entrySet())) {
+            Set<Keybind> set = entrySet.getValue();
+            Set<NamespacedKey> keys = new HashSet<>();
+            Set<Keybind> cleaned = new HashSet<>();
+            for (Keybind keybind : set) {
+                if (keys.contains(keybind.getKey())) continue;
+                keys.add(keybind.getKey());
+                cleaned.add(keybind);
+            }
+
+            usableKeybind.put(entrySet.getKey(), cleaned);
+        }
+
+        for (Map.Entry<NamespacedKey, Set<Action>> entrySet : new HashSet<>(usableAction.entrySet())) {
+            Set<Action> set = entrySet.getValue();
+            Set<NamespacedKey> keys = new HashSet<>();
+            Set<Action> cleaned = new HashSet<>();
+            for (Action action : set) {
+                if (keys.contains(action.getKey())) continue;
+                keys.add(action.getKey());
+                cleaned.add(action);
+            }
+
+            usableAction.put(entrySet.getKey(), cleaned);
+        }
+    }
+
+    public static void fetchScripts() {
+        File keybindsFolder = new File(Networks.getInstance().getDataFolder(), "keybinds");
+        File[] files = keybindsFolder.listFiles();
+        if (files == null) return;
+        for (File file : files) {
+            if (file.isFile() && file.getName().endsWith(".nkb")) {
+                Config config =
+                    new Config("plugins/" + Networks.getInstance().getName() + "/keybinds/" + file.getName());
+                KeybindsScript script = KeybindsScript.fromConfig(config);
+                if (script != null) {
+                    if (!keybindsScripts.containsKey(script.getKeybinds().getKey())) {
+                        keybindsScripts.put(script.getKeybinds().getKey(), new ArrayList<>());
+                    }
+
+                    keybindsScripts.get(script.getKeybinds().getKey()).add(script);
+                }
+            }
+        }
+    }
+
+    public Keybinds register() {
+        return register(this);
     }
 
     public Keybinds usableKeybinds(Keybind... keybinds) {
@@ -132,34 +180,6 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
             }}
         );
         return this;
-    }
-
-    public static void distinctAll() {
-        for (Map.Entry<NamespacedKey, Set<Keybind>> entrySet : new HashSet<>(usableKeybind.entrySet())) {
-            Set<Keybind> set = entrySet.getValue();
-            Set<NamespacedKey> keys = new HashSet<>();
-            Set<Keybind> cleaned = new HashSet<>();
-            for (Keybind keybind : set) {
-                if (keys.contains(keybind.getKey())) continue;
-                keys.add(keybind.getKey());
-                cleaned.add(keybind);
-            }
-
-            usableKeybind.put(entrySet.getKey(), cleaned);
-        }
-
-        for (Map.Entry<NamespacedKey, Set<Action>> entrySet : new HashSet<>(usableAction.entrySet())) {
-            Set<Action> set = entrySet.getValue();
-            Set<NamespacedKey> keys = new HashSet<>();
-            Set<Action> cleaned = new HashSet<>();
-            for (Action action : set) {
-                if (keys.contains(action.getKey())) continue;
-                keys.add(action.getKey());
-                cleaned.add(action);
-            }
-
-            usableAction.put(entrySet.getKey(), cleaned);
-        }
     }
 
     public Set<Action> usableActions() {
@@ -218,6 +238,7 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
         return keybinds;
     }
 
+    @SuppressWarnings("DataFlowIssue")
     @Nullable
     public BlockMenu getMenu(Player player) {
         if (((Inventory) ReflectionUtil.invokeMethod(ReflectionUtil.invokeMethod(player, "getOpenInventory"), "getTopInventory")).getHolder() instanceof BlockMenu menu)
@@ -378,8 +399,6 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
         return key;
     }
 
-    private static final Map<NamespacedKey, List<KeybindsScript>> keybindsScripts = new HashMap<>();
-
     public void upload(Location location, Player p, String keybindsName) {
         KeybindsScript script = KeybindsScript.warp(p, this, keybindsName, location, ID.nextId());
         script.save();
@@ -393,26 +412,6 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
 
     public List<KeybindsScript> getScripts() {
         return keybindsScripts.getOrDefault(key, new ArrayList<>());
-    }
-
-    public static void fetchScripts() {
-        File keybindsFolder = new File(Networks.getInstance().getDataFolder(), "keybinds");
-        File[] files = keybindsFolder.listFiles();
-        if (files == null) return;
-        for (File file : files) {
-            if (file.isFile() && file.getName().endsWith(".nkb")) {
-                Config config =
-                    new Config("plugins/" + Networks.getInstance().getName() + "/keybinds/" + file.getName());
-                KeybindsScript script = KeybindsScript.fromConfig(config);
-                if (script != null) {
-                    if (!keybindsScripts.containsKey(script.getKeybinds().getKey())) {
-                        keybindsScripts.put(script.getKeybinds().getKey(), new ArrayList<>());
-                    }
-
-                    keybindsScripts.get(script.getKeybinds().getKey()).add(script);
-                }
-            }
-        }
     }
 
     public void openScriptsMenu(Location location, Player player) {

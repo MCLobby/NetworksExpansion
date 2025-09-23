@@ -55,11 +55,6 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle implements Keybind
 
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
 
-    Action storeItem = Action.of(Keys.newKey("store-item"), (p, s, i, a, menu) -> {
-        receiveItem(p, i, a, menu);
-        return ActionResult.of(MultiActionHandle.BREAK, false);
-    });
-
     public final Keybinds outsideKeybinds = Keybinds.create(Keys.newKey("outside-keybinds"), it -> {
             it
                 .usableKeybinds(
@@ -69,6 +64,11 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle implements Keybind
                     Keybind.shiftRightClick,
                     Keybind.shiftClick
                 );
+
+            Action storeItem = Action.of(Keys.newKey("store-item"), (p, s, i, a, menu) -> {
+                receiveItem(p, i, a, menu);
+                return ActionResult.of(MultiActionHandle.BREAK, false);
+            });
 
             it.usableActions(storeItem);
             it.defaultKeybinds(

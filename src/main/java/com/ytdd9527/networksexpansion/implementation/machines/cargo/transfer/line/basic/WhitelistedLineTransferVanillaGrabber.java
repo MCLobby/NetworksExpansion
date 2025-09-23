@@ -9,6 +9,7 @@ import com.balugaq.netex.api.transfer.TransferConfiguration;
 import com.balugaq.netex.utils.Lang;
 import com.bgsoftware.wildchests.api.WildChestsAPI;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networksexpansion.core.items.machines.AbstractTransfer;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
@@ -19,16 +20,12 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -42,9 +39,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
-@SuppressWarnings("DuplicatedCode")
+@SuppressWarnings({"DuplicatedCode", "GrazieInspection"})
 public class WhitelistedLineTransferVanillaGrabber extends NetworkDirectional implements RecipeDisplayItem, SoftCellBannable, WhitelistedVanillaGrabber {
     private static final TransferConfiguration config =
         TransferConfigFactory.getTransferConfiguration(TransferType.WHITELISTED_LINE_TRANSFER_VANILLA_GRABBER);
@@ -142,6 +138,12 @@ public class WhitelistedLineTransferVanillaGrabber extends NetworkDirectional im
             }
 
              */
+            // Netex start - #287
+            if (StorageCacheUtils.getSfItem(targetBlock.getLocation()) instanceof AbstractTransfer) {
+                targetBlock = targetBlock.getRelative(direction); // call skip function ahead of time
+                continue;
+            }
+            // Netex end - #287
 
             final BlockState blockState = PaperLib.getBlockState(targetBlock, false).getState();
 

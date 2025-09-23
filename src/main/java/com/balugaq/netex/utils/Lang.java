@@ -3,7 +3,6 @@ package com.balugaq.netex.utils;
 import com.ytdd9527.networksexpansion.core.services.LocalizationService;
 import io.github.sefiraat.networks.Networks;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;

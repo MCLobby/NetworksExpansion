@@ -180,6 +180,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
         }
     }
 
+    @SuppressWarnings("DataFlowIssue")
     private boolean tryCraft(
         @NotNull BlockMenu blockMenu, @NotNull BlueprintInstance instance, @NotNull NetworkRoot root) {
         // Get the recipe input

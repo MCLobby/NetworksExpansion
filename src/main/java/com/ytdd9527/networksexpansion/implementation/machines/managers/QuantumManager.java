@@ -59,7 +59,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
-@SuppressWarnings({"deprecation", "JavaExistingMethodCanBeUsed", "DuplicatedCode"})
+@SuppressWarnings({"deprecation", "DuplicatedCode"})
 public class QuantumManager extends NetworkObject {
     public static final String MANAGER_TAG = "quantum-manager";
     public static final NetworkRootLocateStorageEvent.Strategy MANAGER_STRATEGY =

@@ -1036,8 +1036,8 @@ items:
       - "<passive> 感谢逻辑工艺(LogiTech)的机器提供的作者头颅 hash。"
       - "<passive> 感谢所有给予信任并安装网络拓展的服主。"
       - "<passive> 此附属灵感来源于广大玩家。"
-      - "<passive> 尤其要感谢 Utoboy，TouRuya，haiman233 等玩家的意见提供。"
-      - "<passive> 感谢 Utoboy，TouRuya，haiman233，yitoudaidai，tinalness，matl114 等测试员的测试。"
+      - "<passive> 尤其要感谢 Utoboy，TouRuya，haiman233，matl114 等玩家的意见提供。"
+      - "<passive> 感谢 Utoboy，TouRuya，haiman233，yitoudaidai，tinalness，matl114，lengshang 等测试员的测试。"
   NTW_EXPANSION_ANNOUNCE_5:
     name: "<color_random_string>网络拓展相关链接"
     lore:
@@ -1098,9 +1098,9 @@ items:
       - "<warning> 网络拓展开发版不接受 GitHub Issues"
       - "<warning> 网络拓展开发版不接受 GitHub PR"
       - "<passive> 版本信息:"
-      - "<passive> 网络拓展版本: Special-Version-53"
+      - "<passive> 网络拓展版本: Special-Version-54"
       - "<passive> 版本状态: 稳定版"
-      - "<passive> 版本更新时间: 2025-9-23 17:56:06"
+      - "<passive> 版本更新时间: 2025-9-23 18:48:10"
       - "<passive> 开发状态: 更新中"
       - "<passive> 开发者（们）: ytdd9527, balugaq"
       - "<passive> 开发者 GitHub 页面: <click_info>https://github.com/ytdd9527"

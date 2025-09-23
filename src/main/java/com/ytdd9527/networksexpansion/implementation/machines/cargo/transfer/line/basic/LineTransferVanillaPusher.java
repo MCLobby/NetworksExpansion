@@ -10,6 +10,7 @@ import com.balugaq.netex.utils.InventoryUtil;
 import com.balugaq.netex.utils.Lang;
 import com.bgsoftware.wildchests.api.WildChestsAPI;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networksexpansion.core.items.machines.AbstractTransfer;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
@@ -22,17 +23,13 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.inventory.InvUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -49,7 +46,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 @SuppressWarnings("ALL")
 public class LineTransferVanillaPusher extends NetworkDirectional implements RecipeDisplayItem, SoftCellBannable {
@@ -154,6 +150,13 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
         // dirty fix
         Block targetBlock = block.getRelative(direction);
         for (int d = 0; d <= maxDistance; d++) {
+            // Netex start - #287
+            if (StorageCacheUtils.getSfItem(targetBlock.getLocation()) instanceof AbstractTransfer) {
+                targetBlock = targetBlock.getRelative(direction); // call skip function ahead of time
+                continue;
+            }
+            // Netex end - #287
+
             final BlockState blockState = PaperLib.getBlockState(targetBlock, false).getState();
 
             if (!(blockState instanceof InventoryHolder holder)) {
@@ -247,8 +250,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
             }
             furnace.setFuel(stack.clone());
             stack.setAmount(0);
-        } else if (!template.getType().isFuel() && furnace.getSmelting() == null
-            || furnace.getSmelting().getType() == Material.AIR) {
+        } else if (furnace.canSmelt(template) && (furnace.getSmelting() == null || furnace.getSmelting().getType() == Material.AIR)) {
             final ItemStack stack =
                 root.getItemStack0(blockMenu.getLocation(), new ItemRequest(template, template.getMaxStackSize()));
             if (stack == null) {

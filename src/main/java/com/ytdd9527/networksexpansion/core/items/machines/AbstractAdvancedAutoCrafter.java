@@ -178,6 +178,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
         }
     }
 
+    @SuppressWarnings("DataFlowIssue")
     private boolean tryCraft(
         @NotNull BlockMenu blockMenu,
         @NotNull BlueprintInstance instance,

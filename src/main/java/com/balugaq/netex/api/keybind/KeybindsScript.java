@@ -1,6 +1,7 @@
 package com.balugaq.netex.api.keybind;
 
 import com.balugaq.netex.api.algorithm.ID;
+import com.balugaq.netex.utils.Debug;
 import io.github.sefiraat.networks.Networks;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
@@ -10,6 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.HashMap;
@@ -23,7 +25,7 @@ public @Data class KeybindsScript {
     private final Map<Keybind, Action> code;
     private final long id;
 
-    public KeybindsScript(OfflinePlayer player, Keybinds keybinds, String keybindsName,  Map<Keybind, Action> code, long id) {
+    public KeybindsScript(OfflinePlayer player, Keybinds keybinds, String keybindsName, Map<Keybind, Action> code, long id) {
         this.player = player;
         this.keybinds = keybinds;
         this.keybindsName = keybindsName;
@@ -39,6 +41,28 @@ public @Data class KeybindsScript {
         return new KeybindsScript(player, keybinds, keybindsName, location, id);
     }
 
+    @SuppressWarnings("DataFlowIssue")
+    @Nullable
+    public static KeybindsScript fromConfig(Config config) {
+        try {
+            Map<Keybind, Action> code = new HashMap<>();
+            for (String key : config.getKeys("keybinds")) {
+                code.put(Keybind.get(NamespacedKey.fromString(key)), Action.get(NamespacedKey.fromString(config.getString("keybinds." + key))));
+            }
+            return new KeybindsScript(
+                Bukkit.getOfflinePlayer(config.getString("author-name")),
+                Keybinds.get(NamespacedKey.fromString(config.getString("keybinds-type"))),
+                config.getString("keybinds-name"),
+                code,
+                config.getLong("id")
+            );
+        } catch (Exception e) {
+            Debug.trace(e);
+            return null;
+        }
+    }
+
+    @SuppressWarnings("DataFlowIssue")
     public String getAuthorName() {
         return player.getName();
     }
@@ -65,19 +89,5 @@ public @Data class KeybindsScript {
         config.setValue("id", id);
 
         config.save();
-    }
-
-    public static KeybindsScript fromConfig(Config config) {
-        Map<Keybind, Action> code = new HashMap<>();
-        for (String key : config.getKeys("keybinds")) {
-            code.put(Keybind.get(NamespacedKey.fromString(key)), Action.get(NamespacedKey.fromString(config.getString("keybinds." + key))));
-        }
-        return new KeybindsScript(
-            Bukkit.getOfflinePlayer(config.getString("author-name")),
-            Keybinds.get(NamespacedKey.fromString(config.getString("keybinds-type"))),
-            config.getString("keybinds-name"),
-            code,
-            config.getLong("id")
-        );
     }
 }

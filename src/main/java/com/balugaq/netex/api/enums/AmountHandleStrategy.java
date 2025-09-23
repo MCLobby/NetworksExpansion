@@ -9,11 +9,12 @@ import java.util.function.BiFunction;
 
 @NullMarked
 public enum AmountHandleStrategy {
-    ONE   ((player, itemStack) -> 1),
-    STACK ((player, itemStack) -> itemStack.getMaxStackSize()),
+    ONE((player, itemStack) -> 1),
+    STACK((player, itemStack) -> itemStack.getMaxStackSize()),
     CUSTOM((player, itemStack) -> GridNewStyleCustomAmountGuideOption.get(player));
 
     private final BiFunction<Player, ItemStack, Integer> amountFunction;
+
     AmountHandleStrategy(BiFunction<Player, ItemStack, Integer> amountFunction) {
         this.amountFunction = amountFunction;
     }

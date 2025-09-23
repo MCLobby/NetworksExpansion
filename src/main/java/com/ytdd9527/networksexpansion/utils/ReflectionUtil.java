@@ -1,5 +1,6 @@
 package com.ytdd9527.networksexpansion.utils;
 
+import com.balugaq.netex.utils.Debug;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +32,7 @@ public class ReflectionUtil {
             declaredField.setAccessible(true);
             declaredField.set(object, value);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
+            Debug.trace(e);
             return false;
         }
         return true;
@@ -46,7 +47,7 @@ public class ReflectionUtil {
             declaredField.setAccessible(true);
             declaredField.set(null, value);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
+            Debug.trace(e);
             return false;
         }
         return true;
@@ -61,7 +62,7 @@ public class ReflectionUtil {
             declaredField.setAccessible(true);
             return declaredField.get(null);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
+            Debug.trace(e);
             return null;
         }
     }
@@ -76,7 +77,7 @@ public class ReflectionUtil {
             declaredField.setAccessible(true);
             return (T) declaredField.get(null);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
+            Debug.trace(e);
             return null;
         }
     }
@@ -185,7 +186,7 @@ public class ReflectionUtil {
                 return (T) field.get(object);
             }
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            Debug.trace(e);
             return null;
         }
 
@@ -200,7 +201,7 @@ public class ReflectionUtil {
                 return field.get(object);
             }
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            Debug.trace(e);
             return null;
         }
 
@@ -242,7 +243,7 @@ public class ReflectionUtil {
         try {
             return clazz.getDeclaredConstructor(parameterTypes);
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            Debug.trace(e);
             return null;
         }
     }
@@ -281,7 +282,7 @@ public class ReflectionUtil {
                 return method.invoke(object, args);
             }
         } catch (InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
+            Debug.trace(e);
         }
         return null;
     }
@@ -319,7 +320,7 @@ public class ReflectionUtil {
                 return method.invoke(null, args);
             }
         } catch (InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
+            Debug.trace(e);
         }
         return null;
     }

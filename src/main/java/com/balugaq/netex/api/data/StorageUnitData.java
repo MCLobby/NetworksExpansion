@@ -183,6 +183,10 @@ public class StorageUnitData {
         return itemStack.getType() == Material.BUNDLE;
     }
 
+    private static ConcurrentHashMap<Integer, ItemContainer> throwUnsupportedOperationException(@NotNull String message) {
+        throw new UnsupportedOperationException(message);
+    }
+
     /**
      * Add item to unit, the amount will be the item stack amount
      *
@@ -718,9 +722,5 @@ public class StorageUnitData {
 
     public int addStoredItem0(Location accessor, @NotNull ItemStack item, int amount, boolean contentLocked) {
         return addStoredItem0(accessor, item, amount, contentLocked, false);
-    }
-
-    private static ConcurrentHashMap<Integer, ItemContainer> throwUnsupportedOperationException(@NotNull String message) {
-        throw new UnsupportedOperationException(message);
     }
 }
