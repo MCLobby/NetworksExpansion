@@ -101,7 +101,12 @@ public interface BaseGrid {
                     return ActionResult.of(MultiActionHandle.BREAK, false);
                 });
 
-                it.usableActions(storeItem);
+                it.usableActions(
+                    storeItem,
+                    Keybind.gridActionGenerate(this, AmountHandleStrategy.ONE, true),
+                    Keybind.gridActionGenerate(this, AmountHandleStrategy.STACK, true),
+                    Keybind.gridActionGenerate(this, AmountHandleStrategy.CUSTOM, true)
+                );
                 it.defaultKeybinds(
                     Keybind.shiftLeftClick, storeItem
                 );
