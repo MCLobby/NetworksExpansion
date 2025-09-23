@@ -1,6 +1,14 @@
 package com.balugaq.netex.api.keybind;
 
+import com.balugaq.netex.api.enums.AmountHandleStrategy;
+import com.balugaq.netex.api.interfaces.BaseGrid;
+import com.balugaq.netex.api.interfaces.functions.Function3;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
+import io.github.sefiraat.networks.NetworkStorage;
+import io.github.sefiraat.networks.network.GridItemRequest;
+import io.github.sefiraat.networks.network.NodeDefinition;
+import io.github.sefiraat.networks.slimefun.network.grid.GridCache;
 import io.github.sefiraat.networks.utils.Keys;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -63,6 +71,30 @@ public interface Keybind extends Keyed, Comparable<Keybind> {
 
     default int compareTo(@NotNull Keybind o) {
         return getKey().compareTo(o.getKey());
+    }
+
+    static Action gridActionGenerate(BaseGrid grid, AmountHandleStrategy strategy, boolean toInventory) {
+        return Action.of(Keys.newKey(strategy.name().toLowerCase() + "-" + (toInventory ? "inv" : "cursor")), (player, s, i, a, menu) -> {
+            NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
+            if (definition == null || definition.getNode() == null)
+                return ActionResult.of(MultiActionHandle.CONTINUE, false);
+            ItemStack clone = grid.precheck(definition, menu, player, i);
+            if (clone == null) return ActionResult.of(MultiActionHandle.CONTINUE, false);
+
+            final GridItemRequest request = new GridItemRequest(clone, strategy.getAmount(player, clone), player);
+
+            if (toInventory) {
+                grid.addToInventory(player, definition, request, menu);
+            } else {
+                grid.addToCursor(player, definition, request, a.isRightClicked(), menu);
+            }
+            GridCache gridCache = grid.getCacheMap().get(menu.getLocation());
+            if (gridCache.getDisplayMode() == GridCache.DisplayMode.DISPLAY) {
+                gridCache.addPullItemHistory(clone);
+            }
+            grid.updateDisplay(menu);
+            return ActionResult.of(MultiActionHandle.BREAK, false);
+        });
     }
 
     boolean test(Player player, int slot, ItemStack item, ClickAction action, BlockMenu menu);

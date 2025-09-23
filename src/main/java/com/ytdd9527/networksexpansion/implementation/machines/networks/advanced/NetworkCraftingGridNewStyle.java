@@ -175,7 +175,7 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle implements
                     menu.addMenuClickHandler(backgroundSlot, (p, slot, item, action) -> false);
                 }
 
-                menu.addPlayerInventoryClickHandler(ExpansionItems.NETWORK_GRID_NEW_STYLE.outsideKeybinds);
+                menu.addPlayerInventoryClickHandler(outsideKeybinds());
                 addKeybindSettingsButton(menu, getKeybindButtonSlot());
             }
         };
@@ -317,6 +317,6 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle implements
 
     @Override
     public @NotNull List<Keybinds> keybinds() {
-        return List.of(displayKeybinds, ExpansionItems.NETWORK_GRID_NEW_STYLE.outsideKeybinds);
+        return List.of(displayKeybinds(), outsideKeybinds());
     }
 }

@@ -2,16 +2,10 @@ package com.ytdd9527.networksexpansion.core.items.machines;
 
 import com.balugaq.jeg.api.groups.SearchGroup;
 import com.balugaq.netex.api.algorithm.Sorters;
-import com.balugaq.netex.api.enums.AmountHandleStrategy;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
-import com.balugaq.netex.api.interfaces.functions.Function3;
-import com.balugaq.netex.api.keybind.Action;
-import com.balugaq.netex.api.keybind.ActionResult;
-import com.balugaq.netex.api.keybind.Keybind;
+import com.balugaq.netex.api.interfaces.BaseGrid;
 import com.balugaq.netex.api.keybind.Keybindable;
-import com.balugaq.netex.api.keybind.Keybinds;
-import com.balugaq.netex.api.keybind.MultiActionHandle;
 import com.balugaq.netex.utils.InventoryUtil;
 import com.balugaq.netex.utils.Lang;
 import com.github.houbb.pinyin.constant.enums.PinyinStyleEnum;
@@ -28,7 +22,6 @@ import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache.DisplayMode;
-import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.Theme;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
@@ -47,13 +40,13 @@ import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NullMarked;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.text.MessageFormat;
@@ -68,7 +61,7 @@ import java.util.Map.Entry;
 import java.util.Optional;
 
 @SuppressWarnings({"deprecation", "DuplicatedCode"})
-public abstract class AbstractGridNewStyle extends NetworkObject implements Keybindable {
+public abstract class AbstractGridNewStyle extends NetworkObject implements Keybindable, BaseGrid {
     public static final String BS_FILTER_KEY = "filter";
     private static final Map<GridCache.SortOrder, Comparator<? super Entry<ItemStack, Long>>> SORT_MAP =
         new HashMap<>();
@@ -80,73 +73,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject implements Keyb
         SORT_MAP.put(GridCache.SortOrder.ADDON, Sorters.ITEMSTACK_ADDON_SORT);
     }
 
-    private final @NotNull ItemSetting<Integer> tickRate;    public final Keybinds displayKeybinds = Keybinds.create(Keys.newKey("display-keybinds"), it -> {
-            Keybind clickOnWithCursor = Keybind.of(Keys.newKey("clicked-item-not-equals-to-cursor"), (player, s, i, a, menu) -> {
-                NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
-                if (definition == null || definition.getNode() == null) return false;
-                ItemStack clone = precheck(definition, menu, player, i);
-                if (clone == null) return false;
-                final ItemStack cursor = player.getItemOnCursor();
-                return cursor.getType() != Material.AIR
-                    && !StackUtils.itemsMatch(clone, player.getItemOnCursor(), true, false);
-            });
-
-            Action storeCursor = Action.of(Keys.newKey("store-cursor"), (player, s, i, a, menu) -> {
-                NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
-                if (definition == null || definition.getNode() == null)
-                    return ActionResult.of(MultiActionHandle.CONTINUE, false);
-                definition.getNode().getRoot().addItemStack(player.getItemOnCursor());
-                return ActionResult.of(MultiActionHandle.BREAK, false);
-            });
-
-            Function3<NamespacedKey, AmountHandleStrategy, Boolean, Action> actionGenerate = (key, strategy, toInventory) -> Action.of(key, (player, s, i, a, menu) -> {
-                NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
-                if (definition == null || definition.getNode() == null)
-                    return ActionResult.of(MultiActionHandle.CONTINUE, false);
-                ItemStack clone = precheck(definition, menu, player, i);
-                if (clone == null) return ActionResult.of(MultiActionHandle.CONTINUE, false);
-
-                final GridItemRequest request = new GridItemRequest(clone, strategy.getAmount(player, clone), player);
-
-                if (toInventory) {
-                    addToInventory(player, definition, request, menu);
-                } else {
-                    addToCursor(player, definition, request, a.isRightClicked(), menu);
-                }
-                GridCache gridCache = getCacheMap().get(menu.getLocation());
-                if (gridCache.getDisplayMode() == DisplayMode.DISPLAY) {
-                    gridCache.addPullItemHistory(clone);
-                }
-                updateDisplay(menu);
-                return ActionResult.of(MultiActionHandle.BREAK, false);
-            });
-
-            Action strategy1 = actionGenerate.apply(Keys.newKey("one-cursor"), AmountHandleStrategy.ONE, false);
-            Action strategy2 = actionGenerate.apply(Keys.newKey("stack-cursor"), AmountHandleStrategy.STACK, false);
-            Action strategy3 = actionGenerate.apply(Keys.newKey("stack-inv"), AmountHandleStrategy.STACK, true);
-            Action strategy4 = actionGenerate.apply(Keys.newKey("one-inv"), AmountHandleStrategy.ONE, true);
-            Action strategy5 = actionGenerate.apply(Keys.newKey("custom-cursor"), AmountHandleStrategy.CUSTOM, false);
-            Action strategy6 = actionGenerate.apply(Keys.newKey("custom-inv"), AmountHandleStrategy.CUSTOM, true);
-
-            it.usableKeybinds(
-                Keybind.leftClick,
-                Keybind.rightClick,
-                Keybind.shiftLeftClick,
-                Keybind.shiftRightClick,
-                Keybind.shiftClick,
-                clickOnWithCursor
-            );
-            it.usableActions(storeCursor, strategy1, strategy2, strategy3, strategy4, strategy5, strategy6);
-            it.defaultKeybinds(
-                clickOnWithCursor, storeCursor,
-                Keybind.leftClick, strategy1,
-                Keybind.rightClick, strategy2,
-                Keybind.shiftLeftClick, strategy3,
-                Keybind.shiftRightClick, strategy4
-            );
-            it.defaultActionResult(ActionResult.of(MultiActionHandle.CONTINUE, false));
-        })
-        .generate();
+    private final @NotNull ItemSetting<Integer> tickRate;
 
     protected AbstractGridNewStyle(
         @NotNull ItemGroup itemGroup,
@@ -222,7 +149,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject implements Keyb
     }
 
     @SuppressWarnings("deprecation")
-    protected void updateDisplay(@NotNull BlockMenu blockMenu) {
+    public void updateDisplay(@NotNull BlockMenu blockMenu) {
         // No viewer - lets not bother updating
         if (!blockMenu.hasViewer()) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.AFK);
@@ -303,7 +230,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject implements Keyb
                     itemMeta.setLore(lore);
                     displayStack.setItemMeta(itemMeta);
                     blockMenu.replaceExistingItem(getDisplaySlots()[i], displayStack);
-                    blockMenu.addMenuClickHandler(getDisplaySlots()[i], displayKeybinds);
+                    blockMenu.addMenuClickHandler(getDisplaySlots()[i], displayKeybinds());
                 } else {
                     blockMenu.replaceExistingItem(getDisplaySlots()[i], getBlankSlotStack());
                     blockMenu.addMenuClickHandler(getDisplaySlots()[i], (p, slot, item, action) -> {
@@ -357,7 +284,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject implements Keyb
                     itemMeta.setLore(lore);
                     displayStack.setItemMeta(itemMeta);
                     blockMenu.replaceExistingItem(getDisplaySlots()[i], displayStack);
-                    blockMenu.addMenuClickHandler(getDisplaySlots()[i], displayKeybinds);
+                    blockMenu.addMenuClickHandler(getDisplaySlots()[i], displayKeybinds());
                 } else {
                     blockMenu.replaceExistingItem(getDisplaySlots()[i], getBlankSlotStack());
                     blockMenu.addMenuClickHandler(getDisplaySlots()[i], (p, slot, item, action) -> {
@@ -467,7 +394,9 @@ public abstract class AbstractGridNewStyle extends NetworkObject implements Keyb
         }
     }
 
-    private ItemStack precheck(NodeDefinition definition, BlockMenu blockMenu, Player player, ItemStack itemStack) {
+    @NullMarked
+    @Nullable
+    public ItemStack precheck(NodeDefinition definition, BlockMenu blockMenu, Player player, ItemStack itemStack) {
         if (definition == null || definition.getNode() == null) {
             clearDisplay(blockMenu);
             blockMenu.close();
@@ -571,7 +500,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject implements Keyb
     protected abstract BlockMenuPreset getPreset();
 
     @NotNull
-    protected abstract Map<Location, GridCache> getCacheMap();
+    public abstract Map<Location, GridCache> getCacheMap();
 
     protected abstract int[] getBackgroundSlots();
 
@@ -641,8 +570,9 @@ public abstract class AbstractGridNewStyle extends NetworkObject implements Keyb
     }
 
     @SuppressWarnings("deprecation")
+    @NullMarked
     public void receiveItem(
-        @NotNull Player player, ItemStack itemStack, ClickAction action, @NotNull BlockMenu blockMenu) {
+        Player player, ItemStack itemStack, ClickAction action, BlockMenu blockMenu) {
         NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
         if (definition == null || definition.getNode() == null) {
             clearDisplay(blockMenu);

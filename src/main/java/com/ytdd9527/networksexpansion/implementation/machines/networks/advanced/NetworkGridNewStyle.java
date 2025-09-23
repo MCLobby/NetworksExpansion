@@ -1,17 +1,12 @@
 package com.ytdd9527.networksexpansion.implementation.machines.networks.advanced;
 
-import com.balugaq.netex.api.keybind.Action;
-import com.balugaq.netex.api.keybind.ActionResult;
-import com.balugaq.netex.api.keybind.Keybind;
 import com.balugaq.netex.api.keybind.Keybindable;
 import com.balugaq.netex.api.keybind.Keybinds;
-import com.balugaq.netex.api.keybind.MultiActionHandle;
 import com.ytdd9527.networksexpansion.core.items.machines.AbstractGridNewStyle;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache.DisplayMode;
-import io.github.sefiraat.networks.utils.Keys;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -54,29 +49,6 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle implements Keybind
     private static final int TOGGLE_MODE_SLOT = 17;
 
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
-
-    public final Keybinds outsideKeybinds = Keybinds.create(Keys.newKey("outside-keybinds"), it -> {
-            it
-                .usableKeybinds(
-                    Keybind.leftClick,
-                    Keybind.rightClick,
-                    Keybind.shiftLeftClick,
-                    Keybind.shiftRightClick,
-                    Keybind.shiftClick
-                );
-
-            Action storeItem = Action.of(Keys.newKey("store-item"), (p, s, i, a, menu) -> {
-                receiveItem(p, i, a, menu);
-                return ActionResult.of(MultiActionHandle.BREAK, false);
-            });
-
-            it.usableActions(storeItem);
-            it.defaultKeybinds(
-                Keybind.shiftLeftClick, storeItem
-            );
-            it.defaultActionResult(ActionResult.of(MultiActionHandle.CONTINUE, true));
-        })
-        .generate();
 
     public NetworkGridNewStyle(
         @NotNull ItemGroup itemGroup,
@@ -182,7 +154,7 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle implements Keybind
                     menu.addMenuClickHandler(backgroundSlot, (p, slot, item, action) -> false);
                 }
 
-                menu.addPlayerInventoryClickHandler(outsideKeybinds);
+                menu.addPlayerInventoryClickHandler(outsideKeybinds());
                 addKeybindSettingsButton(menu, getKeybindButtonSlot());
             }
         };
@@ -228,6 +200,6 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle implements Keybind
 
     @Override
     public @NotNull List<Keybinds> keybinds() {
-        return List.of(displayKeybinds, outsideKeybinds);
+        return List.of(displayKeybinds(), outsideKeybinds());
     }
 }
