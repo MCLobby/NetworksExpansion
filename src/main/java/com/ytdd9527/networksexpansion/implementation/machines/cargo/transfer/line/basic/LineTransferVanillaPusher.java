@@ -151,7 +151,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
         Block targetBlock = block.getRelative(direction);
         for (int d = 0; d <= maxDistance; d++) {
             // Netex start - #287
-            if (StorageCacheUtils.getSfItem(targetBlock.getLocation()) instanceof AbstractTransfer) {
+            if (StorageCacheUtils.getMenu(targetBlock.getLocation()) != null) {
                 targetBlock = targetBlock.getRelative(direction); // call skip function ahead of time
                 continue;
             }

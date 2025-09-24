@@ -159,7 +159,7 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
             */
 
             // Netex start - #287
-            if (StorageCacheUtils.getSfItem(targetBlock.getLocation()) instanceof AbstractTransfer) {
+            if (StorageCacheUtils.getMenu(targetBlock.getLocation()) != null) {
                 targetBlock = targetBlock.getRelative(direction); // call skip function ahead of time
                 continue;
             }
