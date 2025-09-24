@@ -6,6 +6,7 @@ import com.balugaq.netex.api.interfaces.SoftCellBannable;
 import com.balugaq.netex.utils.InventoryUtil;
 import com.balugaq.netex.utils.Lang;
 import com.bgsoftware.wildchests.api.WildChestsAPI;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NodeDefinition;
@@ -102,6 +103,11 @@ public class NetworkVanillaPusher extends NetworkDirectional implements SoftCell
         }
 
          */
+        // Netex start - #287
+        if (StorageCacheUtils.getMenu(targetBlock.getLocation()) != null) {
+            return;
+        }
+        // Netex end - #287
 
         final BlockState blockState = PaperLib.getBlockState(targetBlock, false).getState();
 

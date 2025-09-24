@@ -20,6 +20,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -28,6 +29,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -87,8 +90,29 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
             }
 
             @Override
-            public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
+            public int[] getSlotsAccessedByItemTransport(ItemTransportFlow itemTransportFlow) {
+                if (itemTransportFlow == ItemTransportFlow.WITHDRAW) {
+                    return new int[]{OUTPUT_SLOT};
+                }
+
                 return new int[0];
+            }
+
+            @Override
+            public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack itemStack) {
+                if (flow == ItemTransportFlow.WITHDRAW) return new int[]{OUTPUT_SLOT};
+
+                List<Integer> slots = new ArrayList<>();
+                if (StackUtils.itemsMatch(itemStack, menu.getItemInSlot(BLANK_BLUEPRINT_SLOT))) {
+                    slots.add(BLANK_BLUEPRINT_SLOT);
+                }
+
+                for (int slot : RECIPE_SLOTS) {
+                    if (StackUtils.itemsMatch(itemStack, menu.getItemInSlot(slot))) {
+                        slots.add(slot);
+                    }
+                }
+                return slots.stream().mapToInt(Integer::intValue).toArray();
             }
         };
     }
