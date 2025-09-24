@@ -18,12 +18,9 @@ import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -34,9 +31,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.UUID;
-
-@SuppressWarnings("DuplicatedCode")
+@SuppressWarnings({"DuplicatedCode", "GrazieInspection"})
 public class WhitelistedTransferVanillaGrabber extends NetworkDirectional implements SoftCellBannable, WhitelistedVanillaGrabber {
     private static final TransferConfiguration config = TransferConfigFactory
         .getTransferConfiguration(TransferType.WHITELISTED_TRANSFER_VANILLA_GRABBER);
@@ -77,6 +72,8 @@ public class WhitelistedTransferVanillaGrabber extends NetworkDirectional implem
 
         // Fix for early vanilla pusher release
         final Block block = blockMenu.getBlock();
+        /* Netex - #293
+        // No longer check permission
         final String ownerUUID = StorageCacheUtils.getData(block.getLocation(), OWNER_KEY);
         if (ownerUUID == null) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NO_OWNER_FOUND);
@@ -85,9 +82,13 @@ public class WhitelistedTransferVanillaGrabber extends NetworkDirectional implem
         final UUID uuid = UUID.fromString(ownerUUID);
         final OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
 
+         */
+
         // dirty fix
         Block targetBlock = block.getRelative(direction);
 
+        /* Netex - #293
+        // No longer check permission
         try {
             if (!Slimefun.getProtectionManager()
                 .hasPermission(offlinePlayer, targetBlock, Interaction.INTERACT_BLOCK)) {
@@ -99,7 +100,14 @@ public class WhitelistedTransferVanillaGrabber extends NetworkDirectional implem
             return;
         }
 
-        final BlockState blockState = targetBlock.getState();
+         */
+        // Netex start - #287
+        if (StorageCacheUtils.getMenu(targetBlock.getLocation()) != null) {
+            return;
+        }
+        // Netex end - #287
+
+        final BlockState blockState = PaperLib.getBlockState(targetBlock, false).getState();
 
         if (!(blockState instanceof InventoryHolder holder)) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NO_INVENTORY_FOUND);
@@ -116,7 +124,7 @@ public class WhitelistedTransferVanillaGrabber extends NetworkDirectional implem
 
         final Inventory inventory = holder.getInventory();
 
-        grabInventory(blockMenu, inventory, root, getClonedTemplateItems(blockMenu));
+        grabInventory(blockMenu, blockState, inventory, root, getClonedTemplateItems(blockMenu));
 
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }

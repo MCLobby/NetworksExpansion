@@ -3,7 +3,6 @@ package com.balugaq.netex.utils;
 import com.ytdd9527.networksexpansion.core.services.LocalizationService;
 import io.github.sefiraat.networks.Networks;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -11,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
-@UtilityClass
 public class Lang {
     public static LocalizationService get() {
         return Networks.getLocalizationService();
@@ -51,7 +49,7 @@ public class Lang {
 
     @ParametersAreNonnullByDefault
     @NotNull
-    public String getString(String key, Object... args) {
+    public static String getString(String key, Object... args) {
         return get().getString(key, args);
     }
 

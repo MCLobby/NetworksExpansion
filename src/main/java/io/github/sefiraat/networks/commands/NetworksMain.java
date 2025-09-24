@@ -35,6 +35,7 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.blocks.ChunkPosition;
+import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.Bukkit;
@@ -508,7 +509,7 @@ public class NetworksMain implements TabExecutor {
                 final Location toLocation = toBlock.getLocation();
 
                 // Block Data
-                WorldUtils.copyBlockState(fromBlock.getState(), toBlock);
+                WorldUtils.copyBlockState(PaperLib.getBlockState(fromBlock, false).getState(), toBlock);
 
                 // Count means successful pasting block data. Not including Slimefun data.
                 count.addAndGet(1);
@@ -523,7 +524,7 @@ public class NetworksMain implements TabExecutor {
                     BlockPlaceHandler.class,
                     handler -> handler.onPlayerPlace(new BlockPlaceEvent(
                         toBlock,
-                        toBlock.getState(),
+                        PaperLib.getBlockState(toBlock, false).getState(),
                         toBlock.getRelative(BlockFace.SOUTH),
                         itemInHand,
                         player,
@@ -669,7 +670,7 @@ public class NetworksMain implements TabExecutor {
                 BlockPlaceHandler.class,
                 h -> h.onPlayerPlace(new BlockPlaceEvent(
                     targetBlock,
-                    targetBlock.getState(),
+                    PaperLib.getBlockState(targetBlock, false).getState(),
                     targetBlock.getRelative(BlockFace.DOWN),
                     itemStack,
                     player,

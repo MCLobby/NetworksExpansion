@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
-@SuppressWarnings({"deprecation", "DuplicatedCode"})
+@SuppressWarnings("DuplicatedCode")
 @UtilityClass
 public class InventoryUtil {
     public static @NotNull HashMap<Integer, ItemStack> addItem(@NotNull Player player, ItemStack... toAdd) {
@@ -40,27 +40,31 @@ public class InventoryUtil {
 
             int index = firstSimilar(storage, toAdd);
             if (index == -1) {
-                index = firstEmpty(storage);
-                if (index == -1) {
-                    leftover.put(inventory.firstEmpty(), toAdd);
-                    continue;
+                while (toAdd.getAmount() > 0) {
+                    index = firstEmpty(storage);
+                    if (index == -1) {
+                        leftover.put(inventory.firstEmpty(), toAdd);
+                        break;
+                    }
+                    int handledAmount = Math.min(toAdd.getAmount(), toAdd.getMaxStackSize());
+                    storage[index] = toAdd.asQuantity(handledAmount);
+                    toAdd.setAmount(toAdd.getAmount() - handledAmount);
                 }
-                storage[index] = toAdd.clone();
-                toAdd.setAmount(0);
-                toAdd.setType(Material.AIR);
             } else {
                 ItemStack exist = storage[index];
                 int existing = exist.getAmount();
                 int maxStack = exist.getMaxStackSize();
-                if (existing == maxStack) {
-                    index = firstEmpty(storage);
-                    if (index == -1) {
-                        leftover.put(inventory.firstEmpty(), toAdd);
-                        continue;
+                if (existing >= maxStack) {
+                    while (toAdd.getAmount() > 0) {
+                        index = firstEmpty(storage);
+                        if (index == -1) {
+                            leftover.put(inventory.firstEmpty(), toAdd);
+                            break;
+                        }
+                        int handledAmount = Math.min(toAdd.getAmount(), toAdd.getMaxStackSize());
+                        storage[index] = toAdd.asQuantity(handledAmount);
+                        toAdd.setAmount(toAdd.getAmount() - handledAmount);
                     }
-                    storage[index] = toAdd.clone();
-                    toAdd.setAmount(0);
-                    toAdd.setType(Material.AIR);
                 } else if (existing < maxStack) {
                     int handled = Math.min(maxStack - existing, toAdd.getAmount());
                     exist.setAmount(existing + handled);
@@ -84,7 +88,7 @@ public class InventoryUtil {
 
     public static int firstSimilar(ItemStack @NotNull [] storage, ItemStack item, boolean withoutAmount) {
         for (int i = 0; i < storage.length; i++) {
-            if (StackUtils.itemsMatch(storage[i], item, true, !withoutAmount)) {
+            if (storage[i] != null && storage[i].getAmount() < storage[i].getMaxStackSize() && StackUtils.itemsMatch(storage[i], item, true, !withoutAmount)) {
                 return i;
             }
         }

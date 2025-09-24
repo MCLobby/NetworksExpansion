@@ -14,9 +14,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.blocks.BlockPosition;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import io.github.thebusybiscuit.slimefun4.libraries.paperlib.features.blockstatesnapshot.BlockStateSnapshotResult;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
@@ -24,7 +22,6 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -35,9 +32,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
-@SuppressWarnings("DuplicatedCode")
+@SuppressWarnings({"DuplicatedCode", "GrazieInspection"})
 public class NetworkControlX extends NetworkDirectional implements SoftCellBannable {
 
     private static final int[] BACKGROUND_SLOTS = new int[]{
@@ -137,6 +133,8 @@ public class NetworkControlX extends NetworkDirectional implements SoftCellBanna
             return;
         }
 
+        /* Netex - #293
+        // No longer check permission
         final String owner = StorageCacheUtils.getData(blockMenu.getLocation(), OWNER_KEY);
         if (owner == null) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NO_OWNER_FOUND);
@@ -145,12 +143,17 @@ public class NetworkControlX extends NetworkDirectional implements SoftCellBanna
 
         final UUID uuid = UUID.fromString(owner);
         final OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
+         */
 
         Bukkit.getScheduler().runTask(Networks.getInstance(), bukkitTask -> {
+            /* Netex - #293
+            // No longer check permission
             if (!Slimefun.getProtectionManager().hasPermission(offlinePlayer, targetBlock, Interaction.BREAK_BLOCK)) {
                 sendFeedback(blockMenu.getLocation(), FeedbackType.NO_PERMISSION);
                 return;
             }
+
+             */
 
             final ItemStack resultStack = new ItemStack(material, 1);
 

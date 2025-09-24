@@ -10,13 +10,11 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
-import io.github.sefiraat.networks.network.GridItemRequest;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache;
-import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -209,7 +207,8 @@ public class HangingGridNewStyle extends NetworkGridNewStyle implements HangingB
                     displayStack.setItemMeta(itemMeta);
                     blockMenu.replaceExistingItem(getDisplaySlots()[i], displayStack);
                     blockMenu.addMenuClickHandler(getDisplaySlots()[i], (player, slot, item, action) -> {
-                        retrieveItem(player, item, action, blockMenu, attachon, attachSide);
+                        displayKeybinds().onClick(player, slot, item, action);
+                        updateDisplay(blockMenu, attachon, attachSide);
                         return false;
                     });
                 } else {
@@ -266,7 +265,8 @@ public class HangingGridNewStyle extends NetworkGridNewStyle implements HangingB
                     displayStack.setItemMeta(itemMeta);
                     blockMenu.replaceExistingItem(getDisplaySlots()[i], displayStack);
                     blockMenu.addMenuClickHandler(getDisplaySlots()[i], (player, slot, item, action) -> {
-                        retrieveItem(player, item, action, blockMenu, attachon, attachSide);
+                        displayKeybinds().onClick(player, slot, item, action);
+                        updateDisplay(blockMenu, attachon, attachSide);
                         return false;
                     });
                 } else {
@@ -481,82 +481,6 @@ public class HangingGridNewStyle extends NetworkGridNewStyle implements HangingB
         loc.setYaw(0.0F);
         loc.setPitch(0.0F);
         return loc;
-    }
-
-    @SuppressWarnings("deprecation")
-    @ParametersAreNonnullByDefault
-    protected synchronized void retrieveItem(
-        Player player,
-        @Nullable ItemStack itemStack,
-        ClickAction action,
-        BlockMenu blockMenu,
-        Location attachon,
-        BlockFace attachSide) {
-        NodeDefinition definition = NetworkStorage.getNode(attachon);
-        if (definition == null || definition.getNode() == null) {
-            clearDisplay(blockMenu);
-            blockMenu.close();
-            Networks.getInstance()
-                .getLogger()
-                .warning(String.format(
-                    Lang.getString("messages.unsupported-operation.grid.may_duping"),
-                    player.getName(),
-                    attachon));
-            return;
-        }
-
-        if (itemStack == null || itemStack.getType() == Material.AIR) {
-            return;
-        }
-
-        final ItemStack clone = itemStack.clone();
-
-        final ItemMeta cloneMeta = clone.getItemMeta();
-        if (cloneMeta == null) {
-            return;
-        }
-        final List<String> cloneLore = cloneMeta.getLore();
-
-        if (cloneLore == null || cloneLore.size() < 2) {
-            return;
-        }
-
-        cloneLore.remove(cloneLore.size() - 1);
-        cloneLore.remove(cloneLore.size() - 1);
-        cloneMeta.setLore(cloneLore);
-        clone.setItemMeta(cloneMeta);
-
-        NetworkRoot root = definition.getNode().getRoot();
-        boolean success = root.refreshRootItems();
-        if (!success) {
-            return;
-        }
-
-        final ItemStack cursor = player.getItemOnCursor();
-        if (cursor.getType() != Material.AIR
-            && !StackUtils.itemsMatch(clone, StackUtils.getAsQuantity(player.getItemOnCursor(), 1))) {
-            definition.getNode().getRoot().addItemStack0(blockMenu.getLocation(), player.getItemOnCursor());
-            return;
-        }
-
-        int amount = 1;
-
-        if (action.isRightClicked()) {
-            amount = clone.getMaxStackSize();
-        }
-
-        final GridItemRequest request = new GridItemRequest(clone, amount, player);
-
-        if (action.isShiftClicked()) {
-            addToInventory(player, definition, request, action, blockMenu);
-        } else {
-            addToCursor(player, definition, request, action, blockMenu);
-        }
-        GridCache gridCache = getCacheMap().get(blockMenu.getLocation());
-        if (gridCache.getDisplayMode() == GridCache.DisplayMode.DISPLAY) {
-            gridCache.addPullItemHistory(clone);
-        }
-        updateDisplay(blockMenu, attachon, attachSide);
     }
 
     @SuppressWarnings("deprecation")

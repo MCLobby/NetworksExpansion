@@ -1,7 +1,5 @@
 package com.balugaq.netex.api.helpers;
 
-import com.balugaq.netex.api.interfaces.CanTestRecipe;
-import com.balugaq.netex.api.interfaces.RecipesHolder;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -17,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @UtilityClass
-public final class SupportedJuicerRecipes implements RecipesHolder, CanTestRecipe {
+public final class SupportedJuicerRecipes {
 
     private static final Map<ItemStack[], ItemStack> RECIPES = new HashMap<>();
 

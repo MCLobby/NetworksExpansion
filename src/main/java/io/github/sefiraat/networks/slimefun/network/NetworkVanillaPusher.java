@@ -14,14 +14,11 @@ import io.github.sefiraat.networks.network.NodeType;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.inventory.InvUtils;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -35,9 +32,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.UUID;
-
-@SuppressWarnings("DuplicatedCode")
+@SuppressWarnings({"DuplicatedCode", "GrazieInspection"})
 public class NetworkVanillaPusher extends NetworkDirectional implements SoftCellBannable {
 
     private static final int[] BACKGROUND_SLOTS = new int[]{
@@ -85,6 +80,8 @@ public class NetworkVanillaPusher extends NetworkDirectional implements SoftCell
         final Block block = blockMenu.getBlock();
         final Block targetBlock = blockMenu.getBlock().getRelative(direction);
         // Fix for early vanilla pusher release
+        /* Netex - #293
+        // No longer check permission
         final String ownerUUID = StorageCacheUtils.getData(block.getLocation(), OWNER_KEY);
         if (ownerUUID == null) {
             sendFeedback(block.getLocation(), FeedbackType.NO_OWNER_FOUND);
@@ -105,7 +102,14 @@ public class NetworkVanillaPusher extends NetworkDirectional implements SoftCell
             return;
         }
 
-        final BlockState blockState = targetBlock.getState();
+         */
+        // Netex start - #287
+        if (StorageCacheUtils.getMenu(targetBlock.getLocation()) != null) {
+            return;
+        }
+        // Netex end - #287
+
+        final BlockState blockState = PaperLib.getBlockState(targetBlock, false).getState();
 
         if (!(blockState instanceof InventoryHolder holder)) {
             sendFeedback(block.getLocation(), FeedbackType.NO_INVENTORY_FOUND);
@@ -138,9 +142,9 @@ public class NetworkVanillaPusher extends NetworkDirectional implements SoftCell
         } else if (inventory instanceof BrewerInventory brewer) {
             handleBrewingStand(blockMenu, stack, brewer);
         } else if (wildChests && isChest) {
-            sendDebugMessage(block.getLocation(), Lang.getString("messages.debug.wildchests-test-failed"));
+            sendDebugMessage(block.getLocation(), Lang.getString("messages.debug.wildchests-trigger-failed"));
         } else if (InvUtils.fits(holder.getInventory(), stack)) {
-            sendDebugMessage(block.getLocation(), Lang.getString("messages.debug.wildchests-test-success"));
+            sendDebugMessage(block.getLocation(), Lang.getString("messages.debug.wildchests-trigger-success"));
             InventoryUtil.addItem(holder.getInventory(), stack);
         }
     }
@@ -152,8 +156,7 @@ public class NetworkVanillaPusher extends NetworkDirectional implements SoftCell
             furnace.setFuel(stack.clone());
             stack.setAmount(0);
             sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
-        } else if (!stack.getType().isFuel()
-            && (furnace.getSmelting() == null || furnace.getSmelting().getType() == Material.AIR)) {
+        } else if (furnace.canSmelt(stack) && (furnace.getSmelting() == null || furnace.getSmelting().getType() == Material.AIR)) {
             furnace.setSmelting(stack.clone());
             stack.setAmount(0);
             sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);

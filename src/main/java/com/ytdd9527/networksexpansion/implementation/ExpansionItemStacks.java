@@ -16,316 +16,314 @@ import org.jetbrains.annotations.NotNull;
 public class ExpansionItemStacks {
     // Workbench
     public static final SlimefunItemStack NETWORKS_EXPANSION_WORKBENCH =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_WORKBENCH", Material.BAMBOO_BLOCK), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_WORKBENCH", Material.BAMBOO_BLOCK), Theme.MACHINE);
 
-    public static final SlimefunItemStack NETWORKS_EXPANSION_WORKBENCH_6X6 =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_WORKBENCH_6X6", Material.LAPIS_BLOCK), Theme.MACHINE);
     // Tools
     public static final SlimefunItemStack WORLDEDIT_AXE =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_WORLD_EDIT_AXE", Material.DIAMOND_AXE), Theme.TOOL);
+        Theme.random(Lang.getItem("NTW_EXPANSION_WORLD_EDIT_AXE", Material.DIAMOND_AXE), Theme.TOOL);
     public static final SlimefunItemStack INFO_TOOL =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_INFO_TOOL", Material.FEATHER), Theme.TOOL);
+        Theme.random(Lang.getItem("NTW_EXPANSION_INFO_TOOL", Material.FEATHER), Theme.TOOL);
     // Advanced Networks Machines
-    public static final SlimefunItemStack ADVANCED_IMPORT = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_IMPORT = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_IMPORT", enchanted(Material.RED_STAINED_GLASS)), Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_EXPORT = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_EXPORT = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_EXPORT", enchanted(Material.BLUE_STAINED_GLASS)), Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_PURGER = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_PURGER = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_PURGER", enchanted(Material.YELLOW_STAINED_GLASS)), Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_GREEDY_BLOCK = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_GREEDY_BLOCK = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_GREEDY_BLOCK", enchanted(Material.GRAY_STAINED_GLASS)), Theme.MACHINE);
     public static final SlimefunItemStack NETWORK_CAPACITOR_5 =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_CAPACITOR_5", Material.CYAN_GLAZED_TERRACOTTA), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_CAPACITOR_5", Material.CYAN_GLAZED_TERRACOTTA), Theme.MACHINE);
     public static final SlimefunItemStack NETWORK_CAPACITOR_6 =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_CAPACITOR_6", Material.BLUE_GLAZED_TERRACOTTA), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_CAPACITOR_6", Material.BLUE_GLAZED_TERRACOTTA), Theme.MACHINE);
     public static final SlimefunItemStack NETWORK_INPUT_ONLY_MONITOR = Theme.themedSlimefunItemStack(
         Lang.getItem("NTW_INPUT_ONLY_MONITOR", Material.LIGHT_GRAY_STAINED_GLASS), Theme.MACHINE);
     public static final SlimefunItemStack NETWORK_OUTPUT_ONLY_MONITOR = Theme.themedSlimefunItemStack(
         Lang.getItem("NTW_OUTPUT_ONLY_MONITOR", Material.GRAY_STAINED_GLASS), Theme.MACHINE);
     public static final SlimefunItemStack LINE_TRANSFER_PUSHER =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_LINE_TRANSFER_PUSHER", Material.OBSERVER), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_LINE_TRANSFER_PUSHER", Material.OBSERVER), Theme.MACHINE);
 
-    public static final SlimefunItemStack LINE_TRANSFER_MORE_PUSHER = Theme.Random(
+    public static final SlimefunItemStack LINE_TRANSFER_MORE_PUSHER = Theme.random(
         Lang.getItem("NTW_EXPANSION_LINE_TRANSFER_MORE_PUSHER", Material.LIME_GLAZED_TERRACOTTA), Theme.MACHINE);
 
-    public static final SlimefunItemStack LINE_TRANSFER_BEST_PUSHER = Theme.Random(
+    public static final SlimefunItemStack LINE_TRANSFER_BEST_PUSHER = Theme.random(
         Lang.getItem("NTW_EXPANSION_LINE_TRANSFER_BEST_PUSHER", Material.LIME_STAINED_GLASS), Theme.MACHINE);
     public static final SlimefunItemStack LINE_TRANSFER_GRABBER =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_LINE_TRANSFER_GRABBER", Material.HAY_BLOCK), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_LINE_TRANSFER_GRABBER", Material.HAY_BLOCK), Theme.MACHINE);
     public static final SlimefunItemStack LINE_TRANSFER =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_LINE_TRANSFER", Material.PISTON), Theme.MACHINE);
-    public static final SlimefunItemStack LINE_TRANSFER_PLUS_PUSHER = Theme.Random(
+        Theme.random(Lang.getItem("NTW_EXPANSION_LINE_TRANSFER", Material.PISTON), Theme.MACHINE);
+    public static final SlimefunItemStack LINE_TRANSFER_PLUS_PUSHER = Theme.random(
         Lang.getItem("NTW_EXPANSION_LINE_TRANSFER_PLUS_PUSHER", Material.LIME_GLAZED_TERRACOTTA), Theme.MACHINE);
-    public static final SlimefunItemStack LINE_TRANSFER_PLUS_MORE_PUSHER = Theme.Random(
+    public static final SlimefunItemStack LINE_TRANSFER_PLUS_MORE_PUSHER = Theme.random(
         Lang.getItem("NTW_EXPANSION_LINE_TRANSFER_PLUS_MORE_PUSHER", Material.LIME_STAINED_GLASS), Theme.MACHINE);
-    public static final SlimefunItemStack LINE_TRANSFER_PLUS_BEST_PUSHER = Theme.Random(
+    public static final SlimefunItemStack LINE_TRANSFER_PLUS_BEST_PUSHER = Theme.random(
         Lang.getItem("NTW_EXPANSION_LINE_TRANSFER_PLUS_BEST_PUSHER", Material.LIME_STAINED_GLASS), Theme.MACHINE);
-    public static final SlimefunItemStack LINE_TRANSFER_PLUS_GRABBER = Theme.Random(
+    public static final SlimefunItemStack LINE_TRANSFER_PLUS_GRABBER = Theme.random(
         Lang.getItem("NTW_EXPANSION_LINE_TRANSFER_PLUS_GRABBER", Material.WAXED_COPPER_BLOCK), Theme.MACHINE);
     public static final SlimefunItemStack LINE_TRANSFER_PLUS =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_LINE_TRANSFER_PLUS", Material.STICKY_PISTON), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_LINE_TRANSFER_PLUS", Material.STICKY_PISTON), Theme.MACHINE);
     public static final SlimefunItemStack LINE_TRANSFER_VANILLA_PUSHER =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_LINE_TRANSFER_VANILLA_PUSHER", Material.OBSERVER), Theme.MACHINE);
-    public static final SlimefunItemStack LINE_TRANSFER_VANILLA_GRABBER = Theme.Random(
+        Theme.random(Lang.getItem("NTW_EXPANSION_LINE_TRANSFER_VANILLA_PUSHER", Material.OBSERVER), Theme.MACHINE);
+    public static final SlimefunItemStack LINE_TRANSFER_VANILLA_GRABBER = Theme.random(
         Lang.getItem("NTW_EXPANSION_LINE_TRANSFER_VANILLA_GRABBER", Material.HAY_BLOCK), Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PUSHER = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PUSHER = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PUSHER", enchanted(Material.OBSERVER)), Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_MORE_PUSHER = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_MORE_PUSHER = Theme.random(
         Lang.getItem(
             "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_MORE_PUSHER", enchanted(Material.LIME_GLAZED_TERRACOTTA)),
         Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_BEST_PUSHER = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_BEST_PUSHER = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_LINE_TRANSFER_BEST_PUSHER", enchanted(Material.LIME_STAINED_GLASS)),
         Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_GRABBER = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_GRABBER = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_LINE_TRANSFER_GRABBER", enchanted(Material.HAY_BLOCK)), Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_LINE_TRANSFER", enchanted(Material.PISTON)), Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_PUSHER = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_PUSHER = Theme.random(
         Lang.getItem(
             "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_PUSHER", enchanted(Material.LIME_GLAZED_TERRACOTTA)),
         Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_MORE_PUSHER = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_MORE_PUSHER = Theme.random(
         Lang.getItem(
             "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_MORE_PUSHER", enchanted(Material.LIME_STAINED_GLASS)),
         Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_BEST_PUSHER = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_BEST_PUSHER = Theme.random(
         Lang.getItem(
             "NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_BEST_PUSHER", enchanted(Material.LIME_STAINED_GLASS)),
         Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_GRABBER = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS_GRABBER = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS_GRABBER", enchanted(Material.WAXED_COPPER_BLOCK)),
         Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_PLUS = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_LINE_TRANSFER_PLUS", enchanted(Material.STICKY_PISTON)),
         Theme.MACHINE);
     public static final SlimefunItemStack TRANSFER_PUSHER =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_TRANSFER_PUSHER", Material.OBSERVER), Theme.MACHINE);
-    public static final SlimefunItemStack TRANSFER_MORE_PUSHER = Theme.Random(
+        Theme.random(Lang.getItem("NTW_EXPANSION_TRANSFER_PUSHER", Material.OBSERVER), Theme.MACHINE);
+    public static final SlimefunItemStack TRANSFER_MORE_PUSHER = Theme.random(
         Lang.getItem("NTW_EXPANSION_TRANSFER_MORE_PUSHER", Material.LIME_GLAZED_TERRACOTTA), Theme.MACHINE);
-    public static final SlimefunItemStack TRANSFER_BEST_PUSHER = Theme.Random(
+    public static final SlimefunItemStack TRANSFER_BEST_PUSHER = Theme.random(
         Lang.getItem("NTW_EXPANSION_TRANSFER_BEST_PUSHER", Material.LIME_STAINED_GLASS), Theme.MACHINE);
     public static final SlimefunItemStack TRANSFER_GRABBER =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_TRANSFER_GRABBER", Material.HAY_BLOCK), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_TRANSFER_GRABBER", Material.HAY_BLOCK), Theme.MACHINE);
     public static final SlimefunItemStack TRANSFER =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_TRANSFER", Material.PISTON), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_TRANSFER", Material.PISTON), Theme.MACHINE);
     public static final SlimefunItemStack ADVANCED_TRANSFER_PUSHER =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_ADVANCED_TRANSFER_PUSHER", Material.OBSERVER), Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_TRANSFER_MORE_PUSHER = Theme.Random(
+        Theme.random(Lang.getItem("NTW_EXPANSION_ADVANCED_TRANSFER_PUSHER", Material.OBSERVER), Theme.MACHINE);
+    public static final SlimefunItemStack ADVANCED_TRANSFER_MORE_PUSHER = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_TRANSFER_MORE_PUSHER", Material.LIME_GLAZED_TERRACOTTA),
         Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_TRANSFER_BEST_PUSHER = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_TRANSFER_BEST_PUSHER = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_TRANSFER_BEST_PUSHER", Material.LIME_STAINED_GLASS), Theme.MACHINE);
     public static final SlimefunItemStack ADVANCED_TRANSFER_GRABBER =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_ADVANCED_TRANSFER_GRABBER", Material.HAY_BLOCK), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_ADVANCED_TRANSFER_GRABBER", Material.HAY_BLOCK), Theme.MACHINE);
     public static final SlimefunItemStack ADVANCED_TRANSFER =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_ADVANCED_TRANSFER", Material.STICKY_PISTON), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_ADVANCED_TRANSFER", Material.STICKY_PISTON), Theme.MACHINE);
     public static final SlimefunItemStack SMART_GRABBER =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_SMART_GRABBER", Material.END_ROD), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_SMART_GRABBER", Material.END_ROD), Theme.MACHINE);
     public static final SlimefunItemStack SMART_PUSHER =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_SMART_PUSHER", Material.LIGHTNING_ROD), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_SMART_PUSHER", Material.LIGHTNING_ROD), Theme.MACHINE);
     // Grid
     public static final SlimefunItemStack NETWORK_GRID_NEW_STYLE =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_GRID_NEW_STYLE", Material.NOTE_BLOCK), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_GRID_NEW_STYLE", Material.NOTE_BLOCK), Theme.MACHINE);
     // Blueprints
     public static final SlimefunItemStack MAGIC_WORKBENCH_BLUEPRINT =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_MAGIC_WORKBENCH_BLUEPRINT", Material.RED_DYE), Theme.TOOL);
+        Theme.random(Lang.getItem("NTW_EXPANSION_MAGIC_WORKBENCH_BLUEPRINT", Material.RED_DYE), Theme.TOOL);
     public static final SlimefunItemStack ARMOR_FORGE_BLUEPRINT =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_ARMOR_FORGE_BLUEPRINT", Material.ORANGE_DYE), Theme.TOOL);
+        Theme.random(Lang.getItem("NTW_EXPANSION_ARMOR_FORGE_BLUEPRINT", Material.ORANGE_DYE), Theme.TOOL);
     public static final SlimefunItemStack SMELTERY_BLUEPRINT =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_SMELTERY_BLUEPRINT", Material.YELLOW_DYE), Theme.TOOL);
+        Theme.random(Lang.getItem("NTW_EXPANSION_SMELTERY_BLUEPRINT", Material.YELLOW_DYE), Theme.TOOL);
     public static final SlimefunItemStack QUANTUM_WORKBENCH_BLUEPRINT =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_QUANTUM_WORKBENCH_BLUEPRINT", Material.LIME_DYE), Theme.TOOL);
+        Theme.random(Lang.getItem("NTW_EXPANSION_QUANTUM_WORKBENCH_BLUEPRINT", Material.LIME_DYE), Theme.TOOL);
     public static final SlimefunItemStack ANCIENT_ALTAR_BLUEPRINT =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_ANCIENT_ALTAR_BLUEPRINT", Material.CYAN_DYE), Theme.TOOL);
+        Theme.random(Lang.getItem("NTW_EXPANSION_ANCIENT_ALTAR_BLUEPRINT", Material.CYAN_DYE), Theme.TOOL);
     public static final SlimefunItemStack EXPANSION_WORKBENCH_BLUEPRINT =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_EXPANSION_WORKBENCH_BLUEPRINT", Material.BROWN_DYE), Theme.TOOL);
+        Theme.random(Lang.getItem("NTW_EXPANSION_EXPANSION_WORKBENCH_BLUEPRINT", Material.BROWN_DYE), Theme.TOOL);
     public static final SlimefunItemStack COMPRESSOR_BLUEPRINT =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_COMPRESSOR_BLUEPRINT", Material.PINK_DYE), Theme.TOOL);
+        Theme.random(Lang.getItem("NTW_EXPANSION_COMPRESSOR_BLUEPRINT", Material.PINK_DYE), Theme.TOOL);
     public static final SlimefunItemStack GRIND_STONE_BLUEPRINT =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_GRIND_STONE_BLUEPRINT", Material.MAGENTA_DYE), Theme.TOOL);
+        Theme.random(Lang.getItem("NTW_EXPANSION_GRIND_STONE_BLUEPRINT", Material.MAGENTA_DYE), Theme.TOOL);
     public static final SlimefunItemStack JUICER_BLUEPRINT =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_JUICER_BLUEPRINT", Material.LIGHT_BLUE_DYE), Theme.TOOL);
+        Theme.random(Lang.getItem("NTW_EXPANSION_JUICER_BLUEPRINT", Material.LIGHT_BLUE_DYE), Theme.TOOL);
     public static final SlimefunItemStack ORE_CRUSHER_BLUEPRINT =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_ORE_CRUSHER_BLUEPRINT", Material.GRAY_DYE), Theme.TOOL);
+        Theme.random(Lang.getItem("NTW_EXPANSION_ORE_CRUSHER_BLUEPRINT", Material.GRAY_DYE), Theme.TOOL);
     public static final SlimefunItemStack PRESSURE_CHAMBER_BLUEPRINT =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_PRESSURE_CHAMBER_BLUEPRINT", Material.LIGHT_GRAY_DYE), Theme.TOOL);
+        Theme.random(Lang.getItem("NTW_EXPANSION_PRESSURE_CHAMBER_BLUEPRINT", Material.LIGHT_GRAY_DYE), Theme.TOOL);
     // Encoders
-    public static final SlimefunItemStack MAGIC_WORKBENCH_RECIPE_ENCODER = Theme.Random(
+    public static final SlimefunItemStack MAGIC_WORKBENCH_RECIPE_ENCODER = Theme.random(
         Lang.getItem("NTW_EXPANSION_MAGIC_WORKBENCH_RECIPE_ENCODER", Material.LODESTONE), Theme.MACHINE);
-    public static final SlimefunItemStack ARMOR_FORGE_RECIPE_ENCODER = Theme.Random(
+    public static final SlimefunItemStack ARMOR_FORGE_RECIPE_ENCODER = Theme.random(
         Lang.getItem("NTW_EXPANSION_ARMOR_FORGE_RECIPE_ENCODER", Material.FLETCHING_TABLE), Theme.MACHINE);
     public static final SlimefunItemStack SMELTERY_RECIPE_ENCODER =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_SMELTERY_RECIPE_ENCODER", Material.SHROOMLIGHT), Theme.MACHINE);
-    public static final SlimefunItemStack QUANTUM_WORKBENCH_RECIPE_ENCODER = Theme.Random(
+        Theme.random(Lang.getItem("NTW_EXPANSION_SMELTERY_RECIPE_ENCODER", Material.SHROOMLIGHT), Theme.MACHINE);
+    public static final SlimefunItemStack QUANTUM_WORKBENCH_RECIPE_ENCODER = Theme.random(
         Lang.getItem("NTW_EXPANSION_QUANTUM_WORKBENCH_RECIPE_ENCODER", Material.WET_SPONGE), Theme.MACHINE);
     public static final SlimefunItemStack ANCIENT_ALTAR_RECIPE_ENCODER =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_ANCIENT_ALTAR_RECIPE_ENCODER", Material.BEACON), Theme.MACHINE);
-    public static final SlimefunItemStack EXPANSION_WORKBENCH_RECIPE_ENCODER = Theme.Random(
+        Theme.random(Lang.getItem("NTW_EXPANSION_ANCIENT_ALTAR_RECIPE_ENCODER", Material.BEACON), Theme.MACHINE);
+    public static final SlimefunItemStack EXPANSION_WORKBENCH_RECIPE_ENCODER = Theme.random(
         Lang.getItem("NTW_EXPANSION_EXPANSION_WORKBENCH_RECIPE_ENCODER", Material.SEA_LANTERN), Theme.MACHINE);
     public static final SlimefunItemStack COMPRESSOR_RECIPE_ENCODER =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_COMPRESSOR_RECIPE_ENCODER", Material.PISTON), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_COMPRESSOR_RECIPE_ENCODER", Material.PISTON), Theme.MACHINE);
     public static final SlimefunItemStack GRIND_STONE_RECIPE_ENCODER =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_GRIND_STONE_RECIPE_ENCODER", Material.LOOM), Theme.MACHINE);
-    public static final SlimefunItemStack JUICER_RECIPE_ENCODER = Theme.Random(
+        Theme.random(Lang.getItem("NTW_EXPANSION_GRIND_STONE_RECIPE_ENCODER", Material.LOOM), Theme.MACHINE);
+    public static final SlimefunItemStack JUICER_RECIPE_ENCODER = Theme.random(
         Lang.getItem("NTW_EXPANSION_JUICER_RECIPE_ENCODER", Material.VERDANT_FROGLIGHT), Theme.MACHINE);
     public static final SlimefunItemStack ORE_CRUSHER_RECIPE_ENCODER =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_ORE_CRUSHER_RECIPE_ENCODER", Material.CAULDRON), Theme.MACHINE);
-    public static final SlimefunItemStack PRESSURE_CHAMBER_RECIPE_ENCODER = Theme.Random(
+        Theme.random(Lang.getItem("NTW_EXPANSION_ORE_CRUSHER_RECIPE_ENCODER", Material.CAULDRON), Theme.MACHINE);
+    public static final SlimefunItemStack PRESSURE_CHAMBER_RECIPE_ENCODER = Theme.random(
         Lang.getItem("NTW_EXPANSION_PRESSURE_CHAMBER_RECIPE_ENCODER", Material.STICKY_PISTON), Theme.MACHINE);
     // Auto Crafters
     public static final SlimefunItemStack AUTO_MAGIC_WORKBENCH =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_AUTO_MAGIC_WORKBENCH", Material.BOOKSHELF), Theme.MACHINE);
-    public static final SlimefunItemStack AUTO_MAGIC_WORKBENCH_WITHHOLDING = Theme.Random(
+        Theme.random(Lang.getItem("NTW_EXPANSION_AUTO_MAGIC_WORKBENCH", Material.BOOKSHELF), Theme.MACHINE);
+    public static final SlimefunItemStack AUTO_MAGIC_WORKBENCH_WITHHOLDING = Theme.random(
         Lang.getItem("NTW_EXPANSION_AUTO_MAGIC_WORKBENCH_WITHHOLDING", Material.CHISELED_BOOKSHELF), Theme.MACHINE);
     public static final SlimefunItemStack AUTO_ARMOR_FORGE =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_AUTO_ARMOR_FORGE", Material.SMITHING_TABLE), Theme.MACHINE);
-    public static final SlimefunItemStack AUTO_ARMOR_FORGE_WITHHOLDING = Theme.Random(
+        Theme.random(Lang.getItem("NTW_EXPANSION_AUTO_ARMOR_FORGE", Material.SMITHING_TABLE), Theme.MACHINE);
+    public static final SlimefunItemStack AUTO_ARMOR_FORGE_WITHHOLDING = Theme.random(
         Lang.getItem("NTW_EXPANSION_AUTO_ARMOR_FORGE_WITHHOLDING", Material.CARTOGRAPHY_TABLE), Theme.MACHINE);
     public static final SlimefunItemStack AUTO_SMELTERY =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_AUTO_SMELTERY", Material.FURNACE), Theme.MACHINE);
-    public static final SlimefunItemStack AUTO_SMELTERY_WITHHOLDING = Theme.Random(
+        Theme.random(Lang.getItem("NTW_EXPANSION_AUTO_SMELTERY", Material.FURNACE), Theme.MACHINE);
+    public static final SlimefunItemStack AUTO_SMELTERY_WITHHOLDING = Theme.random(
         Lang.getItem("NTW_EXPANSION_AUTO_SMELTERY_WITHHOLDING", Material.BLAST_FURNACE), Theme.MACHINE);
-    public static final SlimefunItemStack AUTO_QUANTUM_WORKBENCH = Theme.Random(
+    public static final SlimefunItemStack AUTO_QUANTUM_WORKBENCH = Theme.random(
         Lang.getItem("NTW_EXPANSION_AUTO_QUANTUM_WORKBENCH", Material.BRAIN_CORAL_BLOCK), Theme.MACHINE);
-    public static final SlimefunItemStack AUTO_QUANTUM_WORKBENCH_WITHHOLDING = Theme.Random(
+    public static final SlimefunItemStack AUTO_QUANTUM_WORKBENCH_WITHHOLDING = Theme.random(
         Lang.getItem("NTW_EXPANSION_AUTO_QUANTUM_WORKBENCH_WITHHOLDING", Material.DRIED_KELP_BLOCK), Theme.MACHINE);
     public static final SlimefunItemStack AUTO_ANCIENT_ALTAR =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_AUTO_ANCIENT_ALTAR", Material.ENCHANTING_TABLE), Theme.MACHINE);
-    public static final SlimefunItemStack AUTO_ANCIENT_ALTAR_WITHHOLDING = Theme.Random(
+        Theme.random(Lang.getItem("NTW_EXPANSION_AUTO_ANCIENT_ALTAR", Material.ENCHANTING_TABLE), Theme.MACHINE);
+    public static final SlimefunItemStack AUTO_ANCIENT_ALTAR_WITHHOLDING = Theme.random(
         Lang.getItem("NTW_EXPANSION_AUTO_ANCIENT_ALTAR_WITHHOLDING", Material.CALIBRATED_SCULK_SENSOR),
         Theme.MACHINE);
-    public static final SlimefunItemStack AUTO_EXPANSION_WORKBENCH = Theme.Random(
+    public static final SlimefunItemStack AUTO_EXPANSION_WORKBENCH = Theme.random(
         Lang.getItem("NTW_EXPANSION_AUTO_EXPANSION_WORKBENCH", Material.FIRE_CORAL_BLOCK), Theme.MACHINE);
-    public static final SlimefunItemStack AUTO_EXPANSION_WORKBENCH_WITHHOLDING = Theme.Random(
+    public static final SlimefunItemStack AUTO_EXPANSION_WORKBENCH_WITHHOLDING = Theme.random(
         Lang.getItem("NTW_EXPANSION_AUTO_EXPANSION_WORKBENCH_WITHHOLDING", Material.HORN_CORAL_BLOCK),
         Theme.MACHINE);
     public static final SlimefunItemStack AUTO_COMPRESSOR =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_AUTO_COMPRESSOR", Material.COMPOSTER), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_AUTO_COMPRESSOR", Material.COMPOSTER), Theme.MACHINE);
     public static final SlimefunItemStack AUTO_COMPRESSOR_WITHHOLDING =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_AUTO_COMPRESSOR_WITHHOLDING", Material.JUKEBOX), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_AUTO_COMPRESSOR_WITHHOLDING", Material.JUKEBOX), Theme.MACHINE);
     public static final SlimefunItemStack AUTO_GRIND_STONE =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_AUTO_GRIND_STONE", Material.DROPPER), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_AUTO_GRIND_STONE", Material.DROPPER), Theme.MACHINE);
     public static final SlimefunItemStack AUTO_GRIND_STONE_WITHHOLDING =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_AUTO_GRIND_STONE_WITHHOLDING", Material.DISPENSER), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_AUTO_GRIND_STONE_WITHHOLDING", Material.DISPENSER), Theme.MACHINE);
     public static final SlimefunItemStack AUTO_JUICER =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_AUTO_JUICER", Material.MOSS_BLOCK), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_AUTO_JUICER", Material.MOSS_BLOCK), Theme.MACHINE);
     public static final SlimefunItemStack AUTO_JUICER_WITHHOLDING =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_AUTO_JUICER_WITHHOLDING", Material.MUD), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_AUTO_JUICER_WITHHOLDING", Material.MUD), Theme.MACHINE);
     public static final SlimefunItemStack AUTO_ORE_CRUSHER =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_AUTO_ORE_CRUSHER", Material.RAW_IRON_BLOCK), Theme.MACHINE);
-    public static final SlimefunItemStack AUTO_ORE_CRUSHER_WITHHOLDING = Theme.Random(
+        Theme.random(Lang.getItem("NTW_EXPANSION_AUTO_ORE_CRUSHER", Material.RAW_IRON_BLOCK), Theme.MACHINE);
+    public static final SlimefunItemStack AUTO_ORE_CRUSHER_WITHHOLDING = Theme.random(
         Lang.getItem("NTW_EXPANSION_AUTO_ORE_CRUSHER_WITHHOLDING", Material.RAW_GOLD_BLOCK), Theme.MACHINE);
     public static final SlimefunItemStack AUTO_PRESSURE_CHAMBER =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_AUTO_PRESSURE_CHAMBER", Material.SMOOTH_STONE), Theme.MACHINE);
-    public static final SlimefunItemStack AUTO_PRESSURE_CHAMBER_WITHHOLDING = Theme.Random(
+        Theme.random(Lang.getItem("NTW_EXPANSION_AUTO_PRESSURE_CHAMBER", Material.SMOOTH_STONE), Theme.MACHINE);
+    public static final SlimefunItemStack AUTO_PRESSURE_CHAMBER_WITHHOLDING = Theme.random(
         Lang.getItem("NTW_EXPANSION_AUTO_PRESSURE_CHAMBER_WITHHOLDING", Material.SMOOTH_SANDSTONE), Theme.MACHINE);
     // Advanced Auto Crafters
-    public static final SlimefunItemStack ADVANCED_AUTO_MAGIC_WORKBENCH = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_MAGIC_WORKBENCH = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_AUTO_MAGIC_WORKBENCH", enchanted(Material.BOOKSHELF)), Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_MAGIC_WORKBENCH_WITHHOLDING = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_MAGIC_WORKBENCH_WITHHOLDING = Theme.random(
         Lang.getItem(
             "NTW_EXPANSION_ADVANCED_AUTO_MAGIC_WORKBENCH_WITHHOLDING", enchanted(Material.CHISELED_BOOKSHELF)),
         Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_ARMOR_FORGE = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_ARMOR_FORGE = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_AUTO_ARMOR_FORGE", enchanted(Material.SMITHING_TABLE)), Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_ARMOR_FORGE_WITHHOLDING = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_ARMOR_FORGE_WITHHOLDING = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_AUTO_ARMOR_FORGE_WITHHOLDING", enchanted(Material.CARTOGRAPHY_TABLE)),
         Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_SMELTERY = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_SMELTERY = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_AUTO_SMELTERY", enchanted(Material.FURNACE)), Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_SMELTERY_WITHHOLDING = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_SMELTERY_WITHHOLDING = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_AUTO_SMELTERY_WITHHOLDING", enchanted(Material.BLAST_FURNACE)),
         Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_QUANTUM_WORKBENCH = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_QUANTUM_WORKBENCH = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_AUTO_QUANTUM_WORKBENCH", enchanted(Material.BRAIN_CORAL_BLOCK)),
         Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_QUANTUM_WORKBENCH_WITHHOLDING = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_QUANTUM_WORKBENCH_WITHHOLDING = Theme.random(
         Lang.getItem(
             "NTW_EXPANSION_ADVANCED_AUTO_QUANTUM_WORKBENCH_WITHHOLDING", enchanted(Material.DRIED_KELP_BLOCK)),
         Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_ANCIENT_ALTAR = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_ANCIENT_ALTAR = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_AUTO_ANCIENT_ALTAR", enchanted(Material.ENCHANTING_TABLE)),
         Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING = Theme.random(
         Lang.getItem(
             "NTW_EXPANSION_ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING",
             enchanted(Material.CALIBRATED_SCULK_SENSOR)),
         Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_EXPANSION_WORKBENCH = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_EXPANSION_WORKBENCH = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_AUTO_EXPANSION_WORKBENCH", enchanted(Material.FIRE_CORAL_BLOCK)),
         Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_EXPANSION_WORKBENCH_WITHHOLDING = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_EXPANSION_WORKBENCH_WITHHOLDING = Theme.random(
         Lang.getItem(
             "NTW_EXPANSION_ADVANCED_AUTO_EXPANSION_WORKBENCH_WITHHOLDING",
             enchanted(Material.HORN_CORAL_BLOCK)),
         Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_COMPRESSOR = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_COMPRESSOR = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_AUTO_COMPRESSOR", enchanted(Material.COMPOSTER)), Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_COMPRESSOR_WITHHOLDING = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_COMPRESSOR_WITHHOLDING = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_AUTO_COMPRESSOR_WITHHOLDING", enchanted(Material.JUKEBOX)),
         Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_GRIND_STONE = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_GRIND_STONE = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_AUTO_GRIND_STONE", enchanted(Material.DROPPER)), Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_GRIND_STONE_WITHHOLDING = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_GRIND_STONE_WITHHOLDING = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_AUTO_GRIND_STONE_WITHHOLDING", enchanted(Material.DISPENSER)),
         Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_JUICER = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_JUICER = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_AUTO_JUICER", enchanted(Material.MOSS_BLOCK)), Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_JUICER_WITHHOLDING = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_JUICER_WITHHOLDING = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_AUTO_JUICER_WITHHOLDING", enchanted(Material.MUD)), Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_ORE_CRUSHER = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_ORE_CRUSHER = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_AUTO_ORE_CRUSHER", enchanted(Material.RAW_IRON_BLOCK)), Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_ORE_CRUSHER_WITHHOLDING = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_ORE_CRUSHER_WITHHOLDING = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_AUTO_ORE_CRUSHER_WITHHOLDING", enchanted(Material.RAW_GOLD_BLOCK)),
         Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_PRESSURE_CHAMBER = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_PRESSURE_CHAMBER = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_AUTO_PRESSURE_CHAMBER", enchanted(Material.SMOOTH_STONE)),
         Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_PRESSURE_CHAMBER_WITHHOLDING = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_PRESSURE_CHAMBER_WITHHOLDING = Theme.random(
         Lang.getItem(
             "NTW_EXPANSION_ADVANCED_AUTO_PRESSURE_CHAMBER_WITHHOLDING", enchanted(Material.SMOOTH_SANDSTONE)),
         Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_CRAFTING_TABLE = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_CRAFTING_TABLE = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_AUTO_CRAFTING", enchanted(Material.CRAFTING_TABLE)), Theme.MACHINE);
-    public static final SlimefunItemStack ADVANCED_AUTO_CRAFTING_TABLE_WITHHOLDING = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_AUTO_CRAFTING_TABLE_WITHHOLDING = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_AUTO_CRAFTING_WITHHOLDING", enchanted(Material.CRAFTING_TABLE)),
         Theme.MACHINE);
     // Bridges
     public static final SlimefunItemStack NETWORK_BRIDGE_WHITE =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_BRIDGE_WHITE", Material.WHITE_STAINED_GLASS), Theme.MACHINE);
-    public static final SlimefunItemStack NETWORK_BRIDGE_LIGHT_GRAY = Theme.Random(
+        Theme.random(Lang.getItem("NTW_EXPANSION_BRIDGE_WHITE", Material.WHITE_STAINED_GLASS), Theme.MACHINE);
+    public static final SlimefunItemStack NETWORK_BRIDGE_LIGHT_GRAY = Theme.random(
         Lang.getItem("NTW_EXPANSION_BRIDGE_LIGHT_GRAY", Material.LIGHT_GRAY_STAINED_GLASS), Theme.MACHINE);
     public static final SlimefunItemStack NETWORK_BRIDGE_GRAY =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_BRIDGE_GRAY", Material.GRAY_STAINED_GLASS), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_BRIDGE_GRAY", Material.GRAY_STAINED_GLASS), Theme.MACHINE);
     public static final SlimefunItemStack NETWORK_BRIDGE_BLACK =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_BRIDGE_BLACK", Material.BLACK_STAINED_GLASS), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_BRIDGE_BLACK", Material.BLACK_STAINED_GLASS), Theme.MACHINE);
     public static final SlimefunItemStack NETWORK_BRIDGE_BROWN =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_BRIDGE_BROWN", Material.BROWN_STAINED_GLASS), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_BRIDGE_BROWN", Material.BROWN_STAINED_GLASS), Theme.MACHINE);
     public static final SlimefunItemStack NETWORK_BRIDGE_RED =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_BRIDGE_RED", Material.RED_STAINED_GLASS), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_BRIDGE_RED", Material.RED_STAINED_GLASS), Theme.MACHINE);
     public static final SlimefunItemStack NETWORK_BRIDGE_ORANGE =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_BRIDGE_ORANGE", Material.ORANGE_STAINED_GLASS), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_BRIDGE_ORANGE", Material.ORANGE_STAINED_GLASS), Theme.MACHINE);
     public static final SlimefunItemStack NETWORK_BRIDGE_YELLOW =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_BRIDGE_YELLOW", Material.YELLOW_STAINED_GLASS), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_BRIDGE_YELLOW", Material.YELLOW_STAINED_GLASS), Theme.MACHINE);
     public static final SlimefunItemStack NETWORK_BRIDGE_LIME =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_BRIDGE_LIME", Material.LIME_STAINED_GLASS), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_BRIDGE_LIME", Material.LIME_STAINED_GLASS), Theme.MACHINE);
     public static final SlimefunItemStack NETWORK_BRIDGE_GREEN =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_BRIDGE_GREEN", Material.GREEN_STAINED_GLASS), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_BRIDGE_GREEN", Material.GREEN_STAINED_GLASS), Theme.MACHINE);
     public static final SlimefunItemStack NETWORK_BRIDGE_CYAN =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_BRIDGE_CYAN", Material.CYAN_STAINED_GLASS), Theme.MACHINE);
-    public static final SlimefunItemStack NETWORK_BRIDGE_LIGHT_BLUE = Theme.Random(
+        Theme.random(Lang.getItem("NTW_EXPANSION_BRIDGE_CYAN", Material.CYAN_STAINED_GLASS), Theme.MACHINE);
+    public static final SlimefunItemStack NETWORK_BRIDGE_LIGHT_BLUE = Theme.random(
         Lang.getItem("NTW_EXPANSION_BRIDGE_LIGHT_BLUE", Material.LIGHT_BLUE_STAINED_GLASS), Theme.MACHINE);
     public static final SlimefunItemStack NETWORK_BRIDGE_BLUE =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_BRIDGE_BLUE", Material.BLUE_STAINED_GLASS), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_BRIDGE_BLUE", Material.BLUE_STAINED_GLASS), Theme.MACHINE);
     public static final SlimefunItemStack NETWORK_BRIDGE_PURPLE =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_BRIDGE_PURPLE", Material.PURPLE_STAINED_GLASS), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_BRIDGE_PURPLE", Material.PURPLE_STAINED_GLASS), Theme.MACHINE);
     public static final SlimefunItemStack NETWORK_BRIDGE_MAGENTA =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_BRIDGE_MAGENTA", Material.MAGENTA_STAINED_GLASS), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_BRIDGE_MAGENTA", Material.MAGENTA_STAINED_GLASS), Theme.MACHINE);
     public static final SlimefunItemStack NETWORK_BRIDGE_PINK =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_BRIDGE_PINK", Material.PINK_STAINED_GLASS), Theme.MACHINE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_BRIDGE_PINK", Material.PINK_STAINED_GLASS), Theme.MACHINE);
     // Storages
-    public static final SlimefunItemStack ADVANCED_QUANTUM_STORAGE = Theme.Random(
+    public static final SlimefunItemStack ADVANCED_QUANTUM_STORAGE = Theme.random(
         Lang.getItem("NTW_EXPANSION_ADVANCED_QUANTUM_STORAGE", Material.AMETHYST_BLOCK), Theme.MACHINE);
     public static final SlimefunItemStack LINE_POWER_OUTLET_1 = Theme.themedSlimefunItemStack(
         Lang.getItem("NTW_EXPANSION_LINE_POWER_OUTLET_1", Material.WHITE_WOOL), Theme.MACHINE);
@@ -350,43 +348,43 @@ public class ExpansionItemStacks {
     public static final SlimefunItemStack LINE_POWER_OUTLET_11 = Theme.themedSlimefunItemStack(
         Lang.getItem("NTW_EXPANSION_LINE_POWER_OUTLET_11", Material.CYAN_WOOL), Theme.MACHINE);
     public static final SlimefunItemStack AUTHOR_SEFIRAAT =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_AUTHOR_SEFIRAAT", Skins.AUTHOR_SEFIRAAT.getHash()), Theme.GUIDE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_AUTHOR_SEFIRAAT", Skins.AUTHOR_SEFIRAAT.getHash()), Theme.GUIDE);
     public static final SlimefunItemStack AUTHOR_YBW0014 =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_AUTHOR_YBW0014", Skins.AUTHOR_YBW0014.getHash()), Theme.GUIDE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_AUTHOR_YBW0014", Skins.AUTHOR_YBW0014.getHash()), Theme.GUIDE);
     public static final SlimefunItemStack AUTHOR_YITOUDAIDAI =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_AUTHOR_YITOUDAIDAI", Material.PLAYER_HEAD), Theme.GUIDE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_AUTHOR_YITOUDAIDAI", Material.PLAYER_HEAD), Theme.GUIDE);
     public static final SlimefunItemStack AUTHOR_TINALNESS =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_AUTHOR_TINALNESS", Skins.AUTHOR_TINALNESS.getHash()), Theme.GUIDE);
+        Theme.random(Lang.getItem("NTW_EXPANSION_AUTHOR_TINALNESS", Skins.AUTHOR_TINALNESS.getHash()), Theme.GUIDE);
     // Cargo Nodes
     public static final SlimefunItemStack CARGO_NODE_QUICK_TOOL =
-        Theme.Random(Lang.getItem("NTW_EXPANSION_CARGO_NODE_QUICK_TOOL", Material.BONE), Theme.MACHINE);
-    public static final SlimefunItemStack STORAGE_UNIT_UPGRADE_TABLE = Theme.Random(
+        Theme.random(Lang.getItem("NTW_EXPANSION_CARGO_NODE_QUICK_TOOL", Material.BONE), Theme.MACHINE);
+    public static final SlimefunItemStack STORAGE_UNIT_UPGRADE_TABLE = Theme.random(
         Lang.getItem("NTW_EXPANSION_STORAGE_UPGRADE_TABLE", Material.CARTOGRAPHY_TABLE), Theme.MACHINE);
-    public static final SlimefunItemStack CARGO_STORAGE_UNIT_1 = Theme.Random(
+    public static final SlimefunItemStack CARGO_STORAGE_UNIT_1 = Theme.random(
         Lang.getItem("NTW_EXPANSION_CARGO_STORAGE_UNIT_1", Material.CHISELED_BOOKSHELF), Theme.MACHINE);
-    public static final SlimefunItemStack CARGO_STORAGE_UNIT_2 = Theme.Random(
+    public static final SlimefunItemStack CARGO_STORAGE_UNIT_2 = Theme.random(
         Lang.getItem("NTW_EXPANSION_CARGO_STORAGE_UNIT_2", Material.CHISELED_BOOKSHELF), Theme.MACHINE);
-    public static final SlimefunItemStack CARGO_STORAGE_UNIT_3 = Theme.Random(
+    public static final SlimefunItemStack CARGO_STORAGE_UNIT_3 = Theme.random(
         Lang.getItem("NTW_EXPANSION_CARGO_STORAGE_UNIT_3", Material.CHISELED_BOOKSHELF), Theme.MACHINE);
-    public static final SlimefunItemStack CARGO_STORAGE_UNIT_4 = Theme.Random(
+    public static final SlimefunItemStack CARGO_STORAGE_UNIT_4 = Theme.random(
         Lang.getItem("NTW_EXPANSION_CARGO_STORAGE_UNIT_4", Material.CHISELED_BOOKSHELF), Theme.MACHINE);
-    public static final SlimefunItemStack CARGO_STORAGE_UNIT_5 = Theme.Random(
+    public static final SlimefunItemStack CARGO_STORAGE_UNIT_5 = Theme.random(
         Lang.getItem("NTW_EXPANSION_CARGO_STORAGE_UNIT_5", Material.CHISELED_BOOKSHELF), Theme.MACHINE);
-    public static final SlimefunItemStack CARGO_STORAGE_UNIT_6 = Theme.Random(
+    public static final SlimefunItemStack CARGO_STORAGE_UNIT_6 = Theme.random(
         Lang.getItem("NTW_EXPANSION_CARGO_STORAGE_UNIT_6", Material.CHISELED_BOOKSHELF), Theme.MACHINE);
-    public static final SlimefunItemStack CARGO_STORAGE_UNIT_7 = Theme.Random(
+    public static final SlimefunItemStack CARGO_STORAGE_UNIT_7 = Theme.random(
         Lang.getItem("NTW_EXPANSION_CARGO_STORAGE_UNIT_7", Material.CHISELED_BOOKSHELF), Theme.MACHINE);
-    public static final SlimefunItemStack CARGO_STORAGE_UNIT_8 = Theme.Random(
+    public static final SlimefunItemStack CARGO_STORAGE_UNIT_8 = Theme.random(
         Lang.getItem("NTW_EXPANSION_CARGO_STORAGE_UNIT_8", Material.CHISELED_BOOKSHELF), Theme.MACHINE);
-    public static final SlimefunItemStack CARGO_STORAGE_UNIT_9 = Theme.Random(
+    public static final SlimefunItemStack CARGO_STORAGE_UNIT_9 = Theme.random(
         Lang.getItem("NTW_EXPANSION_CARGO_STORAGE_UNIT_9", Material.CHISELED_BOOKSHELF), Theme.MACHINE);
-    public static final SlimefunItemStack CARGO_STORAGE_UNIT_10 = Theme.Random(
+    public static final SlimefunItemStack CARGO_STORAGE_UNIT_10 = Theme.random(
         Lang.getItem("NTW_EXPANSION_CARGO_STORAGE_UNIT_10", Material.CHISELED_BOOKSHELF), Theme.MACHINE);
-    public static final SlimefunItemStack CARGO_STORAGE_UNIT_11 = Theme.Random(
+    public static final SlimefunItemStack CARGO_STORAGE_UNIT_11 = Theme.random(
         Lang.getItem("NTW_EXPANSION_CARGO_STORAGE_UNIT_11", Material.CHISELED_BOOKSHELF), Theme.MACHINE);
-    public static final SlimefunItemStack CARGO_STORAGE_UNIT_12 = Theme.Random(
+    public static final SlimefunItemStack CARGO_STORAGE_UNIT_12 = Theme.random(
         Lang.getItem("NTW_EXPANSION_CARGO_STORAGE_UNIT_12", Material.CHISELED_BOOKSHELF), Theme.MACHINE);
-    public static final SlimefunItemStack CARGO_STORAGE_UNIT_13 = Theme.Random(
+    public static final SlimefunItemStack CARGO_STORAGE_UNIT_13 = Theme.random(
         Lang.getItem("NTW_EXPANSION_CARGO_STORAGE_UNIT_13", Material.CHISELED_BOOKSHELF), Theme.MACHINE);
     public static final SlimefunItemStack CARGO_STORAGE_UNIT_1_MODEL = Theme.model(
         Lang.getItem("NTW_EXPANSION_CARGO_STORAGE_UNIT_1_MODEL", Skins.CARGO_STORAGE_UNIT_1_MODEL.getHash()),
@@ -491,6 +489,8 @@ public class ExpansionItemStacks {
         Lang.getItem("NTW_EXPANSION_WHITELISTED_TRANSFER_VANILLA_GRABBER", Material.CYAN_STAINED_GLASS), Theme.MACHINE);
     public static final SlimefunItemStack WHITELISTED_LINE_TRANSFER_VANILLA_GRABBER = Theme.themedSlimefunItemStack(
         Lang.getItem("NTW_EXPANSION_WHITELISTED_LINE_TRANSFER_VANILLA_GRABBER", Material.YELLOW_STAINED_GLASS), Theme.MACHINE);
+    public static final SlimefunItemStack SMART_NETWORK_CRAFTING_GRID_NEW_STYLE = Theme.themedSlimefunItemStack(
+        Lang.getItem("NTW_EXPANSION_SMART_NETWORK_CRAFTING_GRID_NEW_STYLE", Material.CRAFTING_TABLE), Theme.MACHINE);
 
 
     public static @NotNull ItemStack enchanted(@NotNull Material material) {

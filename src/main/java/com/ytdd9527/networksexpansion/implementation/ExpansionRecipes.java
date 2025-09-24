@@ -1688,4 +1688,10 @@ public class ExpansionRecipes {
         ExpansionItemStacks.WHITELISTED_TRANSFER_VANILLA_GRABBER, NETWORK_GRABBER.getItem(), ExpansionItemStacks.WHITELISTED_TRANSFER_VANILLA_GRABBER,
         OPTIC_STAR.getItem(), ExpansionItemStacks.WHITELISTED_TRANSFER_VANILLA_GRABBER, OPTIC_STAR.getItem()
     };
+
+    public static final ItemStack[] SMART_NETWORK_CRAFTING_GRID_NEW_STYLE = new ItemStack[]{
+        NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(),
+        NETWORK_BRIDGE.getItem(), ExpansionItemStacks.NETWORK_CRAFTING_GRID_NEW_STYLE, NETWORK_BRIDGE.getItem(),
+        NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem()
+    };
 }

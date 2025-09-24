@@ -1,7 +1,10 @@
 package io.github.sefiraat.networks;
 
+import com.balugaq.netex.api.algorithm.ID;
 import com.balugaq.netex.api.data.ItemFlowRecord;
 import com.balugaq.netex.api.enums.MinecraftVersion;
+import com.balugaq.netex.api.keybind.Keybinds;
+import com.balugaq.netex.core.guide.GridNewStyleCustomAmountGuideOption;
 import com.balugaq.netex.utils.Debug;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -21,6 +24,7 @@ import io.github.sefiraat.networks.slimefun.network.AdminDebuggable;
 import io.github.sefiraat.networks.slimefun.network.NetworkController;
 import io.github.sefiraat.networks.utils.NetworkUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import lombok.Getter;
@@ -212,14 +216,24 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
                 Slimefun.getTickerTask().getTickRate());
 
         AdminDebuggable.load();
+        SlimefunGuideSettings.addOption(GridNewStyleCustomAmountGuideOption.instance());
+        Bukkit.getScheduler().runTaskLaterAsynchronously(this, Keybinds::distinctAll, 1L);
+        ID.fetchId();
+        Keybinds.fetchScripts();
         getLogger().info(getLocalizationService().getString("messages.startup.enabled-successfully"));
     }
 
     @Override
     public void onDisable() {
-        getLogger().info(getLocalizationService().getString("messages.shutdown.saving-config"));
-        this.configManager.saveAll();
-        getLogger().info(getLocalizationService().getString("messages.shutdown.disconnecting-database"));
+        try {
+            getLogger().info(getLocalizationService().getString("messages.shutdown.saving-config"));
+            ID.saveId();
+            this.configManager.saveAll();
+            getLogger().info(getLocalizationService().getString("messages.shutdown.disconnecting-database"));
+        } catch (Exception e) {
+            Debug.trace(e);
+        }
+
         if (autoSaveThread != null) {
             autoSaveThread.cancel();
         }
