@@ -20,7 +20,6 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
-@ToString
 public class NetworkNode {
 
     protected static final Set<BlockFace> VALID_FACES =

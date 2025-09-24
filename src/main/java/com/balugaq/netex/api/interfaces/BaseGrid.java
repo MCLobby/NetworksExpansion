@@ -30,11 +30,12 @@ public interface BaseGrid {
     Map<String, Keybinds> KEYBINDS = new HashMap<>();
 
     default Keybinds displayKeybinds() {
-        if (KEYBINDS.containsKey("display-keybinds")) {
-            return KEYBINDS.get("display-keybinds");
+        String key = "display-keybinds";
+        if (KEYBINDS.containsKey(key)) {
+            return KEYBINDS.get(key);
         }
 
-        return Keybinds.create(Keys.newKey("display-keybinds"), it -> {
+        Keybinds keybinds = Keybinds.create(Keys.newKey(key), it -> {
                 Keybind clickOnWithCursor = Keybind.of(Keys.newKey("clicked-item-not-equals-to-cursor"), (player, s, i, a, menu) -> {
                     NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
                     if (definition == null || definition.getNode() == null) return false;
@@ -79,14 +80,18 @@ public interface BaseGrid {
                 it.defaultActionResult(ActionResult.of(MultiActionHandle.CONTINUE, false));
             })
             .generate();
+
+        KEYBINDS.put(key, keybinds);
+        return keybinds;
     }
 
     default Keybinds outsideKeybinds() {
-        if (KEYBINDS.containsKey("outside-keybinds")) {
-            return KEYBINDS.get("outside-keybinds");
+        String key = "outside-keybinds";
+        if (KEYBINDS.containsKey(key)) {
+            return KEYBINDS.get(key);
         }
 
-        return Keybinds.create(Keys.newKey("outside-keybinds"), it -> {
+        Keybinds keybinds = Keybinds.create(Keys.newKey(key), it -> {
                 it.usableKeybinds(
                     Keybind.leftClick,
                     Keybind.rightClick,
@@ -112,6 +117,9 @@ public interface BaseGrid {
                 it.defaultActionResult(ActionResult.of(MultiActionHandle.CONTINUE, true));
             })
             .generate();
+
+        KEYBINDS.put(key, keybinds);
+        return keybinds;
     }
 
     @Nullable

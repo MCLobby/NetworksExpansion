@@ -173,6 +173,9 @@ public class Icon {
     public static final ItemStack RETURN_OUTPUT =
         Lang.getIcon("return-output", Material.DECORATED_POT);
 
+    public static final ItemStack CRAFT =
+        Lang.getIcon("craft", Material.CRAFTING_TABLE);
+
     // pages are 1-based
     @SuppressWarnings("deprecation")
     @NotNull

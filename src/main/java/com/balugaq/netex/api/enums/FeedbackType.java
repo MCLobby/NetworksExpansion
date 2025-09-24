@@ -56,7 +56,7 @@ public enum FeedbackType implements Keyed {
     WORKING,
     NOT_ALLOWED_ITEM,
     SOFT_CELL_BANNED,
-
+    TOO_MANY_ENTITIES,
     TICKING,
     TRANSFER_TICKING,
     TRANSFER_TRY_PUSH_ITEM_WITH_COUNTER,

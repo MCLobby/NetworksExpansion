@@ -2,6 +2,7 @@ package com.balugaq.netex.api.keybind;
 
 import com.balugaq.netex.api.algorithm.ID;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.utils.Debug;
 import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.utils.ReflectionUtil;
@@ -127,22 +128,29 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
     }
 
     public static void fetchScripts() {
-        File keybindsFolder = new File(Networks.getInstance().getDataFolder(), "keybinds");
-        File[] files = keybindsFolder.listFiles();
-        if (files == null) return;
-        for (File file : files) {
-            if (file.isFile() && file.getName().endsWith(".nkb")) {
-                Config config =
-                    new Config("plugins/" + Networks.getInstance().getName() + "/keybinds/" + file.getName());
-                KeybindsScript script = KeybindsScript.fromConfig(config);
-                if (script != null) {
-                    if (!keybindsScripts.containsKey(script.getKeybinds().getKey())) {
-                        keybindsScripts.put(script.getKeybinds().getKey(), new ArrayList<>());
+        try {
+            File keybindsFolder = new File(Networks.getInstance().getDataFolder(), "keybinds");
+            File[] files = keybindsFolder.listFiles();
+            if (files == null) return;
+            for (File file : files) {
+                if (file.isFile() && file.getName().endsWith(".nkb")) {
+                    Config config =
+                        new Config("plugins/" + Networks.getInstance().getName() + "/keybinds/" + file.getName());
+                    KeybindsScript script = KeybindsScript.fromConfig(config);
+                    if (script == null) continue;
+
+                    Keybinds keybinds = script.getKeybinds();
+                    if (keybinds == null) continue;
+
+                    if (!keybindsScripts.containsKey(keybinds.getKey())) {
+                        keybindsScripts.put(keybinds.getKey(), new ArrayList<>());
                     }
 
-                    keybindsScripts.get(script.getKeybinds().getKey()).add(script);
+                    keybindsScripts.get(keybinds.getKey()).add(script);
                 }
             }
+        } catch (Exception e) {
+            Debug.trace(e);
         }
     }
 

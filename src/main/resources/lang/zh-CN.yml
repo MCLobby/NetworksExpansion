@@ -65,6 +65,7 @@ messages:
     root_request_0: "无效，尝试获取0个物品"
     root_limiting_access_output: "getItemStack0被限制执行"
     root_limiting_access_input: "addItemStack0被限制执行"
+    too_many_entities: "周围实体过多"
   blueprint:
     title: "<click_info>已指定配方"
     empty: "<passive>空"
@@ -555,6 +556,11 @@ icons:
     name: "&6点击返回合成材料"
   return-output:
     name: "&6点击返回输出槽物品"
+  craft:
+    name: "&e合成"
+    lore:
+      - "左键点击: 合成1次"
+      - "右键点击: 合成64次"
   keybinds:
     scripts:
       display:
