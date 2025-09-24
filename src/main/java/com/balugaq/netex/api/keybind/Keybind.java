@@ -2,9 +2,7 @@ package com.balugaq.netex.api.keybind;
 
 import com.balugaq.netex.api.enums.AmountHandleStrategy;
 import com.balugaq.netex.api.interfaces.BaseGrid;
-import com.balugaq.netex.api.interfaces.functions.Function3;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.GridItemRequest;
 import io.github.sefiraat.networks.network.NodeDefinition;
@@ -60,19 +58,6 @@ public interface Keybind extends Keyed, Comparable<Keybind> {
         return Keybinds.getKeybind(key);
     }
 
-    default void set(Location location, Keybinds keybind, Action action) {
-        StorageCacheUtils.setData(location, keybind.keybindKey(getKey()), action.getKey().toString());
-    }
-
-    default Keybind register() {
-        Keybinds.register(this);
-        return this;
-    }
-
-    default int compareTo(@NotNull Keybind o) {
-        return getKey().compareTo(o.getKey());
-    }
-
     static Action gridActionGenerate(BaseGrid grid, AmountHandleStrategy strategy, boolean toInventory) {
         return Action.of(Keys.newKey(strategy.name().toLowerCase() + "-" + (toInventory ? "inv" : "cursor")), (player, s, i, a, menu) -> {
             NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
@@ -95,6 +80,19 @@ public interface Keybind extends Keyed, Comparable<Keybind> {
             grid.updateDisplay(menu);
             return ActionResult.of(MultiActionHandle.BREAK, false);
         });
+    }
+
+    default void set(Location location, Keybinds keybind, Action action) {
+        StorageCacheUtils.setData(location, keybind.keybindKey(getKey()), action.getKey().toString());
+    }
+
+    default Keybind register() {
+        Keybinds.register(this);
+        return this;
+    }
+
+    default int compareTo(@NotNull Keybind o) {
+        return getKey().compareTo(o.getKey());
     }
 
     boolean test(Player player, int slot, ItemStack item, ClickAction action, BlockMenu menu);

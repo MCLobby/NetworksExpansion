@@ -227,7 +227,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
             }
         }
 
-        // Go through each slimefun recipe, trigger and set the ItemStack if found
+        // Go through each slimefun recipe, test and set crafted if found
         if (crafted == null) {
             for (Map.Entry<ItemStack[], ItemStack> entry : getRecipeEntries()) {
                 if (testRecipe(inputs, entry.getKey())) {

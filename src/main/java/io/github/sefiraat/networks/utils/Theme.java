@@ -136,7 +136,7 @@ public enum Theme {
 
     @NotNull
     @ParametersAreNonnullByDefault
-    public static SlimefunItemStack Random(
+    public static SlimefunItemStack random(
         String id, ItemStack itemStack, Theme themeType, String name, String... lore) {
         String coloredName = TextUtil.colorPseudorandomString(name);
         ChatColor passiveColor = Theme.PASSIVE.getColor();
@@ -151,13 +151,13 @@ public enum Theme {
 
     @NotNull
     @ParametersAreNonnullByDefault
-    public static SlimefunItemStack Random(SlimefunItemStack sfis, Theme themeType) {
+    public static SlimefunItemStack random(SlimefunItemStack sfis, Theme themeType) {
         String id = sfis.getItemId();
         ItemStack itemStack = ItemStackUtil.getCleanItem(sfis);
         String name = sfis.getDisplayName();
         ItemMeta meta = sfis.getItemMeta();
         List<String> lore = meta == null ? new ArrayList<>() : meta.getLore();
-        return Random(
+        return random(
             id,
             itemStack,
             themeType,
@@ -167,7 +167,7 @@ public enum Theme {
 
     @NotNull
     @ParametersAreNonnullByDefault
-    public static SlimefunItemStack Random(String id, String texture, Theme themeType, String name, String... lore) {
+    public static SlimefunItemStack random(String id, String texture, Theme themeType, String name, String... lore) {
         String coloredName = TextUtil.colorPseudorandomString(name);
         ChatColor passiveColor = Theme.PASSIVE.getColor();
         List<String> finalLore = new ArrayList<>();

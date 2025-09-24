@@ -115,7 +115,6 @@ public class SetupUtil {
         /* functional machines */
         ExpansionItemsMenus.SUB_MENU_CORE_MACHINE.addTo(
             ExpansionItems.NETWORKS_EXPANSION_WORKBENCH.registerThis(),
-            ExpansionItems.NETWORKS_EXPANSION_6X6_WORKBENCH.registerThis(),
             ExpansionItems.STORAGE_UNIT_UPGRADE_TABLE.registerThis());
         ExpansionItemsMenus.SUB_MENU_ADVANCED_NETWORKS.addTo(
             ExpansionItems.ADVANCED_IMPORT.registerThis(),

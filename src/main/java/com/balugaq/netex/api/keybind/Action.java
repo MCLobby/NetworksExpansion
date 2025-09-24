@@ -17,7 +17,7 @@ public interface Action extends Keyed, Comparable<Action> {
     static Action of(NamespacedKey key, Function5<Player, Integer, ItemStack, ClickAction, BlockMenu, ActionResult> function) {
         return new Action() {
             @Override
-            public ActionResult apply(Player player, int slot, ItemStack item, ClickAction action, BlockMenu menu) throws IncompatibleKeybind {
+            public ActionResult apply(Player player, int slot, ItemStack item, ClickAction action, BlockMenu menu) {
                 return function.apply(player, slot, item, action, menu);
             }
 
@@ -42,5 +42,5 @@ public interface Action extends Keyed, Comparable<Action> {
         return this;
     }
 
-    ActionResult apply(Player player, int slot, ItemStack item, ClickAction action, BlockMenu menu) throws IncompatibleKeybind;
+    ActionResult apply(Player player, int slot, ItemStack item, ClickAction action, BlockMenu menu);
 }

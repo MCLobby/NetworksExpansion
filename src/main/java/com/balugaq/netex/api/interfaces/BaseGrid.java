@@ -124,9 +124,14 @@ public interface BaseGrid {
 
     @Nullable
     ItemStack precheck(NodeDefinition definition, BlockMenu blockMenu, Player player, ItemStack itemStack);
+
     void addToInventory(Player player, NodeDefinition definition, GridItemRequest request, BlockMenu menu);
+
     void addToCursor(Player player, NodeDefinition definition, GridItemRequest request, boolean rightClick, BlockMenu blockMenu);
+
     Map<Location, GridCache> getCacheMap();
+
     void updateDisplay(BlockMenu blockMenu);
+
     void receiveItem(Player player, ItemStack itemStack, ClickAction action, BlockMenu blockMenu);
 }

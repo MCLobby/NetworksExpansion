@@ -76,7 +76,6 @@ import com.ytdd9527.networksexpansion.implementation.machines.encoders.SmelteryE
 import com.ytdd9527.networksexpansion.implementation.machines.managers.CrafterManager;
 import com.ytdd9527.networksexpansion.implementation.machines.managers.DrawerManager;
 import com.ytdd9527.networksexpansion.implementation.machines.managers.QuantumManager;
-import com.ytdd9527.networksexpansion.implementation.machines.manual.Expansion6x6Workbench;
 import com.ytdd9527.networksexpansion.implementation.machines.manual.ExpansionWorkbench;
 import com.ytdd9527.networksexpansion.implementation.machines.manual.StorageUnitUpgradeTable;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.AdvancedExport;
@@ -116,13 +115,6 @@ public class ExpansionItems {
         ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH,
         RecipeType.ENHANCED_CRAFTING_TABLE,
         ExpansionRecipes.NETWORKS_EXPANSION_WORKBENCH);
-
-    @Deprecated
-    public static final Expansion6x6Workbench NETWORKS_EXPANSION_6X6_WORKBENCH = new Expansion6x6Workbench(
-        ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
-        ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH_6X6,
-        RecipeType.NULL,
-        ExpansionRecipes.NULL);
 
     public static final AdvancedImport ADVANCED_IMPORT = new AdvancedImport(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,

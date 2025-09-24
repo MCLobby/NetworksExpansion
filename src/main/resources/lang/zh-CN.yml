@@ -1144,11 +1144,6 @@ items:
     lore:
       - "可以合成网络拓展的各种材料和机器"
 
-  NTW_EXPANSION_WORKBENCH_6X6:
-    name: "网络拓展工作台 (6x6)"
-    lore:
-      - "不可以合成网络拓展的各种材料和机器"
-
   NTW_EXPANSION_WORLD_EDIT_AXE:
     name: "网络粘液创世神"
     lore:

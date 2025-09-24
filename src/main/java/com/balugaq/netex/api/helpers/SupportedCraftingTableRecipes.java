@@ -1,7 +1,5 @@
 package com.balugaq.netex.api.helpers;
 
-import com.balugaq.netex.api.interfaces.CanTestRecipe;
-import com.balugaq.netex.api.interfaces.RecipesHolder;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -12,14 +10,13 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Slimefu
 import lombok.experimental.UtilityClass;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings("JavaExistingMethodCanBeUsed")
 @UtilityClass
-public final class SupportedCraftingTableRecipes implements RecipesHolder, CanTestRecipe {
+public final class SupportedCraftingTableRecipes {
 
     private static final Map<ItemStack[], ItemStack> RECIPES = new HashMap<>();
 

@@ -90,8 +90,8 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
             }
 
             @Override
-            public int[] getSlotsAccessedByItemTransport(ItemTransportFlow itemTransportFlow) {
-                if (itemTransportFlow == ItemTransportFlow.WITHDRAW) {
+            public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
+                if (flow == ItemTransportFlow.WITHDRAW) {
                     return new int[]{OUTPUT_SLOT};
                 }
 

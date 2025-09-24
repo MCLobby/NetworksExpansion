@@ -19,14 +19,6 @@ public class Keys {
     public static final NamespacedKey ON_COOLDOWN2 = customNewKey(NETWORKS_ID, "cooldown");
     public static final NamespacedKey ON_COOLDOWN3 = customNewKey(NETWORKS_CHANGED_ID, "cooldown");
 
-    public static final NamespacedKey CARD_INSTANCE = newKey("ntw_card");
-
-    @Deprecated
-    public static final NamespacedKey CARD_INSTANCE2 = customNewKey(NETWORKS_ID, "ntw_card");
-
-    @Deprecated
-    public static final NamespacedKey CARD_INSTANCE3 = customNewKey(NETWORKS_CHANGED_ID, "ntw_card");
-
     public static final NamespacedKey QUANTUM_STORAGE_INSTANCE = newKey("quantum_storage");
     public static final NamespacedKey QUANTUM_STORAGE_INSTANCE2 = customNewKey(NETWORKS_ID, "quantum_storage");
     public static final NamespacedKey QUANTUM_STORAGE_INSTANCE3 = customNewKey(NETWORKS_CHANGED_ID, "quantum_storage");
