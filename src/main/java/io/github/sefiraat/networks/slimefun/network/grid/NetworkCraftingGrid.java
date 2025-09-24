@@ -285,7 +285,7 @@ public class NetworkCraftingGrid extends AbstractGrid {
                 if (menu.getItemInSlot(recipeSlot) == null) {
                     // Process item request
                     final GridItemRequest request = new GridItemRequest(itemInSlotClone, 1, player);
-                    final ItemStack requestingStack = root.getItemStack0(menu.getLocation(), request);
+                    final ItemStack requestingStack = root.getItemStack( request);
                     if (requestingStack != null) {
                         menu.replaceExistingItem(recipeSlot, requestingStack);
                     }

@@ -90,12 +90,12 @@ public @Data class Keybinds implements ChestMenu.MenuClickHandler, Keyed {
         return action;
     }
 
-    public static Keybinds create(NamespacedKey item) {
-        return new Keybinds(item);
+    public static Keybinds create(NamespacedKey key) {
+        return new Keybinds(key);
     }
 
-    public static Keybinds create(NamespacedKey item, Consumer<Keybinds> consumer) {
-        return new Keybinds(item).set(consumer);
+    public static Keybinds create(NamespacedKey key, Consumer<Keybinds> consumer) {
+        return new Keybinds(key).set(consumer);
     }
 
     public static void distinctAll() {

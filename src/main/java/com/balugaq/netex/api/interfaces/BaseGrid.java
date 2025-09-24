@@ -87,14 +87,13 @@ public interface BaseGrid {
         }
 
         return Keybinds.create(Keys.newKey("outside-keybinds"), it -> {
-                it
-                    .usableKeybinds(
-                        Keybind.leftClick,
-                        Keybind.rightClick,
-                        Keybind.shiftLeftClick,
-                        Keybind.shiftRightClick,
-                        Keybind.shiftClick
-                    );
+                it.usableKeybinds(
+                    Keybind.leftClick,
+                    Keybind.rightClick,
+                    Keybind.shiftLeftClick,
+                    Keybind.shiftRightClick,
+                    Keybind.shiftClick
+                );
 
                 Action storeItem = Action.of(Keys.newKey("store-item"), (p, s, i, a, menu) -> {
                     receiveItem(p, i, a, menu);

@@ -107,7 +107,8 @@ public class SetupUtil {
             ExpansionItems.CRAFTER_MANAGER.registerThis(),
             ExpansionItems.ITEM_FLOW_VIEWER.registerThis(),
             ExpansionItems.SWITCHING_MONITOR.registerThis(),
-            ExpansionItems.HANGING_GRID_NEW_STYLE.registerThis());
+            ExpansionItems.HANGING_GRID_NEW_STYLE.registerThis(),
+            ExpansionItems.SMART_NETWORK_CRAFTING_GRID_NEW_STYLE.registerThis());
 
         ExpansionItemsMenus.SUB_MENU_CARGO.addTo(
             ExpansionItems.SMART_GRABBER.registerThis(), ExpansionItems.SMART_PUSHER.registerThis());

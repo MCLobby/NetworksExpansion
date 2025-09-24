@@ -1066,4 +1066,36 @@ public final class ItemStackUtil {
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
+
+    @SuppressWarnings("deprecation")
+    public static void consumeItem(ItemStack item, int amount, boolean replaceConsumables) {
+        if (item != null && item.getType() != Material.AIR) {
+            if (replaceConsumables
+                && item.getAmount() == 1
+                && StackUtils.itemsMatch(item, new ItemStack(item.getType()))) {
+                switch (item.getType()) {
+                    case WATER_BUCKET,
+                         LAVA_BUCKET,
+                         MILK_BUCKET,
+                         COD_BUCKET,
+                         SALMON_BUCKET,
+                         PUFFERFISH_BUCKET,
+                         TROPICAL_FISH_BUCKET,
+                         AXOLOTL_BUCKET,
+                         POWDER_SNOW_BUCKET,
+                         TADPOLE_BUCKET -> item.setType(Material.BUCKET);
+                    case POTION, SPLASH_POTION, LINGERING_POTION, HONEY_BOTTLE, DRAGON_BREATH -> item.setType(
+                        Material.GLASS_BOTTLE);
+                    case MUSHROOM_STEW, BEETROOT_SOUP, RABBIT_STEW, SUSPICIOUS_STEW -> item.setType(Material.BOWL);
+                    default -> item.setAmount(0);
+                }
+            } else {
+                if (item.getAmount() <= amount) {
+                    item.setAmount(0);
+                } else {
+                    item.setAmount(item.getAmount() - amount);
+                }
+            }
+        }
+    }
 }

@@ -551,6 +551,10 @@ icons:
     name: "&7"
   script-center:
     name: "&6脚本中心"
+  return-ingredient:
+    name: "&6点击返回合成材料"
+  return-output:
+    name: "&6点击返回输出槽物品"
   keybinds:
     scripts:
       display:
@@ -564,6 +568,8 @@ icons:
     display-keybinds:
       name: "&6显示栏按键控制"
     outside-keybinds:
+      name: "&6背包栏按键控制"
+    smart-outside-keybinds:
       name: "&6背包栏按键控制"
     clicked-item-not-equals-to-cursor:
       name: "&6点击的物品与光标物品不一致时"
@@ -1098,9 +1104,9 @@ items:
       - "<warning> 网络拓展开发版不接受 GitHub Issues"
       - "<warning> 网络拓展开发版不接受 GitHub PR"
       - "<passive> 版本信息:"
-      - "<passive> 网络拓展版本: Special-Version-54"
+      - "<passive> 网络拓展版本: Special-Version-55"
       - "<passive> 版本状态: 稳定版"
-      - "<passive> 版本更新时间: 2025-9-23 18:48:10"
+      - "<passive> 版本更新时间: 2025-9-24 10:57:09"
       - "<passive> 开发状态: 更新中"
       - "<passive> 开发者（们）: ytdd9527, balugaq"
       - "<passive> 开发者 GitHub 页面: <click_info>https://github.com/ytdd9527"
@@ -1749,6 +1755,7 @@ items:
     lore:
       - "高级网格允许你查看网络中所有的物品"
       - "你也可以直接放入或取出物品"
+      - "支持自定义按键控制"
       - "排序方式: "
       - "&eAZ&7: &e按字母顺序排序"
       - "&e数量&7: &e按物品数量排序"
@@ -3603,6 +3610,7 @@ items:
     lore:
       - "高级网格（带合成）允许你查看网络中所有的物品"
       - "你也可以直接放入或取出物品"
+      - "支持自定义按键控制"
       - "排序方式: "
       - "&eAZ&7: &e按字母顺序排序"
       - "&e数量&7: &e按物品数量排序"
@@ -3664,6 +3672,7 @@ items:
       - "&c需要对准网络机器放置"
       - "贴图版高级网格允许你查看网络中所有的物品"
       - "你也可以直接放入或取出物品"
+      - "支持自定义按键控制"
       - "排序方式: "
       - "&eAZ&7: &e按字母顺序排序"
       - "&e数量&7: &e按物品数量排序"
@@ -3710,6 +3719,20 @@ items:
       - "&c而不是连续转移物品！"
       - "&7运输模式解释: "
       - "&6首位阻断&7: &e仅抓取第一个有物品的槽位"
+  NTW_EXPANSION_SMART_NETWORK_CRAFTING_GRID_NEW_STYLE:
+    name: "智能高级网格 (带合成)"
+    lore:
+      - "智能高级网格（带合成）允许你查看网络中所有的物品"
+      - "你也可以直接放入或取出物品"
+      - "拥有更多的输出槽"
+      - "支持自定义按键控制"
+      - "支持自动处理合成后出现的桶，碗，玻璃瓶"
+      - "排序方式: "
+      - "&eAZ&7: &e按字母顺序排序"
+      - "&e数量&7: &e按物品数量排序"
+      - "&e数量倒序&7: &e按物品数量倒序排序"
+      - "&e附属&7: &e按物品所属附属字母顺序排序"
+      - "支持拼音搜索"
 
 displays:
   quantum_storage:

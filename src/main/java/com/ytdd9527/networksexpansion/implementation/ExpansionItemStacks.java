@@ -491,6 +491,8 @@ public class ExpansionItemStacks {
         Lang.getItem("NTW_EXPANSION_WHITELISTED_TRANSFER_VANILLA_GRABBER", Material.CYAN_STAINED_GLASS), Theme.MACHINE);
     public static final SlimefunItemStack WHITELISTED_LINE_TRANSFER_VANILLA_GRABBER = Theme.themedSlimefunItemStack(
         Lang.getItem("NTW_EXPANSION_WHITELISTED_LINE_TRANSFER_VANILLA_GRABBER", Material.YELLOW_STAINED_GLASS), Theme.MACHINE);
+    public static final SlimefunItemStack SMART_NETWORK_CRAFTING_GRID_NEW_STYLE = Theme.themedSlimefunItemStack(
+        Lang.getItem("NTW_EXPANSION_SMART_NETWORK_CRAFTING_GRID_NEW_STYLE", Material.CRAFTING_TABLE), Theme.MACHINE);
 
 
     public static @NotNull ItemStack enchanted(@NotNull Material material) {

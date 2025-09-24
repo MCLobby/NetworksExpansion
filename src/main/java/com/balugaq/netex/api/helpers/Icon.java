@@ -167,6 +167,12 @@ public class Icon {
     public static final ItemStack SCRIPT_CENTER =
         Lang.getIcon("script-center", Material.COMPASS);
 
+    public static final ItemStack RETURN_INGREDIENT =
+        Lang.getIcon("return-ingredient", Material.FLOWER_POT);
+
+    public static final ItemStack RETURN_OUTPUT =
+        Lang.getIcon("return-output", Material.DECORATED_POT);
+
     // pages are 1-based
     @SuppressWarnings("deprecation")
     @NotNull

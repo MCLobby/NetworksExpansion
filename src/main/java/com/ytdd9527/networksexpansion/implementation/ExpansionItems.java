@@ -93,6 +93,7 @@ import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.NetworkOutputOnlyMonitor;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.Offsetter;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.SmartGrabber;
+import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.SmartNetworkCraftingGridNewStyle;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.SmartPusher;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.SwitchingMonitor;
 import com.ytdd9527.networksexpansion.implementation.machines.unit.NetworksDrawer;
@@ -1446,4 +1447,10 @@ public class ExpansionItems {
         ExpansionItemStacks.WHITELISTED_LINE_TRANSFER_VANILLA_GRABBER,
         ExpansionWorkbench.TYPE,
         ExpansionRecipes.WHITELISTED_LINE_TRANSFER_VANILLA_GRABBER);
+
+    public static final SmartNetworkCraftingGridNewStyle SMART_NETWORK_CRAFTING_GRID_NEW_STYLE = new SmartNetworkCraftingGridNewStyle(
+        ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+        ExpansionItemStacks.SMART_NETWORK_CRAFTING_GRID_NEW_STYLE,
+        ExpansionWorkbench.TYPE,
+        ExpansionRecipes.SMART_NETWORK_CRAFTING_GRID_NEW_STYLE);
 }

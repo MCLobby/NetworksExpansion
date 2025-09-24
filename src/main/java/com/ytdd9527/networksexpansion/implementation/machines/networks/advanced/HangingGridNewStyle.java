@@ -207,7 +207,7 @@ public class HangingGridNewStyle extends NetworkGridNewStyle implements HangingB
                     displayStack.setItemMeta(itemMeta);
                     blockMenu.replaceExistingItem(getDisplaySlots()[i], displayStack);
                     blockMenu.addMenuClickHandler(getDisplaySlots()[i], (player, slot, item, action) -> {
-                        ExpansionItems.NETWORK_GRID_NEW_STYLE.displayKeybinds.onClick(player, slot, item, action);
+                        displayKeybinds().onClick(player, slot, item, action);
                         updateDisplay(blockMenu, attachon, attachSide);
                         return false;
                     });
@@ -265,7 +265,7 @@ public class HangingGridNewStyle extends NetworkGridNewStyle implements HangingB
                     displayStack.setItemMeta(itemMeta);
                     blockMenu.replaceExistingItem(getDisplaySlots()[i], displayStack);
                     blockMenu.addMenuClickHandler(getDisplaySlots()[i], (player, slot, item, action) -> {
-                        ExpansionItems.NETWORK_GRID_NEW_STYLE.displayKeybinds.onClick(player, slot, item, action);
+                        displayKeybinds().onClick(player, slot, item, action);
                         updateDisplay(blockMenu, attachon, attachSide);
                         return false;
                     });
