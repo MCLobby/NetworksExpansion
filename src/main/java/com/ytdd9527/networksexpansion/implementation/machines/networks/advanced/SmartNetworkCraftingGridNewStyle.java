@@ -83,7 +83,7 @@ public class SmartNetworkCraftingGridNewStyle extends AbstractGridNewStyle imple
         18, 19, 20
     };
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
-
+    public static int THRESHOLD = 4096;
     private final Keybinds smartOutsideKeybinds = Keybinds.create(Keys.newKey("smart-outside-keybinds"), it -> {
             it.usableKeybinds(
                 Keybind.leftClick,
@@ -328,8 +328,6 @@ public class SmartNetworkCraftingGridNewStyle extends AbstractGridNewStyle imple
     protected int getFilterSlot() {
         return FILTER;
     }
-
-    public static int THRESHOLD = 4096;
 
     @SuppressWarnings({"deprecation", "DataFlowIssue"})
     private synchronized void tryCraft(BlockMenu menu, Player player, ClickAction action) {
