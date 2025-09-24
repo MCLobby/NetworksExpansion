@@ -23,6 +23,7 @@ import java.util.Map;
  * @author Final_ROOT
  * @since 2.4
  */
+@Deprecated
 public class ReplaceableCard extends UnusableSlimefunItem implements RecipeItem, UnCopiableItem {
     private static final Map<Material, ReplaceableCard> MATERIAL_SLIMEFUN_ITEM_MAP = new EnumMap<>(Material.class);
 

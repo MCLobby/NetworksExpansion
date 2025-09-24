@@ -1,5 +1,6 @@
 package com.ytdd9527.networksexpansion.implementation.machines.networks.advanced;
 
+import com.balugaq.jeg.api.recipe_complete.RecipeCompletableRegistry;
 import com.balugaq.netex.api.enums.AmountHandleStrategy;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
@@ -11,11 +12,13 @@ import com.balugaq.netex.api.keybind.Keybind;
 import com.balugaq.netex.api.keybind.Keybinds;
 import com.balugaq.netex.api.keybind.MultiActionHandle;
 import com.balugaq.netex.utils.BlockMenuUtil;
+import com.balugaq.netex.utils.Debug;
 import com.balugaq.netex.utils.InventoryUtil;
 import com.balugaq.netex.utils.Lang;
 import com.ytdd9527.networksexpansion.core.items.machines.AbstractGridNewStyle;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
 import io.github.sefiraat.networks.NetworkStorage;
+import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.events.NetworkCraftEvent;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
@@ -142,6 +145,14 @@ public class SmartNetworkCraftingGridNewStyle extends AbstractGridNewStyle imple
         }
         for (int i : OUTPUT_SLOTS) {
             getSlotsToDrop().add(i);
+        }
+
+        if (Networks.getSupportedPluginManager().isJustEnoughGuide()) {
+            try {
+                RecipeCompletableRegistry.registerRecipeCompletable(this, getIngredientSlots(), false);
+            } catch (Exception e) {
+                Debug.trace(e);
+            }
         }
     }
 
