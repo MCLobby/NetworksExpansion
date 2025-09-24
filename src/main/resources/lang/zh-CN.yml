@@ -85,33 +85,6 @@ messages:
     error-occurred-when-loading-environment-var: "环境加载发生异常："
     error-occurred-when-loading-storage: "读取存储物品时发生异常："
     error-occurred-when-executing-query: "数据请求发生异常："
-  guide: # Deprecated
-    # Deprecated
-    locked-in: "&f需要在 %s 中解锁"
-    # Deprecated
-    no-permission: "&f无权限"
-    # Deprecated
-    cost-vault: " 游戏币"
-    # Deprecated
-    cost-level: " 级经验"
-    # Deprecated
-    click-to-research: "&a> 单击解锁"
-    # Deprecated
-    cost: "&7需要 &b"
-    # Deprecated
-    searching: "你正在搜索: %item%"
-    # Deprecated
-    back: "&f左键: &7返回上一页"
-    # Deprecated
-    super-back: "&fShift + 左键: &7返回主菜单"
-    # Deprecated
-    survival: "网络拓展指南 (生存模式)"
-    # Deprecated
-    creative: "网络拓展指南 (作弊模式)"
-    # Deprecated
-    internal-error: "&4服务器发生了一个内部错误. 请联系管理员处理."
-    # Deprecated
-    error-occurred: "在打开指南书里的 Slimefun 物品时发生了意外!"
   debug:
     info: "%s - %s"
     viewer-info: "<warning>%s - %s"
@@ -1150,6 +1123,8 @@ items:
       - "仅管理员可用"
       - "左键选择第一个位置"
       - "右键选择第二个位置"
+      - "&c此物品已弃用"
+      - "&c请使用 SFWorldEdit 粘液创世神的物品"
 
   NTW_EXPANSION_INFO_TOOL:
     name: "网络信息工具"
