@@ -186,6 +186,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
     }
 
     @Async
+    @SuppressWarnings("DataFlowIssue")
     private boolean tryCraft(
         @NotNull BlockMenu blockMenu, @NotNull BlueprintInstance instance, @NotNull NetworkRoot root) {
         // Get the recipe input
@@ -232,7 +233,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
             }
         }
 
-        // Go through each slimefun recipe, test and set the ItemStack if found
+        // Go through each slimefun recipe, test and set crafted if found
         if (crafted == null) {
             for (Map.Entry<ItemStack[], ItemStack> entry : getRecipeEntries()) {
                 if (testRecipe(inputs, entry.getKey())) {

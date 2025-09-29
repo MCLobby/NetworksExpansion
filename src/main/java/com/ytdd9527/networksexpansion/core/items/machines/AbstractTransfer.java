@@ -51,7 +51,17 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
         @NotNull ItemGroup itemGroup,
         @NotNull SlimefunItemStack item,
         @NotNull RecipeType recipeType,
+        ItemStack @NotNull [] recipe,
+        NodeType type) {
+        this(itemGroup, item, recipeType, recipe, 1, type);
+    }
+
+    protected AbstractTransfer(
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
         ItemStack[] recipe,
+        int outputAmount,
         NodeType type) {
         super(itemGroup, item, recipeType, recipe, type);
         this.config = TransferConfigFactory.getTransferConfiguration(getTransferType(), checkPlus(item.getItemId()));

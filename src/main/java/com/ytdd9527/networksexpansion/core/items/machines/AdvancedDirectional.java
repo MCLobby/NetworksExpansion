@@ -74,6 +74,16 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
         @NotNull RecipeType recipeType,
         ItemStack @NotNull [] recipe,
         NodeType type) {
+        this(itemGroup, item, recipeType, recipe, 1, type);
+    }
+
+    protected AdvancedDirectional(
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack @NotNull [] recipe,
+        @Range(from = 1, to = 64) int outputAmount,
+        NodeType type) {
         super(itemGroup, item, recipeType, recipe, type);
         this.CARGO_NUMBER_ICON_CLONE = Icon.SHOW_ICON.clone();
         this.TRANSPORT_MODE_ICON_CLONE = Icon.TRANSPORT_MODE_ICON.clone();

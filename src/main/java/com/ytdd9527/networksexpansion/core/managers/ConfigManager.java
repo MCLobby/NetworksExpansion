@@ -119,6 +119,18 @@ public class ConfigManager {
         return Networks.getInstance().getConfig().getInt(path, defaultValue);
     }
 
+    public long getLong(@NotNull String path) {
+        return getLong(path, 0);
+    }
+
+    public long getLong(@NotNull String path, long defaultValue) {
+        return Networks.getInstance().getConfig().getLong(path, defaultValue);
+    }
+
+    public void set(@NotNull String path, @NotNull Object value) {
+        Networks.getInstance().getConfig().set(path, value);
+    }
+
     public void saveAll() {
         Networks.getInstance().getLogger().info(Lang.getString("messages.save-all"));
     }

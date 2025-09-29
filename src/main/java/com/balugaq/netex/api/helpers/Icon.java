@@ -146,6 +146,36 @@ public class Icon {
     public static final ItemStack ADVANCED_VACUUM_SPLIT_BLOCK =
         Lang.getIcon("advanced-vacuum-split-block", Material.CYAN_STAINED_GLASS_PANE);
 
+    public static final ItemStack BLUE_BACKGROUND =
+        Lang.getIcon("blue-background", Material.BLUE_STAINED_GLASS_PANE);
+
+    public static final ItemStack KEYBIND_SETTINGS =
+        Lang.getIcon("keybind-settings", Material.CLOCK);
+
+    public static final ItemStack LIGHT_GRAY_BACKGROUND =
+        Lang.getIcon("light-gray-background", Material.LIGHT_GRAY_STAINED_GLASS_PANE);
+
+    public static final ItemStack YELLOW_BORDER =
+        Lang.getIcon("yellow-border", Material.YELLOW_STAINED_GLASS_PANE);
+
+    public static final ItemStack UPLOAD_KEYBIND_SCRIPT =
+        Lang.getIcon("upload-keybind-script", Material.PAPER);
+
+    public static final ItemStack GRAY_BACKGROUND =
+        Lang.getIcon("gray-background", Material.GRAY_STAINED_GLASS_PANE);
+
+    public static final ItemStack SCRIPT_CENTER =
+        Lang.getIcon("script-center", Material.COMPASS);
+
+    public static final ItemStack RETURN_INGREDIENT =
+        Lang.getIcon("return-ingredient", Material.FLOWER_POT);
+
+    public static final ItemStack RETURN_OUTPUT =
+        Lang.getIcon("return-output", Material.DECORATED_POT);
+
+    public static final ItemStack CRAFT =
+        Lang.getIcon("craft", Material.CRAFTING_TABLE);
+
     // pages are 1-based
     @SuppressWarnings("deprecation")
     @NotNull

@@ -76,7 +76,6 @@ import com.ytdd9527.networksexpansion.implementation.machines.encoders.SmelteryE
 import com.ytdd9527.networksexpansion.implementation.machines.managers.CrafterManager;
 import com.ytdd9527.networksexpansion.implementation.machines.managers.DrawerManager;
 import com.ytdd9527.networksexpansion.implementation.machines.managers.QuantumManager;
-import com.ytdd9527.networksexpansion.implementation.machines.manual.Expansion6x6Workbench;
 import com.ytdd9527.networksexpansion.implementation.machines.manual.ExpansionWorkbench;
 import com.ytdd9527.networksexpansion.implementation.machines.manual.StorageUnitUpgradeTable;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.AdvancedExport;
@@ -93,6 +92,7 @@ import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.NetworkOutputOnlyMonitor;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.Offsetter;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.SmartGrabber;
+import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.SmartNetworkCraftingGridNewStyle;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.SmartPusher;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.SwitchingMonitor;
 import com.ytdd9527.networksexpansion.implementation.machines.unit.NetworksDrawer;
@@ -115,13 +115,6 @@ public class ExpansionItems {
         ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH,
         RecipeType.ENHANCED_CRAFTING_TABLE,
         ExpansionRecipes.NETWORKS_EXPANSION_WORKBENCH);
-
-    @Deprecated
-    public static final Expansion6x6Workbench NETWORKS_EXPANSION_6X6_WORKBENCH = new Expansion6x6Workbench(
-        ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
-        ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH_6X6,
-        RecipeType.NULL,
-        ExpansionRecipes.NULL);
 
     public static final AdvancedImport ADVANCED_IMPORT = new AdvancedImport(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
@@ -832,61 +825,61 @@ public class ExpansionItems {
         ExpansionItemsMenus.MENU_CARGO_SYSTEM,
         ExpansionItemStacks.TRANSFER_PUSHER,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.TRANSFER_PUSHER);
+        ExpansionRecipes.TRANSFER_PUSHER, 6);
 
     public static final TransferMorePusher TRANSFER_MORE_PUSHER = new TransferMorePusher(
         ExpansionItemsMenus.MENU_CARGO_SYSTEM,
         ExpansionItemStacks.TRANSFER_MORE_PUSHER,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.TRANSFER_MORE_PUSHER);
+        ExpansionRecipes.TRANSFER_MORE_PUSHER, 6);
 
     public static final TransferBestPusher TRANSFER_BEST_PUSHER = new TransferBestPusher(
         ExpansionItemsMenus.MENU_CARGO_SYSTEM,
         ExpansionItemStacks.TRANSFER_BEST_PUSHER,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.TRANSFER_BEST_PUSHER);
+        ExpansionRecipes.TRANSFER_BEST_PUSHER, 6);
 
     public static final TransferGrabber TRANSFER_GRABBER = new TransferGrabber(
         ExpansionItemsMenus.MENU_CARGO_SYSTEM,
         ExpansionItemStacks.TRANSFER_GRABBER,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.TRANSFER_GRABBER);
+        ExpansionRecipes.TRANSFER_GRABBER, 6);
 
     public static final Transfer TRANSFER = new Transfer(
         ExpansionItemsMenus.MENU_CARGO_SYSTEM,
         ExpansionItemStacks.TRANSFER,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.TRANSFER);
+        ExpansionRecipes.TRANSFER, 6);
 
     public static final AdvancedTransferPusher ADVANCED_TRANSFER_PUSHER = new AdvancedTransferPusher(
         ExpansionItemsMenus.MENU_CARGO_SYSTEM,
         ExpansionItemStacks.ADVANCED_TRANSFER_PUSHER,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ADVANCED_TRANSFER_PUSHER);
+        ExpansionRecipes.ADVANCED_TRANSFER_PUSHER, 6);
 
     public static final AdvancedTransferMorePusher ADVANCED_TRANSFER_MORE_PUSHER = new AdvancedTransferMorePusher(
         ExpansionItemsMenus.MENU_CARGO_SYSTEM,
         ExpansionItemStacks.ADVANCED_TRANSFER_MORE_PUSHER,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ADVANCED_TRANSFER_MORE_PUSHER);
+        ExpansionRecipes.ADVANCED_TRANSFER_MORE_PUSHER, 6);
 
     public static final AdvancedTransferBestPusher ADVANCED_TRANSFER_BEST_PUSHER = new AdvancedTransferBestPusher(
         ExpansionItemsMenus.MENU_CARGO_SYSTEM,
         ExpansionItemStacks.ADVANCED_TRANSFER_BEST_PUSHER,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ADVANCED_TRANSFER_BEST_PUSHER);
+        ExpansionRecipes.ADVANCED_TRANSFER_BEST_PUSHER, 6);
 
     public static final AdvancedTransferGrabber ADVANCED_TRANSFER_GRABBER = new AdvancedTransferGrabber(
         ExpansionItemsMenus.MENU_CARGO_SYSTEM,
         ExpansionItemStacks.ADVANCED_TRANSFER_GRABBER,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ADVANCED_TRANSFER_GRABBER);
+        ExpansionRecipes.ADVANCED_TRANSFER_GRABBER, 6);
 
     public static final AdvancedTransfer ADVANCED_TRANSFER = new AdvancedTransfer(
         ExpansionItemsMenus.MENU_CARGO_SYSTEM,
         ExpansionItemStacks.ADVANCED_TRANSFER,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ADVANCED_TRANSFER);
+        ExpansionRecipes.ADVANCED_TRANSFER, 6);
 
     public static final SmartGrabber SMART_GRABBER = new SmartGrabber(
         ExpansionItemsMenus.MENU_CARGO_SYSTEM,
@@ -1448,4 +1441,10 @@ public class ExpansionItems {
         ExpansionItemStacks.WHITELISTED_LINE_TRANSFER_VANILLA_GRABBER,
         ExpansionWorkbench.TYPE,
         ExpansionRecipes.WHITELISTED_LINE_TRANSFER_VANILLA_GRABBER);
+
+    public static final SmartNetworkCraftingGridNewStyle SMART_NETWORK_CRAFTING_GRID_NEW_STYLE = new SmartNetworkCraftingGridNewStyle(
+        ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+        ExpansionItemStacks.SMART_NETWORK_CRAFTING_GRID_NEW_STYLE,
+        ExpansionWorkbench.TYPE,
+        ExpansionRecipes.SMART_NETWORK_CRAFTING_GRID_NEW_STYLE);
 }

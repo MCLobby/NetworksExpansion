@@ -19,7 +19,7 @@ public final class NetworksItemGroups {
 
     public static final MainFlexGroup MAIN = new MainFlexGroup(
         Keys.newKey("main"),
-        new CustomItemStack(new ItemStack(Material.BLACK_STAINED_GLASS), Lang.getString("groups.main")),
+        new CustomItemStack(NetworksSlimefunItemStacks.NETWORK_CONTROLLER, Lang.getString("groups.main")),
         0);
 
     public static final DummyItemGroup MATERIALS = new DummyItemGroup(

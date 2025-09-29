@@ -1,7 +1,5 @@
 package com.balugaq.netex.api.helpers;
 
-import com.balugaq.netex.api.interfaces.CanTestRecipe;
-import com.balugaq.netex.api.interfaces.RecipesHolder;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumWorkbench;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -17,7 +15,7 @@ import java.util.Map;
 
 @SuppressWarnings("JavaExistingMethodCanBeUsed")
 @UtilityClass
-public final class SupportedQuantumWorkbenchRecipes implements RecipesHolder, CanTestRecipe {
+public final class SupportedQuantumWorkbenchRecipes {
 
     private static final Map<ItemStack[], ItemStack> RECIPES = new HashMap<>();
 

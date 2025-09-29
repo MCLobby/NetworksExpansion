@@ -107,14 +107,14 @@ public class SetupUtil {
             ExpansionItems.CRAFTER_MANAGER.registerThis(),
             ExpansionItems.ITEM_FLOW_VIEWER.registerThis(),
             ExpansionItems.SWITCHING_MONITOR.registerThis(),
-            ExpansionItems.HANGING_GRID_NEW_STYLE.registerThis());
+            ExpansionItems.HANGING_GRID_NEW_STYLE.registerThis(),
+            ExpansionItems.SMART_NETWORK_CRAFTING_GRID_NEW_STYLE.registerThis());
 
         ExpansionItemsMenus.SUB_MENU_CARGO.addTo(
             ExpansionItems.SMART_GRABBER.registerThis(), ExpansionItems.SMART_PUSHER.registerThis());
         /* functional machines */
         ExpansionItemsMenus.SUB_MENU_CORE_MACHINE.addTo(
             ExpansionItems.NETWORKS_EXPANSION_WORKBENCH.registerThis(),
-            ExpansionItems.NETWORKS_EXPANSION_6X6_WORKBENCH.registerThis(),
             ExpansionItems.STORAGE_UNIT_UPGRADE_TABLE.registerThis());
         ExpansionItemsMenus.SUB_MENU_ADVANCED_NETWORKS.addTo(
             ExpansionItems.ADVANCED_IMPORT.registerThis(),

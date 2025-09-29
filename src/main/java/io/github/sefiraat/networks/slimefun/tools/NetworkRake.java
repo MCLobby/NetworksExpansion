@@ -1,6 +1,6 @@
 package io.github.sefiraat.networks.slimefun.tools;
 
-import com.balugaq.netex.api.interfaces.ModelledItem;
+import com.balugaq.netex.api.interfaces.ModellableItem;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
@@ -64,7 +64,7 @@ public class NetworkRake extends LimitedUseItem {
             final Block block = optional.get();
             final Player player = e.getPlayer();
             final SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(block.getLocation());
-            if ((slimefunItem instanceof NetworkObject || slimefunItem instanceof ModelledItem)
+            if ((slimefunItem instanceof NetworkObject || slimefunItem instanceof ModellableItem)
                 && Slimefun.getProtectionManager().hasPermission(player, block, Interaction.BREAK_BLOCK)) {
                 final BlockBreakEvent event = new BlockBreakEvent(block, player);
                 Networks.getPluginManager().callEvent(event);

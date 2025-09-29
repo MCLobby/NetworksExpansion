@@ -4,7 +4,6 @@ import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.api.interfaces.SoftCellBannable;
 import com.gmail.nossr50.mcMMO;
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import dev.sefiraat.sefilib.misc.ParticleUtils;
 import dev.sefiraat.sefilib.world.LocationUtils;
 import io.github.sefiraat.networks.NetworkStorage;
@@ -17,15 +16,12 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.blocks.BlockPosition;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -35,9 +31,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
-@SuppressWarnings("DuplicatedCode")
+@SuppressWarnings({"DuplicatedCode", "GrazieInspection"})
 public class NetworkControlV extends NetworkDirectional implements SoftCellBannable {
 
     private static final int[] BACKGROUND_SLOTS = new int[]{
@@ -110,6 +105,8 @@ public class NetworkControlV extends NetworkDirectional implements SoftCellBanna
             return;
         }
 
+        /* Netex - #293
+        // No longer check permission
         final String owner = StorageCacheUtils.getData(blockMenu.getLocation(), OWNER_KEY);
         if (owner == null) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NO_OWNER_FOUND);
@@ -123,6 +120,8 @@ public class NetworkControlV extends NetworkDirectional implements SoftCellBanna
             sendFeedback(blockMenu.getLocation(), FeedbackType.NO_PERMISSION);
             return;
         }
+
+         */
 
         final Material material = targetBlock.getType();
 

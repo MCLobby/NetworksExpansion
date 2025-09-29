@@ -1,5 +1,16 @@
 package com.balugaq.netex.utils;
 
+import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
+import io.github.sefiraat.networks.utils.StackUtils;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import lombok.experimental.UtilityClass;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Range;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -260,33 +271,6 @@ public class BlockMenuUtil {
         }
 
         final ItemStack item = blockMenu.getItemInSlot(slot);
-        if (item != null && item.getType() != Material.AIR) {
-            if (replaceConsumables
-                && item.getAmount() == 1
-                && StackUtils.itemsMatch(item, new ItemStack(item.getType()))) {
-                switch (item.getType()) {
-                    case WATER_BUCKET,
-                         LAVA_BUCKET,
-                         MILK_BUCKET,
-                         COD_BUCKET,
-                         SALMON_BUCKET,
-                         PUFFERFISH_BUCKET,
-                         TROPICAL_FISH_BUCKET,
-                         AXOLOTL_BUCKET,
-                         POWDER_SNOW_BUCKET,
-                         TADPOLE_BUCKET -> item.setType(Material.BUCKET);
-                    case POTION, SPLASH_POTION, LINGERING_POTION, HONEY_BOTTLE, DRAGON_BREATH -> item.setType(
-                        Material.GLASS_BOTTLE);
-                    case MUSHROOM_STEW, BEETROOT_SOUP, RABBIT_STEW, SUSPICIOUS_STEW -> item.setType(Material.BOWL);
-                    default -> item.setAmount(0);
-                }
-            } else {
-                if (item.getAmount() <= amount) {
-                    item.setAmount(0);
-                } else {
-                    item.setAmount(item.getAmount() - amount);
-                }
-            }
-        }
+        ItemStackUtil.consumeItem(item, amount, replaceConsumables);
     }
 }

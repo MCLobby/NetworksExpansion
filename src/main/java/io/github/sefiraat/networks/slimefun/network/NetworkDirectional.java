@@ -42,6 +42,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Range;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -77,7 +78,17 @@ public abstract class NetworkDirectional extends NetworkObject {
         @NotNull RecipeType recipeType,
         ItemStack @NotNull [] recipe,
         NodeType type) {
-        super(itemGroup, item, recipeType, recipe, type);
+        this(itemGroup, item, recipeType, recipe, 1, type);
+    }
+
+    protected NetworkDirectional(
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack @NotNull [] recipe,
+        @Range(from = 1, to = 64) int outputAmount,
+        NodeType type) {
+        super(itemGroup, item, recipeType, recipe, outputAmount, type);
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
         addItemSetting(this.tickRate);
 

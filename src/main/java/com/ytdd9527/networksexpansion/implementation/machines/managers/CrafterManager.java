@@ -64,7 +64,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-@SuppressWarnings({"DuplicatedCode", "JavaExistingMethodCanBeUsed"})
+@SuppressWarnings({"DuplicatedCode"})
 public class CrafterManager extends NetworkObject {
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();
     private static final int[] BACKGROUND_SLOTS = new int[]{8, 17, 26, 35};

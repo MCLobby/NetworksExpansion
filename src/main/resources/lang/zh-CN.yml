@@ -1,5 +1,13 @@
 # <click_info> = Theme.CLICK_INFO
 messages:
+  keybind:
+    title: "&a选择你要编辑的按键控制集"
+    sub-title: "&a点击你要修改的按键触发"
+    action-select-title: "&a点击选择你要修改的按键触发"
+    scripts:
+      upload: "&a输入你的按键控制脚本名"
+      copied: "&a已复制按键控制脚本"
+    scripts-title: "&a按键控制中心"
   feedback:
     afk: "等待被观察"
     already_has_item: "抓取槽已经有物品了"
@@ -57,6 +65,7 @@ messages:
     root_request_0: "无效，尝试获取0个物品"
     root_limiting_access_output: "getItemStack0被限制执行"
     root_limiting_access_input: "addItemStack0被限制执行"
+    too_many_entities: "周围实体过多"
   blueprint:
     title: "<click_info>已指定配方"
     empty: "<passive>空"
@@ -76,33 +85,6 @@ messages:
     error-occurred-when-loading-environment-var: "环境加载发生异常："
     error-occurred-when-loading-storage: "读取存储物品时发生异常："
     error-occurred-when-executing-query: "数据请求发生异常："
-  guide: # Deprecated
-    # Deprecated
-    locked-in: "&f需要在 %s 中解锁"
-    # Deprecated
-    no-permission: "&f无权限"
-    # Deprecated
-    cost-vault: " 游戏币"
-    # Deprecated
-    cost-level: " 级经验"
-    # Deprecated
-    click-to-research: "&a> 单击解锁"
-    # Deprecated
-    cost: "&7需要 &b"
-    # Deprecated
-    searching: "你正在搜索: %item%"
-    # Deprecated
-    back: "&f左键: &7返回上一页"
-    # Deprecated
-    super-back: "&fShift + 左键: &7返回主菜单"
-    # Deprecated
-    survival: "网络拓展指南 (生存模式)"
-    # Deprecated
-    creative: "网络拓展指南 (作弊模式)"
-    # Deprecated
-    internal-error: "&4服务器发生了一个内部错误. 请联系管理员处理."
-    # Deprecated
-    error-occurred: "在打开指南书里的 Slimefun 物品时发生了意外!"
   debug:
     info: "%s - %s"
     viewer-info: "<warning>%s - %s"
@@ -245,6 +227,7 @@ messages:
     grid:
       waiting_for_filter: "<warning>请输入你想要过滤的物品名称(显示名)或类型"
       item_amount: "{0}数量: {1}{2}"
+      filter: "&a你正在搜索: %s"
     grid_new_style:
       click_to_withdraw: "<passive>点击取出物品"
       crafted: "<success>上次合成 <click_info>%s x%s"
@@ -530,6 +513,69 @@ messages:
           - "收获时将获得人造绿宝石碎片."
   save-all: "正在保存网络拓展数据."
 icons:
+  keybind-settings:
+    name: "&6按键控制设置"
+  light-gray-background:
+    name: "&7"
+  yellow-border:
+    name: "&7"
+  upload-keybind-script:
+    name: "&6上传按键控制脚本"
+  gray-background:
+    name: "&7"
+  script-center:
+    name: "&6脚本中心"
+  return-ingredient:
+    name: "&6点击返回合成材料"
+  return-output:
+    name: "&6点击返回输出槽物品"
+  craft:
+    name: "&e合成"
+    lore:
+      - "左键点击: 合成1次"
+      - "右键点击: 合成64次"
+  keybinds:
+    scripts:
+      display:
+        name: "&6%s的按键控制脚本%s (#%s)"
+        lore:
+          - "&a点击下载此按键控制脚本"
+    store-item:
+      name: "&6存入物品"
+    do-nothing:
+      name: "&6无操作"
+    display-keybinds:
+      name: "&6显示栏按键控制"
+    outside-keybinds:
+      name: "&6背包栏按键控制"
+    smart-outside-keybinds:
+      name: "&6背包栏按键控制"
+    clicked-item-not-equals-to-cursor:
+      name: "&6点击的物品与光标物品不一致时"
+    store-cursor:
+      name: "&6存入光标物品"
+    left-click:
+      name: "&6点击左键时"
+    right-click:
+      name: "&6点击右键时"
+    shift-click:
+      name: "&6按下Shift键点击时"
+    shift-left-click:
+      name: "&6按下Shift键点击左键时"
+    shift-right-click:
+      name: "&6按下Shift键点击右键时"
+    one-cursor:
+      name: "&6取出1个物品至光标"
+    stack-cursor:
+      name: "&6取出1组物品至光标"
+    stack-inv:
+      name: "&6取出1组物品至背包"
+    one-inv:
+      name: "&6取出1个物品至背包"
+    custom-cursor:
+      name: "&6取出自定义数量个物品至光标"
+    custom-inv:
+      name: "&6取出自定义数量个物品至背包"
   filter-mode-black-list:
     name: "&6黑名单模式"
     lore:
@@ -771,6 +817,10 @@ icons:
     name: "<passive> "
     lore:
       - ""
+  blue-background:
+    name: "<passive> "
+    lore:
+      - ""
   greedy-template-background-stack:
     name: "<success>需要阻断的物品"
     lore:
@@ -971,8 +1021,8 @@ items:
       - "<passive> 感谢逻辑工艺(LogiTech)的机器提供的作者头颅 hash。"
       - "<passive> 感谢所有给予信任并安装网络拓展的服主。"
       - "<passive> 此附属灵感来源于广大玩家。"
-      - "<passive> 尤其要感谢 Utoboy，TouRuya，haiman233 等玩家的意见提供。"
-      - "<passive> 感谢 Utoboy，TouRuya，haiman233，yitoudaidai，tinalness，matl114 等测试员的测试。"
+      - "<passive> 尤其要感谢 Utoboy，TouRuya，haiman233，matl114 等玩家的意见提供。"
+      - "<passive> 感谢 Utoboy，TouRuya，haiman233，yitoudaidai，tinalness，matl114，lengshang 等测试员的测试。"
   NTW_EXPANSION_ANNOUNCE_5:
     name: "<color_random_string>网络拓展相关链接"
     lore:
@@ -1033,9 +1083,9 @@ items:
       - "<warning> 网络拓展开发版不接受 GitHub Issues"
       - "<warning> 网络拓展开发版不接受 GitHub PR"
       - "<passive> 版本信息:"
-      - "<passive> 网络拓展版本: Special-Version-51"
+      - "<passive> 网络拓展版本: Special-Version-55"
       - "<passive> 版本状态: 稳定版"
-      - "<passive> 版本更新时间: 2025-9-13 16:59:49"
+      - "<passive> 版本更新时间: 2025-9-24 17:01:40"
       - "<passive> 开发状态: 更新中"
       - "<passive> 开发者（们）: ytdd9527, balugaq"
       - "<passive> 开发者 GitHub 页面: <click_info>https://github.com/ytdd9527"
@@ -1067,17 +1117,14 @@ items:
     lore:
       - "可以合成网络拓展的各种材料和机器"
 
-  NTW_EXPANSION_WORKBENCH_6X6:
-    name: "网络拓展工作台 (6x6)"
-    lore:
-      - "不可以合成网络拓展的各种材料和机器"
-
   NTW_EXPANSION_WORLD_EDIT_AXE:
     name: "网络粘液创世神"
     lore:
       - "仅管理员可用"
       - "左键选择第一个位置"
       - "右键选择第二个位置"
+      - "&c此物品已弃用"
+      - "&c请使用 SFWorldEdit 粘液创世神的物品"
 
   NTW_EXPANSION_INFO_TOOL:
     name: "网络信息工具"
@@ -1684,6 +1731,7 @@ items:
     lore:
       - "高级网格允许你查看网络中所有的物品"
       - "你也可以直接放入或取出物品"
+      - "支持自定义按键控制"
       - "排序方式: "
       - "&eAZ&7: &e按字母顺序排序"
       - "&e数量&7: &e按物品数量排序"
@@ -3538,6 +3586,7 @@ items:
     lore:
       - "高级网格（带合成）允许你查看网络中所有的物品"
       - "你也可以直接放入或取出物品"
+      - "支持自定义按键控制"
       - "排序方式: "
       - "&eAZ&7: &e按字母顺序排序"
       - "&e数量&7: &e按物品数量排序"
@@ -3599,6 +3648,7 @@ items:
       - "&c需要对准网络机器放置"
       - "贴图版高级网格允许你查看网络中所有的物品"
       - "你也可以直接放入或取出物品"
+      - "支持自定义按键控制"
       - "排序方式: "
       - "&eAZ&7: &e按字母顺序排序"
       - "&e数量&7: &e按物品数量排序"
@@ -3645,6 +3695,20 @@ items:
       - "&c而不是连续转移物品！"
       - "&7运输模式解释: "
       - "&6首位阻断&7: &e仅抓取第一个有物品的槽位"
+  NTW_EXPANSION_SMART_NETWORK_CRAFTING_GRID_NEW_STYLE:
+    name: "智能高级网格 (带合成)"
+    lore:
+      - "智能高级网格（带合成）允许你查看网络中所有的物品"
+      - "你也可以直接放入或取出物品"
+      - "拥有更多的输出槽"
+      - "支持自定义按键控制"
+      - "支持自动处理合成后出现的桶，碗，玻璃瓶"
+      - "排序方式: "
+      - "&eAZ&7: &e按字母顺序排序"
+      - "&e数量&7: &e按物品数量排序"
+      - "&e数量倒序&7: &e按物品数量倒序排序"
+      - "&e附属&7: &e按物品所属附属字母顺序排序"
+      - "支持拼音搜索"
 
 displays:
   quantum_storage:

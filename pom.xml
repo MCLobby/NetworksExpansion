@@ -7,7 +7,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ytdd9527.networksexpansion</groupId>
     <artifactId>NetworksExpansion</artifactId>
-    <version>Special-Version-51</version>
+    <version>Special-Version-55</version>
 
     <distributionManagement>
         <repository>
@@ -352,7 +352,7 @@
         <dependency>
             <groupId>com.github.balugaq</groupId>
             <artifactId>JustEnoughGuide</artifactId>
-            <version>3840a709aa</version>
+            <version>ebcac9c7b7</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

@@ -10,14 +10,25 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Range;
 
 public class AdvancedTransferBestPusher extends AbstractTransfer implements SoftCellBannable, PushTickOnly {
     public AdvancedTransferBestPusher(
         @NotNull ItemGroup itemGroup,
         @NotNull SlimefunItemStack item,
         @NotNull RecipeType recipeType,
-        ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe, NodeType.TRANSFER_PUSHER);
+        ItemStack @NotNull [] recipe
+    ) {
+        this(itemGroup, item, recipeType, recipe, 1);
+    }
+
+    public AdvancedTransferBestPusher(
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack[] recipe,
+        @Range(from = 1, to = 64) int outputAmount) {
+        super(itemGroup, item, recipeType, recipe, outputAmount, NodeType.TRANSFER_PUSHER);
     }
 
     @Override

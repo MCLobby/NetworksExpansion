@@ -1,11 +1,12 @@
 package com.ytdd9527.networksexpansion.implementation.machines.networks.advanced;
 
+import com.balugaq.netex.api.keybind.Keybindable;
+import com.balugaq.netex.api.keybind.Keybinds;
 import com.ytdd9527.networksexpansion.core.items.machines.AbstractGridNewStyle;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache.DisplayMode;
-import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -16,18 +17,17 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("DuplicatedCode")
-public class NetworkGridNewStyle extends AbstractGridNewStyle {
-
+public class NetworkGridNewStyle extends AbstractGridNewStyle implements Keybindable {
     private static final int[] BACKGROUND_SLOTS = new int[]{8};
 
     private static final int[] DISPLAY_SLOTS = {
@@ -40,7 +40,7 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
     };
 
     @Deprecated
-    private static final int AUTO_FILTER_SLOT = 8;
+    private static final int KEYBIND_BUTTON_SLOT = 8;
 
     private static final int CHANGE_SORT = 35;
     private static final int FILTER = 26;
@@ -149,28 +149,13 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
                     menu.addMenuClickHandler(displaySlot, (p, slot, item, action) -> false);
                 }
 
-                ItemStack exist = menu.getItemInSlot(getAutoFilterSlot());
-                if (exist != null
-                    && exist.getType() != Material.AIR
-                    && !StackUtils.itemsMatch(exist, ChestMenuUtils.getBackground())) {
-                    // drop item
-                    menu.getLocation().getWorld().dropItemNaturally(menu.getLocation(), exist);
-                }
-
                 for (int backgroundSlot : getBackgroundSlots()) {
                     menu.replaceExistingItem(backgroundSlot, ChestMenuUtils.getBackground());
                     menu.addMenuClickHandler(backgroundSlot, (p, slot, item, action) -> false);
                 }
 
-                menu.addPlayerInventoryClickHandler((p, s, i, a) -> {
-                    if (!a.isShiftClicked() || a.isRightClicked()) {
-                        return true;
-                    }
-
-                    // Shift+Left-click
-                    receiveItem(p, i, a, menu);
-                    return false;
-                });
+                menu.addPlayerInventoryClickHandler(outsideKeybinds());
+                addKeybindSettingsButton(menu, getKeybindButtonSlot());
             }
         };
     }
@@ -200,9 +185,8 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
         return PAGE_NEXT;
     }
 
-    @Deprecated
-    public int getAutoFilterSlot() {
-        return AUTO_FILTER_SLOT;
+    public int getKeybindButtonSlot() {
+        return KEYBIND_BUTTON_SLOT;
     }
 
     public int getToggleModeSlot() {
@@ -212,5 +196,10 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle {
     @Override
     protected int getFilterSlot() {
         return FILTER;
+    }
+
+    @Override
+    public @NotNull List<Keybinds> keybinds() {
+        return List.of(displayKeybinds(), outsideKeybinds());
     }
 }

@@ -56,7 +56,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-@SuppressWarnings({"JavaExistingMethodCanBeUsed", "DuplicatedCode"})
+@SuppressWarnings({"DuplicatedCode"})
 public class ItemFlowViewer extends NetworkObject {
     public static final DateFormat DATE_FORMAT = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM);
     private static final Map<Location, GridCache> CACHE_MAP = new HashMap<>();

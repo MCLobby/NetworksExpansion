@@ -15,7 +15,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.items.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -232,7 +231,7 @@ public class NetworkCraftingGrid extends AbstractGrid {
 
         ItemStack crafted = null;
 
-        // Go through each slimefun recipe, test and set the ItemStack if found
+        // Go through each slimefun recipe, trigger and set the ItemStack if found
         for (Map.Entry<ItemStack[], ItemStack> entry :
             SupportedCraftingTableRecipes.getRecipes().entrySet()) {
             if (SupportedCraftingTableRecipes.testRecipe(inputs, entry.getKey())) {
@@ -282,12 +281,12 @@ public class NetworkCraftingGrid extends AbstractGrid {
                 // Grab a clone for potential retrieval
                 final ItemStack itemInSlotClone = itemInSlot.clone();
                 itemInSlotClone.setAmount(1);
-                ItemUtils.consumeItem(menu.getItemInSlot(recipeSlot), 1, true);
+                BlockMenuUtil.consumeItem(menu, recipeSlot, 1, true);
                 // We have consumed a slot item and now the slot is empty - try to refill
                 if (menu.getItemInSlot(recipeSlot) == null) {
                     // Process item request
                     final GridItemRequest request = new GridItemRequest(itemInSlotClone, 1, player);
-                    final ItemStack requestingStack = root.getItemStack0(menu.getLocation(), request);
+                    final ItemStack requestingStack = root.getItemStack(request);
                     if (requestingStack != null) {
                         menu.replaceExistingItem(recipeSlot, requestingStack);
                     }

@@ -4,6 +4,8 @@ import com.balugaq.jeg.api.groups.SearchGroup;
 import com.balugaq.netex.api.algorithm.Sorters;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.api.interfaces.BaseGrid;
+import com.balugaq.netex.api.keybind.Keybindable;
 import com.balugaq.netex.utils.InventoryUtil;
 import com.balugaq.netex.utils.Lang;
 import com.github.houbb.pinyin.constant.enums.PinyinStyleEnum;
@@ -44,6 +46,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NullMarked;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.text.MessageFormat;
@@ -57,8 +60,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 
-@SuppressWarnings("DuplicatedCode")
-public abstract class AbstractGridNewStyle extends NetworkObject {
+@SuppressWarnings({"deprecation", "DuplicatedCode"})
+public abstract class AbstractGridNewStyle extends NetworkObject implements Keybindable, BaseGrid {
     public static final String BS_FILTER_KEY = "filter";
     private static final Map<GridCache.SortOrder, Comparator<? super Entry<ItemStack, Long>>> SORT_MAP =
         new HashMap<>();
@@ -89,7 +92,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         super(itemGroup, item, recipeType, recipe, type);
 
         // Deprecated. Replaced with background
-        // this.getSlotsToDrop().add(getAutoFilterSlot());
+        // this.getSlotsToDrop().add(getKeybindButtonSlot());
 
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
         addItemSetting(this.tickRate);
@@ -146,7 +149,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
-    protected void updateDisplay(@NotNull BlockMenu blockMenu) {
+    public void updateDisplay(@NotNull BlockMenu blockMenu) {
         // No viewer - lets not bother updating
         if (!blockMenu.hasViewer()) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.AFK);
@@ -176,6 +179,8 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         if (filter != null) {
             gridCache.setFilter(filter);
         }
+
+        blockMenu.replaceExistingItem(getFilterSlot(), getFilterStack(gridCache.getFilter()));
 
         // Deprecated feature
         // autoSetFilter(blockMenu, gridCache);
@@ -225,10 +230,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
                     itemMeta.setLore(lore);
                     displayStack.setItemMeta(itemMeta);
                     blockMenu.replaceExistingItem(getDisplaySlots()[i], displayStack);
-                    blockMenu.addMenuClickHandler(getDisplaySlots()[i], (player, slot, item, action) -> {
-                        retrieveItem(player, item, action, blockMenu);
-                        return false;
-                    });
+                    blockMenu.addMenuClickHandler(getDisplaySlots()[i], displayKeybinds());
                 } else {
                     blockMenu.replaceExistingItem(getDisplaySlots()[i], getBlankSlotStack());
                     blockMenu.addMenuClickHandler(getDisplaySlots()[i], (p, slot, item, action) -> {
@@ -282,10 +284,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
                     itemMeta.setLore(lore);
                     displayStack.setItemMeta(itemMeta);
                     blockMenu.replaceExistingItem(getDisplaySlots()[i], displayStack);
-                    blockMenu.addMenuClickHandler(getDisplaySlots()[i], (player, slot, item, action) -> {
-                        retrieveItem(player, item, action, blockMenu);
-                        return false;
-                    });
+                    blockMenu.addMenuClickHandler(getDisplaySlots()[i], displayKeybinds());
                 } else {
                     blockMenu.replaceExistingItem(getDisplaySlots()[i], getBlankSlotStack());
                     blockMenu.addMenuClickHandler(getDisplaySlots()[i], (p, slot, item, action) -> {
@@ -318,10 +317,8 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         HashSet<SlimefunItem> pass = new HashSet<>();
         String searchTerm = cache.getFilter();
         if (searchTerm != null && Networks.getSupportedPluginManager().isJustEnoughGuide()) {
-            Player player = Bukkit.getOnlinePlayers().stream().findFirst().orElse(null);
-            if (player != null) {
-                pass.addAll(new SearchGroup(null, player, searchTerm, false, false).slimefunItemList);
-            }
+            Bukkit.getOnlinePlayers().stream().findFirst().ifPresent(player ->
+                pass.addAll(new SearchGroup(null, player, searchTerm, false, false).slimefunItemList));
         }
         return networkRoot.getAllNetworkItemsLongType().entrySet().stream()
             .filter(entry -> {
@@ -397,27 +394,9 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         }
     }
 
-    @Deprecated
-    protected void autoSetFilter(@NotNull BlockMenu blockMenu, @NotNull GridCache gridCache) {
-        final ItemStack itemStack = blockMenu.getItemInSlot(getAutoFilterSlot());
-        if (itemStack != null && itemStack.getType() != Material.AIR) {
-            SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
-            String itemName;
-            if (slimefunItem != null) {
-                itemName = TextUtil.stripColor(slimefunItem.getItemName());
-            } else {
-                itemName = TextUtil.stripColor(ItemStackHelper.getDisplayName(itemStack));
-            }
-
-            gridCache.setFilter(itemName.toLowerCase(Locale.ROOT));
-        }
-    }
-
-    @SuppressWarnings("deprecation")
-    @ParametersAreNonnullByDefault
-    protected synchronized void retrieveItem(
-        Player player, @Nullable ItemStack itemStack, ClickAction action, BlockMenu blockMenu) {
-        NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
+    @NullMarked
+    @Nullable
+    public ItemStack precheck(NodeDefinition definition, BlockMenu blockMenu, Player player, ItemStack itemStack) {
         if (definition == null || definition.getNode() == null) {
             clearDisplay(blockMenu);
             blockMenu.close();
@@ -427,23 +406,23 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
                     Lang.getString("messages.unsupported-operation.grid.may_duping"),
                     player.getName(),
                     blockMenu.getLocation()));
-            return;
+            return null;
         }
 
         if (itemStack == null || itemStack.getType() == Material.AIR) {
-            return;
+            return null;
         }
 
         final ItemStack clone = itemStack.clone();
 
         final ItemMeta cloneMeta = clone.getItemMeta();
         if (cloneMeta == null) {
-            return;
+            return null;
         }
         final List<String> cloneLore = cloneMeta.getLore();
 
         if (cloneLore == null || cloneLore.size() < 2) {
-            return;
+            return null;
         }
 
         cloneLore.remove(cloneLore.size() - 1);
@@ -454,40 +433,16 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         NetworkRoot root = definition.getNode().getRoot();
         boolean success = root.refreshRootItems();
         if (!success) {
-            return;
+            return null;
         }
 
-        final ItemStack cursor = player.getItemOnCursor();
-        if (cursor.getType() != Material.AIR
-            && !StackUtils.itemsMatch(clone, StackUtils.getAsQuantity(player.getItemOnCursor(), 1))) {
-            definition.getNode().getRoot().addItemStack0(blockMenu.getLocation(), player.getItemOnCursor());
-            return;
-        }
-
-        int amount = 1;
-
-        if (action.isRightClicked()) {
-            amount = clone.getMaxStackSize();
-        }
-
-        final GridItemRequest request = new GridItemRequest(clone, amount, player);
-
-        if (action.isShiftClicked()) {
-            addToInventory(player, definition, request, action, blockMenu);
-        } else {
-            addToCursor(player, definition, request, action, blockMenu);
-        }
-        GridCache gridCache = getCacheMap().get(blockMenu.getLocation());
-        if (gridCache.getDisplayMode() == DisplayMode.DISPLAY) {
-            gridCache.addPullItemHistory(clone);
-        }
-        updateDisplay(blockMenu);
+        return clone;
     }
 
-    @SuppressWarnings({"deprecation", "unused"})
+    @SuppressWarnings("unused")
     @ParametersAreNonnullByDefault
     public void addToInventory(
-        Player player, NodeDefinition definition, GridItemRequest request, ClickAction action, BlockMenu menu) {
+        Player player, NodeDefinition definition, GridItemRequest request, BlockMenu menu) {
         ItemStack requestingStack = definition.getNode().getRoot().getItemStack0(menu.getLocation(), request);
 
         if (requestingStack == null) {
@@ -497,22 +452,21 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         HashMap<Integer, ItemStack> remnant = InventoryUtil.addItem(player, requestingStack);
         requestingStack = remnant.values().stream().findFirst().orElse(null);
         if (requestingStack != null) {
-            definition.getNode().getRoot().addItemStack0(menu.getLocation(), requestingStack);
+            definition.getNode().getRoot().addItemStack(requestingStack);
         }
     }
 
-    @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
     public void addToCursor(
         Player player,
         NodeDefinition definition,
         GridItemRequest request,
-        ClickAction action,
+        boolean rightClick,
         BlockMenu blockMenu) {
         final ItemStack cursor = player.getItemOnCursor();
 
         // Quickly check if the cursor has an item and if we can add more to it
-        if (cursor.getType() != Material.AIR && !canAddMore(action, cursor, request)) {
+        if (cursor.getType() != Material.AIR && !canAddMore(rightClick, cursor, request)) {
             return;
         }
 
@@ -529,10 +483,9 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         }
     }
 
-    @SuppressWarnings("deprecation")
     private boolean canAddMore(
-        @NotNull ClickAction action, @NotNull ItemStack cursor, @NotNull GridItemRequest request) {
-        return !action.isRightClicked()
+        boolean rightClick, @NotNull ItemStack cursor, @NotNull GridItemRequest request) {
+        return !rightClick
             && request.getAmount() == 1
             && cursor.getAmount() < cursor.getMaxStackSize()
             && StackUtils.itemsMatch(request, cursor);
@@ -547,7 +500,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
     protected abstract BlockMenuPreset getPreset();
 
     @NotNull
-    protected abstract Map<Location, GridCache> getCacheMap();
+    public abstract Map<Location, GridCache> getCacheMap();
 
     protected abstract int[] getBackgroundSlots();
 
@@ -561,7 +514,7 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
 
     protected abstract int getFilterSlot();
 
-    protected abstract int getAutoFilterSlot();
+    protected abstract int getKeybindButtonSlot();
 
     protected abstract int getToggleModeSlot();
 
@@ -617,8 +570,9 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
+    @NullMarked
     public void receiveItem(
-        @NotNull Player player, ItemStack itemStack, ClickAction action, @NotNull BlockMenu blockMenu) {
+        Player player, ItemStack itemStack, ClickAction action, BlockMenu blockMenu) {
         NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
         if (definition == null || definition.getNode() == null) {
             clearDisplay(blockMenu);
@@ -643,7 +597,16 @@ public abstract class AbstractGridNewStyle extends NetworkObject {
         ClickAction action,
         @NotNull BlockMenu blockMenu) {
         if (itemStack != null && itemStack.getType() != Material.AIR) {
-            root.addItemStack0(blockMenu.getLocation(), itemStack);
+            root.addItemStack(itemStack);
         }
     }
+
+    public ItemStack getFilterStack(@Nullable String filter) {
+        if (filter == null) return getFilterStack();
+        ItemStack clone = getFilterStack().clone();
+        clone.setLore(List.of(String.format(Lang.getString("messages.normal-operation.grid.filter"), filter)));
+        return clone;
+    }
+
+
 }

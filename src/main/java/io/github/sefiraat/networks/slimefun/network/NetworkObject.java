@@ -10,6 +10,7 @@ import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
+import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -29,6 +30,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Range;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -64,6 +66,17 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
     private final NodeType nodeType;
     private final List<Integer> slotsToDrop = new ArrayList<>();
     private final Set<Location> firstTickLocations = new HashSet<>();
+
+    protected NetworkObject(
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        @NotNull ItemStack @NotNull [] recipe,
+        @Range(from = 1, to = 64) int outputAmount,
+        @NotNull NodeType type
+    ) {
+        this(itemGroup, item, recipeType, recipe, StackUtils.getAsQuantity(item, outputAmount), type);
+    }
 
     protected NetworkObject(
         @NotNull ItemGroup itemGroup,
