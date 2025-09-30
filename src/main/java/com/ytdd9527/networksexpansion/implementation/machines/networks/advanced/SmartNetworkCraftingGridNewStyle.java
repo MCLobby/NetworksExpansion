@@ -125,7 +125,8 @@ public class SmartNetworkCraftingGridNewStyle extends AbstractGridNewStyle imple
                 storeItem,
                 Keybind.gridActionGenerate(this, AmountHandleStrategy.ONE, true),
                 Keybind.gridActionGenerate(this, AmountHandleStrategy.STACK, true),
-                Keybind.gridActionGenerate(this, AmountHandleStrategy.CUSTOM, true)
+                Keybind.gridActionGenerate(this, AmountHandleStrategy.CUSTOM, true),
+                Keybind.gridActionGenerate(this, AmountHandleStrategy.ASK, true)
             );
             it.defaultKeybinds(
                 Keybind.shiftLeftClick, storeItem
@@ -436,12 +437,12 @@ public class SmartNetworkCraftingGridNewStyle extends AbstractGridNewStyle imple
                 {
                     if (crafted == null || crafted.getType() == Material.AIR || crafted.getAmount() <= 0) break label;
 
-                    // 1. try store back into networks
-                    root.addItemStack(crafted);
+                    // 1. try store into output slots
+                    BlockMenuUtil.pushItem(menu, crafted, OUTPUT_SLOTS);
                     if (crafted.getAmount() == 0) break label;
 
-                    // 2. try store into output slots
-                    BlockMenuUtil.pushItem(menu, crafted, OUTPUT_SLOTS);
+                    // 2. try store back into networks
+                    root.addItemStack(crafted);
                     if (crafted.getAmount() == 0) break label;
 
                     // 3. try store into ingredients slots

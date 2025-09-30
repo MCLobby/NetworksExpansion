@@ -60,6 +60,8 @@ public interface BaseGrid {
                 Action strategy4 = Keybind.gridActionGenerate(this, AmountHandleStrategy.ONE, true);
                 Action strategy5 = Keybind.gridActionGenerate(this, AmountHandleStrategy.CUSTOM, false);
                 Action strategy6 = Keybind.gridActionGenerate(this, AmountHandleStrategy.CUSTOM, true);
+                Action strategy7 = Keybind.gridActionGenerate(this, AmountHandleStrategy.ASK, false);
+                Action strategy8 = Keybind.gridActionGenerate(this, AmountHandleStrategy.ASK, true);
 
                 it.usableKeybinds(
                     Keybind.leftClick,
@@ -109,7 +111,8 @@ public interface BaseGrid {
                     storeItem,
                     Keybind.gridActionGenerate(this, AmountHandleStrategy.ONE, true),
                     Keybind.gridActionGenerate(this, AmountHandleStrategy.STACK, true),
-                    Keybind.gridActionGenerate(this, AmountHandleStrategy.CUSTOM, true)
+                    Keybind.gridActionGenerate(this, AmountHandleStrategy.CUSTOM, true),
+                    Keybind.gridActionGenerate(this, AmountHandleStrategy.ASK, true)
                 );
                 it.defaultKeybinds(
                     Keybind.shiftLeftClick, storeItem
