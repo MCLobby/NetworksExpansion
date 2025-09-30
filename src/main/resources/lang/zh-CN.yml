@@ -576,6 +576,10 @@ icons:
       name: "&6取出自定义数量个物品至光标"
     custom-inv:
       name: "&6取出自定义数量个物品至背包"
+    ask-cursor:
+      name: "&6询问数量并取出指定数量个物品至光标"
+    ask-inv:
+      name: "&6询问数量并取出指定数量个物品至背包"
   filter-mode-black-list:
     name: "&6黑名单模式"
     lore:

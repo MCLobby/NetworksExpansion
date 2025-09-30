@@ -1,6 +1,5 @@
 package io.github.sefiraat.networks.commands;
 
-import com.balugaq.netex.api.algorithm.CalculateException;
 import com.balugaq.netex.api.algorithm.Calculator;
 import com.balugaq.netex.api.data.ItemContainer;
 import com.balugaq.netex.api.data.StorageUnitData;
@@ -1084,7 +1083,6 @@ public class NetworksMain implements TabExecutor {
                         fillQuantum(player, amount);
                     } catch (NumberFormatException e) {
                         player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "amount"));
-                    } catch (CalculateException e) {
                         player.sendMessage(e.getMessage());
                     }
 
@@ -1125,7 +1123,6 @@ public class NetworksMain implements TabExecutor {
                         setQuantum(player, amount);
                     } catch (NumberFormatException e) {
                         player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "amount"));
-                    } catch (CalculateException e) {
                         player.sendMessage(e.getMessage());
                     }
 
@@ -1148,7 +1145,6 @@ public class NetworksMain implements TabExecutor {
                         addStorageItem(player, amount);
                     } catch (NumberFormatException e) {
                         player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "amount"));
-                    } catch (CalculateException e) {
                         player.sendMessage(e.getMessage());
                     }
 
@@ -1172,7 +1168,6 @@ public class NetworksMain implements TabExecutor {
                         reduceStorageItem(player, amount);
                     } catch (NumberFormatException e) {
                         player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "amount"));
-                    } catch (CalculateException e) {
                         player.sendMessage(e.getMessage());
                     }
 
@@ -1196,7 +1191,6 @@ public class NetworksMain implements TabExecutor {
                         setContainerId(player, containerId);
                     } catch (NumberFormatException e) {
                         player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "containerId"));
-                    } catch (CalculateException e) {
                         player.sendMessage(e.getMessage());
                     }
 
@@ -1292,7 +1286,6 @@ public class NetworksMain implements TabExecutor {
                                     worldeditBlockMenuSetSlot(player, slot);
                                 } catch (NumberFormatException e) {
                                     player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "slot"));
-                                } catch (CalculateException e) {
                                     player.sendMessage(e.getMessage());
                                 }
                             } else {
@@ -1385,7 +1378,6 @@ public class NetworksMain implements TabExecutor {
                         getStorageItem(player, slot);
                     } catch (NumberFormatException e) {
                         player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "slot"));
-                    } catch (CalculateException e) {
                         player.sendMessage(e.getMessage());
                     }
 

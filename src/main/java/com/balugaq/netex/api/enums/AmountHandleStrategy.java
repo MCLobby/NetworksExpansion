@@ -1,10 +1,10 @@
 package com.balugaq.netex.api.enums;
 
-import com.balugaq.netex.api.algorithm.CalculateException;
 import com.balugaq.netex.api.algorithm.Calculator;
 import com.balugaq.netex.api.interfaces.consumers.Consumer4;
 import com.balugaq.netex.core.guide.GridNewStyleCustomAmountGuideOption;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
@@ -23,6 +23,7 @@ public enum AmountHandleStrategy {
     STACK((player, itemStack) -> itemStack.getMaxStackSize()),
     CUSTOM((player, itemStack) -> GridNewStyleCustomAmountGuideOption.get(player)),
     ASK((location, player, itemStack, consumer) -> ChatUtils.awaitInput(player, input -> {
+        player.sendMessage(ChatColors.color("&e输入取出数量"));
         try {
             int value = Calculator.calculate(input).intValue();
             if (value <= 0 || value >= GRID_NEW_STYLE_MAX_CUSTOM_AMOUNT) {
@@ -37,9 +38,8 @@ public enum AmountHandleStrategy {
             }
 
             consumer.accept(value);
-        } catch (NumberFormatException ignored) {
+        } catch (NumberFormatException e) {
             player.sendMessage("请输入 1 ~ " + GRID_NEW_STYLE_MAX_CUSTOM_AMOUNT + " 之间的正整数");
-        } catch (CalculateException e) {
             player.sendMessage(e.getMessage());
         }
     }));

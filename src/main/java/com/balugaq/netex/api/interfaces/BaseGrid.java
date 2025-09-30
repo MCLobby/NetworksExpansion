@@ -71,7 +71,7 @@ public interface BaseGrid {
                     Keybind.shiftClick,
                     clickOnWithCursor
                 );
-                it.usableActions(storeCursor, strategy1, strategy2, strategy3, strategy4, strategy5, strategy6);
+                it.usableActions(storeCursor, strategy1, strategy2, strategy3, strategy4, strategy5, strategy6, strategy7, strategy8);
                 it.defaultKeybinds(
                     clickOnWithCursor, storeCursor,
                     Keybind.leftClick, strategy1,

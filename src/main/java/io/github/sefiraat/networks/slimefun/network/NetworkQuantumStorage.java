@@ -1,6 +1,5 @@
 package io.github.sefiraat.networks.slimefun.network;
 
-import com.balugaq.netex.api.algorithm.CalculateException;
 import com.balugaq.netex.api.algorithm.Calculator;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
@@ -438,7 +437,6 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
                             } catch (NumberFormatException e) {
                                 p.sendMessage(Lang.getString(
                                     "messages.unsupported-operation.quantum_storage.invalid_custom_max_amount"));
-                            } catch (CalculateException e) {
                                 p.sendMessage(e.getMessage());
                             }
                         });

@@ -35,9 +35,9 @@ public class Calculator {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    public static BigDecimal calculate(String expression) throws CalculateException {
+    public static BigDecimal calculate(String expression) throws NumberFormatException {
         if (expression == null || expression.trim().isEmpty()) {
-            throw new CalculateException("表达式为空");
+            throw new NumberFormatException("表达式为空");
         }
 
         // 预处理：替换各种括号为标准小括号
@@ -51,7 +51,7 @@ public class Calculator {
 
         // 校验括号是否匹配
         if (!isValidParentheses(expr)) {
-            throw new CalculateException("括号无法自动补全为有效表达式");
+            throw new NumberFormatException("括号无法自动补全为有效表达式");
         }
 
         // 双栈：操作数栈(使用BigDecimal支持浮点数)和运算符栈
@@ -101,7 +101,7 @@ public class Calculator {
                 // 计算到最近的左括号为止
                 String pk = opStack.peek();
                 if (pk == null) {
-                    throw new CalculateException("括号不匹配: " + expression);
+                    throw new NumberFormatException("括号不匹配: " + expression);
                 }
                 
                 while (!pk.equals("(")) {
@@ -133,7 +133,7 @@ public class Calculator {
                 if (c == '+' && (i == 0 || expr.charAt(i - 1) == '(' || isOperator(String.valueOf(expr.charAt(i - 1))))) {
                     // 检查下一个字符是否是数字或小数点
                     if (i + 1 >= n || (!Character.isDigit(expr.charAt(i + 1)) && expr.charAt(i + 1) != '.')) {
-                        throw new CalculateException("无效的正号位置: " + expression);
+                        throw new NumberFormatException("无效的正号位置: " + expression);
                     }
 
                     int j = i + 1;
@@ -164,7 +164,7 @@ public class Calculator {
                 else if (c == '-' && (i == 0 || expr.charAt(i - 1) == '(' || isOperator(String.valueOf(expr.charAt(i - 1))))) {
                     // 检查下一个字符是否是数字或小数点
                     if (i + 1 >= n || (!Character.isDigit(expr.charAt(i + 1)) && expr.charAt(i + 1) != '.')) {
-                        throw new CalculateException("无效的负号位置: " + expression);
+                        throw new NumberFormatException("无效的负号位置: " + expression);
                     }
 
                     int j = i + 1;
@@ -203,7 +203,7 @@ public class Calculator {
             }
             // 非法字符
             else {
-                throw new CalculateException("无效字符: " + c);
+                throw new NumberFormatException("无效字符: " + c);
             }
         }
 
@@ -213,7 +213,7 @@ public class Calculator {
         }
 
         if (numStack.size() != 1) {
-            throw new CalculateException("无效的表达式: " + expression);
+            throw new NumberFormatException("无效的表达式: " + expression);
         }
 
         return numStack.pop();
@@ -258,7 +258,7 @@ public class Calculator {
     }
 
     // 解析数字，支持.123和123.格式
-    private static BigDecimal parseNumber(String numStr) throws CalculateException {
+    private static BigDecimal parseNumber(String numStr) throws NumberFormatException {
         try {
             // 处理123.这种格式
             if (numStr.endsWith(".")) {
@@ -270,18 +270,18 @@ public class Calculator {
             }
             return new BigDecimal(numStr);
         } catch (NumberFormatException e) {
-            throw new CalculateException("无效的数字格式: " + numStr);
+            throw new NumberFormatException("无效的数字格式: " + numStr);
         }
     }
 
     // 计算栈顶的运算符
-    private static void calculateTop(Deque<BigDecimal> numStack, Deque<String> opStack) throws CalculateException {
+    private static void calculateTop(Deque<BigDecimal> numStack, Deque<String> opStack) throws NumberFormatException {
         String op = opStack.pop();
 
         // 处理单目运算符
         if (op.equals("~") || op.equals("!")) {
             if (numStack.isEmpty()) {
-                throw new CalculateException("无效的表达式，单目运算符缺少操作数");
+                throw new NumberFormatException("无效的表达式，单目运算符缺少操作数");
             }
 
             BigDecimal a = numStack.pop();
@@ -292,7 +292,7 @@ public class Calculator {
                     ~aLong;
                 case "!" ->  // 逻辑非
                     (aLong == 0) ? 1 : 0;
-                default -> throw new CalculateException("无效的单目运算符: " + op);
+                default -> throw new NumberFormatException("无效的单目运算符: " + op);
             };
 
             numStack.push(new BigDecimal(resultLong));
@@ -301,7 +301,7 @@ public class Calculator {
 
         // 处理双目运算符
         if (numStack.size() < 2) {
-            throw new CalculateException("无效的表达式，双目运算符缺少操作数");
+            throw new NumberFormatException("无效的表达式，双目运算符缺少操作数");
         }
 
         BigDecimal b = numStack.pop();
@@ -353,7 +353,7 @@ public class Calculator {
                 result = new BigDecimal(aLongRsh >> bLongRsh);
                 break;
             default:
-                throw new CalculateException("无效的运算符: " + op);
+                throw new NumberFormatException("无效的运算符: " + op);
         }
 
         numStack.push(result);
