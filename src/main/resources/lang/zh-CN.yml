@@ -532,8 +532,8 @@ icons:
   craft:
     name: "&e合成"
     lore:
-      - "左键点击: 合成1次"
-      - "右键点击: 合成64次"
+      - "<click_info>左键点击: 合成1次"
+      - "<click_info>右键点击: 合成64次"
   keybinds:
     scripts:
       display:
