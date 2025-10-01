@@ -294,6 +294,7 @@ messages:
     wireless_configurator:
       transmitter_linked: "<success>已设置网络无线发射器。"
       receiver_set: "<success>已存储网络无线接收器的位置。"
+      set_location: "已设置机器 %s 的目标位置 %s"
     cargo_node_quick_tool:
       node_set: "&9物品: %s"
       config_saved: "&a加载成功"
@@ -944,11 +945,9 @@ icons:
     name: "&6点击升级"
     lore:
       - ""
+  ae_switcher:
+    name: "网络交换机"
   recipe-types:
-    expansion_workbench_6x6:
-      name: "网络拓展工作台6x6"
-      lore:
-        - "在6x6拓展工作台中制作"
     expansion_workbench_3x3:
       name: "网络拓展工作台"
       lore:
@@ -957,6 +956,7 @@ icons:
       name: "网络量子工作台"
       lore:
         - "在量子工作台中制作"
+
 items:
   # DO NOT TRANSLATE, CHANGE OR DELETE THESE ANNOUNCEMENTS
   NTW_EXPANSION_ANNOUNCE_1:
