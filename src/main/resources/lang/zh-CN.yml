@@ -3267,6 +3267,14 @@ items:
       - "使用网络无线配置器来进行绑定."
       - "每次传输会消耗 500 J 网络电力."
 
+  NTW_EXPANSION_ADVANCED_WIRELESS_TRANSMITTER:
+    name: "高级网络无线发射器"
+    lore:
+      - "高级网络无线发射器可以"
+      - "将其中的物品传输到绑定的"
+      - "网络无线接收器中(只能在同一世界)."
+      - "使用网络无线配置器来进行绑定."
+
   NTW_NETWORK_WIRELESS_RECEIVER:
     name: "网络无线接收器"
     lore:

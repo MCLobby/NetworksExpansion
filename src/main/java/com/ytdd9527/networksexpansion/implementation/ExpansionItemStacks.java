@@ -492,7 +492,7 @@ public class ExpansionItemStacks {
     public static final SlimefunItemStack SMART_NETWORK_CRAFTING_GRID_NEW_STYLE = Theme.themedSlimefunItemStack(
         Lang.getItem("NTW_EXPANSION_SMART_NETWORK_CRAFTING_GRID_NEW_STYLE", Material.CRAFTING_TABLE), Theme.MACHINE);
     public static final SlimefunItemStack ADVANCED_WIRELESS_TRANSMITTER = Theme.themedSlimefunItemStack(
-        Lang.getItem("NTW_EXPANSION_ADVANCED_WIRELESS_TRANSMITTER", Material.REDSTONE_TORCH), Theme.MACHINE);
+        Lang.getItem("NTW_EXPANSION_ADVANCED_WIRELESS_TRANSMITTER", Material.CYAN_STAINED_GLASS), Theme.MACHINE);
 
 
     public static @NotNull ItemStack enchanted(@NotNull Material material) {

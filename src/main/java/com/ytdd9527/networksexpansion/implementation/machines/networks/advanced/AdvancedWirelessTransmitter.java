@@ -1,8 +1,9 @@
 package com.ytdd9527.networksexpansion.implementation.machines.networks.advanced;
 
+import com.balugaq.netex.api.algorithm.Calculator;
 import com.balugaq.netex.api.enums.FeedbackType;
+import com.balugaq.netex.api.interfaces.SoftCellBannable;
 import com.balugaq.netex.utils.Lang;
-import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.machines.AdvancedDirectional;
 import io.github.sefiraat.networks.NetworkStorage;
@@ -11,13 +12,15 @@ import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -32,22 +35,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NullMarked
-public class AdvancedWirelessTransmitter extends AdvancedDirectional {
+public class AdvancedWirelessTransmitter extends AdvancedDirectional implements SoftCellBannable {
     private static final String BS_TARGET_LOCATION = "target";
     private static final int[] TEMPLATE_SLOTS = new int[]{0, 1, 2, 3};
     public AdvancedWirelessTransmitter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.ADVANCED_WIRELESS_TRANSMITTER);
-        addItemHandler(new BlockTicker() {
-            @Override
-            public void tick(Block b, SlimefunItem item, SlimefunBlockData data) {
-                onTick(b, data);
-            }
-
-            @Override
-            public boolean isSynchronized() {
-                return false;
-            }
-        });
+        for (int slot : TEMPLATE_SLOTS) {
+            getSlotsToDrop().add(slot);
+        }
     }
 
     @Override
@@ -57,7 +52,7 @@ public class AdvancedWirelessTransmitter extends AdvancedDirectional {
 
     @Override
     public boolean isExceedLimit(int quantity) {
-        return quantity < 0 || quantity > 3456;
+        return quantity > 3456;
     }
 
     @Override
@@ -111,8 +106,87 @@ public class AdvancedWirelessTransmitter extends AdvancedDirectional {
         return new Location(machine.getWorld(), Integer.parseInt(split[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2]));
     }
 
-    private void onTick(Block b, SlimefunBlockData data) {
-        Location location = b.getLocation();
+    @Override
+    public void postRegister() {
+        new BlockMenuPreset(this.getId(), this.getItemName()) {
+
+            @Override
+            public void init() {
+                drawBackground(getBackgroundSlots());
+
+                addItem(getAddSlot(), getAddIcon(), (p, i, itemStack, clickAction) -> false);
+                addItem(getMinusSlot(), getMinusIcon(), (p, i, itemStack, clickAction) -> false);
+                addItem(getCargoNumberSlot(), getCargoNumberIcon(), (p, i, itemStack, clickAction) -> false);
+            }
+
+            @Override
+            public void newInstance(@NotNull BlockMenu blockMenu, @NotNull Block b) {
+                final Location location = blockMenu.getLocation();
+
+                final String rawLimit = StorageCacheUtils.getData(location, LIMIT_KEY);
+
+                int limit = rawLimit == null ? getMaxLimit() : Integer.parseInt(rawLimit);
+
+                AdvancedDirectional.NETWORK_LIMIT_QUANTITY_MAP.put(location.clone(), limit);
+
+                if (getCargoNumberSlot() != -1) {
+                    blockMenu.addMenuClickHandler(getCargoNumberSlot(), (player, i, itemStack, clickAction) -> {
+                        player.sendMessage(ChatColors.color("&e输入数量"));
+                        ChatUtils.awaitInput(player, input -> {
+                            try {
+                                int value = Calculator.calculate(input).intValue();
+                                if (value <= 0 || value > getMaxLimit()) {
+                                    player.sendMessage("请输入 1 ~ " + getMaxLimit() + " 之间的正整数");
+                                    BlockMenu menu = StorageCacheUtils.getMenu(location);
+                                    if (menu != null) menu.open(player);
+                                    return;
+                                }
+
+                                setLimitQuantity(location, value);
+                                updateShowIcon(location);
+                                BlockMenu menu = StorageCacheUtils.getMenu(location);
+                                if (menu != null) menu.open(player);
+                            } catch (NumberFormatException e) {
+                                player.sendMessage(e.getMessage());
+                            }
+                        });
+                        return false;
+                    });
+                }
+
+                blockMenu.addMenuClickHandler(getAddSlot(), (p, slot, item, action) -> addClick(location, action));
+
+                blockMenu.addMenuClickHandler(getMinusSlot(), (p, slot, item, action) -> minusClick(location, action));
+
+                updateShowIcon(location);
+                updateTransportModeIcon(location);
+            }
+
+            @Override
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
+                return player.hasPermission("slimefun.inventory.bypass")
+                    || (this.getSlimefunItem().canUse(player, false)
+                    && Slimefun.getProtectionManager()
+                    .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
+            }
+
+            @Override
+            public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
+                return TEMPLATE_SLOTS;
+            }
+        };
+    }
+
+    @Override
+    protected void onTick(@Nullable BlockMenu menu, Block block) {
+        sendFeedback(block.getLocation(), FeedbackType.TICKING);
+        addToRegistry(block);
+        Location location = block.getLocation();
+        if (menu == null) {
+            sendFeedback(location, FeedbackType.NO_MENU);
+            return;
+        }
+
         Location target = getTargetLocation(location);
         if (target == null) {
             sendFeedback(location, FeedbackType.NO_TARGET_LOCATION);
@@ -136,9 +210,7 @@ public class AdvancedWirelessTransmitter extends AdvancedDirectional {
             return;
         }
 
-        BlockMenu menu = StorageCacheUtils.getMenu(location);
-        if (menu == null) {
-            sendFeedback(location, FeedbackType.NO_MENU);
+        if (checkSoftCellBan(location, src)) {
             return;
         }
 
@@ -157,8 +229,8 @@ public class AdvancedWirelessTransmitter extends AdvancedDirectional {
         for (ItemStack template : templates) {
             ItemStack itemStack = src.getItemStack0(location, new ItemRequest(template, getLimitQuantity(location)));
             if (itemStack != null && itemStack.getAmount() > 0) {
-                src.addItemStack(itemStack);
                 tgt.addItemStack0(target, itemStack);
+                src.addItemStack(itemStack);
             }
         }
         sendFeedback(location, FeedbackType.WORKING);

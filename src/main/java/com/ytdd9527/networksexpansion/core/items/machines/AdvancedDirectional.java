@@ -65,7 +65,7 @@ public abstract class AdvancedDirectional extends NetworkDirectional {
     private static final Set<BlockFace> VALID_FACES =
         EnumSet.of(BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
     private static final Map<Location, BlockFace> SELECTED_DIRECTION_MAP = new HashMap<>();
-    private static final Map<Location, Integer> NETWORK_LIMIT_QUANTITY_MAP = new HashMap<>();
+    protected static final Map<Location, Integer> NETWORK_LIMIT_QUANTITY_MAP = new HashMap<>();
     private static final Map<Location, TransportMode> NETWORK_TRANSPORT_MODE_MAP = new HashMap<>();
     final NetworkDirectional instance = this;
     private final @NotNull ItemStack CARGO_NUMBER_ICON_CLONE;
