@@ -76,6 +76,10 @@ public interface Keybind extends Keyed, Comparable<Keybind> {
                 }
 
                 GridCache gridCache = grid.getCacheMap().get(menu.getLocation());
+                if (gridCache == null) {
+                    return;
+                }
+
                 if (gridCache.getDisplayMode() == GridCache.DisplayMode.DISPLAY) {
                     gridCache.addPullItemHistory(clone);
                 }
