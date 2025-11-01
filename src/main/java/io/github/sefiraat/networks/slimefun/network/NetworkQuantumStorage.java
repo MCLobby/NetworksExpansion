@@ -185,9 +185,11 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             syncBlock(blockMenu.getLocation(), cache);
             return fetched;
         } else {
+            // Netex - wtf reversed syncBlock
             // Storage has everything we need
+            ItemStack fetched = cache.withdrawItem(amount);
             syncBlock(blockMenu.getLocation(), cache);
-            return cache.withdrawItem(amount);
+            return fetched;
         }
     }
 

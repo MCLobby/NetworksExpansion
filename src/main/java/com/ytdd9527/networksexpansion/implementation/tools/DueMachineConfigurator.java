@@ -1,5 +1,6 @@
 package com.ytdd9527.networksexpansion.implementation.tools;
 
+import com.balugaq.netex.utils.InventoryUtil;
 import com.balugaq.netex.utils.Lang;
 import com.jeff_media.morepersistentdatatypes.DataType;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -85,20 +86,34 @@ public class DueMachineConfigurator extends SpecialSlimefunItem {
             for (ItemStack templateStack : templateStacks) {
                 if (templateStack != null && templateStack.getType() != Material.AIR) {
                     boolean worked = false;
+                    int need = templateStack.getAmount();
                     for (ItemStack stack : player.getInventory()) {
                         if (StackUtils.itemsMatch(stack, templateStack)) {
-                            final ItemStack stackClone = StackUtils.getAsQuantity(stack, 1);
-                            stack.setAmount(stack.getAmount() - 1);
-                            blockMenu.replaceExistingItem(dueMachine.getItemSlots()[i], stackClone);
-                            player.sendMessage(String.format(
-                                Lang.getString("messages.completed-operation.configurator.pasted_item"), i));
+                            int handled = Math.max(Math.min(need, stack.getAmount()), 0);
+                            if (handled == 0) {
+                                continue;
+                            }
+                            final ItemStack stackClone = StackUtils.getAsQuantity(stack, handled);
+                            stack.setAmount(stack.getAmount() - handled);
+                            ItemStack exist = blockMenu.getItemInSlot(dueMachine.getItemSlots()[i]);
+                            if (exist == null || exist.getType() == Material.AIR) {
+                                blockMenu.replaceExistingItem(dueMachine.getItemSlots()[i], stackClone);
+                            } else {
+                                exist.setAmount(exist.getAmount() + handled);
+                            }
+                            need -= handled;
                             worked = true;
-                            break;
+                            if (need <= 0) {
+                                break;
+                            }
                         }
                     }
                     if (!worked) {
                         player.sendMessage(String.format(
                             Lang.getString("messages.unsupported-operation.configurator.not_enough_items"), i));
+                    } else {
+                        player.sendMessage(String.format(
+                            Lang.getString("messages.completed-operation.configurator.pasted_item"), i));
                     }
                 }
                 i++;
@@ -122,7 +137,7 @@ public class DueMachineConfigurator extends SpecialSlimefunItem {
             for (int slot : dueMachine.getItemSlots()) {
                 final ItemStack possibleStack = blockMenu.getItemInSlot(slot);
                 if (possibleStack != null) {
-                    itemStacks[i] = StackUtils.getAsQuantity(blockMenu.getItemInSlot(slot), 1);
+                    itemStacks[i] = blockMenu.getItemInSlot(slot);
                 }
                 i++;
             }
