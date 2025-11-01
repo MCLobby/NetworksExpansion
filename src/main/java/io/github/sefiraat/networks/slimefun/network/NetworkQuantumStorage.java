@@ -549,9 +549,9 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             }
 
             p.getInventory().setStorageContents(contents);
-            syncBlock(b.getLocation(), cache);
             updateDisplayItem(menu, cache);
         }
+        syncBlock(b.getLocation(), cache);
     }
 
     private @NotNull QuantumCache addCache(@NotNull BlockMenu blockMenu) {
