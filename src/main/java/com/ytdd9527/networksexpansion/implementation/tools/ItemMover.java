@@ -66,9 +66,6 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         @NotNull RecipeType recipeType,
         @NotNull ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
-        if (this.isDisabled()) {
-            return;
-        }
     }
 
     @Override
