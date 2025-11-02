@@ -69,9 +69,24 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         if (this.isDisabled()) {
             return;
         }
+    }
+
+    @Override
+    public void postRegister() {
+        try {
+            if (this.isDisabled()) {
+                return;
+            }
+        } catch (Exception e) {
+            return;
+        }
 
         addItemHandler((ItemUseHandler) e -> {
-            if (this.isDisabled()) {
+            try {
+                if (this.isDisabled()) {
+                    return;
+                }
+            } catch (Exception ex) {
                 return;
             }
 
