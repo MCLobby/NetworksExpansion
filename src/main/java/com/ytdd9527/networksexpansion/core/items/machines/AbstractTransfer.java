@@ -202,27 +202,27 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
             return;
         }
         
-        Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
-        	List<ItemStack> templates = new ArrayList<>();
-            for (int slot : this.getItemSlots()) {
-                final ItemStack template = blockMenu.getItemInSlot(slot);
-                if (template != null && template.getType() != Material.AIR) {
-                    templates.add(StackUtils.getAsQuantity(template, 1));
-                }
+        //Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+        List<ItemStack> templates = new ArrayList<>();
+        for (int slot : this.getItemSlots()) {
+            final ItemStack template = blockMenu.getItemInSlot(slot);
+            if (template != null && template.getType() != Material.AIR) {
+                templates.add(StackUtils.getAsQuantity(template, 1));
             }
+        }
 
-            LineOperationUtil.doOperation(
-                blockMenu.getLocation(),
-                direction,
-                config.maxDistance,
-                false,
-                false,
-                (targetMenu) -> LineOperationUtil.pushItem(
-                    targetMenu.getLocation(), root, targetMenu, templates, mode, limitQuantity));
+        LineOperationUtil.doOperation(
+            blockMenu.getLocation(),
+            direction,
+            config.maxDistance,
+            false,
+            false,
+            (targetMenu) -> LineOperationUtil.pushItem(
+                targetMenu.getLocation(), root, targetMenu, templates, mode, limitQuantity));
 
-            root.removeRootPower(config.defaultRequiredPower);
-            sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
-        });
+        root.removeRootPower(config.defaultRequiredPower);
+        sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
+        //});
 
         
     }
@@ -236,18 +236,18 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
             return;
         }
         
-        Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
-        	LineOperationUtil.doOperation(
-                    blockMenu.getLocation(),
-                    direction,
-                    config.maxDistance,
-                    false,
-                    false,
-                    (targetMenu) ->
-                        LineOperationUtil.grabItem(targetMenu.getLocation(), root, targetMenu, mode, limitQuantity));
+        //Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+        LineOperationUtil.doOperation(
+                blockMenu.getLocation(),
+                direction,
+                config.maxDistance,
+                false,
+                false,
+                (targetMenu) ->
+                    LineOperationUtil.grabItem(targetMenu.getLocation(), root, targetMenu, mode, limitQuantity));
 
-                root.removeRootPower(config.defaultRequiredPower);
-        });
+        root.removeRootPower(config.defaultRequiredPower);
+        //});
 
         
     }
