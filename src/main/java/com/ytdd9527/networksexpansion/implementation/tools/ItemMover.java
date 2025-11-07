@@ -69,7 +69,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
     }
 
     @Override
-    public void postRegister() {
+    public void preRegister() {
         try {
             if (this.isDisabled()) {
                 return;
