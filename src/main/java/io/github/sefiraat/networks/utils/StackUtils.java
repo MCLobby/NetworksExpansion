@@ -544,6 +544,9 @@ public class StackUtils {
             if (instanceOne.hasVariant() != instanceTwo.hasVariant()) {
                 return true;
             }
+            if (!instanceOne.hasVariant() || !instanceTwo.hasVariant()) {
+            	return false;
+            }
             if (!instanceOne.getPattern().equals(instanceTwo.getPattern())) {
                 return true;
             }
