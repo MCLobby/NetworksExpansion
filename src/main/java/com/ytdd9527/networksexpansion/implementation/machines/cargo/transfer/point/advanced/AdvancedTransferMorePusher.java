@@ -11,7 +11,10 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 
+@EnableAsync
 public class AdvancedTransferMorePusher extends AbstractTransfer implements SoftCellBannable, PushTickOnly {
     public AdvancedTransferMorePusher(
         @NotNull ItemGroup itemGroup,
@@ -32,6 +35,7 @@ public class AdvancedTransferMorePusher extends AbstractTransfer implements Soft
     }
 
     @Override
+    @Async
     public @NotNull TransferType getTransferType() {
         return TransferType.ADVANCED_TRANSFER_MORE_PUSHER;
     }

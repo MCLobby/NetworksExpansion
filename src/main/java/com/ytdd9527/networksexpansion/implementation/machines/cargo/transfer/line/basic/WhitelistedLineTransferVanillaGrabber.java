@@ -34,12 +34,15 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings({"DuplicatedCode", "GrazieInspection"})
+@EnableAsync
 public class WhitelistedLineTransferVanillaGrabber extends NetworkDirectional implements RecipeDisplayItem, SoftCellBannable, WhitelistedVanillaGrabber {
     private static final TransferConfiguration config =
         TransferConfigFactory.getTransferConfiguration(TransferType.WHITELISTED_LINE_TRANSFER_VANILLA_GRABBER);
@@ -56,6 +59,7 @@ public class WhitelistedLineTransferVanillaGrabber extends NetworkDirectional im
     }
 
     @Override
+    @Async
     protected void onTick(@Nullable BlockMenu blockMenu, @NotNull Block block) {
         super.onTick(blockMenu, block);
 
@@ -78,6 +82,7 @@ public class WhitelistedLineTransferVanillaGrabber extends NetworkDirectional im
         }
     }
 
+    @Async
     private int getTickCounter(Location location) {
         final Integer ticker = TICKER_MAP.get(location);
         if (ticker == null) {
@@ -87,10 +92,12 @@ public class WhitelistedLineTransferVanillaGrabber extends NetworkDirectional im
         return ticker;
     }
 
+    @Async
     private void updateTickCounter(Location location, int tickCounter) {
         TICKER_MAP.put(location, tickCounter);
     }
 
+    @Async
     private void tryGrabItem(@NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
@@ -169,15 +176,18 @@ public class WhitelistedLineTransferVanillaGrabber extends NetworkDirectional im
     }
 
     @Override
+    @Async
     public boolean runSync() {
         return true;
     }
 
     @Override
+    @Async
     protected Particle.@NotNull DustOptions getDustOptions() {
         return new Particle.DustOptions(Color.MAROON, 1);
     }
 
+    @Async
     public @NotNull List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>(6);
         displayRecipes.add(new CustomItemStack(
@@ -190,6 +200,7 @@ public class WhitelistedLineTransferVanillaGrabber extends NetworkDirectional im
     }
 
     @Override
+    @Async
     public int[] getTemplateSlots() {
         return config.getTemplateSlots();
     }

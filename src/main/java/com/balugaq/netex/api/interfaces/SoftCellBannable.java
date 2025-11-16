@@ -8,19 +8,25 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 
+@EnableAsync
 public interface SoftCellBannable extends FeedbackSendable {
     boolean SOFT_CELL_BAN = Networks.getConfigManager().isSoftCellBan();
     int SOFT_CELL_BAN_THRESHOLD = Networks.getConfigManager().getSoftCellBanThreshold();
 
+    @Async
     default boolean checkSoftCellBan(@NotNull BlockMenu blockMenu, NodeDefinition definition) {
         return checkSoftCellBan(blockMenu.getLocation(), definition);
     }
 
+    @Async
     default boolean checkSoftCellBan(@NotNull BlockMenu blockMenu, @NotNull NetworkRoot root) {
         return checkSoftCellBan(blockMenu.getLocation(), root);
     }
 
+    @Async
     default boolean checkSoftCellBan(@NotNull Location location, @Nullable NodeDefinition definition) {
         if (definition != null && definition.getNode() != null) {
             return checkSoftCellBan(location, definition.getNode().getRoot());
@@ -29,6 +35,7 @@ public interface SoftCellBannable extends FeedbackSendable {
         }
     }
 
+    @Async
     default boolean checkSoftCellBan(@NotNull Location location, @NotNull NetworkRoot root) {
         if (SOFT_CELL_BAN && root.getCellsSize() > SOFT_CELL_BAN_THRESHOLD) {
             sendFeedback(location, FeedbackType.SOFT_CELL_BANNED);

@@ -9,12 +9,15 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Slimefu
 import lombok.experimental.UtilityClass;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings("JavaExistingMethodCanBeUsed")
 @UtilityClass
+@EnableAsync
 public final class SupportedExpansionWorkbenchRecipes {
 
     private static final Map<ItemStack[], ItemStack> RECIPES = new HashMap<>();
@@ -40,14 +43,17 @@ public final class SupportedExpansionWorkbenchRecipes {
         }
     }
 
+    @Async
     public static @NotNull Map<ItemStack[], ItemStack> getRecipes() {
         return RECIPES;
     }
 
+    @Async
     public static void addRecipe(@NotNull ItemStack[] input, @NotNull ItemStack output) {
         RECIPES.put(input, output);
     }
 
+    @Async
     public static boolean testRecipe(@NotNull ItemStack[] input, @NotNull ItemStack @NotNull [] recipe) {
         for (int test = 0; test < recipe.length; test++) {
             if (!StackUtils.itemsMatch(input[test], recipe[test])) {
@@ -57,6 +63,7 @@ public final class SupportedExpansionWorkbenchRecipes {
         return true;
     }
 
+    @Async
     public static boolean allowedRecipe(@NotNull SlimefunItem item) {
         return !(item instanceof SlimefunBackpack);
     }

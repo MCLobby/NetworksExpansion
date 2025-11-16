@@ -30,8 +30,11 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 @SuppressWarnings({"DuplicatedCode", "GrazieInspection"})
+@EnableAsync
 public class WhitelistedTransferVanillaGrabber extends NetworkDirectional implements SoftCellBannable, WhitelistedVanillaGrabber {
     private static final TransferConfiguration config = TransferConfigFactory
         .getTransferConfiguration(TransferType.WHITELISTED_TRANSFER_VANILLA_GRABBER);
@@ -48,6 +51,7 @@ public class WhitelistedTransferVanillaGrabber extends NetworkDirectional implem
     }
 
     @Override
+    @Async
     protected void onTick(@Nullable BlockMenu blockMenu, @NotNull Block block) {
         super.onTick(blockMenu, block);
         if (blockMenu != null) {
@@ -55,6 +59,7 @@ public class WhitelistedTransferVanillaGrabber extends NetworkDirectional implem
         }
     }
 
+    @Async
     private void tryGrabItem(@NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
@@ -130,67 +135,80 @@ public class WhitelistedTransferVanillaGrabber extends NetworkDirectional implem
     }
 
     @Override
+    @Async
     protected Particle.@NotNull DustOptions getDustOptions() {
         return new Particle.DustOptions(Color.FUCHSIA, 1);
     }
 
     @Override
+    @Async
     public int getNorthSlot() {
         return config.getNorthSlot();
     }
 
     @Override
+    @Async
     public int getSouthSlot() {
         return config.getSouthSlot();
     }
 
     @Override
+    @Async
     public int getEastSlot() {
         return config.getEastSlot();
     }
 
     @Override
+    @Async
     public int getWestSlot() {
         return config.getWestSlot();
     }
 
     @Override
+    @Async
     public int getUpSlot() {
         return config.getUpSlot();
     }
 
     @Override
+    @Async
     public int getDownSlot() {
         return config.getDownSlot();
     }
 
     @Nullable
     @Override
+    @Async
     protected ItemStack getOtherBackgroundStack() {
         return Icon.GRABBER_TEMPLATE_BACKGROUND_STACK;
     }
 
     @Override
+    @Async
     public int @NotNull [] getBackgroundSlots() {
         return config.getBackgroundSlots();
     }
 
     @Override
+    @Async
     public int @NotNull [] getOtherBackgroundSlots() {
         return config.getTemplateBackgroundSlots();
     }
 
     @Override
+    @Async
     public int @NotNull [] getItemSlots() {
         return config.getTemplateSlots();
     }
 
     @Override
+    @Async
     public boolean runSync() {
         return true;
     }
 
     @Override
+    @Async
     public int[] getTemplateSlots() {
         return config.getTemplateSlots();
     }

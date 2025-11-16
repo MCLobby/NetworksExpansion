@@ -9,10 +9,13 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.Map;
 import java.util.Set;
 
+@EnableAsync
 public class AdvancedAutoCraftingTable extends AbstractAdvancedAutoCrafter {
     public AdvancedAutoCraftingTable(
         @NotNull ItemGroup itemGroup,
@@ -24,18 +27,22 @@ public class AdvancedAutoCraftingTable extends AbstractAdvancedAutoCrafter {
         super(itemGroup, item, recipeType, recipe, chargePerCraft, withholding);
     }
 
+    @Async
     public @NotNull Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {
         return SupportedCraftingTableRecipes.getRecipes().entrySet();
     }
 
+    @Async
     public boolean testRecipe(ItemStack[] inputs, ItemStack @NotNull [] recipe) {
         return SupportedCraftingTableRecipes.testRecipe(inputs, recipe);
     }
 
+    @Async
     public boolean isValidBlueprint(SlimefunItem item) {
         return item instanceof CraftingBlueprint;
     }
 
+    @Async
     public boolean canTestVanillaRecipe() {
         return true;
     }
