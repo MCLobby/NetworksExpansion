@@ -5,7 +5,10 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 
+@EnableAsync
 public class NetworkPusher extends AbstractNetworkPusher {
 
     private static final int[] BACKGROUND_SLOTS = new int[]{
@@ -20,16 +23,19 @@ public class NetworkPusher extends AbstractNetworkPusher {
     }
 
     @Override
+    @Async
     public int @NotNull [] getBackgroundSlots() {
         return BACKGROUND_SLOTS;
     }
 
     @Override
+    @Async
     public int @NotNull [] getOtherBackgroundSlots() {
         return TEMPLATE_BACKGROUND;
     }
 
     @Override
+    @Async
     public int @NotNull [] getItemSlots() {
         return TEMPLATE_SLOTS;
     }

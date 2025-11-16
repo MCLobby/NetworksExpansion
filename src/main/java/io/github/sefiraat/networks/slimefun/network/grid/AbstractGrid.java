@@ -39,6 +39,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.text.MessageFormat;
@@ -48,6 +50,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+@EnableAsync
 @SuppressWarnings({"DuplicatedCode", "deprecation"})
 public abstract class AbstractGrid extends NetworkObject {
 
@@ -105,6 +108,7 @@ public abstract class AbstractGrid extends NetworkObject {
     }
 
     @NotNull
+    @Async
     private static List<String> getLoreAddition(long amount) {
         final MessageFormat format =
             new MessageFormat(Lang.getString("messages.normal-operation.grid.item_amount"), Locale.ROOT);
@@ -117,6 +121,7 @@ public abstract class AbstractGrid extends NetworkObject {
                 .toString());
     }
 
+    @Async
     protected void tryAddItem(@NotNull BlockMenu blockMenu) {
         final ItemStack itemStack = blockMenu.getItemInSlot(getInputSlot());
 
@@ -132,6 +137,7 @@ public abstract class AbstractGrid extends NetworkObject {
         definition.getNode().getRoot().addItemStack(itemStack);
     }
 
+    @Async
     public ItemStack getFilterStack(@Nullable String filter) {
         if (filter == null) return getFilterStack();
         ItemStack clone = getFilterStack().clone();
@@ -140,6 +146,7 @@ public abstract class AbstractGrid extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
+    @Async
     protected void updateDisplay(@NotNull BlockMenu blockMenu) {
         // No viewer - lets not bother updating
         if (!blockMenu.hasViewer()) {
@@ -228,6 +235,7 @@ public abstract class AbstractGrid extends NetworkObject {
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
     }
 
+    @Async
     protected void clearDisplay(@NotNull BlockMenu blockMenu) {
         for (int displaySlot : getDisplaySlots()) {
             blockMenu.replaceExistingItem(displaySlot, Icon.BLANK_SLOT_STACK);
@@ -236,6 +244,7 @@ public abstract class AbstractGrid extends NetworkObject {
     }
 
     @NotNull
+    @Async
     protected List<Map.Entry<ItemStack, Long>> getEntries(@NotNull NetworkRoot networkRoot, @NotNull GridCache cache) {
         return networkRoot.getAllNetworkItemsLongType().entrySet().stream()
             .filter(entry -> {
@@ -265,6 +274,7 @@ public abstract class AbstractGrid extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
+    @Async
     protected void setFilter(
         @NotNull Player player,
         @NotNull BlockMenu blockMenu,
@@ -368,6 +378,7 @@ public abstract class AbstractGrid extends NetworkObject {
 
     @SuppressWarnings({"deprecation", "unused"})
     @ParametersAreNonnullByDefault
+    @Async
     private void addToInventory(
         Player player, NodeDefinition definition, GridItemRequest request, ClickAction action, BlockMenu menu) {
         ItemStack requestingStack = definition.getNode().getRoot().getItemStack0(menu.getLocation(), request);
@@ -385,6 +396,7 @@ public abstract class AbstractGrid extends NetworkObject {
 
     @SuppressWarnings("deprecation")
     @ParametersAreNonnullByDefault
+    @Async
     private void addToCursor(
         Player player,
         NodeDefinition definition,
@@ -402,6 +414,7 @@ public abstract class AbstractGrid extends NetworkObject {
         setCursor(player, cursor, requestingStack);
     }
 
+    @Async
     private void setCursor(@NotNull Player player, @NotNull ItemStack cursor, @Nullable ItemStack requestingStack) {
         if (requestingStack != null) {
             if (cursor.getType() != Material.AIR) {
@@ -412,6 +425,7 @@ public abstract class AbstractGrid extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
+    @Async
     private boolean canAddMore(
         @NotNull ClickAction action, @NotNull ItemStack cursor, @NotNull GridItemRequest request) {
         return !action.isRightClicked()
@@ -421,52 +435,68 @@ public abstract class AbstractGrid extends NetworkObject {
     }
 
     @Override
+    @Async
     public void postRegister() {
         getPreset();
     }
 
     @NotNull
+    @Async
     protected abstract BlockMenuPreset getPreset();
 
     @NotNull
+    @Async
     protected abstract Map<Location, GridCache> getCacheMap();
 
+    @Async
     protected abstract int[] getBackgroundSlots();
 
+    @Async
     protected abstract int[] getDisplaySlots();
 
+    @Async
     protected abstract int getInputSlot();
 
+    @Async
     protected abstract int getChangeSort();
 
+    @Async
     protected abstract int getPagePrevious();
 
+    @Async
     protected abstract int getPageNext();
 
+    @Async
     protected abstract int getFilterSlot();
 
     @SuppressWarnings("unused")
+    @Async
     protected @NotNull ItemStack getBlankSlotStack() {
         return Icon.BLANK_SLOT_STACK;
     }
 
+    @Async
     protected @NotNull ItemStack getPagePreviousStack() {
         return Icon.PAGE_PREVIOUS_STACK;
     }
 
+    @Async
     protected @NotNull ItemStack getPageNextStack() {
         return Icon.PAGE_NEXT_STACK;
     }
 
+    @Async
     protected @NotNull ItemStack getChangeSortStack() {
         return Icon.CHANGE_SORT_STACK;
     }
 
+    @Async
     protected @NotNull ItemStack getFilterStack() {
         return Icon.FILTER_STACK;
     }
 
     @SuppressWarnings("deprecation")
+    @Async
     public void receiveItem(@NotNull Player player, ClickAction action, @NotNull BlockMenu blockMenu) {
         NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
         if (definition == null || definition.getNode() == null) {
@@ -486,6 +516,7 @@ public abstract class AbstractGrid extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
+    @Async
     public void receiveItem(
         @NotNull Player player, ItemStack itemStack, ClickAction action, @NotNull BlockMenu blockMenu) {
         NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
@@ -505,6 +536,7 @@ public abstract class AbstractGrid extends NetworkObject {
     }
 
     @SuppressWarnings({"deprecation", "unused"})
+    @Async
     public void receiveItem(
         @NotNull NetworkRoot root,
         Player player,
@@ -517,6 +549,7 @@ public abstract class AbstractGrid extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
+    @Async
     public void receiveItem(
         @NotNull NetworkRoot root,
         Player player,

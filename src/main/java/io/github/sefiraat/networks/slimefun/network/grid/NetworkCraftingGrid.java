@@ -28,10 +28,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@EnableAsync
 @SuppressWarnings("DuplicatedCode")
 public class NetworkCraftingGrid extends AbstractGrid {
 
@@ -75,6 +77,7 @@ public class NetworkCraftingGrid extends AbstractGrid {
 
     @NotNull
     @Override
+    @Async
     public BlockMenuPreset getPreset() {
         return new BlockMenuPreset(this.getId(), this.getItemName()) {
 

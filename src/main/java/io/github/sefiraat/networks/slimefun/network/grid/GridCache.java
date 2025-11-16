@@ -5,10 +5,13 @@ import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@EnableAsync
 public class GridCache {
 
     @NotNull
@@ -61,6 +64,7 @@ public class GridCache {
         return this.pullItemHistory;
     }
 
+    @Async
     public void addPullItemHistory(@Nullable ItemStack itemStack) {
         if (itemStack != null) {
             getPullItemHistory().remove(itemStack);
