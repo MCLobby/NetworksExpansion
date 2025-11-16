@@ -246,14 +246,18 @@ public abstract class AbstractGrid extends NetworkObject {
                 final ItemStack itemStack = entry.getKey();
                 String name = TextUtil.stripColor(
                     ItemStackHelper.getDisplayName(itemStack).toLowerCase(Locale.ROOT));
-                if (cache.getFilter().matches("^[a-zA-Z]+$")) {
-                    final String pinyinName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
-                    final String pinyinFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
-                    return name.contains(cache.getFilter())
-                        || pinyinName.contains(cache.getFilter())
-                        || pinyinFirstLetter.contains(cache.getFilter());
+                if (cache.getFilter() != null) {
+                    if (cache.getFilter().matches("^[a-zA-Z]+$")) {
+                        final String pinyinName = PinyinHelper.toPinyin(name, PinyinStyleEnum.INPUT, "");
+                        final String pinyinFirstLetter = PinyinHelper.toPinyin(name, PinyinStyleEnum.FIRST_LETTER, "");
+                        return name.contains(cache.getFilter())
+                            || pinyinName.contains(cache.getFilter())
+                            || pinyinFirstLetter.contains(cache.getFilter());
+                    } else {
+                        return name.contains(cache.getFilter());
+                    }
                 } else {
-                    return name.contains(cache.getFilter());
+                	return true;
                 }
             })
             .sorted(SORT_MAP.get(cache.getSortOrder()))
