@@ -87,7 +87,6 @@ body:
       label: 服务端软件
       description: 请选择你服务端所使用的软件
       options:
-        - Spigot
         - Paper
         - Purpur
         - Airplane
