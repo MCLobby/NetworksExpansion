@@ -180,19 +180,6 @@ public class StackUtils {
             return false;
         }
 
-        if (checkCustomModelId) {
-            // Custom model data is different, no match
-            final boolean hasCustomOne = itemMeta.hasCustomModelData();
-            final boolean hasCustomTwo = cachedMeta.hasCustomModelData();
-            if (hasCustomOne) {
-                if (!hasCustomTwo || itemMeta.getCustomModelData() != cachedMeta.getCustomModelData()) {
-                    return false;
-                }
-            } else if (hasCustomTwo) {
-                return false;
-            }
-        }
-
         // PDCs don't match
         if (!itemMeta.getPersistentDataContainer().equals(cachedMeta.getPersistentDataContainer())) {
             return false;
@@ -305,7 +292,18 @@ public class StackUtils {
             return false;
         }
         if (optionalStackId1.isPresent()) {
-            return optionalStackId1.get().equals(optionalStackId2.get());
+            if (optionalStackId1.get().equals(optionalStackId2.get())) {
+                if (checkCustomModelId) {
+                    // Custom model data is different, no match
+                    final boolean hasCustomOne = itemMeta.hasCustomModelData();
+                    final boolean hasCustomTwo = cachedMeta.hasCustomModelData();
+                    if (hasCustomOne) {
+                        return hasCustomTwo && itemMeta.getCustomModelData() == cachedMeta.getCustomModelData();
+                    } else return !hasCustomTwo;
+                }
+                return true;
+            }
+            return false;
         }
 
         // Check the display name
