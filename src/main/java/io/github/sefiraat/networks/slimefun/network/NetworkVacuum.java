@@ -115,20 +115,14 @@ public class NetworkVacuum extends NetworkObject {
             if (inSlot == null || inSlot.getType() == Material.AIR) {
                 final Location location = blockMenu.getLocation().clone().add(0.5, 0.5, 0.5);
                 final int range = this.vacuumRange.getValue();
-                Collection<Entity> items =
-                    location.getWorld().getNearbyEntities(location, range, range, range, Item.class::isInstance);
+                Collection<Item> items = location.getWorld().getNearbyEntitiesByType(Item.class, location, range, range, range);
 
                 if (items.isEmpty()) {
                     sendFeedback(blockMenu.getLocation(), FeedbackType.NO_ITEM_FOUND);
                     return;
                 }
 
-                for (Entity entity : items) {
-                    if (!(entity instanceof Item item)) {
-                        sendFeedback(blockMenu.getLocation(), FeedbackType.NO_ITEM_FOUND);
-                        continue;
-                    }
-
+                for (Item item : items) {
                     final String ownerUUID =
                         StorageCacheUtils.getData(blockMenu.getLocation(), NetworkDirectional.OWNER_KEY);
                     // There's no owner before... but the new ones has owner.
@@ -143,18 +137,23 @@ public class NetworkVacuum extends NetworkObject {
                     }
 
                     if (item.getPickupDelay() <= 0 && !SlimefunUtils.hasNoPickupFlag(item)) {
-                        final ItemStack itemStack = item.getItemStack().clone();
+                        final ItemStack finalPush = item.getItemStack().clone();
                         final int amount = SupportedPluginManager.getStackAmount(item);
-                        if (amount > itemStack.getMaxStackSize()) {
-                            SupportedPluginManager.setStackAmount(item, amount - itemStack.getMaxStackSize());
-                            itemStack.setAmount(itemStack.getMaxStackSize());
+                        final int maxAmount = item.getItemStack().getMaxStackSize();
+                        if (amount <= 0) {
+                            return;
+                        }
+
+                        if (amount > maxAmount) {
+                            SupportedPluginManager.setStackAmount(item, amount - maxAmount);
+                            finalPush.setAmount(maxAmount);
                         } else {
-                            itemStack.setAmount(amount);
+                            finalPush.setAmount(amount);
                             item.remove();
                         }
-                        blockMenu.replaceExistingItem(inputSlot, itemStack);
+
+                        blockMenu.replaceExistingItem(inputSlot, finalPush);
                         ParticleUtils.displayParticleRandomly(item, 1, 5, new Particle.DustOptions(Color.BLUE, 1));
-                        item.remove();
                         return;
                     }
                 }

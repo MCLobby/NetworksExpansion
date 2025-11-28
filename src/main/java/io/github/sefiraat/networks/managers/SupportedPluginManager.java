@@ -72,6 +72,7 @@ public class SupportedPluginManager {
                 stackedItem.setStackAmount(amount, true);
             }
         }
+
         if (getInstance().isRoseStacker()) {
             dev.rosewood.rosestacker.stack.StackedItem stackedItem = getInstance().getRoseStackerAPI().getStackedItem(item);
             if (stackedItem != null) {

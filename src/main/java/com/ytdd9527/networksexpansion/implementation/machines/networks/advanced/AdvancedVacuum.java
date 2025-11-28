@@ -363,15 +363,22 @@ public class AdvancedVacuum extends NetworkObject {
                             continue;
                         }
 
+                        final ItemStack finalPush = item.getItemStack().clone();
                         final int amount = SupportedPluginManager.getStackAmount(item);
-                        if (amount > itemStack.getMaxStackSize()) {
-                            SupportedPluginManager.setStackAmount(item, amount - itemStack.getMaxStackSize());
-                            itemStack.setAmount(itemStack.getMaxStackSize());
+                        final int maxAmount = item.getItemStack().getMaxStackSize();
+                        if (amount <= 0) {
+                            return;
+                        }
+
+                        if (amount > maxAmount) {
+                            SupportedPluginManager.setStackAmount(item, amount - maxAmount);
+                            finalPush.setAmount(maxAmount);
                         } else {
-                            itemStack.setAmount(amount);
+                            finalPush.setAmount(amount);
                             item.remove();
                         }
-                        blockMenu.replaceExistingItem(inputSlot, itemStack);
+
+                        blockMenu.replaceExistingItem(inputSlot, finalPush);
                         ParticleUtils.displayParticleRandomly(item, 1, 5, new Particle.DustOptions(Color.BLUE, 1));
                         return;
                     }
