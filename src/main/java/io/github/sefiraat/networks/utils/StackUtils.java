@@ -143,16 +143,12 @@ public class StackUtils {
             return false;
         }
 
-        if (Tag.SHULKER_BOXES.isTagged(itemStack.getType())) {
-            return false;
-        }
-
-        if (itemStack.getType().name().endsWith("BUNDLE")) {
-            return false;
-        }
-
         // If amounts do not match, then the items cannot possibly match
         if (checkAmount && itemStack.getAmount() > cache.getItemStack().getAmount()) {
+            return false;
+        }
+
+        if (isBlacklisted(itemStack) || isBlacklisted(cache.getItemStack())) {
             return false;
         }
 
@@ -648,5 +644,12 @@ public class StackUtils {
             return System.currentTimeMillis() < cooldownUntil;
         }
         return false;
+    }
+
+    public static boolean isBlacklisted(@NotNull ItemStack itemStack) {
+        return itemStack.getType() == Material.AIR
+            || itemStack.getType().getMaxDurability() < 0
+            || Tag.SHULKER_BOXES.isTagged(itemStack.getType())
+            || itemStack.getType() == Material.BUNDLE;
     }
 }
