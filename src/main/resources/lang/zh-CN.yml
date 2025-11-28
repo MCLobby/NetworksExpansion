@@ -215,6 +215,19 @@ messages:
   normal-operation:
     common:
       page: "页"
+      crafter_types:
+        ancient_altar: "古代祭坛"
+        armor_forge: "盔甲锻造台"
+        compressor: "压缩机"
+        crafting: "合成机"
+        expansion_workbench: "网络拓展合成机"
+        grind_stone: "磨石"
+        juicer: "榨汁机"
+        magic_workbench: "魔法工作台"
+        ore_crusher: "矿石粉碎机"
+        pressure_chamber: "压力机"
+        quantum_workbench: "网络量子工作台"
+        smeltery: "冶炼炉"
     quantum_cache:
       empty: "空"
       stored_item: "<click_info>物品: %s"
@@ -249,6 +262,9 @@ messages:
       id: "<passive>ID: %s"
       location: "<click_info>%s:%s:%s"
       advance: "<passive>高级合成机: %s"
+      crafter_type: "<passive>合成机类型: %s"
+      yes: "&a√"
+      no: "&cx"
       quantum-manager-click-behavior:
         - "<click_info>左键点击: <passive>打开存储"
         - "<click_info>手持物品左键点击: <passive>将点击的存储所存储的物品设置为手持物品"
@@ -435,6 +451,9 @@ messages:
     manual_crafter:
       disabled-output: "&c输出物已被禁用"
       full-output: "&c输出槽已满"
+    crafter_manager:
+      different_type_1: "&c已存入的蓝图与合成机类型不符"
+      different_type_2: "&c已存入: %s; &a期望: %s"
   super-head:
     - "███╗   ██╗███████╗████████╗██╗    ██╗ ██████╗ ██████╗ ██╗  ██╗███████╗   "
     - "████╗  ██║██╔════╝╚══██╔══╝██║    ██║██╔═══██╗██╔══██╗██║ ██╔╝██╔════╝   "
