@@ -91,6 +91,10 @@ public class AdvancedVacuum extends NetworkObject {
             this.getSlotsToDrop().add(inputSlot);
         }
 
+        for (int inputSlot : FILTER_SLOTS) {
+            this.getSlotsToDrop().add(inputSlot);
+        }
+
         addItemHandler(new BlockTicker() {
 
             private int tick = 1;
