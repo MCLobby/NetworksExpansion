@@ -31,6 +31,8 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -43,6 +45,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Getter
+@EnableAsync
 public abstract class NetworkObject extends SpecialSlimefunItem implements AdminDebuggable {
     public static final Queue<Location> scheduledHangingTick = new ConcurrentLinkedQueue<>();
     protected static final Set<BlockFace> CHECK_FACES =
@@ -147,6 +150,7 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
             });
     }
 
+    @Async
     protected void addToRegistry(@NotNull Block block) {
         if (!NetworkStorage.containsKey(block.getLocation())) {
             final NodeDefinition nodeDefinition = new NodeDefinition(nodeType);
@@ -154,16 +158,19 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
         }
     }
 
+    @Async
     protected void tickHangingBlocks(@NotNull Block block) {
         scheduledHangingTick.add(block.getLocation());
     }
 
+    @Async
     @OverridingMethodsMustInvokeSuper
     protected void preBreak(@NotNull BlockBreakEvent event) {
         NetworkRoot.removePersistentAccessHistory(event.getBlock().getLocation());
         NetworkRoot.removeCountObservingAccessHistory(event.getBlock().getLocation());
     }
 
+    @Async
     @OverridingMethodsMustInvokeSuper
     protected void onBreak(@NotNull BlockBreakEvent event) {
         final Location location = event.getBlock().getLocation();
@@ -178,34 +185,41 @@ public abstract class NetworkObject extends SpecialSlimefunItem implements Admin
         Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);
     }
 
+    @Async
     @OverridingMethodsMustInvokeSuper
     protected void postBreak(@NotNull BlockBreakEvent event) {
     }
 
+    @Async
     @OverridingMethodsMustInvokeSuper
     @SuppressWarnings("unused")
     protected void prePlace(@NotNull BlockPlaceEvent event) {
     }
 
+    @Async
     @SuppressWarnings("unused")
     protected void cancelPlace(@NotNull BlockPlaceEvent event) {
         event.getPlayer().sendMessage(Lang.getString("messages.unsupported-operation.comprehensive.cancel_place"));
         event.setCancelled(true);
     }
 
+    @Async
     @OverridingMethodsMustInvokeSuper
     protected void onPlace(@NotNull BlockPlaceEvent event) {
     }
 
+    @Async
     @OverridingMethodsMustInvokeSuper
     @SuppressWarnings("unused")
     protected void postPlace(@NotNull BlockPlaceEvent event) {
     }
 
+    @Async
     public boolean isAdminDebuggable() {
         return false;
     }
 
+    @Async
     public boolean runSync() {
         return false;
     }
