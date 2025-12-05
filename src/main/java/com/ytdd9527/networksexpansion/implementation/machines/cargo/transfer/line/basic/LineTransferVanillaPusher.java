@@ -285,7 +285,7 @@ public class LineTransferVanillaPusher extends NetworkDirectional implements Rec
                     stack.setAmount(0);
                 }
             }
-        } else if (template.getType() == Material.POTION) {
+        } else if (template.getType() == Material.POTION || template.getType() == Material.SPLASH_POTION || template.getType() == Material.LINGERING_POTION) {
             for (int i = 0; i < 3; i++) {
                 final ItemStack stackInSlot = brewer.getContents()[i];
                 if (stackInSlot == null || stackInSlot.getType() == Material.AIR) {

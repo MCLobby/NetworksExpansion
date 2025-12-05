@@ -87,7 +87,6 @@ body:
       label: Server Software
       description: Please select the software your server is using
       options:
-        - Spigot
         - Paper
         - Purpur
         - Airplane

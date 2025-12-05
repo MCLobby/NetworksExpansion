@@ -1,5 +1,6 @@
 package com.ytdd9527.networksexpansion.core.items.unusable;
 
+import com.balugaq.netex.api.interfaces.CraftTyped;
 import com.balugaq.netex.utils.Lang;
 import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.sefiraat.networks.network.stackcaches.BlueprintInstance;
@@ -20,8 +21,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractBlueprint extends UnusableSlimefunItem implements DistinctiveItem {
-
+public abstract class AbstractBlueprint extends UnusableSlimefunItem implements DistinctiveItem, CraftTyped {
     public AbstractBlueprint(
         @NotNull ItemGroup itemGroup,
         @NotNull SlimefunItemStack item,

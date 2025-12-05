@@ -1,5 +1,6 @@
 package com.ytdd9527.networksexpansion.implementation.blueprints;
 
+import com.balugaq.netex.api.enums.CraftType;
 import com.ytdd9527.networksexpansion.core.items.unusable.AbstractBlueprint;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -14,5 +15,10 @@ public class AncientAltarBlueprint extends AbstractBlueprint {
         @NotNull RecipeType recipeType,
         ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
+    }
+
+    @Override
+    public @NotNull CraftType craftType() {
+        return CraftType.ANCIENT_ALTAR;
     }
 }
