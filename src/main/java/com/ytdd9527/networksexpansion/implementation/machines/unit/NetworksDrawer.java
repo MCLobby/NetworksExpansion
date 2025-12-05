@@ -413,7 +413,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
         for (int s : DISPLAY_SLOTS) {
             blockMenu.addMenuClickHandler(s, (player, slot, clickItem, action) -> {
                 final ItemStack itemOnCursor = player.getItemOnCursor();
-                if (StackUtils.isBlacklisted(itemOnCursor)) {
+                if (itemOnCursor != null && itemOnCursor.getType() != Material.AIR && StackUtils.isBlacklisted(itemOnCursor)) {
                     return false;
                 }
 
