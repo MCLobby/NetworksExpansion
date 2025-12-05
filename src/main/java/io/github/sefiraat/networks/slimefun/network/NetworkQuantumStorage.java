@@ -38,7 +38,6 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -102,7 +101,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
     }
 
     public static void setItem(@NotNull BlockMenu blockMenu, @NotNull ItemStack itemStack, int amount) {
-        if (isBlacklisted(itemStack)) {
+        if (StackUtils.isBlacklisted(itemStack)) {
             return;
         }
 
@@ -131,7 +130,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
         }
 
         for (ItemStack itemStack : input) {
-            if (isBlacklisted(itemStack)) {
+            if (StackUtils.isBlacklisted(itemStack)) {
                 continue;
             }
             if (StackUtils.itemsMatch(cache, itemStack)) {
@@ -140,13 +139,6 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             }
         }
         syncBlock(location, cache);
-    }
-
-    public static boolean isBlacklisted(@NotNull ItemStack itemStack) {
-        return itemStack.getType() == Material.AIR
-            || itemStack.getType().getMaxDurability() < 0
-            || Tag.SHULKER_BOXES.isTagged(itemStack.getType())
-            || itemStack.getType() == Material.BUNDLE;
     }
 
     @ParametersAreNonnullByDefault
@@ -256,7 +248,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
     public static void setItem(@NotNull BlockMenu blockMenu, @NotNull Player player) {
         final ItemStack itemStack = player.getItemOnCursor().clone();
 
-        if (isBlacklisted(itemStack)) {
+        if (StackUtils.isBlacklisted(itemStack)) {
             return;
         }
 

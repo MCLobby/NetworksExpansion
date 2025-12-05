@@ -1,17 +1,12 @@
 package com.ytdd9527.networksexpansion.implementation.machines.autocrafters.advanced;
 
-import com.balugaq.netex.api.helpers.SupportedQuantumWorkbenchRecipes;
+import com.balugaq.netex.api.enums.CraftType;
 import com.ytdd9527.networksexpansion.core.items.machines.AbstractAdvancedAutoCrafter;
-import com.ytdd9527.networksexpansion.implementation.blueprints.QuantumWorkbenchBlueprint;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
-import java.util.Set;
 
 public class AdvancedAutoQuantumWorkbench extends AbstractAdvancedAutoCrafter {
     public AdvancedAutoQuantumWorkbench(
@@ -24,15 +19,8 @@ public class AdvancedAutoQuantumWorkbench extends AbstractAdvancedAutoCrafter {
         super(itemGroup, item, recipeType, recipe, chargePerCraft, withholding);
     }
 
-    public @NotNull Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {
-        return SupportedQuantumWorkbenchRecipes.getRecipes().entrySet();
-    }
-
-    public boolean testRecipe(ItemStack[] inputs, ItemStack @NotNull [] recipe) {
-        return SupportedQuantumWorkbenchRecipes.testRecipe(inputs, recipe);
-    }
-
-    public boolean isValidBlueprint(SlimefunItem item) {
-        return item instanceof QuantumWorkbenchBlueprint;
+    @Override
+    public @NotNull CraftType craftType() {
+        return CraftType.QUANTUM_WORKBENCH;
     }
 }

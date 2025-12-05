@@ -175,7 +175,7 @@ public class NetworkVanillaPusher extends NetworkDirectional implements SoftCell
                 stack.setAmount(0);
                 sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
             }
-        } else if (stack.getType() == Material.POTION) {
+        } else if (stack.getType() == Material.POTION || stack.getType() == Material.SPLASH_POTION || stack.getType() == Material.LINGERING_POTION) {
             for (int i = 0; i < 3; i++) {
                 final ItemStack stackInSlot = brewer.getContents()[i];
                 if (stackInSlot == null || stackInSlot.getType() == Material.AIR) {

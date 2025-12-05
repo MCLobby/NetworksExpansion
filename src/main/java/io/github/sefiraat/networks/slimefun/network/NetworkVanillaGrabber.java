@@ -5,6 +5,7 @@ import com.balugaq.netex.api.enums.MinecraftVersion;
 import com.balugaq.netex.api.interfaces.SoftCellBannable;
 import com.balugaq.netex.utils.Lang;
 import com.bgsoftware.wildchests.api.WildChestsAPI;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
@@ -159,7 +160,7 @@ public class NetworkVanillaGrabber extends NetworkDirectional implements SoftCel
                 if (stack != null && stack.getType() != Material.AIR) {
                     final PotionMeta potionMeta = (PotionMeta) stack.getItemMeta();
                     if (Networks.getInstance().getMCVersion().isAtLeast(MinecraftVersion.MC1_20_5)) {
-                        if (potionMeta.getBasePotionType() == PotionType.WATER) {
+                        if (potionMeta.getBasePotionType() != PotionType.WATER) {
                             grabItem(blockMenu, stack);
                         }
                     } else {

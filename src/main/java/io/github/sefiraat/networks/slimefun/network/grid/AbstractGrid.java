@@ -543,7 +543,7 @@ public abstract class AbstractGrid extends NetworkObject {
         @Nullable ItemStack itemStack,
         ClickAction action,
         @NotNull BlockMenu blockMenu) {
-        if (itemStack != null && itemStack.getType() != Material.AIR) {
+        if (itemStack != null && itemStack.getType() != Material.AIR && !StackUtils.isBlacklisted(itemStack)) {
             root.addItemStack(itemStack);
         }
     }

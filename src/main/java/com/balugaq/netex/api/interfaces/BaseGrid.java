@@ -30,7 +30,7 @@ public interface BaseGrid {
     Map<String, Keybinds> KEYBINDS = new HashMap<>();
 
     default Keybinds displayKeybinds() {
-        String key = "display-keybinds";
+        String key = this.getClass().getSimpleName().toLowerCase() + "-" + "display-keybinds";
         if (KEYBINDS.containsKey(key)) {
             return KEYBINDS.get(key);
         }

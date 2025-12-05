@@ -2,8 +2,10 @@ package com.ytdd9527.networksexpansion.implementation.machines.managers;
 
 import com.balugaq.jeg.implementation.JustEnoughGuide;
 import com.balugaq.netex.api.algorithm.Sorters;
+import com.balugaq.netex.api.enums.CraftType;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.api.interfaces.CraftTyped;
 import com.balugaq.netex.utils.Lang;
 import com.balugaq.netex.utils.LocationUtil;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
@@ -14,6 +16,7 @@ import com.ytdd9527.networksexpansion.core.items.unusable.AbstractBlueprint;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
 import com.ytdd9527.networksexpansion.utils.ParticleUtil;
 import com.ytdd9527.networksexpansion.utils.TextUtil;
+import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
@@ -51,6 +54,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
@@ -265,6 +269,10 @@ public class CrafterManager extends NetworkObject {
         final List<CrafterMetaData> validdatas = datas.subList(start, end);
         CrafterMetaData empty = null;
         for (CrafterMetaData data : validdatas) {
+            if (!suitable(data, blueprint)) {
+                continue;
+            }
+
             if (data.instance() != null) {
                 ItemStack output = data.instance().getItemStack();
                 if (output == null) {
@@ -287,7 +295,7 @@ public class CrafterManager extends NetworkObject {
                     } else if (sf instanceof AbstractAdvancedAutoCrafter
                         && (existing == null
                         || existing.getType() == Material.AIR
-                        || existing.getAmount() < output.getMaxStackSize() / output.getAmount())) {
+                        || (existing.getAmount() < output.getMaxStackSize() / output.getAmount() && StackUtils.itemsMatch(existing, blueprint)))) {
                         tryInsertBlueprint(
                             crafterMenu,
                             blueprint,
@@ -431,6 +439,21 @@ public class CrafterManager extends NetworkObject {
                 }
 
                 Location crafterLocation = data.location();
+                BlockMenu menu = StorageCacheUtils.getMenu(crafterLocation);
+                if (menu != null) {
+                    ItemStack blueprint = menu.getItemInSlot(AbstractAutoCrafter.BLUEPRINT_SLOT);
+                    if (blueprint != null && blueprint.getType() != Material.AIR && SlimefunItem.getByItem(blueprint) instanceof CraftTyped craftTyped) {
+                        if (!suitable(data, blueprint)) {
+                            displayStack = generateUnsuitableStack(data.craftType(), craftTyped.craftType());
+                            List<String> lore = getLoreAddition(data);
+                            ItemMeta itemMeta = displayStack.getItemMeta();
+                            itemMeta.setLore(lore);
+                            displayStack.setItemMeta(itemMeta);
+                            managerMenu.replaceExistingItem(getDisplaySlots()[i], displayStack);
+                            continue;
+                        }
+                    }
+                }
 
                 final ItemStack custom = getCrafterIcon(crafterLocation);
                 if (custom != null) {
@@ -497,7 +520,8 @@ public class CrafterManager extends NetworkObject {
             loc.getBlockX(),
             loc.getBlockY(),
             loc.getBlockZ()));
-        list.add(String.format(Lang.getString("messages.normal-operation.manager.advance"), data.advance));
+        list.add(String.format(Lang.getString("messages.normal-operation.manager.advance"), data.advance() ? Lang.getString("messages.normal-operation.manager.yes") : Lang.getString("messages.normal-operation.manager.no")));
+        list.add(String.format(Lang.getString("messages.normal-operation.manager.crafter_type"), data.craftType().translate()));
         list.add("");
         list.addAll(Lang.getStringList("messages.normal-operation.manager.crafter-manager-click-behavior"));
 
@@ -726,7 +750,8 @@ public class CrafterManager extends NetworkObject {
         @NotNull Location location,
         @Nullable BlueprintInstance instance,
         @Range(from = 0, to = 64) int blueprintAmount,
-        boolean advance) {
+        boolean advance,
+        CraftType craftType) {
         @NotNull
         public static List<CrafterMetaData> getMetaDatas(@NotNull NetworkRoot root) {
             List<CrafterMetaData> metaDataList = new ArrayList<>();
@@ -745,9 +770,14 @@ public class CrafterManager extends NetworkObject {
         @ParametersAreNonnullByDefault
         public static CrafterMetaData getMetaData(NetworkRoot root, BlockMenu crafterMenu) {
             Location location = crafterMenu.getLocation();
+            CraftType craftType = CraftType.CRAFTING;
+            if (StorageCacheUtils.getSfItem(location) instanceof CraftTyped craftTyped) {
+                craftType = craftTyped.craftType();
+            }
+
             ItemStack blueprint = crafterMenu.getItemInSlot(AbstractAutoCrafter.BLUEPRINT_SLOT);
             if (blueprint == null || blueprint.getType() == Material.AIR) {
-                return new CrafterMetaData(location, null, 0, false);
+                return new CrafterMetaData(location, null, 0, false, craftType);
             }
 
             BlueprintInstance instance = AbstractAutoCrafter.INSTANCE_MAP.get(crafterMenu.getLocation());
@@ -774,13 +804,30 @@ public class CrafterManager extends NetworkObject {
             if (instance != null) {
                 SlimefunItem sf = StorageCacheUtils.getSfItem(location);
                 if (sf instanceof AbstractAdvancedAutoCrafter) {
-                    return new CrafterMetaData(location, instance, blueprint.getAmount(), true);
+                    return new CrafterMetaData(location, instance, blueprint.getAmount(), true, craftType);
                 } else {
-                    return new CrafterMetaData(location, instance, 1, false);
+                    return new CrafterMetaData(location, instance, 1, false, craftType);
                 }
             } else {
-                return new CrafterMetaData(location, null, 0, false);
+                return new CrafterMetaData(location, null, 0, false, craftType);
             }
         }
+    }
+
+    @Contract(pure = true)
+    public static boolean suitable(CrafterMetaData crafter, ItemStack blueprint) {
+        if (SlimefunItem.getByItem(blueprint) instanceof CraftTyped craftTyped) {
+            return craftTyped.craftType() == crafter.craftType();
+        }
+
+        return false;
+    }
+
+    public static ItemStack generateUnsuitableStack(CraftType expected, CraftType but) {
+        return ItemStackUtil.getCleanItem(new CustomItemStack(
+            Material.BARRIER,
+            Lang.getString("messages.unsupported-operation.crafter_manager.different_type_1"),
+            String.format(Lang.getString("messages.unsupported-operation.crafter_manager.different_type_2"), expected.translate(), but.translate())
+        ));
     }
 }

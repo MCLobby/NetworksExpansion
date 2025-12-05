@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.core.items.machines;
 
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.api.interfaces.CraftTyped;
 import com.balugaq.netex.api.interfaces.SoftCellBannable;
 import com.balugaq.netex.utils.BlockMenuUtil;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
@@ -49,7 +50,7 @@ import java.util.Set;
 
 @EnableAsync
 @SuppressWarnings("DuplicatedCode")
-public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implements SoftCellBannable {
+public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implements SoftCellBannable, CraftTyped {
     private static final int[] BACKGROUND_SLOTS = new int[]{3, 4, 5, 12, 13, 14, 21, 22, 23};
     private static final int[] BLUEPRINT_BACKGROUND = new int[]{0, 1, 2, 9, 11, 18, 19, 20};
     private static final int[] OUTPUT_BACKGROUND = new int[]{6, 7, 8, 15, 17, 24, 25, 26};
@@ -409,11 +410,17 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
         };
     }
 
-    public abstract boolean isValidBlueprint(SlimefunItem item);
+    public boolean isValidBlueprint(SlimefunItem item) {
+        return craftType().isValidBlueprint(item);
+    }
 
-    public abstract Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries();
+    public Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {
+        return craftType().getRecipeEntries();
+    }
 
-    public abstract boolean testRecipe(ItemStack[] inputs, ItemStack[] recipe);
+    public boolean testRecipe(ItemStack[] inputs, ItemStack[] recipe) {
+        return craftType().testRecipe(inputs, recipe);
+    }
 
     public boolean canTestVanillaRecipe() {
         return false;

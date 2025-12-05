@@ -208,13 +208,11 @@ public class LineTransferVanillaGrabber extends NetworkDirectional implements Re
                         if (Networks.getInstance().getMCVersion().isAtLeast(MinecraftVersion.MC1_20_5)) {
                             if (potionMeta.getBasePotionType() != PotionType.WATER) {
                                 grabItem(root, blockMenu, stack);
-                                break;
                             }
                         } else {
                             PotionData bpd = potionMeta.getBasePotionData();
                             if (bpd != null && bpd.getType() != PotionType.WATER) {
                                 grabItem(root, blockMenu, stack);
-                                break;
                             }
                         }
                     }

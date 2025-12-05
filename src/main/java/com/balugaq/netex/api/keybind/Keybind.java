@@ -59,7 +59,7 @@ public interface Keybind extends Keyed, Comparable<Keybind> {
     }
 
     static Action gridActionGenerate(BaseGrid grid, AmountHandleStrategy strategy, boolean toInventory) {
-        return Action.of(Keys.newKey(strategy.name().toLowerCase() + "-" + (toInventory ? "inv" : "cursor")), (player, s, i, a, menu) -> {
+        return Action.of(Keys.newKey(grid.getClass().getSimpleName().toLowerCase() + "-" + strategy.name().toLowerCase() + "-" + (toInventory ? "inv" : "cursor")), (player, s, i, a, menu) -> {
             NodeDefinition definition = NetworkStorage.getNode(menu.getLocation());
             if (definition == null || definition.getNode() == null)
                 return ActionResult.of(MultiActionHandle.CONTINUE, false);
