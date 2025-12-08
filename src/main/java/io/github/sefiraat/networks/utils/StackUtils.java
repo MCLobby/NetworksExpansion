@@ -38,6 +38,8 @@ import org.bukkit.inventory.meta.TropicalFishBucketMeta;
 import org.bukkit.inventory.meta.WritableBookMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
@@ -45,6 +47,7 @@ import java.util.Optional;
 
 @SuppressWarnings("deprecation")
 @UtilityClass
+@EnableAsync
 public class StackUtils {
     private static final boolean FORCE_CHECK_LORE = Networks.getConfigManager().isForceCheckLore();
     private static final MinecraftVersion MC_VERSION = Networks.getInstance().getMCVersion();
@@ -52,6 +55,7 @@ public class StackUtils {
     private static final boolean IS_1_21 = MC_VERSION.isAtLeast(MinecraftVersion.MC1_21);
 
     @NotNull
+    @Async
     public static ItemStack getAsQuantity(@Nullable ItemStack itemStack, int amount) {
         if (itemStack == null) {
             return new ItemStack(Material.AIR);
@@ -61,6 +65,7 @@ public class StackUtils {
         return clone;
     }
 
+    @Async
     public static boolean itemsMatch(
         @Nullable ItemStack itemStack1,
         @Nullable ItemStack itemStack2,
@@ -70,33 +75,40 @@ public class StackUtils {
         return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, checkAmount, checkCustomModelId);
     }
 
+    @Async
     public static boolean itemsMatch(
         @Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore, boolean checkAmount) {
         return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, checkAmount, true);
     }
 
+    @Async
     public static boolean itemsMatch(
         @Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore) {
         return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, false, true);
     }
 
+    @Async
     public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2) {
         return itemsMatch(new ItemStackCache(itemStack1), itemStack2, false, false, true);
     }
 
+    @Async
     public static boolean itemsMatch(
         @NotNull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore, boolean checkAmount) {
         return itemsMatch(cache, itemStack, checkLore, checkAmount, true);
     }
 
+    @Async
     public static boolean itemsMatch(@NotNull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore) {
         return itemsMatch(cache, itemStack, checkLore, false, true);
     }
 
+    @Async
     public static boolean itemsMatch(@NotNull ItemStackCache cache, @Nullable ItemStack itemStack) {
         return itemsMatch(cache, itemStack, false, false, true);
     }
 
+    @Async
     public static boolean itemsMatch(
         @Nullable ItemStack itemStack,
         @NotNull ItemStackCache cache,
@@ -106,15 +118,18 @@ public class StackUtils {
         return itemsMatch(cache, itemStack, checkLore, checkAmount, checkCustomModelId);
     }
 
+    @Async
     public static boolean itemsMatch(
         @Nullable ItemStack itemStack, @NotNull ItemStackCache cache, boolean checkLore, boolean checkAmount) {
         return itemsMatch(cache, itemStack, checkLore, checkAmount, true);
     }
 
+    @Async
     public static boolean itemsMatch(@Nullable ItemStack itemStack, @NotNull ItemStackCache cache, boolean checkLore) {
         return itemsMatch(cache, itemStack, checkLore, false, true);
     }
 
+    @Async
     public static boolean itemsMatch(@Nullable ItemStack itemStack, @NotNull ItemStackCache cache) {
         return itemsMatch(cache, itemStack, false, false, true);
     }
@@ -127,6 +142,7 @@ public class StackUtils {
      * @return True if items match
      */
     @SuppressWarnings("UnstableApiUsage")
+    @Async
     public static boolean itemsMatch(
         @NotNull ItemStackCache cache,
         @Nullable ItemStack itemStack,
@@ -617,6 +633,7 @@ public class StackUtils {
      * @param durationInSeconds The amount to heal by
      */
     @ParametersAreNonnullByDefault
+    @Async
     public static void putOnCooldown(ItemStack itemStack, int durationInSeconds) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta != null) {
@@ -632,6 +649,7 @@ public class StackUtils {
      * @param itemStack The {@link LivingEntity} to heal
      */
     @ParametersAreNonnullByDefault
+    @Async
     public static boolean isOnCooldown(ItemStack itemStack) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta != null) {
@@ -647,6 +665,7 @@ public class StackUtils {
         return false;
     }
 
+    @Async
     public static boolean isBlacklisted(@NotNull ItemStack itemStack) {
         return itemStack.getType() == Material.AIR
             || itemStack.getType().getMaxDurability() < 0

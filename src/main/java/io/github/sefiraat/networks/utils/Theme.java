@@ -14,6 +14,8 @@ import org.bukkit.Particle;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @SuppressWarnings({"deprecation", "DuplicatedCode"})
 @Getter
+@EnableAsync
 public enum Theme {
     GOLD(ChatColor.GOLD, Lang.getString("theme.gold")),
     WHITE(ChatColor.WHITE, Lang.getString("theme.white")),
@@ -68,6 +71,7 @@ public enum Theme {
      */
     @NotNull
     @ParametersAreNonnullByDefault
+    @Async
     public static SlimefunItemStack themedSlimefunItemStack(
         String id, ItemStack itemStack, Theme themeType, String name, String... lore) {
         ChatColor passiveColor = Theme.PASSIVE.getColor();
@@ -87,6 +91,7 @@ public enum Theme {
 
     @NotNull
     @ParametersAreNonnullByDefault
+    @Async
     public static SlimefunItemStack themedSlimefunItemStack(
         String id, String texture, Theme themeType, String name, String... lore) {
         ChatColor passiveColor = Theme.PASSIVE.getColor();
@@ -106,6 +111,7 @@ public enum Theme {
 
     @NotNull
     @ParametersAreNonnullByDefault
+    @Async
     public static SlimefunItemStack themedSlimefunItemStack(SlimefunItemStack sfis, Theme themeType) {
         String id = sfis.getItemId();
         ItemStack itemStack = ItemStackUtil.getCleanItem(sfis);
@@ -122,6 +128,7 @@ public enum Theme {
 
     @NotNull
     @ParametersAreNonnullByDefault
+    @Async
     public static SlimefunItemStack tsItem(
         String id, ItemStack itemStack, Theme themeType, String name, String... lore) {
         List<String> finalLore = new ArrayList<>(Arrays.stream(lore).toList());
@@ -136,6 +143,7 @@ public enum Theme {
 
     @NotNull
     @ParametersAreNonnullByDefault
+    @Async
     public static SlimefunItemStack random(
         String id, ItemStack itemStack, Theme themeType, String name, String... lore) {
         String coloredName = TextUtil.colorPseudorandomString(name);
@@ -151,6 +159,7 @@ public enum Theme {
 
     @NotNull
     @ParametersAreNonnullByDefault
+    @Async
     public static SlimefunItemStack random(SlimefunItemStack sfis, Theme themeType) {
         String id = sfis.getItemId();
         ItemStack itemStack = ItemStackUtil.getCleanItem(sfis);
@@ -167,6 +176,7 @@ public enum Theme {
 
     @NotNull
     @ParametersAreNonnullByDefault
+    @Async
     public static SlimefunItemStack random(String id, String texture, Theme themeType, String name, String... lore) {
         String coloredName = TextUtil.colorPseudorandomString(name);
         ChatColor passiveColor = Theme.PASSIVE.getColor();
@@ -181,6 +191,7 @@ public enum Theme {
 
     @NotNull
     @ParametersAreNonnullByDefault
+    @Async
     public static SlimefunItemStack model(
         String id, ItemStack itemStack, Theme themeType, String name, String... lore) {
         String coloredName = TextUtil.colorPseudorandomString(name);
@@ -197,6 +208,7 @@ public enum Theme {
 
     @NotNull
     @ParametersAreNonnullByDefault
+    @Async
     public static SlimefunItemStack model(String id, String texture, Theme themeType, String name, String... lore) {
         String coloredName = TextUtil.colorPseudorandomString(name);
         ChatColor passiveColor = Theme.PASSIVE.getColor();
@@ -215,6 +227,7 @@ public enum Theme {
 
     @NotNull
     @ParametersAreNonnullByDefault
+    @Async
     public static SlimefunItemStack model(SlimefunItemStack sfis, Theme themeType) {
         String id = sfis.getItemId();
         AtomicReference<String> texture = new AtomicReference<>("");
@@ -240,6 +253,7 @@ public enum Theme {
      */
     @NotNull
     @ParametersAreNonnullByDefault
+    @Async
     public static String applyThemeToString(Theme themeType, String string) {
         return themeType.getColor() + string;
     }
@@ -255,6 +269,7 @@ public enum Theme {
      */
     @NotNull
     @ParametersAreNonnullByDefault
+    @Async
     public static ItemStack themedItemStack(Material material, Theme themeType, String name, String... lore) {
         ChatColor passiveColor = Theme.PASSIVE.getColor();
         List<String> finalLore = new ArrayList<>();
@@ -272,6 +287,7 @@ public enum Theme {
 
     @NotNull
     @ParametersAreNonnullByDefault
+    @Async
     public static ItemStack themedItemStack(ItemStack itemStack, Theme themeType) {
         String name = ItemStackHelper.getDisplayName(itemStack);
         ItemMeta meta = itemStack.getItemMeta();
@@ -297,6 +313,7 @@ public enum Theme {
     }
 
     @NotNull
+    @Async
     public Particle.DustOptions getDustOptions(float size) {
         return new Particle.DustOptions(
             Color.fromRGB(
@@ -315,6 +332,7 @@ public enum Theme {
      * @return the name of this enum constant
      */
     @Override
+    @Async
     public String toString() {
         return this.color.toString();
     }

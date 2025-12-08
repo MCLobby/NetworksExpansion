@@ -21,11 +21,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 @SuppressWarnings("DuplicatedCode")
 @UtilityClass
+@EnableAsync
 public class NetworkUtils {
 
+	@Async
     public static void applyConfig(
         @NotNull NetworkDirectional directional, @NotNull BlockMenu blockMenu, @NotNull Player player) {
         ItemStack itemStack = player.getInventory().getItemInOffHand();
@@ -35,6 +39,7 @@ public class NetworkUtils {
         }
     }
 
+	@Async
     public static void applyConfig(
         @NotNull NetworkDirectional directional,
         @NotNull ItemStack itemStack,
@@ -108,6 +113,7 @@ public class NetworkUtils {
         }
     }
 
+	@Async
     public static void clearNetwork(@NotNull Location location) {
         NodeDefinition definition = NetworkStorage.getNode(location);
 
