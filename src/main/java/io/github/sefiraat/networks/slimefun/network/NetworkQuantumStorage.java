@@ -671,4 +671,9 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
     public boolean canStack(@NotNull ItemMeta sfItemMeta, @NotNull ItemMeta itemMeta) {
         return sfItemMeta.getPersistentDataContainer().equals(itemMeta.getPersistentDataContainer());
     }
+
+    // Here for SlimeAEPlugin used it
+    public static boolean isBlacklisted(@NotNull ItemStack itemStack) {
+        return StackUtils.isBlacklisted(itemStack);
+    }
 }
