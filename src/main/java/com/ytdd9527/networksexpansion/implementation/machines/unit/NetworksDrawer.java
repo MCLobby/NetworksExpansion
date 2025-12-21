@@ -422,13 +422,17 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
                         data.depositItemStack0(l, itemOnCursor, false, true);
                     }
                 } else {
-                    List<Integer> a = new ArrayList<>();
+                    List<Integer> display = new ArrayList<>();
                     for (int i : DISPLAY_SLOTS) {
-                        a.add(i);
+                        display.add(i);
                     }
-                    int index = a.indexOf(slot);
-                    final ItemStack take =
-                        storages.get(l).getStoredItems().get(index).getSampleDirectly();
+                    int index = display.indexOf(slot);
+                    final var stored = storages.get(l).getStoredItems();
+                    if (stored.size() <= index) {
+                        return false;
+                    }
+
+                    final ItemStack take = stored.get(index).getSampleDirectly();
 
                     final ItemRequest itemRequest = new ItemRequest(take, 1);
 
