@@ -242,7 +242,7 @@ public class NetworksMain implements TabExecutor {
         }
     }
 
-    public static void setQuantum(@NotNull Player player, int amount) {
+    public static void setQuantum(@NotNull Player player, long amount) {
         final Block targetBlock = player.getTargetBlockExact(8, FluidCollisionMode.NEVER);
         if (targetBlock == null || targetBlock.getType() == Material.AIR) {
             player.sendMessage(Lang.getString("messages.commands.must-look-at-quantum-storage"));
@@ -1079,7 +1079,11 @@ public class NetworksMain implements TabExecutor {
                     }
 
                     try {
-                        int amount = Calculator.calculate(args[1]).intValue();
+                        long amount = Calculator.calculate(args[1]).longValue();
+                        if (amount < 0 || amount > NetworkQuantumStorage.MAX_AMOUNT) {
+                            player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "amount"));
+                            return true;
+                        }
                         fillQuantum(player, amount);
                     } catch (NumberFormatException e) {
                         player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "amount"));
@@ -1119,7 +1123,10 @@ public class NetworksMain implements TabExecutor {
                     }
 
                     try {
-                        int amount = Calculator.calculate(args[1]).intValue();
+                        long amount = Calculator.calculate(args[1]).longValue();
+                        if (amount < 0 || amount > NetworkQuantumStorage.MAX_AMOUNT) {
+                            throw new NumberFormatException();
+                        }
                         setQuantum(player, amount);
                     } catch (NumberFormatException e) {
                         player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "amount"));
@@ -1502,7 +1509,7 @@ public class NetworksMain implements TabExecutor {
         return true;
     }
 
-    public void fillQuantum(@NotNull Player player, int amount) {
+    public void fillQuantum(@NotNull Player player, long amount) {
         final ItemStack itemStack = player.getInventory().getItemInMainHand();
         if (itemStack.getType() == Material.AIR) {
             player.sendMessage(Lang.getString("messages.commands.no-item-in-hand"));

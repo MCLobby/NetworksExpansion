@@ -67,6 +67,10 @@ public class NetworksSlimefunItemStacks {
     public static final @NotNull SlimefunItemStack NETWORK_QUANTUM_STORAGE_8;
     public static final @NotNull SlimefunItemStack NETWORK_QUANTUM_STORAGE_9;
     public static final @NotNull SlimefunItemStack NETWORK_QUANTUM_STORAGE_10;
+    public static final @NotNull SlimefunItemStack NETWORK_QUANTUM_STORAGE_11;
+    public static final @NotNull SlimefunItemStack NETWORK_QUANTUM_STORAGE_12;
+    public static final @NotNull SlimefunItemStack NETWORK_QUANTUM_STORAGE_13;
+    public static final @NotNull SlimefunItemStack NETWORK_QUANTUM_STORAGE_14;
     public static final @NotNull SlimefunItemStack NETWORK_CAPACITOR_1;
     public static final @NotNull SlimefunItemStack NETWORK_CAPACITOR_2;
     public static final @NotNull SlimefunItemStack NETWORK_CAPACITOR_3;
@@ -250,6 +254,19 @@ public class NetworksSlimefunItemStacks {
 
         NETWORK_QUANTUM_STORAGE_8 = Theme.themedSlimefunItemStack(
             Lang.getItem("NTW_QUANTUM_STORAGE_8", new ItemStack(Material.RED_TERRACOTTA)), Theme.MACHINE);
+
+        NETWORK_QUANTUM_STORAGE_11 = Theme.themedSlimefunItemStack(
+            Lang.getItem("NTW_QUANTUM_STORAGE_11", new ItemStack(Material.BLUE_GLAZED_TERRACOTTA)), Theme.MACHINE);
+
+        NETWORK_QUANTUM_STORAGE_12 = Theme.themedSlimefunItemStack(
+            Lang.getItem("NTW_QUANTUM_STORAGE_12", new ItemStack(Material.LIME_GLAZED_TERRACOTTA)), Theme.MACHINE);
+
+        NETWORK_QUANTUM_STORAGE_13 = Theme.themedSlimefunItemStack(
+            Lang.getItem("NTW_QUANTUM_STORAGE_13", new ItemStack(Material.BLACK_GLAZED_TERRACOTTA)), Theme.MACHINE);
+
+        NETWORK_QUANTUM_STORAGE_14 = Theme.themedSlimefunItemStack(
+            Lang.getItem("NTW_QUANTUM_STORAGE_14", new ItemStack(Material.RED_GLAZED_TERRACOTTA)), Theme.MACHINE);
+
 
         NETWORK_CAPACITOR_1 = Theme.themedSlimefunItemStack(
             Lang.getItem("NTW_CAPACITOR_1", new ItemStack(Material.BROWN_GLAZED_TERRACOTTA)), Theme.MACHINE);

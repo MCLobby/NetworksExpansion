@@ -5,7 +5,7 @@ auto-update: true
 language: zh-CN
 
 # Do not change this value unless you know what you are doing.
-config-version: Special-Version-56
+config-version: 2.1.68
 
 # Do not change this value unless you know what you are doing.
 debug: false
@@ -110,6 +110,18 @@ items:
     pushitem-tick: 1
   NTW_EXPANSION_LINE_TRANSFER_VANILLA_GRABBER:
     max-distance: 32
+    grabitem-tick: 1
+  NTW_EXPANSION_ADVANCED_LINE_TRANSFER_VANILLA_PUSHER:
+    max-distance: 32
+    pushitem-tick: 1
+  NTW_EXPANSION_ADVANCED_LINE_TRANSFER_VANILLA_GRABBER:
+    max-distance: 32
+    grabitem-tick: 1
+  NTW_EXPANSION_ADVANCED_LINE_TRANSFER_VANILLA_PLUS_PUSHER:
+    max-distance: 64
+    pushitem-tick: 1
+  NTW_EXPANSION_ADVANCED_LINE_TRANSFER_VANILLA_PLUS_GRABBER:
+    max-distance: 64
     grabitem-tick: 1
   CARGO_STORAGE_UNIT_1_MODEL:
     use-special-model:

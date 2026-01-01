@@ -199,4 +199,22 @@ public class GUIs {
         "BBsBBdBBB",
         "BBBBBBBBB"
     );
+
+    public static final GUI ALTVG = new GUI(
+        "BnuBBBBBB",
+        "wBeBTTTTT",
+        "BsdBTtttT",
+        "BBBBTtttT",
+        "oBBBTTTTT",
+        "pqrBBBBBB"
+    );
+
+    public static final GUI ALTVP = new GUI(
+        "BnuBBBBBB",
+        "wBeBTTTTT",
+        "BsdBTtttT",
+        "BBBBTtttT",
+        "oBBBTTTTT",
+        "pqrBBBBBB"
+    );
 }

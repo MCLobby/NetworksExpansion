@@ -8,6 +8,7 @@ import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.api.interfaces.GrabTickOnly;
 import com.balugaq.netex.api.interfaces.PushTickOnly;
 import com.balugaq.netex.api.interfaces.SoftCellBannable;
+import com.balugaq.netex.api.interfaces.VanillaTransfer;
 import com.balugaq.netex.api.transfer.TransferConfiguration;
 import com.balugaq.netex.utils.LineOperationUtil;
 import io.github.sefiraat.networks.NetworkStorage;
@@ -123,13 +124,21 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
                 sendFeedback(location, FeedbackType.TRANSFER_TRY_PUSH_ITEM_WITH_COUNTER);
                 int currentPushTick = getPushTickCounter(location);
                 if (currentPushTick == 0) {
-                    tryPushItem(blockMenu, root, direction, currentTransportMode, limitQuantity);
+                    if (this instanceof VanillaTransfer) {
+                        tryVanillaPushItem(blockMenu, root, direction, currentTransportMode, limitQuantity);
+                    } else {
+                        tryPushItem(blockMenu, root, direction, currentTransportMode, limitQuantity);
+                    }
                 }
                 currentPushTick = (currentPushTick + 1) % config.defaultPushTick;
                 updatePushTickCounter(location, currentPushTick);
             } else {
                 sendFeedback(location, FeedbackType.TRANSFER_TRY_PUSH_ITEM);
-                tryPushItem(blockMenu, root, direction, currentTransportMode, limitQuantity);
+                if (this instanceof VanillaTransfer) {
+                    tryVanillaPushItem(blockMenu, root, direction, currentTransportMode, limitQuantity);
+                } else {
+                    tryPushItem(blockMenu, root, direction, currentTransportMode, limitQuantity);
+                }
             }
         }
 
@@ -138,13 +147,21 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
                 sendFeedback(location, FeedbackType.TRANSFER_TRY_GRAB_ITEM_WITH_COUNTER);
                 int currentGrabTick = getGrabTickCounter(location);
                 if (currentGrabTick == 0) {
-                    tryGrabItem(blockMenu, root, direction, currentTransportMode, limitQuantity);
+                    if (this instanceof VanillaTransfer) {
+                        tryVanillaGrabItem(blockMenu, root, direction, currentTransportMode, limitQuantity);
+                    } else {
+                        tryGrabItem(blockMenu, root, direction, currentTransportMode, limitQuantity);
+                    }
                 }
                 currentGrabTick = (currentGrabTick + 1) % config.defaultGrabTick;
                 updateGrabTickCounter(location, currentGrabTick);
             } else {
                 sendFeedback(location, FeedbackType.TRANSFER_TRY_GRAB_ITEM);
-                tryGrabItem(blockMenu, root, direction, currentTransportMode, limitQuantity);
+                if (this instanceof VanillaTransfer) {
+                    tryVanillaGrabItem(blockMenu, root, direction, currentTransportMode, limitQuantity);
+                } else {
+                    tryGrabItem(blockMenu, root, direction, currentTransportMode, limitQuantity);
+                }
             }
         }
     }
@@ -225,6 +242,58 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
             false,
             (targetMenu) ->
                 LineOperationUtil.grabItem(targetMenu.getLocation(), root, targetMenu, mode, limitQuantity));
+
+        root.removeRootPower(config.defaultRequiredPower);
+    }
+
+    private void tryVanillaPushItem(
+        @NotNull BlockMenu blockMenu,
+        @NotNull NetworkRoot root,
+        @NotNull BlockFace direction,
+        @NotNull TransportMode mode,
+        int limitQuantity) {
+        if (root.getRootPower() < config.defaultRequiredPower) {
+            sendFeedback(blockMenu.getLocation(), FeedbackType.NOT_ENOUGH_POWER);
+            return;
+        }
+
+        List<ItemStack> templates = new ArrayList<>();
+        for (int slot : this.getItemSlots()) {
+            final ItemStack template = blockMenu.getItemInSlot(slot);
+            if (template != null && template.getType() != Material.AIR) {
+                templates.add(StackUtils.getAsQuantity(template, 1));
+            }
+        }
+
+        LineOperationUtil.doVanillaOperation(
+            blockMenu.getLocation(),
+            direction,
+            config.maxDistance,
+            false,
+            false,
+            (menu) -> LineOperationUtil.pushItem(
+                menu.getLocation() == null ? blockMenu.getLocation() : menu.getLocation(), root, menu, templates, mode, limitQuantity));
+
+        root.removeRootPower(config.defaultRequiredPower);
+        sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
+    }
+
+    @ParametersAreNonnullByDefault
+    private void tryVanillaGrabItem(
+        BlockMenu blockMenu, NetworkRoot root, BlockFace direction, TransportMode mode, int limitQuantity) {
+        if (root.getRootPower() < config.defaultRequiredPower) {
+            sendFeedback(blockMenu.getLocation(), FeedbackType.NOT_ENOUGH_POWER);
+            return;
+        }
+
+        LineOperationUtil.doVanillaOperation(
+            blockMenu.getLocation(),
+            direction,
+            config.maxDistance,
+            false,
+            false,
+            (menu) ->
+                LineOperationUtil.grabItem(menu.getLocation() == null ? blockMenu.getLocation() : menu.getLocation(), root, menu, mode, limitQuantity));
 
         root.removeRootPower(config.defaultRequiredPower);
     }

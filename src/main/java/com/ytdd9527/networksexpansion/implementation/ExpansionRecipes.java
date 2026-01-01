@@ -1703,4 +1703,28 @@ public class ExpansionRecipes {
         NETWORK_WIRELESS_RECEIVER.getItem(), NETWORK_WIRELESS_TRANSMITTER.getItem(), NETWORK_WIRELESS_RECEIVER.getItem(),
         NETWORK_BRIDGE.getItem(), NETWORK_WIRELESS_TRANSMITTER.getItem(), NETWORK_BRIDGE.getItem()
     };
+
+    public static final ItemStack[] ADVANCED_LINE_TRANSFER_VANILLA_GRABBER = new ItemStack[]{
+        OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_TRANSFER_VANILLA_GRABBER, OPTIC_STAR.getItem(),
+        ExpansionItemStacks.LINE_TRANSFER_VANILLA_GRABBER, NETWORK_GRABBER.getItem(), ExpansionItemStacks.ADVANCED_LINE_TRANSFER_VANILLA_GRABBER,
+        OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_TRANSFER_VANILLA_GRABBER, OPTIC_STAR.getItem()
+    };
+
+    public static final ItemStack[] ADVANCED_LINE_TRANSFER_VANILLA_PUSHER = new ItemStack[]{
+        OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_TRANSFER_VANILLA_PUSHER, OPTIC_STAR.getItem(),
+        ExpansionItemStacks.LINE_TRANSFER_VANILLA_PUSHER, NETWORK_PUSHER.getItem(), ExpansionItemStacks.ADVANCED_LINE_TRANSFER_VANILLA_PUSHER,
+        OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_TRANSFER_VANILLA_PUSHER, OPTIC_STAR.getItem()
+    };
+
+    public static final ItemStack[] ADVANCED_LINE_TRANSFER_VANILLA_PLUS_GRABBER = new ItemStack[]{
+        OPTIC_STAR.getItem(), OPTIC_GLASS.getItem(), OPTIC_STAR.getItem(),
+        OPTIC_GLASS.getItem(), ExpansionItemStacks.ADVANCED_LINE_TRANSFER_VANILLA_GRABBER, OPTIC_GLASS.getItem(),
+        OPTIC_STAR.getItem(), OPTIC_GLASS.getItem(), OPTIC_STAR.getItem()
+    };
+
+    public static final ItemStack[] ADVANCED_LINE_TRANSFER_VANILLA_PLUS_PUSHER = new ItemStack[]{
+        OPTIC_STAR.getItem(), OPTIC_GLASS.getItem(), OPTIC_STAR.getItem(),
+        OPTIC_GLASS.getItem(), ExpansionItemStacks.ADVANCED_LINE_TRANSFER_VANILLA_PUSHER, OPTIC_GLASS.getItem(),
+        OPTIC_STAR.getItem(), OPTIC_GLASS.getItem(), OPTIC_STAR.getItem()
+    };
 }

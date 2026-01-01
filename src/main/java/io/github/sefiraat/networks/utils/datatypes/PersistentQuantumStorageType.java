@@ -44,7 +44,7 @@ public class PersistentQuantumStorageType implements PersistentDataType<Persiste
             container.set(Keys.ITEM, DataType.ITEM_STACK, complex.getItemStack());
         }
         container.set(Keys.AMOUNT, DataType.LONG, complex.getAmount());
-        container.set(Keys.MAX_AMOUNT, DataType.INTEGER, complex.getLimit());
+        container.set(Keys.MAX_AMOUNT, DataType.LONG, complex.getLimitLong());
         container.set(Keys.VOID, DataType.BOOLEAN, complex.isVoidExcess());
         container.set(Keys.SUPPORTS_CUSTOM_MAX_AMOUNT, DataType.BOOLEAN, complex.supportsCustomMaxAmount());
         return container;
@@ -83,12 +83,25 @@ public class PersistentQuantumStorageType implements PersistentDataType<Persiste
             amount = amountI.longValue();
         }
 
-        Integer limit = primitive.get(Keys.MAX_AMOUNT, DataType.INTEGER);
-        if (limit == null) {
-            limit = primitive.get(Keys.MAX_AMOUNT2, DataType.INTEGER);
+        Integer rlimit = primitive.get(Keys.MAX_AMOUNT, DataType.INTEGER);
+        if (rlimit == null) {
+            rlimit = primitive.get(Keys.MAX_AMOUNT2, DataType.INTEGER);
+        }
+        if (rlimit == null) {
+            rlimit = primitive.get(Keys.MAX_AMOUNT3, DataType.INTEGER);
+        }
+
+        Long limit;
+        if (rlimit == null) {
+            limit = primitive.get(Keys.MAX_AMOUNT, DataType.LONG);
+        } else {
+            limit = rlimit.longValue();
         }
         if (limit == null) {
-            limit = primitive.getOrDefault(Keys.MAX_AMOUNT3, DataType.INTEGER, 64);
+            limit = primitive.get(Keys.MAX_AMOUNT2, DataType.LONG);
+        }
+        if (limit == null) {
+            limit = primitive.getOrDefault(Keys.MAX_AMOUNT3, DataType.LONG, 64L);
         }
 
         Boolean voidExcess = primitive.get(Keys.VOID, DataType.BOOLEAN);

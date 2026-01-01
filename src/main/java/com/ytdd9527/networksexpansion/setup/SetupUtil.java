@@ -144,7 +144,11 @@ public class SetupUtil {
             ExpansionItems.WHITELISTED_TRANSFER_GRABBER.registerThis(),
             ExpansionItems.WHITELISTED_LINE_TRANSFER_GRABBER.registerThis(),
             ExpansionItems.WHITELISTED_TRANSFER_VANILLA_GRABBER.registerThis(),
-            ExpansionItems.WHITELISTED_LINE_TRANSFER_VANILLA_GRABBER.registerThis());
+            ExpansionItems.WHITELISTED_LINE_TRANSFER_VANILLA_GRABBER.registerThis(),
+            ExpansionItems.ADVANCED_LINE_TRANSFER_VANILLA_GRABBER.registerThis(),
+            ExpansionItems.ADVANCED_LINE_TRANSFER_VANILLA_PUSHER.registerThis(),
+            ExpansionItems.ADVANCED_LINE_TRANSFER_VANILLA_PLUS_GRABBER.registerThis(),
+            ExpansionItems.ADVANCED_LINE_TRANSFER_VANILLA_PLUS_PUSHER.registerThis());
 
         ExpansionItemsMenus.SUB_MENU_BRIDGE.addTo(
             ExpansionItems.NETWORK_BRIDGE_WHITE.registerThis(),
