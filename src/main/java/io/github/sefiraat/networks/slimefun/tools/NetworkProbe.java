@@ -87,6 +87,8 @@ public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
             final int itemFlowViewers = root.getItemFlowViewers().size();
             final int advancedWirelessTransmitters = root.getAdvancedWirelessTransmitters().size();
             final int aeSwitchers = root.getAeSwitchers().size();
+            final int itemDifferenters = root.getItemDifferenters().size();
+            final int storageCardConverters = root.getStorageCardConverters().size();
 
             final Map<ItemStack, Long> allNetworkItems = root.getAllNetworkItemsLongType();
             final int distinctItems = allNetworkItems.size();
@@ -168,6 +170,8 @@ public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
             player.sendMessage(formatter(ExpansionItemStacks.ITEM_FLOW_VIEWER.getDisplayName(), itemFlowViewers));
             player.sendMessage(formatter(ExpansionItemStacks.ADVANCED_WIRELESS_TRANSMITTER.getDisplayName(), advancedWirelessTransmitters));
             player.sendMessage(formatter(Lang.getString("icons.ae_switcher.name"), aeSwitchers));
+            player.sendMessage(formatter(ExpansionItemStacks.ITEM_DIFFERENTER.getDisplayName(), itemDifferenters));
+            player.sendMessage(formatter(ExpansionItemStacks.STORAGE_CARD_CONVERTER.getDisplayName(), storageCardConverters));
             player.sendMessage(Lang.getString("messages.completed-operation.probe.split"));
             player.sendMessage(
                 formatter(Lang.getString("messages.completed-operation.probe.distinct_items"), distinctItems));

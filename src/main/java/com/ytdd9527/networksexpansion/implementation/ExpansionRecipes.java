@@ -31,6 +31,7 @@ import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.NETWORK_
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_0;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_1;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_10;
+import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_14;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_2;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_3;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_4;
@@ -1142,9 +1143,9 @@ public class ExpansionRecipes {
     };
     // Storages
     public static final ItemStack[] ADVANCED_QUANTUM_STORAGE = new ItemStack[]{
-        OPTIC_STAR.getItem(), NETWORK_CONFIGURATOR.getItem(), OPTIC_STAR.getItem(),
-        OPTIC_CABLE.getItem(), NETWORK_QUANTUM_STORAGE_8.getItem(), OPTIC_CABLE.getItem(),
-        OPTIC_STAR.getItem(), NETWORK_CONFIGURATOR.getItem(), OPTIC_STAR.getItem()
+        OPTIC_GLASS.getItem(), OPTIC_CABLE.getItem(), OPTIC_GLASS.getItem(),
+        OPTIC_CABLE.getItem(), NETWORK_QUANTUM_STORAGE_14.getItem(), OPTIC_CABLE.getItem(),
+        OPTIC_GLASS.getItem(), OPTIC_CABLE.getItem(), OPTIC_GLASS.getItem()
     };
     // Bridges
     public static final ItemStack[] NETWORK_BRIDGE_WHITE = new ItemStack[]{
@@ -1702,5 +1703,41 @@ public class ExpansionRecipes {
         NETWORK_BRIDGE.getItem(), NETWORK_WIRELESS_TRANSMITTER.getItem(), NETWORK_BRIDGE.getItem(),
         NETWORK_WIRELESS_RECEIVER.getItem(), NETWORK_WIRELESS_TRANSMITTER.getItem(), NETWORK_WIRELESS_RECEIVER.getItem(),
         NETWORK_BRIDGE.getItem(), NETWORK_WIRELESS_TRANSMITTER.getItem(), NETWORK_BRIDGE.getItem()
+    };
+
+    public static final ItemStack[] ADVANCED_LINE_TRANSFER_VANILLA_GRABBER = new ItemStack[]{
+        OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_TRANSFER_VANILLA_GRABBER, OPTIC_STAR.getItem(),
+        ExpansionItemStacks.LINE_TRANSFER_VANILLA_GRABBER, NETWORK_GRABBER.getItem(), ExpansionItemStacks.ADVANCED_LINE_TRANSFER_VANILLA_GRABBER,
+        OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_TRANSFER_VANILLA_GRABBER, OPTIC_STAR.getItem()
+    };
+
+    public static final ItemStack[] ADVANCED_LINE_TRANSFER_VANILLA_PUSHER = new ItemStack[]{
+        OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_TRANSFER_VANILLA_PUSHER, OPTIC_STAR.getItem(),
+        ExpansionItemStacks.LINE_TRANSFER_VANILLA_PUSHER, NETWORK_PUSHER.getItem(), ExpansionItemStacks.ADVANCED_LINE_TRANSFER_VANILLA_PUSHER,
+        OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_TRANSFER_VANILLA_PUSHER, OPTIC_STAR.getItem()
+    };
+
+    public static final ItemStack[] ADVANCED_LINE_TRANSFER_VANILLA_PLUS_GRABBER = new ItemStack[]{
+        OPTIC_STAR.getItem(), OPTIC_GLASS.getItem(), OPTIC_STAR.getItem(),
+        OPTIC_GLASS.getItem(), ExpansionItemStacks.ADVANCED_LINE_TRANSFER_VANILLA_GRABBER, OPTIC_GLASS.getItem(),
+        OPTIC_STAR.getItem(), OPTIC_GLASS.getItem(), OPTIC_STAR.getItem()
+    };
+
+    public static final ItemStack[] ADVANCED_LINE_TRANSFER_VANILLA_PLUS_PUSHER = new ItemStack[]{
+        OPTIC_STAR.getItem(), OPTIC_GLASS.getItem(), OPTIC_STAR.getItem(),
+        OPTIC_GLASS.getItem(), ExpansionItemStacks.ADVANCED_LINE_TRANSFER_VANILLA_PUSHER, OPTIC_GLASS.getItem(),
+        OPTIC_STAR.getItem(), OPTIC_GLASS.getItem(), OPTIC_STAR.getItem()
+    };
+
+    public static final ItemStack[] ITEM_DIFFERENTER = new ItemStack[]{
+        OPTIC_GLASS.getItem(), NETWORK_BRIDGE.getItem(), OPTIC_GLASS.getItem(),
+        NETWORK_BRIDGE.getItem(), OPTIC_GLASS.getItem(), NETWORK_BRIDGE.getItem(),
+        OPTIC_GLASS.getItem(), NETWORK_BRIDGE.getItem(), OPTIC_GLASS.getItem()
+    };
+
+    public static final ItemStack[] STORAGE_CARD_CONVERTER = new ItemStack[]{
+        OPTIC_GLASS.getItem(), ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH, OPTIC_GLASS.getItem(),
+        ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH, ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH, ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH,
+        OPTIC_GLASS.getItem(), ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH, OPTIC_GLASS.getItem()
     };
 }

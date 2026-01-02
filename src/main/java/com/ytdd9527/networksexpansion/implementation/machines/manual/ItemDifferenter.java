@@ -1,14 +1,20 @@
-package io.github.sefiraat.networks.utils;
+package com.ytdd9527.networksexpansion.implementation.machines.manual;
 
-import com.balugaq.netex.api.enums.MinecraftVersion;
-import io.github.sefiraat.networks.Networks;
-import io.github.sefiraat.networks.network.stackcaches.ItemStackCache;
+import com.balugaq.netex.api.helpers.Icon;
+import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
+import io.github.sefiraat.networks.network.NodeType;
+import io.github.sefiraat.networks.slimefun.network.NetworkObject;
+import io.github.sefiraat.networks.utils.StackUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
-import lombok.experimental.UtilityClass;
-import org.bukkit.Material;
-import org.bukkit.Tag;
-import org.bukkit.entity.LivingEntity;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.AxolotlBucketMeta;
@@ -37,162 +43,147 @@ import org.bukkit.inventory.meta.SuspiciousStewMeta;
 import org.bukkit.inventory.meta.TropicalFishBucketMeta;
 import org.bukkit.inventory.meta.WritableBookMeta;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Objects;
 import java.util.Optional;
 
-@SuppressWarnings("deprecation")
-@UtilityClass
-public class StackUtils {
-    private static final boolean FORCE_CHECK_LORE = Networks.getConfigManager().isForceCheckLore();
-    private static final MinecraftVersion MC_VERSION = Networks.getInstance().getMCVersion();
-    public static final boolean IS_1_20_5 = MC_VERSION.isAtLeast(MinecraftVersion.MC1_20_5);
-    public static final boolean IS_1_21 = MC_VERSION.isAtLeast(MinecraftVersion.MC1_21);
+@SuppressWarnings("DuplicatedCode")
+public class ItemDifferenter extends NetworkObject {
+    private static final int[] BACKGROUND_SLOTS = {
+        0,  1,  2,  3,  4,  5,  6,  7,  8,
+        9,      11, 12,     14, 15,     17,
+        18, 19, 20, 21,     23, 24, 25, 26,
+    };
+    private static final int ITEM_1_SLOT = 11;
+    private static final int DIFF_SLOT = 13;
+    private static final int ITEM_2_SLOT = 16;
+    private static final int RESULT_SLOT = 22;
 
-    @NotNull
-    public static ItemStack getAsQuantity(@Nullable ItemStack itemStack, int amount) {
-        if (itemStack == null) {
-            return new ItemStack(Material.AIR);
-        }
-        ItemStack clone = itemStack.clone();
-        clone.setAmount(amount);
-        return clone;
+    @ParametersAreNonnullByDefault
+    public ItemDifferenter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+        super(itemGroup, item, recipeType, recipe, NodeType.ITEM_DIFFERENTER);
+        getSlotsToDrop().add(ITEM_1_SLOT);
+        getSlotsToDrop().add(ITEM_2_SLOT);
     }
 
-    public static boolean itemsMatch(
-        @Nullable ItemStack itemStack1,
-        @Nullable ItemStack itemStack2,
-        boolean checkLore,
-        boolean checkAmount,
-        boolean checkCustomModelId) {
-        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, checkAmount, checkCustomModelId);
+    @Override
+    public void postRegister() {
+        new BlockMenuPreset(this.getId(), this.getItemName()) {
+
+            @Override
+            public void init() {
+                setSize(27);
+                for (int slot : BACKGROUND_SLOTS) {
+                    addItem(slot, Icon.GRAY_BACKGROUND);
+                }
+                addItem(DIFF_SLOT, Icon.DIFF_BUTTON);
+                addItem(RESULT_SLOT, Icon.DIFF_RESULT_ICON);
+            }
+
+            @Override
+            public boolean canOpen(@NotNull Block block, @NotNull Player player) {
+                return player.hasPermission("slimefun.inventory.bypass")
+                    || (ExpansionItems.ITEM_DIFFERENTER.canUse(player, false)
+                    && Slimefun.getProtectionManager()
+                    .hasPermission(player, block.getLocation(), Interaction.INTERACT_BLOCK));
+            }
+
+            @Override
+            public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
+                menu.addMenuClickHandler(DIFF_SLOT, (p, s, i, a) -> {
+                    ItemStack i1 = menu.getItemInSlot(ITEM_1_SLOT);
+                    ItemStack i2 = menu.getItemInSlot(ITEM_2_SLOT);
+                    if (i1 == null || i1.getType().isAir() || i2 == null || i2.getType().isAir()) {
+                        return setResult(menu, "no-item", false);
+                    }
+                    return setResult(menu, calc(i1, i2), i1.isSimilar(i2));
+                });
+            }
+
+            @Override
+            public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
+                return new int[0];
+            }
+        };
     }
 
-    public static boolean itemsMatch(
-        @Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore, boolean checkAmount) {
-        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, checkAmount, true);
+    public static boolean setResult(BlockMenu menu, String result, boolean isSimilar) {
+        menu.replaceExistingItem(RESULT_SLOT, getResultIcon(result, isSimilar));
+        return false;
     }
 
-    public static boolean itemsMatch(
-        @Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2, boolean checkLore) {
-        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, checkLore, false, true);
+    public static ItemStack getResultIcon(String result, boolean isSimilar) {
+        ItemStack i = Icon.DIFF_RESULT_ICON.clone();
+        ItemMeta meta = i.getItemMeta();
+        meta.setDisplayName((result.equals("no-item") ? "" : ("isSimilar: " + isSimilar + " | ")) + meta.getDisplayName() + ": " + result);
+        i.setItemMeta(meta);
+        return i;
     }
 
-    public static boolean itemsMatch(@Nullable ItemStack itemStack1, @Nullable ItemStack itemStack2) {
-        return itemsMatch(new ItemStackCache(itemStack1), itemStack2, false, false, true);
-    }
-
-    public static boolean itemsMatch(
-        @NotNull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore, boolean checkAmount) {
-        return itemsMatch(cache, itemStack, checkLore, checkAmount, true);
-    }
-
-    public static boolean itemsMatch(@NotNull ItemStackCache cache, @Nullable ItemStack itemStack, boolean checkLore) {
-        return itemsMatch(cache, itemStack, checkLore, false, true);
-    }
-
-    public static boolean itemsMatch(@NotNull ItemStackCache cache, @Nullable ItemStack itemStack) {
-        return itemsMatch(cache, itemStack, false, false, true);
-    }
-
-    public static boolean itemsMatch(
-        @Nullable ItemStack itemStack,
-        @NotNull ItemStackCache cache,
-        boolean checkLore,
-        boolean checkAmount,
-        boolean checkCustomModelId) {
-        return itemsMatch(cache, itemStack, checkLore, checkAmount, checkCustomModelId);
-    }
-
-    public static boolean itemsMatch(
-        @Nullable ItemStack itemStack, @NotNull ItemStackCache cache, boolean checkLore, boolean checkAmount) {
-        return itemsMatch(cache, itemStack, checkLore, checkAmount, true);
-    }
-
-    public static boolean itemsMatch(@Nullable ItemStack itemStack, @NotNull ItemStackCache cache, boolean checkLore) {
-        return itemsMatch(cache, itemStack, checkLore, false, true);
-    }
-
-    public static boolean itemsMatch(@Nullable ItemStack itemStack, @NotNull ItemStackCache cache) {
-        return itemsMatch(cache, itemStack, false, false, true);
-    }
-
-    /**
-     * Checks if items match each other, checks go in order from lightest to heaviest
-     *
-     * @param cache     The cached {@link ItemStack} to compare against
-     * @param itemStack The {@link ItemStack} being evaluated
-     * @return True if items match
-     */
-    @SuppressWarnings("UnstableApiUsage")
-    public static boolean itemsMatch(
-        @NotNull ItemStackCache cache,
-        @Nullable ItemStack itemStack,
-        boolean checkLore,
-        boolean checkAmount,
-        boolean checkCustomModelId) {
-        // Null check
-        if (cache.getItemStack() == null || itemStack == null) {
-            return itemStack == null && cache.getItemStack() == null;
-        }
-
+    public static String calc(ItemStack i1, ItemStack i2) {
         // If types do not match, then the items cannot possibly match
-        if (itemStack.getType() != cache.getItemType()) {
-            return false;
+        if (i1.getType() != i2.getType()) {
+            return "neq.type";
         }
 
         // If amounts do not match, then the items cannot possibly match
-        if (checkAmount && itemStack.getAmount() > cache.getItemStack().getAmount()) {
-            return false;
+        if (i1.getAmount() > i2.getAmount()) {
+            return "neq.amount";
         }
 
-        if (isBlacklisted(itemStack) || isBlacklisted(cache.getItemStack())) {
-            return false;
+        if (StackUtils.isBlacklisted(i1) || StackUtils.isBlacklisted(i2)) {
+            return "banned.blacklist";
         }
 
         // If either item does not have a meta then either a mismatch or both without meta = vanilla
-        if (!itemStack.hasItemMeta() || !cache.getItemStack().hasItemMeta()) {
-            return itemStack.hasItemMeta() == cache.getItemStack().hasItemMeta();
+        if (!i1.hasItemMeta() || !i2.hasItemMeta()) {
+            if (i1.hasItemMeta() == i2.hasItemMeta()) {
+                return "eq";
+            }
+            return "neq.hasmeta";
         }
 
         // Now we need to compare meta's directly - cache is already out, but let's fetch the 2nd meta also
-        final ItemMeta itemMeta = itemStack.getItemMeta();
-        final ItemMeta cachedMeta = cache.getItemMeta();
+        final ItemMeta itemMeta = i1.getItemMeta();
+        final ItemMeta cachedMeta = i2.getItemMeta();
 
         if (itemMeta == null || cachedMeta == null) {
-            return itemMeta == cachedMeta;
+            if (itemMeta == cachedMeta) {
+                return "eq";
+            }
+            return "neq.hasmeta2";
         }
 
         // ItemMetas are different types and cannot match
         if (!itemMeta.getClass().equals(cachedMeta.getClass())) {
-            return false;
+            return "neq.metaclass";
         }
 
         // Quick meta-extension escapes
-        if (canQuickEscapeMetaVariant(itemMeta, cachedMeta)) {
-            return false;
+        var r = canQuickEscapeMetaVariant(itemMeta, cachedMeta);
+        if (r != null) {
+            return r;
         }
 
         // Has a display name (checking the name occurs later)
         if (itemMeta.hasDisplayName() != cachedMeta.hasDisplayName()) {
-            return false;
+            return "neq.hasdisplayname";
         }
 
         // PDCs don't match
         if (!itemMeta.getPersistentDataContainer().equals(cachedMeta.getPersistentDataContainer())) {
-            return false;
+            return "neq.pdc";
         }
 
         // Make sure enchantments match
         if (!itemMeta.getEnchants().equals(cachedMeta.getEnchants())) {
-            return false;
+            return "neq.enchant";
         }
 
         // Check item flags
         if (!itemMeta.getItemFlags().equals(cachedMeta.getItemFlags())) {
-            return false;
+            return "neq.itemflag";
         }
 
         // Check the attribute modifiers
@@ -201,26 +192,26 @@ public class StackUtils {
         if (hasAttributeOne) {
             if (!hasAttributeTwo
                 || !Objects.equals(itemMeta.getAttributeModifiers(), cachedMeta.getAttributeModifiers())) {
-                return false;
+                return "neq.attribute";
             }
         } else if (hasAttributeTwo) {
-            return false;
+            return "neq.attribute";
         }
 
-        if (IS_1_20_5) {
+        if (StackUtils.IS_1_20_5) {
             // Check if fire-resistant
             if (itemMeta.isFireResistant() != cachedMeta.isFireResistant()) {
-                return false;
+                return "neq.fireresistant";
             }
 
             // Check if unbreakable
             if (itemMeta.isUnbreakable() != cachedMeta.isUnbreakable()) {
-                return false;
+                return "neq.unbreakable";
             }
 
             // Check if hide tooltip
             if (itemMeta.isHideTooltip() != cachedMeta.isHideTooltip()) {
-                return false;
+                return "neq.hidetooltip";
             }
 
             // Check rarity
@@ -228,60 +219,49 @@ public class StackUtils {
             final boolean hasRarityTwo = cachedMeta.hasRarity();
             if (hasRarityOne) {
                 if (!hasRarityTwo || itemMeta.getRarity() != cachedMeta.getRarity()) {
-                    return false;
+                    return "neq.rarity";
                 }
             } else if (hasRarityTwo) {
-                return false;
+                return "neq.rarity";
             }
 
             // Check food components
             if (itemMeta.hasFood() && cachedMeta.hasFood()) {
                 if (!Objects.equals(itemMeta.getFood(), cachedMeta.getFood())) {
-                    return false;
+                    return "neq.food";
                 }
             } else if (itemMeta.hasFood() != cachedMeta.hasFood()) {
-                return false;
+                return "neq.food";
             }
 
             // Check tool components
             if (itemMeta.hasTool() && cachedMeta.hasTool()) {
                 if (!Objects.equals(itemMeta.getTool(), cachedMeta.getTool())) {
-                    return false;
+                    return "neq.tool";
                 }
             } else if (itemMeta.hasTool() != cachedMeta.hasTool()) {
-                return false;
+                return "neq.tool";
             }
 
-            if (IS_1_21) {
+            if (StackUtils.IS_1_21) {
                 // Check jukebox playable
                 if (itemMeta.hasJukeboxPlayable() && cachedMeta.hasJukeboxPlayable()) {
                     if (!Objects.equals(itemMeta.getJukeboxPlayable(), cachedMeta.getJukeboxPlayable())) {
-                        return false;
+                        return "neq.jukeboxplayable";
                     }
                 } else if (itemMeta.hasJukeboxPlayable() != cachedMeta.hasJukeboxPlayable()) {
-                    return false;
+                    return "neq.jukeboxplayable";
                 }
             }
         }
 
-        // Check the lore
-        if (checkLore
-            || FORCE_CHECK_LORE
-            || itemStack.getMaxStackSize() == 1 // Fix RPG weapons
-            || itemStack.getType()
-            == Material.PLAYER_HEAD // Fix Soul jars in SoulJars & Number Components in MomoTech
-            // & Backpacks-like items in Slimefun & DynaTech & MerakTech & TsingshanTechnology
-            || itemStack.getType() == Material.SPAWNER // Fix Reinforced Spawner in Slimefun4
-            || itemStack.getType() == Material.SUGAR // Fix Symbols in MomoTech
-            || itemStack.getType() == Material.MINECART // Fix Dolly(possible) in FluffyMachines
-            || itemStack.getType() == Material.CHEST_MINECART // Fix Packed Dolly(possible) in FluffyMachines
-        ) {
+        if (true) {
             if (itemMeta.hasLore() && cachedMeta.hasLore()) {
                 if (!Objects.equals(itemMeta.getLore(), cachedMeta.getLore())) {
-                    return false;
+                    return "neq.lore";
                 }
             } else if (itemMeta.hasLore() != cachedMeta.hasLore()) {
-                return false;
+                return "neq.lore";
             }
         }
 
@@ -289,143 +269,154 @@ public class StackUtils {
         final Optional<String> optionalStackId1 = Slimefun.getItemDataService().getItemData(itemMeta);
         final Optional<String> optionalStackId2 = Slimefun.getItemDataService().getItemData(cachedMeta);
         if (optionalStackId1.isPresent() != optionalStackId2.isPresent()) {
-            return false;
+            return "neq.sfid";
         }
         if (optionalStackId1.isPresent()) {
             if (optionalStackId1.get().equals(optionalStackId2.get())) {
-                if (checkCustomModelId) {
+                if (true) {
                     // Custom model data is different, no match
                     final boolean hasCustomOne = itemMeta.hasCustomModelData();
                     final boolean hasCustomTwo = cachedMeta.hasCustomModelData();
                     if (hasCustomOne) {
-                        return hasCustomTwo && itemMeta.getCustomModelData() == cachedMeta.getCustomModelData();
-                    } else return !hasCustomTwo;
+                        if (!hasCustomTwo || itemMeta.getCustomModelData() != cachedMeta.getCustomModelData()) {
+                            return "neq.custommodeldata";
+                        }
+                    } else {
+                        if (!hasCustomTwo) {
+                            return "eq";
+                        } else {
+                            return "neq.custommodeldata";
+                        }
+                    }
                 }
-                return true;
+                return "eq";
             }
-            return false;
+            return "neq.sfid";
         }
 
         // Check the display name
-        return !itemMeta.hasDisplayName() || Objects.equals(itemMeta.getDisplayName(), cachedMeta.getDisplayName());
+        if (!itemMeta.hasDisplayName() || Objects.equals(itemMeta.getDisplayName(), cachedMeta.getDisplayName())) {
+            return "eq";
+        } else {
+            return "neq.displayname";
+        }
 
         // Everything should match if we've managed to get here
     }
 
     @SuppressWarnings("removal")
-    public static boolean canQuickEscapeMetaVariant(@NotNull ItemMeta metaOne, @NotNull ItemMeta metaTwo) {
-
+    public static String canQuickEscapeMetaVariant(@NotNull ItemMeta metaOne, @NotNull ItemMeta metaTwo) {
         // Damageable (first as everything can be damageable apparently)
         if (metaOne instanceof Damageable instanceOne && metaTwo instanceof Damageable instanceTwo) {
             if (instanceOne.hasDamage() != instanceTwo.hasDamage()) {
-                return true;
+                return "neq.damageable.damage.has";
             }
 
             if (instanceOne.getDamage() != instanceTwo.getDamage()) {
-                return true;
+                return "neq.damageable.damage.get";
             }
         }
 
         if (metaOne instanceof Repairable instanceOne && metaTwo instanceof Repairable instanceTwo) {
             if (instanceOne.hasRepairCost() != instanceTwo.hasRepairCost()) {
-                return true;
+                return "neq.repairable.repaircost.has";
             }
 
             if (instanceOne.getRepairCost() != instanceTwo.getRepairCost()) {
-                return true;
+                return "neq.repairable.repaircost.get";
             }
         }
 
         // Axolotl
         if (metaOne instanceof AxolotlBucketMeta instanceOne && metaTwo instanceof AxolotlBucketMeta instanceTwo) {
             if (instanceOne.hasVariant() != instanceTwo.hasVariant()) {
-                return true;
+                return "neq.axolotl.variant.has";
             }
 
             if (!instanceOne.hasVariant() || !instanceTwo.hasVariant()) {
-                return true;
+                return "neq.axolotl.variant.has";
             }
 
             if (instanceOne.getVariant() != instanceTwo.getVariant()) {
-                return true;
+                return "neq.axolotl.variant.get";
             }
         }
 
         // Banner
         if (metaOne instanceof BannerMeta instanceOne && metaTwo instanceof BannerMeta instanceTwo) {
             if (instanceOne.numberOfPatterns() != instanceTwo.numberOfPatterns()) {
-                return true;
+                return "neq.banner.pattern.number";
             }
 
             if (!instanceOne.getPatterns().equals(instanceTwo.getPatterns())) {
-                return true;
+                return "neq.banner.pattern.get";
             }
         }
 
         // BlockData
         if (metaOne instanceof BlockDataMeta instanceOne && metaTwo instanceof BlockDataMeta instanceTwo) {
             if (instanceOne.hasBlockData() != instanceTwo.hasBlockData()) {
-                return true;
+                return "neq.blockdata.has";
             }
         }
 
         // BlockState
         if (metaOne instanceof BlockStateMeta instanceOne && metaTwo instanceof BlockStateMeta instanceTwo) {
             if (instanceOne.hasBlockState() != instanceTwo.hasBlockState()) {
-                return true;
+                return "neq.blockstate.has";
             }
 
             if (!instanceOne.getBlockState().equals(instanceTwo.getBlockState())) {
-                return true;
+                return "neq.blockstate.get";
             }
         }
 
         // Books
         if (metaOne instanceof BookMeta instanceOne && metaTwo instanceof BookMeta instanceTwo) {
             if (instanceOne.getPageCount() != instanceTwo.getPageCount()) {
-                return true;
+                return "neq.book.pagecount.get";
             }
             if (!Objects.equals(instanceOne.getAuthor(), instanceTwo.getAuthor())) {
-                return true;
+                return "neq.book.author.get";
             }
             if (!Objects.equals(instanceOne.getTitle(), instanceTwo.getTitle())) {
-                return true;
+                return "neq.book.title.get";
             }
             if (!Objects.equals(instanceOne.getGeneration(), instanceTwo.getGeneration())) {
-                return true;
+                return "neq.book.generation.get";
             }
         }
 
         // Bundle
         if (metaOne instanceof BundleMeta instanceOne && metaTwo instanceof BundleMeta instanceTwo) {
             // Patch start - No bundle allowed
-            if (true) return false;
+            if (true) return "neq.bundle.banned";
             // Patch end - No bundle allowed
             if (instanceOne.hasItems() != instanceTwo.hasItems()) {
-                return true;
+                return "neq.bundle.items.has";
             }
             if (!instanceOne.getItems().equals(instanceTwo.getItems())) {
-                return true;
+                return "neq.bundle.items.get";
             }
         }
 
         // Compass
         if (metaOne instanceof CompassMeta instanceOne && metaTwo instanceof CompassMeta instanceTwo) {
             if (instanceOne.isLodestoneTracked() != instanceTwo.isLodestoneTracked()) {
-                return true;
+                return "neq.compass.lodestone.tracked";
             }
             if (!Objects.equals(instanceOne.getLodestone(), instanceTwo.getLodestone())) {
-                return true;
+                return "neq.compass.lodestone.get";
             }
         }
 
         // Crossbow
         if (metaOne instanceof CrossbowMeta instanceOne && metaTwo instanceof CrossbowMeta instanceTwo) {
             if (instanceOne.hasChargedProjectiles() != instanceTwo.hasChargedProjectiles()) {
-                return true;
+                return "neq.crossbow.charged.has";
             }
             if (!instanceOne.getChargedProjectiles().equals(instanceTwo.getChargedProjectiles())) {
-                return true;
+                return "neq.crossbow.charged.get";
             }
         }
 
@@ -433,102 +424,102 @@ public class StackUtils {
         if (metaOne instanceof EnchantmentStorageMeta instanceOne
             && metaTwo instanceof EnchantmentStorageMeta instanceTwo) {
             if (instanceOne.hasStoredEnchants() != instanceTwo.hasStoredEnchants()) {
-                return true;
+                return "neq.enchantment.has";
             }
             if (!instanceOne.getStoredEnchants().equals(instanceTwo.getStoredEnchants())) {
-                return true;
+                return "neq.enchantment.get";
             }
         }
 
         // Firework Star
         if (metaOne instanceof FireworkEffectMeta instanceOne && metaTwo instanceof FireworkEffectMeta instanceTwo) {
             if (!Objects.equals(instanceOne.getEffect(), instanceTwo.getEffect())) {
-                return true;
+                return "neq.fireworkeffect.get";
             }
         }
 
         // Firework
         if (metaOne instanceof FireworkMeta instanceOne && metaTwo instanceof FireworkMeta instanceTwo) {
             if (instanceOne.getPower() != instanceTwo.getPower()) {
-                return true;
+                return "neq.firework.power.get";
             }
             if (!instanceOne.getEffects().equals(instanceTwo.getEffects())) {
-                return true;
+                return "neq.firework.effect.get";
             }
         }
 
         // Leather Armor
         if (metaOne instanceof LeatherArmorMeta instanceOne && metaTwo instanceof LeatherArmorMeta instanceTwo) {
             if (!instanceOne.getColor().equals(instanceTwo.getColor())) {
-                return true;
+                return "neq.leatherarmor.color.get";
             }
         }
 
         // Maps
         if (metaOne instanceof MapMeta instanceOne && metaTwo instanceof MapMeta instanceTwo) {
             if (instanceOne.hasMapView() != instanceTwo.hasMapView()) {
-                return true;
+                return "neq.map.view.has";
             }
             if (instanceOne.hasLocationName() != instanceTwo.hasLocationName()) {
-                return true;
+                return "neq.map.loactionname.has";
             }
             if (instanceOne.hasColor() != instanceTwo.hasColor()) {
-                return true;
+                return "neq.map.color.has";
             }
             if (!Objects.equals(instanceOne.getMapView(), instanceTwo.getMapView())) {
-                return true;
+                return "neq.map.view.get";
             }
             if (!Objects.equals(instanceOne.getLocationName(), instanceTwo.getLocationName())) {
-                return true;
+                return "neq.map.locationname.get";
             }
             if (!Objects.equals(instanceOne.getColor(), instanceTwo.getColor())) {
-                return true;
+                return "neq.map.color.get";
             }
         }
 
         // Potion
         if (metaOne instanceof PotionMeta instanceOne && metaTwo instanceof PotionMeta instanceTwo) {
-            if (IS_1_20_5) {
+            if (StackUtils.IS_1_20_5) {
                 if (instanceOne.getBasePotionType() != instanceTwo.getBasePotionType()) {
-                    return true;
+                    return "neq.potion.type.get";
                 }
             } else {
                 if (!Objects.equals(instanceOne.getBasePotionData(), instanceTwo.getBasePotionData())) {
-                    return true;
+                    return "neq.potion.data.get";
                 }
             }
             if (instanceOne.hasCustomEffects() != instanceTwo.hasCustomEffects()) {
-                return true;
+                return "neq.potion.customeeffect.has";
             }
             if (instanceOne.hasColor() != instanceTwo.hasColor()) {
-                return true;
+                return "neq.potion.color.has";
             }
             if (!Objects.equals(instanceOne.getColor(), instanceTwo.getColor())) {
-                return true;
+                return "neq.potion.color.get";
             }
             if (!instanceOne.getCustomEffects().equals(instanceTwo.getCustomEffects())) {
-                return true;
+                return "neq.potion.customeffect.get";
             }
         }
 
         // Skull
         if (metaOne instanceof SkullMeta instanceOne && metaTwo instanceof SkullMeta instanceTwo) {
             if (instanceOne.hasOwner() != instanceTwo.hasOwner()) {
-                return true;
+                return "neq.skull.owner.has";
             }
             if (!Objects.equals(instanceOne.getOwningPlayer(), instanceTwo.getOwningPlayer())) {
-                return true;
+                return "neq.skull.owning.get";
             }
         }
 
         // Stew
         if (metaOne instanceof SuspiciousStewMeta instanceOne && metaTwo instanceof SuspiciousStewMeta instanceTwo) {
             if (instanceOne.hasCustomEffects() != instanceTwo.hasCustomEffects()) {
-                return true;
+                return "neq.suspiciousstew.customeffect.has";
             }
 
             if (!Objects.equals(instanceOne.getCustomEffects(), instanceTwo.getCustomEffects())) {
-                return true;
+                return "neq.suspiciousstew.customeffect.get";
             }
         }
 
@@ -536,118 +527,76 @@ public class StackUtils {
         if (metaOne instanceof TropicalFishBucketMeta instanceOne
             && metaTwo instanceof TropicalFishBucketMeta instanceTwo) {
             if (instanceOne.hasVariant() != instanceTwo.hasVariant()) {
-                return true;
+                return "neq.tropical.variant.has";
             }
             if (!instanceOne.getPattern().equals(instanceTwo.getPattern())) {
-                return true;
+                return "neq.tropical.pattern.get";
             }
             if (!instanceOne.getBodyColor().equals(instanceTwo.getBodyColor())) {
-                return true;
+                return "neq.tropical.bodycolor.get";
             }
             if (!instanceOne.getPatternColor().equals(instanceTwo.getPatternColor())) {
-                return true;
+                return "neq.tropical.patterncolor.get";
             }
         }
 
         // Knowledge Book
         if (metaOne instanceof KnowledgeBookMeta instanceOne && metaTwo instanceof KnowledgeBookMeta instanceTwo) {
             if (instanceOne.hasRecipes() != instanceTwo.hasRecipes()) {
-                return true;
+                return "neq.knowledge.recipe.has";
             }
 
             if (!Objects.equals(instanceOne.getRecipes(), instanceTwo.getRecipes())) {
-                return true;
+                return "neq.knowledge.recipe.get";
             }
         }
 
         // Music Instrument
         if (metaOne instanceof MusicInstrumentMeta instanceOne && metaTwo instanceof MusicInstrumentMeta instanceTwo) {
             if (!Objects.equals(instanceOne.getInstrument(), instanceTwo.getInstrument())) {
-                return true;
+                return "neq.music.instrument.get";
             }
         }
 
         // Armor
         if (metaOne instanceof ArmorMeta instanceOne && metaTwo instanceof ArmorMeta instanceTwo) {
             if (!Objects.equals(instanceOne.getTrim(), instanceTwo.getTrim())) {
-                return true;
+                return "neq.armor.trim";
             }
         }
 
-        if (IS_1_20_5) {
+        if (StackUtils.IS_1_20_5) {
             // Writable Book
             if (metaOne instanceof WritableBookMeta instanceOne && metaTwo instanceof WritableBookMeta instanceTwo) {
                 if (instanceOne.getPageCount() != instanceTwo.getPageCount()) {
-                    return true;
+                    return "neq.writablebook.page.count";
                 }
                 if (!Objects.equals(instanceOne.getPages(), instanceTwo.getPages())) {
-                    return true;
+                    return "neq.writablebook.page.get";
                 }
             }
-            if (IS_1_21) {
+            if (StackUtils.IS_1_21) {
                 // Ominous Bottle
                 if (metaOne instanceof OminousBottleMeta instanceOne
                     && metaTwo instanceof OminousBottleMeta instanceTwo) {
                     if (instanceOne.hasAmplifier() != instanceTwo.hasAmplifier()) {
-                        return true;
+                        return "neq.ominous.amplifier.has";
                     }
 
                     if (instanceOne.getAmplifier() != instanceTwo.getAmplifier()) {
-                        return true;
+                        return "neq.ominous.amplifier.get";
                     }
                 }
                 // Shield
                 if (metaOne instanceof ShieldMeta instanceOne && metaTwo instanceof ShieldMeta instanceTwo) {
-                    return Objects.equals(instanceOne.getBaseColor(), instanceTwo.getBaseColor());
+                    if (!Objects.equals(instanceOne.getBaseColor(), instanceTwo.getBaseColor())) {
+                        return "neq.shield.basecolor";
+                    }
                 }
             }
         }
 
         // Cannot escape via any meta extension check
-        return false;
-    }
-
-    /**
-     * Heal the entity by the provided amount
-     *
-     * @param itemStack         The {@link LivingEntity} to heal
-     * @param durationInSeconds The amount to heal by
-     */
-    @ParametersAreNonnullByDefault
-    public static void putOnCooldown(ItemStack itemStack, int durationInSeconds) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        if (itemMeta != null) {
-            PersistentDataAPI.setLong(
-                itemMeta, Keys.ON_COOLDOWN, System.currentTimeMillis() + (durationInSeconds * 1000L));
-            itemStack.setItemMeta(itemMeta);
-        }
-    }
-
-    /**
-     * Heal the entity by the provided amount
-     *
-     * @param itemStack The {@link LivingEntity} to heal
-     */
-    @ParametersAreNonnullByDefault
-    public static boolean isOnCooldown(ItemStack itemStack) {
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        if (itemMeta != null) {
-            long cooldownUntil = PersistentDataAPI.getLong(itemMeta, Keys.ON_COOLDOWN, -1);
-            if (cooldownUntil == -1) {
-                cooldownUntil = PersistentDataAPI.getLong(itemMeta, Keys.ON_COOLDOWN2, -1);
-            }
-            if (cooldownUntil == -1) {
-                cooldownUntil = PersistentDataAPI.getLong(itemMeta, Keys.ON_COOLDOWN3, 0);
-            }
-            return System.currentTimeMillis() < cooldownUntil;
-        }
-        return false;
-    }
-
-    public static boolean isBlacklisted(@NotNull ItemStack itemStack) {
-        return itemStack.getType() == Material.AIR
-            || itemStack.getType().getMaxDurability() < 0
-            || Tag.SHULKER_BOXES.isTagged(itemStack.getType())
-            || itemStack.getType() == Material.BUNDLE;
+        return null;
     }
 }

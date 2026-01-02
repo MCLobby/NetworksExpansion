@@ -43,8 +43,8 @@ public class PersistentQuantumStorageType implements PersistentDataType<Persiste
         if (complex.getItemStack() != null) {
             container.set(Keys.ITEM, DataType.ITEM_STACK, complex.getItemStack());
         }
-        container.set(Keys.AMOUNT, DataType.LONG, complex.getAmount());
-        container.set(Keys.MAX_AMOUNT, DataType.INTEGER, complex.getLimit());
+        container.set(Keys.AMOUNT, DataType.LONG, complex.getAmountLong());
+        container.set(Keys.MAX_AMOUNT, DataType.LONG, complex.getLimitLong());
         container.set(Keys.VOID, DataType.BOOLEAN, complex.isVoidExcess());
         container.set(Keys.SUPPORTS_CUSTOM_MAX_AMOUNT, DataType.BOOLEAN, complex.supportsCustomMaxAmount());
         return container;
@@ -83,12 +83,25 @@ public class PersistentQuantumStorageType implements PersistentDataType<Persiste
             amount = amountI.longValue();
         }
 
-        Integer limit = primitive.get(Keys.MAX_AMOUNT, DataType.INTEGER);
-        if (limit == null) {
-            limit = primitive.get(Keys.MAX_AMOUNT2, DataType.INTEGER);
-        }
-        if (limit == null) {
-            limit = primitive.getOrDefault(Keys.MAX_AMOUNT3, DataType.INTEGER, 64);
+        Long limit;
+        try {
+            limit = primitive.get(Keys.MAX_AMOUNT, DataType.LONG);
+            if (limit == null) {
+                limit = primitive.get(Keys.MAX_AMOUNT2, DataType.LONG);
+            }
+            if (limit == null) {
+                limit = primitive.getOrDefault(Keys.MAX_AMOUNT3, DataType.LONG, 64L);
+            }
+        } catch (Throwable ignored) {
+            Integer limitI;
+            limitI = primitive.get(Keys.MAX_AMOUNT, DataType.INTEGER);
+            if (limitI == null) {
+                limitI = primitive.get(Keys.MAX_AMOUNT2, DataType.INTEGER);
+            }
+            if (limitI == null) {
+                limitI = primitive.getOrDefault(Keys.MAX_AMOUNT3, DataType.INTEGER, 64);
+            }
+            limit = limitI.longValue();
         }
 
         Boolean voidExcess = primitive.get(Keys.VOID, DataType.BOOLEAN);

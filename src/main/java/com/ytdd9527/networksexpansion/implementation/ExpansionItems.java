@@ -44,6 +44,8 @@ import com.ytdd9527.networksexpansion.implementation.machines.cargo.transfer.lin
 import com.ytdd9527.networksexpansion.implementation.machines.cargo.transfer.line.advanced.AdvancedLineTransferGrabber;
 import com.ytdd9527.networksexpansion.implementation.machines.cargo.transfer.line.advanced.AdvancedLineTransferMorePusher;
 import com.ytdd9527.networksexpansion.implementation.machines.cargo.transfer.line.advanced.AdvancedLineTransferPusher;
+import com.ytdd9527.networksexpansion.implementation.machines.cargo.transfer.line.advanced.AdvancedLineTransferVanillaGrabber;
+import com.ytdd9527.networksexpansion.implementation.machines.cargo.transfer.line.advanced.AdvancedLineTransferVanillaPusher;
 import com.ytdd9527.networksexpansion.implementation.machines.cargo.transfer.line.basic.LineTransfer;
 import com.ytdd9527.networksexpansion.implementation.machines.cargo.transfer.line.basic.LineTransferBestPusher;
 import com.ytdd9527.networksexpansion.implementation.machines.cargo.transfer.line.basic.LineTransferGrabber;
@@ -77,6 +79,8 @@ import com.ytdd9527.networksexpansion.implementation.machines.managers.CrafterMa
 import com.ytdd9527.networksexpansion.implementation.machines.managers.DrawerManager;
 import com.ytdd9527.networksexpansion.implementation.machines.managers.QuantumManager;
 import com.ytdd9527.networksexpansion.implementation.machines.manual.ExpansionWorkbench;
+import com.ytdd9527.networksexpansion.implementation.machines.manual.ItemDifferenter;
+import com.ytdd9527.networksexpansion.implementation.machines.manual.StorageCardConverter;
 import com.ytdd9527.networksexpansion.implementation.machines.manual.StorageUnitUpgradeTable;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.AdvancedExport;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.AdvancedGreedyBlock;
@@ -172,7 +176,7 @@ public class ExpansionItems {
         ExpansionItemStacks.ADVANCED_QUANTUM_STORAGE,
         ExpansionWorkbench.TYPE,
         ExpansionRecipes.ADVANCED_QUANTUM_STORAGE,
-        NetworkQuantumStorage.getSizes()[10]);
+        NetworkQuantumStorage.getSizesLong()[14]);
 
     public static final NetworkGridNewStyle NETWORK_GRID_NEW_STYLE = new NetworkGridNewStyle(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
@@ -1452,4 +1456,40 @@ public class ExpansionItems {
         ExpansionItemStacks.ADVANCED_WIRELESS_TRANSMITTER,
         ExpansionWorkbench.TYPE,
         ExpansionRecipes.ADVANCED_WIRELESS_TRANSMITTER);
+
+    public static final AdvancedLineTransferVanillaGrabber ADVANCED_LINE_TRANSFER_VANILLA_GRABBER = new AdvancedLineTransferVanillaGrabber(
+        ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+        ExpansionItemStacks.ADVANCED_LINE_TRANSFER_VANILLA_GRABBER,
+        ExpansionWorkbench.TYPE,
+        ExpansionRecipes.ADVANCED_LINE_TRANSFER_VANILLA_GRABBER);
+
+    public static final AdvancedLineTransferVanillaPusher ADVANCED_LINE_TRANSFER_VANILLA_PUSHER = new AdvancedLineTransferVanillaPusher(
+        ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+        ExpansionItemStacks.ADVANCED_LINE_TRANSFER_VANILLA_PUSHER,
+        ExpansionWorkbench.TYPE,
+        ExpansionRecipes.ADVANCED_LINE_TRANSFER_VANILLA_PUSHER);
+
+    public static final AdvancedLineTransferVanillaGrabber ADVANCED_LINE_TRANSFER_VANILLA_PLUS_GRABBER = new AdvancedLineTransferVanillaGrabber(
+        ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+        ExpansionItemStacks.ADVANCED_LINE_TRANSFER_VANILLA_PLUS_GRABBER,
+        ExpansionWorkbench.TYPE,
+        ExpansionRecipes.ADVANCED_LINE_TRANSFER_VANILLA_PLUS_GRABBER);
+
+    public static final AdvancedLineTransferVanillaPusher ADVANCED_LINE_TRANSFER_VANILLA_PLUS_PUSHER = new AdvancedLineTransferVanillaPusher(
+        ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+        ExpansionItemStacks.ADVANCED_LINE_TRANSFER_VANILLA_PLUS_PUSHER,
+        ExpansionWorkbench.TYPE,
+        ExpansionRecipes.ADVANCED_LINE_TRANSFER_VANILLA_PLUS_PUSHER);
+
+    public static final ItemDifferenter ITEM_DIFFERENTER = new ItemDifferenter(
+        ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+        ExpansionItemStacks.ITEM_DIFFERENTER,
+        ExpansionWorkbench.TYPE,
+        ExpansionRecipes.ITEM_DIFFERENTER);
+
+    public static final StorageCardConverter STORAGE_CARD_CONVERTER = new StorageCardConverter(
+        ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+        ExpansionItemStacks.STORAGE_CARD_CONVERTER,
+        ExpansionWorkbench.TYPE,
+        ExpansionRecipes.STORAGE_CARD_CONVERTER);
 }

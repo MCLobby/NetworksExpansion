@@ -21,6 +21,8 @@ softdepend:
   - WildStacker
   - mcMMO
   - GuguSlimefunLib
+  - FinalTECH
+  - FinalTECH-Changed
 commands:
   networks:
     aliases: networksexpansion
