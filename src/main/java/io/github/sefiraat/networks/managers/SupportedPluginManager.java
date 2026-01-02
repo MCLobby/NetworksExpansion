@@ -23,6 +23,7 @@ public class SupportedPluginManager {
     private final @Getter boolean wildStacker;
     private final @Getter boolean guguSlimefunLib;
     private @Getter RoseStackerAPI roseStackerAPI;
+    private final @Getter boolean finalTECH;
     // region First Tick Only Registrations
     private @Getter boolean mcMMO;
     private @Getter boolean wildChests;
@@ -38,7 +39,7 @@ public class SupportedPluginManager {
         this.infinityExpansion = Bukkit.getPluginManager().isPluginEnabled("InfinityExpansion");
         this.fluffyMachines = Bukkit.getPluginManager().isPluginEnabled("FluffyMachines");
         this.netheopoiesis = Bukkit.getPluginManager().isPluginEnabled("Netheopoiesis");
-        this.slimeHud = Bukkit.getPluginManager().isPluginEnabled("SlimeHUD");
+        this.slimeHud = Bukkit.getPluginManager().isPluginEnabled("SlimeHUD") || Bukkit.getPluginManager().isPluginEnabled("SlimeHUDPlus");
 
         this.roseStacker = Bukkit.getPluginManager().isPluginEnabled("RoseStacker");
         if (roseStacker) {
@@ -47,6 +48,7 @@ public class SupportedPluginManager {
 
         this.wildStacker = Bukkit.getPluginManager().isPluginEnabled("WildStacker");
         this.guguSlimefunLib = Bukkit.getPluginManager().isPluginEnabled("GuguSlimefunLib");
+        this.finalTECH = Bukkit.getPluginManager().isPluginEnabled("FinalTECH") || Bukkit.getPluginManager().isPluginEnabled("FinalTECH-Changed");
 
         Networks.getInstance()
             .getServer()

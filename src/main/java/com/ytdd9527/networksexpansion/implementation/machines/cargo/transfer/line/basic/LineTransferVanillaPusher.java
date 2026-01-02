@@ -31,4 +31,9 @@ public class LineTransferVanillaPusher extends AbstractTransfer implements SoftC
     protected Particle.@NotNull DustOptions getDustOptions() {
         return new Particle.DustOptions(Color.MAROON, 1);
     }
+
+    @Override
+    public boolean runSync() {
+        return true;
+    }
 }

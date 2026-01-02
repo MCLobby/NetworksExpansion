@@ -240,7 +240,8 @@ messages:
       stored_amount: "&b数量: %s"
       suggest_use_drawers: "&c请使用网络抽屉的快速转移模式"
     quantum_storage:
-      waiting_for_input_custom_max_amount: "<passive>[<gold>网络拓展<passive>] <warning>请输入网络高级量子存储的容量.最大限制为: 2147483647!"
+      waiting_for_input_custom_max_amount: "<passive>[<gold>网络拓展<passive>] <warning>请输入网络高级量子存储的容量.最大限制为: 140737488355328"
+      waiting_for_input_custom_max_amount_new: "<passive>[<gold>网络拓展<passive>] <warning>请输入网络高级量子存储的容量.最大限制为: 140737488355328"
     grid:
       waiting_for_filter: "<warning>请输入你想要过滤的物品名称(显示名)或类型"
       item_amount: "{0}数量: {1}{2}"
@@ -361,7 +362,19 @@ messages:
       set_name: "<success>已设置名称"
     manual_crafter:
       success: "&a合成成功"
+    storage_card_converter:
+      success: "&a转换成功"
   unsupported-operation:
+    storage_card_converter:
+      final_tech_required: "<error>服务器需安装 FinalTECH 或 FinalTECH-Changed 才能使用此机器"
+      research_required: "<error>未解锁存储卡"
+      card_disabled: "<error>存储卡在当前世界已被禁用"
+      output_full: "<error>输出槽已满"
+      no_quantum_storage: "<error>没有放置量子存储"
+      quantum_storage_not_single: "<error>量子存储数量过多"
+      not_quantum_storage: "<error>不是量子存储"
+      too_few_items: "<error>量子存储中的物品过少"
+      not_target_item: "<error>量子存储中的物品不能被转换为存储卡"
     controller:
       cancel_place: "<error>这个网络已经连接网络控制器了!"
     comprehensive:
@@ -431,7 +444,8 @@ messages:
     quantum_storage:
       quantum_storage_not_empty: "<warning>量子存储必须为空才能更换物品"
       custom_max_amount_not_supported: "<warning>这不是一个有效的高级量子存储"
-      invalid_custom_max_amount: "<passive>[<gold>网络拓展<passive>] <error>网络高级量子存储必须为: 1 至 2147483647!"
+      invalid_custom_max_amount: "<passive>[<gold>网络拓展<passive>] <error>网络高级量子存储必须为: 1 至 140737488355328"
+      invalid_custom_max_amount_new: "<passive>[<gold>网络拓展<passive>] <error>网络高级量子存储必须为: 1 至 140737488355328"
     configurator:
       not_a_copyable_block: "<error>该方块没有指定朝向"
       not_a_pasteable_block: "<error>你必须指向一个带方向选择的网络方块"
@@ -970,6 +984,18 @@ icons:
       - ""
   ae_switcher:
     name: "网络交换机"
+  diff-button:
+    name: "&6点击查看物品差异"
+    lore:
+      - ""
+  diff-result-icon:
+    name: "&6检测结果: "
+    lore:
+      - ""
+  storage-convert-button:
+    name: "&6点击转换为存储卡"
+    lore:
+      - ""
   recipe-types:
     expansion_workbench_3x3:
       name: "网络拓展工作台"
@@ -1112,7 +1138,7 @@ items:
       - "<passive> 版本信息:"
       - "<passive> 网络拓展版本: v2.1.68"
       - "<passive> 版本状态: 稳定版"
-      - "<passive> 版本更新时间: 2026-1-2 02:03:22"
+      - "<passive> 版本更新时间: 2026-1-2 17:33:40"
       - "<passive> 开发状态: 更新中"
       - "<passive> 开发者（们）: ytdd9527, balugaq"
       - "<passive> 开发者 GitHub 页面: <click_info>https://github.com/ytdd9527"
@@ -3852,6 +3878,14 @@ items:
       - "&e数量倒序&7: &e按物品数量倒序排序"
       - "&e附属&7: &e按物品所属附属字母顺序排序"
       - "支持拼音搜索"
+  NTW_EXPANSION_ITEM_DIFFERENTER:
+    name: "物品差异指示器"
+    lore:
+      - ""
+  NTW_EXPANSION_STORAGE_CARD_CONVERTER:
+    name: "存储卡转换器"
+    lore:
+      - "将量子存储转换为(新)乱序(改版)的存储卡"
 
 displays:
   quantum_storage:

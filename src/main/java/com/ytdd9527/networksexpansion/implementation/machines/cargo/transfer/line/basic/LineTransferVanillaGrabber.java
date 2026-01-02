@@ -33,4 +33,9 @@ public class LineTransferVanillaGrabber extends AbstractTransfer implements Soft
     public TransferType getTransferType() {
         return TransferType.LINE_TRANSFER_VANILLA_GRABBER;
     }
+
+    @Override
+    public boolean runSync() {
+        return true;
+    }
 }

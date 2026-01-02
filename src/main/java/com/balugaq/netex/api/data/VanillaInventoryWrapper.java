@@ -33,9 +33,12 @@ public class VanillaInventoryWrapper extends BlockMenu {
     public VanillaInventoryWrapper(final Inventory inv, final BlockState blockState) {
         super(createPreset(inv, blockState), inv.getLocation(), inv);
         this.blockState = blockState;
+        for (int slot = 0; slot < inv.getSize(); slot++) {
+            addItem(slot, inv.getItem(slot));
+        }
     }
 
-    private static BlockMenuPreset createPreset(Inventory inventory, BlockState blockState) {
+    private static BlockMenuPreset createPreset(Inventory inv, BlockState blockState) {
         return new BlockMenuPreset("VANILLA_INVENTORY_WRAPPER", "VANILLA_INVENTORY_WRAPPER") {
             @Override // never called
             public void init() {}
@@ -52,20 +55,20 @@ public class VanillaInventoryWrapper extends BlockMenu {
 
             @Override
             public int[] getSlotsAccessedByItemTransport(final DirtyChestMenu menu, final ItemTransportFlow flow, final ItemStack item) {
-                return VanillaInventoryWrapper.getSlotsAccessedByItemTransport(inventory, blockState, flow, item);
+                return VanillaInventoryWrapper.getSlotsAccessedByItemTransport(inv, blockState, flow, item);
             }
         };
     }
 
-    private static int[] getSlotsAccessedByItemTransport(final Inventory inventory, final BlockState blockState, final ItemTransportFlow flow, final ItemStack itemStack) {
-        if (inventory instanceof BrewerInventory) {
+    private static int[] getSlotsAccessedByItemTransport(final Inventory inv, final BlockState blockState, final ItemTransportFlow flow, final ItemStack itemStack) {
+        if (inv instanceof BrewerInventory) {
             if (flow == ItemTransportFlow.WITHDRAW) {
                 if (!(blockState instanceof BrewingStand bs)) return EMPTY;
                 if (bs.getBrewingTime() > 0) return EMPTY;
 
                 IntList list = new IntArrayList();
                 for (int i = 0; i < 3; i++) {
-                    final ItemStack stack = inventory.getContents()[i];
+                    final ItemStack stack = inv.getContents()[i];
                     if (stack != null && stack.getType() != Material.AIR) {
                         final PotionMeta potionMeta = (PotionMeta) stack.getItemMeta();
                         if (Networks.getInstance().getMCVersion().isAtLeast(MinecraftVersion.MC1_20_5)) {
@@ -93,7 +96,7 @@ public class VanillaInventoryWrapper extends BlockMenu {
             }
         }
 
-        else if (inventory instanceof FurnaceInventory) {
+        else if (inv instanceof FurnaceInventory) {
             if (flow == ItemTransportFlow.WITHDRAW) {
                 return new int[]{2}; // result slot
             } else {
@@ -108,12 +111,12 @@ public class VanillaInventoryWrapper extends BlockMenu {
         else {
             boolean wildChests = Networks.getSupportedPluginManager().isWildChests();
             boolean isChest = false;
-            if (inventory.getLocation() != null) {
-                isChest = wildChests && WildChestsAPI.getChest(inventory.getLocation()) != null;
+            if (inv.getLocation() != null) {
+                isChest = wildChests && WildChestsAPI.getChest(inv.getLocation()) != null;
             }
             if (wildChests && isChest) return EMPTY;
 
-            return generateArray(inventory.getSize()); // all slot
+            return generateArray(inv.getSize()); // all slot
         }
     }
 
@@ -123,5 +126,9 @@ public class VanillaInventoryWrapper extends BlockMenu {
             array[i] = i;
         }
         return array;
+    }
+
+    @Override
+    public void reset(boolean update) {
     }
 }

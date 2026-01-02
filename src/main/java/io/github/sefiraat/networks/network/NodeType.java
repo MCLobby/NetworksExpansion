@@ -43,6 +43,8 @@ public enum NodeType {
     FLOW_VIEWER,
     ADVANCED_VACUUM,
     ADVANCED_WIRELESS_TRANSMITTER,
+    ITEM_DIFFERENTER,
+    STORAGE_CARD_CONVERTER,
 
     // Hanging blocks
     @Deprecated

@@ -21,4 +21,9 @@ public class AdvancedLineTransferVanillaPusher extends AbstractTransfer implemen
     public TransferType getTransferType() {
         return TransferType.ADVANCED_LINE_TRANSFER_VANILLA_PUSHER;
     }
+
+    @Override
+    public boolean runSync() {
+        return true;
+    }
 }

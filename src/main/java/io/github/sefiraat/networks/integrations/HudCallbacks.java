@@ -31,7 +31,7 @@ public class HudCallbacks {
                 return EMPTY;
             }
 
-            return format(cache.getItemStack(), cache.getAmount(), cache.getLimit());
+            return format(cache.getItemStack(), cache.getAmountLong(), cache.getLimitLong());
         });
 
         controller.registerCustomHandler(NetworkGreedyBlock.class, request -> {
@@ -78,7 +78,7 @@ public class HudCallbacks {
         });
     }
 
-    private static @NotNull String format(@NotNull ItemStack itemStack, long amount, int limit) {
+    private static @NotNull String format(@NotNull ItemStack itemStack, long amount, long limit) {
         String amountStr = HudBuilder.getAbbreviatedNumber(amount);
         String limitStr = HudBuilder.getAbbreviatedNumber(limit);
         String itemName = ItemStackHelper.getDisplayName(itemStack);

@@ -201,11 +201,10 @@ public class GUIs {
     );
 
     public static final GUI ALTVG = new GUI(
-        "BnuBBBBBB",
-        "wBeBTTTTT",
-        "BsdBTtttT",
-        "BBBBTtttT",
-        "oBBBTTTTT",
+        "BBBBBBBBB",
+        "BBnBBuBBB",
+        "BwBeBBBBB",
+        "oBsBBdBBB",
         "pqrBBBBBB"
     );
 

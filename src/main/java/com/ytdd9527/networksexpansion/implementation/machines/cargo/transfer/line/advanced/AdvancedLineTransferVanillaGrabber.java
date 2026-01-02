@@ -21,4 +21,9 @@ public class AdvancedLineTransferVanillaGrabber extends AbstractTransfer impleme
     public TransferType getTransferType() {
         return TransferType.ADVANCED_LINE_TRANSFER_VANILLA_GRABBER;
     }
+
+    @Override
+    public boolean runSync() {
+        return true;
+    }
 }

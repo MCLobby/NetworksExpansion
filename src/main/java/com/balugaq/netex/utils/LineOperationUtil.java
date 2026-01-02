@@ -132,18 +132,17 @@ public class LineOperationUtil {
             }
             BlockState state = location.getBlock().getState(false);
             if (state instanceof InventoryHolder holder) {
-                boolean wildChests = Networks.getSupportedPluginManager().isWildChests();
-                boolean isChest = wildChests && WildChestsAPI.getChest(location) != null;
-
-                if (!(wildChests && isChest)) {
-                    consumer.accept(new VanillaInventoryWrapper(holder.getInventory(), state));
+                Inventory inv = holder.getInventory();
+                if (inv != null) {
+                    var wrapper = new VanillaInventoryWrapper(inv, state);
+                    consumer.accept(wrapper);
                 }
-            }
-
-            if (skipNoInventory) {
-                continue;
             } else {
-                return;
+                if (skipNoInventory) {
+                    continue;
+                } else {
+                    return;
+                }
             }
         }
     }

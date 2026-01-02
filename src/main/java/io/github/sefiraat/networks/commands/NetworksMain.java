@@ -285,7 +285,7 @@ public class NetworksMain implements TabExecutor {
 
         clone.setAmount(1);
         cache.setItemStack(clone);
-        cache.setAmount(amount);
+        cache.setAmount(Math.min(amount, cache.getLimitLong()));
         NetworkQuantumStorage.updateDisplayItem(blockMenu, cache);
         NetworkQuantumStorage.syncBlock(blockMenu.getLocation(), cache);
         NetworkQuantumStorage.getCaches().put(blockMenu.getLocation(), cache);
@@ -1086,6 +1086,10 @@ public class NetworksMain implements TabExecutor {
                         }
                         fillQuantum(player, amount);
                     } catch (NumberFormatException e) {
+                        if ("full".equals(args[1])){
+                            fillQuantum(player, NetworkQuantumStorage.MAX_AMOUNT);
+                            return true;
+                        }
                         player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "amount"));
                         player.sendMessage(e.getMessage());
                     }
@@ -1125,10 +1129,14 @@ public class NetworksMain implements TabExecutor {
                     try {
                         long amount = Calculator.calculate(args[1]).longValue();
                         if (amount < 0 || amount > NetworkQuantumStorage.MAX_AMOUNT) {
-                            throw new NumberFormatException();
+                            throw new NumberFormatException("");
                         }
                         setQuantum(player, amount);
                     } catch (NumberFormatException e) {
+                        if ("full".equals(args[1])) {
+                            setQuantum(player, NetworkQuantumStorage.MAX_AMOUNT);
+                            return true;
+                        }
                         player.sendMessage(getErrorMessage(ErrorType.INVALID_REQUIRED_ARGUMENT, "amount"));
                         player.sendMessage(e.getMessage());
                     }
@@ -1532,7 +1540,7 @@ public class NetworksMain implements TabExecutor {
             return;
         }
 
-        quantumCache.setAmount(amount);
+        quantumCache.setAmount(Math.min(amount, NetworkQuantumStorage.MAX_AMOUNT));
         DataTypeMethods.setCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE, quantumCache);
         quantumCache.updateMetaLore(meta);
         itemStack.setItemMeta(meta);
