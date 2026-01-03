@@ -183,6 +183,9 @@ public class Icon {
     public static final ItemStack STORAGE_CONVERT_BUTTON =
         Lang.getIcon("storage-convert-button", Material.MUSIC_DISC_BLOCKS);
 
+    public static final ItemStack FACING_PRESETTER_HELP_ICON =
+        Lang.getIcon("facing-presetter-help-icon", Material.KNOWLEDGE_BOOK);
+
     // pages are 1-based
     @SuppressWarnings("deprecation")
     @NotNull

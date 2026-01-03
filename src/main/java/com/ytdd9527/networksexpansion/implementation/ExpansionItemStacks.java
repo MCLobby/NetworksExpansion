@@ -14,6 +14,8 @@ import org.jetbrains.annotations.NotNull;
  * @since 2.0
  */
 public class ExpansionItemStacks {
+    public static final SlimefunItemStack PLACEHOLDER_ITEM =
+        Theme.random(Lang.getItem("NTW_EXPANSION_PLACEHOLDER_ITEM", Material.CLAY_BALL), Theme.GUIDE);
     // Workbench
     public static final SlimefunItemStack NETWORKS_EXPANSION_WORKBENCH =
         Theme.random(Lang.getItem("NTW_EXPANSION_WORKBENCH", Material.BAMBOO_BLOCK), Theme.MACHINE);
@@ -505,6 +507,8 @@ public class ExpansionItemStacks {
         Lang.getItem("NTW_EXPANSION_ITEM_DIFFERENTER", Material.BOOKSHELF), Theme.MACHINE);
     public static final SlimefunItemStack STORAGE_CARD_CONVERTER = Theme.themedSlimefunItemStack(
         Lang.getItem("NTW_EXPANSION_STORAGE_CARD_CONVERTER", Material.LODESTONE), Theme.MACHINE);
+    public static final SlimefunItemStack FACING_PRESETTER = Theme.themedSlimefunItemStack(
+        Lang.getItem("NTW_EXPANSION_FACING_PRESETTER", Material.GLASS), Theme.MACHINE);
 
 
     public static @NotNull ItemStack enchanted(@NotNull Material material) {

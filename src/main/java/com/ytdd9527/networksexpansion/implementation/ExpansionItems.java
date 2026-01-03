@@ -79,6 +79,7 @@ import com.ytdd9527.networksexpansion.implementation.machines.managers.CrafterMa
 import com.ytdd9527.networksexpansion.implementation.machines.managers.DrawerManager;
 import com.ytdd9527.networksexpansion.implementation.machines.managers.QuantumManager;
 import com.ytdd9527.networksexpansion.implementation.machines.manual.ExpansionWorkbench;
+import com.ytdd9527.networksexpansion.implementation.machines.manual.FacingPresetter;
 import com.ytdd9527.networksexpansion.implementation.machines.manual.ItemDifferenter;
 import com.ytdd9527.networksexpansion.implementation.machines.manual.StorageCardConverter;
 import com.ytdd9527.networksexpansion.implementation.machines.manual.StorageUnitUpgradeTable;
@@ -115,6 +116,12 @@ import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 
 public class ExpansionItems {
+    public static final UnusableSlimefunItem PLACEHOLDER_ITEM = new UnusableSlimefunItem(
+        ExpansionItemStacks.PLACEHOLDER_ITEM
+    );
+    static {
+        PLACEHOLDER_ITEM.registerThis();
+    }
     public static final ExpansionWorkbench NETWORKS_EXPANSION_WORKBENCH = new ExpansionWorkbench(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH,
@@ -1492,4 +1499,10 @@ public class ExpansionItems {
         ExpansionItemStacks.STORAGE_CARD_CONVERTER,
         ExpansionWorkbench.TYPE,
         ExpansionRecipes.STORAGE_CARD_CONVERTER);
+
+    public static final FacingPresetter FACING_PRESETTER = new FacingPresetter(
+        ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+        ExpansionItemStacks.FACING_PRESETTER,
+        ExpansionWorkbench.TYPE,
+        ExpansionRecipes.FACING_PRESETTER);
 }

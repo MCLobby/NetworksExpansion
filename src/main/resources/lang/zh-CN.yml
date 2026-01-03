@@ -254,6 +254,7 @@ messages:
       transport_mode: "<random_color>当前模式: %s"
       display_empty: "&7设置朝向: %s"
       display_name: "<passive>设置朝向: %s (%s)"
+      preset_display_name: "<passive>点击设置预设朝向: %s"
       display_lore:
         - "<click_info>左键点击: <passive>设置朝向"
         - "<click_info>Shift+左键点击: <passive>打开目标方块"
@@ -295,7 +296,13 @@ messages:
         - "<click_info>左键点击: <passive>打开详情界面"
       item-flow-viewer-sub-click-behavior:
         - "<click_info>左键点击: <passive>高亮机器"
+    comprehensive:
+      auto_set_face: "自动设置朝向"
   completed-operation:
+    directional:
+      presetted_facing: "<success>已预设朝向: %s"
+      presetted: "<success>已设置预设朝向为: %s"
+      presetted_failed: "<warning>未找到可以预设方向的机器"
     comprehensive:
       toggled_filter_mode: "<success>已切换过滤模式为: %s"
       filter_mode_black_list: "黑名单"
@@ -303,6 +310,7 @@ messages:
       toggled_match_mode: "<success>已切换匹配模式为: %s"
       match_mode_all_match: "全匹配"
       match_mode_material_match: "仅匹配材质"
+      facing_preset_applied: "<success>已自动设置朝向!"
     status_viewer:
       subscribed: "<success>已关注机器 ( %s )"
       unsubscribed: "<success>不再关注机器 ( %s )"
@@ -381,6 +389,7 @@ messages:
       cancel_place: "<error>禁止连接两个控制器"
       no_permission: "&c你没有权限使用此物品!"
       invalid_queue: "无法将任务添加到队列，请尝试重启服务器!"
+      unable_to_auto_set_face: "&c无法为坐标(x:{} | y:{} | z:{})自动设置方向"
     decoder:
       no_input: "&c没有输入蓝图"
       not_blueprint: "&c该物品不是蓝图"
@@ -996,6 +1005,12 @@ icons:
     name: "&6点击转换为存储卡"
     lore:
       - ""
+  facing-presetter-help-icon:
+    name: "&6预设功能使用教程"
+    lore:
+      - "&a在上方的空位放置能被设置方向的网络机器（监视器，推送，抓取等）"
+      - "&a点击方向按键对这些机器预设方向"
+      - "&a使机器放置后，立即拥有方向属性"
   recipe-types:
     expansion_workbench_3x3:
       name: "网络拓展工作台"
@@ -1136,9 +1151,9 @@ items:
       - "<warning> 网络拓展开发版不接受 GitHub Issues"
       - "<warning> 网络拓展开发版不接受 GitHub PR"
       - "<passive> 版本信息:"
-      - "<passive> 网络拓展版本: v2.1.68"
+      - "<passive> 网络拓展版本: v2.1.69"
       - "<passive> 版本状态: 稳定版"
-      - "<passive> 版本更新时间: 2026-1-2 17:33:40"
+      - "<passive> 版本更新时间: 2026-1-3 16:09:19"
       - "<passive> 开发状态: 更新中"
       - "<passive> 开发者（们）: ytdd9527, balugaq"
       - "<passive> 开发者 GitHub 页面: <click_info>https://github.com/ytdd9527"
@@ -3886,6 +3901,11 @@ items:
     name: "存储卡转换器"
     lore:
       - "将量子存储转换为(新)乱序(改版)的存储卡"
+  NTW_EXPANSION_FACING_PRESETTER:
+    name: "方向预设器"
+    lore:
+      - "可以对抓取，推送，监视器等机器预设方向"
+      - "将其放置后，立即设置对应的方向"
 
 displays:
   quantum_storage:
