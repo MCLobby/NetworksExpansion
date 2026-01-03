@@ -162,6 +162,8 @@ public class NetworkRoot extends NetworkNode {
     private final Set<Location> itemDifferenters = ConcurrentHashMap.newKeySet();
     @Getter
     private final Set<Location> storageCardConverters = ConcurrentHashMap.newKeySet();
+    @Getter
+    private final Set<Location> facingPresetters = ConcurrentHashMap.newKeySet();
     @Deprecated
     private final boolean progressing = false;
     @Getter
@@ -522,6 +524,7 @@ public class NetworkRoot extends NetworkNode {
             case AE_SWITCHER -> aeSwitchers.add(location);
             case ITEM_DIFFERENTER -> itemDifferenters.add(location);
             case STORAGE_CARD_CONVERTER -> storageCardConverters.add(location);
+            case FACING_PRESETTER -> facingPresetters.add(location);
         }
     }
 

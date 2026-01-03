@@ -188,15 +188,6 @@ public class CrafterManager extends NetworkObject {
         return top != null && top.equals(BS_TOP_1B);
     }
 
-    public static void highlightBlock(@NotNull Player player, @NotNull Location barrelLocation) {
-        for (int i = 0; i < 10; i++) {
-            Bukkit.getScheduler().runTaskLaterAsynchronously(JustEnoughGuide.getInstance(), () -> {
-                ParticleUtil.drawLineFrom(player.getEyeLocation().clone().add(0D, -0.5D, 0D), barrelLocation);
-                ParticleUtil.highlightBlock(barrelLocation);
-            }, 20L * i);
-        }
-    }
-
     public static @NotNull ItemStack getItemStack(@NotNull CrafterMetaData data) {
         ItemStack raw = null;
         if (data.instance() != null) {
@@ -741,7 +732,7 @@ public class CrafterManager extends NetworkObject {
                     setCrafterIcon(player, data.location(), cursor);
                 }
             } else {
-                highlightBlock(player, data.location());
+                ParticleUtil.highlightBlock(player, data.location(), 10);
             }
         }
     }

@@ -507,6 +507,8 @@ public class ExpansionItemStacks {
         Lang.getItem("NTW_EXPANSION_ITEM_DIFFERENTER", Material.BOOKSHELF), Theme.MACHINE);
     public static final SlimefunItemStack STORAGE_CARD_CONVERTER = Theme.themedSlimefunItemStack(
         Lang.getItem("NTW_EXPANSION_STORAGE_CARD_CONVERTER", Material.LODESTONE), Theme.MACHINE);
+    public static final SlimefunItemStack FACING_PRESETTER = Theme.themedSlimefunItemStack(
+        Lang.getItem("NTW_EXPANSION_FACING_PRESETTER", Material.GLASS), Theme.MACHINE);
 
 
     public static @NotNull ItemStack enchanted(@NotNull Material material) {

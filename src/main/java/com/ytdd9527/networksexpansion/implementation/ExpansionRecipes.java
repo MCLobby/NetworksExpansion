@@ -1739,4 +1739,10 @@ public class ExpansionRecipes {
         ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH, ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH, ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH,
         OPTIC_GLASS.getItem(), ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH, OPTIC_GLASS.getItem()
     };
+
+    public static final ItemStack[] FACING_PRESETTER = new ItemStack[]{
+        NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(),
+        NETWORK_CONFIGURATOR.getItem(), NETWORK_BRIDGE.getItem(), NETWORK_CONFIGURATOR.getItem(),
+        NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(),
+    };
 }

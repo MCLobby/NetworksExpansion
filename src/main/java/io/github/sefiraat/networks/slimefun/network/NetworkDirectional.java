@@ -1,5 +1,6 @@
 package io.github.sefiraat.networks.slimefun.network;
 
+import com.balugaq.netex.api.enums.FacingPreset;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.utils.Lang;
 import com.balugaq.netex.utils.NetworksVersionedEnchantment;
@@ -10,6 +11,7 @@ import com.ytdd9527.networksexpansion.utils.TextUtil;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NodeType;
+import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.NetworkUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
@@ -39,6 +41,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -68,7 +71,7 @@ public abstract class NetworkDirectional extends NetworkObject {
     private static final int UP_SLOT = 15;
     private static final int DOWN_SLOT = 33;
     private static final Set<Location> locked = new HashSet<>();
-    private static final Map<Location, BlockFace> SELECTED_DIRECTION_MAP = new HashMap<>();
+    protected static final Map<Location, BlockFace> SELECTED_DIRECTION_MAP = new HashMap<>();
 
     private final @NotNull ItemSetting<Integer> tickRate;
 
@@ -258,6 +261,18 @@ public abstract class NetworkDirectional extends NetworkObject {
         BlockMenu blockMenu = blockData.getBlockMenu();
         if (blockMenu != null) {
             NetworkUtils.applyConfig(NetworkDirectional.this, blockMenu, event.getPlayer());
+        }
+        var pdc = event.getItemInHand().getItemMeta().getPersistentDataContainer();
+        if (pdc.has(Keys.FACING_PRESET)) {
+            String p = pdc.get(Keys.FACING_PRESET, PersistentDataType.STRING);
+            if (p != null) {
+                FacingPreset facingPreset = FacingPreset.valueOf(p);
+                if (facingPreset != null) {
+                    if (facingPreset.tryApply(event, blockData)) {
+                        event.getPlayer().sendMessage(Lang.getString("messages.completed-operation.comprehensive.facing_preset_applied"));
+                    }
+                }
+            }
         }
     }
 

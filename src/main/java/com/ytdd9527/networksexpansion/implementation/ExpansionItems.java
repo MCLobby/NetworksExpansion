@@ -79,6 +79,7 @@ import com.ytdd9527.networksexpansion.implementation.machines.managers.CrafterMa
 import com.ytdd9527.networksexpansion.implementation.machines.managers.DrawerManager;
 import com.ytdd9527.networksexpansion.implementation.machines.managers.QuantumManager;
 import com.ytdd9527.networksexpansion.implementation.machines.manual.ExpansionWorkbench;
+import com.ytdd9527.networksexpansion.implementation.machines.manual.FacingPresetter;
 import com.ytdd9527.networksexpansion.implementation.machines.manual.ItemDifferenter;
 import com.ytdd9527.networksexpansion.implementation.machines.manual.StorageCardConverter;
 import com.ytdd9527.networksexpansion.implementation.machines.manual.StorageUnitUpgradeTable;
@@ -1498,4 +1499,10 @@ public class ExpansionItems {
         ExpansionItemStacks.STORAGE_CARD_CONVERTER,
         ExpansionWorkbench.TYPE,
         ExpansionRecipes.STORAGE_CARD_CONVERTER);
+
+    public static final FacingPresetter FACING_PRESETTER = new FacingPresetter(
+        ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+        ExpansionItemStacks.FACING_PRESETTER,
+        ExpansionWorkbench.TYPE,
+        ExpansionRecipes.FACING_PRESETTER);
 }
