@@ -53,22 +53,22 @@ public class PersistentCraftingBlueprintType implements PersistentDataType<Persi
                 continue;
             }
 
-            if (itemStack.isSimilar(ItemStack.of(itemStack.getType()))) {
+            if (itemStack.isSimilar(new ItemStack(itemStack.getType()))) {
                 // pure vanilla item
-                container.set(Keys.newKey("recipe_" + (i+1)), DataType.STRING, "mc;" + itemStack.getType().name() + ";" + itemStack.getAmount());
+                container.set(Keys.newKey("recipe_" + i), DataType.STRING, "mc;" + itemStack.getType().name() + ";" + itemStack.getAmount());
                 continue;
             } else {
                 SlimefunItem sf = SlimefunItem.getByItem(itemStack);
                 if (sf != null) {
                     if (itemStack.isSimilar(sf.getItem())) {
                         // pure slimefun item
-                        container.set(Keys.newKey("recipe_" + (i + 1)), DataType.STRING, "sf;" + sf.getId() + ";" + itemStack.getAmount());
+                        container.set(Keys.newKey("recipe_" + i), DataType.STRING, "sf;" + sf.getId() + ";" + itemStack.getAmount());
                         continue;
                     }
                 }
 
                 // complex item
-                container.set(Keys.newKey("recipe_" + (i + 1)), DataType.ITEM_STACK, itemStack);
+                container.set(Keys.newKey("recipe_" + i), DataType.ITEM_STACK, itemStack);
             }
         }
 
@@ -93,7 +93,7 @@ public class PersistentCraftingBlueprintType implements PersistentDataType<Persi
         if (recipe == null) {
             // new format
             List<NamespacedKey> recipeKeys = primitive.getKeys().stream().filter(k -> k.getKey().startsWith("recipe_")).toList();
-            recipe = new ItemStack[recipeKeys.size()];
+            recipe = new ItemStack[Math.max(9, recipeKeys.size())];
             for (NamespacedKey key : recipeKeys) {
                 int slot = Integer.parseInt(key.getKey().split("_")[1]);
                 try {
