@@ -14,6 +14,8 @@ import org.jetbrains.annotations.NotNull;
  * @since 2.0
  */
 public class ExpansionItemStacks {
+    public static final SlimefunItemStack PLACEHOLDER_ITEM =
+        Theme.random(Lang.getItem("NTW_EXPANSION_PLACEHOLDER_ITEM", Material.CLAY_BALL), Theme.GUIDE);
     // Workbench
     public static final SlimefunItemStack NETWORKS_EXPANSION_WORKBENCH =
         Theme.random(Lang.getItem("NTW_EXPANSION_WORKBENCH", Material.BAMBOO_BLOCK), Theme.MACHINE);

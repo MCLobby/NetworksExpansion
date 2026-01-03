@@ -8,7 +8,6 @@ import org.bukkit.inventory.ItemStack;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.ADVANCED_NANOBOTS;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.AI_CORE;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.CRAFTING_BLUEPRINT;
-import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.EMPOWERED_AI_CORE;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.INTERDIMENSIONAL_PRESENCE;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.NETWORK_AUTO_CRAFTER;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.NETWORK_AUTO_CRAFTER_WITHHOLDING;
@@ -112,19 +111,19 @@ public class ExpansionRecipes {
 
     public static final ItemStack[] ADVANCED_LINE_TRANSFER_PUSHER = new ItemStack[]{
         NETWORK_BRIDGE.getItem(), ExpansionItemStacks.LINE_TRANSFER_PUSHER, NETWORK_BRIDGE.getItem(),
-        EMPOWERED_AI_CORE.getItem(), EMPOWERED_AI_CORE.getItem(), EMPOWERED_AI_CORE.getItem(),
+        AI_CORE.getItem(), AI_CORE.getItem(), AI_CORE.getItem(),
         NETWORK_BRIDGE.getItem(), ExpansionItemStacks.LINE_TRANSFER_PUSHER, NETWORK_BRIDGE.getItem()
     };
 
     public static final ItemStack[] ADVANCED_LINE_TRANSFER_MORE_PUSHER = new ItemStack[]{
         NETWORK_BRIDGE.getItem(), ExpansionItemStacks.LINE_TRANSFER_MORE_PUSHER, NETWORK_BRIDGE.getItem(),
-        EMPOWERED_AI_CORE.getItem(), EMPOWERED_AI_CORE.getItem(), EMPOWERED_AI_CORE.getItem(),
+        AI_CORE.getItem(), AI_CORE.getItem(), AI_CORE.getItem(),
         NETWORK_BRIDGE.getItem(), ExpansionItemStacks.LINE_TRANSFER_MORE_PUSHER, NETWORK_BRIDGE.getItem()
     };
 
     public static final ItemStack[] ADVANCED_LINE_TRANSFER_BEST_PUSHER = new ItemStack[]{
         NETWORK_BRIDGE.getItem(), ExpansionItemStacks.LINE_TRANSFER_BEST_PUSHER, NETWORK_BRIDGE.getItem(),
-        EMPOWERED_AI_CORE.getItem(), EMPOWERED_AI_CORE.getItem(), EMPOWERED_AI_CORE.getItem(),
+        AI_CORE.getItem(), AI_CORE.getItem(), AI_CORE.getItem(),
         NETWORK_BRIDGE.getItem(), ExpansionItemStacks.LINE_TRANSFER_BEST_PUSHER, NETWORK_BRIDGE.getItem()
     };
 
@@ -158,7 +157,7 @@ public class ExpansionRecipes {
     };
     public static final ItemStack[] ADVANCED_LINE_TRANSFER_GRABBER = new ItemStack[]{
         NETWORK_BRIDGE.getItem(), ExpansionItemStacks.LINE_TRANSFER_GRABBER, NETWORK_BRIDGE.getItem(),
-        EMPOWERED_AI_CORE.getItem(), EMPOWERED_AI_CORE.getItem(), EMPOWERED_AI_CORE.getItem(),
+        AI_CORE.getItem(), AI_CORE.getItem(), AI_CORE.getItem(),
         NETWORK_BRIDGE.getItem(), ExpansionItemStacks.LINE_TRANSFER_GRABBER, NETWORK_BRIDGE.getItem()
     };
 
@@ -192,25 +191,25 @@ public class ExpansionRecipes {
     };
     public static final ItemStack[] ADVANCED_LINE_TRANSFER = new ItemStack[]{
         ExpansionItemStacks.ADVANCED_LINE_TRANSFER_PUSHER,
-        EMPOWERED_AI_CORE.getItem(),
         AI_CORE.getItem(),
-        EMPOWERED_AI_CORE.getItem(),
-        EMPOWERED_AI_CORE.getItem(),
-        EMPOWERED_AI_CORE.getItem(),
         AI_CORE.getItem(),
-        EMPOWERED_AI_CORE.getItem(),
+        AI_CORE.getItem(),
+        AI_CORE.getItem(),
+        AI_CORE.getItem(),
+        AI_CORE.getItem(),
+        AI_CORE.getItem(),
         ExpansionItemStacks.ADVANCED_LINE_TRANSFER_GRABBER
     };
 
     public static final ItemStack[] ADVANCED_LINE_TRANSFER_PLUS = new ItemStack[]{
         ExpansionItemStacks.ADVANCED_LINE_TRANSFER_PLUS_PUSHER,
-        EMPOWERED_AI_CORE.getItem(),
         AI_CORE.getItem(),
-        EMPOWERED_AI_CORE.getItem(),
-        EMPOWERED_AI_CORE.getItem(),
-        EMPOWERED_AI_CORE.getItem(),
         AI_CORE.getItem(),
-        EMPOWERED_AI_CORE.getItem(),
+        AI_CORE.getItem(),
+        AI_CORE.getItem(),
+        AI_CORE.getItem(),
+        AI_CORE.getItem(),
+        AI_CORE.getItem(),
         ExpansionItemStacks.ADVANCED_LINE_TRANSFER_PLUS_GRABBER
     };
 
@@ -1257,9 +1256,9 @@ public class ExpansionRecipes {
     };
 
     public static final ItemStack[] STORAGE_UNIT_UPGRADE_TABLE = new ItemStack[]{
-        EMPOWERED_AI_CORE.getItem(), ADVANCED_NANOBOTS.getItem(), EMPOWERED_AI_CORE.getItem(),
+        AI_CORE.getItem(), ADVANCED_NANOBOTS.getItem(), AI_CORE.getItem(),
         ADVANCED_NANOBOTS.getItem(), NETWORK_QUANTUM_WORKBENCH.getItem(), ADVANCED_NANOBOTS.getItem(),
-        EMPOWERED_AI_CORE.getItem(), ADVANCED_NANOBOTS.getItem(), EMPOWERED_AI_CORE.getItem()
+        AI_CORE.getItem(), ADVANCED_NANOBOTS.getItem(), AI_CORE.getItem()
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_1 = new ItemStack[]{
         OPTIC_CABLE.getItem(), OPTIC_CABLE.getItem(), OPTIC_CABLE.getItem(),

@@ -45,7 +45,7 @@ public enum CraftType {
     private final Set<Map.Entry<ItemStack[], ItemStack>> recipeEntries;
     private final BiPredicate<ItemStack[], ItemStack[]> testRecipe;
 
-    CraftType(Map<ItemStack[], ItemStack> recipes, BiPredicate<ItemStack[], ItemStack[]> testRecipe){
+    CraftType(Map<ItemStack[], ItemStack> recipes, BiPredicate<ItemStack[], ItemStack[]> testRecipe) {
         this.recipeEntries = recipes.entrySet();
         this.testRecipe = testRecipe;
     }
@@ -61,7 +61,16 @@ public enum CraftType {
         return false;
     }
 
+    public void blueprintSetter(ItemStack itemStack, ItemStack[] inputs, ItemStack crafted) {
+        AbstractBlueprint.setBlueprint(itemStack, inputs, crafted);
+    }
+
     public String translate() {
         return Lang.getString("messages.normal-operation.common.crafter_types." + this.name());
+    }
+
+    @FunctionalInterface
+    public interface BlueprintSetter {
+        void apply(ItemStack itemStack, ItemStack[] inputs, ItemStack crafted);
     }
 }

@@ -115,6 +115,12 @@ import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 
 public class ExpansionItems {
+    public static final UnusableSlimefunItem PLACEHOLDER_ITEM = new UnusableSlimefunItem(
+        ExpansionItemStacks.PLACEHOLDER_ITEM
+    );
+    static {
+        PLACEHOLDER_ITEM.registerThis();
+    }
     public static final ExpansionWorkbench NETWORKS_EXPANSION_WORKBENCH = new ExpansionWorkbench(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH,
