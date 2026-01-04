@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.core.items.machines;
 
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.api.interfaces.CraftTyped;
 import com.balugaq.netex.api.interfaces.RecipeCompletableWithGuide;
 import com.balugaq.netex.utils.BlockMenuUtil;
 import com.balugaq.netex.utils.Lang;
@@ -34,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class AbstractEncoder extends NetworkObject implements RecipeCompletableWithGuide {
+public abstract class AbstractEncoder extends NetworkObject implements CraftTyped, RecipeCompletableWithGuide {
     private static final int[] BACKGROUND = new int[]{
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 17, 18, 20, 24, 25, 26, 27, 28, 29, 33, 35, 36, 37, 38, 39, 40, 41,
         42, 43, 44
@@ -74,8 +75,13 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
 
             @Override
             public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
-                menu.addMenuClickHandler(ENCODE_SLOT, (player, i, itemStack, clickAction) -> {
-                    tryEncode(player, menu);
+                menu.addMenuClickHandler(ENCODE_SLOT, (player, s, itemStack, clickAction) -> {
+                    int times = clickAction.isShiftClicked() ? 64 : 1;
+                    for (int i = 0; i < times; i++) {
+                        if (!tryEncode(player, menu)) {
+                            break;
+                        }
+                    }
                     return false;
                 });
                 //addJEGButton(menu, JEG_SLOT);
@@ -117,13 +123,13 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
         };
     }
 
-    public void tryEncode(@NotNull Player player, @NotNull BlockMenu blockMenu) {
+    public boolean tryEncode(@NotNull Player player, @NotNull BlockMenu blockMenu) {
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NO_NETWORK_FOUND);
             player.sendMessage(Lang.getString("messages.feedback.no_network_found"));
-            return;
+            return false;
         }
 
         final NetworkRoot root = definition.getNode().getRoot();
@@ -132,22 +138,22 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
         if (networkCharge < CHARGE_COST) {
             player.sendMessage(Lang.getString("messages.unsupported-operation.encoder.not_enough_power"));
             sendFeedback(blockMenu.getLocation(), FeedbackType.NOT_ENOUGH_POWER);
-            return;
+            return false;
         }
 
         ItemStack blueprint = blockMenu.getItemInSlot(BLANK_BLUEPRINT_SLOT);
-
-        if (!isValidBlueprint(blueprint)) {
-            player.sendMessage(Lang.getString("messages.unsupported-operation.encoder.invalid_blueprint"));
-            sendFeedback(blockMenu.getLocation(), FeedbackType.INVALID_BLUEPRINT);
-            return;
-        }
 
         SlimefunItem sfi = SlimefunItem.getByItem(blueprint);
         if (sfi != null && sfi.isDisabled()) {
             player.sendMessage(Lang.getString("messages.unsupported-operation.encoder.disabled_blueprint"));
             sendFeedback(blockMenu.getLocation(), FeedbackType.DISABLED_BLUEPRINT);
-            return;
+            return false;
+        }
+
+        if (!isValidBlueprint(sfi)) {
+            player.sendMessage(Lang.getString("messages.unsupported-operation.encoder.invalid_blueprint"));
+            sendFeedback(blockMenu.getLocation(), FeedbackType.INVALID_BLUEPRINT);
+            return false;
         }
 
         // Get the recipe input
@@ -170,7 +176,7 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
         }
 
         for (Map.Entry<ItemStack[], ItemStack> entry : getRecipeEntries()) {
-            if (getRecipeTester(inputs, entry.getKey())) {
+            if (testRecipe(inputs, entry.getKey())) {
                 crafted = ItemStackUtil.getCleanItem(entry.getValue().clone());
                 inp = entry.getKey().clone();
                 for (int k = 0; k < inp.length; k++) {
@@ -187,7 +193,7 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
             if (sfi2 != null && sfi2.isDisabled()) {
                 player.sendMessage(Lang.getString("messages.unsupported-operation.encoder.disabled_output"));
                 sendFeedback(blockMenu.getLocation(), FeedbackType.DISABLED_OUTPUT);
-                return;
+                return false;
             }
         }
 
@@ -203,7 +209,7 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
         if (crafted == null || crafted.getType() == Material.AIR) {
             player.sendMessage(Lang.getString("messages.unsupported-operation.encoder.invalid_recipe"));
             sendFeedback(blockMenu.getLocation(), FeedbackType.INVALID_RECIPE);
-            return;
+            return false;
         }
 
         final ItemStack blueprintClone = StackUtils.getAsQuantity(blueprint, 1);
@@ -224,20 +230,28 @@ public abstract class AbstractEncoder extends NetworkObject implements RecipeCom
         } else {
             player.sendMessage(Lang.getString("messages.unsupported-operation.encoder.output_full"));
             sendFeedback(blockMenu.getLocation(), FeedbackType.OUTPUT_FULL);
-            return;
+            return false;
         }
 
         root.removeRootPower(CHARGE_COST);
+        return true;
     }
 
-    public abstract void blueprintSetter(ItemStack itemStack, ItemStack[] inputs, ItemStack crafted);
+    public void blueprintSetter(ItemStack itemStack, ItemStack[] inputs, ItemStack crafted) {
+        craftType().blueprintSetter(itemStack, inputs, crafted);
+    }
 
-    public abstract boolean isValidBlueprint(ItemStack itemStack);
+    public boolean isValidBlueprint(SlimefunItem item) {
+        return craftType().isValidBlueprint(item);
+    }
 
-    public abstract Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries();
+    public Set<Map.Entry<ItemStack[], ItemStack>> getRecipeEntries() {
+        return craftType().getRecipeEntries();
+    }
 
-    public abstract boolean getRecipeTester(ItemStack[] inputs, ItemStack[] recipe);
-
+    public boolean testRecipe(ItemStack[] inputs, ItemStack[] recipe) {
+        return craftType().testRecipe(inputs, recipe);
+    }
     public boolean canTestVanillaRecipe(ItemStack[] inputs) {
         return false;
     }

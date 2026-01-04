@@ -101,15 +101,17 @@ public class SetupUtil {
             ExpansionItems.ADVANCED_TRANSFER_GRABBER.registerThis(),
             ExpansionItems.ADVANCED_TRANSFER_PUSHER.registerThis(),
             ExpansionItems.ADVANCED_TRANSFER_MORE_PUSHER.registerThis(),
-            ExpansionItems.ADVANCED_TRANSFER_BEST_PUSHER.registerThis(),
-            ExpansionItems.QUANTUM_MANAGER.registerThis(),
-            ExpansionItems.DRAWER_MANAGER.registerThis(),
-            ExpansionItems.CRAFTER_MANAGER.registerThis(),
-            ExpansionItems.ITEM_FLOW_VIEWER.registerThis(),
-            ExpansionItems.SWITCHING_MONITOR.registerThis(),
-            ExpansionItems.HANGING_GRID_NEW_STYLE.registerThis(),
-            ExpansionItems.SMART_NETWORK_CRAFTING_GRID_NEW_STYLE.registerThis());
-
+            ExpansionItems.ADVANCED_TRANSFER_BEST_PUSHER.registerThis());
+        ExpansionItemsMenus.SUB_MENU_CARGO.addTo(
+            ExpansionItems.WHITELISTED_TRANSFER_GRABBER.registerThis(),
+            ExpansionItems.WHITELISTED_LINE_TRANSFER_GRABBER.registerThis(),
+            ExpansionItems.WHITELISTED_TRANSFER_VANILLA_GRABBER.registerThis(),
+            ExpansionItems.WHITELISTED_LINE_TRANSFER_VANILLA_GRABBER.registerThis(),
+            ExpansionItems.ADVANCED_LINE_TRANSFER_VANILLA_GRABBER.registerThis(),
+            ExpansionItems.ADVANCED_LINE_TRANSFER_VANILLA_PUSHER.registerThis(),
+            ExpansionItems.ADVANCED_LINE_TRANSFER_VANILLA_PLUS_GRABBER.registerThis(),
+            ExpansionItems.ADVANCED_LINE_TRANSFER_VANILLA_PLUS_PUSHER.registerThis()
+        );
         ExpansionItemsMenus.SUB_MENU_CARGO.addTo(
             ExpansionItems.SMART_GRABBER.registerThis(), ExpansionItems.SMART_PUSHER.registerThis());
         /* functional machines */
@@ -141,10 +143,16 @@ public class SetupUtil {
             ExpansionItems.LINE_POWER_OUTLET_11.registerThis(),
             ExpansionItems.DUE_MACHINE.registerThis(),
             ExpansionItems.OFFSETTER.registerThis(),
-            ExpansionItems.WHITELISTED_TRANSFER_GRABBER.registerThis(),
-            ExpansionItems.WHITELISTED_LINE_TRANSFER_GRABBER.registerThis(),
-            ExpansionItems.WHITELISTED_TRANSFER_VANILLA_GRABBER.registerThis(),
-            ExpansionItems.WHITELISTED_LINE_TRANSFER_VANILLA_GRABBER.registerThis());
+            ExpansionItems.QUANTUM_MANAGER.registerThis(),
+            ExpansionItems.DRAWER_MANAGER.registerThis(),
+            ExpansionItems.CRAFTER_MANAGER.registerThis(),
+            ExpansionItems.ITEM_FLOW_VIEWER.registerThis(),
+            ExpansionItems.SWITCHING_MONITOR.registerThis(),
+            ExpansionItems.HANGING_GRID_NEW_STYLE.registerThis(),
+            ExpansionItems.SMART_NETWORK_CRAFTING_GRID_NEW_STYLE.registerThis(),
+            ExpansionItems.ITEM_DIFFERENTER.registerThis(),
+            ExpansionItems.STORAGE_CARD_CONVERTER.registerThis(),
+            ExpansionItems.FACING_PRESETTER.registerThis());
 
         ExpansionItemsMenus.SUB_MENU_BRIDGE.addTo(
             ExpansionItems.NETWORK_BRIDGE_WHITE.registerThis(),

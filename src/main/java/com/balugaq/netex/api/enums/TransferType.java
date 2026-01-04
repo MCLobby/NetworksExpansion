@@ -12,45 +12,41 @@ import java.util.Map;
 
 @Getter
 public enum TransferType {
-    ADVANCED_LINE_TRANSFER(GUIs.ALT, true),
-    ADVANCED_LINE_TRANSFER_BEST_PUSHER(GUIs.ALTBP, true),
-    ADVANCED_LINE_TRANSFER_GRABBER(GUIs.ALTG, true),
-    ADVANCED_LINE_TRANSFER_MORE_PUSHER(GUIs.ALTMP, true),
-    ADVANCED_LINE_TRANSFER_PUSHER(GUIs.ALTP, true),
+    ADVANCED_LINE_TRANSFER(GUIs.ALT),
+    ADVANCED_LINE_TRANSFER_BEST_PUSHER(GUIs.ALTBP),
+    ADVANCED_LINE_TRANSFER_GRABBER(GUIs.ALTG),
+    ADVANCED_LINE_TRANSFER_MORE_PUSHER(GUIs.ALTMP),
+    ADVANCED_LINE_TRANSFER_PUSHER(GUIs.ALTP),
     LINE_TRANSFER(GUIs.LT),
     LINE_TRANSFER_BEST_PUSHER(GUIs.LTBP),
     LINE_TRANSFER_GRABBER(GUIs.LTG),
     LINE_TRANSFER_MORE_PUSHER(GUIs.LTMP),
     LINE_TRANSFER_PUSHER(GUIs.LTP),
-    ADVANCED_TRANSFER(GUIs.AT, true),
-    ADVANCED_TRANSFER_BEST_PUSHER(GUIs.ATBP, true),
-    ADVANCED_TRANSFER_GRABBER(GUIs.ATG, true),
-    ADVANCED_TRANSFER_MORE_PUSHER(GUIs.ATMP, true),
-    ADVANCED_TRANSFER_PUSHER(GUIs.ATP, true),
+    ADVANCED_TRANSFER(GUIs.AT),
+    ADVANCED_TRANSFER_BEST_PUSHER(GUIs.ATBP),
+    ADVANCED_TRANSFER_GRABBER(GUIs.ATG),
+    ADVANCED_TRANSFER_MORE_PUSHER(GUIs.ATMP),
+    ADVANCED_TRANSFER_PUSHER(GUIs.ATP),
     TRANSFER(GUIs.T),
     TRANSFER_BEST_PUSHER(GUIs.TBP),
     TRANSFER_GRABBER(GUIs.TG),
     TRANSFER_MORE_PUSHER(GUIs.TMP),
     TRANSFER_PUSHER(GUIs.TP),
-    LINE_TRANSFER_VANILLA_GRABBER(GUIs.LTVG, false),
-    LINE_TRANSFER_VANILLA_PUSHER(GUIs.LTVP, false),
-    WHITELISTED_TRANSFER_GRABBER(GUIs.WTG, false),
-    WHITELISTED_LINE_TRANSFER_GRABBER(GUIs.WLTG, false),
-    WHITELISTED_TRANSFER_VANILLA_GRABBER(GUIs.WTVG, false),
-    WHITELISTED_LINE_TRANSFER_VANILLA_GRABBER(GUIs.WLTVG, false);
+    LINE_TRANSFER_VANILLA_GRABBER(GUIs.LTVG),
+    LINE_TRANSFER_VANILLA_PUSHER(GUIs.LTVP),
+    WHITELISTED_TRANSFER_GRABBER(GUIs.WTG),
+    WHITELISTED_LINE_TRANSFER_GRABBER(GUIs.WLTG),
+    WHITELISTED_TRANSFER_VANILLA_GRABBER(GUIs.WTVG),
+    WHITELISTED_LINE_TRANSFER_VANILLA_GRABBER(GUIs.WLTVG),
+    ADVANCED_LINE_TRANSFER_VANILLA_GRABBER(GUIs.ALTVG),
+    ADVANCED_LINE_TRANSFER_VANILLA_PUSHER(GUIs.ALTVP),
+    ;
 
     private final @NotNull GUI gui;
-    private final boolean advanced;
     private final Map<String, Integer> config = new HashMap<>();
-
-    TransferType(@NotNull GUI gui, boolean advanced) {
-        this.gui = gui;
-        this.advanced = advanced;
-    }
 
     TransferType(@NotNull GUI gui) {
         this.gui = gui;
-        this.advanced = false;
     }
 
     public int config(@NotNull String key) {
@@ -91,14 +87,22 @@ public enum TransferType {
     }
 
     public boolean isGrabber() {
-        return isTransfer() || name().endsWith("_GRABBER");
+        return isTransfer() || name().endsWith("GRABBER");
     }
 
     public boolean isPusher() {
-        return isTransfer() || name().endsWith("_PUSHER");
+        return isTransfer() || name().endsWith("PUSHER");
+    }
+
+    public boolean isVanilla() {
+        return name().contains("VANILLA");
+    }
+
+    public boolean isAdvanced() {
+        return name().contains("ADVANCED");
     }
 
     public boolean isWhitelisted() {
-        return name().startsWith("WHITELISTED_");
+        return name().startsWith("WHITELISTED");
     }
 }

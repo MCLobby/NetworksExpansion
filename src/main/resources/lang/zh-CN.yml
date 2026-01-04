@@ -240,7 +240,8 @@ messages:
       stored_amount: "&b数量: %s"
       suggest_use_drawers: "&c请使用网络抽屉的快速转移模式"
     quantum_storage:
-      waiting_for_input_custom_max_amount: "<passive>[<gold>网络拓展<passive>] <warning>请输入网络高级量子存储的容量.最大限制为: 2147483647!"
+      waiting_for_input_custom_max_amount: "<passive>[<gold>网络拓展<passive>] <warning>请输入网络高级量子存储的容量.最大限制为: 140737488355328"
+      waiting_for_input_custom_max_amount_new: "<passive>[<gold>网络拓展<passive>] <warning>请输入网络高级量子存储的容量.最大限制为: 140737488355328"
     grid:
       waiting_for_filter: "<warning>请输入你想要过滤的物品名称(显示名)或类型"
       item_amount: "{0}数量: {1}{2}"
@@ -253,6 +254,7 @@ messages:
       transport_mode: "<random_color>当前模式: %s"
       display_empty: "&7设置朝向: %s"
       display_name: "<passive>设置朝向: %s (%s)"
+      preset_display_name: "<passive>点击设置预设朝向: %s"
       display_lore:
         - "<click_info>左键点击: <passive>设置朝向"
         - "<click_info>Shift+左键点击: <passive>打开目标方块"
@@ -294,7 +296,13 @@ messages:
         - "<click_info>左键点击: <passive>打开详情界面"
       item-flow-viewer-sub-click-behavior:
         - "<click_info>左键点击: <passive>高亮机器"
+    comprehensive:
+      auto_set_face: "自动设置朝向"
   completed-operation:
+    directional:
+      presetted_facing: "<success>已预设朝向: %s"
+      presetted: "<success>已设置预设朝向为: %s"
+      presetted_failed: "<warning>未找到可以预设方向的机器"
     comprehensive:
       toggled_filter_mode: "<success>已切换过滤模式为: %s"
       filter_mode_black_list: "黑名单"
@@ -302,6 +310,7 @@ messages:
       toggled_match_mode: "<success>已切换匹配模式为: %s"
       match_mode_all_match: "全匹配"
       match_mode_material_match: "仅匹配材质"
+      facing_preset_applied: "<success>已自动设置朝向!"
     status_viewer:
       subscribed: "<success>已关注机器 ( %s )"
       unsubscribed: "<success>不再关注机器 ( %s )"
@@ -361,13 +370,26 @@ messages:
       set_name: "<success>已设置名称"
     manual_crafter:
       success: "&a合成成功"
+    storage_card_converter:
+      success: "&a转换成功"
   unsupported-operation:
+    storage_card_converter:
+      final_tech_required: "<error>服务器需安装 FinalTECH 或 FinalTECH-Changed 才能使用此机器"
+      research_required: "<error>未解锁存储卡"
+      card_disabled: "<error>存储卡在当前世界已被禁用"
+      output_full: "<error>输出槽已满"
+      no_quantum_storage: "<error>没有放置量子存储"
+      quantum_storage_not_single: "<error>量子存储数量过多"
+      not_quantum_storage: "<error>不是量子存储"
+      too_few_items: "<error>量子存储中的物品过少"
+      not_target_item: "<error>量子存储中的物品不能被转换为存储卡"
     controller:
       cancel_place: "<error>这个网络已经连接网络控制器了!"
     comprehensive:
       cancel_place: "<error>禁止连接两个控制器"
       no_permission: "&c你没有权限使用此物品!"
       invalid_queue: "无法将任务添加到队列，请尝试重启服务器!"
+      unable_to_auto_set_face: "&c无法为坐标(x:{} | y:{} | z:{})自动设置方向"
     decoder:
       no_input: "&c没有输入蓝图"
       not_blueprint: "&c该物品不是蓝图"
@@ -431,7 +453,8 @@ messages:
     quantum_storage:
       quantum_storage_not_empty: "<warning>量子存储必须为空才能更换物品"
       custom_max_amount_not_supported: "<warning>这不是一个有效的高级量子存储"
-      invalid_custom_max_amount: "<passive>[<gold>网络拓展<passive>] <error>网络高级量子存储必须为: 1 至 2147483647!"
+      invalid_custom_max_amount: "<passive>[<gold>网络拓展<passive>] <error>网络高级量子存储必须为: 1 至 140737488355328"
+      invalid_custom_max_amount_new: "<passive>[<gold>网络拓展<passive>] <error>网络高级量子存储必须为: 1 至 140737488355328"
     configurator:
       not_a_copyable_block: "<error>该方块没有指定朝向"
       not_a_pasteable_block: "<error>你必须指向一个带方向选择的网络方块"
@@ -970,6 +993,24 @@ icons:
       - ""
   ae_switcher:
     name: "网络交换机"
+  diff-button:
+    name: "&6点击查看物品差异"
+    lore:
+      - ""
+  diff-result-icon:
+    name: "&6检测结果: "
+    lore:
+      - ""
+  storage-convert-button:
+    name: "&6点击转换为存储卡"
+    lore:
+      - ""
+  facing-presetter-help-icon:
+    name: "&6预设功能使用教程"
+    lore:
+      - "&a在上方的空位放置能被设置方向的网络机器（监视器，推送，抓取等）"
+      - "&a点击方向按键对这些机器预设方向"
+      - "&a使机器放置后，立即拥有方向属性"
   recipe-types:
     expansion_workbench_3x3:
       name: "网络拓展工作台"
@@ -1110,9 +1151,9 @@ items:
       - "<warning> 网络拓展开发版不接受 GitHub Issues"
       - "<warning> 网络拓展开发版不接受 GitHub PR"
       - "<passive> 版本信息:"
-      - "<passive> 网络拓展版本: v2.1.67"
+      - "<passive> 网络拓展版本: v2.1.69"
       - "<passive> 版本状态: 稳定版"
-      - "<passive> 版本更新时间: 2025-12-20 17:01:43"
+      - "<passive> 版本更新时间: 2026-1-3 16:09:19"
       - "<passive> 开发状态: 更新中"
       - "<passive> 开发者（们）: ytdd9527, balugaq"
       - "<passive> 开发者 GitHub 页面: <click_info>https://github.com/ytdd9527"
@@ -1591,6 +1632,86 @@ items:
       - "&7默认运输数量: &63456"
       - "&a可调整运输数量"
       - "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续推送和抓取的功能"
+      - "&c而不是连续转移物品！"
+      - "&7运输模式解释: "
+      - "&6无限制&7: &e可推送至任何槽位 / 可抓取任何槽位"
+      - "&6仅空&7: &e仅推送至空槽位 / 仅抓取空槽位"
+      - "&6仅非空&7: &e仅推送至非空槽位 / 仅抓取非空槽位"
+      - "&6仅首位&7: &e仅推送至第一格 / 仅抓取第一格"
+      - "&6仅末位&7: &e仅推送至最后一格 / 仅抓取最后一格"
+      - "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位 / 仅抓取第一个有物品的槽位"
+      - "&6懒惰模式&7: &e当第一格为空时，推送至所有槽位 / 当第一格存在物品时，抓取所有槽位"
+
+  NTW_EXPANSION_ADVANCED_LINE_TRANSFER_VANILLA_GRABBER:
+    name: "原版高级链式传输 [抓取]"
+    lore:
+      - "&c仅支持原版容器"
+      - "&6运输距离: 32 格"
+      - "&7默认运输模式: &6首位阻断"
+      - "&a可调整运输模式"
+      - "&7默认运输数量: &63456"
+      - "&a可调整运输数量"
+      - "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续抓取的功能"
+      - "&c而不是连续转移物品！"
+      - "&7运输模式解释: "
+      - "&6无限制&7: &e可推送至任何槽位 / 可抓取任何槽位"
+      - "&6仅空&7: &e仅推送至空槽位 / 仅抓取空槽位"
+      - "&6仅非空&7: &e仅推送至非空槽位 / 仅抓取非空槽位"
+      - "&6仅首位&7: &e仅推送至第一格 / 仅抓取第一格"
+      - "&6仅末位&7: &e仅推送至最后一格 / 仅抓取最后一格"
+      - "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位 / 仅抓取第一个有物品的槽位"
+      - "&6懒惰模式&7: &e当第一格为空时，推送至所有槽位 / 当第一格存在物品时，抓取所有槽位"
+
+  NTW_EXPANSION_ADVANCED_LINE_TRANSFER_VANILLA_PUSHER:
+    name: "原版高级链式传输 [推送]"
+    lore:
+      - "&c仅支持原版容器"
+      - "&6运输距离: 32 格"
+      - "&7默认运输模式: &6首位阻断"
+      - "&a可调整运输模式"
+      - "&7默认运输数量: &63456"
+      - "&a可调整运输数量"
+      - "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续推送的功能"
+      - "&c而不是连续转移物品！"
+      - "&7运输模式解释: "
+      - "&6无限制&7: &e可推送至任何槽位 / 可抓取任何槽位"
+      - "&6仅空&7: &e仅推送至空槽位 / 仅抓取空槽位"
+      - "&6仅非空&7: &e仅推送至非空槽位 / 仅抓取非空槽位"
+      - "&6仅首位&7: &e仅推送至第一格 / 仅抓取第一格"
+      - "&6仅末位&7: &e仅推送至最后一格 / 仅抓取最后一格"
+      - "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位 / 仅抓取第一个有物品的槽位"
+      - "&6懒惰模式&7: &e当第一格为空时，推送至所有槽位 / 当第一格存在物品时，抓取所有槽位"
+
+  NTW_EXPANSION_ADVANCED_LINE_TRANSFER_VANILLA_PLUS_GRABBER:
+    name: "原版高级链式传输Plus [抓取]"
+    lore:
+      - "&c仅支持原版容器"
+      - "&6运输距离: 64 格"
+      - "&7默认运输模式: &6首位阻断"
+      - "&a可调整运输模式"
+      - "&7默认运输数量: &63456"
+      - "&a可调整运输数量"
+      - "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续抓取的功能"
+      - "&c而不是连续转移物品！"
+      - "&7运输模式解释: "
+      - "&6无限制&7: &e可推送至任何槽位 / 可抓取任何槽位"
+      - "&6仅空&7: &e仅推送至空槽位 / 仅抓取空槽位"
+      - "&6仅非空&7: &e仅推送至非空槽位 / 仅抓取非空槽位"
+      - "&6仅首位&7: &e仅推送至第一格 / 仅抓取第一格"
+      - "&6仅末位&7: &e仅推送至最后一格 / 仅抓取最后一格"
+      - "&6首位阻断&7: &e仅推送至第一个可以被推送物品的槽位 / 仅抓取第一个有物品的槽位"
+      - "&6懒惰模式&7: &e当第一格为空时，推送至所有槽位 / 当第一格存在物品时，抓取所有槽位"
+
+  NTW_EXPANSION_ADVANCED_LINE_TRANSFER_VANILLA_PLUS_PUSHER:
+    name: "原版高级链式传输Plus [推送]"
+    lore:
+      - "&c仅支持原版容器"
+      - "&6运输距离: 64 格"
+      - "&7默认运输模式: &6首位阻断"
+      - "&a可调整运输模式"
+      - "&7默认运输数量: &63456"
+      - "&a可调整运输数量"
+      - "&e与乱序技艺的链式传输器不同的是，此机器&c只有连续推送的功能"
       - "&c而不是连续转移物品！"
       - "&7运输模式解释: "
       - "&6无限制&7: &e可推送至任何槽位 / 可抓取任何槽位"
@@ -3424,6 +3545,34 @@ items:
       - ""
       - "在量子奇点中存储大量物品"
 
+  NTW_QUANTUM_STORAGE_11:
+    name: "网络量子存储 (34B)"
+    lore:
+      - "可存储几乎无限多个物品"
+      - ""
+      - "在量子奇点中存储大量物品"
+
+  NTW_QUANTUM_STORAGE_12:
+    name: "网络量子存储 (549B)"
+    lore:
+      - "可存储几乎无限多个物品"
+      - ""
+      - "在量子奇点中存储大量物品"
+
+  NTW_QUANTUM_STORAGE_13:
+    name: "网络量子存储 (8T)"
+    lore:
+      - "可存储几乎无限多个物品"
+      - ""
+      - "在量子奇点中存储大量物品"
+
+  NTW_QUANTUM_STORAGE_14:
+    name: "网络量子存储 (140T)"
+    lore:
+      - "可存储几乎无限多个物品"
+      - ""
+      - "在量子奇点中存储大量物品"
+
   NTW_CAPACITOR_1:
     name: "网络电容 (1)"
     lore:
@@ -3744,6 +3893,19 @@ items:
       - "&e数量倒序&7: &e按物品数量倒序排序"
       - "&e附属&7: &e按物品所属附属字母顺序排序"
       - "支持拼音搜索"
+  NTW_EXPANSION_ITEM_DIFFERENTER:
+    name: "物品差异指示器"
+    lore:
+      - ""
+  NTW_EXPANSION_STORAGE_CARD_CONVERTER:
+    name: "存储卡转换器"
+    lore:
+      - "将量子存储转换为(新)乱序(改版)的存储卡"
+  NTW_EXPANSION_FACING_PRESETTER:
+    name: "方向预设器"
+    lore:
+      - "可以对抓取，推送，监视器等机器预设方向"
+      - "将其放置后，立即设置对应的方向"
 
 displays:
   quantum_storage:

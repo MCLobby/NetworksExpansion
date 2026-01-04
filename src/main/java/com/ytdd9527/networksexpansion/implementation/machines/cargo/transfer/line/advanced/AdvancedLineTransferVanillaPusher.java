@@ -1,4 +1,4 @@
-package com.ytdd9527.networksexpansion.implementation.machines.cargo.transfer.line.basic;
+package com.ytdd9527.networksexpansion.implementation.machines.cargo.transfer.line.advanced;
 
 import com.balugaq.netex.api.enums.TransferType;
 import com.balugaq.netex.api.interfaces.PushTickOnly;
@@ -9,27 +9,17 @@ import io.github.sefiraat.networks.network.NodeType;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import org.bukkit.Color;
-import org.bukkit.Particle;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class LineTransferVanillaPusher extends AbstractTransfer implements SoftCellBannable, PushTickOnly, VanillaTransfer {
-    public LineTransferVanillaPusher(
-        @NotNull ItemGroup itemGroup,
-        @NotNull SlimefunItemStack item,
-        @NotNull RecipeType recipeType,
-        ItemStack @NotNull [] recipe) {
+public class AdvancedLineTransferVanillaPusher extends AbstractTransfer implements SoftCellBannable, PushTickOnly, VanillaTransfer {
+    public AdvancedLineTransferVanillaPusher(@NotNull final ItemGroup itemGroup, @NotNull final SlimefunItemStack item, @NotNull final RecipeType recipeType, final ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe, NodeType.LINE_TRANSFER_VANILLA_PUSHER);
     }
 
-    public TransferType getTransferType() {
-        return TransferType.LINE_TRANSFER_VANILLA_PUSHER;
-    }
-
     @Override
-    protected Particle.@NotNull DustOptions getDustOptions() {
-        return new Particle.DustOptions(Color.MAROON, 1);
+    public TransferType getTransferType() {
+        return TransferType.ADVANCED_LINE_TRANSFER_VANILLA_PUSHER;
     }
 
     @Override

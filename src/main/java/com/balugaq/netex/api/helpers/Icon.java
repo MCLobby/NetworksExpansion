@@ -176,6 +176,16 @@ public class Icon {
     public static final ItemStack CRAFT =
         Lang.getIcon("craft", Material.CRAFTING_TABLE);
 
+    public static final ItemStack DIFF_BUTTON =
+        Lang.getIcon("diff-button", Material.COMPASS);
+    public static final ItemStack DIFF_RESULT_ICON =
+        Lang.getIcon("diff-result-icon", Material.LIGHT);
+    public static final ItemStack STORAGE_CONVERT_BUTTON =
+        Lang.getIcon("storage-convert-button", Material.MUSIC_DISC_BLOCKS);
+
+    public static final ItemStack FACING_PRESETTER_HELP_ICON =
+        Lang.getIcon("facing-presetter-help-icon", Material.KNOWLEDGE_BOOK);
+
     // pages are 1-based
     @SuppressWarnings("deprecation")
     @NotNull

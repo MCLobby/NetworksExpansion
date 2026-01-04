@@ -96,6 +96,10 @@ public class NetworkSlimefunItems {
     public static final @NotNull NetworkQuantumStorage NETWORK_QUANTUM_STORAGE_8;
     public static final @NotNull NetworkQuantumStorage NETWORK_QUANTUM_STORAGE_9;
     public static final @NotNull NetworkQuantumStorage NETWORK_QUANTUM_STORAGE_10;
+    public static final @NotNull NetworkQuantumStorage NETWORK_QUANTUM_STORAGE_11;
+    public static final @NotNull NetworkQuantumStorage NETWORK_QUANTUM_STORAGE_12;
+    public static final @NotNull NetworkQuantumStorage NETWORK_QUANTUM_STORAGE_13;
+    public static final @NotNull NetworkQuantumStorage NETWORK_QUANTUM_STORAGE_14;
 
     public static final @NotNull NetworkPowerNode NETWORK_CAPACITOR_1;
     public static final @NotNull NetworkPowerNode NETWORK_CAPACITOR_2;
@@ -219,14 +223,14 @@ public class NetworkSlimefunItems {
             NetworksSlimefunItemStacks.SIMPLE_NANOBOTS,
             RecipeType.ENHANCED_CRAFTING_TABLE,
             new ItemStack[]{SHRINKING_BASE.getItem(), SlimefunItems.PROGRAMMABLE_ANDROID},
-            StackUtils.getAsQuantity(NetworksSlimefunItemStacks.SIMPLE_NANOBOTS, 4));
+            StackUtils.getAsQuantity(NetworksSlimefunItemStacks.SIMPLE_NANOBOTS, 8));
 
         ADVANCED_NANOBOTS = new UnplaceableBlock(
             NetworksItemGroups.MATERIALS,
             NetworksSlimefunItemStacks.ADVANCED_NANOBOTS,
             RecipeType.ENHANCED_CRAFTING_TABLE,
             new ItemStack[]{SHRINKING_BASE.getItem(), SlimefunItems.PROGRAMMABLE_ANDROID_3},
-            StackUtils.getAsQuantity(NetworksSlimefunItemStacks.ADVANCED_NANOBOTS, 4));
+            StackUtils.getAsQuantity(NetworksSlimefunItemStacks.ADVANCED_NANOBOTS, 8));
 
         AI_CORE = new UnplaceableBlock(
             NetworksItemGroups.MATERIALS,
@@ -514,7 +518,7 @@ public class NetworkSlimefunItems {
                 oak_planks, chest, oak_planks,
                 oak_planks, oak_planks, oak_planks
             },
-            NetworkQuantumStorage.getSizes()[0]);
+            NetworkQuantumStorage.getSizesLong()[0]);
 
         NETWORK_QUANTUM_STORAGE_9 = new NetworkQuantumStorage(
             NetworksItemGroups.NETWORK_QUANTUMS,
@@ -525,7 +529,7 @@ public class NetworkSlimefunItems {
                 glass, NETWORK_QUANTUM_STORAGE_0.getItem(), glass,
                 glass, glass, glass
             },
-            NetworkQuantumStorage.getSizes()[1]);
+            NetworkQuantumStorage.getSizesLong()[1]);
 
         NETWORK_QUANTUM_STORAGE_10 = new NetworkQuantumStorage(
             NetworksItemGroups.NETWORK_QUANTUMS,
@@ -542,7 +546,7 @@ public class NetworkSlimefunItems {
                 chest,
                 glass
             },
-            NetworkQuantumStorage.getSizes()[2]);
+            NetworkQuantumStorage.getSizesLong()[2]);
 
         NETWORK_QUANTUM_STORAGE_1 = new NetworkQuantumStorage(
             NetworksItemGroups.NETWORK_QUANTUMS,
@@ -553,7 +557,7 @@ public class NetworkSlimefunItems {
                 OPTIC_CABLE.getItem(), NETWORK_QUANTUM_STORAGE_10.getItem(), OPTIC_CABLE.getItem(),
                 OPTIC_GLASS.getItem(), OPTIC_GLASS.getItem(), OPTIC_GLASS.getItem()
             },
-            NetworkQuantumStorage.getSizes()[3]);
+            NetworkQuantumStorage.getSizesLong()[3]);
 
         NETWORK_QUANTUM_STORAGE_2 = new NetworkQuantumStorage(
             NetworksItemGroups.NETWORK_QUANTUMS,
@@ -570,7 +574,7 @@ public class NetworkSlimefunItems {
                 SlimefunItems.ALUMINUM_BRASS_INGOT,
                 OPTIC_GLASS.getItem()
             },
-            NetworkQuantumStorage.getSizes()[4]);
+            NetworkQuantumStorage.getSizesLong()[4]);
 
         NETWORK_QUANTUM_STORAGE_3 = new NetworkQuantumStorage(
             NetworksItemGroups.NETWORK_QUANTUMS,
@@ -587,7 +591,7 @@ public class NetworkSlimefunItems {
                 SlimefunItems.CORINTHIAN_BRONZE_INGOT,
                 OPTIC_GLASS.getItem()
             },
-            NetworkQuantumStorage.getSizes()[5]);
+            NetworkQuantumStorage.getSizesLong()[5]);
 
         NETWORK_QUANTUM_STORAGE_4 = new NetworkQuantumStorage(
             NetworksItemGroups.NETWORK_QUANTUMS,
@@ -604,7 +608,7 @@ public class NetworkSlimefunItems {
                 SlimefunItems.HARDENED_METAL_INGOT,
                 OPTIC_GLASS.getItem()
             },
-            NetworkQuantumStorage.getSizes()[6]);
+            NetworkQuantumStorage.getSizesLong()[6]);
 
         NETWORK_QUANTUM_STORAGE_5 = new NetworkQuantumStorage(
             NetworksItemGroups.NETWORK_QUANTUMS,
@@ -621,7 +625,7 @@ public class NetworkSlimefunItems {
                 SlimefunItems.REINFORCED_ALLOY_INGOT,
                 OPTIC_GLASS.getItem()
             },
-            NetworkQuantumStorage.getSizes()[7]);
+            NetworkQuantumStorage.getSizesLong()[7]);
 
         NETWORK_QUANTUM_STORAGE_6 = new NetworkQuantumStorage(
             NetworksItemGroups.NETWORK_QUANTUMS,
@@ -632,7 +636,7 @@ public class NetworkSlimefunItems {
                 SlimefunItems.CARGO_MOTOR, NETWORK_QUANTUM_STORAGE_5.getItem(), SlimefunItems.CARGO_MOTOR,
                 SlimefunItems.STEEL_PLATE, SlimefunItems.BLISTERING_INGOT, SlimefunItems.STEEL_PLATE
             },
-            NetworkQuantumStorage.getSizes()[8]);
+            NetworkQuantumStorage.getSizesLong()[8]);
 
         NETWORK_QUANTUM_STORAGE_7 = new NetworkQuantumStorage(
             NetworksItemGroups.NETWORK_QUANTUMS,
@@ -649,7 +653,7 @@ public class NetworkSlimefunItems {
                 SlimefunItems.BLISTERING_INGOT_2,
                 SlimefunItems.REINFORCED_PLATE
             },
-            NetworkQuantumStorage.getSizes()[9]);
+            NetworkQuantumStorage.getSizesLong()[9]);
 
         NETWORK_QUANTUM_STORAGE_8 = new NetworkQuantumStorage(
             NetworksItemGroups.NETWORK_QUANTUMS,
@@ -666,7 +670,79 @@ public class NetworkSlimefunItems {
                 SlimefunItems.BLISTERING_INGOT_3,
                 OPTIC_GLASS.getItem()
             },
-            NetworkQuantumStorage.getSizes()[10]);
+            NetworkQuantumStorage.getSizesLong()[10]);
+        
+        NETWORK_QUANTUM_STORAGE_11 = new NetworkQuantumStorage(
+            NetworksItemGroups.NETWORK_QUANTUMS,
+            NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_11,
+            NetworkQuantumWorkbench.TYPE,
+            new ItemStack[]{
+                OPTIC_GLASS.getItem(),
+                SlimefunItems.BLISTERING_INGOT_3,
+                OPTIC_GLASS.getItem(),
+                SlimefunItems.CARGO_MANAGER,
+                NETWORK_QUANTUM_STORAGE_8.getItem(),
+                SlimefunItems.CARGO_MANAGER,
+                OPTIC_GLASS.getItem(),
+                SlimefunItems.BLISTERING_INGOT_3,
+                OPTIC_GLASS.getItem()
+            },
+            NetworkQuantumStorage.getSizesLong()[11]
+        );
+
+        NETWORK_QUANTUM_STORAGE_12 = new NetworkQuantumStorage(
+            NetworksItemGroups.NETWORK_QUANTUMS,
+            NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_12,
+            NetworkQuantumWorkbench.TYPE,
+            new ItemStack[]{
+                OPTIC_GLASS.getItem(),
+                SlimefunItems.BLISTERING_INGOT_3,
+                OPTIC_GLASS.getItem(),
+                SlimefunItems.CARGO_MANAGER,
+                NETWORK_QUANTUM_STORAGE_11.getItem(),
+                SlimefunItems.CARGO_MANAGER,
+                OPTIC_GLASS.getItem(),
+                SlimefunItems.BLISTERING_INGOT_3,
+                OPTIC_GLASS.getItem()
+            },
+            NetworkQuantumStorage.getSizesLong()[12]
+        );
+
+        NETWORK_QUANTUM_STORAGE_13 = new NetworkQuantumStorage(
+            NetworksItemGroups.NETWORK_QUANTUMS,
+            NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_13,
+            NetworkQuantumWorkbench.TYPE,
+            new ItemStack[]{
+                OPTIC_GLASS.getItem(),
+                SlimefunItems.BLISTERING_INGOT_3,
+                OPTIC_GLASS.getItem(),
+                SlimefunItems.CARGO_MANAGER,
+                NETWORK_QUANTUM_STORAGE_12.getItem(),
+                SlimefunItems.CARGO_MANAGER,
+                OPTIC_GLASS.getItem(),
+                SlimefunItems.BLISTERING_INGOT_3,
+                OPTIC_GLASS.getItem()
+            },
+            NetworkQuantumStorage.getSizesLong()[13]
+        );
+
+        NETWORK_QUANTUM_STORAGE_14 = new NetworkQuantumStorage(
+            NetworksItemGroups.NETWORK_QUANTUMS,
+            NetworksSlimefunItemStacks.NETWORK_QUANTUM_STORAGE_14,
+            NetworkQuantumWorkbench.TYPE,
+            new ItemStack[]{
+                OPTIC_GLASS.getItem(),
+                SlimefunItems.BLISTERING_INGOT_3,
+                OPTIC_GLASS.getItem(),
+                SlimefunItems.CARGO_MANAGER,
+                NETWORK_QUANTUM_STORAGE_13.getItem(),
+                SlimefunItems.CARGO_MANAGER,
+                OPTIC_GLASS.getItem(),
+                SlimefunItems.BLISTERING_INGOT_3,
+                OPTIC_GLASS.getItem()
+            },
+            NetworkQuantumStorage.getSizesLong()[14]
+        );
 
         NETWORK_CAPACITOR_1 = new NetworkPowerNode(
             NetworksItemGroups.NETWORK_ITEMS,
@@ -973,6 +1049,10 @@ public class NetworkSlimefunItems {
         NETWORK_QUANTUM_STORAGE_6.register(plugin);
         NETWORK_QUANTUM_STORAGE_7.register(plugin);
         NETWORK_QUANTUM_STORAGE_8.register(plugin);
+        NETWORK_QUANTUM_STORAGE_11.register(plugin);
+        NETWORK_QUANTUM_STORAGE_12.register(plugin);
+        NETWORK_QUANTUM_STORAGE_13.register(plugin);
+        NETWORK_QUANTUM_STORAGE_14.register(plugin);
         NETWORK_CAPACITOR_1.register(plugin);
         NETWORK_CAPACITOR_2.register(plugin);
         NETWORK_CAPACITOR_3.register(plugin);

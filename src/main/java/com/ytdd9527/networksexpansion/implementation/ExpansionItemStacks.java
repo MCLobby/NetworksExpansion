@@ -14,6 +14,8 @@ import org.jetbrains.annotations.NotNull;
  * @since 2.0
  */
 public class ExpansionItemStacks {
+    public static final SlimefunItemStack PLACEHOLDER_ITEM =
+        Theme.random(Lang.getItem("NTW_EXPANSION_PLACEHOLDER_ITEM", Material.CLAY_BALL), Theme.GUIDE);
     // Workbench
     public static final SlimefunItemStack NETWORKS_EXPANSION_WORKBENCH =
         Theme.random(Lang.getItem("NTW_EXPANSION_WORKBENCH", Material.BAMBOO_BLOCK), Theme.MACHINE);
@@ -495,6 +497,20 @@ public class ExpansionItemStacks {
         Lang.getItem("NTW_EXPANSION_SMART_NETWORK_CRAFTING_GRID_NEW_STYLE", Material.CRAFTING_TABLE), Theme.MACHINE);
     public static final SlimefunItemStack ADVANCED_WIRELESS_TRANSMITTER = Theme.themedSlimefunItemStack(
         Lang.getItem("NTW_EXPANSION_ADVANCED_WIRELESS_TRANSMITTER", Material.CYAN_STAINED_GLASS), Theme.MACHINE);
+    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_VANILLA_GRABBER = Theme.themedSlimefunItemStack(
+        Lang.getItem("NTW_EXPANSION_ADVANCED_LINE_TRANSFER_VANILLA_GRABBER", Material.GRAY_STAINED_GLASS), Theme.MACHINE);
+    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_VANILLA_PUSHER = Theme.themedSlimefunItemStack(
+        Lang.getItem("NTW_EXPANSION_ADVANCED_LINE_TRANSFER_VANILLA_PUSHER", Material.LIGHT_GRAY_STAINED_GLASS), Theme.MACHINE);
+    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_VANILLA_PLUS_GRABBER = Theme.themedSlimefunItemStack(
+        Lang.getItem("NTW_EXPANSION_ADVANCED_LINE_TRANSFER_VANILLA_PLUS_GRABBER", Material.BLACK_STAINED_GLASS), Theme.MACHINE);
+    public static final SlimefunItemStack ADVANCED_LINE_TRANSFER_VANILLA_PLUS_PUSHER = Theme.themedSlimefunItemStack(
+        Lang.getItem("NTW_EXPANSION_ADVANCED_LINE_TRANSFER_VANILLA_PLUS_PUSHER", Material.BLUE_STAINED_GLASS), Theme.MACHINE);
+    public static final SlimefunItemStack ITEM_DIFFERENTER = Theme.themedSlimefunItemStack(
+        Lang.getItem("NTW_EXPANSION_ITEM_DIFFERENTER", Material.BOOKSHELF), Theme.MACHINE);
+    public static final SlimefunItemStack STORAGE_CARD_CONVERTER = Theme.themedSlimefunItemStack(
+        Lang.getItem("NTW_EXPANSION_STORAGE_CARD_CONVERTER", Material.LODESTONE), Theme.MACHINE);
+    public static final SlimefunItemStack FACING_PRESETTER = Theme.themedSlimefunItemStack(
+        Lang.getItem("NTW_EXPANSION_FACING_PRESETTER", Material.GLASS), Theme.MACHINE);
 
 
     public static @NotNull ItemStack enchanted(@NotNull Material material) {

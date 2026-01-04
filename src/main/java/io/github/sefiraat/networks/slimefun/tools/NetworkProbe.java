@@ -87,6 +87,9 @@ public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
             final int itemFlowViewers = root.getItemFlowViewers().size();
             final int advancedWirelessTransmitters = root.getAdvancedWirelessTransmitters().size();
             final int aeSwitchers = root.getAeSwitchers().size();
+            final int itemDifferenters = root.getItemDifferenters().size();
+            final int storageCardConverters = root.getStorageCardConverters().size();
+            final int facingPresetters = root.getFacingPresetters().size();
 
             final Map<ItemStack, Long> allNetworkItems = root.getAllNetworkItemsLongType();
             final int distinctItems = allNetworkItems.size();
@@ -101,6 +104,41 @@ public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
 
             final ChatColor c = Theme.CLICK_INFO.getColor();
             final ChatColor p = Theme.SUCCESS.getColor();
+
+            player.sendMessage(Lang.getString("messages.completed-operation.probe.split"));
+            player.sendMessage(Lang.getString("messages.completed-operation.probe.expansion_title"));
+            player.sendMessage(Lang.getString("messages.completed-operation.probe.split"));
+            player.sendMessage(formatter(ExpansionItemStacks.NETWORK_BLUEPRINT_DECODER.getDisplayName(), decoders));
+            player.sendMessage(formatter(ExpansionItemStacks.QUANTUM_MANAGER.getDisplayName(), quantumManagers));
+            player.sendMessage(formatter(ExpansionItemStacks.DRAWER_MANAGER.getDisplayName(), drawerManagers));
+            player.sendMessage(formatter(ExpansionItemStacks.CRAFTER_MANAGER.getDisplayName(), crafterManagers));
+            player.sendMessage(formatter(ExpansionItemStacks.ITEM_FLOW_VIEWER.getDisplayName(), itemFlowViewers));
+            player.sendMessage(formatter(ExpansionItemStacks.ADVANCED_WIRELESS_TRANSMITTER.getDisplayName(), advancedWirelessTransmitters));
+            player.sendMessage(formatter(Lang.getString("icons.ae_switcher.name"), aeSwitchers));
+            player.sendMessage(formatter(ExpansionItemStacks.ITEM_DIFFERENTER.getDisplayName(), itemDifferenters));
+            player.sendMessage(formatter(ExpansionItemStacks.STORAGE_CARD_CONVERTER.getDisplayName(), storageCardConverters));
+            player.sendMessage(formatter(ExpansionItemStacks.FACING_PRESETTER.getDisplayName(), facingPresetters));
+            player.sendMessage(formatter(ExpansionItemStacks.ADVANCED_IMPORT.getDisplayName(), advancedImporters));
+            player.sendMessage(formatter(ExpansionItemStacks.ADVANCED_EXPORT.getDisplayName(), advancedExporters));
+            player.sendMessage(
+                formatter(ExpansionItemStacks.ADVANCED_GREEDY_BLOCK.getDisplayName(), advancedGreedyBlocks));
+            player.sendMessage(formatter(ExpansionItemStacks.ADVANCED_PURGER.getDisplayName(), advancedPurgers));
+            player.sendMessage(formatter(ExpansionItemStacks.ADVANCED_VACUUM.getDisplayName(), advancedVacuums));
+            player.sendMessage(formatter(ExpansionItemStacks.TRANSFER.getDisplayName(), transfers));
+            player.sendMessage(formatter(ExpansionItemStacks.TRANSFER_GRABBER.getDisplayName(), transferGrabbers));
+            player.sendMessage(formatter(ExpansionItemStacks.TRANSFER_PUSHER.getDisplayName(), transferPushers));
+            player.sendMessage(formatter(
+                ExpansionItemStacks.LINE_TRANSFER_VANILLA_PUSHER.getDisplayName(), lineTransferVanillaPushers));
+            player.sendMessage(formatter(
+                ExpansionItemStacks.LINE_TRANSFER_VANILLA_GRABBER.getDisplayName(), lineTransferVanillaGrabbers));
+            player.sendMessage(
+                formatter(ExpansionItemStacks.NETWORK_INPUT_ONLY_MONITOR.getDisplayName(), inputOnlyMonitor));
+            player.sendMessage(
+                formatter(ExpansionItemStacks.NETWORK_OUTPUT_ONLY_MONITOR.getDisplayName(), outputOnlyMonitor));
+            player.sendMessage(formatter(
+                stringOrSpaces(ExpansionItemStacks.LINE_POWER_OUTLET_1.getDisplayName())
+                    .substring(0, 6),
+                linePowerOutlets));
 
             player.sendMessage(Lang.getString("messages.completed-operation.probe.split"));
             player.sendMessage(Lang.getString("messages.completed-operation.probe.networks_title"));
@@ -137,37 +175,6 @@ public class NetworkProbe extends SpecialSlimefunItem implements CanCooldown {
             player.sendMessage(
                 formatter(NetworksSlimefunItemStacks.NETWORK_GREEDY_BLOCK.getDisplayName(), greedyBlocks));
 
-            player.sendMessage(Lang.getString("messages.completed-operation.probe.split"));
-            player.sendMessage(Lang.getString("messages.completed-operation.probe.expansion_title"));
-            player.sendMessage(Lang.getString("messages.completed-operation.probe.split"));
-            player.sendMessage(formatter(ExpansionItemStacks.ADVANCED_IMPORT.getDisplayName(), advancedImporters));
-            player.sendMessage(formatter(ExpansionItemStacks.ADVANCED_EXPORT.getDisplayName(), advancedExporters));
-            player.sendMessage(
-                formatter(ExpansionItemStacks.ADVANCED_GREEDY_BLOCK.getDisplayName(), advancedGreedyBlocks));
-            player.sendMessage(formatter(ExpansionItemStacks.ADVANCED_PURGER.getDisplayName(), advancedPurgers));
-            player.sendMessage(formatter(ExpansionItemStacks.ADVANCED_VACUUM.getDisplayName(), advancedVacuums));
-            player.sendMessage(formatter(ExpansionItemStacks.TRANSFER.getDisplayName(), transfers));
-            player.sendMessage(formatter(ExpansionItemStacks.TRANSFER_GRABBER.getDisplayName(), transferGrabbers));
-            player.sendMessage(formatter(ExpansionItemStacks.TRANSFER_PUSHER.getDisplayName(), transferPushers));
-            player.sendMessage(formatter(
-                ExpansionItemStacks.LINE_TRANSFER_VANILLA_PUSHER.getDisplayName(), lineTransferVanillaPushers));
-            player.sendMessage(formatter(
-                ExpansionItemStacks.LINE_TRANSFER_VANILLA_GRABBER.getDisplayName(), lineTransferVanillaGrabbers));
-            player.sendMessage(
-                formatter(ExpansionItemStacks.NETWORK_INPUT_ONLY_MONITOR.getDisplayName(), inputOnlyMonitor));
-            player.sendMessage(
-                formatter(ExpansionItemStacks.NETWORK_OUTPUT_ONLY_MONITOR.getDisplayName(), outputOnlyMonitor));
-            player.sendMessage(formatter(
-                stringOrSpaces(ExpansionItemStacks.LINE_POWER_OUTLET_1.getDisplayName())
-                    .substring(0, 6),
-                linePowerOutlets));
-            player.sendMessage(formatter(ExpansionItemStacks.NETWORK_BLUEPRINT_DECODER.getDisplayName(), decoders));
-            player.sendMessage(formatter(ExpansionItemStacks.QUANTUM_MANAGER.getDisplayName(), quantumManagers));
-            player.sendMessage(formatter(ExpansionItemStacks.DRAWER_MANAGER.getDisplayName(), drawerManagers));
-            player.sendMessage(formatter(ExpansionItemStacks.CRAFTER_MANAGER.getDisplayName(), crafterManagers));
-            player.sendMessage(formatter(ExpansionItemStacks.ITEM_FLOW_VIEWER.getDisplayName(), itemFlowViewers));
-            player.sendMessage(formatter(ExpansionItemStacks.ADVANCED_WIRELESS_TRANSMITTER.getDisplayName(), advancedWirelessTransmitters));
-            player.sendMessage(formatter(Lang.getString("icons.ae_switcher.name"), aeSwitchers));
             player.sendMessage(Lang.getString("messages.completed-operation.probe.split"));
             player.sendMessage(
                 formatter(Lang.getString("messages.completed-operation.probe.distinct_items"), distinctItems));

@@ -1,10 +1,13 @@
 package com.ytdd9527.networksexpansion.utils;
 
+import com.balugaq.jeg.implementation.JustEnoughGuide;
 import io.github.sefiraat.networks.Networks;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -306,5 +309,15 @@ public class ParticleUtil {
 
     public static void highlightBlock(final Block block) {
         drawCubeByBlock(Networks.getInstance(), Particle.WAX_ON, 1, block);
+    }
+
+    public static void highlightBlock(@NotNull Player player, @NotNull Location location, int shrinkTimes) {
+        for (int i = 0; i < shrinkTimes; i++) {
+            Bukkit.getScheduler().runTaskLaterAsynchronously(
+                    JustEnoughGuide.getInstance(), () -> {
+                drawLineFrom(player.getEyeLocation().clone().add(0D, -0.5D, 0D), location);
+                highlightBlock(location);
+            }, 20L * i);
+        }
     }
 }

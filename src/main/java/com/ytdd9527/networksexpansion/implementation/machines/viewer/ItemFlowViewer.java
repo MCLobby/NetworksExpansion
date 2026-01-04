@@ -156,15 +156,6 @@ public class ItemFlowViewer extends NetworkObject {
         return null;
     }
 
-    public static void highlightBlock(@NotNull Player player, @NotNull Location barrelLocation) {
-        for (int i = 0; i < 10; i++) {
-            Bukkit.getScheduler().runTaskLaterAsynchronously(JustEnoughGuide.getInstance(), () -> {
-                ParticleUtil.drawLineFrom(player.getEyeLocation().clone().add(0D, -0.5D, 0D), barrelLocation);
-                ParticleUtil.highlightBlock(barrelLocation);
-            }, 20L * i);
-        }
-    }
-
     @NotNull
     public static List<DisplayEntry> getRecords(@NotNull NetworkRoot root, @NotNull GridCache cache) {
         if (!root.isRecordFlow() || root.getItemFlowRecord() == null) {
@@ -396,7 +387,7 @@ public class ItemFlowViewer extends NetworkObject {
                 displayStack.setItemMeta(itemMeta);
                 blockMenu.replaceExistingItem(getDisplaySlots()[i], displayStack);
                 blockMenu.addMenuClickHandler(getDisplaySlots()[i], (player, slot, item, a) -> {
-                    highlightBlock(player, action.accessor());
+                    ParticleUtil.highlightBlock(player, action.accessor(), 10);
                     return false;
                 });
             } else {

@@ -66,7 +66,8 @@ public class Keys {
     public static final NamespacedKey ITEM_MOVER_ITEM = newKey("item_mover_item");
     public static final NamespacedKey ITEM_MOVER_AMOUNT = newKey("item_mover_amount");
     public static final NamespacedKey EXPANSION_WORKBENCH = newKey("expansion_workbench");
-    public static final NamespacedKey EXPANSION_WORKBENCH_6x6 = newKey("expansion_workbench_6x6");
+
+    public static final NamespacedKey FACING_PRESET = newKey("facing_preset");
 
     public static final @NotNull NamespacedKey INFINITY_DISPLAY;
 

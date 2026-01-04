@@ -33,7 +33,7 @@ public class Calculator {
     @SuppressWarnings("DuplicatedCode")
     public static BigDecimal calculate(String expression) throws NumberFormatException {
         if (expression == null || expression.trim().isEmpty()) {
-            throw new NumberFormatException("表达式为空");
+            throw new NumberFormatException("Empty expression");
         }
 
         String expr = replaceBrackets(expression);
@@ -43,7 +43,7 @@ public class Calculator {
         expr = completeParentheses(expr);
 
         if (!isValidParentheses(expr)) {
-            throw new NumberFormatException("括号无法自动补全为有效表达式");
+            throw new NumberFormatException("Invalid expression");
         }
 
         Deque<BigDecimal> numStack = new ArrayDeque<>();
@@ -84,13 +84,14 @@ public class Calculator {
             else if (c == ')') {
                 String pk = opStack.peek();
                 if (pk == null) {
-                    throw new NumberFormatException("括号不匹配: " + expression);
+                    throw new NumberFormatException("Brackets doesn't match: " + expression);
                 }
                 
                 while (!pk.equals("(")) {
                     calculateTop(numStack, opStack);
                 }
-                opStack.pop();                i++;
+                opStack.pop();
+                i++;
             }
             else if ((c == '<' || c == '>') && i + 1 < n && expr.charAt(i + 1) == c) {
                 String op = expr.substring(i, i + 2);
@@ -108,7 +109,7 @@ public class Calculator {
             else if (isOperator(String.valueOf(c))) {
                 if (c == '+' && (i == 0 || expr.charAt(i - 1) == '(' || isOperator(String.valueOf(expr.charAt(i - 1))))) {
                     if (i + 1 >= n || (!Character.isDigit(expr.charAt(i + 1)) && expr.charAt(i + 1) != '.')) {
-                        throw new NumberFormatException("无效的正号位置: " + expression);
+                        throw new NumberFormatException("Invalid positive signature: " + expression);
                     }
 
                     int j = i + 1;
@@ -134,7 +135,7 @@ public class Calculator {
                 }
                 else if (c == '-' && (i == 0 || expr.charAt(i - 1) == '(' || isOperator(String.valueOf(expr.charAt(i - 1))))) {
                     if (i + 1 >= n || (!Character.isDigit(expr.charAt(i + 1)) && expr.charAt(i + 1) != '.')) {
-                        throw new NumberFormatException("无效的负号位置: " + expression);
+                        throw new NumberFormatException("Invalid negative signature: " + expression);
                     }
 
                     int j = i + 1;
@@ -167,7 +168,7 @@ public class Calculator {
                 }
             }
             else {
-                throw new NumberFormatException("无效字符: " + c);
+                throw new NumberFormatException("Invalid character: " + c);
             }
         }
 
@@ -176,7 +177,7 @@ public class Calculator {
         }
 
         if (numStack.size() != 1) {
-            throw new NumberFormatException("无效的表达式: " + expression);
+            throw new NumberFormatException("Invalid expression: " + expression);
         }
 
         return numStack.pop();
@@ -223,16 +224,16 @@ public class Calculator {
             }
             return new BigDecimal(numStr);
         } catch (NumberFormatException e) {
-            throw new NumberFormatException("无效的数字格式: " + numStr);
+            throw new NumberFormatException("Invalid number: " + numStr);
         }
     }
 
-    private static void calculateTop(Deque<BigDecimal> numStack, Deque<String> opStack) throws NumberFormatException {
+    private static void calculateTop(Deque<BigDecimal> numStack, Deque<String> opStack) throws NumberFormatException, ArithmeticException {
         String op = opStack.pop();
 
         if (op.equals("~") || op.equals("!")) {
             if (numStack.isEmpty()) {
-                throw new NumberFormatException("无效的表达式，单目运算符缺少操作数");
+                throw new NumberFormatException("Invalid expression");
             }
 
             BigDecimal a = numStack.pop();
@@ -240,7 +241,7 @@ public class Calculator {
             long resultLong = switch (op) {
                 case "~" ->                    ~aLong;
                 case "!" ->                    (aLong == 0) ? 1 : 0;
-                default -> throw new NumberFormatException("无效的单目运算符: " + op);
+                default -> throw new NumberFormatException("Invalid symbol: " + op);
             };
 
             numStack.push(new BigDecimal(resultLong));
@@ -248,7 +249,7 @@ public class Calculator {
         }
 
         if (numStack.size() < 2) {
-            throw new NumberFormatException("无效的表达式，双目运算符缺少操作数");
+            throw new NumberFormatException("Invalid expression");
         }
 
         BigDecimal b = numStack.pop();
@@ -267,7 +268,7 @@ public class Calculator {
                 break;
             case "/":
                 if (b.compareTo(BigDecimal.ZERO) == 0) {
-                    throw new ArithmeticException("除数不能为0");
+                    throw new ArithmeticException("Divided by 0");
                 }
                 result = a.divide(b, 10, RoundingMode.HALF_UP);
                 break;
@@ -297,7 +298,7 @@ public class Calculator {
                 result = new BigDecimal(aLongRsh >> bLongRsh);
                 break;
             default:
-                throw new NumberFormatException("无效的运算符: " + op);
+                throw new NumberFormatException("Invalid symbol: " + op);
         }
 
         numStack.push(result);

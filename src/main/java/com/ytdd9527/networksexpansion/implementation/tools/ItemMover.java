@@ -379,7 +379,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
             return null;
         }
 
-        final long storedAmount = cache.getAmount();
+        final long storedAmount = cache.getAmountLong();
         if (storedAmount < 0) {
             return null;
         }

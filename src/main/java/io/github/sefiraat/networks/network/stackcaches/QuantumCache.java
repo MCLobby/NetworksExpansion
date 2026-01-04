@@ -21,11 +21,25 @@ public class QuantumCache extends ItemStackCache {
     private final boolean supportsCustomMaxAmount;
 
     @Setter
-    @Getter
-    private int limit;
+    private long limit;
 
-    @Getter
+    public int getLimit() {
+        return limit > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) limit;
+    }
+
+    public long getLimitLong() {
+        return limit;
+    }
+
     private long amount;
+
+    public int getAmount() {
+        return amount > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) amount;
+    }
+
+    public long getAmountLong() {
+        return amount;
+    }
 
     @Setter
     @Getter
@@ -35,6 +49,15 @@ public class QuantumCache extends ItemStackCache {
         @Nullable ItemStack storedItem,
         long amount,
         int limit,
+        boolean voidExcess,
+        boolean supportsCustomMaxAmount) {
+        this(storedItem, amount, (long) limit, voidExcess, supportsCustomMaxAmount);
+    }
+
+    public QuantumCache(
+        @Nullable ItemStack storedItem,
+        long amount,
+        long limit,
         boolean voidExcess,
         boolean supportsCustomMaxAmount) {
         super(storedItem);
@@ -51,6 +74,10 @@ public class QuantumCache extends ItemStackCache {
     }
 
     public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public void setAmount(long amount) {
         this.amount = amount;
     }
 
@@ -104,7 +131,7 @@ public class QuantumCache extends ItemStackCache {
         lore.add("");
         lore.add(String.format(Lang.getString("messages.normal-operation.quantum_cache.stored_item"), itemName));
         lore.add(String.format(
-            Lang.getString("messages.normal-operation.quantum_cache.stored_amount"), this.getAmount()));
+            Lang.getString("messages.normal-operation.quantum_cache.stored_amount"), this.getAmountLong()));
         if (this.supportsCustomMaxAmount) {
             lore.add(String.format(
                 Lang.getString("messages.normal-operation.quantum_cache.custom_max_limit"), this.getLimit()));
@@ -129,13 +156,13 @@ public class QuantumCache extends ItemStackCache {
         lore.set(
             lore.size() - 1 - loreIndexModifier,
             String.format(
-                Lang.getString("messages.normal-operation.quantum_cache.stored_amount"), this.getAmount()));
+                Lang.getString("messages.normal-operation.quantum_cache.stored_amount"), this.getAmountLong()));
         if (this.supportsCustomMaxAmount) {
             lore.set(
                 lore.size() - loreIndexModifier,
                 String.format(
                     Lang.getString("messages.normal-operation.quantum_cache.custom_max_limit"),
-                    this.getLimit()));
+                    this.getLimitLong()));
         }
 
         itemMeta.setLore(lore);

@@ -8,7 +8,6 @@ import org.bukkit.inventory.ItemStack;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.ADVANCED_NANOBOTS;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.AI_CORE;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.CRAFTING_BLUEPRINT;
-import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.EMPOWERED_AI_CORE;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.INTERDIMENSIONAL_PRESENCE;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.NETWORK_AUTO_CRAFTER;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.NETWORK_AUTO_CRAFTER_WITHHOLDING;
@@ -31,6 +30,7 @@ import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.NETWORK_
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_0;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_1;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_10;
+import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_14;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_2;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_3;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.NETWORK_QUANTUM_STORAGE_4;
@@ -111,19 +111,19 @@ public class ExpansionRecipes {
 
     public static final ItemStack[] ADVANCED_LINE_TRANSFER_PUSHER = new ItemStack[]{
         NETWORK_BRIDGE.getItem(), ExpansionItemStacks.LINE_TRANSFER_PUSHER, NETWORK_BRIDGE.getItem(),
-        EMPOWERED_AI_CORE.getItem(), EMPOWERED_AI_CORE.getItem(), EMPOWERED_AI_CORE.getItem(),
+        AI_CORE.getItem(), AI_CORE.getItem(), AI_CORE.getItem(),
         NETWORK_BRIDGE.getItem(), ExpansionItemStacks.LINE_TRANSFER_PUSHER, NETWORK_BRIDGE.getItem()
     };
 
     public static final ItemStack[] ADVANCED_LINE_TRANSFER_MORE_PUSHER = new ItemStack[]{
         NETWORK_BRIDGE.getItem(), ExpansionItemStacks.LINE_TRANSFER_MORE_PUSHER, NETWORK_BRIDGE.getItem(),
-        EMPOWERED_AI_CORE.getItem(), EMPOWERED_AI_CORE.getItem(), EMPOWERED_AI_CORE.getItem(),
+        AI_CORE.getItem(), AI_CORE.getItem(), AI_CORE.getItem(),
         NETWORK_BRIDGE.getItem(), ExpansionItemStacks.LINE_TRANSFER_MORE_PUSHER, NETWORK_BRIDGE.getItem()
     };
 
     public static final ItemStack[] ADVANCED_LINE_TRANSFER_BEST_PUSHER = new ItemStack[]{
         NETWORK_BRIDGE.getItem(), ExpansionItemStacks.LINE_TRANSFER_BEST_PUSHER, NETWORK_BRIDGE.getItem(),
-        EMPOWERED_AI_CORE.getItem(), EMPOWERED_AI_CORE.getItem(), EMPOWERED_AI_CORE.getItem(),
+        AI_CORE.getItem(), AI_CORE.getItem(), AI_CORE.getItem(),
         NETWORK_BRIDGE.getItem(), ExpansionItemStacks.LINE_TRANSFER_BEST_PUSHER, NETWORK_BRIDGE.getItem()
     };
 
@@ -157,7 +157,7 @@ public class ExpansionRecipes {
     };
     public static final ItemStack[] ADVANCED_LINE_TRANSFER_GRABBER = new ItemStack[]{
         NETWORK_BRIDGE.getItem(), ExpansionItemStacks.LINE_TRANSFER_GRABBER, NETWORK_BRIDGE.getItem(),
-        EMPOWERED_AI_CORE.getItem(), EMPOWERED_AI_CORE.getItem(), EMPOWERED_AI_CORE.getItem(),
+        AI_CORE.getItem(), AI_CORE.getItem(), AI_CORE.getItem(),
         NETWORK_BRIDGE.getItem(), ExpansionItemStacks.LINE_TRANSFER_GRABBER, NETWORK_BRIDGE.getItem()
     };
 
@@ -191,25 +191,25 @@ public class ExpansionRecipes {
     };
     public static final ItemStack[] ADVANCED_LINE_TRANSFER = new ItemStack[]{
         ExpansionItemStacks.ADVANCED_LINE_TRANSFER_PUSHER,
-        EMPOWERED_AI_CORE.getItem(),
         AI_CORE.getItem(),
-        EMPOWERED_AI_CORE.getItem(),
-        EMPOWERED_AI_CORE.getItem(),
-        EMPOWERED_AI_CORE.getItem(),
         AI_CORE.getItem(),
-        EMPOWERED_AI_CORE.getItem(),
+        AI_CORE.getItem(),
+        AI_CORE.getItem(),
+        AI_CORE.getItem(),
+        AI_CORE.getItem(),
+        AI_CORE.getItem(),
         ExpansionItemStacks.ADVANCED_LINE_TRANSFER_GRABBER
     };
 
     public static final ItemStack[] ADVANCED_LINE_TRANSFER_PLUS = new ItemStack[]{
         ExpansionItemStacks.ADVANCED_LINE_TRANSFER_PLUS_PUSHER,
-        EMPOWERED_AI_CORE.getItem(),
         AI_CORE.getItem(),
-        EMPOWERED_AI_CORE.getItem(),
-        EMPOWERED_AI_CORE.getItem(),
-        EMPOWERED_AI_CORE.getItem(),
         AI_CORE.getItem(),
-        EMPOWERED_AI_CORE.getItem(),
+        AI_CORE.getItem(),
+        AI_CORE.getItem(),
+        AI_CORE.getItem(),
+        AI_CORE.getItem(),
+        AI_CORE.getItem(),
         ExpansionItemStacks.ADVANCED_LINE_TRANSFER_PLUS_GRABBER
     };
 
@@ -1142,9 +1142,9 @@ public class ExpansionRecipes {
     };
     // Storages
     public static final ItemStack[] ADVANCED_QUANTUM_STORAGE = new ItemStack[]{
-        OPTIC_STAR.getItem(), NETWORK_CONFIGURATOR.getItem(), OPTIC_STAR.getItem(),
-        OPTIC_CABLE.getItem(), NETWORK_QUANTUM_STORAGE_8.getItem(), OPTIC_CABLE.getItem(),
-        OPTIC_STAR.getItem(), NETWORK_CONFIGURATOR.getItem(), OPTIC_STAR.getItem()
+        OPTIC_GLASS.getItem(), OPTIC_CABLE.getItem(), OPTIC_GLASS.getItem(),
+        OPTIC_CABLE.getItem(), NETWORK_QUANTUM_STORAGE_14.getItem(), OPTIC_CABLE.getItem(),
+        OPTIC_GLASS.getItem(), OPTIC_CABLE.getItem(), OPTIC_GLASS.getItem()
     };
     // Bridges
     public static final ItemStack[] NETWORK_BRIDGE_WHITE = new ItemStack[]{
@@ -1256,9 +1256,9 @@ public class ExpansionRecipes {
     };
 
     public static final ItemStack[] STORAGE_UNIT_UPGRADE_TABLE = new ItemStack[]{
-        EMPOWERED_AI_CORE.getItem(), ADVANCED_NANOBOTS.getItem(), EMPOWERED_AI_CORE.getItem(),
+        AI_CORE.getItem(), ADVANCED_NANOBOTS.getItem(), AI_CORE.getItem(),
         ADVANCED_NANOBOTS.getItem(), NETWORK_QUANTUM_WORKBENCH.getItem(), ADVANCED_NANOBOTS.getItem(),
-        EMPOWERED_AI_CORE.getItem(), ADVANCED_NANOBOTS.getItem(), EMPOWERED_AI_CORE.getItem()
+        AI_CORE.getItem(), ADVANCED_NANOBOTS.getItem(), AI_CORE.getItem()
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_1 = new ItemStack[]{
         OPTIC_CABLE.getItem(), OPTIC_CABLE.getItem(), OPTIC_CABLE.getItem(),
@@ -1702,5 +1702,47 @@ public class ExpansionRecipes {
         NETWORK_BRIDGE.getItem(), NETWORK_WIRELESS_TRANSMITTER.getItem(), NETWORK_BRIDGE.getItem(),
         NETWORK_WIRELESS_RECEIVER.getItem(), NETWORK_WIRELESS_TRANSMITTER.getItem(), NETWORK_WIRELESS_RECEIVER.getItem(),
         NETWORK_BRIDGE.getItem(), NETWORK_WIRELESS_TRANSMITTER.getItem(), NETWORK_BRIDGE.getItem()
+    };
+
+    public static final ItemStack[] ADVANCED_LINE_TRANSFER_VANILLA_GRABBER = new ItemStack[]{
+        OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_TRANSFER_VANILLA_GRABBER, OPTIC_STAR.getItem(),
+        ExpansionItemStacks.LINE_TRANSFER_VANILLA_GRABBER, NETWORK_GRABBER.getItem(), ExpansionItemStacks.ADVANCED_LINE_TRANSFER_VANILLA_GRABBER,
+        OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_TRANSFER_VANILLA_GRABBER, OPTIC_STAR.getItem()
+    };
+
+    public static final ItemStack[] ADVANCED_LINE_TRANSFER_VANILLA_PUSHER = new ItemStack[]{
+        OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_TRANSFER_VANILLA_PUSHER, OPTIC_STAR.getItem(),
+        ExpansionItemStacks.LINE_TRANSFER_VANILLA_PUSHER, NETWORK_PUSHER.getItem(), ExpansionItemStacks.ADVANCED_LINE_TRANSFER_VANILLA_PUSHER,
+        OPTIC_STAR.getItem(), ExpansionItemStacks.LINE_TRANSFER_VANILLA_PUSHER, OPTIC_STAR.getItem()
+    };
+
+    public static final ItemStack[] ADVANCED_LINE_TRANSFER_VANILLA_PLUS_GRABBER = new ItemStack[]{
+        OPTIC_STAR.getItem(), OPTIC_GLASS.getItem(), OPTIC_STAR.getItem(),
+        OPTIC_GLASS.getItem(), ExpansionItemStacks.ADVANCED_LINE_TRANSFER_VANILLA_GRABBER, OPTIC_GLASS.getItem(),
+        OPTIC_STAR.getItem(), OPTIC_GLASS.getItem(), OPTIC_STAR.getItem()
+    };
+
+    public static final ItemStack[] ADVANCED_LINE_TRANSFER_VANILLA_PLUS_PUSHER = new ItemStack[]{
+        OPTIC_STAR.getItem(), OPTIC_GLASS.getItem(), OPTIC_STAR.getItem(),
+        OPTIC_GLASS.getItem(), ExpansionItemStacks.ADVANCED_LINE_TRANSFER_VANILLA_PUSHER, OPTIC_GLASS.getItem(),
+        OPTIC_STAR.getItem(), OPTIC_GLASS.getItem(), OPTIC_STAR.getItem()
+    };
+
+    public static final ItemStack[] ITEM_DIFFERENTER = new ItemStack[]{
+        OPTIC_GLASS.getItem(), NETWORK_BRIDGE.getItem(), OPTIC_GLASS.getItem(),
+        NETWORK_BRIDGE.getItem(), OPTIC_GLASS.getItem(), NETWORK_BRIDGE.getItem(),
+        OPTIC_GLASS.getItem(), NETWORK_BRIDGE.getItem(), OPTIC_GLASS.getItem()
+    };
+
+    public static final ItemStack[] STORAGE_CARD_CONVERTER = new ItemStack[]{
+        OPTIC_GLASS.getItem(), ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH, OPTIC_GLASS.getItem(),
+        ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH, ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH, ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH,
+        OPTIC_GLASS.getItem(), ExpansionItemStacks.NETWORKS_EXPANSION_WORKBENCH, OPTIC_GLASS.getItem()
+    };
+
+    public static final ItemStack[] FACING_PRESETTER = new ItemStack[]{
+        NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(),
+        NETWORK_CONFIGURATOR.getItem(), NETWORK_BRIDGE.getItem(), NETWORK_CONFIGURATOR.getItem(),
+        NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(),
     };
 }
