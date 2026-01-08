@@ -16,9 +16,9 @@ public class NetworksVersionedParticle {
 
     static {
         MinecraftVersion version = Networks.getInstance().getMCVersion();
-        DUST = version.isAtLeast(MinecraftVersion.MC1_20_5) ? Particle.DUST : getKey("REDSTONE");
-        EXPLOSION = version.isAtLeast(MinecraftVersion.MC1_20_5) ? Particle.EXPLOSION : getKey("EXPLOSION_LARGE");
-        SMOKE = version.isAtLeast(MinecraftVersion.MC1_20_5) ? Particle.SMOKE : getKey("SMOKE_NORMAL");
+        DUST = version.isAtLeast(MinecraftVersion.V1_20_5) ? Particle.DUST : getKey("REDSTONE");
+        EXPLOSION = version.isAtLeast(MinecraftVersion.V1_20_5) ? Particle.EXPLOSION : getKey("EXPLOSION_LARGE");
+        SMOKE = version.isAtLeast(MinecraftVersion.V1_20_5) ? Particle.SMOKE : getKey("SMOKE_NORMAL");
     }
 
     @NotNull

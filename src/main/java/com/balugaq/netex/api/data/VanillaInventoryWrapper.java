@@ -71,7 +71,7 @@ public class VanillaInventoryWrapper extends BlockMenu {
                     final ItemStack stack = inv.getContents()[i];
                     if (stack != null && stack.getType() != Material.AIR) {
                         final PotionMeta potionMeta = (PotionMeta) stack.getItemMeta();
-                        if (Networks.getInstance().getMCVersion().isAtLeast(MinecraftVersion.MC1_20_5)) {
+                        if (Networks.getInstance().getMCVersion().isAtLeast(MinecraftVersion.V1_20_5)) {
                             if (potionMeta.getBasePotionType() != PotionType.WATER) {
                                 list.add(i);
                             }

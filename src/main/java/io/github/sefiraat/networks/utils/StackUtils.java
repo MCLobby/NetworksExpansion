@@ -48,8 +48,8 @@ import java.util.Optional;
 public class StackUtils {
     private static final boolean FORCE_CHECK_LORE = Networks.getConfigManager().isForceCheckLore();
     private static final MinecraftVersion MC_VERSION = Networks.getInstance().getMCVersion();
-    public static final boolean IS_1_20_5 = MC_VERSION.isAtLeast(MinecraftVersion.MC1_20_5);
-    public static final boolean IS_1_21 = MC_VERSION.isAtLeast(MinecraftVersion.MC1_21);
+    public static final boolean IS_1_20_5 = MC_VERSION.isAtLeast(MinecraftVersion.V1_20_5);
+    public static final boolean IS_1_21 = MC_VERSION.isAtLeast(MinecraftVersion.V1_21);
 
     @NotNull
     public static ItemStack getAsQuantity(@Nullable ItemStack itemStack, int amount) {
