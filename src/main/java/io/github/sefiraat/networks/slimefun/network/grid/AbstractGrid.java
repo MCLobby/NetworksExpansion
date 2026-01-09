@@ -19,6 +19,7 @@ import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.Theme;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -47,10 +48,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 
 @SuppressWarnings({"DuplicatedCode", "deprecation"})
 public abstract class AbstractGrid extends NetworkObject {
-
+    protected static final String BS_FILTER_KEY = "filter";
     private static final Map<GridCache.SortOrder, Comparator<? super Map.Entry<ItemStack, Long>>> SORT_MAP =
         new HashMap<>();
 
@@ -67,10 +69,21 @@ public abstract class AbstractGrid extends NetworkObject {
         @NotNull ItemGroup itemGroup,
         @NotNull SlimefunItemStack item,
         @NotNull RecipeType recipeType,
-        ItemStack[] recipe) {
-        super(itemGroup, item, recipeType, recipe, NodeType.GRID);
+        ItemStack @NotNull [] recipe) {
+        this(itemGroup, item, recipeType, recipe, NodeType.GRID);
+    }
 
-        this.getSlotsToDrop().add(getInputSlot());
+    protected AbstractGrid(
+        @NotNull ItemGroup itemGroup,
+        @NotNull SlimefunItemStack item,
+        @NotNull RecipeType recipeType,
+        ItemStack @NotNull [] recipe,
+        NodeType type) {
+        super(itemGroup, item, recipeType, recipe, type);
+
+        if (getInputSlot() != -1) {
+            this.getSlotsToDrop().add(getInputSlot());
+        }
 
         this.tickRate = new IntRangeSetting(this, "tick_rate", 1, 1, 10);
         addItemSetting(this.tickRate);
@@ -101,6 +114,11 @@ public abstract class AbstractGrid extends NetworkObject {
             public void uniqueTick() {
                 tick = tick <= 1 ? tickRate.getValue() : tick - 1;
             }
+
+            @Override
+            public @NotNull Optional<IncompatibleItemHandlerException> validate(SlimefunItem item) {
+                return Optional.empty();
+            }
         });
     }
 
@@ -118,6 +136,8 @@ public abstract class AbstractGrid extends NetworkObject {
     }
 
     protected void tryAddItem(@NotNull BlockMenu blockMenu) {
+        if (getInputSlot() == -1) return;
+
         final ItemStack itemStack = blockMenu.getItemInSlot(getInputSlot());
 
         if (itemStack == null || itemStack.getType() == Material.AIR) {
@@ -230,7 +250,7 @@ public abstract class AbstractGrid extends NetworkObject {
 
     protected void clearDisplay(@NotNull BlockMenu blockMenu) {
         for (int displaySlot : getDisplaySlots()) {
-            blockMenu.replaceExistingItem(displaySlot, Icon.BLANK_SLOT_STACK);
+            blockMenu.replaceExistingItem(displaySlot, getBlankSlotStack());
             blockMenu.addMenuClickHandler(displaySlot, (p, slot, item, action) -> false);
         }
     }
@@ -260,38 +280,48 @@ public abstract class AbstractGrid extends NetworkObject {
             .toList();
     }
 
-    @SuppressWarnings("deprecation")
     protected void setFilter(
-        @NotNull Player player,
-        @NotNull BlockMenu blockMenu,
-        @NotNull GridCache gridCache,
-        @NotNull ClickAction action) {
+        Player player,
+        BlockMenu blockMenu,
+        GridCache gridCache,
+        ClickAction action) {
         if (action.isRightClicked()) {
             gridCache.setFilter(null);
+            SlimefunBlockData data = StorageCacheUtils.getBlock(blockMenu.getLocation());
+            if (data == null) {
+                return;
+            }
+
+            data.removeData(BS_FILTER_KEY);
+            updateDisplay(blockMenu);
         } else {
             player.closeInventory();
             player.sendMessage(Lang.getString("messages.normal-operation.grid.waiting_for_filter"));
-            ChatUtils.awaitInput(player, s -> {
-                if (s.isBlank()) {
-                    return;
-                }
-                gridCache.setFilter(s.toLowerCase(Locale.ROOT));
-                getCacheMap().put(blockMenu.getLocation(), gridCache);
-                player.sendMessage(Lang.getString("messages.completed-operation.grid.filter_set"));
+            ChatUtils.awaitInput(
+                player, s -> {
+                    if (s.isBlank()) {
+                        return;
+                    }
+                    s = s.toLowerCase(Locale.ROOT);
+                    gridCache.setFilter(s);
+                    getCacheMap().put(blockMenu.getLocation(), gridCache);
+                    player.sendMessage(Lang.getString("messages.completed-operation.grid.filter_set"));
 
-                SlimefunBlockData data = StorageCacheUtils.getBlock(blockMenu.getLocation());
-                if (data == null) {
-                    return;
-                }
+                    SlimefunBlockData data = StorageCacheUtils.getBlock(blockMenu.getLocation());
+                    if (data == null) {
+                        return;
+                    }
 
-                if (blockMenu.getPreset().getID().equals(data.getSfId())) {
-                    BlockMenu actualMenu = data.getBlockMenu();
-                    if (actualMenu != null) {
-                        updateDisplay(actualMenu);
-                        actualMenu.open(player);
+                    if (blockMenu.getPreset().getID().equals(data.getSfId())) {
+                        data.setData(BS_FILTER_KEY, s);
+                        BlockMenu actualMenu = data.getBlockMenu();
+                        if (actualMenu != null) {
+                            actualMenu.open(player);
+                            updateDisplay(actualMenu);
+                        }
                     }
                 }
-            });
+            );
         }
     }
 

@@ -33,11 +33,13 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@NullMarked
 @SuppressWarnings("DuplicatedCode")
 public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle implements RecipeCompletableWithGuide {
 

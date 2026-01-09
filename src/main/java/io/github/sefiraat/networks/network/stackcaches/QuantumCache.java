@@ -31,9 +31,10 @@ public class QuantumCache extends ItemStackCache {
         return limit;
     }
 
+    @Getter
     private long amount;
 
-    public int getAmount() {
+    public int getAmountInt() {
         return amount > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) amount;
     }
 
