@@ -15,7 +15,7 @@ public class NetworksVersionedItemFlag {
 
     static {
         MinecraftVersion version = Networks.getInstance().getMCVersion();
-        HIDE_ADDITIONAL_TOOLTIP = version.isAtLeast(MinecraftVersion.MC1_20_5)
+        HIDE_ADDITIONAL_TOOLTIP = version.isAtLeast(MinecraftVersion.V1_20_5)
             ? ItemFlag.HIDE_ADDITIONAL_TOOLTIP
             : getKey("HIDE_POTION_EFFECTS");
     }
