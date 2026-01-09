@@ -44,7 +44,6 @@ public class NetworkGrid extends AbstractGrid {
 
     public NetworkGrid(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
-        this.getSlotsToDrop().add(getInputSlot());
     }
 
     @Override

@@ -5,7 +5,6 @@ import com.balugaq.netex.api.enums.MinecraftVersion;
 import com.balugaq.netex.api.interfaces.SoftCellBannable;
 import com.balugaq.netex.utils.Lang;
 import com.bgsoftware.wildchests.api.WildChestsAPI;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;

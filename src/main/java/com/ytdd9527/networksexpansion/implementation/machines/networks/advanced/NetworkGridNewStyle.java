@@ -21,11 +21,13 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@NullMarked
 @SuppressWarnings("DuplicatedCode")
 public class NetworkGridNewStyle extends AbstractGridNewStyle implements Keybindable {
     private static final int[] BACKGROUND_SLOTS = new int[]{8};
@@ -63,8 +65,8 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle implements Keybind
         @NotNull SlimefunItemStack item,
         @NotNull RecipeType recipeType,
         ItemStack @NotNull [] recipe,
-        NodeType type) {
-        super(itemGroup, item, recipeType, recipe, type);
+        NodeType nodeType) {
+        super(itemGroup, item, recipeType, recipe, nodeType);
     }
 
     @Override

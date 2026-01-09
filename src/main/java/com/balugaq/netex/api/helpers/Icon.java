@@ -36,7 +36,7 @@ public class Icon {
         Lang.getString("icons.recipe-types.expansion_workbench_3x3.name"),
         Lang.getStringArray("icons.recipe-types.expansion_workbench_3x3.lore"));
     public static final ItemStack RECIPE_TYPE_ITEMSTACK_QUANTUM_WORKBENCH = Theme.themedItemStack(
-        Material.BRAIN_CORAL_BLOCK,
+        Material.DRIED_KELP_BLOCK,
         Theme.MACHINE,
         Lang.getString("icons.recipe-types.quantum_workbench.name"),
         Lang.getStringArray("icons.recipe-types.quantum_workbench.lore"));

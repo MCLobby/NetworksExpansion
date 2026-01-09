@@ -1,6 +1,5 @@
 package com.ytdd9527.networksexpansion.implementation.tools;
 
-import com.balugaq.netex.utils.InventoryUtil;
 import com.balugaq.netex.utils.Lang;
 import com.jeff_media.morepersistentdatatypes.DataType;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
