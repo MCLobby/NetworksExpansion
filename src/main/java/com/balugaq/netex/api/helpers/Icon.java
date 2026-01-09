@@ -25,11 +25,6 @@ public class Icon {
     public static final ItemStack RECIPE_ICON = ItemStackUtil.getCleanItem(new ItemStack(Material.PAPER));
     public static final ItemStack ERROR_BORDER =
         ItemStackUtil.getCleanItem(new CustomItemStack(Material.BARRIER, " ", " ", " ", " "));
-    public static final ItemStack RECIPE_TYPE_ITEMSTACK_EXPANSION_WORKBENCH_6x6 = Theme.themedItemStack(
-        Material.LAPIS_BLOCK,
-        Theme.MACHINE,
-        Lang.getString("icons.recipe-types.expansion_workbench_6x6.name"),
-        Lang.getStringArray("icons.recipe-types.expansion_workbench_6x6.lore"));
     public static final ItemStack RECIPE_TYPE_ITEMSTACK_EXPANSION_WORKBENCH_3x3 = Theme.themedItemStack(
         Material.BAMBOO_BLOCK,
         Theme.MACHINE,
