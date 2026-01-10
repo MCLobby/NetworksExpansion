@@ -99,6 +99,7 @@ public class ItemDifferenter extends NetworkObject {
                     }
                     return setResult(menu, calc(i1, i2), i1.isSimilar(i2));
                 });
+                menu.addMenuClickHandler(RESULT_SLOT, (p, s, i, a) -> false);
             }
 
             @Override
