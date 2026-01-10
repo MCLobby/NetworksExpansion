@@ -280,18 +280,7 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
             return;
         }
         try {
-            minecraftVersion = Slimefun.getMinecraftVersion()
-                .isAtLeast(io.github.thebusybiscuit.slimefun4.api.MinecraftVersion.MINECRAFT_1_20)
-                ? MinecraftVersion.of(20, 0)
-                : MinecraftVersion.UNKNOWN;
-            minecraftVersion = Slimefun.getMinecraftVersion()
-                .isAtLeast(io.github.thebusybiscuit.slimefun4.api.MinecraftVersion.MINECRAFT_1_20_5)
-                ? MinecraftVersion.of(20, 5)
-                : minecraftVersion;
-            minecraftVersion = Slimefun.getMinecraftVersion()
-                .isAtLeast(io.github.thebusybiscuit.slimefun4.api.MinecraftVersion.MINECRAFT_1_21)
-                ? MinecraftVersion.of(21, 0)
-                : minecraftVersion;
+            minecraftVersion = MinecraftVersion.current();
         } catch (NoClassDefFoundError | NoSuchFieldError e) {
             for (int i = 0; i < 20; i++) {
                 getLogger()
