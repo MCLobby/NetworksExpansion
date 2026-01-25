@@ -19,6 +19,7 @@ import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.FurnaceInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
@@ -31,7 +32,7 @@ public class VanillaInventoryWrapper extends BlockMenu {
     private final BlockState blockState;
 
     public VanillaInventoryWrapper(final Inventory inv, final BlockState blockState) {
-        super(createPreset(inv, blockState), inv.getLocation(), inv);
+        super(createPreset(inv, blockState), blockState.getLocation() == null ? inv.getLocation() : blockState.getLocation(), inv);
         this.blockState = blockState;
         for (int slot = 0; slot < inv.getSize(); slot++) {
             addItem(slot, inv.getItem(slot));
@@ -48,7 +49,7 @@ public class VanillaInventoryWrapper extends BlockMenu {
                 return false;
             }
 
-            @Override
+            @Override // never called
             public int[] getSlotsAccessedByItemTransport(final ItemTransportFlow itemTransportFlow) {
                 return new int[0];
             }
@@ -106,6 +107,10 @@ public class VanillaInventoryWrapper extends BlockMenu {
                     return new int[] {0, 1}; // smelting and fuel slot
                 }
             }
+        }
+
+        else if (inv instanceof PlayerInventory) {
+            return generateArray(36);
         }
 
         else {
