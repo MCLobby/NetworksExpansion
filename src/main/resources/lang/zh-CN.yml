@@ -591,7 +591,13 @@ icons:
       name: "&6存入物品"
     do-nothing:
       name: "&6无操作"
-    display-keybinds:
+    hanginggridnewstyle-display-keybinds:
+      name: "&6显示栏按键控制"
+    networkgridnewstyle-display-keybinds:
+      name: "&6显示栏按键控制"
+    networkcraftinggridnewstyle-display-keybinds:
+      name: "&6显示栏按键控制"
+    smartnetworkcraftinggridnewstyle-display-keybinds:
       name: "&6显示栏按键控制"
     outside-keybinds:
       name: "&6背包栏按键控制"
@@ -1151,9 +1157,9 @@ items:
       - "<warning> 网络拓展开发版不接受 GitHub Issues"
       - "<warning> 网络拓展开发版不接受 GitHub PR"
       - "<passive> 版本信息:"
-      - "<passive> 网络拓展版本: v2.1.74"
+      - "<passive> 网络拓展版本: v2.1.75"
       - "<passive> 版本状态: 稳定版"
-      - "<passive> 版本更新时间: 2026-1-10 16:52:22"
+      - "<passive> 版本更新时间: 2026-1-25 15:02:56"
       - "<passive> 开发状态: 更新中"
       - "<passive> 开发者（们）: ytdd9527, balugaq"
       - "<passive> 开发者 GitHub 页面: <click_info>https://github.com/ytdd9527"
