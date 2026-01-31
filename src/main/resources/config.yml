@@ -16,6 +16,8 @@ ban-quantum-in-quantum: false
 
 drawer-auto-save-period: 300
 
+disable-profile-check: false
+
 rpg-fix:
   force-check-lore: false
 
