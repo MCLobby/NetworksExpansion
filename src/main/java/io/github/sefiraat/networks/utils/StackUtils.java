@@ -516,8 +516,10 @@ public class StackUtils {
             if (instanceOne.hasOwner() != instanceTwo.hasOwner()) {
                 return true;
             }
-            if (!Objects.equals(instanceOne.getOwningPlayer(), instanceTwo.getOwningPlayer())) {
-                return true;
+            if (!Networks.getConfigManager().isDisableProfileCheck()) {
+                if (!Objects.equals(instanceOne.getOwningPlayer(), instanceTwo.getOwningPlayer())) {
+                    return true;
+                }
             }
         }
 
