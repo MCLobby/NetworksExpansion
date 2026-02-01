@@ -134,4 +134,8 @@ public class ConfigManager {
     public void saveAll() {
         Networks.getInstance().getLogger().info(Lang.getString("messages.save-all"));
     }
+
+    public boolean isDisableProfileCheck() {
+        return Networks.getInstance().getConfig().getBoolean("disable-profile-check", false);
+    }
 }
