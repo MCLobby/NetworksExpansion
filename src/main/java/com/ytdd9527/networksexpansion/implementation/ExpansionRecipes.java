@@ -1745,4 +1745,10 @@ public class ExpansionRecipes {
         NETWORK_CONFIGURATOR.getItem(), NETWORK_BRIDGE.getItem(), NETWORK_CONFIGURATOR.getItem(),
         NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(),
     };
+
+    public static final ItemStack[] SUPER_TRASH = new ItemStack[] {
+        SlimefunItems.PORTABLE_DUSTBIN, SlimefunItems.PORTABLE_DUSTBIN, SlimefunItems.PORTABLE_DUSTBIN,
+        SlimefunItems.PORTABLE_DUSTBIN, SlimefunItems.PORTABLE_DUSTBIN, SlimefunItems.PORTABLE_DUSTBIN,
+        SlimefunItems.PORTABLE_DUSTBIN, SlimefunItems.PORTABLE_DUSTBIN, SlimefunItems.PORTABLE_DUSTBIN
+    };
 }

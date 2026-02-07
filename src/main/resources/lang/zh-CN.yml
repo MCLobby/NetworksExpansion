@@ -1157,9 +1157,9 @@ items:
       - "<warning> 网络拓展开发版不接受 GitHub Issues"
       - "<warning> 网络拓展开发版不接受 GitHub PR"
       - "<passive> 版本信息:"
-      - "<passive> 网络拓展版本: v2.1.76"
+      - "<passive> 网络拓展版本: v2.1.77"
       - "<passive> 版本状态: 稳定版"
-      - "<passive> 版本更新时间: 2026-1-31 22:37:53"
+      - "<passive> 版本更新时间: 2026-2-7 22:15:47"
       - "<passive> 开发状态: 更新中"
       - "<passive> 开发者（们）: ytdd9527, balugaq"
       - "<passive> 开发者 GitHub 页面: <click_info>https://github.com/ytdd9527"
@@ -3912,6 +3912,11 @@ items:
     lore:
       - "可以对抓取，推送，监视器等机器预设方向"
       - "将其放置后，立即设置对应的方向"
+  NTW_EXPANSION_SUPER_TRASH:
+    name: "超级垃圾桶"
+    lore:
+      - "最快速地销毁一切输入的物品"
+      - "在界面中点击玩家背包中的物品会销毁物品"
 
 displays:
   quantum_storage:

@@ -1,6 +1,7 @@
 package io.github.sefiraat.networks.network.barrel;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import com.ytdd9527.networksexpansion.utils.ReflectionUtil;
 import io.github.mooy1.infinityexpansion.items.storage.StorageCache;
 import io.github.sefiraat.networks.network.stackcaches.BarrelIdentity;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
@@ -19,8 +20,16 @@ public class InfinityBarrel extends BarrelIdentity {
 
     @ParametersAreNonnullByDefault
     public InfinityBarrel(Location location, @Nullable ItemStack itemStack, long amount, StorageCache cache) {
-        super(location, itemStack, amount, BarrelType.INFINITY);
+        super(location, itemStack, amount, InfinityBarrel.getLimit(cache), BarrelType.INFINITY);
         this.cache = cache;
+    }
+
+    private static long getLimit(StorageCache cache) {
+        try {
+            return ReflectionUtil.getValue(ReflectionUtil.getValue(cache, "storageUnit"), "max", long.class);
+        } catch (Exception ignored) {
+            return 0;
+        }
     }
 
     @Nullable
