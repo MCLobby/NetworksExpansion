@@ -17,17 +17,15 @@ import org.jetbrains.annotations.Nullable;
 
 @Getter
 public class FluffyBarrel extends BarrelIdentity {
-    final int limit;
-    final boolean voidExcess;
+    private final boolean voidExcess;
 
     public FluffyBarrel(@NotNull Location location, ItemStack itemStack, int amount, int limit, boolean voidExcess) {
-        super(location, itemStack, amount, BarrelType.FLUFFY);
-        this.limit = limit;
+        super(location, itemStack, amount, limit, BarrelType.FLUFFY);
         this.voidExcess = voidExcess;
         BlockMenu menu = StorageCacheUtils.getMenu(getLocation());
         Barrel barrel = (Barrel) StorageCacheUtils.getSfItem(getLocation());
         if (barrel != null) {
-            barrel.updateMenu(getLocation().getBlock(), menu, true, getLimit());
+            barrel.updateMenu(getLocation().getBlock(), menu, true, (int) getLimit());
         }
     }
 

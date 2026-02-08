@@ -16,13 +16,15 @@ public abstract class BarrelIdentity extends ItemStackCache implements BarrelCor
 
     private Location location;
     private long amount;
+    private long limit;
     private BarrelType type;
 
     @ParametersAreNonnullByDefault
-    protected BarrelIdentity(Location location, @Nullable ItemStack itemStack, long amount, BarrelType type) {
+    protected BarrelIdentity(Location location, @Nullable ItemStack itemStack, long amount, long limit, BarrelType type) {
         super(itemStack);
         this.location = location;
         this.amount = amount;
+        this.limit = limit;
         this.type = type;
     }
 }

@@ -100,6 +100,7 @@ import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.SmartGrabber;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.SmartNetworkCraftingGridNewStyle;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.SmartPusher;
+import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.SuperTrash;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.SwitchingMonitor;
 import com.ytdd9527.networksexpansion.implementation.machines.unit.NetworksDrawer;
 import com.ytdd9527.networksexpansion.implementation.machines.viewer.ItemFlowViewer;
@@ -1505,4 +1506,11 @@ public class ExpansionItems {
         ExpansionItemStacks.FACING_PRESETTER,
         ExpansionWorkbench.TYPE,
         ExpansionRecipes.FACING_PRESETTER);
+
+    public static final SuperTrash SUPER_TRASH = new SuperTrash(
+        ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+        ExpansionItemStacks.SUPER_TRASH,
+        ExpansionWorkbench.TYPE,
+        ExpansionRecipes.SUPER_TRASH
+    );
 }

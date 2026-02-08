@@ -7,6 +7,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItemStacks;
 import com.ytdd9527.networksexpansion.implementation.machines.unit.NetworksDrawer;
+import com.ytdd9527.networksexpansion.utils.ReflectionUtil;
 import io.github.mooy1.infinityexpansion.items.storage.StorageCache;
 import io.github.mooy1.infinityexpansion.items.storage.StorageUnit;
 import io.github.sefiraat.networks.managers.SupportedPluginManager;
@@ -131,20 +132,18 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         return getStoredItemStack(itemMeta);
     }
 
-    public static int getStoredAmount(@Nullable PersistentDataHolder holder) {
+    public static long getStoredAmount(@Nullable PersistentDataHolder holder) {
         if (holder == null) {
             return 0;
         }
 
-        final Integer amount = DataTypeMethods.getCustom(holder, Keys.ITEM_MOVER_AMOUNT, PersistentDataType.INTEGER);
-        if (amount == null) {
-            return 0;
-        }
+        final Integer amountInt = DataTypeMethods.getCustom(holder, Keys.ITEM_MOVER_AMOUNT, PersistentDataType.INTEGER);
+        final Long amountLong = DataTypeMethods.getCustom(holder, Keys.ITEM_MOVER_AMOUNT_LONG, PersistentDataType.LONG);
 
-        return amount;
+        return amountInt == null ? amountLong == null ? 0 : amountLong : amountInt;
     }
 
-    public static int getStoredAmount(@Nullable ItemStack mover) {
+    public static long getStoredAmount(@Nullable ItemStack mover) {
         if (mover == null || mover.getType() == Material.AIR) {
             return 0;
         }
@@ -176,7 +175,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         mover.setItemMeta(itemMeta);
     }
 
-    public static void setStoredAmount(@Nullable ItemStack mover, int amount) {
+    public static void setStoredAmount(@Nullable ItemStack mover, long amount) {
         if (mover == null || mover.getType() == Material.AIR) {
             return;
         }
@@ -191,7 +190,10 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
             return;
         }
 
-        DataTypeMethods.setCustom(itemMeta, Keys.ITEM_MOVER_AMOUNT, PersistentDataType.INTEGER, amount);
+        if (itemMeta.getPersistentDataContainer().getKeys().contains(Keys.ITEM_MOVER_AMOUNT)) {
+            DataTypeMethods.removeCustom(itemMeta, Keys.ITEM_MOVER_AMOUNT);
+        }
+        DataTypeMethods.setCustom(itemMeta, Keys.ITEM_MOVER_AMOUNT_LONG, PersistentDataType.LONG, amount);
         mover.setItemMeta(itemMeta);
     }
 
@@ -202,17 +204,17 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
 
         if (incoming.getAmount() > 0) {
             ItemStack stored = getStoredItemStack(mover);
-            int storedAmount = getStoredAmount(mover);
+            long storedAmount = getStoredAmount(mover);
             if (stored == null || stored.getType() == Material.AIR) {
                 setStoredItemStack(mover, StackUtils.getAsQuantity(incoming, 1));
                 setStoredAmount(mover, incoming.getAmount());
                 incoming.setAmount(0);
             } else if (StackUtils.itemsMatch(stored, incoming)) {
-                int maxCanReceive = Integer.MAX_VALUE - storedAmount;
+                long maxCanReceive = Long.MAX_VALUE - storedAmount;
                 int incomingAmount = incoming.getAmount();
-                int canReceive = Math.min(maxCanReceive, incomingAmount);
+                long canReceive = Math.min(maxCanReceive, incomingAmount);
                 setStoredAmount(mover, getStoredAmount(mover) + canReceive);
-                incoming.setAmount(incomingAmount - canReceive);
+                incoming.setAmount(Math.max(0, (int) (incomingAmount - canReceive)));
             }
         }
     }
@@ -229,6 +231,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
 
         DataTypeMethods.removeCustom(itemMeta, Keys.ITEM_MOVER_ITEM);
         DataTypeMethods.removeCustom(itemMeta, Keys.ITEM_MOVER_AMOUNT);
+        DataTypeMethods.removeCustom(itemMeta, Keys.ITEM_MOVER_AMOUNT_LONG);
 
         mover.setItemMeta(itemMeta);
     }
@@ -245,7 +248,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
 
         final ItemMeta itemMeta = itemStack.getItemMeta();
         final ItemStack storedItemStack = getStoredItemStack(itemMeta);
-        final int amount = getStoredAmount(itemMeta);
+        final long amount = getStoredAmount(itemMeta);
 
         List<String> lore = cloneDefaultLore();
         if (storedItemStack != null && amount > 0) {
@@ -319,25 +322,9 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
             return null;
         }
 
-        final ItemStack rawDisplayItem = blockMenu.getItemInSlot(13);
-        final ItemStack displayItem = rawDisplayItem.clone();
-        if (!displayItem.hasItemMeta()) {
-            return null;
-        }
-        final ItemMeta displayItemMeta = displayItem.getItemMeta();
-        if (displayItemMeta == null) {
-            return null;
-        }
 
-        Byte correct = DataTypeMethods.getCustom(displayItemMeta, Keys.INFINITY_DISPLAY, PersistentDataType.BYTE);
-        if (correct == null || correct != 1) {
-            return null;
-        }
 
-        displayItemMeta.getPersistentDataContainer().remove(Keys.INFINITY_DISPLAY);
-        displayItem.setItemMeta(displayItemMeta);
-
-        return new InfinityBarrel(location, displayItem, stored, cache);
+        return new InfinityBarrel(location, InfinityBarrel.getActualItemStack(blockMenu), stored, cache);
     }
 
     @Nullable
@@ -384,7 +371,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
             return null;
         }
 
-        return new NetworkStorage(location, stored, storedAmount);
+        return new NetworkStorage(location, stored, storedAmount, cache.getLimitLong());
     }
 
     private static void tryDepositIntoMover(
@@ -392,7 +379,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         if (!hasPermission(player, clickedLocation)) {
             return;
         }
-        int storedAmount = getStoredAmount(mover);
+        long storedAmount = getStoredAmount(mover);
         ItemStack storedItemStack = getStoredItemStack(mover);
         BarrelIdentity barrel = getBarrel(player, clickedLocation);
         if (barrel == null || barrel.getItemStack() == null || barrel.getAmount() <= 0) {
@@ -410,8 +397,8 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         if (storedItemStack == null && storedAmount <= 0) {
             itemRequest.setAmount(have);
         } else if (StackUtils.itemsMatch(storedItemStack, barrel.getItemStack())) {
-            int maxCanReceive = Integer.MAX_VALUE - storedAmount;
-            itemRequest.setAmount(Math.min(maxCanReceive, have));
+            long maxCanReceive = Long.MAX_VALUE - storedAmount;
+            itemRequest.setAmount((int) Math.min(maxCanReceive, have));
         }
 
         ItemStack fetched = barrel.requestItem(itemRequest);
@@ -435,7 +422,8 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         if (!hasPermission(player, clickedLocation)) {
             return;
         }
-        int storedAmount = getStoredAmount(mover);
+        long storedAmountLong = getStoredAmount(mover);
+        int storedAmount = storedAmountLong > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) storedAmountLong;
         ItemStack storedItemStack = getStoredItemStack(mover);
         BarrelIdentity barrel = getBarrel(player, clickedLocation);
         if (barrel == null) {
@@ -450,7 +438,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
             return;
         }
 
-        if (have == Integer.MAX_VALUE) {
+        if (have >= barrel.getLimit()) {
             player.sendMessage(Lang.getString("messages.unsupported-operation.item_mover.full_storage"));
             return;
         }
@@ -460,7 +448,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         int before = clone.getAmount();
         barrel.depositItemStack(clone);
         int after = clone.getAmount();
-        setStoredAmount(mover, clone.getAmount());
+        setStoredAmount(mover, storedAmountLong - (before - after));
         player.sendMessage(String.format(
             Lang.getString("messages.completed-operation.item_mover.withdraw_success"), name, before - after));
         updateLore(mover);
