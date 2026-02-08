@@ -408,6 +408,7 @@ messages:
       invalid_item: "&c无法获取物品."
       empty_mover: "&c没有可用的物品."
       full_storage: "&c存储已满"
+      suggest_use_drawers: "&c你需要在抽屉界面中使用此物品"
     encoder:
       not_enough_power: "<warning>网络中的电力不足，无法完成该任务"
       invalid_blueprint: "<warning>你需要提供一个正确的空白的蓝图"
@@ -3917,6 +3918,10 @@ items:
     lore:
       - "最快速地销毁一切输入的物品"
       - "在界面中点击玩家背包中的物品会销毁物品"
+  NTW_EXPANSION_PLACEHOLDER_ITEM:
+    name: "占位符"
+    lore:
+      - ""
 
 displays:
   quantum_storage:

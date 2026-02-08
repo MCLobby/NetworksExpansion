@@ -7,6 +7,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItemStacks;
 import com.ytdd9527.networksexpansion.implementation.machines.unit.NetworksDrawer;
+import com.ytdd9527.networksexpansion.utils.ReflectionUtil;
 import io.github.mooy1.infinityexpansion.items.storage.StorageCache;
 import io.github.mooy1.infinityexpansion.items.storage.StorageUnit;
 import io.github.sefiraat.networks.managers.SupportedPluginManager;
@@ -273,9 +274,10 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         final boolean infinityEnabled = SupportedPluginManager.getInstance().isInfinityExpansion();
         final boolean fluffyEnabled = SupportedPluginManager.getInstance().isFluffyMachines();
 
-        if (infinityEnabled && sfitem instanceof StorageUnit unit) {
+        /*if (infinityEnabled && sfitem instanceof StorageUnit unit) {
             return getInfinityBarrel(location, unit);
-        } else if (fluffyEnabled && sfitem instanceof Barrel barrel) {
+        } else */
+        if (fluffyEnabled && sfitem instanceof Barrel barrel) {
             return getFluffyBarrel(location, barrel);
         } else if (sfitem instanceof NetworkQuantumStorage) {
             return getNetworkStorage(location);
@@ -320,25 +322,9 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
             return null;
         }
 
-        final ItemStack rawDisplayItem = blockMenu.getItemInSlot(13);
-        final ItemStack displayItem = rawDisplayItem.clone();
-        if (!displayItem.hasItemMeta()) {
-            return null;
-        }
-        final ItemMeta displayItemMeta = displayItem.getItemMeta();
-        if (displayItemMeta == null) {
-            return null;
-        }
 
-        Byte correct = DataTypeMethods.getCustom(displayItemMeta, Keys.INFINITY_DISPLAY, PersistentDataType.BYTE);
-        if (correct == null || correct != 1) {
-            return null;
-        }
 
-        displayItemMeta.getPersistentDataContainer().remove(Keys.INFINITY_DISPLAY);
-        displayItem.setItemMeta(displayItemMeta);
-
-        return new InfinityBarrel(location, displayItem, stored, cache);
+        return new InfinityBarrel(location, InfinityBarrel.getActualItemStack(blockMenu), stored, cache);
     }
 
     @Nullable
@@ -462,7 +448,7 @@ public class ItemMover extends SpecialSlimefunItem implements DistinctiveItem {
         int before = clone.getAmount();
         barrel.depositItemStack(clone);
         int after = clone.getAmount();
-        setStoredAmount(mover, clone.getAmount());
+        setStoredAmount(mover, storedAmountLong - (before - after));
         player.sendMessage(String.format(
             Lang.getString("messages.completed-operation.item_mover.withdraw_success"), name, before - after));
         updateLore(mover);
