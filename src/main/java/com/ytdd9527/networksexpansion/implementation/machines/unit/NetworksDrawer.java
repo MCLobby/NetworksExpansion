@@ -712,8 +712,9 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
                 if (StackUtils.itemsMatch(sample, toTransfer)) {
                     switch (mode) {
                         case FROM_QUANTUM -> {
+                            long exist = ItemMover.getStoredAmount(itemStack);
                             ItemStack stored = StackUtils.getAsQuantity(
-                                ItemMover.getStoredItemStack(itemStack), ItemMover.getStoredAmount(itemStack));
+                                ItemMover.getStoredItemStack(itemStack), exist > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int)exist);
                             if (stored == null || stored.getType() == Material.AIR) {
                                 player.sendMessage(
                                     Lang.getString("messages.unsupported-operation.drawer.item_mover_empty"));
@@ -722,7 +723,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
                             String name = ItemStackHelper.getDisplayName(stored);
                             thisStorage.depositItemStack0(location, stored, true);
                             int left = stored.getAmount();
-                            ItemMover.setStoredAmount(itemStack, left);
+                            ItemMover.setStoredAmount(itemStack, exist - (before - left));
                             player.sendMessage(String.format(
                                 Lang.getString("messages.completed-operation.drawer.transferred_to_drawer"),
                                 name,

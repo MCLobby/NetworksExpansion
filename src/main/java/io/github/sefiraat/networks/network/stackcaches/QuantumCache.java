@@ -75,11 +75,19 @@ public class QuantumCache extends ItemStackCache {
     }
 
     public void setAmount(int amount) {
-        this.amount = amount;
+        if (amount < -2_000_000_000) {
+            this.amount = -amount; // just for data fix in some case, normally nothing will reach -2B
+        } else {
+            this.amount = amount;
+        }
     }
 
     public void setAmount(long amount) {
-        this.amount = amount;
+        if (amount < -2_000_000_000) {
+            this.amount = -amount; // just for data fix in some case, normally nothing will reach -2B
+        } else {
+            this.amount = amount;
+        }
     }
 
     public boolean supportsCustomMaxAmount() {

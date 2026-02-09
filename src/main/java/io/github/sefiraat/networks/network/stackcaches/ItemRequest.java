@@ -28,6 +28,6 @@ public class ItemRequest extends ItemStackCache {
     }
 
     public @NotNull String toString() {
-        return "ItemRequest{" + "itemStack=" + getItemStack() + ", amount=" + amount + '}';
+        return "ItemRequest{" + "itemStack=" + getItemStack() + ", originalAmount=" + originalAmount + ", amount=" + amount + '}';
     }
 }

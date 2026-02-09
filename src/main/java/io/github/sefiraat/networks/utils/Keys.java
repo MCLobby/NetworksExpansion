@@ -65,6 +65,7 @@ public class Keys {
     public static final NamespacedKey STORAGE_UNIT_UPGRADE_TABLE_MODEL = newKey("storage_upgrade_table_model");
     public static final NamespacedKey ITEM_MOVER_ITEM = newKey("item_mover_item");
     public static final NamespacedKey ITEM_MOVER_AMOUNT = newKey("item_mover_amount");
+    public static final NamespacedKey ITEM_MOVER_AMOUNT_LONG = newKey("item_mover_amount_long");
     public static final NamespacedKey EXPANSION_WORKBENCH = newKey("expansion_workbench");
 
     public static final NamespacedKey FACING_PRESET = newKey("facing_preset");

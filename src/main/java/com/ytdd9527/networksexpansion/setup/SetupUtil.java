@@ -152,7 +152,8 @@ public class SetupUtil {
             ExpansionItems.SMART_NETWORK_CRAFTING_GRID_NEW_STYLE.registerThis(),
             ExpansionItems.ITEM_DIFFERENTER.registerThis(),
             ExpansionItems.STORAGE_CARD_CONVERTER.registerThis(),
-            ExpansionItems.FACING_PRESETTER.registerThis());
+            ExpansionItems.FACING_PRESETTER.registerThis(),
+            ExpansionItems.SUPER_TRASH.registerThis());
 
         ExpansionItemsMenus.SUB_MENU_BRIDGE.addTo(
             ExpansionItems.NETWORK_BRIDGE_WHITE.registerThis(),

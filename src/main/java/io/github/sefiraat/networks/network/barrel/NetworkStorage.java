@@ -12,9 +12,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class NetworkStorage extends BarrelIdentity {
-
     public NetworkStorage(@NotNull Location location, ItemStack itemStack, long amount) {
-        super(location, itemStack, amount, BarrelType.NETWORKS);
+        super(location, itemStack, amount, amount, BarrelType.NETWORKS);
+    }
+
+    public NetworkStorage(@NotNull Location location, ItemStack itemStack, long amount, long limit) {
+        super(location, itemStack, amount, limit, BarrelType.NETWORKS);
     }
 
     @Override
