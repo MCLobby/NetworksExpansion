@@ -157,17 +157,22 @@ public class NetworkVanillaGrabber extends NetworkDirectional implements SoftCel
             for (int i = 0; i < 3; i++) {
                 final ItemStack stack = brewerInventory.getContents()[i];
                 if (stack != null && stack.getType() != Material.AIR) {
-                    final PotionMeta potionMeta = (PotionMeta) stack.getItemMeta();
-                    if (Networks.getInstance().getMCVersion().isAtLeast(MinecraftVersion.V1_20_5)) {
-                        if (potionMeta.getBasePotionType() != PotionType.WATER) {
-                            grabItem(blockMenu, stack);
+                    if (stack.getItemMeta() instanceof PotionMeta potionMeta) {
+                        if (Networks.getInstance().getMCVersion().isAtLeast(MinecraftVersion.V1_20_5)) {
+                            if (potionMeta.getBasePotionType() != PotionType.WATER) {
+                                grabItem(blockMenu, stack);
+                                break;
+                            }
+                        } else {
+                            PotionData bpd = potionMeta.getBasePotionData();
+                            if (bpd != null && bpd.getType() != PotionType.WATER) {
+                                grabItem(blockMenu, stack);
+                                break;
+                            }
                         }
                     } else {
-                        PotionData bpd = potionMeta.getBasePotionData();
-                        if (bpd != null && bpd.getType() != PotionType.WATER) {
-                            grabItem(blockMenu, stack);
-                            break;
-                        }
+                        grabItem(blockMenu, stack);
+                        break;
                     }
                 }
             }
