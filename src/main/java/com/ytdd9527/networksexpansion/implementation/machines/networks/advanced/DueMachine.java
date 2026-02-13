@@ -31,6 +31,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +61,22 @@ public class DueMachine extends SpecialSlimefunItem implements AdminDebuggable {
         @NotNull RecipeType recipeType,
         @NotNull ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
+        addItemHandler(new BlockBreakHandler(false, false) {
+            @Override
+            @ParametersAreNonnullByDefault
+            public void onPlayerBreak(BlockBreakEvent event, ItemStack item, List<ItemStack> drops) {
+                final Location location = event.getBlock().getLocation();
+                final BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
+
+                if (blockMenu != null) {
+                    blockMenu.dropItems(location, DUE_ITEM_SLOTS);
+                    blockMenu.dropItems(location, INPUT_SLOTS);
+                    blockMenu.dropItems(location, OUTPUT_SLOTS);
+                }
+
+                Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);
+            }
+        });
     }
 
     private static void onTick(@NotNull Block block) {

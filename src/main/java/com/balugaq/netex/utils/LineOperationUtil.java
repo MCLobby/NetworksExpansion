@@ -302,6 +302,24 @@ public class LineOperationUtil {
                     }
                 }
             }
+            case VOID -> {
+                /*
+                 * Grab all the items or trash it
+                 */
+                for (int slot : slots) {
+                    final ItemStack item = blockMenu.getItemInSlot(slot);
+                    if (item != null && item.getType() != Material.AIR) {
+                        final int exceptedReceive = Math.min(item.getAmount(), limit);
+                        final ItemStack clone = StackUtils.getAsQuantity(item, exceptedReceive);
+                        root.addItemStack0(accessor, clone);
+                        limit -= exceptedReceive - clone.getAmount();
+                        item.setAmount(0);
+                        if (limit <= 0) {
+                            break;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -562,6 +580,14 @@ public class LineOperationUtil {
                             BlockMenuUtil.pushItem(blockMenu, retrieved, slots);
                         }
                     }
+                }
+            }
+            case VOID -> {
+                itemRequest.setAmount(limitQuantity);
+
+                final ItemStack retrieved = root.getItemStack0(accessor, itemRequest);
+                if (retrieved != null && retrieved.getType() != Material.AIR) {
+                    BlockMenuUtil.pushItem(blockMenu, retrieved, slots);
                 }
             }
         }
