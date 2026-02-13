@@ -26,6 +26,7 @@ public class Calculator {
         PRIORITY.put("<<", 3);
         PRIORITY.put(">>", 3);
 
+        PRIORITY.put("**", 3);
         PRIORITY.put("*", 2);
         PRIORITY.put("/", 2);
         PRIORITY.put("+", 1);
@@ -40,8 +41,10 @@ public class Calculator {
         }
 
         String expr = replaceBrackets(expression);
+        expr = replaceUnits(expr);
 
         expr = expr.replaceAll("\\s+", "");
+        expr = expr.replaceAll("_", "");
 
         expr = completeParentheses(expr);
 
@@ -193,6 +196,17 @@ public class Calculator {
             .replaceAll("[\\]\\}）】》]", ")");
     }
 
+    private static String replaceUnits(String expr) {
+        return expr
+            .replaceAll("[Hh]", "*100")
+            .replaceAll("[Kk]", "*1000")
+            .replaceAll("[Ww]", "*10000")
+            .replaceAll("[Mm]", "*1_000_000")
+            .replaceAll("[Bb]", "*1_000_000_000")
+            .replaceAll("[Tt]", "*1_000_000_000_000")
+            .replaceAll("[Qq]", "*1_000_000_000_000_000");
+    }
+
     private static String completeParentheses(String expr) {
         int openCount = 0;
         int closeCount = 0;
@@ -268,6 +282,9 @@ public class Calculator {
                 break;
             case "*":
                 result = a.multiply(b);
+                break;
+            case "**":
+                result = a.pow(b.intValue());
                 break;
             case "/":
                 if (b.compareTo(BigDecimal.ZERO) == 0) {

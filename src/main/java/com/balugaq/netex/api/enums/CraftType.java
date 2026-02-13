@@ -39,7 +39,8 @@ public enum CraftType {
     ORE_CRUSHER(SupportedOreCrusherRecipes.getRecipes(), SupportedOreCrusherRecipes::testRecipe),
     PRESSURE_CHAMBER(SupportedPressureChamberRecipes.getRecipes(), SupportedPressureChamberRecipes::testRecipe),
     QUANTUM_WORKBENCH(SupportedQuantumWorkbenchRecipes.getRecipes(), SupportedQuantumWorkbenchRecipes::testRecipe),
-    SMELTERY(SupportedSmelteryRecipes.getRecipes(), SupportedSmelteryRecipes::testRecipe);
+    SMELTERY(SupportedSmelteryRecipes.getRecipes(), SupportedSmelteryRecipes::testRecipe),
+    AE(Map.of(), (a, b) -> false);
 
     @Getter
     private final Set<Map.Entry<ItemStack[], ItemStack>> recipeEntries;
@@ -66,7 +67,7 @@ public enum CraftType {
     }
 
     public String translate() {
-        return Lang.getString("messages.normal-operation.common.crafter_types." + this.name());
+        return Lang.getString("messages.normal-operation.common.crafter_types." + this.name().toLowerCase());
     }
 
     @FunctionalInterface

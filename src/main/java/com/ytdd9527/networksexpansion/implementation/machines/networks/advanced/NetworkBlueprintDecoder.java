@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.implementation.machines.networks.advanced
 
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.implementation.ae.AEBlueprint;
 import com.balugaq.netex.utils.BlockMenuUtil;
 import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -73,23 +74,15 @@ public class NetworkBlueprintDecoder extends NetworkObject {
                 @NotNull BlockBreakEvent blockBreakEvent,
                 @NotNull ItemStack itemStack,
                 @NotNull List<ItemStack> list) {
+                var location = blockBreakEvent.getBlock().getLocation();
                 BlockMenu blockMenu =
-                    StorageCacheUtils.getMenu(blockBreakEvent.getBlock().getLocation());
+                    StorageCacheUtils.getMenu(location);
                 if (blockMenu == null) {
                     return;
                 }
 
-                for (int slot : getOutputSlots()) {
-                    ItemStack item = blockMenu.getItemInSlot(slot);
-                    if (item != null && item.getType() != Material.AIR) {
-                        blockMenu.getLocation().getWorld().dropItemNaturally(blockMenu.getLocation(), item);
-                    }
-                }
-
-                ItemStack input = blockMenu.getItemInSlot(getInputSlot());
-                if (input != null && input.getType() != Material.AIR) {
-                    blockMenu.getLocation().getWorld().dropItemNaturally(blockMenu.getLocation(), input);
-                }
+                blockMenu.dropItems(location, getOutputSlots());
+                blockMenu.dropItems(location, getInputSlot());
             }
         });
     }
@@ -146,6 +139,12 @@ public class NetworkBlueprintDecoder extends NetworkObject {
         if (!(item instanceof AbstractBlueprint)) {
             player.sendMessage(Lang.getString("messages.unsupported-operation.decoder.not_blueprint"));
             sendFeedback(menu.getLocation(), FeedbackType.NOT_BLUEPRINT);
+            return;
+        }
+
+        if (item instanceof AEBlueprint) {
+            player.sendMessage(Lang.getString("messages.unsupported-operation.decoder.unsupported_blueprint"));
+            sendFeedback(menu.getLocation(), FeedbackType.UNSUPPORTED_BLUEPRINT);
             return;
         }
 

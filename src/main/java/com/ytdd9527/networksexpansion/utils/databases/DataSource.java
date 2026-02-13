@@ -17,7 +17,6 @@ import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -28,6 +27,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -69,12 +69,12 @@ public class DataSource {
         bs.writeObject(item);
 
         bs.close();
-        return Base64Coder.encodeLines(stream.toByteArray());
+        return Base64.getEncoder().encodeToString(stream.toByteArray());
     }
 
     @SuppressWarnings("deprecation")
     public static ItemStack getItemStack(@NotNull String base64Str) throws IOException, ClassNotFoundException {
-        ByteArrayInputStream stream = new ByteArrayInputStream(Base64Coder.decodeLines(base64Str));
+        ByteArrayInputStream stream = new ByteArrayInputStream(Base64.getMimeDecoder().decode(base64Str));
         BukkitObjectInputStream bs = new BukkitObjectInputStream(stream);
         ItemStack re = (ItemStack) bs.readObject();
         bs.close();
