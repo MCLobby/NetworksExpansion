@@ -14,6 +14,7 @@ public class ListenerManager {
         addListener(new ExplosiveToolListener());
         addListener(new SyncListener());
         if (Networks.getSupportedPluginManager().isJustEnoughGuide()) {
+            // todo: remove and deprecate
             try {
                 addListener(new JEGCompatibleListener());
             } catch (Throwable ignored) {

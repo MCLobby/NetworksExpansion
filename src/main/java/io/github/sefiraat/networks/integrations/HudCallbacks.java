@@ -1,8 +1,11 @@
 package io.github.sefiraat.networks.integrations;
 
+import com.balugaq.netex.api.data.StorageUnitData;
+import com.balugaq.netex.core.guide.QuantumSlimeHUDDisplayOption;
 import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.implementation.machines.networks.advanced.AdvancedGreedyBlock;
+import com.ytdd9527.networksexpansion.implementation.machines.unit.NetworksDrawer;
 import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.schntgaispock.slimehud.SlimeHUD;
 import io.github.schntgaispock.slimehud.util.HudBuilder;
@@ -10,10 +13,12 @@ import io.github.schntgaispock.slimehud.waila.HudController;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.sefiraat.networks.slimefun.network.NetworkGreedyBlock;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
+import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,7 +36,7 @@ public class HudCallbacks {
                 return EMPTY;
             }
 
-            return format(cache.getItemStack(), cache.getAmountLong(), cache.getLimitLong());
+            return format(request.getPlayer(), cache.getItemStack(), cache.getAmountLong(), cache.getLimitLong());
         });
 
         controller.registerCustomHandler(NetworkGreedyBlock.class, request -> {
@@ -50,10 +55,11 @@ public class HudCallbacks {
             // Only check type to improve performance
             int amount =
                 itemStack == null || itemStack.getType() != templateStack.getType() ? 0 : itemStack.getAmount();
-            return format(templateStack, amount, templateStack.getMaxStackSize());
+            return format(request.getPlayer(), templateStack, amount, templateStack.getMaxStackSize());
         });
 
         controller.registerCustomHandler(AdvancedGreedyBlock.class, request -> {
+            Player player = request.getPlayer();
             Location location = request.getLocation();
             BlockMenu menu = StorageCacheUtils.getMenu(location);
             if (menu == null) {
@@ -74,16 +80,34 @@ public class HudCallbacks {
                 }
             }
 
-            return format(templateStack, amount, templateStack.getMaxStackSize());
+            return format(player, templateStack, amount, templateStack.getMaxStackSize());
         });
+
+        controller.registerCustomHandler(NetworksDrawer.class, request -> {
+            Player player = request.getPlayer();
+            Location location = request.getLocation();
+            StorageUnitData data = NetworksDrawer.getStorageData(location);
+            if (data == null) return EMPTY;
+            if (data.getStoredItemsDirectly().isEmpty()) return EMPTY;
+
+            double usedAmountPercent = (double) data.getTotalAmountLong() / (data.getSizeType().getMaxItemCount() * data.getSizeType().getEachMaxSize());
+            return TextUtil.GRAY + "| " + TextUtil.WHITE + data.getStoredTypeCount() + "/" + data.getSizeType().getMaxItemCount() + " " + TextUtil.GRAY + "| " + (((int)(usedAmountPercent * 1000)) / 10) + "%";
+        });
+
+        SlimefunGuideSettings.addOption(QuantumSlimeHUDDisplayOption.instance());
     }
 
-    private static @NotNull String format(@NotNull ItemStack itemStack, long amount, long limit) {
+    private static @NotNull String format(@NotNull Player player, @NotNull ItemStack itemStack, long amount, long limit) {
         String amountStr = HudBuilder.getAbbreviatedNumber(amount);
         String limitStr = HudBuilder.getAbbreviatedNumber(limit);
         String itemName = ItemStackHelper.getDisplayName(itemStack);
 
-        return TextUtil.GRAY + "| " + TextUtil.WHITE + itemName + " " + TextUtil.GRAY + "| " + amountStr + "/"
-            + limitStr;
+        String raw = TextUtil.GRAY + "| " + TextUtil.WHITE + itemName + " " + TextUtil.GRAY + "| ";
+
+        if (QuantumSlimeHUDDisplayOption.isEnabled(player)) {
+            return raw + amountStr + "/" + limitStr;
+        } else {
+            return raw + (((int)(amount / limit * 1000)) / 10) + "%";
+        }
     }
 }

@@ -1256,9 +1256,9 @@ public class ExpansionRecipes {
     };
 
     public static final ItemStack[] STORAGE_UNIT_UPGRADE_TABLE = new ItemStack[]{
-        AI_CORE.getItem(), ADVANCED_NANOBOTS.getItem(), AI_CORE.getItem(),
-        ADVANCED_NANOBOTS.getItem(), NETWORK_QUANTUM_WORKBENCH.getItem(), ADVANCED_NANOBOTS.getItem(),
-        AI_CORE.getItem(), ADVANCED_NANOBOTS.getItem(), AI_CORE.getItem()
+        OPTIC_GLASS.getItem(), SIMPLE_NANOBOTS.getItem(), OPTIC_GLASS.getItem(),
+        SIMPLE_NANOBOTS.getItem(), NETWORK_QUANTUM_WORKBENCH.getItem(), SIMPLE_NANOBOTS.getItem(),
+        OPTIC_GLASS.getItem(), SIMPLE_NANOBOTS.getItem(), OPTIC_GLASS.getItem()
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_1 = new ItemStack[]{
         OPTIC_CABLE.getItem(), OPTIC_CABLE.getItem(), OPTIC_CABLE.getItem(),

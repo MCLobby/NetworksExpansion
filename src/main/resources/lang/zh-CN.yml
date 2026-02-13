@@ -55,7 +55,7 @@ messages:
     success: "成功"
     working: "工作中"
     not_allowed_item: "不被允许的物品"
-    soft_cell_banned: "因网络中存在网络单元，此次执行被限制"
+    soft_cell_banned: "因网络连接了网络单元，此次执行被限制"
     ticking: "Ticking"
     transfer_ticking: "Transfer Ticking"
     transfer_try_push_item_with_counter: "尝试推送物品(计数器)"
@@ -70,6 +70,7 @@ messages:
     no_target_network_found: "未找到目标网络"
     same_network: "不能向同一网络发送物品"
     no_menu: "未找到菜单"
+    unsupported_blueprint: "不支持的蓝图"
   blueprint:
     title: "<click_info>已指定配方"
     empty: "<passive>空"
@@ -228,6 +229,7 @@ messages:
         pressure_chamber: "压力机"
         quantum_workbench: "网络量子工作台"
         smeltery: "冶炼炉"
+        ae: "AE"
     quantum_cache:
       empty: "空"
       stored_item: "<click_info>物品: %s"
@@ -393,6 +395,7 @@ messages:
     decoder:
       no_input: "&c没有输入蓝图"
       not_blueprint: "&c该物品不是蓝图"
+      unsupported_blueprint: "&c不支持的蓝图"
       invalid_blueprint: "&c该物品没有蓝图信息"
       output_full: "&c输出栏不足"
     storage_unit_upgrade_table:
@@ -702,6 +705,7 @@ icons:
     last_only: "仅末位"
     first_stop: "首位阻断"
     lazy: "懒惰模式"
+    void: "清空模式"
   mechanism:
     transfers:
       data_title: "&a⇩传输数据⇩"
@@ -1158,9 +1162,9 @@ items:
       - "<warning> 网络拓展开发版不接受 GitHub Issues"
       - "<warning> 网络拓展开发版不接受 GitHub PR"
       - "<passive> 版本信息:"
-      - "<passive> 网络拓展版本: v2.1.78"
+      - "<passive> 网络拓展版本: v2.1.79"
       - "<passive> 版本状态: 稳定版"
-      - "<passive> 版本更新时间: 2026-2-10 13:35:00"
+      - "<passive> 版本更新时间: 2026-2-13 20:33:03"
       - "<passive> 开发状态: 更新中"
       - "<passive> 开发者（们）: ytdd9527, balugaq"
       - "<passive> 开发者 GitHub 页面: <click_info>https://github.com/ytdd9527"

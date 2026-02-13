@@ -36,6 +36,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -58,6 +59,20 @@ public class SmartPusher extends SpecialSlimefunItem implements AdminDebuggable 
         @NotNull RecipeType recipeType,
         @NotNull ItemStack @NotNull [] recipe) {
         super(itemGroup, item, recipeType, recipe);
+        addItemHandler(new BlockBreakHandler(false, false) {
+            @Override
+            @ParametersAreNonnullByDefault
+            public void onPlayerBreak(BlockBreakEvent event, ItemStack item, List<ItemStack> drops) {
+                final Location location = event.getBlock().getLocation();
+                final BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
+
+                if (blockMenu != null) {
+                    blockMenu.dropItems(location, TEMPLATE_SLOTS);
+                }
+
+                Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);
+            }
+        });
     }
 
     @Nullable

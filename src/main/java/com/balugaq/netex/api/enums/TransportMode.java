@@ -11,7 +11,8 @@ public enum TransportMode {
     FIRST_ONLY,
     LAST_ONLY,
     FIRST_STOP,
-    LAZY;
+    LAZY,
+    VOID;
 
     public @NotNull String getName() {
         return TextUtil.colorRandomString(getRawName());
@@ -26,6 +27,7 @@ public enum TransportMode {
             case LAST_ONLY -> Lang.getString("icons.transport_mode.last_only");
             case FIRST_STOP -> Lang.getString("icons.transport_mode.first_stop");
             case LAZY -> Lang.getString("icons.transport_mode.lazy");
+            case VOID -> Lang.getString("icons.transport_mode.void");
         };
     }
 
