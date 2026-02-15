@@ -337,8 +337,10 @@ public class StackUtils {
                 return true;
             }
 
-            if (instanceOne.getDamage() != instanceTwo.getDamage()) {
-                return true;
+            if (instanceOne.hasDamage()) {
+                if (instanceOne.getDamage() != instanceTwo.getDamage()) {
+                    return true;
+                }
             }
         }
 
@@ -347,8 +349,10 @@ public class StackUtils {
                 return true;
             }
 
-            if (instanceOne.getRepairCost() != instanceTwo.getRepairCost()) {
-                return true;
+            if (instanceOne.hasRepairCost()) {
+                if (instanceOne.getRepairCost() != instanceTwo.getRepairCost()) {
+                    return true;
+                }
             }
         }
 
@@ -358,12 +362,10 @@ public class StackUtils {
                 return true;
             }
 
-            if (!instanceOne.hasVariant() || !instanceTwo.hasVariant()) {
-                return true;
-            }
-
-            if (instanceOne.getVariant() != instanceTwo.getVariant()) {
-                return true;
+            if (instanceOne.hasVariant()) {
+                if (instanceOne.getVariant() != instanceTwo.getVariant()) {
+                    return true;
+                }
             }
         }
 
@@ -391,8 +393,10 @@ public class StackUtils {
                 return true;
             }
 
-            if (!instanceOne.getBlockState().equals(instanceTwo.getBlockState())) {
-                return true;
+            if (instanceOne.hasBlockState()) {
+                if (!instanceOne.getBlockState().equals(instanceTwo.getBlockState())) {
+                    return true;
+                }
             }
         }
 
@@ -420,8 +424,10 @@ public class StackUtils {
             if (instanceOne.hasItems() != instanceTwo.hasItems()) {
                 return true;
             }
-            if (!instanceOne.getItems().equals(instanceTwo.getItems())) {
-                return true;
+            if (instanceOne.hasItems()) {
+                if (!instanceOne.getItems().equals(instanceTwo.getItems())) {
+                    return true;
+                }
             }
         }
 
@@ -430,8 +436,10 @@ public class StackUtils {
             if (instanceOne.isLodestoneTracked() != instanceTwo.isLodestoneTracked()) {
                 return true;
             }
-            if (!Objects.equals(instanceOne.getLodestone(), instanceTwo.getLodestone())) {
-                return true;
+            if (instanceOne.isLodestoneTracked()) {
+                if (!Objects.equals(instanceOne.getLodestone(), instanceTwo.getLodestone())) {
+                    return true;
+                }
             }
         }
 
@@ -440,8 +448,10 @@ public class StackUtils {
             if (instanceOne.hasChargedProjectiles() != instanceTwo.hasChargedProjectiles()) {
                 return true;
             }
-            if (!instanceOne.getChargedProjectiles().equals(instanceTwo.getChargedProjectiles())) {
-                return true;
+            if (instanceOne.hasChargedProjectiles()) {
+                if (!instanceOne.getChargedProjectiles().equals(instanceTwo.getChargedProjectiles())) {
+                    return true;
+                }
             }
         }
 
@@ -451,8 +461,10 @@ public class StackUtils {
             if (instanceOne.hasStoredEnchants() != instanceTwo.hasStoredEnchants()) {
                 return true;
             }
-            if (!instanceOne.getStoredEnchants().equals(instanceTwo.getStoredEnchants())) {
-                return true;
+            if (instanceOne.hasStoredEnchants()) {
+                if (!instanceOne.getStoredEnchants().equals(instanceTwo.getStoredEnchants())) {
+                    return true;
+                }
             }
         }
 
@@ -491,14 +503,20 @@ public class StackUtils {
             if (instanceOne.hasColor() != instanceTwo.hasColor()) {
                 return true;
             }
-            if (!Objects.equals(instanceOne.getMapView(), instanceTwo.getMapView())) {
-                return true;
+            if (instanceOne.hasMapView()) {
+                if (!Objects.equals(instanceOne.getMapView(), instanceTwo.getMapView())) {
+                    return true;
+                }
             }
-            if (!Objects.equals(instanceOne.getLocationName(), instanceTwo.getLocationName())) {
-                return true;
+            if (instanceOne.hasLocationName()) {
+                if (!Objects.equals(instanceOne.getLocationName(), instanceTwo.getLocationName())) {
+                    return true;
+                }
             }
-            if (!Objects.equals(instanceOne.getColor(), instanceTwo.getColor())) {
-                return true;
+            if (instanceOne.hasColor()) {
+                if (!Objects.equals(instanceOne.getColor(), instanceTwo.getColor())) {
+                    return true;
+                }
             }
         }
 
@@ -519,11 +537,15 @@ public class StackUtils {
             if (instanceOne.hasColor() != instanceTwo.hasColor()) {
                 return true;
             }
-            if (!Objects.equals(instanceOne.getColor(), instanceTwo.getColor())) {
-                return true;
+            if (instanceOne.hasColor()) {
+                if (!Objects.equals(instanceOne.getColor(), instanceTwo.getColor())) {
+                    return true;
+                }
             }
-            if (!instanceOne.getCustomEffects().equals(instanceTwo.getCustomEffects())) {
-                return true;
+            if (instanceOne.hasCustomEffects()) {
+                if (!instanceOne.getCustomEffects().equals(instanceTwo.getCustomEffects())) {
+                    return true;
+                }
             }
         }
 
@@ -545,8 +567,10 @@ public class StackUtils {
                 return true;
             }
 
-            if (!Objects.equals(instanceOne.getCustomEffects(), instanceTwo.getCustomEffects())) {
-                return true;
+            if (instanceOne.hasCustomEffects()) {
+                if (!Objects.equals(instanceOne.getCustomEffects(), instanceTwo.getCustomEffects())) {
+                    return true;
+                }
             }
         }
 
@@ -556,17 +580,16 @@ public class StackUtils {
             if (instanceOne.hasVariant() != instanceTwo.hasVariant()) {
                 return true;
             }
-            if (!instanceOne.hasVariant() || !instanceTwo.hasVariant()) {
-            	return false;
-            }
-            if (!instanceOne.getPattern().equals(instanceTwo.getPattern())) {
-                return true;
-            }
-            if (!instanceOne.getBodyColor().equals(instanceTwo.getBodyColor())) {
-                return true;
-            }
-            if (!instanceOne.getPatternColor().equals(instanceTwo.getPatternColor())) {
-                return true;
+            if (instanceOne.hasVariant()) {
+                if (!instanceOne.getPattern().equals(instanceTwo.getPattern())) {
+                    return true;
+                }
+                if (!instanceOne.getBodyColor().equals(instanceTwo.getBodyColor())) {
+                    return true;
+                }
+                if (!instanceOne.getPatternColor().equals(instanceTwo.getPatternColor())) {
+                    return true;
+                }
             }
         }
 
@@ -576,8 +599,10 @@ public class StackUtils {
                 return true;
             }
 
-            if (!Objects.equals(instanceOne.getRecipes(), instanceTwo.getRecipes())) {
-                return true;
+            if (instanceOne.hasRecipes()) {
+                if (!Objects.equals(instanceOne.getRecipes(), instanceTwo.getRecipes())) {
+                    return true;
+                }
             }
         }
 
@@ -613,8 +638,10 @@ public class StackUtils {
                         return true;
                     }
 
-                    if (instanceOne.getAmplifier() != instanceTwo.getAmplifier()) {
-                        return true;
+                    if (instanceOne.hasAmplifier()) {
+                        if (instanceOne.getAmplifier() != instanceTwo.getAmplifier()) {
+                            return true;
+                        }
                     }
                 }
                 // Shield
