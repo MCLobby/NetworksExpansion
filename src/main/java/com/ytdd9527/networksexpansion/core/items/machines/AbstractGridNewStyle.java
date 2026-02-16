@@ -269,9 +269,9 @@ public abstract class AbstractGridNewStyle extends AbstractGrid implements Keybi
                 return;
             }
 
-            // Reset selected page if it no longer exists due to items being removed
+            // Rolldown selected page if it no longer exists due to items being removed
             if (gridCache.getPage() > pages) {
-                gridCache.setPage(0);
+                gridCache.setPage(pages);
             }
 
             int start = gridCache.getPage() * getDisplaySlots().length;
@@ -329,9 +329,9 @@ public abstract class AbstractGridNewStyle extends AbstractGrid implements Keybi
                 return;
             }
 
-            // Reset selected page if it no longer exists due to items being removed
+            // Rolldown selected page if it no longer exists due to items being removed
             if (gridCache.getPage() > pages) {
-                gridCache.setPage(0);
+                gridCache.setPage(pages);
             }
 
             final int start = gridCache.getPage() * getDisplaySlots().length;

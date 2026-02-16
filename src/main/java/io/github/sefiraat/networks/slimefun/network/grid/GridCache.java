@@ -1,10 +1,12 @@
 package io.github.sefiraat.networks.slimefun.network.grid;
 
+import com.balugaq.netex.utils.Lang;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Range;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +89,14 @@ public class GridCache {
         NUMBER_REVERSE,
         ADDON;
 
+        public @NotNull SortOrder next(@Range(from = 1, to = 4) int limit) {
+            if (this.next().ordinal() + 1 >= limit) {
+                return ALPHABETICAL;
+            }
+
+            return this.next();
+        }
+
         public @NotNull SortOrder next() {
             return switch (this) {
                 case ALPHABETICAL -> NUMBER;
@@ -96,6 +106,14 @@ public class GridCache {
             };
         }
 
+        public @NotNull SortOrder previous(@Range(from = 1, to = 4) int limit) {
+            if (this.previous().ordinal() + 1 >= limit) {
+                return values()[limit - 1];
+            }
+
+            return this.previous();
+        }
+
         public @NotNull SortOrder previous() {
             return switch (this) {
                 case ALPHABETICAL -> ADDON;
@@ -103,6 +121,10 @@ public class GridCache {
                 case NUMBER_REVERSE -> NUMBER;
                 case ADDON -> NUMBER_REVERSE;
             };
+        }
+
+        public String getTranslationName() {
+            return Lang.getString("messages.normal-operation.sort_orders." + name().toLowerCase());
         }
     }
 
