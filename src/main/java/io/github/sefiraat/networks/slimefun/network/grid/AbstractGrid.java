@@ -200,9 +200,9 @@ public abstract class AbstractGrid extends NetworkObject {
 
         blockMenu.replaceExistingItem(getFilterSlot(), getFilterStack(gridCache.getFilter()));
 
-        // Reset selected page if it no longer exists due to items being removed
+        // Rolldown selected page if it no longer exists due to items being removed
         if (gridCache.getPage() > pages) {
-            gridCache.setPage(0);
+            gridCache.setPage(pages);
         }
 
         int start = gridCache.getPage() * getDisplaySlots().length;
