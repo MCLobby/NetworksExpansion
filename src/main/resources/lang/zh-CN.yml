@@ -637,6 +637,78 @@ icons:
       name: "&6询问数量并取出指定数量个物品至光标"
     ask-inv:
       name: "&6询问数量并取出指定数量个物品至背包"
+    hanginggridnewstyle-store-cursor:
+      name: "&6存入光标物品"
+    hanginggridnewstyle-one-cursor:
+      name: "&6取出1个物品至光标"
+    hanginggridnewstyle-stack-cursor:
+      name: "&6取出1组物品至光标"
+    hanginggridnewstyle-stack-inv:
+      name: "&6取出1组物品至背包"
+    hanginggridnewstyle-one-inv:
+      name: "&6取出1个物品至背包"
+    hanginggridnewstyle-custom-cursor:
+      name: "&6取出自定义数量个物品至光标"
+    hanginggridnewstyle-custom-inv:
+      name: "&6取出自定义数量个物品至背包"
+    hanginggridnewstyle-ask-cursor:
+      name: "&6询问数量并取出指定数量个物品至光标"
+    hanginggridnewstyle-ask-inv:
+      name: "&6询问数量并取出指定数量个物品至背包"
+    networkgridnewstyle-store-cursor:
+      name: "&6存入光标物品"
+    networkgridnewstyle-one-cursor:
+      name: "&6取出1个物品至光标"
+    networkgridnewstyle-stack-cursor:
+      name: "&6取出1组物品至光标"
+    networkgridnewstyle-stack-inv:
+      name: "&6取出1组物品至背包"
+    networkgridnewstyle-one-inv:
+      name: "&6取出1个物品至背包"
+    networkgridnewstyle-custom-cursor:
+      name: "&6取出自定义数量个物品至光标"
+    networkgridnewstyle-custom-inv:
+      name: "&6取出自定义数量个物品至背包"
+    networkgridnewstyle-ask-cursor:
+      name: "&6询问数量并取出指定数量个物品至光标"
+    networkgridnewstyle-ask-inv:
+      name: "&6询问数量并取出指定数量个物品至背包"
+    networkcraftinggridnewstyle-store-cursor:
+      name: "&6存入光标物品"
+    networkcraftinggridnewstyle-one-cursor:
+      name: "&6取出1个物品至光标"
+    networkcraftinggridnewstyle-stack-cursor:
+      name: "&6取出1组物品至光标"
+    networkcraftinggridnewstyle-stack-inv:
+      name: "&6取出1组物品至背包"
+    networkcraftinggridnewstyle-one-inv:
+      name: "&6取出1个物品至背包"
+    networkcraftinggridnewstyle-custom-cursor:
+      name: "&6取出自定义数量个物品至光标"
+    networkcraftinggridnewstyle-custom-inv:
+      name: "&6取出自定义数量个物品至背包"
+    networkcraftinggridnewstyle-ask-cursor:
+      name: "&6询问数量并取出指定数量个物品至光标"
+    networkcraftinggridnewstyle-ask-inv:
+      name: "&6询问数量并取出指定数量个物品至背包"
+    smartnetworkcraftinggridnewstyle-store-cursor:
+      name: "&6存入光标物品"
+    smartnetworkcraftinggridnewstyle-one-cursor:
+      name: "&6取出1个物品至光标"
+    smartnetworkcraftinggridnewstyle-stack-cursor:
+      name: "&6取出1组物品至光标"
+    smartnetworkcraftinggridnewstyle-stack-inv:
+      name: "&6取出1组物品至背包"
+    smartnetworkcraftinggridnewstyle-one-inv:
+      name: "&6取出1个物品至背包"
+    smartnetworkcraftinggridnewstyle-custom-cursor:
+      name: "&6取出自定义数量个物品至光标"
+    smartnetworkcraftinggridnewstyle-custom-inv:
+      name: "&6取出自定义数量个物品至背包"
+    smartnetworkcraftinggridnewstyle-ask-cursor:
+      name: "&6询问数量并取出指定数量个物品至光标"
+    smartnetworkcraftinggridnewstyle-ask-inv:
+      name: "&6询问数量并取出指定数量个物品至背包"
   filter-mode-black-list:
     name: "&6黑名单模式"
     lore:
