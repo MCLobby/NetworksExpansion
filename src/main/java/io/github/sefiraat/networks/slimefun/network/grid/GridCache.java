@@ -1,5 +1,6 @@
 package io.github.sefiraat.networks.slimefun.network.grid;
 
+import com.balugaq.netex.utils.Lang;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
@@ -120,6 +121,10 @@ public class GridCache {
                 case NUMBER_REVERSE -> NUMBER;
                 case ADDON -> NUMBER_REVERSE;
             };
+        }
+
+        public String getTranslationName() {
+            return Lang.getString("messages.normal-operation.sort_orders." + name().toLowerCase());
         }
     }
 

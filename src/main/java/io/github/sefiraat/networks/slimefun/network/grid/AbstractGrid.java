@@ -167,6 +167,12 @@ public abstract class AbstractGrid extends NetworkObject {
         return clone;
     }
 
+    public ItemStack getSortOrderStack(GridCache.SortOrder sortOrder) {
+        ItemStack clone = getFilterStack().clone();
+        clone.setLore(List.of(sortOrder.getTranslationName()));
+        return clone;
+    }
+
     @SuppressWarnings("deprecation")
     protected void updateDisplay(@NotNull BlockMenu blockMenu) {
         // No viewer - lets not bother updating
@@ -199,6 +205,7 @@ public abstract class AbstractGrid extends NetworkObject {
             return;
         }
 
+        blockMenu.replaceExistingItem(getChangeSort(), getSortOrderStack(gridCache.getSortOrder()));
         blockMenu.replaceExistingItem(getFilterSlot(), getFilterStack(gridCache.getFilter()));
 
         // Rolldown selected page if it no longer exists due to items being removed

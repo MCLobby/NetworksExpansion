@@ -332,6 +332,11 @@ messages:
       pasted_config: "&a设置成功!"
     grid:
       filter_set: "<success>已启用过滤器"
+      sort_orders:
+        alphabetical: "按字母顺序排序"
+        number: "按物品数量排序"
+        number_reverse: "按物品数量倒序排序"
+        addon: "按物品所属附属字母顺序排序"
     quantum_storage:
       changed_custom_max_amount: "<passive>[<gold>网络拓展<passive>] <success>已更改容量: %s"
     remote:
