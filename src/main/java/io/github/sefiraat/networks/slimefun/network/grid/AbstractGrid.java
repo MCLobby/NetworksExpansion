@@ -43,6 +43,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Range;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.text.MessageFormat;
@@ -562,6 +563,18 @@ public abstract class AbstractGrid extends NetworkObject {
         boolean doubleClick) {
         if (!doubleClick) {
             receiveItem(root, player, itemStack, action, blockMenu);
+        }
+    }
+
+    protected static void updateSortOrder(GridCache gridCache, ClickAction action, @Range(from = 1, to = 4) int limit) {
+        if (action.isShiftClicked() && !action.isRightClicked()) {
+            gridCache.setSortOrder(GridCache.SortOrder.ALPHABETICAL);
+        } else {
+            if (action.isRightClicked()) {
+                gridCache.setSortOrder(gridCache.getSortOrder().previous(limit));
+            } else {
+                gridCache.setSortOrder(gridCache.getSortOrder().next(limit));
+            }
         }
     }
 }
