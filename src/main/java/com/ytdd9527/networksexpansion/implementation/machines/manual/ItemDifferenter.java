@@ -10,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -55,7 +56,7 @@ public class ItemDifferenter extends NetworkObject {
         9,      11, 12,     14, 15,     17,
         18, 19, 20, 21,     23, 24, 25, 26,
     };
-    private static final int ITEM_1_SLOT = 11;
+    private static final int ITEM_1_SLOT = 10;
     private static final int DIFF_SLOT = 13;
     private static final int ITEM_2_SLOT = 16;
     private static final int RESULT_SLOT = 22;
@@ -91,6 +92,9 @@ public class ItemDifferenter extends NetworkObject {
 
             @Override
             public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
+                for (int slot : BACKGROUND_SLOTS) {
+                    menu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
+                }
                 menu.addMenuClickHandler(DIFF_SLOT, (p, s, i, a) -> {
                     ItemStack i1 = menu.getItemInSlot(ITEM_1_SLOT);
                     ItemStack i2 = menu.getItemInSlot(ITEM_2_SLOT);
@@ -99,7 +103,7 @@ public class ItemDifferenter extends NetworkObject {
                     }
                     return setResult(menu, calc(i1, i2), i1.isSimilar(i2));
                 });
-                menu.addMenuClickHandler(RESULT_SLOT, (p, s, i, a) -> false);
+                menu.addMenuClickHandler(RESULT_SLOT, ChestMenuUtils.getEmptyClickHandler());
             }
 
             @Override

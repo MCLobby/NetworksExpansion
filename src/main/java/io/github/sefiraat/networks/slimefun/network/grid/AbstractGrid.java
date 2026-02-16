@@ -324,6 +324,9 @@ public abstract class AbstractGrid extends NetworkObject {
                         BlockMenu actualMenu = data.getBlockMenu();
                         if (actualMenu != null) {
                             actualMenu.open(player);
+                            if (gridCache.getMaxPages() >= 1) {
+                                gridCache.setPage(1);
+                            }
                             updateDisplay(actualMenu);
                         }
                     }
