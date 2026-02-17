@@ -45,6 +45,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.jetbrains.annotations.Range;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.text.MessageFormat;
@@ -172,6 +173,12 @@ public abstract class AbstractGrid extends NetworkObject {
         return clone;
     }
 
+    public ItemStack getSortOrderStack(GridCache.SortOrder sortOrder) {
+        ItemStack clone = getFilterStack().clone();
+        clone.setLore(List.of(sortOrder.getTranslationName()));
+        return clone;
+    }
+
     @SuppressWarnings("deprecation")
     @Async
     protected void updateDisplay(@NotNull BlockMenu blockMenu) {
@@ -205,11 +212,12 @@ public abstract class AbstractGrid extends NetworkObject {
             return;
         }
 
+        blockMenu.replaceExistingItem(getChangeSort(), getSortOrderStack(gridCache.getSortOrder()));
         blockMenu.replaceExistingItem(getFilterSlot(), getFilterStack(gridCache.getFilter()));
 
-        // Reset selected page if it no longer exists due to items being removed
+        // Rolldown selected page if it no longer exists due to items being removed
         if (gridCache.getPage() > pages) {
-            gridCache.setPage(0);
+            gridCache.setPage(pages);
         }
 
         int start = gridCache.getPage() * getDisplaySlots().length;
@@ -338,6 +346,9 @@ public abstract class AbstractGrid extends NetworkObject {
                         BlockMenu actualMenu = data.getBlockMenu();
                         if (actualMenu != null) {
                             actualMenu.open(player);
+                            if (gridCache.getMaxPages() >= 1) {
+                                gridCache.setPage(1);
+                            }
                             updateDisplay(actualMenu);
                         }
                     }
@@ -596,6 +607,18 @@ public abstract class AbstractGrid extends NetworkObject {
         boolean doubleClick) {
         if (!doubleClick) {
             receiveItem(root, player, itemStack, action, blockMenu);
+        }
+    }
+
+    protected static void updateSortOrder(GridCache gridCache, ClickAction action, @Range(from = 1, to = 4) int limit) {
+        if (action.isShiftClicked() && !action.isRightClicked()) {
+            gridCache.setSortOrder(GridCache.SortOrder.ALPHABETICAL);
+        } else {
+            if (action.isRightClicked()) {
+                gridCache.setSortOrder(gridCache.getSortOrder().previous(limit));
+            } else {
+                gridCache.setSortOrder(gridCache.getSortOrder().next(limit));
+            }
         }
     }
 }
