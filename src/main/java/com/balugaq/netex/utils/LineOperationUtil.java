@@ -320,6 +320,54 @@ public class LineOperationUtil {
                     }
                 }
             }
+            case SPECIFIED_QUANTITY -> {
+                java.util.Map<Integer, ItemStack> itemSamples = new java.util.LinkedHashMap<>();
+                java.util.Map<Integer, Integer> itemTotals = new java.util.LinkedHashMap<>();
+                int typeIndex = 0;
+                for (int slot : slots) {
+                    final ItemStack item = blockMenu.getItemInSlot(slot);
+                    if (item == null || item.getType() == Material.AIR) {
+                        continue;
+                    }
+                    boolean found = false;
+                    for (var entry : itemSamples.entrySet()) {
+                        if (StackUtils.itemsMatch(entry.getValue(), item)) {
+                            itemTotals.merge(entry.getKey(), item.getAmount(), Integer::sum);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        itemSamples.put(typeIndex, StackUtils.getAsQuantity(item, 1));
+                        itemTotals.put(typeIndex, item.getAmount());
+                        typeIndex++;
+                    }
+                }
+                for (var entry : itemSamples.entrySet()) {
+                    final int total = itemTotals.get(entry.getKey());
+                    if (total <= limitQuantity) {
+                        continue;
+                    }
+                    int toRemove = total - limitQuantity;
+                    for (int i = slots.length - 1; i >= 0 && toRemove > 0; i--) {
+                        final ItemStack item = blockMenu.getItemInSlot(slots[i]);
+                        if (item == null || item.getType() == Material.AIR) {
+                            continue;
+                        }
+                        if (!StackUtils.itemsMatch(entry.getValue(), item)) {
+                            continue;
+                        }
+                        final int grabFromSlot = Math.min(item.getAmount(), toRemove);
+                        final int beforeAmount = item.getAmount();
+                        item.setAmount(grabFromSlot);
+                        root.addItemStack0(accessor, item);
+                        final int afterAmount = item.getAmount();
+                        final int actualGrabbed = grabFromSlot - afterAmount;
+                        item.setAmount(beforeAmount - actualGrabbed);
+                        toRemove -= actualGrabbed;
+                    }
+                }
+            }
         }
     }
 
@@ -588,6 +636,38 @@ public class LineOperationUtil {
                 final ItemStack retrieved = root.getItemStack0(accessor, itemRequest);
                 if (retrieved != null && retrieved.getType() != Material.AIR) {
                     BlockMenuUtil.pushItem(blockMenu, retrieved, slots);
+                }
+            }
+            case SPECIFIED_QUANTITY -> {
+                int existingCount = 0;
+                for (int slot : slots) {
+                    final ItemStack itemStack = blockMenu.getItemInSlot(slot);
+                    if (itemStack != null && itemStack.getType() != Material.AIR) {
+                        if (StackUtils.itemsMatch(itemRequest, itemStack)) {
+                            existingCount += itemStack.getAmount();
+                        }
+                    }
+                }
+                if (existingCount < limitQuantity) {
+                    final int deficit = limitQuantity - existingCount;
+                    int availableSpace = 0;
+                    for (int slot : slots) {
+                        final ItemStack itemStack = blockMenu.getItemInSlot(slot);
+                        if (itemStack == null || itemStack.getType() == Material.AIR) {
+                            availableSpace += clone.getMaxStackSize();
+                        } else if (StackUtils.itemsMatch(itemRequest, itemStack)) {
+                            availableSpace += Math.max(0, itemStack.getMaxStackSize() - itemStack.getAmount());
+                        }
+                    }
+                    if (availableSpace <= 0) {
+                        return;
+                    }
+                    final int toRequest = Math.min(deficit, availableSpace);
+                    itemRequest.setAmount(toRequest);
+                    final ItemStack retrieved = root.getItemStack0(accessor, itemRequest);
+                    if (retrieved != null && retrieved.getType() != Material.AIR) {
+                        BlockMenuUtil.pushItem(blockMenu, retrieved, slots);
+                    }
                 }
             }
         }
