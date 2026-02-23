@@ -48,8 +48,8 @@
     </pluginRepositories>
 
     <properties>
-        <JustEnoughGuide-systemPath>F:\Github\NetworksExpansion\lib\JustEnoughGuide.jar</JustEnoughGuide-systemPath>
-        <FluffyMachines-systemPath>F:\Github\NetworksExpansion\lib\FluffyMachines.jar</FluffyMachines-systemPath>
+        <FluffyMachines-systemPath46>C:\Users\11877\Documents\GitHub\NetworksExpansion\lib\FluffyMachines.jar</FluffyMachines-systemPath46>
+        <JustEnoughGuide-systemPath>C:\Users\11877\Documents\GitHub\NetworksExpansion\lib\JustEnoughGuide.jar</JustEnoughGuide-systemPath>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -341,7 +341,7 @@
             <artifactId>FluffyMachines</artifactId>
             <version>035fe56381</version>
             <scope>system</scope>
-            <systemPath>${FluffyMachines-systemPath}</systemPath>
+            <systemPath>${FluffyMachines-systemPath46}</systemPath>
         </dependency>
         <!-- Drawer compatibility with inter-server -->
         <dependency>
