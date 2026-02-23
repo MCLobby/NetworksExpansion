@@ -174,7 +174,7 @@ public abstract class AbstractGrid extends NetworkObject {
     }
 
     public ItemStack getSortOrderStack(GridCache.SortOrder sortOrder) {
-        ItemStack clone = getFilterStack().clone();
+        ItemStack clone = getChangeSortStack().clone();
         clone.setLore(List.of(sortOrder.getTranslationName()));
         return clone;
     }

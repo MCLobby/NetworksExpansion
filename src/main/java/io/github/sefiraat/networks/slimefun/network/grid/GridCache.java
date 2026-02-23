@@ -128,7 +128,7 @@ public class GridCache {
         }
 
         public String getTranslationName() {
-            return Lang.getString("messages.normal-operation.sort_orders." + name().toLowerCase());
+            return Lang.getString("messages.completed-operation.grid.sort_orders." + name().toLowerCase());
         }
     }
 
