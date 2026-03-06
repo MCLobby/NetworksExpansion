@@ -168,6 +168,10 @@ public class StackUtils {
             return false;
         }
 
+        if (Networks.getConfigManager().useBukkitItemComparison()) {
+            return itemStack.isSimilar(cache.getItemStack());
+        }
+
         // If either item does not have a meta then either a mismatch or both without meta = vanilla
         if (!itemStack.hasItemMeta() || !cache.getItemStack().hasItemMeta()) {
             return itemStack.hasItemMeta() == cache.getItemStack().hasItemMeta();
