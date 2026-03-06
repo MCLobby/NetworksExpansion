@@ -1,7 +1,5 @@
 package io.github.sefiraat.networks.slimefun.network.grid;
 
-import com.balugaq.jeg.api.groups.SearchGroup;
-import com.balugaq.jeg.api.objects.enums.FilterType;
 import com.balugaq.netex.api.algorithm.Sorters;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
@@ -14,7 +12,6 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.utils.TextUtil;
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.Networks;
-import io.github.sefiraat.networks.managers.SupportedPluginManager;
 import io.github.sefiraat.networks.network.GridItemRequest;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
@@ -35,6 +32,7 @@ import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -47,16 +45,12 @@ import org.jetbrains.annotations.Range;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @SuppressWarnings({"DuplicatedCode", "deprecation"})
 public abstract class AbstractGrid extends NetworkObject {
@@ -114,6 +108,8 @@ public abstract class AbstractGrid extends NetworkObject {
                     }
                     addToRegistry(block);
                     tryAddItem(blockMenu);
+                    GridCache cache = getCacheMap().get(block.getLocation());
+                    cache.setEntriesCache(null);
                     updateDisplay(blockMenu);
                 }
             }
@@ -174,23 +170,32 @@ public abstract class AbstractGrid extends NetworkObject {
     }
 
     @SuppressWarnings("deprecation")
-    protected void updateDisplay(@NotNull BlockMenu blockMenu) {
+    protected void updateDisplay(@NotNull BlockMenu menu) {
+        Location location = menu.getLocation();
+
         // No viewer - lets not bother updating
-        if (!blockMenu.hasViewer()) {
-            sendFeedback(blockMenu.getLocation(), FeedbackType.AFK);
+        if (!menu.hasViewer()) {
+            sendFeedback(location, FeedbackType.AFK);
             return;
         }
 
-        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(location);
 
         // No node located, weird
         if (definition == null || definition.getNode() == null) {
-            clearDisplay(blockMenu);
-            sendFeedback(blockMenu.getLocation(), FeedbackType.NO_NETWORK_FOUND);
+            clearDisplay(menu);
+            sendFeedback(location, FeedbackType.NO_NETWORK_FOUND);
             return;
         }
 
         // Update Screen
+        Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+
+        final BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
+        if (blockMenu == null) {
+            return;
+        }
+
         final NetworkRoot root = definition.getNode().getRoot();
 
         final GridCache gridCache = getCacheMap().get(blockMenu.getLocation().clone());
@@ -261,6 +266,8 @@ public abstract class AbstractGrid extends NetworkObject {
             Icon.getPageStack(getPageNextStack(), gridCache.getPage() + 1, gridCache.getMaxPages() + 1));
 
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
+
+        });
     }
 
     protected void clearDisplay(@NotNull BlockMenu blockMenu) {
@@ -272,7 +279,10 @@ public abstract class AbstractGrid extends NetworkObject {
 
     @NotNull
     protected List<Map.Entry<ItemStack, Long>> getEntries(@NotNull NetworkRoot networkRoot, @NotNull GridCache cache) {
-        return networkRoot.getAllNetworkItemsLongType().entrySet().stream()
+        if (cache.getEntriesCache() != null) {
+            return cache.getEntriesCache();
+        }
+        var entries = networkRoot.getAllNetworkItemsLongType().entrySet().stream()
             .filter(entry -> {
                 if (cache.getFilter() == null) {
                     return true;
@@ -293,6 +303,8 @@ public abstract class AbstractGrid extends NetworkObject {
             })
             .sorted(SORT_MAP.get(cache.getSortOrder()))
             .toList();
+        cache.setEntriesCache(entries);
+        return entries;
     }
 
     protected void setFilter(

@@ -111,6 +111,10 @@ public class ConfigManager {
         return Networks.getInstance().getConfig().getBoolean("ban-quantum-in-quantum", false);
     }
 
+    public boolean useBukkitItemComparison() {
+        return Networks.getInstance().getConfig().getBoolean("use-bukkit-item-comparison", false);
+    }
+
     public int getInt(@NotNull String path) {
         return getInt(path, 0);
     }

@@ -6,7 +6,6 @@ import io.github.mooy1.infinityexpansion.items.storage.StorageCache;
 import io.github.sefiraat.networks.network.stackcaches.BarrelIdentity;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.utils.Keys;
-import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.datatypes.DataTypeMethods;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
