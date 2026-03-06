@@ -7,7 +7,6 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItemStacks;
 import com.ytdd9527.networksexpansion.implementation.machines.unit.NetworksDrawer;
-import com.ytdd9527.networksexpansion.utils.ReflectionUtil;
 import io.github.mooy1.infinityexpansion.items.storage.StorageCache;
 import io.github.mooy1.infinityexpansion.items.storage.StorageUnit;
 import io.github.sefiraat.networks.managers.SupportedPluginManager;

@@ -42,7 +42,6 @@ public class NetworkGridNewStyle extends AbstractGridNewStyle implements Keybind
         45, 46, 47, 48, 49, 50, 51, 52,
     };
 
-    @Deprecated
     private static final int KEYBIND_BUTTON_SLOT = 8;
 
     private static final int CHANGE_SORT = 35;

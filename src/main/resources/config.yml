@@ -12,6 +12,8 @@ debug: false
 
 grid-new-style-max-custom-amount: 2304
 
+use-bukkit-item-comparison: false
+
 ban-quantum-in-quantum: false
 
 drawer-auto-save-period: 300

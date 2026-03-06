@@ -30,7 +30,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -41,7 +40,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 
@@ -223,23 +221,32 @@ public abstract class AbstractGridNewStyle extends AbstractGrid implements Keybi
     }
 
     @Override
-    public void updateDisplay(BlockMenu blockMenu) {
+    public void updateDisplay(BlockMenu menu) {
+        Location location = menu.getLocation();
+
         // No viewer - lets not bother updating
-        if (!blockMenu.hasViewer()) {
-            sendFeedback(blockMenu.getLocation(), FeedbackType.AFK);
+        if (!menu.hasViewer()) {
+            sendFeedback(location, FeedbackType.AFK);
             return;
         }
 
-        final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
+        final NodeDefinition definition = NetworkStorage.getNode(location);
 
         // No node located, weird
         if (definition == null || definition.getNode() == null) {
-            clearDisplay(blockMenu);
-            sendFeedback(blockMenu.getLocation(), FeedbackType.NO_NETWORK_FOUND);
+            clearDisplay(menu);
+            sendFeedback(location, FeedbackType.NO_NETWORK_FOUND);
             return;
         }
 
         // Update Screen
+        Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
+
+        final BlockMenu blockMenu = StorageCacheUtils.getMenu(location);
+        if (blockMenu == null) {
+            return;
+        }
+
         final NetworkRoot root = definition.getNode().getRoot();
 
         final GridCache gridCache = getCacheMap().get(blockMenu.getLocation().clone());
@@ -384,10 +391,15 @@ public abstract class AbstractGridNewStyle extends AbstractGrid implements Keybi
         );
 
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
+
+        });
     }
 
     @Override
     protected List<Entry<ItemStack, Long>> getEntries(NetworkRoot networkRoot, GridCache cache) {
+        if (cache.getEntriesCache() != null) {
+            return cache.getEntriesCache();
+        }
         HashSet<SlimefunItem> pass = new HashSet<>();
         String searchTerm = cache.getFilter();
         if (searchTerm != null && Networks.getSupportedPluginManager().isJustEnoughGuide()) {
@@ -409,7 +421,7 @@ public abstract class AbstractGridNewStyle extends AbstractGrid implements Keybi
                 }
             });
         }
-        return networkRoot.getAllNetworkItemsLongType().entrySet().stream()
+        var result = networkRoot.getAllNetworkItemsLongType().entrySet().stream()
             .filter(entry -> {
                 if (searchTerm == null) {
                     return true;
@@ -438,6 +450,8 @@ public abstract class AbstractGridNewStyle extends AbstractGrid implements Keybi
             })
             .sorted(SORT_MAP.get(cache.getSortOrder()))
             .toList();
+        cache.setEntriesCache(result);
+        return result;
     }
 
     @Override
@@ -447,8 +461,6 @@ public abstract class AbstractGridNewStyle extends AbstractGrid implements Keybi
 
 
     protected abstract BlockMenuPreset getPreset();
-
-    public abstract Map<Location, GridCache> getCacheMap();
 
     protected abstract int[] getBackgroundSlots();
 

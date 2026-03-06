@@ -10,7 +10,10 @@ import org.jetbrains.annotations.Range;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+@Getter
+@Setter
 public class GridCache {
 
     @NotNull
@@ -33,34 +36,14 @@ public class GridCache {
     @Nullable
     private String filter;
 
+    @Nullable
+    private List<Map.Entry<ItemStack, Long>> entriesCache;
+
     public GridCache(int page, int maxPages, @NotNull SortOrder sortOrder) {
         this.page = page;
         this.maxPages = maxPages;
         this.sortOrder = sortOrder;
         this.displayMode = DisplayMode.DISPLAY;
-    }
-
-    @NotNull
-    public SortOrder getSortOrder() {
-        return this.sortOrder;
-    }
-
-    public void setSortOrder(@NotNull SortOrder sortOrder) {
-        this.sortOrder = sortOrder;
-    }
-
-    @Nullable
-    public String getFilter() {
-        return this.filter;
-    }
-
-    public void setFilter(@Nullable String filter) {
-        this.filter = filter;
-    }
-
-    @NotNull
-    public List<ItemStack> getPullItemHistory() {
-        return this.pullItemHistory;
     }
 
     public void addPullItemHistory(@Nullable ItemStack itemStack) {
@@ -69,10 +52,6 @@ public class GridCache {
 
             getPullItemHistory().add(0, itemStack);
         }
-    }
-
-    public @NotNull DisplayMode getDisplayMode() {
-        return this.displayMode;
     }
 
     public void toggleDisplayMode() {
