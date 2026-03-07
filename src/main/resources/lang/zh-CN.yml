@@ -380,6 +380,7 @@ messages:
     storage_card_converter:
       success: "&a转换成功"
   unsupported-operation:
+    incompatible-jeg-version: "<error>JustEnoughGuide 前置插件版本过低，请升级至最新构建版本"
     storage_card_converter:
       final_tech_required: "<error>服务器需安装 FinalTECH 或 FinalTECH-Changed 才能使用此机器"
       research_required: "<error>未解锁存储卡"
@@ -1094,6 +1095,12 @@ icons:
     name: "&6点击转换为存储卡"
     lore:
       - ""
+  item-target-desc-stack:
+    name: "&6物品指定槽"
+    lore:
+      - "&a若此配方存在多种输出"
+      - "&a在下方放入输出物品"
+      - "&a以指定蓝图输出的物品"
   facing-presetter-help-icon:
     name: "&6预设功能使用教程"
     lore:
@@ -1240,9 +1247,9 @@ items:
       - "<warning> 网络拓展开发版不接受 GitHub Issues"
       - "<warning> 网络拓展开发版不接受 GitHub PR"
       - "<passive> 版本信息:"
-      - "<passive> 网络拓展版本: v2.1.88"
+      - "<passive> 网络拓展版本: v2.1.90"
       - "<passive> 版本状态: 稳定版"
-      - "<passive> 版本更新时间: 2026-3-6 20:18:07"
+      - "<passive> 版本更新时间: 2026-3-7 23:14:28"
       - "<passive> 开发状态: 更新中"
       - "<passive> 开发者（们）: ytdd9527, balugaq"
       - "<passive> 开发者 GitHub 页面: <click_info>https://github.com/ytdd9527"
@@ -2531,6 +2538,13 @@ items:
       - "也可以通过货运系统取出"
       - ""
       - "<click_info>网络电力消耗: &71,280 每次合成"
+
+  NTW_EXPANSION_BRIDGE_ORDINAL:
+    name: "网桥(透明)"
+    lore:
+      - "网桥用于连接不同的网络物品"
+      - "来形成一个完整的网络"
+      - "更加清晰的布局网络"
 
   NTW_EXPANSION_BRIDGE_WHITE:
     name: "网桥(白色)"
@@ -3858,6 +3872,7 @@ groups:
       main_menu_trophy: "<color_random_string>贡献"
       sub_menu_author: "<color_random_string>贡献 - 作者"
       sub_menu_announce: "<color_random_string>贡献 - 声明"
+      deprecated: "<color_random_string>已废弃的物品"
 theme:
   gold: ""
   white: ""

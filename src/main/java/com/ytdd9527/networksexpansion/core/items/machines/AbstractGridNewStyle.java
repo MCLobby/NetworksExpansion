@@ -403,23 +403,26 @@ public abstract class AbstractGridNewStyle extends AbstractGrid implements Keybi
         HashSet<SlimefunItem> pass = new HashSet<>();
         String searchTerm = cache.getFilter();
         if (searchTerm != null && Networks.getSupportedPluginManager().isJustEnoughGuide()) {
-            Bukkit.getOnlinePlayers().stream().findFirst().ifPresent(player -> {
-                List<SlimefunItem> sfs = new ArrayList<>();
-                for (ItemStack item : networkRoot.getAllNetworkItemsLongType().keySet()) {
-                    if (item != null && item.getType() != Material.AIR) {
-                        var sf = SlimefunItem.getByItem(item);
-                        if (sf != null) {
-                            sfs.add(sf);
+            try {
+                Bukkit.getOnlinePlayers().stream().findFirst().ifPresent(player -> {
+                    List<SlimefunItem> sfs = new ArrayList<>();
+                    for (ItemStack item : networkRoot.getAllNetworkItemsLongType().keySet()) {
+                        if (item != null && item.getType() != Material.AIR) {
+                            var sf = SlimefunItem.getByItem(item);
+                            if (sf != null) {
+                                sfs.add(sf);
+                            }
                         }
                     }
-                }
-                List<FilterType> types = new ArrayList<>(Arrays.stream(FilterType.values()).toList());
-                types.remove(FilterType.BY_DISPLAY_ITEM_NAME);
-                types.remove(FilterType.BY_RECIPE_ITEM_NAME);
-                for (FilterType type : types) {
-                    pass.addAll(SearchGroup.filterItems(player, type, searchTerm, true, sfs));
-                }
-            });
+                    List<FilterType> types = new ArrayList<>(Arrays.stream(FilterType.values()).toList());
+                    types.remove(FilterType.BY_DISPLAY_ITEM_NAME);
+                    types.remove(FilterType.BY_RECIPE_ITEM_NAME);
+                    for (FilterType type : types) {
+                        pass.addAll(SearchGroup.filterItems(player, type, searchTerm, true, sfs));
+                    }
+                });
+            } catch (Exception ignored) {
+            }
         }
         var result = networkRoot.getAllNetworkItemsLongType().entrySet().stream()
             .filter(entry -> {

@@ -45,6 +45,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.ArrayList;
@@ -455,7 +456,6 @@ public class SmartNetworkCraftingGridNewStyle extends AbstractGridNewStyle imple
         }
     }
 
-    @Override
     public int[] getIngredientSlots() {
         return TEMPLATE_SLOTS;
     }
@@ -467,5 +467,10 @@ public class SmartNetworkCraftingGridNewStyle extends AbstractGridNewStyle imple
 
     public ItemStack[] copyStacks(ItemStack[] array) {
         return Arrays.stream(array).map(i -> i == null ? null : i.clone()).toArray(ItemStack[]::new);
+    }
+
+    @Override
+    public @NotNull SlimefunItem getSlimefunItem() {
+        return this;
     }
 }

@@ -185,6 +185,9 @@ public class ExpansionItems {
         ExpansionWorkbench.TYPE,
         ExpansionRecipes.ADVANCED_QUANTUM_STORAGE,
         NetworkQuantumStorage.getSizesLong()[14]);
+    static {
+        ADVANCED_QUANTUM_STORAGE.setSupportsCustomMaxAmount(true);
+    }
 
     public static final NetworkGridNewStyle NETWORK_GRID_NEW_STYLE = new NetworkGridNewStyle(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
@@ -197,308 +200,309 @@ public class ExpansionItems {
         ExpansionItemsMenus.MENU_ITEMS,
         ExpansionItemStacks.MAGIC_WORKBENCH_BLUEPRINT,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.MAGIC_WORKBENCH_BLUEPRINT);
+        ExpansionRecipes.NULL);
 
     public static final ArmorForgeBlueprint ARMOR_FORGE_BLUEPRINT = new ArmorForgeBlueprint(
         ExpansionItemsMenus.MENU_ITEMS,
         ExpansionItemStacks.ARMOR_FORGE_BLUEPRINT,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ARMOR_FORGE_BLUEPRINT);
+        ExpansionRecipes.NULL);
 
     public static final SmelteryBlueprint SMELTERY_BLUEPRINT = new SmelteryBlueprint(
         ExpansionItemsMenus.MENU_ITEMS,
         ExpansionItemStacks.SMELTERY_BLUEPRINT,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.SMELTERY_BLUEPRINT);
+        ExpansionRecipes.NULL);
 
     public static final QuantumWorkbenchBlueprint QUANTUM_WORKBENCH_BLUEPRINT = new QuantumWorkbenchBlueprint(
         ExpansionItemsMenus.MENU_ITEMS,
         ExpansionItemStacks.QUANTUM_WORKBENCH_BLUEPRINT,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.QUANTUM_WORKBENCH_BLUEPRINT);
+        ExpansionRecipes.NULL);
 
     public static final AncientAltarBlueprint ANCIENT_ALTAR_BLUEPRINT = new AncientAltarBlueprint(
         ExpansionItemsMenus.MENU_ITEMS,
         ExpansionItemStacks.ANCIENT_ALTAR_BLUEPRINT,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ANCIENT_ALTAR_BLUEPRINT);
+        ExpansionRecipes.NULL);
 
     public static final ExpansionWorkbenchBlueprint EXPANSION_WORKBENCH_BLUEPRINT = new ExpansionWorkbenchBlueprint(
         ExpansionItemsMenus.MENU_ITEMS,
         ExpansionItemStacks.EXPANSION_WORKBENCH_BLUEPRINT,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.EXPANSION_WORKBENCH_BLUEPRINT);
+        ExpansionRecipes.NULL);
 
     public static final CompressorBlueprint COMPRESSOR_BLUEPRINT = new CompressorBlueprint(
         ExpansionItemsMenus.MENU_ITEMS,
         ExpansionItemStacks.COMPRESSOR_BLUEPRINT,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.COMPRESSOR_BLUEPRINT);
+        ExpansionRecipes.NULL);
 
     public static final GrindStoneBlueprint GRIND_STONE_BLUEPRINT = new GrindStoneBlueprint(
         ExpansionItemsMenus.MENU_ITEMS,
         ExpansionItemStacks.GRIND_STONE_BLUEPRINT,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.GRIND_STONE_BLUEPRINT);
+        ExpansionRecipes.NULL);
 
     public static final JuicerBlueprint JUICER_BLUEPRINT = new JuicerBlueprint(
         ExpansionItemsMenus.MENU_ITEMS,
         ExpansionItemStacks.JUICER_BLUEPRINT,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.JUICER_BLUEPRINT);
+        ExpansionRecipes.NULL);
 
     public static final OreCrusherBlueprint ORE_CRUSHER_BLUEPRINT = new OreCrusherBlueprint(
         ExpansionItemsMenus.MENU_ITEMS,
         ExpansionItemStacks.ORE_CRUSHER_BLUEPRINT,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ORE_CRUSHER_BLUEPRINT);
+        ExpansionRecipes.NULL);
 
     public static final PressureChamberBlueprint PRESSURE_CHAMBER_BLUEPRINT = new PressureChamberBlueprint(
         ExpansionItemsMenus.MENU_ITEMS,
         ExpansionItemStacks.PRESSURE_CHAMBER_BLUEPRINT,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.PRESSURE_CHAMBER_BLUEPRINT);
+        ExpansionRecipes.NULL);
 
     // Encoders
     public static final MagicWorkbenchEncoder MAGIC_WORKBENCH_RECIPE_ENCODER = new MagicWorkbenchEncoder(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.MAGIC_WORKBENCH_RECIPE_ENCODER,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.MAGIC_WORKBENCH_RECIPE_ENCODER);
+        ExpansionRecipes.NULL);
 
     public static final ArmorForgeEncoder ARMOR_FORGE_RECIPE_ENCODER = new ArmorForgeEncoder(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ARMOR_FORGE_RECIPE_ENCODER,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ARMOR_FORGE_RECIPE_ENCODER);
+        ExpansionRecipes.NULL);
 
     public static final SmelteryEncoder SMELTERY_RECIPE_ENCODER = new SmelteryEncoder(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.SMELTERY_RECIPE_ENCODER,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.SMELTERY_RECIPE_ENCODER);
+        ExpansionRecipes.NULL);
 
     public static final QuantumWorkbenchEncoder QUANTUM_WORKBENCH_RECIPE_ENCODER = new QuantumWorkbenchEncoder(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.QUANTUM_WORKBENCH_RECIPE_ENCODER,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.QUANTUM_WORKBENCH_RECIPE_ENCODER);
+        ExpansionRecipes.NULL);
 
     public static final AncientAltarEncoder ANCIENT_ALTAR_RECIPE_ENCODER = new AncientAltarEncoder(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ANCIENT_ALTAR_RECIPE_ENCODER,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ANCIENT_ALTAR_RECIPE_ENCODER);
+        ExpansionRecipes.NULL);
 
     public static final ExpansionWorkbenchEncoder EXPANSION_WORKBENCH_RECIPE_ENCODER = new ExpansionWorkbenchEncoder(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.EXPANSION_WORKBENCH_RECIPE_ENCODER,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.EXPANSION_WORKBENCH_RECIPE_ENCODER);
+        ExpansionRecipes.NULL);
 
     public static final CompressorEncoder COMPRESSOR_RECIPE_ENCODER = new CompressorEncoder(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.COMPRESSOR_RECIPE_ENCODER,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.COMPRESSOR_RECIPE_ENCODER);
+        ExpansionRecipes.NULL);
 
     public static final GrindStoneEncoder GRIND_STONE_RECIPE_ENCODER = new GrindStoneEncoder(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.GRIND_STONE_RECIPE_ENCODER,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.GRIND_STONE_RECIPE_ENCODER);
+        ExpansionRecipes.NULL);
 
     public static final JuicerEncoder JUICER_RECIPE_ENCODER = new JuicerEncoder(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.JUICER_RECIPE_ENCODER,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.JUICER_RECIPE_ENCODER);
+        ExpansionRecipes.NULL);
 
     public static final OreCrusherEncoder ORE_CRUSHER_RECIPE_ENCODER = new OreCrusherEncoder(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ORE_CRUSHER_RECIPE_ENCODER,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ORE_CRUSHER_RECIPE_ENCODER);
+        ExpansionRecipes.NULL);
 
     public static final PressureChamberEncoder PRESSURE_CHAMBER_RECIPE_ENCODER = new PressureChamberEncoder(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.PRESSURE_CHAMBER_RECIPE_ENCODER,
         ExpansionWorkbench.TYPE,
-        ExpansionRecipes.PRESSURE_CHAMBER_RECIPE_ENCODER);
+        ExpansionRecipes.NULL);
+    
     // Auto Crafters
     public static final AutoMagicWorkbench AUTO_MAGIC_WORKBENCH = new AutoMagicWorkbench(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.AUTO_MAGIC_WORKBENCH,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.AUTO_MAGIC_WORKBENCH,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         64,
         false);
 
     public static final AutoMagicWorkbench AUTO_MAGIC_WORKBENCH_WITHHOLDING = new AutoMagicWorkbench(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.AUTO_MAGIC_WORKBENCH_WITHHOLDING,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.AUTO_MAGIC_WORKBENCH_WITHHOLDING,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         128,
         true);
 
     public static final AutoArmorForge AUTO_ARMOR_FORGE = new AutoArmorForge(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.AUTO_ARMOR_FORGE,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.AUTO_ARMOR_FORGE,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         64,
         false);
 
     public static final AutoArmorForge AUTO_ARMOR_FORGE_WITHHOLDING = new AutoArmorForge(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.AUTO_ARMOR_FORGE_WITHHOLDING,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.AUTO_ARMOR_FORGE_WITHHOLDING,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         128,
         true);
 
     public static final AutoSmeltery AUTO_SMELTERY = new AutoSmeltery(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.AUTO_SMELTERY,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.AUTO_SMELTERY,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         64,
         false);
 
     public static final AutoSmeltery AUTO_SMELTERY_WITHHOLDING = new AutoSmeltery(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.AUTO_SMELTERY_WITHHOLDING,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.AUTO_SMELTERY_WITHHOLDING,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         128,
         true);
 
     public static final AutoQuantumWorkbench AUTO_QUANTUM_WORKBENCH = new AutoQuantumWorkbench(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.AUTO_QUANTUM_WORKBENCH,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.AUTO_QUANTUM_WORKBENCH,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         64,
         false);
 
     public static final AutoQuantumWorkbench AUTO_QUANTUM_WORKBENCH_WITHHOLDING = new AutoQuantumWorkbench(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.AUTO_QUANTUM_WORKBENCH_WITHHOLDING,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.AUTO_QUANTUM_WORKBENCH_WITHHOLDING,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         128,
         true);
 
     public static final AutoAncientAltar AUTO_ANCIENT_ALTAR = new AutoAncientAltar(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.AUTO_ANCIENT_ALTAR,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.AUTO_ANCIENT_ALTAR,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         64,
         false);
 
     public static final AutoAncientAltar AUTO_ANCIENT_ALTAR_WITHHOLDING = new AutoAncientAltar(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.AUTO_ANCIENT_ALTAR_WITHHOLDING,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.AUTO_ANCIENT_ALTAR_WITHHOLDING,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         128,
         true);
 
     public static final AutoExpansionWorkbench AUTO_EXPANSION_WORKBENCH = new AutoExpansionWorkbench(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.AUTO_EXPANSION_WORKBENCH,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.AUTO_EXPANSION_WORKBENCH,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         64,
         false);
 
     public static final AutoExpansionWorkbench AUTO_EXPANSION_WORKBENCH_WITHHOLDING = new AutoExpansionWorkbench(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.AUTO_EXPANSION_WORKBENCH_WITHHOLDING,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.AUTO_EXPANSION_WORKBENCH_WITHHOLDING,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         128,
         true);
 
     public static final AutoCompressor AUTO_COMPRESSOR = new AutoCompressor(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.AUTO_COMPRESSOR,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.AUTO_COMPRESSOR,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         64,
         false);
 
     public static final AutoCompressor AUTO_COMPRESSOR_WITHHOLDING = new AutoCompressor(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.AUTO_COMPRESSOR_WITHHOLDING,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.AUTO_COMPRESSOR_WITHHOLDING,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         128,
         true);
 
     public static final AutoGrindStone AUTO_GRIND_STONE = new AutoGrindStone(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.AUTO_GRIND_STONE,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.AUTO_GRIND_STONE,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         64,
         false);
 
     public static final AutoGrindStone AUTO_GRIND_STONE_WITHHOLDING = new AutoGrindStone(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.AUTO_GRIND_STONE_WITHHOLDING,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.AUTO_GRIND_STONE_WITHHOLDING,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         128,
         true);
 
     public static final AutoJuicer AUTO_JUICER = new AutoJuicer(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.AUTO_JUICER,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.AUTO_JUICER,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         64,
         false);
 
     public static final AutoJuicer AUTO_JUICER_WITHHOLDING = new AutoJuicer(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.AUTO_JUICER_WITHHOLDING,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.AUTO_JUICER_WITHHOLDING,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         128,
         true);
 
     public static final AutoOreCrusher AUTO_ORE_CRUSHER = new AutoOreCrusher(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.AUTO_ORE_CRUSHER,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.AUTO_ORE_CRUSHER,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         64,
         false);
 
     public static final AutoOreCrusher AUTO_ORE_CRUSHER_WITHHOLDING = new AutoOreCrusher(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.AUTO_ORE_CRUSHER_WITHHOLDING,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.AUTO_ORE_CRUSHER_WITHHOLDING,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         128,
         true);
 
     public static final AutoPressureChamber AUTO_PRESSURE_CHAMBER = new AutoPressureChamber(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.AUTO_PRESSURE_CHAMBER,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.AUTO_PRESSURE_CHAMBER,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         64,
         false);
 
     public static final AutoPressureChamber AUTO_PRESSURE_CHAMBER_WITHHOLDING = new AutoPressureChamber(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.AUTO_PRESSURE_CHAMBER_WITHHOLDING,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.AUTO_PRESSURE_CHAMBER_WITHHOLDING,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         128,
         true);
 
@@ -506,8 +510,8 @@ public class ExpansionItems {
     public static final AdvancedAutoMagicWorkbench ADVANCED_AUTO_MAGIC_WORKBENCH = new AdvancedAutoMagicWorkbench(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ADVANCED_AUTO_MAGIC_WORKBENCH,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ADVANCED_AUTO_MAGIC_WORKBENCH,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         640,
         false);
 
@@ -515,48 +519,48 @@ public class ExpansionItems {
         new AdvancedAutoMagicWorkbench(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.ADVANCED_AUTO_MAGIC_WORKBENCH_WITHHOLDING,
-            ExpansionWorkbench.TYPE,
-            ExpansionRecipes.ADVANCED_AUTO_MAGIC_WORKBENCH_WITHHOLDING,
+            RecipeType.NULL,
+            ExpansionRecipes.NULL,
             1280,
             true);
 
     public static final AdvancedAutoArmorForge ADVANCED_AUTO_ARMOR_FORGE = new AdvancedAutoArmorForge(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ADVANCED_AUTO_ARMOR_FORGE,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ADVANCED_AUTO_ARMOR_FORGE,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         640,
         false);
 
     public static final AdvancedAutoArmorForge ADVANCED_AUTO_ARMOR_FORGE_WITHHOLDING = new AdvancedAutoArmorForge(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ADVANCED_AUTO_ARMOR_FORGE_WITHHOLDING,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ADVANCED_AUTO_ARMOR_FORGE_WITHHOLDING,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         1280,
         true);
 
     public static final AdvancedAutoSmeltery ADVANCED_AUTO_SMELTERY = new AdvancedAutoSmeltery(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ADVANCED_AUTO_SMELTERY,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ADVANCED_AUTO_SMELTERY,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         640,
         false);
 
     public static final AdvancedAutoSmeltery ADVANCED_AUTO_SMELTERY_WITHHOLDING = new AdvancedAutoSmeltery(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ADVANCED_AUTO_SMELTERY_WITHHOLDING,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ADVANCED_AUTO_SMELTERY_WITHHOLDING,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         1280,
         true);
 
     public static final AdvancedAutoQuantumWorkbench ADVANCED_AUTO_QUANTUM_WORKBENCH = new AdvancedAutoQuantumWorkbench(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ADVANCED_AUTO_QUANTUM_WORKBENCH,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ADVANCED_AUTO_QUANTUM_WORKBENCH,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         640,
         false);
 
@@ -564,24 +568,24 @@ public class ExpansionItems {
         new AdvancedAutoQuantumWorkbench(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.ADVANCED_AUTO_QUANTUM_WORKBENCH_WITHHOLDING,
-            ExpansionWorkbench.TYPE,
-            ExpansionRecipes.ADVANCED_AUTO_QUANTUM_WORKBENCH_WITHHOLDING,
+            RecipeType.NULL,
+            ExpansionRecipes.NULL,
             1280,
             true);
 
     public static final AdvancedAutoAncientAltar ADVANCED_AUTO_ANCIENT_ALTAR = new AdvancedAutoAncientAltar(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ADVANCED_AUTO_ANCIENT_ALTAR,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ADVANCED_AUTO_ANCIENT_ALTAR,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         640,
         false);
 
     public static final AdvancedAutoAncientAltar ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING = new AdvancedAutoAncientAltar(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         1280,
         true);
 
@@ -589,8 +593,8 @@ public class ExpansionItems {
         new AdvancedAutoExpansionWorkbench(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.ADVANCED_AUTO_EXPANSION_WORKBENCH,
-            ExpansionWorkbench.TYPE,
-            ExpansionRecipes.ADVANCED_AUTO_EXPANSION_WORKBENCH,
+            RecipeType.NULL,
+            ExpansionRecipes.NULL,
             640,
             false);
 
@@ -598,8 +602,8 @@ public class ExpansionItems {
         new AdvancedAutoExpansionWorkbench(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.ADVANCED_AUTO_EXPANSION_WORKBENCH_WITHHOLDING,
-            ExpansionWorkbench.TYPE,
-            ExpansionRecipes.ADVANCED_AUTO_EXPANSION_WORKBENCH_WITHHOLDING,
+            RecipeType.NULL,
+            ExpansionRecipes.NULL,
             1280,
             true);
 
@@ -623,72 +627,72 @@ public class ExpansionItems {
     public static final AdvancedAutoCompressor ADVANCED_AUTO_COMPRESSOR = new AdvancedAutoCompressor(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ADVANCED_AUTO_COMPRESSOR,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ADVANCED_AUTO_COMPRESSOR,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         640,
         false);
 
     public static final AdvancedAutoCompressor ADVANCED_AUTO_COMPRESSOR_WITHHOLDING = new AdvancedAutoCompressor(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ADVANCED_AUTO_COMPRESSOR_WITHHOLDING,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ADVANCED_AUTO_COMPRESSOR_WITHHOLDING,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         1280,
         true);
 
     public static final AdvancedAutoGrindStone ADVANCED_AUTO_GRIND_STONE = new AdvancedAutoGrindStone(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ADVANCED_AUTO_GRIND_STONE,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ADVANCED_AUTO_GRIND_STONE,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         640,
         false);
 
     public static final AdvancedAutoGrindStone ADVANCED_AUTO_GRIND_STONE_WITHHOLDING = new AdvancedAutoGrindStone(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ADVANCED_AUTO_GRIND_STONE_WITHHOLDING,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ADVANCED_AUTO_GRIND_STONE_WITHHOLDING,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         1280,
         true);
 
     public static final AdvancedAutoJuicer ADVANCED_AUTO_JUICER = new AdvancedAutoJuicer(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ADVANCED_AUTO_JUICER,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ADVANCED_AUTO_JUICER,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         640,
         false);
 
     public static final AdvancedAutoJuicer ADVANCED_AUTO_JUICER_WITHHOLDING = new AdvancedAutoJuicer(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ADVANCED_AUTO_JUICER_WITHHOLDING,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ADVANCED_AUTO_JUICER_WITHHOLDING,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         1280,
         true);
 
     public static final AdvancedAutoOreCrusher ADVANCED_AUTO_ORE_CRUSHER = new AdvancedAutoOreCrusher(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ADVANCED_AUTO_ORE_CRUSHER,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ADVANCED_AUTO_ORE_CRUSHER,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         640,
         false);
 
     public static final AdvancedAutoOreCrusher ADVANCED_AUTO_ORE_CRUSHER_WITHHOLDING = new AdvancedAutoOreCrusher(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ADVANCED_AUTO_ORE_CRUSHER_WITHHOLDING,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ADVANCED_AUTO_ORE_CRUSHER_WITHHOLDING,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         1280,
         true);
 
     public static final AdvancedAutoPressureChamber ADVANCED_AUTO_PRESSURE_CHAMBER = new AdvancedAutoPressureChamber(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ADVANCED_AUTO_PRESSURE_CHAMBER,
-        ExpansionWorkbench.TYPE,
-        ExpansionRecipes.ADVANCED_AUTO_PRESSURE_CHAMBER,
+        RecipeType.NULL,
+        ExpansionRecipes.NULL,
         640,
         false);
 
@@ -696,8 +700,8 @@ public class ExpansionItems {
         new AdvancedAutoPressureChamber(
             ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
             ExpansionItemStacks.ADVANCED_AUTO_PRESSURE_CHAMBER_WITHHOLDING,
-            ExpansionWorkbench.TYPE,
-            ExpansionRecipes.ADVANCED_AUTO_PRESSURE_CHAMBER_WITHHOLDING,
+            RecipeType.NULL,
+            ExpansionRecipes.NULL,
             1280,
             true);
 
@@ -1101,6 +1105,12 @@ public class ExpansionItems {
         StorageUnitType.END_GAME_MAX);
 
     // Bridges
+    public static final NetworkBridge NETWORK_BRIDGE_ORDINAL = new NetworkBridge(
+        ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
+        ExpansionItemStacks.NETWORK_BRIDGE_ORDINAL,
+        ExpansionWorkbench.TYPE,
+        ExpansionRecipes.NETWORK_BRIDGE_ORDINAL,
+        StackUtils.getAsQuantity(ExpansionItemStacks.NETWORK_BRIDGE_ORDINAL, 8));
     public static final NetworkBridge NETWORK_BRIDGE_WHITE = new NetworkBridge(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.NETWORK_BRIDGE_WHITE,

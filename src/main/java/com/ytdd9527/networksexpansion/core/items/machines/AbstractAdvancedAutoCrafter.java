@@ -22,7 +22,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -37,7 +36,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -185,10 +183,6 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
         @NotNull BlueprintInstance instance,
         @NotNull NetworkRoot root,
         int blueprintAmount) {
-        // Get the recipe input
-        final ItemStack[] inputs = new ItemStack[9];
-        final ItemStack[] acutalInputs = new ItemStack[9];
-
         /* Make sure the network has the required items
          * Needs to be revisited as matching is happening stacks 2x when it should
          * only need the one
@@ -210,70 +204,19 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
             }
         }
 
+        ItemStack[] fetcheds = new ItemStack[9];
         // Then fetch the actual items
         for (int i = 0; i < 9; i++) {
             final ItemStack requested = instance.getRecipeItems()[i];
             if (requested != null) {
                 final ItemStack fetched = root.getItemStack0(
                     blockMenu.getLocation(), new ItemRequest(requested, requested.getAmount() * blueprintAmount));
-                if (fetched != null) {
-                    acutalInputs[i] = fetched;
-                    ItemStack fetchedClone = fetched.clone();
-                    fetchedClone.setAmount(fetched.getAmount() / blueprintAmount);
-                    inputs[i] = fetchedClone;
-                    if (fetchedClone.getAmount() != requested.getAmount()) {
-                        returnItems(root, acutalInputs, blockMenu);
-                    }
-                } else {
-                    acutalInputs[i] = null;
-                    inputs[i] = null;
-                }
-            } else {
-                inputs[i] = null;
-            }
-        }
-
-        ItemStack crafted = null;
-
-        var cache = AbstractAutoCrafter.RECIPE_CACHE.get(blockMenu.getLocation());
-        if (cache != null) {
-            if (testRecipe(inputs, cache.getFirstValue())) {
-                crafted = cache.getSecondValue().clone();
-            }
-        }
-
-        // Go through each slimefun recipe, test and set crafted if found
-        if (crafted == null) {
-            for (Map.Entry<ItemStack[], ItemStack> entry : getRecipeEntries()) {
-                if (testRecipe(inputs, entry.getKey())) {
-                    crafted = entry.getValue().clone();
-                    AbstractAutoCrafter.RECIPE_CACHE.put(blockMenu.getLocation(), new Pair<>(entry.getKey(), entry.getValue()));
-                    break;
+                fetcheds[i] = fetched;
+                if (fetched == null || fetched.getAmount() < requested.getAmount() * blueprintAmount) {
+                    returnItems(root, fetcheds, blockMenu);
+                    return false;
                 }
             }
-        }
-
-        if (crafted == null && canTestVanillaRecipe()) {
-            // If no slimefun recipe found, try a vanilla one
-            instance.generateVanillaRecipe(blockMenu.getLocation().getWorld()); // if generated, nothing will happen
-            if (instance.getRecipe() == null) {
-                returnItems(root, inputs, blockMenu);
-                sendDebugMessage(blockMenu.getLocation(), "No vanilla recipe found");
-                sendFeedback(blockMenu.getLocation(), FeedbackType.NO_VANILLA_RECIPE_FOUND);
-                return false;
-            } else if (Arrays.equals(instance.getRecipeItems(), inputs)) {
-                setCache(blockMenu, instance);
-                crafted = instance.getRecipe().getResult();
-            }
-        }
-
-        // If no item crafted OR result doesn't fit, escape
-        if (crafted == null || crafted.getType() == Material.AIR) {
-            sendDebugMessage(blockMenu.getLocation(), "No valid recipe found");
-            sendDebugMessage(blockMenu.getLocation(), "inputs: " + Arrays.toString(inputs));
-            returnItems(root, acutalInputs, blockMenu);
-            sendFeedback(blockMenu.getLocation(), FeedbackType.NO_VALID_RECIPE_FOUND);
-            return false;
         }
 
         // Push item
@@ -282,16 +225,21 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
             location.getWorld().spawnParticle(Particle.WAX_OFF, location, 0, 0, 4, 0);
         }
 
+        ItemStack crafted = instance.getItemStack().clone();
+
         crafted.setAmount(crafted.getAmount() * blueprintAmount);
 
         if (crafted.getAmount() > crafted.getMaxStackSize()) {
-            returnItems(root, acutalInputs, blockMenu);
+            returnItems(root, fetcheds, blockMenu);
             sendDebugMessage(blockMenu.getLocation(), "Result is too large");
             sendFeedback(blockMenu.getLocation(), FeedbackType.RESULT_IS_TOO_LARGE);
             return false;
         }
 
-        BlockMenuUtil.pushItem(blockMenu, crafted, OUTPUT_SLOT);
+        root.addItemStack0(blockMenu.getLocation(), crafted);
+        if (crafted != null && crafted.getType() == Material.AIR) {
+            BlockMenuUtil.pushItem(blockMenu, crafted, OUTPUT_SLOT);
+        }
         sendFeedback(blockMenu.getLocation(), FeedbackType.WORKING);
         return true;
     }

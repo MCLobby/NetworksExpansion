@@ -1,6 +1,5 @@
 package com.ytdd9527.networksexpansion.utils;
 
-import com.balugaq.jeg.implementation.JustEnoughGuide;
 import io.github.sefiraat.networks.Networks;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -314,7 +313,7 @@ public class ParticleUtil {
     public static void highlightBlock(@NotNull Player player, @NotNull Location location, int shrinkTimes) {
         for (int i = 0; i < shrinkTimes; i++) {
             Bukkit.getScheduler().runTaskLaterAsynchronously(
-                    JustEnoughGuide.getInstance(), () -> {
+                    Networks.getInstance(), () -> {
                 drawLineFrom(player.getEyeLocation().clone().add(0D, -0.5D, 0D), location);
                 highlightBlock(location);
             }, 20L * i);

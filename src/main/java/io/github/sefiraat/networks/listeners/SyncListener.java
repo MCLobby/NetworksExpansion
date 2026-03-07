@@ -24,13 +24,9 @@ import java.text.MessageFormat;
  * Fix https://github.com/ytdd9527/NetworksExpansion/issues/119
  */
 public class SyncListener implements Listener {
-    private static final String S1 = "Listened BlockBreakEvent at {0}";
-    private static final String S2 = "Listened BlockPlaceEvent at {0}";
-    private static final String S3 = "Listened ChunkUnloadEvent at world: {0}, x: {1}, z: {2}";
-
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onBlockBreak(@NotNull BlockBreakEvent e) {
-        Networks.getInstance().debug(MessageFormat.format(S1, e.getBlock().getLocation()));
+        Networks.getInstance().debug(MessageFormat.format("Listened BlockBreakEvent at {0}", e.getBlock().getLocation()));
         NetworkUtils.clearNetwork(e.getBlock().getLocation());
         SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(e.getBlock().getLocation());
         if (slimefunItem != null && slimefunItem.getAddon() instanceof Networks) {
@@ -44,7 +40,7 @@ public class SyncListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onBlockPlace(@NotNull BlockPlaceEvent e) {
-        Networks.getInstance().debug(MessageFormat.format(S2, e.getBlock().getLocation()));
+        Networks.getInstance().debug(MessageFormat.format("Listened BlockPlaceEvent at {0}", e.getBlock().getLocation()));
         NetworkUtils.clearNetwork(e.getBlock().getLocation());
         SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(e.getBlock().getLocation());
         if (slimefunItem != null && slimefunItem.getAddon() instanceof Networks) {
@@ -60,7 +56,7 @@ public class SyncListener implements Listener {
     public void onChunkUnload(@NotNull ChunkUnloadEvent e) {
         Networks.getInstance()
             .debug(MessageFormat.format(
-                S3,
+                "Listened ChunkUnloadEvent at world: {0}, x: {1}, z: {2}",
                 e.getWorld().getName(),
                 e.getChunk().getX(),
                 e.getChunk().getZ()));
