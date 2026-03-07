@@ -12,6 +12,7 @@ import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
+import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -185,7 +186,7 @@ public abstract class AbstractEncoder extends NetworkObject implements CraftType
         }
 
         ItemStack target = blockMenu.getItemInSlot(ITEM_TARGET_SLOT);
-        if (target.getType() == Material.AIR) target = null;
+        if (target != null && target.getType() == Material.AIR) target = null;
 
         for (var entries : CraftType.entries()) {
             for (Map.Entry<ItemStack[], ItemStack> entry : entries) {
@@ -233,7 +234,14 @@ public abstract class AbstractEncoder extends NetworkObject implements CraftType
 
         blueprintSetter(blueprintClone, inp, crafted);
         if (BlockMenuUtil.fits(blockMenu, blueprintClone, OUTPUT_SLOT)) {
+            ItemStack recover = null;
+            if (blueprint.getAmount() == 1) {
+                recover = root.getItemStack0(blockMenu.getLocation(), new ItemRequest(blueprint, blueprint.getMaxStackSize()));
+            }
             blueprint.setAmount(blueprint.getAmount() - 1);
+            if (recover != null) {
+                BlockMenuUtil.pushItem(blockMenu, recover, BLANK_BLUEPRINT_SLOT);
+            }
             int j = 0;
             for (int recipeSlot : RECIPE_SLOTS) {
                 ItemStack slotItem = blockMenu.getItemInSlot(recipeSlot);

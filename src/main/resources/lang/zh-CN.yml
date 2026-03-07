@@ -3872,7 +3872,7 @@ groups:
       main_menu_trophy: "<color_random_string>贡献"
       sub_menu_author: "<color_random_string>贡献 - 作者"
       sub_menu_announce: "<color_random_string>贡献 - 声明"
-      deprecated: "<color_random_string>已废弃的物品"
+      sub_menu_deprecated: "<color_random_string>已废弃的物品"
 theme:
   gold: ""
   white: ""

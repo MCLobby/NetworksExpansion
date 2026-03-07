@@ -2,7 +2,6 @@ package com.ytdd9527.networksexpansion.implementation.machines.networks.advanced
 
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
-import com.balugaq.netex.implementation.ae.AEBlueprint;
 import com.balugaq.netex.utils.BlockMenuUtil;
 import com.balugaq.netex.utils.Lang;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -139,12 +138,6 @@ public class NetworkBlueprintDecoder extends NetworkObject {
         if (!(item instanceof AbstractBlueprint)) {
             player.sendMessage(Lang.getString("messages.unsupported-operation.decoder.not_blueprint"));
             sendFeedback(menu.getLocation(), FeedbackType.NOT_BLUEPRINT);
-            return;
-        }
-
-        if (item instanceof AEBlueprint) {
-            player.sendMessage(Lang.getString("messages.unsupported-operation.decoder.unsupported_blueprint"));
-            sendFeedback(menu.getLocation(), FeedbackType.UNSUPPORTED_BLUEPRINT);
             return;
         }
 
