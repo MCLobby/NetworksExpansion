@@ -454,9 +454,9 @@ public class ExpansionRecipes {
         SlimefunItems.BASIC_CIRCUIT_BOARD,
         SlimefunItems.ANDROID_MEMORY_CORE,
         SlimefunItems.BASIC_CIRCUIT_BOARD,
-        ExpansionItemStacks.MAGIC_WORKBENCH_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         ExpansionItemStacks.AUTO_MAGIC_WORKBENCH,
-        ExpansionItemStacks.MAGIC_WORKBENCH_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         SlimefunItems.BASIC_CIRCUIT_BOARD,
         SlimefunItems.CARGO_MOTOR,
         SlimefunItems.BASIC_CIRCUIT_BOARD
@@ -466,9 +466,9 @@ public class ExpansionRecipes {
         SlimefunItems.BASIC_CIRCUIT_BOARD,
         SlimefunItems.ANDROID_MEMORY_CORE,
         SlimefunItems.BASIC_CIRCUIT_BOARD,
-        ExpansionItemStacks.ARMOR_FORGE_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         ExpansionItemStacks.AUTO_ARMOR_FORGE,
-        ExpansionItemStacks.ARMOR_FORGE_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         SlimefunItems.BASIC_CIRCUIT_BOARD,
         SlimefunItems.CARGO_MOTOR,
         SlimefunItems.BASIC_CIRCUIT_BOARD
@@ -478,9 +478,9 @@ public class ExpansionRecipes {
         SlimefunItems.BASIC_CIRCUIT_BOARD,
         SlimefunItems.ANDROID_MEMORY_CORE,
         SlimefunItems.BASIC_CIRCUIT_BOARD,
-        ExpansionItemStacks.SMELTERY_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         ExpansionItemStacks.AUTO_SMELTERY,
-        ExpansionItemStacks.SMELTERY_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         SlimefunItems.BASIC_CIRCUIT_BOARD,
         SlimefunItems.CARGO_MOTOR,
         SlimefunItems.BASIC_CIRCUIT_BOARD
@@ -490,9 +490,9 @@ public class ExpansionRecipes {
         SlimefunItems.BASIC_CIRCUIT_BOARD,
         SlimefunItems.ANDROID_MEMORY_CORE,
         SlimefunItems.BASIC_CIRCUIT_BOARD,
-        ExpansionItemStacks.QUANTUM_WORKBENCH_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         ExpansionItemStacks.AUTO_QUANTUM_WORKBENCH,
-        ExpansionItemStacks.QUANTUM_WORKBENCH_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         SlimefunItems.BASIC_CIRCUIT_BOARD,
         SlimefunItems.CARGO_MOTOR,
         SlimefunItems.BASIC_CIRCUIT_BOARD
@@ -502,9 +502,9 @@ public class ExpansionRecipes {
         SlimefunItems.BASIC_CIRCUIT_BOARD,
         SlimefunItems.ANDROID_MEMORY_CORE,
         SlimefunItems.BASIC_CIRCUIT_BOARD,
-        ExpansionItemStacks.ANCIENT_ALTAR_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         ExpansionItemStacks.AUTO_ANCIENT_ALTAR,
-        ExpansionItemStacks.ANCIENT_ALTAR_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         SlimefunItems.BASIC_CIRCUIT_BOARD,
         SlimefunItems.CARGO_MOTOR,
         SlimefunItems.BASIC_CIRCUIT_BOARD
@@ -514,9 +514,9 @@ public class ExpansionRecipes {
         SlimefunItems.BASIC_CIRCUIT_BOARD,
         SlimefunItems.ANDROID_MEMORY_CORE,
         SlimefunItems.BASIC_CIRCUIT_BOARD,
-        ExpansionItemStacks.EXPANSION_WORKBENCH_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         ExpansionItemStacks.AUTO_EXPANSION_WORKBENCH,
-        ExpansionItemStacks.EXPANSION_WORKBENCH_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         SlimefunItems.BASIC_CIRCUIT_BOARD,
         SlimefunItems.CARGO_MOTOR,
         SlimefunItems.BASIC_CIRCUIT_BOARD
@@ -526,9 +526,9 @@ public class ExpansionRecipes {
         SlimefunItems.BASIC_CIRCUIT_BOARD,
         SlimefunItems.ANDROID_MEMORY_CORE,
         SlimefunItems.BASIC_CIRCUIT_BOARD,
-        ExpansionItemStacks.COMPRESSOR_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         ExpansionItemStacks.AUTO_COMPRESSOR,
-        ExpansionItemStacks.COMPRESSOR_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         SlimefunItems.BASIC_CIRCUIT_BOARD,
         SlimefunItems.CARGO_MOTOR,
         SlimefunItems.BASIC_CIRCUIT_BOARD
@@ -538,9 +538,9 @@ public class ExpansionRecipes {
         SlimefunItems.BASIC_CIRCUIT_BOARD,
         SlimefunItems.ANDROID_MEMORY_CORE,
         SlimefunItems.BASIC_CIRCUIT_BOARD,
-        ExpansionItemStacks.GRIND_STONE_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         ExpansionItemStacks.AUTO_GRIND_STONE,
-        ExpansionItemStacks.GRIND_STONE_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         SlimefunItems.BASIC_CIRCUIT_BOARD,
         SlimefunItems.CARGO_MOTOR,
         SlimefunItems.BASIC_CIRCUIT_BOARD
@@ -548,7 +548,7 @@ public class ExpansionRecipes {
 
     public static final ItemStack[] JUICER_RECIPE_ENCODER = new ItemStack[]{
         SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.ANDROID_MEMORY_CORE, SlimefunItems.BASIC_CIRCUIT_BOARD,
-        ExpansionItemStacks.JUICER_BLUEPRINT, ExpansionItemStacks.AUTO_JUICER, ExpansionItemStacks.JUICER_BLUEPRINT,
+        OPTIC_GLASS.getItem(), ExpansionItemStacks.AUTO_JUICER, OPTIC_GLASS.getItem(),
         SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.CARGO_MOTOR, SlimefunItems.BASIC_CIRCUIT_BOARD
     };
 
@@ -556,9 +556,9 @@ public class ExpansionRecipes {
         SlimefunItems.BASIC_CIRCUIT_BOARD,
         SlimefunItems.ANDROID_MEMORY_CORE,
         SlimefunItems.BASIC_CIRCUIT_BOARD,
-        ExpansionItemStacks.ORE_CRUSHER_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         ExpansionItemStacks.AUTO_ORE_CRUSHER,
-        ExpansionItemStacks.ORE_CRUSHER_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         SlimefunItems.BASIC_CIRCUIT_BOARD,
         SlimefunItems.CARGO_MOTOR,
         SlimefunItems.BASIC_CIRCUIT_BOARD
@@ -568,9 +568,9 @@ public class ExpansionRecipes {
         SlimefunItems.BASIC_CIRCUIT_BOARD,
         SlimefunItems.ANDROID_MEMORY_CORE,
         SlimefunItems.BASIC_CIRCUIT_BOARD,
-        ExpansionItemStacks.PRESSURE_CHAMBER_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         ExpansionItemStacks.AUTO_PRESSURE_CHAMBER,
-        ExpansionItemStacks.PRESSURE_CHAMBER_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         SlimefunItems.BASIC_CIRCUIT_BOARD,
         SlimefunItems.CARGO_MOTOR,
         SlimefunItems.BASIC_CIRCUIT_BOARD
@@ -581,9 +581,9 @@ public class ExpansionRecipes {
         OPTIC_GLASS.getItem(),
         OPTIC_CABLE.getItem(),
         OPTIC_GLASS.getItem(),
-        ExpansionItemStacks.MAGIC_WORKBENCH_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         SIMPLE_NANOBOTS.getItem(),
-        ExpansionItemStacks.MAGIC_WORKBENCH_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         OPTIC_GLASS.getItem(),
         NETWORK_AUTO_CRAFTER.getItem(),
         OPTIC_GLASS.getItem()
@@ -605,9 +605,9 @@ public class ExpansionRecipes {
         OPTIC_GLASS.getItem(),
         SlimefunItems.ARMOR_AUTO_CRAFTER,
         OPTIC_GLASS.getItem(),
-        ExpansionItemStacks.ARMOR_FORGE_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         SIMPLE_NANOBOTS.getItem(),
-        ExpansionItemStacks.ARMOR_FORGE_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         OPTIC_GLASS.getItem(),
         NETWORK_AUTO_CRAFTER.getItem(),
         OPTIC_GLASS.getItem()
@@ -627,7 +627,7 @@ public class ExpansionRecipes {
 
     public static final ItemStack[] AUTO_SMELTERY = new ItemStack[]{
         OPTIC_GLASS.getItem(),
-        ExpansionItemStacks.SMELTERY_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         OPTIC_GLASS.getItem(),
         SlimefunItems.ELECTRIC_SMELTERY_2,
         SIMPLE_NANOBOTS.getItem(),
@@ -653,9 +653,9 @@ public class ExpansionRecipes {
         OPTIC_GLASS.getItem(),
         NETWORK_QUANTUM_WORKBENCH.getItem(),
         OPTIC_GLASS.getItem(),
-        ExpansionItemStacks.QUANTUM_WORKBENCH_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         SIMPLE_NANOBOTS.getItem(),
-        ExpansionItemStacks.QUANTUM_WORKBENCH_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         OPTIC_GLASS.getItem(),
         NETWORK_AUTO_CRAFTER.getItem(),
         OPTIC_GLASS.getItem()
@@ -677,9 +677,9 @@ public class ExpansionRecipes {
         OPTIC_GLASS.getItem(),
         SlimefunItems.CRAFTER_SMART_PORT,
         OPTIC_GLASS.getItem(),
-        ExpansionItemStacks.ANCIENT_ALTAR_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         SIMPLE_NANOBOTS.getItem(),
-        ExpansionItemStacks.ANCIENT_ALTAR_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         OPTIC_GLASS.getItem(),
         NETWORK_AUTO_CRAFTER.getItem(),
         OPTIC_GLASS.getItem()
@@ -701,9 +701,9 @@ public class ExpansionRecipes {
         OPTIC_GLASS.getItem(),
         SlimefunItems.CRAFTER_SMART_PORT,
         OPTIC_GLASS.getItem(),
-        ExpansionItemStacks.EXPANSION_WORKBENCH_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         SIMPLE_NANOBOTS.getItem(),
-        ExpansionItemStacks.EXPANSION_WORKBENCH_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         OPTIC_GLASS.getItem(),
         NETWORK_AUTO_CRAFTER.getItem(),
         OPTIC_GLASS.getItem()
@@ -725,9 +725,9 @@ public class ExpansionRecipes {
         OPTIC_GLASS.getItem(),
         SlimefunItems.CRAFTER_SMART_PORT,
         OPTIC_GLASS.getItem(),
-        ExpansionItemStacks.COMPRESSOR_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         SIMPLE_NANOBOTS.getItem(),
-        ExpansionItemStacks.COMPRESSOR_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         OPTIC_GLASS.getItem(),
         NETWORK_AUTO_CRAFTER.getItem(),
         OPTIC_GLASS.getItem()
@@ -749,9 +749,9 @@ public class ExpansionRecipes {
         OPTIC_GLASS.getItem(),
         SlimefunItems.CRAFTER_SMART_PORT,
         OPTIC_GLASS.getItem(),
-        ExpansionItemStacks.GRIND_STONE_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         SIMPLE_NANOBOTS.getItem(),
-        ExpansionItemStacks.GRIND_STONE_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         OPTIC_GLASS.getItem(),
         NETWORK_AUTO_CRAFTER.getItem(),
         OPTIC_GLASS.getItem()
@@ -773,9 +773,9 @@ public class ExpansionRecipes {
         OPTIC_GLASS.getItem(),
         SlimefunItems.CRAFTER_SMART_PORT,
         OPTIC_GLASS.getItem(),
-        ExpansionItemStacks.JUICER_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         SIMPLE_NANOBOTS.getItem(),
-        ExpansionItemStacks.JUICER_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         OPTIC_GLASS.getItem(),
         NETWORK_AUTO_CRAFTER.getItem(),
         OPTIC_GLASS.getItem()
@@ -797,9 +797,9 @@ public class ExpansionRecipes {
         OPTIC_GLASS.getItem(),
         SlimefunItems.CRAFTER_SMART_PORT,
         OPTIC_GLASS.getItem(),
-        ExpansionItemStacks.ORE_CRUSHER_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         SIMPLE_NANOBOTS.getItem(),
-        ExpansionItemStacks.ORE_CRUSHER_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         OPTIC_GLASS.getItem(),
         NETWORK_AUTO_CRAFTER.getItem(),
         OPTIC_GLASS.getItem()
@@ -821,9 +821,9 @@ public class ExpansionRecipes {
         OPTIC_GLASS.getItem(),
         SlimefunItems.CRAFTER_SMART_PORT,
         OPTIC_GLASS.getItem(),
-        ExpansionItemStacks.PRESSURE_CHAMBER_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         SIMPLE_NANOBOTS.getItem(),
-        ExpansionItemStacks.PRESSURE_CHAMBER_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         OPTIC_GLASS.getItem(),
         NETWORK_AUTO_CRAFTER.getItem(),
         OPTIC_GLASS.getItem()
@@ -1147,6 +1147,12 @@ public class ExpansionRecipes {
         OPTIC_GLASS.getItem(), OPTIC_CABLE.getItem(), OPTIC_GLASS.getItem()
     };
     // Bridges
+    public static final ItemStack[] NETWORK_BRIDGE_ORDINAL = new ItemStack[]{
+        NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(),
+        NETWORK_BRIDGE.getItem(), null, NETWORK_BRIDGE.getItem(),
+        NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem()
+    };
+
     public static final ItemStack[] NETWORK_BRIDGE_WHITE = new ItemStack[]{
         NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(),
         NETWORK_BRIDGE.getItem(), new ItemStack(Material.WHITE_DYE), NETWORK_BRIDGE.getItem(),
@@ -1268,25 +1274,25 @@ public class ExpansionRecipes {
 
     public static final ItemStack[] CARGO_STORAGE_UNIT_2 = new ItemStack[]{
         NETWORK_QUANTUM_STORAGE_9.getItem(),
-        ExpansionItemStacks.ARMOR_FORGE_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         NETWORK_QUANTUM_STORAGE_9.getItem(),
-        ExpansionItemStacks.ARMOR_FORGE_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         ExpansionItemStacks.CARGO_STORAGE_UNIT_1,
-        ExpansionItemStacks.ARMOR_FORGE_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         NETWORK_QUANTUM_STORAGE_9.getItem(),
-        ExpansionItemStacks.ARMOR_FORGE_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         NETWORK_QUANTUM_STORAGE_9.getItem()
     };
 
     public static final ItemStack[] CARGO_STORAGE_UNIT_3 = new ItemStack[]{
         NETWORK_QUANTUM_STORAGE_10.getItem(),
-        ExpansionItemStacks.SMELTERY_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         NETWORK_QUANTUM_STORAGE_10.getItem(),
-        ExpansionItemStacks.SMELTERY_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         ExpansionItemStacks.CARGO_STORAGE_UNIT_2,
-        ExpansionItemStacks.SMELTERY_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         NETWORK_QUANTUM_STORAGE_10.getItem(),
-        ExpansionItemStacks.SMELTERY_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         NETWORK_QUANTUM_STORAGE_10.getItem()
     };
 
@@ -1340,37 +1346,37 @@ public class ExpansionRecipes {
 
     public static final ItemStack[] CARGO_STORAGE_UNIT_9 = new ItemStack[]{
         NETWORK_QUANTUM_STORAGE_4.getItem(),
-        ExpansionItemStacks.EXPANSION_WORKBENCH_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         NETWORK_QUANTUM_STORAGE_4.getItem(),
-        ExpansionItemStacks.EXPANSION_WORKBENCH_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         ExpansionItemStacks.CARGO_STORAGE_UNIT_8,
-        ExpansionItemStacks.EXPANSION_WORKBENCH_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         NETWORK_QUANTUM_STORAGE_4.getItem(),
-        ExpansionItemStacks.EXPANSION_WORKBENCH_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         NETWORK_QUANTUM_STORAGE_4.getItem()
     };
 
     public static final ItemStack[] CARGO_STORAGE_UNIT_10 = new ItemStack[]{
         NETWORK_QUANTUM_STORAGE_4.getItem(),
-        ExpansionItemStacks.QUANTUM_WORKBENCH_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         NETWORK_QUANTUM_STORAGE_4.getItem(),
-        ExpansionItemStacks.QUANTUM_WORKBENCH_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         ExpansionItemStacks.CARGO_STORAGE_UNIT_9,
-        ExpansionItemStacks.QUANTUM_WORKBENCH_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         NETWORK_QUANTUM_STORAGE_4.getItem(),
-        ExpansionItemStacks.QUANTUM_WORKBENCH_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         NETWORK_QUANTUM_STORAGE_4.getItem()
     };
 
     public static final ItemStack[] CARGO_STORAGE_UNIT_11 = new ItemStack[]{
         NETWORK_QUANTUM_STORAGE_5.getItem(),
-        ExpansionItemStacks.ANCIENT_ALTAR_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         NETWORK_QUANTUM_STORAGE_5.getItem(),
-        ExpansionItemStacks.ANCIENT_ALTAR_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         ExpansionItemStacks.CARGO_STORAGE_UNIT_10,
-        ExpansionItemStacks.ANCIENT_ALTAR_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         NETWORK_QUANTUM_STORAGE_5.getItem(),
-        ExpansionItemStacks.ANCIENT_ALTAR_BLUEPRINT,
+        OPTIC_GLASS.getItem(),
         NETWORK_QUANTUM_STORAGE_5.getItem()
     };
     public static final ItemStack[] CARGO_STORAGE_UNIT_12 = new ItemStack[]{

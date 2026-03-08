@@ -122,6 +122,12 @@ public final class ExpansionItemsMenus {
         Material.KNOWLEDGE_BOOK,
         Lang.getString("groups.expansion.custom.sub_menu_announce"));
 
+    // deprecated
+    public static final SubFlexItemGroup SUB_MENU_DEPRECATED = GroupConfigUtil.getSubFlexItemGroup(
+        "NTW_EXPANSION_SUB_MENU_DEPRECATED",
+        Material.DEEPSLATE_BRICKS,
+        Lang.getString("groups.expansion.custom.sub_menu_deprecated"));
+
     private static @NotNull NamespacedKey getKey(@NotNull String key) {
         return Keys.newKey(key);
     }

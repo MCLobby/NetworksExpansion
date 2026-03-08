@@ -6,6 +6,7 @@ import org.jspecify.annotations.NullMarked;
 /**
  * @author balugaq
  */
+@Deprecated
 @NullMarked
 public interface CraftTyped {
     CraftType craftType();

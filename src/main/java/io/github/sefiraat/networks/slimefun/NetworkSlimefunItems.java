@@ -223,14 +223,14 @@ public class NetworkSlimefunItems {
             NetworksSlimefunItemStacks.SIMPLE_NANOBOTS,
             RecipeType.ENHANCED_CRAFTING_TABLE,
             new ItemStack[]{SHRINKING_BASE.getItem(), SlimefunItems.PROGRAMMABLE_ANDROID},
-            StackUtils.getAsQuantity(NetworksSlimefunItemStacks.SIMPLE_NANOBOTS, 8));
+            StackUtils.getAsQuantity(NetworksSlimefunItemStacks.SIMPLE_NANOBOTS, 64));
 
         ADVANCED_NANOBOTS = new UnplaceableBlock(
             NetworksItemGroups.MATERIALS,
             NetworksSlimefunItemStacks.ADVANCED_NANOBOTS,
             RecipeType.ENHANCED_CRAFTING_TABLE,
             new ItemStack[]{SHRINKING_BASE.getItem(), SlimefunItems.PROGRAMMABLE_ANDROID_3},
-            StackUtils.getAsQuantity(NetworksSlimefunItemStacks.ADVANCED_NANOBOTS, 8));
+            StackUtils.getAsQuantity(NetworksSlimefunItemStacks.ADVANCED_NANOBOTS, 64));
 
         AI_CORE = new UnplaceableBlock(
             NetworksItemGroups.MATERIALS,

@@ -181,6 +181,9 @@ public class Icon {
     public static final ItemStack FACING_PRESETTER_HELP_ICON =
         Lang.getIcon("facing-presetter-help-icon", Material.KNOWLEDGE_BOOK);
 
+    public static final ItemStack ITEM_TARGET_DESC_STACK =
+        Lang.getIcon("item-target-desc-stack", Material.ORANGE_STAINED_GLASS_PANE);
+
     // pages are 1-based
     @SuppressWarnings("deprecation")
     @NotNull
