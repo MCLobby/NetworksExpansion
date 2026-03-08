@@ -305,12 +305,12 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle implements
     }
 
     @Override
-    public int[] getIngredientSlots() {
-        return INGREDIENT_SLOTS;
+    public @NotNull List<Keybinds> keybinds() {
+        return List.of(displayKeybinds(), outsideKeybinds());
     }
 
     @Override
-    public @NotNull List<Keybinds> keybinds() {
-        return List.of(displayKeybinds(), outsideKeybinds());
+    public @NotNull SlimefunItem getSlimefunItem() {
+        return this;
     }
 }

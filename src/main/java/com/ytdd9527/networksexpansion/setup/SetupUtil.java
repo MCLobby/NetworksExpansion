@@ -15,25 +15,12 @@ public class SetupUtil {
         /* items */
         ExpansionItemsMenus.SUB_MENU_TOOL.addTo(
             ExpansionItems.CARGO_NODE_QUICK_TOOL.registerThis(),
-            ExpansionItems.WORLDEDIT_AXE.registerThis(),
             ExpansionItems.INFO_TOOL.registerThis(),
             ExpansionItems.DUE_MACHINE_CONFIGURATOR.registerThis(),
             ExpansionItems.ITEM_MOVER.registerThis(),
             ExpansionItems.STATUS_VIEWER.registerThis());
-        ExpansionItemsMenus.SUB_MENU_BLUEPRINT.addTo(
-            ExpansionItems.MAGIC_WORKBENCH_BLUEPRINT.registerThis(),
-            ExpansionItems.ARMOR_FORGE_BLUEPRINT.registerThis(),
-            ExpansionItems.SMELTERY_BLUEPRINT.registerThis(),
-            ExpansionItems.QUANTUM_WORKBENCH_BLUEPRINT.registerThis(),
-            ExpansionItems.ANCIENT_ALTAR_BLUEPRINT.registerThis(),
-            ExpansionItems.EXPANSION_WORKBENCH_BLUEPRINT.registerThis(),
-            ExpansionItems.COMPRESSOR_BLUEPRINT.registerThis(),
-            ExpansionItems.GRIND_STONE_BLUEPRINT.registerThis(),
-            ExpansionItems.JUICER_BLUEPRINT.registerThis(),
-            ExpansionItems.ORE_CRUSHER_BLUEPRINT.registerThis(),
-            ExpansionItems.PRESSURE_CHAMBER_BLUEPRINT.registerThis());
+
         /* cargo */
-        ExpansionItems.ADVANCED_QUANTUM_STORAGE.setSupportsCustomMaxAmount(true);
         ExpansionItemsMenus.SUB_MENU_ADVANCED_STORAGE.addTo(ExpansionItems.ADVANCED_QUANTUM_STORAGE.registerThis());
         ExpansionItemsMenus.SUB_MENU_NETWORKS_DRAWERS.addTo(
             ExpansionItems.DRAWER_TIPS.registerThis(),
@@ -114,10 +101,12 @@ public class SetupUtil {
         );
         ExpansionItemsMenus.SUB_MENU_CARGO.addTo(
             ExpansionItems.SMART_GRABBER.registerThis(), ExpansionItems.SMART_PUSHER.registerThis());
+
         /* functional machines */
         ExpansionItemsMenus.SUB_MENU_CORE_MACHINE.addTo(
             ExpansionItems.NETWORKS_EXPANSION_WORKBENCH.registerThis(),
             ExpansionItems.STORAGE_UNIT_UPGRADE_TABLE.registerThis());
+
         ExpansionItemsMenus.SUB_MENU_ADVANCED_NETWORKS.addTo(
             ExpansionItems.ADVANCED_IMPORT.registerThis(),
             ExpansionItems.ADVANCED_EXPORT.registerThis(),
@@ -153,9 +142,12 @@ public class SetupUtil {
             ExpansionItems.ITEM_DIFFERENTER.registerThis(),
             ExpansionItems.STORAGE_CARD_CONVERTER.registerThis(),
             ExpansionItems.FACING_PRESETTER.registerThis(),
-            ExpansionItems.SUPER_TRASH.registerThis());
+            ExpansionItems.SUPER_TRASH.registerThis(),
+            ExpansionItems.ADVANCED_AUTO_CRAFTING_TABLE.registerThis(),
+            ExpansionItems.ADVANCED_AUTO_CRAFTING_TABLE_WITHHOLDING.registerThis());
 
         ExpansionItemsMenus.SUB_MENU_BRIDGE.addTo(
+            ExpansionItems.NETWORK_BRIDGE_ORDINAL.registerThis(),
             ExpansionItems.NETWORK_BRIDGE_WHITE.registerThis(),
             ExpansionItems.NETWORK_BRIDGE_LIGHT_GRAY.registerThis(),
             ExpansionItems.NETWORK_BRIDGE_GRAY.registerThis(),
@@ -172,7 +164,20 @@ public class SetupUtil {
             ExpansionItems.NETWORK_BRIDGE_PURPLE.registerThis(),
             ExpansionItems.NETWORK_BRIDGE_MAGENTA.registerThis(),
             ExpansionItems.NETWORK_BRIDGE_PINK.registerThis());
-        ExpansionItemsMenus.SUB_MENU_ENCODER.addTo(
+
+        ExpansionItemsMenus.SUB_MENU_DEPRECATED.addTo(
+            ExpansionItems.WORLDEDIT_AXE.registerThis(),
+            ExpansionItems.MAGIC_WORKBENCH_BLUEPRINT.registerThis(),
+            ExpansionItems.ARMOR_FORGE_BLUEPRINT.registerThis(),
+            ExpansionItems.SMELTERY_BLUEPRINT.registerThis(),
+            ExpansionItems.QUANTUM_WORKBENCH_BLUEPRINT.registerThis(),
+            ExpansionItems.ANCIENT_ALTAR_BLUEPRINT.registerThis(),
+            ExpansionItems.EXPANSION_WORKBENCH_BLUEPRINT.registerThis(),
+            ExpansionItems.COMPRESSOR_BLUEPRINT.registerThis(),
+            ExpansionItems.GRIND_STONE_BLUEPRINT.registerThis(),
+            ExpansionItems.JUICER_BLUEPRINT.registerThis(),
+            ExpansionItems.ORE_CRUSHER_BLUEPRINT.registerThis(),
+            ExpansionItems.PRESSURE_CHAMBER_BLUEPRINT.registerThis(),
             ExpansionItems.MAGIC_WORKBENCH_RECIPE_ENCODER.registerThis(),
             ExpansionItems.ARMOR_FORGE_RECIPE_ENCODER.registerThis(),
             ExpansionItems.SMELTERY_RECIPE_ENCODER.registerThis(),
@@ -183,8 +188,7 @@ public class SetupUtil {
             ExpansionItems.GRIND_STONE_RECIPE_ENCODER.registerThis(),
             ExpansionItems.JUICER_RECIPE_ENCODER.registerThis(),
             ExpansionItems.ORE_CRUSHER_RECIPE_ENCODER.registerThis(),
-            ExpansionItems.PRESSURE_CHAMBER_RECIPE_ENCODER.registerThis());
-        ExpansionItemsMenus.SUB_MENU_CRAFTER_MACHINE.addTo(
+            ExpansionItems.PRESSURE_CHAMBER_RECIPE_ENCODER.registerThis(),
             ExpansionItems.AUTO_MAGIC_WORKBENCH.registerThis(),
             ExpansionItems.AUTO_ARMOR_FORGE.registerThis(),
             ExpansionItems.AUTO_SMELTERY.registerThis(),
@@ -195,8 +199,7 @@ public class SetupUtil {
             ExpansionItems.AUTO_GRIND_STONE.registerThis(),
             ExpansionItems.AUTO_JUICER.registerThis(),
             ExpansionItems.AUTO_ORE_CRUSHER.registerThis(),
-            ExpansionItems.AUTO_PRESSURE_CHAMBER.registerThis());
-        ExpansionItemsMenus.SUB_MENU_CRAFTER_MACHINE.addTo(
+            ExpansionItems.AUTO_PRESSURE_CHAMBER.registerThis(),
             ExpansionItems.AUTO_MAGIC_WORKBENCH_WITHHOLDING.registerThis(),
             ExpansionItems.AUTO_ARMOR_FORGE_WITHHOLDING.registerThis(),
             ExpansionItems.AUTO_SMELTERY_WITHHOLDING.registerThis(),
@@ -207,28 +210,24 @@ public class SetupUtil {
             ExpansionItems.AUTO_GRIND_STONE_WITHHOLDING.registerThis(),
             ExpansionItems.AUTO_JUICER_WITHHOLDING.registerThis(),
             ExpansionItems.AUTO_ORE_CRUSHER_WITHHOLDING.registerThis(),
-            ExpansionItems.AUTO_PRESSURE_CHAMBER_WITHHOLDING.registerThis());
-        ExpansionItemsMenus.SUB_MENU_CRAFTER_MACHINE.addTo(
+            ExpansionItems.AUTO_PRESSURE_CHAMBER_WITHHOLDING.registerThis(),
             ExpansionItems.ADVANCED_AUTO_MAGIC_WORKBENCH.registerThis(),
             ExpansionItems.ADVANCED_AUTO_ARMOR_FORGE.registerThis(),
             ExpansionItems.ADVANCED_AUTO_SMELTERY.registerThis(),
             ExpansionItems.ADVANCED_AUTO_QUANTUM_WORKBENCH.registerThis(),
             ExpansionItems.ADVANCED_AUTO_ANCIENT_ALTAR.registerThis(),
             ExpansionItems.ADVANCED_AUTO_EXPANSION_WORKBENCH.registerThis(),
-            ExpansionItems.ADVANCED_AUTO_CRAFTING_TABLE.registerThis(),
             ExpansionItems.ADVANCED_AUTO_COMPRESSOR.registerThis(),
             ExpansionItems.ADVANCED_AUTO_GRIND_STONE.registerThis(),
             ExpansionItems.ADVANCED_AUTO_JUICER.registerThis(),
             ExpansionItems.ADVANCED_AUTO_ORE_CRUSHER.registerThis(),
-            ExpansionItems.ADVANCED_AUTO_PRESSURE_CHAMBER.registerThis());
-        ExpansionItemsMenus.SUB_MENU_CRAFTER_MACHINE.addTo(
+            ExpansionItems.ADVANCED_AUTO_PRESSURE_CHAMBER.registerThis(),
             ExpansionItems.ADVANCED_AUTO_MAGIC_WORKBENCH_WITHHOLDING.registerThis(),
             ExpansionItems.ADVANCED_AUTO_ARMOR_FORGE_WITHHOLDING.registerThis(),
             ExpansionItems.ADVANCED_AUTO_SMELTERY_WITHHOLDING.registerThis(),
             ExpansionItems.ADVANCED_AUTO_QUANTUM_WORKBENCH_WITHHOLDING.registerThis(),
             ExpansionItems.ADVANCED_AUTO_ANCIENT_ALTAR_WITHHOLDING.registerThis(),
             ExpansionItems.ADVANCED_AUTO_EXPANSION_WORKBENCH_WITHHOLDING.registerThis(),
-            ExpansionItems.ADVANCED_AUTO_CRAFTING_TABLE_WITHHOLDING.registerThis(),
             ExpansionItems.ADVANCED_AUTO_COMPRESSOR_WITHHOLDING.registerThis(),
             ExpansionItems.ADVANCED_AUTO_GRIND_STONE_WITHHOLDING.registerThis(),
             ExpansionItems.ADVANCED_AUTO_JUICER_WITHHOLDING.registerThis(),
@@ -311,6 +310,9 @@ public class SetupUtil {
         ExpansionItemsMenus.MAIN_MENU_TROPHY.addFrom(
             ExpansionItemsMenus.SUB_MENU_AUTHOR, ExpansionItemsMenus.SUB_MENU_ANNOUNCE);
         */
+
+        ExpansionItemsMenus.MAIN_ITEM_GROUP.addTo(
+            ExpansionItemsMenus.SUB_MENU_DEPRECATED);
 
         ExpansionItemsMenus.MAIN_ITEM_GROUP.setTier(0);
         ExpansionItemsMenus.MAIN_ITEM_GROUP.register(networks);

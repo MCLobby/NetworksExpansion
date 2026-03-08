@@ -1,5 +1,6 @@
 package com.ytdd9527.networksexpansion.core.items.machines;
 
+import com.balugaq.netex.api.enums.CraftType;
 import com.balugaq.netex.api.enums.FeedbackType;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.api.interfaces.CraftTyped;
@@ -11,6 +12,7 @@ import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
+import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -19,6 +21,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
@@ -37,7 +40,7 @@ import java.util.Set;
 
 public abstract class AbstractEncoder extends NetworkObject implements CraftTyped, RecipeCompletableWithGuide {
     private static final int[] BACKGROUND = new int[]{
-        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 17, 18, 20, 24, 25, 26, 27, 28, 29, 33, 35, 36, 37, 38, 39, 40, 41,
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 17, 18, 20, 24, 25, 27, 28, 29, 33, 36, 37, 38, 39, 40, 41,
         42, 43, 44
     };
     private static final int[] RECIPE_SLOTS = new int[]{12, 13, 14, 21, 22, 23, 30, 31, 32};
@@ -45,6 +48,8 @@ public abstract class AbstractEncoder extends NetworkObject implements CraftType
     private static final int BLANK_BLUEPRINT_SLOT = 19;
     private static final int ENCODE_SLOT = 16;
     private static final int OUTPUT_SLOT = 34;
+    private static final int ITEM_TARGET_DESC_SLOT = 26;
+    private static final int ITEM_TARGET_SLOT = 35;
     private static final int JEG_SLOT = 4;
     private static final int CHARGE_COST = 2000;
 
@@ -71,6 +76,7 @@ public abstract class AbstractEncoder extends NetworkObject implements CraftType
                 drawBackground(Icon.BLUEPRINT_BACK_STACK, BLUEPRINT_BACK);
 
                 addItem(ENCODE_SLOT, Icon.ENCODE_STACK, (player, i, itemStack, clickAction) -> false);
+                addItem(ITEM_TARGET_DESC_SLOT, Icon.ITEM_TARGET_DESC_STACK, (player, i, itemStack, clickAction) -> false);
             }
 
             @Override
@@ -84,7 +90,11 @@ public abstract class AbstractEncoder extends NetworkObject implements CraftType
                     }
                     return false;
                 });
-                //addJEGButton(menu, JEG_SLOT);
+                addJEGButton(menu, JEG_SLOT);
+                var fix = menu.getItemInSlot(ITEM_TARGET_SLOT);
+                if (StackUtils.itemsMatch(fix, ChestMenuUtils.getBackground())) {
+                    menu.replaceExistingItem(ITEM_TARGET_SLOT, null);
+                }
             }
 
             @Override
@@ -175,16 +185,24 @@ public abstract class AbstractEncoder extends NetworkObject implements CraftType
             }
         }
 
-        for (Map.Entry<ItemStack[], ItemStack> entry : getRecipeEntries()) {
-            if (testRecipe(inputs, entry.getKey())) {
-                crafted = ItemStackUtil.getCleanItem(entry.getValue().clone());
-                inp = entry.getKey().clone();
-                for (int k = 0; k < inp.length; k++) {
-                    if (inp[k] != null) {
-                        inp[k] = ItemStackUtil.getCleanItem(inp[k]);
+        ItemStack target = blockMenu.getItemInSlot(ITEM_TARGET_SLOT);
+        if (target != null && target.getType() == Material.AIR) target = null;
+
+        for (var entries : CraftType.entries()) {
+            for (Map.Entry<ItemStack[], ItemStack> entry : entries) {
+                if (testRecipe(inputs, entry.getKey())) {
+                    crafted = ItemStackUtil.getCleanItem(entry.getValue().clone());
+                    if (target != null && !StackUtils.itemsMatch(crafted, target)) {
+                        continue;
                     }
+                    inp = entry.getKey().clone();
+                    for (int k = 0; k < inp.length; k++) {
+                        if (inp[k] != null) {
+                            inp[k] = ItemStackUtil.getCleanItem(inp[k]);
+                        }
+                    }
+                    break;
                 }
-                break;
             }
         }
 
@@ -216,7 +234,14 @@ public abstract class AbstractEncoder extends NetworkObject implements CraftType
 
         blueprintSetter(blueprintClone, inp, crafted);
         if (BlockMenuUtil.fits(blockMenu, blueprintClone, OUTPUT_SLOT)) {
+            ItemStack recover = null;
+            if (blueprint.getAmount() == 1) {
+                recover = root.getItemStack0(blockMenu.getLocation(), new ItemRequest(blueprint, blueprint.getMaxStackSize()));
+            }
             blueprint.setAmount(blueprint.getAmount() - 1);
+            if (recover != null) {
+                BlockMenuUtil.pushItem(blockMenu, recover, BLANK_BLUEPRINT_SLOT);
+            }
             int j = 0;
             for (int recipeSlot : RECIPE_SLOTS) {
                 ItemStack slotItem = blockMenu.getItemInSlot(recipeSlot);
@@ -257,7 +282,8 @@ public abstract class AbstractEncoder extends NetworkObject implements CraftType
     }
 
     @Override
-    public int[] getIngredientSlots() {
-        return RECIPE_SLOTS;
+    @NotNull
+    public SlimefunItem getSlimefunItem() {
+        return this;
     }
 }
