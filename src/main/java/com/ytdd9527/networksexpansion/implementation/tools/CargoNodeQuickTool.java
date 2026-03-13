@@ -129,7 +129,7 @@ public class CargoNodeQuickTool extends SpecialSlimefunItem {
                 }
                 if (!storedId.equalsIgnoreCase(blockData.getSfId())) {
                     p.sendMessage(
-                        Lang.getString("messages.unsupported-operation.cargo_node_quick_tool.nod-type-not-same"));
+                        Lang.getString("messages.unsupported-operation.cargo_node_quick_tool.node-type-not-same"));
                     return;
                 }
                 BlockMenu inv = blockData.getBlockMenu();
@@ -194,7 +194,7 @@ public class CargoNodeQuickTool extends SpecialSlimefunItem {
                                 }
                             } else {
                                 p.sendMessage(Lang.getString(
-                                    "messages.unsupported-operation.cargo_node_quick_tool.not_enough_items"));
+                                    "messages.unsupported-operation.cargo_node_quick_tool.not-enough-items"));
                                 for (ItemStack item : itemList.keySet()) {
                                     if (!itemList.get(item)) {
                                         p.sendMessage(TextUtil.color("- &e" + ItemStackHelper.getDisplayName(item) + "x"
