@@ -172,7 +172,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
                 return;
             }
 
-            if (tryCraft(blockMenu, instance, root)) {
+            if (tryCraft(blockMenu, instance, root, output)) {
                 root.removeRootPower(this.chargePerCraft);
             }
         } else {
@@ -182,7 +182,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
 
     @SuppressWarnings("DataFlowIssue")
     private boolean tryCraft(
-        @NotNull BlockMenu blockMenu, @NotNull BlueprintInstance instance, @NotNull NetworkRoot root) {
+        @NotNull BlockMenu blockMenu, @NotNull BlueprintInstance instance, @NotNull NetworkRoot root, @Nullable ItemStack existing) {
         // Get the recipe input
         final ItemStack[] inputs = new ItemStack[9];
 
@@ -226,7 +226,9 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
             location.getWorld().spawnParticle(Particle.WAX_OFF, location, 0, 0, 4, 0);
         }
         ItemStack crafted = instance.getItemStack().clone();
-        root.addItemStack0(blockMenu.getLocation(), crafted);
+        if (existing != null && existing.getType() != Material.AIR) {
+            root.addItemStack0(blockMenu.getLocation(), crafted);
+        }
         if (crafted != null && crafted.getType() == Material.AIR) {
             BlockMenuUtil.pushItem(blockMenu, crafted, OUTPUT_SLOT);
         }
