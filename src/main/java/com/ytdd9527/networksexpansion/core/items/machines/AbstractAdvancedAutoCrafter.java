@@ -35,6 +35,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -169,7 +170,7 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
                 return;
             }
 
-            if (tryCraft(blockMenu, instance, root, blueprintAmount)) {
+            if (tryCraft(blockMenu, instance, root, blueprintAmount, output)) {
                 root.removeRootPower(this.chargePerCraft);
             }
         } else {
@@ -182,7 +183,8 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
         @NotNull BlockMenu blockMenu,
         @NotNull BlueprintInstance instance,
         @NotNull NetworkRoot root,
-        int blueprintAmount) {
+        int blueprintAmount,
+        @Nullable ItemStack existing) {
         /* Make sure the network has the required items
          * Needs to be revisited as matching is happening stacks 2x when it should
          * only need the one
@@ -236,7 +238,9 @@ public abstract class AbstractAdvancedAutoCrafter extends NetworkObject implemen
             return false;
         }
 
-        root.addItemStack0(blockMenu.getLocation(), crafted);
+        if (existing != null && existing.getType() != Material.AIR) {
+            root.addItemStack0(blockMenu.getLocation(), crafted);
+        }
         if (crafted != null && crafted.getType() == Material.AIR) {
             BlockMenuUtil.pushItem(blockMenu, crafted, OUTPUT_SLOT);
         }
