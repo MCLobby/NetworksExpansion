@@ -424,7 +424,7 @@ messages:
       disabled_blueprint: "<warning>该蓝图已被禁用"
       disabled_output: "<warning>该配方的输出已被禁用"
       invalid_recipe: "<warning>这似乎不是一个有效的配方"
-      output_full: "<warning>需要清空输出烂"
+      output_full: "<warning>需要清空输出栏"
     cargo_node_quick_tool:
       invalid_tool: "&c工具无效，请勿堆叠使用"
       invalid_node: "&c请指向一个货运节点"
@@ -475,7 +475,7 @@ messages:
     debugger:
       player_is_not_op: "<error>该物品只能由 OP 玩家使用."
     quantum_workbench:
-      output_slot_full: "<warning>需要清空输出烂"
+      output_slot_full: "<warning>需要清空输出栏"
     grid:
       may_duping: "Player \"%s\" attempted to use network grid from a invalid node at %s，the player may trying to cheat or duplicate items."
     manager:
@@ -1247,9 +1247,9 @@ items:
       - "<warning> 网络拓展开发版不接受 GitHub Issues"
       - "<warning> 网络拓展开发版不接受 GitHub PR"
       - "<passive> 版本信息:"
-      - "<passive> 网络拓展版本: v2.1.92"
+      - "<passive> 网络拓展版本: v2.1.93"
       - "<passive> 版本状态: 稳定版"
-      - "<passive> 版本更新时间: 2026-3-14 19:55:27"
+      - "<passive> 版本更新时间: 2026-3-14 21:28:04"
       - "<passive> 开发状态: 更新中"
       - "<passive> 开发者（们）: ytdd9527, balugaq"
       - "<passive> 开发者 GitHub 页面: <click_info>https://github.com/ytdd9527"
