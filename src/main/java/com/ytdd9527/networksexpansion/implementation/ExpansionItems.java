@@ -199,134 +199,134 @@ public class ExpansionItems {
     public static final MagicWorkbenchBlueprint MAGIC_WORKBENCH_BLUEPRINT = new MagicWorkbenchBlueprint(
         ExpansionItemsMenus.MENU_ITEMS,
         ExpansionItemStacks.MAGIC_WORKBENCH_BLUEPRINT,
-        ExpansionWorkbench.TYPE,
+        RecipeType.NULL,
         ExpansionRecipes.NULL);
 
     public static final ArmorForgeBlueprint ARMOR_FORGE_BLUEPRINT = new ArmorForgeBlueprint(
         ExpansionItemsMenus.MENU_ITEMS,
         ExpansionItemStacks.ARMOR_FORGE_BLUEPRINT,
-        ExpansionWorkbench.TYPE,
+        RecipeType.NULL,
         ExpansionRecipes.NULL);
 
     public static final SmelteryBlueprint SMELTERY_BLUEPRINT = new SmelteryBlueprint(
         ExpansionItemsMenus.MENU_ITEMS,
         ExpansionItemStacks.SMELTERY_BLUEPRINT,
-        ExpansionWorkbench.TYPE,
+        RecipeType.NULL,
         ExpansionRecipes.NULL);
 
     public static final QuantumWorkbenchBlueprint QUANTUM_WORKBENCH_BLUEPRINT = new QuantumWorkbenchBlueprint(
         ExpansionItemsMenus.MENU_ITEMS,
         ExpansionItemStacks.QUANTUM_WORKBENCH_BLUEPRINT,
-        ExpansionWorkbench.TYPE,
+        RecipeType.NULL,
         ExpansionRecipes.NULL);
 
     public static final AncientAltarBlueprint ANCIENT_ALTAR_BLUEPRINT = new AncientAltarBlueprint(
         ExpansionItemsMenus.MENU_ITEMS,
         ExpansionItemStacks.ANCIENT_ALTAR_BLUEPRINT,
-        ExpansionWorkbench.TYPE,
+        RecipeType.NULL,
         ExpansionRecipes.NULL);
 
     public static final ExpansionWorkbenchBlueprint EXPANSION_WORKBENCH_BLUEPRINT = new ExpansionWorkbenchBlueprint(
         ExpansionItemsMenus.MENU_ITEMS,
         ExpansionItemStacks.EXPANSION_WORKBENCH_BLUEPRINT,
-        ExpansionWorkbench.TYPE,
+        RecipeType.NULL,
         ExpansionRecipes.NULL);
 
     public static final CompressorBlueprint COMPRESSOR_BLUEPRINT = new CompressorBlueprint(
         ExpansionItemsMenus.MENU_ITEMS,
         ExpansionItemStacks.COMPRESSOR_BLUEPRINT,
-        ExpansionWorkbench.TYPE,
+        RecipeType.NULL,
         ExpansionRecipes.NULL);
 
     public static final GrindStoneBlueprint GRIND_STONE_BLUEPRINT = new GrindStoneBlueprint(
         ExpansionItemsMenus.MENU_ITEMS,
         ExpansionItemStacks.GRIND_STONE_BLUEPRINT,
-        ExpansionWorkbench.TYPE,
+        RecipeType.NULL,
         ExpansionRecipes.NULL);
 
     public static final JuicerBlueprint JUICER_BLUEPRINT = new JuicerBlueprint(
         ExpansionItemsMenus.MENU_ITEMS,
         ExpansionItemStacks.JUICER_BLUEPRINT,
-        ExpansionWorkbench.TYPE,
+        RecipeType.NULL,
         ExpansionRecipes.NULL);
 
     public static final OreCrusherBlueprint ORE_CRUSHER_BLUEPRINT = new OreCrusherBlueprint(
         ExpansionItemsMenus.MENU_ITEMS,
         ExpansionItemStacks.ORE_CRUSHER_BLUEPRINT,
-        ExpansionWorkbench.TYPE,
+        RecipeType.NULL,
         ExpansionRecipes.NULL);
 
     public static final PressureChamberBlueprint PRESSURE_CHAMBER_BLUEPRINT = new PressureChamberBlueprint(
         ExpansionItemsMenus.MENU_ITEMS,
         ExpansionItemStacks.PRESSURE_CHAMBER_BLUEPRINT,
-        ExpansionWorkbench.TYPE,
+        RecipeType.NULL,
         ExpansionRecipes.NULL);
 
     // Encoders
     public static final MagicWorkbenchEncoder MAGIC_WORKBENCH_RECIPE_ENCODER = new MagicWorkbenchEncoder(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.MAGIC_WORKBENCH_RECIPE_ENCODER,
-        ExpansionWorkbench.TYPE,
+        RecipeType.NULL,
         ExpansionRecipes.NULL);
 
     public static final ArmorForgeEncoder ARMOR_FORGE_RECIPE_ENCODER = new ArmorForgeEncoder(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ARMOR_FORGE_RECIPE_ENCODER,
-        ExpansionWorkbench.TYPE,
+        RecipeType.NULL,
         ExpansionRecipes.NULL);
 
     public static final SmelteryEncoder SMELTERY_RECIPE_ENCODER = new SmelteryEncoder(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.SMELTERY_RECIPE_ENCODER,
-        ExpansionWorkbench.TYPE,
+        RecipeType.NULL,
         ExpansionRecipes.NULL);
 
     public static final QuantumWorkbenchEncoder QUANTUM_WORKBENCH_RECIPE_ENCODER = new QuantumWorkbenchEncoder(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.QUANTUM_WORKBENCH_RECIPE_ENCODER,
-        ExpansionWorkbench.TYPE,
+        RecipeType.NULL,
         ExpansionRecipes.NULL);
 
     public static final AncientAltarEncoder ANCIENT_ALTAR_RECIPE_ENCODER = new AncientAltarEncoder(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ANCIENT_ALTAR_RECIPE_ENCODER,
-        ExpansionWorkbench.TYPE,
+        RecipeType.NULL,
         ExpansionRecipes.NULL);
 
     public static final ExpansionWorkbenchEncoder EXPANSION_WORKBENCH_RECIPE_ENCODER = new ExpansionWorkbenchEncoder(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.EXPANSION_WORKBENCH_RECIPE_ENCODER,
-        ExpansionWorkbench.TYPE,
+        RecipeType.NULL,
         ExpansionRecipes.NULL);
 
     public static final CompressorEncoder COMPRESSOR_RECIPE_ENCODER = new CompressorEncoder(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.COMPRESSOR_RECIPE_ENCODER,
-        ExpansionWorkbench.TYPE,
+        RecipeType.NULL,
         ExpansionRecipes.NULL);
 
     public static final GrindStoneEncoder GRIND_STONE_RECIPE_ENCODER = new GrindStoneEncoder(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.GRIND_STONE_RECIPE_ENCODER,
-        ExpansionWorkbench.TYPE,
+        RecipeType.NULL,
         ExpansionRecipes.NULL);
 
     public static final JuicerEncoder JUICER_RECIPE_ENCODER = new JuicerEncoder(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.JUICER_RECIPE_ENCODER,
-        ExpansionWorkbench.TYPE,
+        RecipeType.NULL,
         ExpansionRecipes.NULL);
 
     public static final OreCrusherEncoder ORE_CRUSHER_RECIPE_ENCODER = new OreCrusherEncoder(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.ORE_CRUSHER_RECIPE_ENCODER,
-        ExpansionWorkbench.TYPE,
+        RecipeType.NULL,
         ExpansionRecipes.NULL);
 
     public static final PressureChamberEncoder PRESSURE_CHAMBER_RECIPE_ENCODER = new PressureChamberEncoder(
         ExpansionItemsMenus.MENU_FUNCTIONAL_MACHINE,
         ExpansionItemStacks.PRESSURE_CHAMBER_RECIPE_ENCODER,
-        ExpansionWorkbench.TYPE,
+        RecipeType.NULL,
         ExpansionRecipes.NULL);
     
     // Auto Crafters
