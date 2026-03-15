@@ -9,5 +9,7 @@ import org.jspecify.annotations.NullMarked;
 @Deprecated
 @NullMarked
 public interface CraftTyped {
-    CraftType craftType();
+    default CraftType craftType() {
+        return CraftType.CRAFTING;
+    }
 }
