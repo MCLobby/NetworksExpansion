@@ -13,6 +13,7 @@ import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.network.stackcaches.ItemStackCache;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.sefiraat.networks.utils.Keys;
+import io.github.sefiraat.networks.utils.NetworkUtils;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.datatypes.DataTypeMethods;
 import io.github.sefiraat.networks.utils.datatypes.PersistentQuantumStorageType;
@@ -473,21 +474,27 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
                     return false;
                 });
 
-                // Insert all
-                int INSERT_ALL_SLOT = 16;
-                menu.replaceExistingItem(INSERT_ALL_SLOT, Icon.QUICK_INPUT);
-                menu.addMenuClickHandler(INSERT_ALL_SLOT, (pl, slot, item, action) -> {
-                    insertAll(pl, menu, block);
-                    return false;
-                });
+                if (Networks.getConfigManager().isFastInteractQuantum()) {
+                    // Insert all
+                    int INSERT_ALL_SLOT = 16;
+                    menu.replaceExistingItem(INSERT_ALL_SLOT, Icon.QUICK_INPUT);
+                    menu.addMenuClickHandler(
+                        INSERT_ALL_SLOT, (pl, slot, item, action) -> {
+                            insertAll(pl, menu, block);
+                            return false;
+                        }
+                    );
 
-                // Extract all
-                int EXTRACT_SLOT = 17;
-                menu.replaceExistingItem(EXTRACT_SLOT, Icon.QUICK_OUTPUT);
-                menu.addMenuClickHandler(EXTRACT_SLOT, (pl, slot, item, action) -> {
-                    extract(pl, menu, block, action);
-                    return false;
-                });
+                    // Extract all
+                    int EXTRACT_SLOT = 17;
+                    menu.replaceExistingItem(EXTRACT_SLOT, Icon.QUICK_OUTPUT);
+                    menu.addMenuClickHandler(
+                        EXTRACT_SLOT, (pl, slot, item, action) -> {
+                            extract(pl, menu, block, action);
+                            return false;
+                        }
+                    );
+                }
 
                 // Cache may exist if placed with items held inside.
                 QuantumCache cache = CACHES.get(block.getLocation());
@@ -518,7 +525,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
             if (StackUtils.itemsMatch(storedItemCache, item)) {
                 int toAdd = Math.toIntExact(Math.min(item.getAmount(), capacity - cache.getAmountLong()));
                 if (toAdd > 0) {
-
+                    NetworkUtils.clearNearbyNetworks(menu.getLocation());
                     item.setAmount(item.getAmount() - toAdd);
                     cache.increaseAmount(toAdd);
 
@@ -567,6 +574,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
                     itemToInsert.setAmount(amountToExtract);
                     contents[i] = itemToInsert;
 
+                    NetworkUtils.clearNearbyNetworks(menu.getLocation());
                     cache.reduceAmount(amountToExtract);
                     stored -= amountToExtract;
 
