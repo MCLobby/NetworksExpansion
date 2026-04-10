@@ -23,6 +23,7 @@ import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
 import io.github.sefiraat.networks.slimefun.network.NetworkQuantumStorage;
 import io.github.sefiraat.networks.utils.Keys;
+import io.github.sefiraat.networks.utils.NetworkUtils;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.sefiraat.networks.utils.datatypes.DataTypeMethods;
 import io.github.sefiraat.networks.utils.datatypes.PersistentQuantumStorageType;
@@ -417,6 +418,7 @@ public class NetworksDrawer extends SpecialSlimefunItem implements DistinctiveIt
                     return false;
                 }
 
+                NetworkUtils.clearNearbyNetworks(blockMenu.getLocation());
                 if (StackUtils.itemsMatch(clickItem, Icon.ERROR_BORDER)) {
                     if (itemOnCursor.getType() != Material.AIR) {
                         data.depositItemStack0(l, itemOnCursor, false, true);
