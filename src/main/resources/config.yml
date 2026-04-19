@@ -20,6 +20,8 @@ drawer-auto-save-period: 300
 
 disable-profile-check: false
 
+fast-interact-quantum: true
+
 rpg-fix:
   force-check-lore: false
 

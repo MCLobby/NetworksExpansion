@@ -23,7 +23,7 @@ import java.util.Set;
 
 public class NetworkNode {
 
-    protected static final Set<BlockFace> VALID_FACES =
+    public static final Set<BlockFace> VALID_FACES =
         EnumSet.of(BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
 
     @Getter

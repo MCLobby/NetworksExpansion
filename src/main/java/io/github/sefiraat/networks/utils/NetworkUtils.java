@@ -128,4 +128,10 @@ public class NetworkUtils {
 
         NetworkStorage.removeNode(location);
     }
+
+    public static void clearNearbyNetworks(@NotNull Location location) {
+        for (BlockFace face : NetworkNode.VALID_FACES) {
+            clearNetwork(location.clone().add(face.getDirection()));
+        }
+    }
 }

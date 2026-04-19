@@ -142,4 +142,8 @@ public class ConfigManager {
     public boolean isDisableProfileCheck() {
         return Networks.getInstance().getConfig().getBoolean("disable-profile-check", false);
     }
+
+    public boolean isFastInteractQuantum() {
+        return Networks.getInstance().getConfig().getBoolean("fast-interact-quantum", false);
+    }
 }
