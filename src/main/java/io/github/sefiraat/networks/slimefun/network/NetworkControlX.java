@@ -107,7 +107,7 @@ public class NetworkControlX extends NetworkDirectional implements SoftCellBanna
 
         final Material material = targetBlock.getType();
 
-        if (material.getHardness() < 0 || material.isAir()) {
+        if (material.getHardness() < 0 || material.isAir() || !material.isItem()) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.BLOCK_CANNOT_BE_CUT);
             return;
         }
