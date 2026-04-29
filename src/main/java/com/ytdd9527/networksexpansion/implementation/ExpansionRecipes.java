@@ -1149,7 +1149,7 @@ public class ExpansionRecipes {
     // Bridges
     public static final ItemStack[] NETWORK_BRIDGE_ORDINAL = new ItemStack[]{
         NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(),
-        NETWORK_BRIDGE.getItem(), null, NETWORK_BRIDGE.getItem(),
+        NETWORK_BRIDGE.getItem(), new ItemStack(Material.GLASS), NETWORK_BRIDGE.getItem(),
         NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem(), NETWORK_BRIDGE.getItem()
     };
 
