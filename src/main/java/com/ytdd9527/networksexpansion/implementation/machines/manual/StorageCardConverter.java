@@ -18,6 +18,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
@@ -64,7 +65,7 @@ public class StorageCardConverter extends NetworkObject {
             public void init() {
                 setSize(27);
                 for (int slot : BACKGROUND_SLOTS) {
-                    addItem(slot, Icon.GRAY_BACKGROUND);
+                    addItem(slot, Icon.GRAY_BACKGROUND, ChestMenuUtils.getEmptyClickHandler());
                 }
                 addItem(CONVERT_SLOT, Icon.STORAGE_CONVERT_BUTTON);
             }
