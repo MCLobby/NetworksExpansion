@@ -7,7 +7,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ytdd9527.networksexpansion</groupId>
     <artifactId>NetworksExpansion</artifactId>
-    <version>2.1.96</version>
+    <version>2.1.97</version>
 
     <distributionManagement>
         <repository>
@@ -335,11 +335,10 @@
         </dependency>
         <!-- Support FluffyMachines -->
         <dependency>
-            <groupId>com.github.SlimefunGuguProject</groupId>
+            <groupId>com.github.balugaq</groupId>
             <artifactId>FluffyMachines</artifactId>
-            <version>035fe56381</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/FluffyMachines.jar</systemPath>
+            <version>43d7444e4c</version>
+            <scope>provided</scope>
         </dependency>
         <!-- Drawer compatibility with inter-server -->
         <dependency>
