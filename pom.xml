@@ -7,7 +7,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ytdd9527.networksexpansion</groupId>
     <artifactId>NetworksExpansion</artifactId>
-    <version>2.1.97</version>
+    <version>2.1.98</version>
 
     <distributionManagement>
         <repository>
@@ -348,11 +348,10 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.balugaq</groupId>
+            <groupId>com.github.balugaq</groupId>
             <artifactId>JustEnoughGuide</artifactId>
-            <version>2.1.15</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/JustEnoughGuide v2.1.15.jar</systemPath>
+            <version>7f21e113a2</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
