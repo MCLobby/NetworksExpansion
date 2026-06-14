@@ -9,19 +9,6 @@
     <artifactId>NetworksExpansion</artifactId>
     <version>2.1.98</version>
 
-    <distributionManagement>
-        <repository>
-            <id>central</id>
-            <name>sefi-central</name>
-            <url>https://sefiraat.jfrog.io/artifactory/default-maven-local</url>
-        </repository>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>sefi-snapshot</name>
-            <url>https://sefiraat.jfrog.io/artifactory/default-maven-local</url>
-        </snapshotRepository>
-    </distributionManagement>
-
     <pluginRepositories>
         <pluginRepository>
             <releases>
