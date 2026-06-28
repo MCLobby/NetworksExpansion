@@ -13,6 +13,7 @@ import io.github.sefiraat.networks.network.NetworkRoot;
 import io.github.sefiraat.networks.network.NodeDefinition;
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
+import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
 import io.github.sefiraat.networks.slimefun.network.NetworkObject;
 import io.github.sefiraat.networks.utils.StackUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -152,6 +153,17 @@ public abstract class AbstractEncoder extends NetworkObject implements CraftType
         }
 
         ItemStack blueprint = blockMenu.getItemInSlot(BLANK_BLUEPRINT_SLOT);
+
+        if (blueprint == null || blueprint.getType() == Material.AIR) {
+            ItemStack bp = NetworkSlimefunItems.CRAFTING_BLUEPRINT.getItem();
+            blueprint = root.getItemStack0(blockMenu.getLocation(), new ItemRequest(bp, bp.getMaxStackSize()));
+            if (blueprint == null) {
+                player.sendMessage(Lang.getString("messages.feedback.no_blueprint_found"));
+                sendFeedback(blockMenu.getLocation(), FeedbackType.NO_BLUEPRINT_FOUND);
+                return false;
+            }
+            blockMenu.replaceExistingItem(BLANK_BLUEPRINT_SLOT, blueprint);
+        }
 
         SlimefunItem sfi = SlimefunItem.getByItem(blueprint);
         if (sfi != null && sfi.isDisabled()) {
