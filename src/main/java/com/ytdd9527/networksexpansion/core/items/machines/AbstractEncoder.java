@@ -178,23 +178,18 @@ public abstract class AbstractEncoder extends NetworkObject implements CraftType
         }
 
         ItemStack crafted = null;
-        ItemStack[] inp = inputs.clone();
-        for (int k = 0; k < inp.length; k++) {
-            if (inp[k] != null) {
-                inp[k] = ItemStackUtil.getCleanItem(inp[k]);
-            }
-        }
+        ItemStack[] inp = null;
 
         ItemStack target = blockMenu.getItemInSlot(ITEM_TARGET_SLOT);
-        if (target != null && target.getType() == Material.AIR) target = null;
+        if (target == null || target.getType() == Material.AIR) target = null;
 
         for (var entries : CraftType.entries()) {
             for (Map.Entry<ItemStack[], ItemStack> entry : entries) {
                 if (testRecipe(inputs, entry.getKey())) {
-                    crafted = ItemStackUtil.getCleanItem(entry.getValue().clone());
                     if (target != null && !StackUtils.itemsMatch(crafted, target)) {
                         continue;
                     }
+                    crafted = entry.getValue();
                     inp = entry.getKey().clone();
                     for (int k = 0; k < inp.length; k++) {
                         if (inp[k] != null) {
@@ -217,6 +212,7 @@ public abstract class AbstractEncoder extends NetworkObject implements CraftType
 
         if (crafted == null && canTestVanillaRecipe(inputs)) {
             crafted = Bukkit.craftItem(inputs.clone(), player.getWorld(), player);
+            inp = new ItemStack[RECIPE_SLOTS.length];
             for (int k = 0; k < RECIPE_SLOTS.length; k++) {
                 if (inputs[k] != null) {
                     inp[k] = StackUtils.getAsQuantity(inputs[k], 1);
@@ -224,7 +220,7 @@ public abstract class AbstractEncoder extends NetworkObject implements CraftType
             }
         }
 
-        if (crafted == null || crafted.getType() == Material.AIR) {
+        if (inp == null || crafted == null || crafted.getType() == Material.AIR) {
             player.sendMessage(Lang.getString("messages.unsupported-operation.encoder.invalid_recipe"));
             sendFeedback(blockMenu.getLocation(), FeedbackType.INVALID_RECIPE);
             return false;
@@ -232,7 +228,7 @@ public abstract class AbstractEncoder extends NetworkObject implements CraftType
 
         final ItemStack blueprintClone = StackUtils.getAsQuantity(blueprint, 1);
 
-        blueprintSetter(blueprintClone, inp, crafted);
+        blueprintSetter(blueprintClone, inp, crafted.clone());
         if (BlockMenuUtil.fits(blockMenu, blueprintClone, OUTPUT_SLOT)) {
             ItemStack recover = null;
             if (blueprint.getAmount() == 1) {
@@ -262,7 +258,7 @@ public abstract class AbstractEncoder extends NetworkObject implements CraftType
         return true;
     }
 
-    public void blueprintSetter(ItemStack itemStack, ItemStack[] inputs, ItemStack crafted) {
+    public void blueprintSetter(ItemStack itemStack, ItemStack @NotNull [] inputs, ItemStack crafted) {
         craftType().blueprintSetter(itemStack, inputs, crafted);
     }
 
