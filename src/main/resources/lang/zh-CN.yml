@@ -465,6 +465,7 @@ messages:
       custom_max_amount_not_supported: "<warning>这不是一个有效的高级量子存储"
       invalid_custom_max_amount: "<passive>[<gold>网络拓展<passive>] <error>网络高级量子存储必须为: 1 至 140737488355328"
       invalid_custom_max_amount_new: "<passive>[<gold>网络拓展<passive>] <error>网络高级量子存储必须为: 1 至 140737488355328"
+      may_duping: "Player \"%s\" attempted to use quantum storage to dupe at %s. (see https://b23.tv/BV1ZMXuBpEAz)"
     configurator:
       not_a_copyable_block: "<error>该方块没有指定朝向"
       not_a_pasteable_block: "<error>你必须指向一个带方向选择的网络方块"
