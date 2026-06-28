@@ -455,11 +455,7 @@ public class NetworkRoot extends NetworkNode {
                 if (blockMenu == null) {
                     return;
                 }
-                if (Arrays.equals(
-                    blockMenu.getPreset().getSlotsAccessedByItemTransport(ItemTransportFlow.WITHDRAW),
-                    CELL_AVAILABLE_SLOTS)) {
-                    cells.add(location);
-                }
+                cells.add(location);
             }
             case GRABBER -> grabbers.add(location);
             case PUSHER -> pushers.add(location);
