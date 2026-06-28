@@ -196,20 +196,25 @@ public abstract class AbstractEncoder extends NetworkObject implements CraftType
         if (target == null || target.getType() == Material.AIR) target = null;
 
         for (var entries : CraftType.entries()) {
+            boolean found = false;
             for (Map.Entry<ItemStack[], ItemStack> entry : entries) {
                 if (testRecipe(inputs, entry.getKey())) {
+                    crafted = entry.getValue();
                     if (target != null && !StackUtils.itemsMatch(crafted, target)) {
                         continue;
                     }
-                    crafted = entry.getValue();
                     inp = entry.getKey().clone();
                     for (int k = 0; k < inp.length; k++) {
                         if (inp[k] != null) {
                             inp[k] = ItemStackUtil.getCleanItem(inp[k]);
                         }
                     }
+                    found = true;
                     break;
                 }
+            }
+            if (found) {
+                break;
             }
         }
 
