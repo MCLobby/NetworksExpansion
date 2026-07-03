@@ -156,11 +156,10 @@ public class StackUtils {
             return itemStack.isSimilar(cache.getItemStack());
         }
 
-//        #hasItemMeta just do the same thing as #getItemMeta
-//        // If either item does not have a meta then either a mismatch or both without meta = vanilla
-//        if (!itemStack.hasItemMeta() || !cache.getItemStack().hasItemMeta()) {
-//            return itemStack.hasItemMeta() == cache.getItemStack().hasItemMeta();
-//        }
+        // If either item does not have a meta then either a mismatch or both without meta = vanilla
+        if (!itemStack.hasItemMeta() || !cache.getItemStack().hasItemMeta()) {
+            return itemStack.hasItemMeta() == cache.getItemStack().hasItemMeta();
+        }
 
         // Now we need to compare meta's directly - cache is already out, but let's fetch the 2nd meta also
         final ItemMeta itemMeta = itemStack.getItemMeta();

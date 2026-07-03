@@ -54,11 +54,6 @@ public enum CraftType {
     CraftType(Map<ItemStack[], ItemStack> recipes, BiPredicate<ItemStack[], ItemStack[]> testRecipe) {
         this.recipeEntries = recipes.entrySet();
         this.testRecipe = testRecipe;
-        put(this, recipeEntries);
-    }
-
-    public static void put(CraftType type, Set<Map.Entry<ItemStack[], ItemStack>> recipes) {
-        map.put(type, recipes);
     }
 
     public boolean testRecipe(ItemStack[] inputs, ItemStack[] recipe) {
@@ -90,6 +85,21 @@ public enum CraftType {
     }
 
     public static Map<CraftType, Set<Map.Entry<ItemStack[], ItemStack>>> map() {
+        if (map.isEmpty()) {
+            map.put(ANCIENT_ALTAR, ANCIENT_ALTAR.recipeEntries);
+            map.put(ARMOR_FORGE, ARMOR_FORGE.recipeEntries);
+            map.put(COMPRESSOR, COMPRESSOR.recipeEntries);
+            map.put(CRAFTING, CRAFTING.recipeEntries);
+            map.put(EXPANSION_WORKBENCH, EXPANSION_WORKBENCH.recipeEntries);
+            map.put(GRIND_STONE, GRIND_STONE.recipeEntries);
+            map.put(JUICER, JUICER.recipeEntries);
+            map.put(MAGIC_WORKBENCH, MAGIC_WORKBENCH.recipeEntries);
+            map.put(ORE_CRUSHER, ORE_CRUSHER.recipeEntries);
+            map.put(PRESSURE_CHAMBER, PRESSURE_CHAMBER.recipeEntries);
+            map.put(QUANTUM_WORKBENCH, QUANTUM_WORKBENCH.recipeEntries);
+            map.put(SMELTERY, SMELTERY.recipeEntries);
+        }
+
         return map;
     }
 }
