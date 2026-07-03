@@ -84,7 +84,11 @@ public class PersistentCraftingBlueprintType implements PersistentDataType<Persi
                 return null;
             }
         } catch (Exception ignored) {
-            return primitive.get(key, DataType.ITEM_STACK);
+            try {
+                return primitive.get(key, DataType.ITEM_STACK);
+            } catch (Exception ignored2) {
+                return null;
+            }
         }
     }
 
@@ -107,13 +111,7 @@ public class PersistentCraftingBlueprintType implements PersistentDataType<Persi
     @Override
     public BlueprintInstance fromPrimitive(
         PersistentDataContainer primitive, PersistentDataAdapterContext context) {
-        @Nullable ItemStack[] recipe = primitive.get(Keys.RECIPE, DataType.ITEM_STACK_ARRAY);
-        if (recipe == null) {
-            recipe = primitive.get(Keys.RECIPE2, DataType.ITEM_STACK_ARRAY);
-        }
-        if (recipe == null) {
-            recipe = primitive.get(Keys.RECIPE3, DataType.ITEM_STACK_ARRAY);
-        }
+        @Nullable ItemStack @Nullable[] recipe = Keys.getRecipe(primitive);
         if (recipe == null) {
             // new format
             List<NamespacedKey> recipeKeys = primitive.getKeys().stream().filter(k -> k.getKey().startsWith("recipe_")).toList();
@@ -125,13 +123,7 @@ public class PersistentCraftingBlueprintType implements PersistentDataType<Persi
         }
         ItemStack output;
         try {
-            output = primitive.get(Keys.OUTPUT, DataType.ITEM_STACK);
-            if (output == null) {
-                output = primitive.get(Keys.OUTPUT2, DataType.ITEM_STACK);
-            }
-            if (output == null) {
-                output = primitive.get(Keys.OUTPUT3, DataType.ITEM_STACK);
-            }
+            output = Keys.getOutput(primitive);
         } catch (Exception ignored) {
             // UncheckedIOException occurs randomly, seems DataType.ITEM_STACK no longer works.
             output = getItemStack(primitive, Keys.OUTPUT);

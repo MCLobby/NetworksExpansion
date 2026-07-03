@@ -173,9 +173,31 @@ public class Keys {
     public static final NamespacedKey RECIPE2 = customNewKey(NETWORKS_ID, "recipe");
     public static final NamespacedKey RECIPE3 = customNewKey(NETWORKS_CHANGED_ID, "recipe");
 
+    public static @Nullable ItemStack @Nullable [] getRecipe(PersistentDataContainer primitive) {
+        @Nullable ItemStack[] recipe = primitive.get(Keys.RECIPE, DataType.ITEM_STACK_ARRAY);
+        if (recipe == null) {
+            recipe = primitive.get(Keys.RECIPE2, DataType.ITEM_STACK_ARRAY);
+        }
+        if (recipe == null) {
+            recipe = primitive.get(Keys.RECIPE3, DataType.ITEM_STACK_ARRAY);
+        }
+        return recipe;
+    }
+
     public static final NamespacedKey OUTPUT = newKey("output");
     public static final NamespacedKey OUTPUT2 = customNewKey(NETWORKS_ID, "output");
     public static final NamespacedKey OUTPUT3 = customNewKey(NETWORKS_CHANGED_ID, "output");
+
+    public static @Nullable ItemStack getOutput(PersistentDataContainer primitive) {
+        @Nullable ItemStack output = primitive.get(Keys.OUTPUT, DataType.ITEM_STACK);
+        if (output == null) {
+            output = primitive.get(Keys.OUTPUT2, DataType.ITEM_STACK);
+        }
+        if (output == null) {
+            output = primitive.get(Keys.OUTPUT3, DataType.ITEM_STACK);
+        }
+        return output;
+    }
 
     public static final NamespacedKey MAX_AMOUNT = newKey("max_amount");
     public static final NamespacedKey MAX_AMOUNT2 = customNewKey(NETWORKS_ID, "max_amount");
