@@ -697,18 +697,7 @@ public class NetworkQuantumStorage extends SpecialSlimefunItem implements Distin
     protected void onPlace(@NotNull BlockPlaceEvent event) {
         final ItemStack itemStack = event.getItemInHand();
         final ItemMeta itemMeta = itemStack.getItemMeta();
-        QuantumCache cache =
-            DataTypeMethods.getCustom(itemMeta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE);
-
-        if (cache == null) {
-            cache = DataTypeMethods.getCustom(
-                itemMeta, Keys.QUANTUM_STORAGE_INSTANCE2, PersistentQuantumStorageType.TYPE);
-        }
-
-        if (cache == null) {
-            cache = DataTypeMethods.getCustom(
-                itemMeta, Keys.QUANTUM_STORAGE_INSTANCE3, PersistentQuantumStorageType.TYPE);
-        }
+        QuantumCache cache = Keys.getQuantumCache(itemMeta);
 
         if (cache == null) {
             return;

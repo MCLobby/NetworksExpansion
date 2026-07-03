@@ -127,9 +127,7 @@ public class StorageCardConverter extends NetworkObject {
                     }
 
                     ItemMeta meta = quantumStorageItem.getItemMeta();
-                    QuantumCache cache = DataTypeMethods.getCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE, PersistentQuantumStorageType.TYPE);
-                    if (cache == null) cache = DataTypeMethods.getCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE2, PersistentQuantumStorageType.TYPE);
-                    if (cache == null) cache = DataTypeMethods.getCustom(meta, Keys.QUANTUM_STORAGE_INSTANCE3, PersistentQuantumStorageType.TYPE);
+                    QuantumCache cache = Keys.getQuantumCache(meta);
                     if (cache == null) {
                         p.sendMessage(Lang.getString(
                             "messages.unsupported-operation.storage_card_converter.not_quantum_storage"));

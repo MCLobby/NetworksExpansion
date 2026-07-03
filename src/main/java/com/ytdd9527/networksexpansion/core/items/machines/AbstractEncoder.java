@@ -195,10 +195,10 @@ public abstract class AbstractEncoder extends NetworkObject implements CraftType
         ItemStack target = blockMenu.getItemInSlot(ITEM_TARGET_SLOT);
         if (target == null || target.getType() == Material.AIR) target = null;
 
-        for (var entries : CraftType.entries()) {
+        for (var e : CraftType.map().entrySet()) {
             boolean found = false;
-            for (Map.Entry<ItemStack[], ItemStack> entry : entries) {
-                if (testRecipe(inputs, entry.getKey())) {
+            for (Map.Entry<ItemStack[], ItemStack> entry : e.getValue()) {
+                if (testRecipe(e.getKey(), inputs, entry.getKey())) {
                     crafted = entry.getValue();
                     if (target != null && !StackUtils.itemsMatch(crafted, target)) {
                         continue;
@@ -287,8 +287,8 @@ public abstract class AbstractEncoder extends NetworkObject implements CraftType
         return craftType().getRecipeEntries();
     }
 
-    public boolean testRecipe(ItemStack[] inputs, ItemStack[] recipe) {
-        return craftType().testRecipe(inputs, recipe);
+    public boolean testRecipe(CraftType craftType, ItemStack[] inputs, ItemStack[] recipe) {
+        return craftType.testRecipe(inputs, recipe);
     }
     public boolean canTestVanillaRecipe(ItemStack[] inputs) {
         return false;

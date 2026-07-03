@@ -97,7 +97,6 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
         final NodeDefinition definition = NetworkStorage.getNode(blockMenu.getLocation());
 
         if (definition == null || definition.getNode() == null) {
-            sendDebugMessage(blockMenu.getLocation(), "No network found");
             sendFeedback(blockMenu.getLocation(), FeedbackType.NO_NETWORK_FOUND);
             return;
         }
@@ -118,7 +117,6 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
         final ItemStack blueprint = blockMenu.getItemInSlot(BLUEPRINT_SLOT);
 
         if (blueprint == null || blueprint.getType() == Material.AIR) {
-            sendDebugMessage(blockMenu.getLocation(), "No blueprint found");
             sendFeedback(blockMenu.getLocation(), FeedbackType.NO_BLUEPRINT_FOUND);
             return;
         }
@@ -129,7 +127,6 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
             final SlimefunItem item = SlimefunItem.getByItem(blueprint);
 
             if (!isValidBlueprint(item)) {
-                sendDebugMessage(blockMenu.getLocation(), "Invalid blueprint");
                 sendFeedback(blockMenu.getLocation(), FeedbackType.INVALID_BLUEPRINT);
                 return;
             }
@@ -138,28 +135,20 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
 
             if (instance == null) {
                 final ItemMeta blueprintMeta = blueprint.getItemMeta();
-                Optional<BlueprintInstance> optional;
-                optional = DataTypeMethods.getOptionalCustom(
-                    blueprintMeta, Keys.BLUEPRINT_INSTANCE, PersistentCraftingBlueprintType.TYPE);
-
-                if (optional.isEmpty()) {
-                    optional = DataTypeMethods.getOptionalCustom(
-                        blueprintMeta, Keys.BLUEPRINT_INSTANCE2, PersistentCraftingBlueprintType.TYPE);
-                }
-
-                if (optional.isEmpty()) {
-                    optional = DataTypeMethods.getOptionalCustom(
-                        blueprintMeta, Keys.BLUEPRINT_INSTANCE3, PersistentCraftingBlueprintType.TYPE);
-                }
-
-                if (optional.isEmpty()) {
-                    sendDebugMessage(blockMenu.getLocation(), "No blueprint instance found");
+                BlueprintInstance instance2 = Keys.getBlueprintInstance(blueprintMeta);
+                if (instance2 == null) {
+                    setCache(blockMenu, BlueprintInstance.INVALID);
                     sendFeedback(blockMenu.getLocation(), FeedbackType.NO_BLUEPRINT_INSTANCE_FOUND);
                     return;
                 }
 
-                instance = optional.get();
-                setCache(blockMenu, instance);
+                setCache(blockMenu, instance2);
+                instance = instance2;
+            }
+
+            if (instance == BlueprintInstance.INVALID) {
+                sendFeedback(blockMenu.getLocation(), FeedbackType.INVALID_BLUEPRINT);
+                return;
             }
 
             final ItemStack output = blockMenu.getItemInSlot(OUTPUT_SLOT);
@@ -171,7 +160,6 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
                 && targetOutput != null
                 && (output.getAmount() + targetOutput.getAmount() * blueprintAmount > output.getMaxStackSize()
                 || !StackUtils.itemsMatch(targetOutput, output))) {
-                sendDebugMessage(blockMenu.getLocation(), "Output slot is full");
                 sendFeedback(blockMenu.getLocation(), FeedbackType.OUTPUT_FULL);
                 return;
             }
@@ -205,7 +193,6 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
 
         for (Map.Entry<ItemStack, Integer> entry : requiredItems.entrySet()) {
             if (!root.contains(new ItemRequest(entry.getKey(), entry.getValue()))) {
-                sendDebugMessage(blockMenu.getLocation(), "Not enough items in network");
                 sendFeedback(blockMenu.getLocation(), FeedbackType.NOT_ENOUGH_ITEMS_IN_NETWORK);
                 return false;
             }
@@ -238,7 +225,6 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
 
         if (crafted.getAmount() > crafted.getMaxStackSize()) {
             returnItems(root, fetcheds, blockMenu);
-            sendDebugMessage(blockMenu.getLocation(), "Result is too large");
             sendFeedback(blockMenu.getLocation(), FeedbackType.RESULT_IS_TOO_LARGE);
             return false;
         }
