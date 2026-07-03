@@ -156,10 +156,11 @@ public class StackUtils {
             return itemStack.isSimilar(cache.getItemStack());
         }
 
-        // If either item does not have a meta then either a mismatch or both without meta = vanilla
-        if (!itemStack.hasItemMeta() || !cache.getItemStack().hasItemMeta()) {
-            return itemStack.hasItemMeta() == cache.getItemStack().hasItemMeta();
-        }
+//        #hasItemMeta just do the same thing as #getItemMeta
+//        // If either item does not have a meta then either a mismatch or both without meta = vanilla
+//        if (!itemStack.hasItemMeta() || !cache.getItemStack().hasItemMeta()) {
+//            return itemStack.hasItemMeta() == cache.getItemStack().hasItemMeta();
+//        }
 
         // Now we need to compare meta's directly - cache is already out, but let's fetch the 2nd meta also
         final ItemMeta itemMeta = itemStack.getItemMeta();
@@ -668,14 +669,7 @@ public class StackUtils {
     public static boolean isOnCooldown(ItemStack itemStack) {
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta != null) {
-            long cooldownUntil = PersistentDataAPI.getLong(itemMeta, Keys.ON_COOLDOWN, -1);
-            if (cooldownUntil == -1) {
-                cooldownUntil = PersistentDataAPI.getLong(itemMeta, Keys.ON_COOLDOWN2, -1);
-            }
-            if (cooldownUntil == -1) {
-                cooldownUntil = PersistentDataAPI.getLong(itemMeta, Keys.ON_COOLDOWN3, 0);
-            }
-            return System.currentTimeMillis() < cooldownUntil;
+            return System.currentTimeMillis() < Keys.getCooldown(itemMeta);
         }
         return false;
     }

@@ -138,28 +138,15 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
 
             if (instance == null) {
                 final ItemMeta blueprintMeta = blueprint.getItemMeta();
-                Optional<BlueprintInstance> optional;
-                optional = DataTypeMethods.getOptionalCustom(
-                    blueprintMeta, Keys.BLUEPRINT_INSTANCE, PersistentCraftingBlueprintType.TYPE);
-
-                if (optional.isEmpty()) {
-                    optional = DataTypeMethods.getOptionalCustom(
-                        blueprintMeta, Keys.BLUEPRINT_INSTANCE2, PersistentCraftingBlueprintType.TYPE);
-                }
-
-                if (optional.isEmpty()) {
-                    optional = DataTypeMethods.getOptionalCustom(
-                        blueprintMeta, Keys.BLUEPRINT_INSTANCE3, PersistentCraftingBlueprintType.TYPE);
-                }
-
-                if (optional.isEmpty()) {
+                BlueprintInstance instance2 = Keys.getBlueprintInstance(blueprintMeta);
+                if (instance2 == null) {
+                    setCache(blockMenu, BlueprintInstance.INVALID);
                     sendDebugMessage(blockMenu.getLocation(), "No blueprint instance found");
                     sendFeedback(blockMenu.getLocation(), FeedbackType.NO_BLUEPRINT_INSTANCE_FOUND);
                     return;
                 }
 
-                instance = optional.get();
-                setCache(blockMenu, instance);
+                setCache(blockMenu, instance2);
             }
 
             final ItemStack output = blockMenu.getItemInSlot(OUTPUT_SLOT);
