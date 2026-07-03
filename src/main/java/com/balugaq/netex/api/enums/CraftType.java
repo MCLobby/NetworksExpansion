@@ -21,6 +21,7 @@ import org.jspecify.annotations.NullMarked;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiPredicate;
@@ -44,6 +45,8 @@ public enum CraftType {
     QUANTUM_WORKBENCH(SupportedQuantumWorkbenchRecipes.getRecipes(), SupportedQuantumWorkbenchRecipes::testRecipe),
     SMELTERY(SupportedSmelteryRecipes.getRecipes(), SupportedSmelteryRecipes::testRecipe);
 
+    private static final Map<CraftType, Set<Map.Entry<ItemStack[], ItemStack>>> map = new HashMap<>();
+
     @Getter
     private final Set<Map.Entry<ItemStack[], ItemStack>> recipeEntries;
     private final BiPredicate<ItemStack[], ItemStack[]> testRecipe;
@@ -51,6 +54,11 @@ public enum CraftType {
     CraftType(Map<ItemStack[], ItemStack> recipes, BiPredicate<ItemStack[], ItemStack[]> testRecipe) {
         this.recipeEntries = recipes.entrySet();
         this.testRecipe = testRecipe;
+        put(this, recipeEntries);
+    }
+
+    public static void put(CraftType type, Set<Map.Entry<ItemStack[], ItemStack>> recipes) {
+        map.put(type, recipes);
     }
 
     public boolean testRecipe(ItemStack[] inputs, ItemStack[] recipe) {
@@ -79,5 +87,9 @@ public enum CraftType {
 
     public static Collection<Set<Map.Entry<ItemStack[], ItemStack>>> entries() {
         return Arrays.stream(values()).map(CraftType::getRecipeEntries).toList();
+    }
+
+    public static Map<CraftType, Set<Map.Entry<ItemStack[], ItemStack>>> map() {
+        return map;
     }
 }
