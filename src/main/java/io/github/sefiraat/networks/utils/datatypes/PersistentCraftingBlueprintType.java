@@ -40,28 +40,32 @@ public class PersistentCraftingBlueprintType implements PersistentDataType<Persi
     public Class<BlueprintInstance> getComplexType() {
         return BlueprintInstance.class;
     }
-    
+
     public static void setItemStack(PersistentDataContainer container, String key, ItemStack itemStack) {
+        setItemStack(container, Keys.newKey(key), itemStack);
+    }
+    
+    public static void setItemStack(PersistentDataContainer container, NamespacedKey key, ItemStack itemStack) {
         if (itemStack == null || itemStack.getType() == Material.AIR) {
             return;
         }
 
         if (itemStack.isSimilar(new ItemStack(itemStack.getType()))) {
             // pure vanilla item
-            container.set(Keys.newKey(key), DataType.STRING, "mc;" + itemStack.getType().name() + ";" + itemStack.getAmount());
+            container.set(key, DataType.STRING, "mc;" + itemStack.getType().name() + ";" + itemStack.getAmount());
             return;
         } else {
             SlimefunItem sf = SlimefunItem.getByItem(itemStack);
             if (sf != null) {
                 if (itemStack.isSimilar(sf.getItem())) {
                     // pure slimefun item
-                    container.set(Keys.newKey(key), DataType.STRING, "sf;" + sf.getId() + ";" + itemStack.getAmount());
+                    container.set(key, DataType.STRING, "sf;" + sf.getId() + ";" + itemStack.getAmount());
                     return;
                 }
             }
 
             // complex item
-            container.set(Keys.newKey(key), DataType.ITEM_STACK, itemStack);
+            container.set(key, DataType.ITEM_STACK, itemStack);
         }
     }
 
@@ -103,7 +107,8 @@ public class PersistentCraftingBlueprintType implements PersistentDataType<Persi
 
         // container.set(Keys.RECIPE, DataType.ITEM_STACK_ARRAY, complex.getRecipeItems());
         if (complex.getItemStack() != null) {
-            container.set(Keys.OUTPUT, DataType.ITEM_STACK, complex.getItemStack());
+            setItemStack(container, Keys.OUTPUT, complex.getItemStack());
+//            container.set(Keys.OUTPUT, DataType.ITEM_STACK, complex.getItemStack());
         }
         return container;
     }
