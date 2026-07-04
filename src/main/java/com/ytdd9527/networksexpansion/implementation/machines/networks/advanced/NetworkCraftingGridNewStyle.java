@@ -62,6 +62,7 @@ public class NetworkCraftingGridNewStyle extends AbstractGridNewStyle implements
     private static final int PAGE_PREVIOUS = 44;
     private static final int PAGE_NEXT = 53;
     private static final int TOGGLE_MODE_SLOT = 52;
+    @Deprecated
     private static final int JEG_SLOT = 32;
     private static final int CRAFT_BUTTON_SLOT = 33;
     private static final int OUTPUT_SLOT = 34;
