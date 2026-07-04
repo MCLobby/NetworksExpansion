@@ -55,7 +55,7 @@ messages:
     success: "成功"
     working: "工作中"
     not_allowed_item: "不被允许的物品"
-    soft_cell_banned: "因网络连接了网络单元，此次执行被限制"
+    soft_cell_banned: "因网络连接了过多网络单元，此次执行被限制"
     ticking: "Ticking"
     transfer_ticking: "Transfer Ticking"
     transfer_try_push_item_with_counter: "尝试推送物品(计数器)"
@@ -71,6 +71,7 @@ messages:
     same_network: "不能向同一网络发送物品"
     no_menu: "未找到菜单"
     unsupported_blueprint: "不支持的蓝图"
+    broken_blueprint: "蓝图已损坏"
   blueprint:
     title: "<click_info>已指定配方"
     empty: "<passive>空"

@@ -144,6 +144,11 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
                 return;
             }
 
+            if (instance2 == BlueprintInstance.INVALID) {
+                sendFeedback(blockMenu.getLocation(), FeedbackType.BROKEN_BLUEPRINT);
+                return;
+            }
+
             setCache(blockMenu, instance2);
             instance = instance2;
         }
