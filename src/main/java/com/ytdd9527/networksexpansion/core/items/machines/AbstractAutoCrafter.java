@@ -229,7 +229,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
             return false;
         }
 
-        if (existing != null && existing.getType() != Material.AIR) {
+        if (!withholding && existing != null && existing.getType() != Material.AIR) {
             root.addItemStack0(blockMenu.getLocation(), crafted);
         }
         if (crafted != null && crafted.getType() != Material.AIR) {
