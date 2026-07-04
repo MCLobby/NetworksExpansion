@@ -51,6 +51,7 @@ public abstract class AbstractEncoder extends NetworkObject implements CraftType
     private static final int OUTPUT_SLOT = 34;
     private static final int ITEM_TARGET_DESC_SLOT = 26;
     private static final int ITEM_TARGET_SLOT = 35;
+    @Deprecated
     private static final int JEG_SLOT = 4;
     private static final int CHARGE_COST = 2000;
 
@@ -91,7 +92,7 @@ public abstract class AbstractEncoder extends NetworkObject implements CraftType
                     }
                     return false;
                 });
-                addJEGButton(menu, JEG_SLOT);
+                // addJEGButton(menu, JEG_SLOT);
                 var fix = menu.getItemInSlot(ITEM_TARGET_SLOT);
                 if (StackUtils.itemsMatch(fix, ChestMenuUtils.getBackground())) {
                     menu.replaceExistingItem(ITEM_TARGET_SLOT, null);
