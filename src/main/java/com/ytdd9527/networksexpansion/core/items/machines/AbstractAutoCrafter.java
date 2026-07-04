@@ -123,52 +123,46 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
 
         final long networkCharge = root.getRootPower();
 
-        if (networkCharge > this.chargePerCraft) {
-            final SlimefunItem item = SlimefunItem.getByItem(blueprint);
-
-            if (!isValidBlueprint(item)) {
-                sendFeedback(blockMenu.getLocation(), FeedbackType.INVALID_BLUEPRINT);
-                return;
-            }
-
-            BlueprintInstance instance = AbstractAutoCrafter.INSTANCE_MAP.get(blockMenu.getLocation());
-
-            if (instance == null) {
-                final ItemMeta blueprintMeta = blueprint.getItemMeta();
-                BlueprintInstance instance2 = Keys.getBlueprintInstance(blueprintMeta);
-                if (instance2 == null) {
-                    setCache(blockMenu, BlueprintInstance.INVALID);
-                    sendFeedback(blockMenu.getLocation(), FeedbackType.NO_BLUEPRINT_INSTANCE_FOUND);
-                    return;
-                }
-
-                setCache(blockMenu, instance2);
-                instance = instance2;
-            }
-
-            if (instance == BlueprintInstance.INVALID) {
-                sendFeedback(blockMenu.getLocation(), FeedbackType.INVALID_BLUEPRINT);
-                return;
-            }
-
-            final ItemStack output = blockMenu.getItemInSlot(OUTPUT_SLOT);
-            int blueprintAmount = canBlueprintStack() ? blueprint.getAmount() : 1;
-
-            ItemStack targetOutput = instance.getItemStack();
-            if (output != null
-                && output.getType() != Material.AIR
-                && targetOutput != null
-                && (output.getAmount() + targetOutput.getAmount() * blueprintAmount > output.getMaxStackSize()
-                || !StackUtils.itemsMatch(targetOutput, output))) {
-                sendFeedback(blockMenu.getLocation(), FeedbackType.OUTPUT_FULL);
-                return;
-            }
-
-            if (tryCraft(blockMenu, instance, root, blueprintAmount, output)) {
-                root.removeRootPower(this.chargePerCraft);
-            }
-        } else {
+        if (networkCharge <= this.chargePerCraft) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NOT_ENOUGH_POWER);
+        }
+
+        final SlimefunItem item = SlimefunItem.getByItem(blueprint);
+
+        if (!isValidBlueprint(item)) {
+            sendFeedback(blockMenu.getLocation(), FeedbackType.INVALID_BLUEPRINT);
+            return;
+        }
+
+        BlueprintInstance instance = AbstractAutoCrafter.INSTANCE_MAP.get(blockMenu.getLocation());
+
+        if (instance == null) {
+            final ItemMeta blueprintMeta = blueprint.getItemMeta();
+            BlueprintInstance instance2 = Keys.getBlueprintInstance(blueprintMeta);
+            if (instance2 == null) {
+                sendFeedback(blockMenu.getLocation(), FeedbackType.NO_BLUEPRINT_INSTANCE_FOUND);
+                return;
+            }
+
+            setCache(blockMenu, instance2);
+            instance = instance2;
+        }
+
+        final ItemStack output = blockMenu.getItemInSlot(OUTPUT_SLOT);
+        int blueprintAmount = canBlueprintStack() ? blueprint.getAmount() : 1;
+
+        ItemStack targetOutput = instance.getItemStack();
+        if (output != null
+            && output.getType() != Material.AIR
+            && targetOutput != null
+            && (output.getAmount() + targetOutput.getAmount() * blueprintAmount > output.getMaxStackSize()
+            || !StackUtils.itemsMatch(targetOutput, output))) {
+            sendFeedback(blockMenu.getLocation(), FeedbackType.OUTPUT_FULL);
+            return;
+        }
+
+        if (tryCraft(blockMenu, instance, root, blueprintAmount, output)) {
+            root.removeRootPower(this.chargePerCraft);
         }
     }
 
