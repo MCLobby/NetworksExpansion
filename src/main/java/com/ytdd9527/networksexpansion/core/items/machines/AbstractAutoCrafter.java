@@ -178,7 +178,7 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
          * only need the one
          */
         HashMap<ItemStack, Integer> requiredItems = new HashMap<>();
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < instance.getRecipeItems().length; i++) {
             final ItemStack requested = instance.getRecipeItems()[i];
             if (requested != null) {
                 requiredItems.merge(requested, requested.getAmount() * blueprintAmount, Integer::sum);
@@ -192,9 +192,10 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
             }
         }
 
-        ItemStack[] fetcheds = new ItemStack[9];
+        ItemStack[] fetcheds = new ItemStack[instance.getRecipeItems().length];
+
         // Then fetch the actual items
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < instance.getRecipeItems().length; i++) {
             final ItemStack requested = instance.getRecipeItems()[i];
             if (requested != null) {
                 final ItemStack fetched = root.getItemStack0(
