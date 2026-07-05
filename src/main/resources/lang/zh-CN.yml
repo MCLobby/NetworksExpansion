@@ -1246,9 +1246,9 @@ items:
     lore:
       - "<warning> 阅读此声明前，请务必先阅读网络拓展补充说明。"
       - "<passive> 此页面可以作为您反馈网络拓展相关问题时需要提供的版本信息。"
-      - "<passive> 网络拓展版本: v2.1.104"
+      - "<passive> 网络拓展版本: v2.1.105"
       - "<passive> 版本状态: 稳定版"
-      - "<passive> 版本更新时间: 2026-7-4 22:15:53"
+      - "<passive> 版本更新时间: 2026-7-5 18:03:27"
       - "<passive> 开发状态: 更新中"
       - "<passive> 开发者（们）: ytdd9527, balugaq"
       - "<passive> 开发者 GitHub 页面: <click_info>https://github.com/ytdd9527"
