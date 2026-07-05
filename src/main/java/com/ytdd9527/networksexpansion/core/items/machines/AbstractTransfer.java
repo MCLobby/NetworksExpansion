@@ -222,10 +222,7 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
         //Bukkit.getScheduler().runTaskAsynchronously(Networks.getInstance(), () -> {
         List<ItemStack> templates = new ArrayList<>();
         for (int slot : this.getItemSlots()) {
-            final ItemStack template = blockMenu.getItemInSlot(slot);
-            if (template != null && template.getType() != Material.AIR) {
-                templates.add(StackUtils.getAsQuantity(template, 1));
-            }
+            templates.add(blockMenu.getItemInSlot(slot));
         }
 
         LineOperationUtil.doOperation(
@@ -282,10 +279,7 @@ public abstract class AbstractTransfer extends AdvancedDirectional implements Re
 
         List<ItemStack> templates = new ArrayList<>();
         for (int slot : this.getItemSlots()) {
-            final ItemStack template = blockMenu.getItemInSlot(slot);
-            if (template != null && template.getType() != Material.AIR) {
-                templates.add(StackUtils.getAsQuantity(template, 1));
-            }
+            templates.add(blockMenu.getItemInSlot(slot));
         }
 
         LineOperationUtil.doVanillaOperation(

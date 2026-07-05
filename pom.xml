@@ -7,20 +7,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ytdd9527.networksexpansion</groupId>
     <artifactId>NetworksExpansion</artifactId>
-    <version>2.1.94</version>
-
-    <distributionManagement>
-        <repository>
-            <id>central</id>
-            <name>sefi-central</name>
-            <url>https://sefiraat.jfrog.io/artifactory/default-maven-local</url>
-        </repository>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>sefi-snapshot</name>
-            <url>https://sefiraat.jfrog.io/artifactory/default-maven-local</url>
-        </snapshotRepository>
-    </distributionManagement>
+    <version>2.1.104</version>
 
     <pluginRepositories>
         <pluginRepository>
@@ -337,9 +324,9 @@
         </dependency>
         <!-- Support FluffyMachines -->
         <dependency>
-            <groupId>com.github.SlimefunGuguProject</groupId>
+            <groupId>com.github.balugaq</groupId>
             <artifactId>FluffyMachines</artifactId>
-            <version>035fe56381</version>
+            <version>43d7444e4c</version>
             <scope>system</scope>
             <systemPath>${FluffyMachines-systemPath46}</systemPath>
         </dependency>
@@ -351,7 +338,7 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.balugaq</groupId>
+            <groupId>com.github.balugaq</groupId>
             <artifactId>JustEnoughGuide</artifactId>
             <version>2.1.17</version>
             <scope>system</scope>
