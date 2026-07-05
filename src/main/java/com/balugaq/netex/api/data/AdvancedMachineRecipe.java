@@ -1,8 +1,10 @@
 package com.balugaq.netex.api.data;
 
-import com.ytdd9527.networksexpansion.utils.itemstacks.CompareUtil;
-import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+
+import com.ytdd9527.networksexpansion.utils.itemstacks.CompareUtil;
+
+import lombok.Getter;
 
 /**
  * @author Final_ROOT

@@ -1,9 +1,21 @@
 package com.ytdd9527.networksexpansion.implementation.machines.networks.advanced;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NullMarked;
+
 import com.balugaq.netex.api.keybind.Keybindable;
 import com.balugaq.netex.api.keybind.Keybinds;
 import com.ytdd9527.networksexpansion.core.items.machines.AbstractGridNewStyle;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
+
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.slimefun.network.grid.AbstractGrid;
 import io.github.sefiraat.networks.slimefun.network.grid.GridCache;
@@ -17,16 +29,6 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
-import org.jspecify.annotations.NullMarked;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @NullMarked
 @SuppressWarnings("DuplicatedCode")

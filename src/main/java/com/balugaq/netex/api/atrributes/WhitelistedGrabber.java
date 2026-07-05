@@ -1,16 +1,17 @@
 package com.balugaq.netex.api.atrributes;
 
-import io.github.sefiraat.networks.network.NetworkRoot;
-import io.github.sefiraat.networks.utils.StackUtils;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
+import io.github.sefiraat.networks.network.NetworkRoot;
+import io.github.sefiraat.networks.utils.StackUtils;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 public interface WhitelistedGrabber {
     @NotNull

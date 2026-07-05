@@ -1,11 +1,13 @@
 package com.balugaq.netex.api.enums;
 
-import com.balugaq.netex.utils.Lang;
-import io.github.sefiraat.networks.utils.Keys;
-import lombok.Getter;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.NotNull;
+
+import com.balugaq.netex.utils.Lang;
+
+import io.github.sefiraat.networks.utils.Keys;
+import lombok.Getter;
 
 @Getter
 public enum FeedbackType implements Keyed {

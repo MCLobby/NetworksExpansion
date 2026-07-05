@@ -1,6 +1,7 @@
 package com.balugaq.netex.utils;
 
 import com.balugaq.netex.api.gui.GUI;
+
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

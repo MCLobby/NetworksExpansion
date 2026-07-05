@@ -1,10 +1,11 @@
 package com.balugaq.netex.core.listeners;
 
-import com.balugaq.jeg.api.objects.events.GuideEvents;
-import com.balugaq.jeg.utils.ReflectionUtil;
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
-import lombok.SneakyThrows;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.BiConsumer;
+
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,11 +13,12 @@ import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.BiConsumer;
+import com.balugaq.jeg.api.objects.events.GuideEvents;
+import com.balugaq.jeg.utils.ReflectionUtil;
+
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.guide.GuideHistory;
+import lombok.SneakyThrows;
 
 public class JEGCompatibleListener implements Listener {
     public static final Map<UUID, GuideEvents.ItemButtonClickEvent> LAST_EVENTS = new ConcurrentHashMap<>();

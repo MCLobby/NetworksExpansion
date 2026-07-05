@@ -1,8 +1,5 @@
 package com.balugaq.netex.core.listeners;
 
-import com.balugaq.netex.api.interfaces.HangingBlock;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.papermc.paper.event.player.PlayerItemFrameChangeEvent;
 import org.bukkit.Location;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.event.EventHandler;
@@ -11,6 +8,11 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
 import org.jetbrains.annotations.NotNull;
+
+import com.balugaq.netex.api.interfaces.HangingBlock;
+
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.papermc.paper.event.player.PlayerItemFrameChangeEvent;
 
 public class HangingBlockInteractListener implements Listener {
     public static @NotNull Location toBlockLocation(@NotNull Location location) {

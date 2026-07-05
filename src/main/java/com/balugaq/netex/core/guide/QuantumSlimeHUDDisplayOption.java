@@ -1,6 +1,15 @@
 package com.balugaq.netex.core.guide;
 
+import java.util.Optional;
+
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.jspecify.annotations.NullMarked;
+
 import com.balugaq.jeg.api.patches.JEGGuideSettings;
+
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.utils.Keys;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -8,13 +17,6 @@ import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideOption
 import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.jspecify.annotations.NullMarked;
-
-import java.util.Optional;
 
 /**
  * @author balugaq

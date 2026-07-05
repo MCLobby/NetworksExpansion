@@ -1,14 +1,16 @@
 package io.github.sefiraat.networks.managers;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Item;
+import org.jetbrains.annotations.NotNull;
+
 import com.bgsoftware.wildstacker.api.WildStackerAPI;
 import com.google.common.base.Preconditions;
+
 import dev.rosewood.rosestacker.api.RoseStackerAPI;
 import io.github.sefiraat.networks.Networks;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Item;
-import org.jetbrains.annotations.NotNull;
 
 public class SupportedPluginManager {
 

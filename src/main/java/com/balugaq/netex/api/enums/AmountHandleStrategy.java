@@ -1,21 +1,23 @@
 package com.balugaq.netex.api.enums;
 
-import com.balugaq.netex.api.algorithm.Calculator;
-import com.balugaq.netex.api.interfaces.consumers.Consumer4;
-import com.balugaq.netex.core.guide.GridNewStyleCustomAmountGuideOption;
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
-import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import static com.balugaq.netex.core.guide.GridNewStyleCustomAmountGuideOption.GRID_NEW_STYLE_MAX_CUSTOM_AMOUNT;
+
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jspecify.annotations.NullMarked;
 
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
+import com.balugaq.netex.api.algorithm.Calculator;
+import com.balugaq.netex.api.interfaces.consumers.Consumer4;
+import com.balugaq.netex.core.guide.GridNewStyleCustomAmountGuideOption;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 
-import static com.balugaq.netex.core.guide.GridNewStyleCustomAmountGuideOption.GRID_NEW_STYLE_MAX_CUSTOM_AMOUNT;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.common.ChatColors;
+import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 @NullMarked
 public enum AmountHandleStrategy {

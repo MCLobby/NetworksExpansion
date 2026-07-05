@@ -1,15 +1,17 @@
 package com.balugaq.netex.api.keybind;
 
-import com.balugaq.netex.api.helpers.Icon;
-import com.balugaq.netex.utils.Lang;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import java.util.List;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jspecify.annotations.NullMarked;
 
-import java.util.List;
+import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.utils.Lang;
+
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 @NullMarked
 public interface Keybindable {

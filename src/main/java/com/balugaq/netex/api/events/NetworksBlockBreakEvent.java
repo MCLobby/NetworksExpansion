@@ -1,12 +1,13 @@
 package com.balugaq.netex.api.events;
 
-import lombok.Getter;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
+
+import lombok.Getter;
 
 @Getter
 public class NetworksBlockBreakEvent extends Event implements Cancellable {

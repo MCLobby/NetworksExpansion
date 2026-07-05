@@ -1,14 +1,16 @@
 package com.balugaq.netex.api.enums;
 
-import com.balugaq.netex.api.gui.GUI;
-import com.balugaq.netex.utils.GUIs;
-import io.github.sefiraat.networks.Networks;
-import lombok.Getter;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.balugaq.netex.api.gui.GUI;
+import com.balugaq.netex.utils.GUIs;
+
+import io.github.sefiraat.networks.Networks;
+import lombok.Getter;
 
 @Getter
 public enum TransferType {

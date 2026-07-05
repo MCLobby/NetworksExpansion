@@ -1,15 +1,17 @@
 package com.balugaq.netex.api.interfaces;
 
-import com.balugaq.netex.api.enums.FeedbackType;
-import io.github.sefiraat.networks.Networks;
-import io.github.sefiraat.networks.network.NetworkRoot;
-import io.github.sefiraat.networks.network.NodeDefinition;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
+
+import com.balugaq.netex.api.enums.FeedbackType;
+
+import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.network.NetworkRoot;
+import io.github.sefiraat.networks.network.NodeDefinition;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 @EnableAsync
 public interface SoftCellBannable extends FeedbackSendable {

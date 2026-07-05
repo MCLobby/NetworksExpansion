@@ -1,20 +1,22 @@
 package com.ytdd9527.networksexpansion.implementation.tools;
 
-import com.balugaq.netex.utils.Lang;
-import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
-import io.github.sefiraat.networks.commands.NetworksMain;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
-import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
+import java.util.Optional;
+
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Optional;
+import com.balugaq.netex.utils.Lang;
+import com.ytdd9527.networksexpansion.core.items.SpecialSlimefunItem;
+
+import io.github.sefiraat.networks.commands.NetworksMain;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
+import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 
 @Deprecated
 public class NetworksExpansionWorldEditAxe extends SpecialSlimefunItem {

@@ -1,12 +1,7 @@
 package io.github.sefiraat.networks.listeners;
 
-import com.balugaq.netex.api.events.NetworksBlockBreakEvent;
-import com.balugaq.netex.api.events.NetworksBlockPlaceEvent;
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import io.github.sefiraat.networks.NetworkStorage;
-import io.github.sefiraat.networks.Networks;
-import io.github.sefiraat.networks.utils.NetworkUtils;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import java.text.MessageFormat;
+
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -16,7 +11,14 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.text.MessageFormat;
+import com.balugaq.netex.api.events.NetworksBlockBreakEvent;
+import com.balugaq.netex.api.events.NetworksBlockPlaceEvent;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+
+import io.github.sefiraat.networks.NetworkStorage;
+import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.utils.NetworkUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 
 /*
  * Fix https://github.com/Sefiraat/Networks/issues/188

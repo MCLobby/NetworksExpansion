@@ -1,7 +1,7 @@
 package com.balugaq.netex.utils;
 
-import io.github.sefiraat.networks.utils.StackUtils;
-import lombok.experimental.UtilityClass;
+import java.util.HashMap;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -9,7 +9,8 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
+import io.github.sefiraat.networks.utils.StackUtils;
+import lombok.experimental.UtilityClass;
 
 @SuppressWarnings("DuplicatedCode")
 @UtilityClass

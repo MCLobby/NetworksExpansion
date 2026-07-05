@@ -1,10 +1,11 @@
 package com.balugaq.netex.api.interfaces;
 
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import java.util.function.BiPredicate;
+
 import org.bukkit.entity.Player;
 import org.jspecify.annotations.NullMarked;
 
-import java.util.function.BiPredicate;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 @NullMarked
 @FunctionalInterface

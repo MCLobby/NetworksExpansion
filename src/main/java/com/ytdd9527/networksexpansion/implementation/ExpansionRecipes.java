@@ -1,12 +1,6 @@
 package com.ytdd9527.networksexpansion.implementation;
 
-import io.github.sefiraat.networks.slimefun.NetworksSlimefunItemStacks;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.ADVANCED_NANOBOTS;
-import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.OPTIC_GLASS;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.CRAFTING_BLUEPRINT;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.INTERDIMENSIONAL_PRESENCE;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.NETWORK_AUTO_CRAFTER;
@@ -54,6 +48,12 @@ import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.RADIOACT
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.SHRINKING_BASE;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.SIMPLE_NANOBOTS;
 import static io.github.sefiraat.networks.slimefun.NetworkSlimefunItems.SYNTHETIC_EMERALD_SHARD;
+
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.sefiraat.networks.slimefun.NetworksSlimefunItemStacks;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 
 public class ExpansionRecipes {
     public static final ItemStack HOPPER = new ItemStack(Material.HOPPER);

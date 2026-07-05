@@ -1,11 +1,12 @@
 package com.balugaq.netex.api.enums;
 
-import dev.sefiraat.sefilib.misc.RotationFace;
-import dev.sefiraat.sefilib.misc.TransformationBuilder;
-import io.github.sefiraat.networks.Networks;
 import org.bukkit.util.Transformation;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
+
+import dev.sefiraat.sefilib.misc.RotationFace;
+import dev.sefiraat.sefilib.misc.TransformationBuilder;
+import io.github.sefiraat.networks.Networks;
 
 public enum Transformations {
     BRIDGE_1(new TransformationBuilder().scale(0.5f, 0.5f, 2f).build()),

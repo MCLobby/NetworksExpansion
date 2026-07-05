@@ -1,5 +1,13 @@
 package io.github.sefiraat.networks.slimefun.network;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+
 import io.github.sefiraat.networks.network.NodeType;
 import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -10,13 +18,6 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction
 import lombok.Setter;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Setter
 public class NetworkCell extends NetworkObject {

@@ -1,13 +1,15 @@
 package com.balugaq.netex.api.atrributes;
 
-import com.ytdd9527.networksexpansion.utils.TextUtil;
-import io.github.thebusybiscuit.slimefun4.core.attributes.ItemAttribute;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import com.ytdd9527.networksexpansion.utils.TextUtil;
+
+import io.github.thebusybiscuit.slimefun4.core.attributes.ItemAttribute;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 public interface TwinHologramOwner extends ItemAttribute {
     default void updateHolograms(@NotNull Block block, @Nullable String topText, @NotNull String bottomText) {

@@ -1,11 +1,8 @@
 package com.balugaq.netex.api.keybind;
 
-import com.balugaq.netex.api.algorithm.ID;
-import com.balugaq.netex.utils.Debug;
-import io.github.sefiraat.networks.Networks;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
-import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
-import lombok.Data;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -14,8 +11,13 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.balugaq.netex.api.algorithm.ID;
+import com.balugaq.netex.utils.Debug;
+
+import io.github.sefiraat.networks.Networks;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+import lombok.Data;
 
 @NullMarked
 public @Data class KeybindsScript {

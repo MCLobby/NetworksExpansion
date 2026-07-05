@@ -1,11 +1,7 @@
 package io.github.sefiraat.networks.utils.datatypes;
 
-import com.jeff_media.morepersistentdatatypes.DataType;
-import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
-import io.github.sefiraat.networks.network.stackcaches.BlueprintInstance;
-import io.github.sefiraat.networks.network.stackcaches.CardInstance;
-import io.github.sefiraat.networks.utils.Keys;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -15,7 +11,13 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NullMarked;
 
-import java.util.List;
+import com.jeff_media.morepersistentdatatypes.DataType;
+import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
+
+import io.github.sefiraat.networks.network.stackcaches.BlueprintInstance;
+import io.github.sefiraat.networks.network.stackcaches.CardInstance;
+import io.github.sefiraat.networks.utils.Keys;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 
 /**
  * A {@link PersistentDataType} for {@link CardInstance}

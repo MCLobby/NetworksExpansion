@@ -1,14 +1,15 @@
 package io.github.sefiraat.networks.network.stackcaches;
 
-import io.github.sefiraat.networks.network.barrel.BarrelCore;
-import io.github.sefiraat.networks.network.barrel.BarrelType;
-import lombok.Getter;
-import lombok.Setter;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+import io.github.sefiraat.networks.network.barrel.BarrelCore;
+import io.github.sefiraat.networks.network.barrel.BarrelType;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter

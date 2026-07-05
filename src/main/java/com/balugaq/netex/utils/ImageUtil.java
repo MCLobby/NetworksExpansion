@@ -1,14 +1,16 @@
 package com.balugaq.netex.utils;
 
-import lombok.SneakyThrows;
-import lombok.experimental.UtilityClass;
-import org.jetbrains.annotations.NotNull;
-
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+
+import org.jetbrains.annotations.NotNull;
+
+import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class ImageUtil {

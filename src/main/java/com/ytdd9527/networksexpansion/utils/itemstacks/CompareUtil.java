@@ -1,7 +1,8 @@
 package com.ytdd9527.networksexpansion.utils.itemstacks;
 
-import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
+
+import lombok.experimental.UtilityClass;
 
 /**
  * @author Final_ROOT

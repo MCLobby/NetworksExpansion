@@ -1,8 +1,5 @@
 package io.github.sefiraat.networks.network.stackcaches;
 
-import lombok.Getter;
-
-import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
 import org.bukkit.Bukkit;
@@ -14,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.balugaq.jeg.core.integrations.networksexpansion.NetworksExpansionIntegrationMain;
+
+import lombok.Getter;
 
 public class BlueprintInstance extends ItemStackCache {
     public static final BlueprintInstance INVALID = new BlueprintInstance(new ItemStack[0], new ItemStack(Material.AIR));

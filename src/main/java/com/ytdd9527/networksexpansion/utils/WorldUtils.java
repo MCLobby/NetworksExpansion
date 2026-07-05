@@ -1,7 +1,7 @@
 package com.ytdd9527.networksexpansion.utils;
 
-import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
-import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
+import java.lang.reflect.Field;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -9,7 +9,8 @@ import org.bukkit.block.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Field;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Pair;
+import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 
 @Deprecated
 public class WorldUtils {

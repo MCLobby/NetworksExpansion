@@ -1,12 +1,8 @@
 package io.github.sefiraat.networks.slimefun.network;
 
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import dev.sefiraat.sefilib.entity.display.DisplayGroup;
-import io.github.sefiraat.networks.network.NodeType;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import lombok.Setter;
+import java.util.UUID;
+import java.util.function.Function;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -15,8 +11,14 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.UUID;
-import java.util.function.Function;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+
+import dev.sefiraat.sefilib.entity.display.DisplayGroup;
+import io.github.sefiraat.networks.network.NodeType;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import lombok.Setter;
 
 public class NetworkBridge extends NetworkObject {
 

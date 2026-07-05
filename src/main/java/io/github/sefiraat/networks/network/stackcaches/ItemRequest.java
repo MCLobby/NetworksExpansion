@@ -1,9 +1,10 @@
 package io.github.sefiraat.networks.network.stackcaches;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Setter
 @Getter

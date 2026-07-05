@@ -1,8 +1,9 @@
 package com.balugaq.netex.api.enums;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.balugaq.netex.utils.Lang;
 import com.ytdd9527.networksexpansion.utils.TextUtil;
-import org.jetbrains.annotations.NotNull;
 
 public enum TransportMode {
     NONE,

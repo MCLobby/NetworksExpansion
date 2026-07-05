@@ -1,16 +1,18 @@
 package com.balugaq.netex.api.interfaces;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Range;
+
 import com.balugaq.jeg.api.recipe_complete.RecipeCompleteSession;
 import com.balugaq.jeg.api.recipe_complete.source.base.RecipeCompleteProvider;
 import com.balugaq.jeg.core.listeners.RecipeCompletableListener;
 import com.balugaq.jeg.utils.GuideUtil;
 import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.utils.Lang;
+
 import io.github.sefiraat.networks.Networks;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Range;
 
 public interface RecipeCompletableWithGuide {
     default void addJEGButton(@NotNull BlockMenu blockMenu, @Range(from = 0, to = 53) int slot) {

@@ -1,5 +1,13 @@
 package com.balugaq.netex.api.menu.common;
 
+import java.util.List;
+
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.balugaq.netex.api.groups.CraftItemGroup;
 import com.balugaq.netex.api.groups.RecipeItemGroup;
 import com.balugaq.netex.api.groups.TypeItemGroup;
@@ -7,6 +15,7 @@ import com.balugaq.netex.api.helpers.Icon;
 import com.balugaq.netex.utils.GuideUtil;
 import com.balugaq.netex.utils.Lang;
 import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
+
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
@@ -18,13 +27,6 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 /**
  * @author Final_ROOT

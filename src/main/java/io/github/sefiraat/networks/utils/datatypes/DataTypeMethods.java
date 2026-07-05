@@ -1,7 +1,7 @@
 package io.github.sefiraat.networks.utils.datatypes;
 
-import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
-import lombok.experimental.UtilityClass;
+import java.util.Optional;
+
 import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataHolder;
@@ -9,7 +9,8 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
+import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class DataTypeMethods {

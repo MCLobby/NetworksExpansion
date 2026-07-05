@@ -1,34 +1,8 @@
 package com.ytdd9527.networksexpansion.core.items.machines;
 
-import com.balugaq.netex.api.enums.CraftType;
-import com.balugaq.netex.api.enums.FeedbackType;
-import com.balugaq.netex.api.helpers.Icon;
-import com.balugaq.netex.api.interfaces.CraftTyped;
-import com.balugaq.netex.api.interfaces.SoftCellBannable;
-import com.balugaq.netex.utils.BlockMenuUtil;
-import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
-import com.ytdd9527.networksexpansion.core.items.unusable.AbstractBlueprint;
-import io.github.sefiraat.networks.NetworkStorage;
-import io.github.sefiraat.networks.network.NetworkRoot;
-import io.github.sefiraat.networks.network.NodeDefinition;
-import io.github.sefiraat.networks.network.NodeType;
-import io.github.sefiraat.networks.network.stackcaches.BlueprintInstance;
-import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
-import io.github.sefiraat.networks.slimefun.network.NetworkObject;
-import io.github.sefiraat.networks.utils.Keys;
-import io.github.sefiraat.networks.utils.StackUtils;
-import io.github.sefiraat.networks.utils.datatypes.DataTypeMethods;
-import io.github.sefiraat.networks.utils.datatypes.PersistentCraftingBlueprintType;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -39,9 +13,33 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import com.balugaq.netex.api.enums.FeedbackType;
+import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.api.interfaces.CraftTyped;
+import com.balugaq.netex.api.interfaces.SoftCellBannable;
+import com.balugaq.netex.utils.BlockMenuUtil;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
+import com.ytdd9527.networksexpansion.core.items.unusable.AbstractBlueprint;
+
+import io.github.sefiraat.networks.NetworkStorage;
+import io.github.sefiraat.networks.network.NetworkRoot;
+import io.github.sefiraat.networks.network.NodeDefinition;
+import io.github.sefiraat.networks.network.NodeType;
+import io.github.sefiraat.networks.network.stackcaches.BlueprintInstance;
+import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
+import io.github.sefiraat.networks.slimefun.network.NetworkObject;
+import io.github.sefiraat.networks.utils.Keys;
+import io.github.sefiraat.networks.utils.StackUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 @SuppressWarnings("DuplicatedCode")
 public abstract class AbstractAutoCrafter extends NetworkObject implements SoftCellBannable, CraftTyped {

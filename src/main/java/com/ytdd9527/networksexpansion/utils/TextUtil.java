@@ -1,14 +1,15 @@
 package com.ytdd9527.networksexpansion.utils;
 
-import io.github.sefiraat.networks.Networks;
-import lombok.experimental.UtilityClass;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import io.github.sefiraat.networks.Networks;
+import lombok.experimental.UtilityClass;
 
 /**
  * @author Final_ROOT

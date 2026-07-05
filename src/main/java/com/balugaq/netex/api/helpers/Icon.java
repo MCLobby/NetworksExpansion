@@ -1,19 +1,21 @@
 package com.balugaq.netex.api.helpers;
 
-import com.balugaq.netex.utils.Lang;
-import com.ytdd9527.networksexpansion.utils.TextUtil;
-import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
-import io.github.sefiraat.networks.utils.Theme;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import com.balugaq.netex.utils.Lang;
+import com.ytdd9527.networksexpansion.utils.TextUtil;
+import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
+
+import io.github.sefiraat.networks.utils.Theme;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 
 /**
  * @author Final_ROOT

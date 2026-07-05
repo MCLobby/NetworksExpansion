@@ -1,5 +1,12 @@
 package com.balugaq.netex.api.algorithm;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.bukkit.inventory.ItemStack;
+
 import com.balugaq.netex.api.helpers.SupportedAncientAltarRecipes;
 import com.balugaq.netex.api.helpers.SupportedArmorForgeRecipes;
 import com.balugaq.netex.api.helpers.SupportedCompressorRecipes;
@@ -12,12 +19,6 @@ import com.balugaq.netex.api.helpers.SupportedOreCrusherRecipes;
 import com.balugaq.netex.api.helpers.SupportedPressureChamberRecipes;
 import com.balugaq.netex.api.helpers.SupportedQuantumWorkbenchRecipes;
 import com.balugaq.netex.api.helpers.SupportedSmelteryRecipes;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 public class RecipeEntries {
     private static final Map<ItemStack[], Set<ItemStack>> slimefunRecipes3x3 = new HashMap<>();

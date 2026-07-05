@@ -1,18 +1,20 @@
 package io.github.sefiraat.networks.slimefun.network.grid;
 
-import com.balugaq.netex.utils.Lang;
-import lombok.Getter;
-import lombok.Setter;
-import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.jetbrains.annotations.Range;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Range;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
+
+import com.balugaq.netex.utils.Lang;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @EnableAsync
 @Getter

@@ -1,11 +1,12 @@
 package com.balugaq.netex.api.factories;
 
-import com.balugaq.netex.api.enums.TransferType;
-import com.balugaq.netex.api.transfer.TransferConfiguration;
+import static com.ytdd9527.networksexpansion.core.items.machines.AdvancedDirectional.DEFAULT_TRANSPORT_MODE;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static com.ytdd9527.networksexpansion.core.items.machines.AdvancedDirectional.DEFAULT_TRANSPORT_MODE;
+import com.balugaq.netex.api.enums.TransferType;
+import com.balugaq.netex.api.transfer.TransferConfiguration;
 
 public class TransferConfigFactory {
     public static final int ADVANCED_DEFAULT_TRANSPORT_LIMIT = 3456;

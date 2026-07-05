@@ -1,5 +1,15 @@
 package com.balugaq.netex.api.enums;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.BiPredicate;
+
+import org.bukkit.inventory.ItemStack;
+import org.jspecify.annotations.NullMarked;
+
 import com.balugaq.netex.api.helpers.SupportedAncientAltarRecipes;
 import com.balugaq.netex.api.helpers.SupportedArmorForgeRecipes;
 import com.balugaq.netex.api.helpers.SupportedCompressorRecipes;
@@ -14,17 +24,9 @@ import com.balugaq.netex.api.helpers.SupportedQuantumWorkbenchRecipes;
 import com.balugaq.netex.api.helpers.SupportedSmelteryRecipes;
 import com.balugaq.netex.utils.Lang;
 import com.ytdd9527.networksexpansion.core.items.unusable.AbstractBlueprint;
+
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import lombok.Getter;
-import org.bukkit.inventory.ItemStack;
-import org.jspecify.annotations.NullMarked;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.BiPredicate;
 
 /**
  * @author balugaq

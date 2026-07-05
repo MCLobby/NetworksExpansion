@@ -1,17 +1,18 @@
 package com.balugaq.netex.api.data;
 
-import io.github.sefiraat.networks.Networks;
-import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
-import io.github.sefiraat.networks.utils.StackUtils;
-import lombok.Data;
-import org.bukkit.Location;
-import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import org.bukkit.Location;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+
+import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
+import io.github.sefiraat.networks.utils.StackUtils;
+import lombok.Data;
 
 @Data
 public class ItemFlowRecord {

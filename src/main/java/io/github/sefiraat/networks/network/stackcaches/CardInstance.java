@@ -1,17 +1,19 @@
 package io.github.sefiraat.networks.network.stackcaches;
 
-import com.balugaq.netex.utils.Lang;
-import com.ytdd9527.networksexpansion.utils.TextUtil;
-import io.github.sefiraat.networks.utils.Theme;
-import lombok.Getter;
-import lombok.Setter;
-import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
+import java.util.List;
+
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import com.balugaq.netex.utils.Lang;
+import com.ytdd9527.networksexpansion.utils.TextUtil;
+
+import io.github.sefiraat.networks.utils.Theme;
+import lombok.Getter;
+import lombok.Setter;
+import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 
 @Getter
 public class CardInstance extends ItemStackCache {

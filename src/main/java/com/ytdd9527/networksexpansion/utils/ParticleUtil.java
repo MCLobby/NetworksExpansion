@@ -1,6 +1,8 @@
 package com.ytdd9527.networksexpansion.utils;
 
-import io.github.sefiraat.networks.Networks;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -10,8 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
+import io.github.sefiraat.networks.Networks;
 
 /**
  * @author Final_ROOT

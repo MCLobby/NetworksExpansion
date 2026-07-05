@@ -1,11 +1,13 @@
 package com.balugaq.netex.api.keybind;
 
-import com.balugaq.netex.api.interfaces.functions.Function5;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jspecify.annotations.NullMarked;
+
+import com.balugaq.netex.api.interfaces.functions.Function5;
+
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 @NullMarked
 @FunctionalInterface

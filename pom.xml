@@ -35,8 +35,9 @@
     </pluginRepositories>
 
     <properties>
-        <FluffyMachines-systemPath46>C:\Users\11877\Documents\GitHub\NetworksExpansion\lib\FluffyMachines.jar</FluffyMachines-systemPath46>
-        <JustEnoughGuide-systemPath>C:\Users\11877\Documents\GitHub\NetworksExpansion\lib\JustEnoughGuide.jar</JustEnoughGuide-systemPath>
+        <FluffyMachines-systemPath>C:\Users\Baby\Documents\GitHub\NetworksExpansion\lib\FluffyMachines.jar</FluffyMachines-systemPath>
+        <Slimefun4-systemPath>C:\Users\Baby\Documents\GitHub\NetworksExpansion\lib\Slimefun.jar</Slimefun4-systemPath>
+        <JustEnoughGuide-systemPath>C:\Users\Baby\Documents\GitHub\NetworksExpansion\lib\JustEnoughGuide.jar</JustEnoughGuide-systemPath>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -192,8 +193,9 @@
         <dependency>
             <groupId>com.github.SlimefunGuguProject</groupId>
             <artifactId>Slimefun4</artifactId>
-            <version>master-SNAPSHOT</version>
-            <scope>provided</scope>
+            <version>2025.2</version>
+            <systemPath>${Slimefun4-systemPath}</systemPath>
+            <scope>system</scope>
         </dependency>
 
         <!-- Tools etc. -->
@@ -328,8 +330,9 @@
             <artifactId>FluffyMachines</artifactId>
             <version>43d7444e4c</version>
             <scope>system</scope>
-            <systemPath>${FluffyMachines-systemPath46}</systemPath>
+            <systemPath>${FluffyMachines-systemPath}</systemPath>
         </dependency>
+
         <!-- Drawer compatibility with inter-server -->
         <dependency>
             <groupId>com.github.TimetownDev</groupId>

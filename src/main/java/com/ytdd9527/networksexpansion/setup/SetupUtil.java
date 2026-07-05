@@ -2,6 +2,7 @@ package com.ytdd9527.networksexpansion.setup;
 
 import com.ytdd9527.networksexpansion.implementation.ExpansionItems;
 import com.ytdd9527.networksexpansion.implementation.ExpansionItemsMenus;
+
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.slimefun.NetworkSlimefunItems;
 import net.guizhanss.slimefun4.utils.WikiUtils;

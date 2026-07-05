@@ -1,25 +1,9 @@
 package com.ytdd9527.networksexpansion.implementation.machines.cargo.transfer.line.basic;
 
-import com.balugaq.netex.api.atrributes.WhitelistedGrabber;
-import com.balugaq.netex.api.enums.FeedbackType;
-import com.balugaq.netex.api.enums.TransferType;
-import com.balugaq.netex.api.factories.TransferConfigFactory;
-import com.balugaq.netex.api.helpers.Icon;
-import com.balugaq.netex.api.interfaces.SoftCellBannable;
-import com.balugaq.netex.api.transfer.TransferConfiguration;
-import com.balugaq.netex.utils.Lang;
-import com.balugaq.netex.utils.LineOperationUtil;
-import io.github.sefiraat.networks.NetworkStorage;
-import io.github.sefiraat.networks.network.NetworkRoot;
-import io.github.sefiraat.networks.network.NodeDefinition;
-import io.github.sefiraat.networks.network.NodeType;
-import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -32,9 +16,27 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import com.balugaq.netex.api.atrributes.WhitelistedGrabber;
+import com.balugaq.netex.api.enums.FeedbackType;
+import com.balugaq.netex.api.enums.TransferType;
+import com.balugaq.netex.api.factories.TransferConfigFactory;
+import com.balugaq.netex.api.helpers.Icon;
+import com.balugaq.netex.api.interfaces.SoftCellBannable;
+import com.balugaq.netex.api.transfer.TransferConfiguration;
+import com.balugaq.netex.utils.Lang;
+import com.balugaq.netex.utils.LineOperationUtil;
+
+import io.github.sefiraat.networks.NetworkStorage;
+import io.github.sefiraat.networks.network.NetworkRoot;
+import io.github.sefiraat.networks.network.NodeDefinition;
+import io.github.sefiraat.networks.network.NodeType;
+import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 @SuppressWarnings("DuplicatedCode")
 @EnableAsync

@@ -1,9 +1,10 @@
 package com.balugaq.netex.api.algorithm;
 
-import io.github.sefiraat.networks.Networks;
+import java.util.concurrent.atomic.AtomicLong;
+
 import org.jspecify.annotations.NullMarked;
 
-import java.util.concurrent.atomic.AtomicLong;
+import io.github.sefiraat.networks.Networks;
 
 /**
  * @author balugaq

@@ -1,10 +1,9 @@
 package com.balugaq.netex.api.interfaces;
 
-import com.balugaq.netex.api.enums.FeedbackType;
-import com.balugaq.netex.utils.Lang;
-import com.balugaq.netex.utils.LocationUtil;
-
-import io.github.sefiraat.networks.Networks;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -13,10 +12,11 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
+import com.balugaq.netex.api.enums.FeedbackType;
+import com.balugaq.netex.utils.Lang;
+import com.balugaq.netex.utils.LocationUtil;
+
+import io.github.sefiraat.networks.Networks;
 
 @EnableAsync
 public interface FeedbackSendable {

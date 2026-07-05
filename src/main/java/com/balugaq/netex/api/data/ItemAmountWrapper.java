@@ -1,15 +1,17 @@
 package com.balugaq.netex.api.data;
 
-import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
-import io.github.sefiraat.networks.utils.StackUtils;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.List;
+
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
+
+import io.github.sefiraat.networks.utils.StackUtils;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author Final_ROOT

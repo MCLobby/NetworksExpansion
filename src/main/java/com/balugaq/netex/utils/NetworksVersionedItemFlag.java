@@ -1,13 +1,15 @@
 package com.balugaq.netex.utils;
 
-import com.balugaq.netex.api.enums.MinecraftVersion;
-import io.github.sefiraat.networks.Networks;
-import lombok.experimental.UtilityClass;
+import java.lang.reflect.Field;
+
 import org.bukkit.inventory.ItemFlag;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Field;
+import com.balugaq.netex.api.enums.MinecraftVersion;
+
+import io.github.sefiraat.networks.Networks;
+import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class NetworksVersionedItemFlag {

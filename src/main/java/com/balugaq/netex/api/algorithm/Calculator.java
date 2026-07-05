@@ -1,13 +1,13 @@
 package com.balugaq.netex.api.algorithm;
 
-import org.jspecify.annotations.NullMarked;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.jspecify.annotations.NullMarked;
 
 /**
  * @author balugaq

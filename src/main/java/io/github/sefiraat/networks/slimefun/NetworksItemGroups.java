@@ -1,6 +1,13 @@
 package io.github.sefiraat.networks.slimefun;
 
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+
 import com.balugaq.netex.utils.Lang;
+
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.slimefun.groups.DummyItemGroup;
 import io.github.sefiraat.networks.slimefun.groups.MainFlexGroup;
@@ -8,11 +15,6 @@ import io.github.sefiraat.networks.utils.Keys;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import lombok.experimental.UtilityClass;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 @UtilityClass
 public final class NetworksItemGroups {

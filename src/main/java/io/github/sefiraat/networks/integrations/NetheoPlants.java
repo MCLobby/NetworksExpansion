@@ -1,6 +1,7 @@
 package io.github.sefiraat.networks.integrations;
 
 import com.balugaq.netex.utils.Lang;
+
 import dev.sefiraat.netheopoiesis.api.items.DoNothingSeed;
 import dev.sefiraat.netheopoiesis.api.items.HarvestableSeed;
 import dev.sefiraat.netheopoiesis.api.plant.Growth;

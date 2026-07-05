@@ -1,13 +1,15 @@
 package com.ytdd9527.networksexpansion.utils.databases;
 
-import com.balugaq.netex.utils.Debug;
-import com.balugaq.netex.utils.Lang;
-import io.github.sefiraat.networks.Networks;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
+
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
+import com.balugaq.netex.utils.Debug;
+import com.balugaq.netex.utils.Lang;
+
+import io.github.sefiraat.networks.Networks;
 
 public class QueryQueue {
 

@@ -1,10 +1,11 @@
 package com.balugaq.netex.api.gui;
 
-import lombok.Data;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+
+import lombok.Data;
 
 @Data
 public class GUI {

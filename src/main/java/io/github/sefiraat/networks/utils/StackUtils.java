@@ -1,11 +1,10 @@
 package io.github.sefiraat.networks.utils;
 
-import com.balugaq.netex.api.enums.MinecraftVersion;
-import io.github.sefiraat.networks.Networks;
-import io.github.sefiraat.networks.network.stackcaches.ItemStackCache;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
-import lombok.experimental.UtilityClass;
+import java.util.Objects;
+import java.util.Optional;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.entity.LivingEntity;
@@ -41,9 +40,13 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Objects;
-import java.util.Optional;
+import com.balugaq.netex.api.enums.MinecraftVersion;
+
+import io.github.sefiraat.networks.Networks;
+import io.github.sefiraat.networks.network.stackcaches.ItemStackCache;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
+import lombok.experimental.UtilityClass;
 
 @SuppressWarnings("deprecation")
 @UtilityClass

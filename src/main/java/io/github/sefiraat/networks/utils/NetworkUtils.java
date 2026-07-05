@@ -1,19 +1,5 @@
 package io.github.sefiraat.networks.utils;
 
-import com.balugaq.netex.utils.Lang;
-import com.jeff_media.morepersistentdatatypes.DataType;
-import io.github.sefiraat.networks.NetworkStorage;
-import io.github.sefiraat.networks.network.NetworkNode;
-import io.github.sefiraat.networks.network.NodeDefinition;
-import io.github.sefiraat.networks.network.NodeType;
-import io.github.sefiraat.networks.slimefun.network.NetworkController;
-import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
-import io.github.sefiraat.networks.slimefun.network.pusher.NetworkPusher;
-import io.github.sefiraat.networks.slimefun.tools.NetworkConfigurator;
-import io.github.sefiraat.networks.utils.datatypes.DataTypeMethods;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import lombok.experimental.UtilityClass;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -23,6 +9,20 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
+
+import com.balugaq.netex.utils.Lang;
+
+import io.github.sefiraat.networks.NetworkStorage;
+import io.github.sefiraat.networks.network.NetworkNode;
+import io.github.sefiraat.networks.network.NodeDefinition;
+import io.github.sefiraat.networks.network.NodeType;
+import io.github.sefiraat.networks.slimefun.network.NetworkController;
+import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
+import io.github.sefiraat.networks.slimefun.network.pusher.NetworkPusher;
+import io.github.sefiraat.networks.slimefun.tools.NetworkConfigurator;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import lombok.experimental.UtilityClass;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 @SuppressWarnings("DuplicatedCode")
 @UtilityClass

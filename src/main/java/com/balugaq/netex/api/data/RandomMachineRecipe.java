@@ -1,16 +1,18 @@
 package com.balugaq.netex.api.data;
 
-import com.ytdd9527.networksexpansion.utils.itemstacks.CompareUtil;
-import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
-import lombok.Getter;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.ytdd9527.networksexpansion.utils.itemstacks.CompareUtil;
+import com.ytdd9527.networksexpansion.utils.itemstacks.ItemStackUtil;
+
+import lombok.Getter;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 
 /**
  * A {@link MachineRecipe} that its output item is random.

@@ -1,9 +1,10 @@
 package io.github.sefiraat.networks.network.barrel;
 
-import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import io.github.sefiraat.networks.network.stackcaches.ItemRequest;
 
 public interface BarrelCore {
 

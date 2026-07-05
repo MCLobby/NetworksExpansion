@@ -1,14 +1,16 @@
 package io.github.sefiraat.networks.utils.datatypes;
 
-import com.jeff_media.morepersistentdatatypes.DataType;
-import io.github.sefiraat.networks.network.stackcaches.CardInstance;
-import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
-import io.github.sefiraat.networks.utils.Keys;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
+
+import com.jeff_media.morepersistentdatatypes.DataType;
+
+import io.github.sefiraat.networks.network.stackcaches.CardInstance;
+import io.github.sefiraat.networks.network.stackcaches.QuantumCache;
+import io.github.sefiraat.networks.utils.Keys;
 
 /**
  * A {@link PersistentDataType} for {@link CardInstance}

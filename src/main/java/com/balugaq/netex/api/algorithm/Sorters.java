@@ -1,19 +1,21 @@
 package com.balugaq.netex.api.algorithm;
 
-import com.balugaq.netex.api.data.StorageUnitData;
-import com.balugaq.netex.api.helpers.Icon;
-import com.ytdd9527.networksexpansion.implementation.machines.managers.DrawerManager;
-import com.ytdd9527.networksexpansion.utils.TextUtil;
-import io.github.sefiraat.networks.network.stackcaches.BarrelIdentity;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
-import org.bukkit.inventory.ItemStack;
-import org.jspecify.annotations.NullMarked;
-
 import java.text.Collator;
 import java.util.Comparator;
 import java.util.Locale;
 import java.util.Map;
+
+import org.bukkit.inventory.ItemStack;
+import org.jspecify.annotations.NullMarked;
+
+import com.balugaq.netex.api.data.StorageUnitData;
+import com.balugaq.netex.api.helpers.Icon;
+import com.ytdd9527.networksexpansion.implementation.machines.managers.DrawerManager;
+import com.ytdd9527.networksexpansion.utils.TextUtil;
+
+import io.github.sefiraat.networks.network.stackcaches.BarrelIdentity;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import net.guizhanss.guizhanlib.minecraft.helper.inventory.ItemStackHelper;
 
 @NullMarked
 public class Sorters {

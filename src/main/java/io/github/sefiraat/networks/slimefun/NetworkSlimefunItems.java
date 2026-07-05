@@ -1,8 +1,13 @@
 package io.github.sefiraat.networks.slimefun;
 
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+
 import com.ytdd9527.networksexpansion.implementation.blueprints.CraftingBlueprint;
 import com.ytdd9527.networksexpansion.implementation.machines.autocrafters.basic.AutoCraftingTable;
 import com.ytdd9527.networksexpansion.implementation.machines.encoders.CraftingEncoder;
+
 import io.github.sefiraat.networks.Networks;
 import io.github.sefiraat.networks.slimefun.network.NetworkBridge;
 import io.github.sefiraat.networks.slimefun.network.NetworkCell;
@@ -42,9 +47,6 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.UnplaceableBlock;
 import lombok.experimental.UtilityClass;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 @UtilityClass
 public class NetworkSlimefunItems {

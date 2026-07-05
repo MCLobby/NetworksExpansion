@@ -1,15 +1,5 @@
 package com.balugaq.netex.api.data;
 
-import com.balugaq.netex.api.enums.MinecraftVersion;
-import com.bgsoftware.wildchests.api.WildChestsAPI;
-import io.github.sefiraat.networks.Networks;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntList;
-import lombok.Getter;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -24,6 +14,18 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 import org.jspecify.annotations.NullMarked;
+
+import com.balugaq.netex.api.enums.MinecraftVersion;
+import com.bgsoftware.wildchests.api.WildChestsAPI;
+
+import io.github.sefiraat.networks.Networks;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
+import lombok.Getter;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 @Getter
 @NullMarked

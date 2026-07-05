@@ -1,7 +1,11 @@
 package com.balugaq.netex.utils;
 
-import io.github.bakedlibs.dough.collections.Pair;
-import lombok.experimental.UtilityClass;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -13,10 +17,8 @@ import org.bukkit.map.MapView;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.HashMap;
-import java.util.Map;
+import io.github.bakedlibs.dough.collections.Pair;
+import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class MapUtil {

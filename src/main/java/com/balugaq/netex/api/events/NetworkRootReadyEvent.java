@@ -1,10 +1,11 @@
 package com.balugaq.netex.api.events;
 
-import io.github.sefiraat.networks.network.NetworkRoot;
-import lombok.Getter;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
+
+import io.github.sefiraat.networks.network.NetworkRoot;
+import lombok.Getter;
 
 @Getter
 public class NetworkRootReadyEvent extends Event {

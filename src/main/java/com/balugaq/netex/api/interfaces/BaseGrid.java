@@ -1,11 +1,22 @@
 package com.balugaq.netex.api.interfaces;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NullMarked;
+
 import com.balugaq.netex.api.enums.AmountHandleStrategy;
 import com.balugaq.netex.api.keybind.Action;
 import com.balugaq.netex.api.keybind.ActionResult;
 import com.balugaq.netex.api.keybind.Keybind;
 import com.balugaq.netex.api.keybind.Keybinds;
 import com.balugaq.netex.api.keybind.MultiActionHandle;
+
 import io.github.sefiraat.networks.NetworkStorage;
 import io.github.sefiraat.networks.network.GridItemRequest;
 import io.github.sefiraat.networks.network.NodeDefinition;
@@ -14,15 +25,6 @@ import io.github.sefiraat.networks.utils.Keys;
 import io.github.sefiraat.networks.utils.StackUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.Nullable;
-import org.jspecify.annotations.NullMarked;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @SuppressWarnings("deprecation")
 @NullMarked

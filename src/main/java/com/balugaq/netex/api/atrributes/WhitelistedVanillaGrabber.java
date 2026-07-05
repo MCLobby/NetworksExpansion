@@ -1,7 +1,7 @@
 package com.balugaq.netex.api.atrributes;
 
-import io.github.sefiraat.networks.network.NetworkRoot;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.BrewingStand;
@@ -12,7 +12,8 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import io.github.sefiraat.networks.network.NetworkRoot;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public interface WhitelistedVanillaGrabber extends WhitelistedGrabber {
     default void grabInventory(@NotNull BlockMenu blockMenu, @NotNull BlockState blockState, @NotNull Inventory inventory, @NotNull NetworkRoot root, @NotNull List<ItemStack> templates) {

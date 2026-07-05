@@ -1,13 +1,15 @@
 package com.balugaq.netex.api.interfaces;
 
-import com.balugaq.netex.utils.Debug;
-import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
-import io.github.sefiraat.networks.slimefun.network.NetworkObject;
-import io.github.sefiraat.networks.utils.Keys;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.papermc.paper.event.player.PlayerItemFrameChangeEvent;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
+
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -21,14 +23,15 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.OverridingMethodsMustInvokeSuper;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.Function;
+import com.balugaq.netex.utils.Debug;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+
+import io.github.sefiraat.networks.slimefun.network.NetworkDirectional;
+import io.github.sefiraat.networks.slimefun.network.NetworkObject;
+import io.github.sefiraat.networks.utils.Keys;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.papermc.paper.event.player.PlayerItemFrameChangeEvent;
 
 public interface HangingBlock {
     Map<BlockFace, Function<Location, Location>> locationFixer = new HashMap<>() {

@@ -1,10 +1,11 @@
 package com.ytdd9527.networksexpansion.core.items.machines;
 
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("DuplicatedCode")
 public abstract class AbstractAdvancedAutoCrafter extends AbstractAutoCrafter {

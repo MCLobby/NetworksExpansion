@@ -1,5 +1,26 @@
 package io.github.sefiraat.networks;
 
+import java.sql.SQLException;
+import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.AdvancedPie;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.yaml.snakeyaml.error.YAMLException;
+
 import com.balugaq.netex.api.algorithm.ID;
 import com.balugaq.netex.api.data.ItemFlowRecord;
 import com.balugaq.netex.api.enums.MinecraftVersion;
@@ -14,6 +35,7 @@ import com.ytdd9527.networksexpansion.setup.SetupUtil;
 import com.ytdd9527.networksexpansion.utils.databases.DataSource;
 import com.ytdd9527.networksexpansion.utils.databases.DataStorage;
 import com.ytdd9527.networksexpansion.utils.databases.QueryQueue;
+
 import io.github.sefiraat.networks.commands.NetworksMain;
 import io.github.sefiraat.networks.integrations.HudCallbacks;
 import io.github.sefiraat.networks.integrations.NetheoPlants;
@@ -29,26 +51,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import lombok.Getter;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
-import org.bstats.bukkit.Metrics;
-import org.bstats.charts.AdvancedPie;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.command.PluginCommand;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.yaml.snakeyaml.error.YAMLException;
-
-import java.sql.SQLException;
-import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
 
 public class Networks extends JavaPlugin implements SlimefunAddon {
     private static final String DEFAULT_LANGUAGE = "zh-CN";
