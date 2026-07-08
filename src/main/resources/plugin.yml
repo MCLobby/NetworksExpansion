@@ -23,6 +23,7 @@ softdepend:
   - GuguSlimefunLib
   - FinalTECH
   - FinalTECH-Changed
+  - JustEnoughGuide
 commands:
   networks:
     aliases: networksexpansion
