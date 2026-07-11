@@ -121,8 +121,9 @@ public abstract class AbstractAutoCrafter extends NetworkObject implements SoftC
 
         final long networkCharge = root.getRootPower();
 
-        if (networkCharge <= this.chargePerCraft) {
+        if (networkCharge < this.chargePerCraft) {
             sendFeedback(blockMenu.getLocation(), FeedbackType.NOT_ENOUGH_POWER);
+            return;
         }
 
         final SlimefunItem item = SlimefunItem.getByItem(blueprint);

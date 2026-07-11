@@ -50,6 +50,9 @@ import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettin
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import lombok.Getter;
+import net.byteflux.libby.BukkitLibraryManager;
+import net.byteflux.libby.Library;
+import net.byteflux.libby.LibraryManager;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 
 public class Networks extends JavaPlugin implements SlimefunAddon {
@@ -315,6 +318,27 @@ public class Networks extends JavaPlugin implements SlimefunAddon {
                     .warning(getLocalizationService().getString("messages.integrations.not-found-netheopoiesis"));
             }
         }
+    }
+
+    private void loadLibraries() {
+        LibraryManager libraryManager = new BukkitLibraryManager(this);
+        libraryManager.addMavenCentral();
+
+        getLogger().info("正在加载 Pinyin");
+        Library pinyin = Library.builder()
+            .groupId("com{}github{}houbb")
+            .artifactId("pinyin")
+            .version("0.4.0")
+            .build();
+        libraryManager.loadLibrary(pinyin);
+
+        getLogger().info("正在加载 opencc4j");
+        Library opencc4j = Library.builder()
+            .groupId("com{}github{}houbb")
+            .artifactId("opencc4j")
+            .version("1.14.0")
+            .build();
+        libraryManager.loadLibrary(opencc4j);
     }
 
     public MinecraftVersion getMCVersion() {
