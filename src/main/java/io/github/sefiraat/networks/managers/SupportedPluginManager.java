@@ -24,12 +24,12 @@ public class SupportedPluginManager {
     private final @Getter boolean guguSlimefunLib;
     private @Getter RoseStackerAPI roseStackerAPI;
     private final @Getter boolean finalTECH;
+    @Setter
+    private @Getter boolean justEnoughGuide;
+
     // region First Tick Only Registrations
     private @Getter boolean mcMMO;
     private @Getter boolean wildChests;
-
-    @Setter
-    private @Getter boolean justEnoughGuide;
 
     // endregion
 
