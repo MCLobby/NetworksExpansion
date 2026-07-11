@@ -50,9 +50,9 @@ import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettin
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.libraries.paperlib.PaperLib;
 import lombok.Getter;
-import net.byteflux.libby.BukkitLibraryManager;
 import net.byteflux.libby.Library;
 import net.byteflux.libby.LibraryManager;
+import net.guizhanss.guizhanlib.libraries.BukkitLibraryManager;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 
 public class Networks extends JavaPlugin implements SlimefunAddon {
